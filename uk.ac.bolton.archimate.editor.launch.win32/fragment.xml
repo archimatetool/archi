@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.bolton.archimate.editor.WindowsStartup">
+      </startup>
+   </extension>
+
+</fragment>

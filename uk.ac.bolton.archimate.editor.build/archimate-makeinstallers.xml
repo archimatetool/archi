@@ -1,0 +1,242 @@
+<project name="Archi Make Installers Ant Script" default="run" basedir=".">
+  	
+	<description>
+	    Make "Archi" Release Zip File Distributions for Windows/Linux/Mac Platforms
+ 
+  		Prerequisites:
+	    
+	    1. You must run the Product Export Wizard for the "archimate.product" file as per the
+		   instructions in the "build-notes.txt" file.
+	    2. Edit this Ant script to set the version number and the location of the bundled Windows JRE.
+	    
+  	</description>
+	
+	<!-- Default/Start Target -->
+	<target name="run" depends="init, make_win_folder, make_win_zips, make_mac_zips, make_lnx_zips" />
+	
+	<!-- Init some stuff -->
+	<target name="init">
+	    
+		<!-- EDIT THESE TWO VALUES FOR A BUILD -->
+	    <property name="jre.sourcedir"          location="D:\dev\jre1.6.0_22"/>
+		<property name="version" 				value="1.6.0"/>
+		
+		<property name="app.name" 				value="Archi"/>
+		
+		<property name="src.dir"     			location="."/>
+	    <property name="output.dir"             location="/${app.name}"/>
+	    <property name="folder.name"            value="${app.name}"/>
+	    <property name="tmp.dir"                location="${output.dir}/${folder.name}"/>
+	</target>
+	
+	<!-- Make Windows folder for NSIS Installer -->
+	<target name="make_win_folder">
+        <property name="output_win.dir"         location="${output.dir}/win32.win32.x86"/>
+	
+        <delete dir="${tmp.dir}"/>
+        <mkdir dir="${tmp.dir}"/>
+		
+        <!-- copy extras -->
+        <antcall target="copy_extra_files"/>
+        
+        <!-- copy our .ini file over -->
+        <copy file="${src.dir}/branding/windows/Archi.ini" todir="${tmp.dir}" overwrite="true"/>
+
+        <!-- copy build -->
+        <copy todir="${tmp.dir}" >
+            <fileset dir="${output_win.dir}"/>
+        </copy>
+		
+		<!-- copy jre -->
+		<copy todir="${tmp.dir}/jre" >
+			  <fileset dir="${jre.sourcedir}"/>
+		</copy>
+		
+		<!-- rename folder -->
+		<move todir="${tmp.dir}_win">
+			<fileset dir="${tmp.dir}"/>
+		</move>
+	</target>
+	
+	<!-- Make Windows zips -->
+    <target name="make_win_zips">
+	    <property name="output_win.dir"         location="${output.dir}/win32.win32.x86"/>
+	    <property name="win.zip"                location="${output.dir}/${app.name}-win32-${version}.zip"/>
+	    <property name="win_jre.zip"            location="${output.dir}/${app.name}-win32-jre-${version}.zip"/>
+	    
+        <delete dir="${tmp.dir}"/>
+        <mkdir dir="${tmp.dir}"/>
+        
+        <!-- copy extras -->
+        <antcall target="copy_extra_files"/>
+        
+    	<!-- copy our .ini file over -->
+        <copy file="${src.dir}/branding/windows/Archi.ini" todir="${tmp.dir}" overwrite="true"/>
+
+        <!-- copy build -->
+		<copy todir="${tmp.dir}" >
+			<fileset dir="${output_win.dir}"/>
+		</copy>
+        
+        <!-- non-java zip -->
+		<zip destfile="${win.zip}" update="false">
+			<zipfileset dir="${tmp.dir}" prefix="${folder.name}"/>
+		</zip>
+
+        <!-- java zip -->
+    	<!--
+		<zip destfile="${win_jre.zip}" update="false">
+			<zipfileset dir="${tmp.dir}" prefix="${folder.name}"/>
+			<zipfileset dir="${jre.sourcedir}" prefix="${folder.name}/jre">
+			</zipfileset>
+		</zip>
+		-->
+
+        <delete dir="${tmp.dir}"/>
+	</target>
+    
+	<!-- Make Mac zips -->
+    <target name="make_mac_zips">
+		<property name="mac.app"                value="${app.name}.app"/>
+		<property name="mac.contents.dir"       value="${mac.app}/Contents"/>
+		<property name="mac.resources.dir"      value="${mac.contents.dir}/Resources"/>
+		<property name="mac.launcher.dir"       value="${mac.contents.dir}/MacOS"/>
+		<property name="mac.new.launcher.dir"   value="${mac.contents.dir}/MacOS/launcher"/>
+		<property name="mac.launcher"           value="${mac.launcher.dir}/${app.name}"/>
+		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>		
+	
+    	<antcall target="make_mac">
+    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-carbon32-${version}.zip"/>
+        	<param name="output_mac.dir"  	value="${output.dir}/macosx.carbon.x86"/>
+    	</antcall>
+
+    	<antcall target="make_mac">
+    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-cocoa32-${version}.zip"/>
+        	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86"/>
+    	</antcall>
+
+    	<antcall target="make_mac">
+        	<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-cocoa64-${version}.zip"/>
+        	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86_64"/>
+    	</antcall>
+    </target>
+	
+	<!-- Make Mac version -->
+    <target name="make_mac">
+        <delete dir="${tmp.dir}"/>
+        <mkdir dir="${tmp.dir}"/>
+        
+        <!-- copy build -->
+		<copy todir="${tmp.dir}" >
+			<fileset dir="${output_mac.dir}"/>
+		</copy>
+    	
+    	<!-- copy our .ini file over -->
+        <copy file="${src.dir}/branding/mac/Archi.ini" todir="${tmp.dir}/${mac.launcher.dir}" overwrite="true"/>
+
+    	<!-- copy our Info.plist file over -->
+        <copy file="${src.dir}/branding/mac/Info.plist" todir="${tmp.dir}/${mac.contents.dir}" overwrite="true"/>
+
+        <!-- Move the plugin and configuration files into the .app folder -->
+		<move todir="${tmp.dir}/${mac.app}">
+			<fileset dir="${tmp.dir}" >
+				<exclude name="${mac.app}/" />
+			</fileset>
+		</move>
+    	
+        <!-- Move the launcher files down one level to match movement of plugins folder -->
+		<move todir="${tmp.dir}/${mac.new.launcher.dir}">
+			<fileset dir="${tmp.dir}/${mac.launcher.dir}" />
+		</move>
+
+        <!-- copy extras last -->
+        <antcall target="copy_extra_files"/>
+        
+    	<!-- zip -->
+		<zip destfile="${mac.zip}" update="false">
+			<!-- Set the executable permission on the launcher file -->
+			<zipfileset dir="${tmp.dir}" filemode="755" prefix="${folder.name}">
+				<include name="**/${mac.new.launcher}"/>
+			</zipfileset>
+		    
+			<!-- Other files without the executable permission -->
+			<zipfileset dir="${tmp.dir}" prefix="${folder.name}">
+				<exclude name="**/${mac.new.launcher}"/>
+			</zipfileset>
+		</zip>
+
+        <delete dir="${tmp.dir}" />
+	</target>
+
+	<!-- Make Linux zips -->
+	<target name="make_lnx_zips">
+	    <property name="lnx.launcher"           value="${app.name}"/>
+		
+	    <antcall target="make_lnx">
+	    	<param name="lnx.tar"               value="${output.dir}/${app.name}-lnx32-${version}.tar"/>
+	    	<param name="output_lnx.dir"        value="${output.dir}/linux.gtk.x86"/>
+	    </antcall>
+
+        <antcall target="make_lnx">
+            <param name="lnx.tar"               value="${output.dir}/${app.name}-lnx64-${version}.tar"/>
+            <param name="output_lnx.dir"        value="${output.dir}/linux.gtk.x86_64"/>
+        </antcall>
+
+	</target>
+	
+	<!-- Make Linux version -->
+    <target name="make_lnx">
+        <delete dir="${tmp.dir}"/>
+        <mkdir dir="${tmp.dir}"/>
+        
+        <!-- copy extras -->
+        <antcall target="copy_extra_files"/>
+        
+    	<!-- copy our .ini file over -->
+        <copy file="${src.dir}/branding/linux/Archi.ini" todir="${tmp.dir}" overwrite="true"/>
+
+        <!-- copy build -->
+		<copy todir="${tmp.dir}" >
+			<fileset dir="${output_lnx.dir}"/>
+		</copy>
+        
+        <!-- tar -->
+		<tar destfile="${lnx.tar}" >
+			<!-- Set the executable permission on the launcher file -->
+			<tarfileset dir="${output.dir}" mode="755" username="archimate" group="archimate">
+				<include name="${folder.name}/${lnx.launcher}"/>
+			</tarfileset>
+		    
+			<!-- Other files without the executable permission -->
+			<tarfileset dir="${output.dir}" username="archimate" group="archimate">
+				<include name="${folder.name}/"/>
+				<exclude name="${folder.name}/${lnx.launcher}"/>
+			</tarfileset>
+		</tar>
+
+		<!-- GZip -->
+		<gzip zipfile="${lnx.tar}.gz" src="${lnx.tar}"/>
+
+		<!-- Delete Tar -->
+		<delete file="${lnx.tar}"/>
+
+        <delete dir="${tmp.dir}"/>
+	</target>
+	
+	<!-- Copy any additional files to the tmp folder -->
+	<target name="copy_extra_files">
+	    <!-- docs -->
+		<copy todir="${tmp.dir}/docs">
+			<fileset dir="${src.dir}">
+				<include name="changes.txt" />
+				<include name="LICENSE.txt" />
+				<include name="Archi User Guide.pdf" />
+                <include name="What's New in Archi.pdf" />
+			</fileset>
+		</copy>
+	    <copy todir="${tmp.dir}/examples">
+	    	<fileset dir="${src.dir}/examples"/>
+	    </copy>
+	</target>
+
+</project>

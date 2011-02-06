@@ -1,0 +1,48 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Bolton University, UK.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ *******************************************************************************/
+package uk.ac.bolton.archimate.editor.diagram.dnd;
+
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.Request;
+
+/**
+ * Native Drop Request
+ * 
+ * @author Phillip Beauvoir
+ */
+public class NativeDropRequest extends Request {
+
+    private Object fData;
+
+    private Point fPoint;
+
+    public static final String ID = "$Native Drop Request";//$NON-NLS-1$
+
+    public NativeDropRequest() {
+        super(ID);
+    }
+
+    public NativeDropRequest(Object type) {
+        super(type);
+    }
+
+    public Object getData() {
+        return fData;
+    }
+
+    public void setData(Object data) {
+        fData = data;
+    }
+
+    public void setDropLocation(Point point) {
+        fPoint = point;
+    }
+
+    public Point getDropLocation() {
+        return fPoint;
+    }
+}

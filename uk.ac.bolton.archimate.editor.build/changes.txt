@@ -1,0 +1,203 @@
+Archi Changes
+-------------
+
+Version 1.6 February 06 2011
+----------------------------
++ Format Painter
++ The "Automatic Relationship Management" system (ARM)
++ Import BiZZdesign Architect models
++ Export model to CSV format
++ Added Help files and contextual Help support to Help system
++ Multi-line text controls in the Properties window now support hyperlinks
++ Can now set the line colour for connections
++ Business, Application and Infrastructure Interface element types now have "provided" and "required" properties
++ Ctrl key and mouse scroll wheel zooms the diagram
++ Middle mouse button activates the Pan control
++ Improved layouts of the Properties window's sections
++ Support for 3rd party import/export plug-ins
++ Improved and more informative tooltips in Views
++ Added a preference to not show tooltips in Views
++ Added 25% Zoom factor to Zoom control
++ The ArchiMate type for a selected object is shown in parentheses in the title of the Properties window
++ Animation on undo/redo now works for Mac Cocoa version
+* Fixed drag and drop not working on Mac 64-bit version
+* Fixed an issue where it was possible to drag the wrong type of palette entry to an incorrect type of View
+* Fixed Properties window not updating on Mac Cocoa version
+* Undo/Redo menu items are now active when the Navigator has focus
+* Navigator now updates in response to relationship connection changes
+* Fixed regression bug introduced in 1.5 where Zoom menu items stopped working
+* Pasting copied objects in a View is now faster
+* Fixed title bar in the Properties window not displaying the "&" character
+* The Note figure now has a sensible default size
+* Structural Chains (Derived Relations) are highlighted with a thicker red line
+* Fixed figures losing their default width and height (-1) when moving them to a parent figure
+* Fixed Hints View not updating on Magic Connector menu rollover on Mac OS X
+* Internal optimisations
+
+
+
+Version 1.5.1 December 15 2010
+------------------------------
+* Fixed source feedback connection not erased after Escape pressed when using Magic Connector
+* Fixed cancel not working when using Magic Connector
+
+
+
+Version 1.5 December 12 2010
+----------------------------
++ The Magic Connector
++ The Navigator
++ Templates
++ The Sketch View
++ Can now drag *.archimate files from the desktop to the Model Tree to open
++ Figures in Views can have their text left, centre or right aligned
++ Added a preference to choose whether to automatically open Views in a Model when opening from file
++ Added a preference to open palette when opening a View
++ Direct editing a Note's content now uses the Note's font in its text editor
++ Added a menu option to hide/show the main toolbar (Window menu)
++ Pressing the Shift key when selecting a tool in the Palette will make that tool stay selected
+* Font and Font Colour is now copied when copying and pasting View objects
+* Views with names containing non ascii characters are now saved properly in HTML Report
+* Report to HTML now properly escapes the reserved characters <>&"
+* Report to HTML now uses UTF16 encoding
+* Font sizes remain the same in View figures on Windows OS if the display is not 96 DPI
+* Can save and open model files if the file extension is not *.xml or *.archimate
+* Improved method for saving and restoring the expanded nodes state of the Model Tree
+* Fixed a regression introduced in version 1.3 where dragging more than one relation from the Model Tree to a
+  View didn't add all related elements
+* Improved automatic resizing of container figures' default size when children present
+
+
+
+Version 1.4 November 1 2010
+---------------------------
++ A model and its views can be exported as an HTML report
++ User-created sub-folders can be added to the "Views" folder
++ Can now set font colour for elements and connections in Views
++ Extraneous white space is trimmed off exported images
++ Export current View as image to clipboard ("Export View As Image to Clipboard")
++ Changed "Save As Image" menu item to "Export View As Image"
++ Changed "Export to Architect" menu item to "Export Model To Architect"
++ More friendly error message for a restored View tab on launch when the View's file is missing
++ An "examples" folder is shipped with the application containing some ArchiMate examples
+
+
+
+Version 1.3 October 11 2010
+---------------------------
++ User-created sub-folders can be added to the Model Tree
++ Model Tree elements and user-folders are automatically sorted alphabetically
++ Drag and drop elements to user-folders in the Model Tree
++ Search Bar added to the Model Tree for filtered search of elements
++ Pressing Return on a single-line text field in the Properties window now updates the value
++ The Model Tree's expanded nodes state is persisted between sessions.
++ A New Model's default name is now "(new model)"
++ Added a "General" preferences page
++ The Properties window now shows the selected element's icon
++ In the Properties window, "Analysis" tab, the "Model Relations" table for a selected element now shows source and target elements for relationships
++ In the Properties window, "Analysis" tab, the tables are now sorted alphabetically
++ Built on Eclipse 3.6.1 RCP
+* When dragging and dropping a relation from Model Tree to View, all connections are now added to its connected elements in the View
+* Undo/Redo menu items are now active when the Properties window has focus
+* Fixed an issue where under some circumstances an element could be dragged and dropped into a View from a different model
+
+
+
+Version 1.2 September 24 2010
+-----------------------------
++ Implemented Derived Relations (FR #3038359)
++ Export Model to BizzDesign XML format
++ Windows version has installer
++ Launch Archi from .archimate files on Windows (that's why we need a Windows installer)
++ Added preference to use alternative figures for some element types
++ Added contextual menu item to View "Delete from Model"
++ Re-organised View menu items
+- Layout animation does not work on Mac Cocoa version, so removed from Preferences
+* "Link to View" updates immediately to current selection when selected
+* Fixed Undo/Redo menu label not updating properly when selecting a View from the same model
+* Changed some Relationship rules: Node, Device and System Software can now Realize an Application Component and Data Object 
+
+
+
+Version 1.1 July 28 2010
+------------------------
++ Font support for View figures and connections
++ Can set the default font to use for elements' text in Preferences
++ Elements in Model Tree that are not referenced in any View are shown in italic font (FR #3025595)
++ Added table to "Analysis" Properties tab for an element showing all of its model relations
++ Added "Link to View" button to Model Tree window to synchronise Tree selection and View selection (FR #3025594 and #3019119)
++ Changed order of tabs in the Properties window
+- Removed "Pin to Selection" and "New Properties View" menu options from the Properties window (Bug #3019113)
+  (you'll need to do a "Reset Window Layout" for this to take effect)
+
+
+
+Version 1.0.1 July 18 2010
+--------------------------
++ Added a "Documentation" field to a View's Properties editor
++ Support for Mac OS X Cocoa 32-bit version
++ Built on Eclipse 3.6 RCP
++ Completed User Guide bundled in "docs" folder
+* Fixed redraw problem for some figures on Mac OS X Carbon
+* Bug fixes
+
+
+
+Version 1.0 June 18 2010
+------------------------
++ Added all Hints texts for objects
++ Improved Hints window
++ Hints now show when a View palette tool is selected or the mouse hovers over the palette tool
++ Hints window only updates when a different object is selected
++ Mac binary is now delivered as zip file, not a tar.gz file
+- Removed shortcut key for Hints window (Alt-4) because of an Eclipse bug
+
+
+
+Version 0.9 May 24 2010
+-----------------------
++ Better Cut, Copy & Paste in diagrams
++ State of open diagram views is persisted when opening and closing the application
++ Diagram views are opened when a model is opened from disk
++ Added support for Connection bendpoints
++ Added support for Connection line width
++ Added a "Purpose" field to a model's Properties window
++ Added grey hints to text fields in Properties window
++ Added preference for anti-aliasing on connections
++ Added more shortcut keys
++ Added support for printing diagrams
+* Fixed "Save As Image" not saving part of diagram in negative co-ordinates
+* Fixed child diagram objects not deleted if parent deleted when deleting corresponding Archimate element
+
+
+
+Version 0.8.1 April 29 2010
+---------------------------
++ Can add References to other Views in a View (drag a View from the Tree to the Target View Diagram)
++ Drag and Drop re-ordering of Model Tree Elements (within the same folder)
++ Added "Save As..." action
++ Added a Cheat Sheet to create a Map View
+* Fixed NPE occuring on selecting objects with marquee tool and then delete
+
+
+
+Version 0.8 April 20 2010
+-------------------------
++ Graphical objects in Views are now true Containers (but no relationship is created as yet, just visual)
++ Added Group Container Box type in Views
++ Added "Appearance" tab in Properties window
++ Added Fill colour setting for graphical objects in Properties window and on Edit menu
++ Changed app name to "Archi"
++ Added Extension support for Hints texts
++ Hints implemented as HTML content
++ Added basic Help support
++ Help/Cheatsheets/Hints moved to separate plug-in
+* Fixed dotted lines on connections not showing on Mac OS X
+* Fixed Pinned Properties View NPE on deleted object
+
+
+
+Version 0.7 April 8 2010
+------------------------
++ First Alpha release
+

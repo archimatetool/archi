@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.bolton.ac.uk/archimate/1.0"
+            class="uk.ac.bolton.archimate.model.IArchimatePackage"
+            genModel="model/archimate.genmodel"/>
+   </extension>
+   
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="archimate"
+            class="uk.ac.bolton.archimate.model.util.ArchimateResourceFactory"/>
+      <parser
+            class="uk.ac.bolton.archimate.model.util.ArchimateResourceFactory"
+            type="xml">
+      </parser>
+   </extension>
+   
+
+</plugin>

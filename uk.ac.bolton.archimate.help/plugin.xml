@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.5"?>
+<plugin>
+   <extension-point id="hints" name="Hints" schema="schema/hints.exsd"/>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.eclipse.ui.cheatsheets.actionSet"
+            label="Cheat Sheets"
+            visible="true">
+         <action
+               class="org.eclipse.ui.cheatsheets.CheatSheetExtensionFactory:helpMenuAction"
+               id="org.eclipse.ui.cheatsheets.actions.CheatSheetHelpMenuAction"
+               label="%actionCheatSheets"
+               menubarPath="help/group.additions"
+               style="push">
+         </action>
+      </actionSet>
+      <actionSet
+            id="uk.ac.bolton.archimate.help.hints.actionSet"
+            label="Hints"
+            visible="true">
+         <action
+               class="uk.ac.bolton.archimate.help.hints.ShowHintsViewAction"
+               definitionId="uk.ac.bolton.archimate.help.action.showHintsView"
+               icon="img/hint-16.png"
+               id="uk.ac.bolton.archimate.help.showHintsView"
+               label="Hints"
+               menubarPath="window/show_view"
+               style="push"
+               toolbarPath="toolbar_views/end">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="uk.ac.bolton.archimate.help.hints.HintsView"
+            icon="img/hint-16.png"
+            id="uk.ac.bolton.archimate.help.hintsView"
+            name="%viewHints"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <view
+               id="uk.ac.bolton.archimate.help.hintsView"
+               minimized="false"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ContentOutline">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="uk.ac.bolton.archimate.help.cheatsheets"
+            name="Archi Cheat Sheets">
+      </category>
+      <cheatsheet
+            category="uk.ac.bolton.archimate.help.cheatsheets"
+            composite="false"
+            contentFile="cheatsheets/new_model.xml"
+            id="uk.ac.bolton.archimate.help.cheatsheet1"
+            name="Create a New Model">
+         <description>
+            Create a new Model
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            category="uk.ac.bolton.archimate.help.cheatsheets"
+            composite="false"
+            contentFile="cheatsheets/create_map_view.xml"
+            id="uk.ac.bolton.archimate.help.cheatsheet2"
+            name="Create a Map View">
+         <description>
+            Create a Map View
+         </description>
+      </cheatsheet>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="help/toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="help/toc_resources.xml"
+            primary="true">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="help/contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="uk.ac.bolton.archimate.help.action.showHintsView"
+            name="Show Hints View">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+         <!-- Removed for now - See Bug #3010717 -->
+      <!-- key
+            commandId="uk.ac.bolton.archimate.help.action.showHintsView"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="M3+4">
+      </key -->
+   </extension>
+   <extension
+         point="uk.ac.bolton.archimate.help.hints">
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessActor"
+            file="hints/business_actor.html"
+            title="Business Actor">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessRole"
+            file="hints/business_role.html"
+            title="Business Role">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessCollaboration"
+            file="hints/business_collaboration.html"
+            title="Business Collaboration">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessInterface"
+            file="hints/business_interface.html"
+            title="Business Interface">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessObject"
+            file="hints/business_object.html"
+            title="Business Object">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessProcess"
+            file="hints/business_process.html"
+            title="Business Process">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessActivity"
+            file="hints/business_activity.html"
+            title="Business Activity">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessFunction"
+            file="hints/business_function.html"
+            title="Business Function">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessInteraction"
+            file="hints/business_interaction.html"
+            title="Business Interaction">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessEvent"
+            file="hints/business_event.html"
+            title="Business Event">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IBusinessService"
+            file="hints/business_service.html"
+            title="Business Service">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IRepresentation"
+            file="hints/representation.html"
+            title="Representation">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IMeaning"
+            file="hints/meaning.html"
+            title="Meaning">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IValue"
+            file="hints/value.html"
+            title="Value">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IProduct"
+            file="hints/product.html"
+            title="Product">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IContract"
+            file="hints/contract.html"
+            title="Contract">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IApplicationComponent"
+            file="hints/application_component.html"
+            title="Application Component">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IApplicationCollaboration"
+            file="hints/application_collaboration.html"
+            title="Application Collaboration">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IApplicationInterface"
+            file="hints/application_interface.html"
+            title="Application Interface">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDataObject"
+            file="hints/data_object.html"
+            title="Data Object">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IApplicationFunction"
+            file="hints/application_function.html"
+            title="Application Function">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IApplicationInteraction"
+            file="hints/application_interaction.html"
+            title="Application Interaction">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IApplicationService"
+            file="hints/application_service.html"
+            title="Application Service">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.INode"
+            file="hints/node.html"
+            title="Node">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDevice"
+            file="hints/device.html"
+            title="Device">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IInfrastructureInterface"
+            file="hints/infrastructure_interface.html"
+            title="Infrastructure Interface">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.INetwork"
+            file="hints/network.html"
+            title="Network">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ICommunicationPath"
+            file="hints/communication_path.html"
+            title="Communication Path">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IInfrastructureService"
+            file="hints/infrastructure_service.html"
+            title="Infrastructure Service">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ISystemSoftware"
+            file="hints/system_software.html"
+            title="System Software">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IArtifact"
+            file="hints/artifact.html"
+            title="Artifact">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ICompositionRelationship"
+            file="hints/composition.html"
+            title="Composition relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IAggregationRelationship"
+            file="hints/aggregation.html"
+            title="Aggregation relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IAssignmentRelationship"
+            file="hints/assignment.html"
+            title="Assignment relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IRealisationRelationship"
+            file="hints/realisation.html"
+            title="Realisation relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IUsedByRelationship"
+            file="hints/used_by.html"
+            title="Used By relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IAccessRelationship"
+            file="hints/access.html"
+            title="Access relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IAssociationRelationship"
+            file="hints/association.html"
+            title="Association relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ITriggeringRelationship"
+            file="hints/triggering.html"
+            title="Triggering relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IFlowRelationship"
+            file="hints/flow.html"
+            title="Flow relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ISpecialisationRelationship"
+            file="hints/specialisation.html"
+            title="Specialisation relationship">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IJunction"
+            file="hints/junction.html"
+            title="Junction">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IAndJunction"
+            file="hints/and_junction.html"
+            title="And Junction">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IOrJunction"
+            file="hints/or_junction.html"
+            title="Or Junction">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDiagramModelGroup"
+            file="hints/group.html"
+            title="Group">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDiagramModel"
+            file="hints/view.html"
+            title="View">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDiagramModelNote"
+            file="hints/note.html"
+            title="Note">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDiagramModelReference"
+            file="hints/view_ref.html"
+            title="View Reference">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IFolder"
+            file="hints/folder.html"
+            title="Folder">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IArchimateModel"
+            file="hints/model.html"
+            title="Model">
+      </hint>
+   </extension>
+
+</plugin>

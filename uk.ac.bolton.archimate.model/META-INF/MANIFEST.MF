@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: uk.ac.bolton.archimate.model;singleton:=true
+Bundle-Version: 1.6.0.qualifier
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: uk.ac.bolton.archimate.model,
+ uk.ac.bolton.archimate.model.impl,
+ uk.ac.bolton.archimate.model.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

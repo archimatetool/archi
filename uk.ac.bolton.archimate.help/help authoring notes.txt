@@ -1,0 +1,18 @@
+HTML source
+-----------
+Screenshots are based on the app sized to 1011x763 pixels.
+Ensure images in the HTML docs are no wider than 700 pixels.
+Run HTMLMerger.java to output one HTML file
+Open it in Word
+
+
+In MS Word
+----------
+In Options, Advanced->Web Options->Pictures ensure "Pixels per Inch" is 144 so that images are sized properly (50%).
+
+1. Apply the styles in Word Template.dot in the uk.ac.bolton.archimate.build projects ("Developer" tab make sure
+   "Automatically update document styles" is ticked)
+2. Click the Office button and select Prepare -> Edit Links to Files. Select all images and tick "Save picture in document". 
+3. Insert Page Numbers at bottom right starting at 0 and make "Different First Page" in the footer settings.
+4. Check for blank pages, spacing and orphan issues.
+5. Save as Word Doc and then PDF

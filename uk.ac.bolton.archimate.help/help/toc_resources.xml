@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<toc label="ArchiMate Resources">
+    
+    <topic href="http://www.archimate.org" label="ArchiMate Website">
+    </topic>
+    <topic href="http://www.opengroup.org/archimate/doc/ts_archimate/" label="ArchiMate Specification">
+    </topic>
+    <topic href="https://doc.novay.nl/dsweb/Get/Document-43839/" label="ArchiMate Language Primer (PDF)">
+    </topic>
+    <topic href="http://archi.cetis.ac.uk" label="Archi Website">
+    </topic>
+    <topic href="http://groups.google.com/group/archicetis/topics" label="Archi Forum">
+    </topic>
+</toc>

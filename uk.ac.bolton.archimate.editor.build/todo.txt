@@ -1,0 +1,43 @@
+Priority 1
+----------
+Alternate Application UI Colour Scheme
+Default colours for elements
+
+
+
+
+Priority 2
+----------
+Make the Palette easier to use
+More alternate figures (e.g Interface Circles)
+
+
+
+
+Priority 3
+----------
+Transform Sketch View to Actual Model
+Redo the Cut/Copy/Paste logic
+Version Control / Repository support
+
+
+
+
+Version 2.0
+-----------
+Constrained Viewpoints
+Profiles and Property key/value pairs
+Collapse/Expand container object
+Stakeholder, Concern, Assessment, Goal, Principle, Requirement elements
+Circular relations
+
+
+
+Perhaps
+-------
+Allow objects to appear more than once in a View
+Element names are multi-line
+Advanced Derived Relations
+"Show name as label" overall Preference for connections
+Disallow objects with the same name
+Connection from Note to Element
