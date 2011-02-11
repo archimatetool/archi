@@ -1,16 +1,15 @@
 Priority 1
 ----------
-Alternate Application UI Colour Scheme
+MRU File list
+Profiles and Property key/value pairs
+More alternate figures (e.g Interface Circles)
 Default colours for elements
-
 
 
 
 Priority 2
 ----------
-Make the Palette easier to use
-More alternate figures (e.g Interface Circles)
-
+Make the Palette easier to use (Global? Floating?)
 
 
 
@@ -22,14 +21,12 @@ Version Control / Repository support
 
 
 
-
 Version 2.0
 -----------
 Constrained Viewpoints
-Profiles and Property key/value pairs
 Collapse/Expand container object
 Stakeholder, Concern, Assessment, Goal, Principle, Requirement elements
-Circular relations
+Alternate Application UI Colour Scheme
 
 
 
@@ -41,3 +38,4 @@ Advanced Derived Relations
 "Show name as label" overall Preference for connections
 Disallow objects with the same name
 Connection from Note to Element
+Circular relations

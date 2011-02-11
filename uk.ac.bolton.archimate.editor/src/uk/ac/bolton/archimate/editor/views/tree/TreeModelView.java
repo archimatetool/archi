@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.Action;
@@ -28,7 +27,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -58,7 +56,9 @@ import uk.ac.bolton.archimate.editor.views.tree.actions.LinkToEditorAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.NewFolderAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.OpenDiagramAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.PropertiesAction;
+import uk.ac.bolton.archimate.editor.views.tree.actions.RenameAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.SaveModelAction;
+import uk.ac.bolton.archimate.editor.views.tree.actions.TreeModelViewActionFactory;
 import uk.ac.bolton.archimate.editor.views.tree.search.SearchFilter;
 import uk.ac.bolton.archimate.editor.views.tree.search.SearchWidget;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -77,6 +77,11 @@ public class TreeModelView
 extends AbstractModelView
 implements ITreeModelView {
     
+    /**
+     * Only one instance at a time. This may be null if the Tree is closed
+     */
+    public static TreeModelView INSTANCE;
+    
     private TreeModelViewer fTreeViewer;
     
     private Composite fParentComposite;
@@ -93,9 +98,13 @@ implements ITreeModelView {
     private IViewerAction fActionSaveModel;
     private IViewerAction fActionCloseModel;
     private IViewerAction fActionDelete;
+    private IViewerAction fActionRename;
     private IViewerAction fActionOpenDiagram;
     private IViewerAction fActionNewFolder;
     
+    public TreeModelView() {
+        INSTANCE = this;
+    }
     
     @Override
     public void doCreatePartControl(Composite parent) {
@@ -231,7 +240,7 @@ implements ITreeModelView {
         return fTreeViewer;
     }
     
-    public TreeViewer getViewer() {
+    public TreeModelViewer getViewer() {
         return fTreeViewer;
     }
     
@@ -250,6 +259,8 @@ implements ITreeModelView {
         fActionSaveModel = new SaveModelAction(this);
         
         fActionDelete = new DeleteAction(getSelectionProvider());
+        
+        fActionRename = new RenameAction(getViewer());
         
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
@@ -342,7 +353,7 @@ implements ITreeModelView {
         }
         
         // Create "New" Actions
-        List<IAction> actions = TreeModelViewFactory.INSTANCE.getNewObjectActions(selected);
+        List<IAction> actions = TreeModelViewActionFactory.INSTANCE.getNewObjectActions(selected);
         if(!actions.isEmpty()) {
             for(IAction action : actions) {
                 newMenu.add(action);
@@ -351,8 +362,8 @@ implements ITreeModelView {
         
         if(!isEmpty) {
             manager.add(fActionDelete);
+            manager.add(fActionRename);
             manager.add(new Separator());
-            //manager.add(fActionRename);
             manager.add(fActionProperties);
         }
         
@@ -369,6 +380,7 @@ implements ITreeModelView {
         fActionOpenDiagram.update(selection);
         fActionCloseModel.update(selection);
         fActionDelete.update(selection);
+        fActionRename.update(selection);
         fActionProperties.update(selection);
         fActionNewFolder.update(selection);
         updateUndoActions();
@@ -387,7 +399,7 @@ implements ITreeModelView {
     @Override
     public void dispose() {
         super.dispose();
-        
+
         // Remove Selection Sync
         TreeSelectionSynchroniser.INSTANCE.removeTreeModelView();
         
@@ -398,17 +410,20 @@ implements ITreeModelView {
         catch(IOException ex) {
             ex.printStackTrace();
         }
+        
+        // No more instance
+        INSTANCE = null;
     }
     
-    // =================================================================================
-    //                       Listen to Editor Model Changes
-    // =================================================================================
+    // ======================================================================
+    // Listen to Property Changes from IEditorModelManager
+    // ======================================================================
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         Object source = evt.getSource();
-        Object newValue = evt.getNewValue();
+        //Object newValue = evt.getNewValue();
         
         // New Model created
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED) {
@@ -436,33 +451,14 @@ implements ITreeModelView {
             getViewer().update(source, null);
         }
         
-        // New Element added
-        else if(propertyName == PROPERTY_MODEL_ELEMENT_NEW) {
-            getViewer().refresh();
-            EObject element = (EObject)newValue;
-            EObject container = element.eContainer();
-            getViewer().expandToLevel(container, 1);
-            getViewer().setSelection(new StructuredSelection(newValue), true);
-        }
-        
-        // Selection event
-        else if(propertyName == PROPERTY_SELECTION_CHANGED) {
-            if(newValue instanceof List<?>) {
-                getViewer().setSelection(new StructuredSelection((List<?>)newValue), true);
-            }
-            else {
-                getViewer().setSelection(new StructuredSelection(newValue), true);
-            }
-        }
-        
-        // Tree Refresh Off
+        // Ecore Events will come so turn tree refresh off
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
             super.propertyChange(evt);
             // Remove Syncing
             TreeSelectionSynchroniser.INSTANCE.removeTreeModelView();
         }
         
-        // Tree Refresh On
+        // Ecore Events have finished so turn tree refresh on
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
             super.propertyChange(evt);
             // Add Syncing

@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.views.tree;
+package uk.ac.bolton.archimate.editor.views.tree.actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,18 +38,18 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-public class TreeModelViewFactory {
+public class TreeModelViewActionFactory {
 
-    public static final TreeModelViewFactory INSTANCE = new TreeModelViewFactory();
+    public static final TreeModelViewActionFactory INSTANCE = new TreeModelViewActionFactory();
 
-    private TreeModelViewFactory() {
+    private TreeModelViewActionFactory() {
     }
 
     /**
      * @param selected
      * @return A List (perhaps empty) of Actions for a given selected object
      */
-    List<IAction> getNewObjectActions(Object selected) {
+    public List<IAction> getNewObjectActions(Object selected) {
         List<IAction> list = new ArrayList<IAction>();
 
         // If we have selected a leaf object, go up to parent

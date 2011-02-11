@@ -1,6 +1,13 @@
 Archi Changes
 -------------
 
+Version 1.7 April XX 2011
+-------------------------
++ Can now rename a Model Tree node with in-place editing (select & click or contect menu)
++ When adding a new element on the Model Tree focus is on in-place editing for a new name
+
+
+
 Version 1.6 February 06 2011
 ----------------------------
 + Format Painter
@@ -20,7 +27,7 @@ Version 1.6 February 06 2011
 + Added 25% Zoom factor to Zoom control
 + The ArchiMate type for a selected object is shown in parentheses in the title of the Properties window
 + Animation on undo/redo now works for Mac Cocoa version
-* Fixed drag and drop not working on Mac 64-bit version
+* Fixed drag and drop not working on Mac Cocoa version
 * Fixed an issue where it was possible to drag the wrong type of palette entry to an incorrect type of View
 * Fixed Properties window not updating on Mac Cocoa version
 * Undo/Redo menu items are now active when the Navigator has focus

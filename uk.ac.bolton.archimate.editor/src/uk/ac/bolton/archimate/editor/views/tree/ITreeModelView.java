@@ -24,10 +24,4 @@ public interface ITreeModelView extends IModelSelectionView, IModelView {
     String HELP_ID = "uk.ac.bolton.archimate.help.treeModelViewHelp"; //$NON-NLS-1$
     String NAME = "Models";
     ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MODELS_16);
-    
-    /*
-     * Property Change Events
-     */
-    String PROPERTY_SELECTION_CHANGED = "TreeModelView.selectionChanged";
-    String PROPERTY_MODEL_ELEMENT_NEW = "TreeModelView.elementNew";
 }

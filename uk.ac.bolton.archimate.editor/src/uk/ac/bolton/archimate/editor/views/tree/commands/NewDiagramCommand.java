@@ -7,10 +7,10 @@
 package uk.ac.bolton.archimate.editor.views.tree.commands;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.StructuredSelection;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.EditorManager;
-import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
+import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
 
@@ -33,25 +33,39 @@ public class NewDiagramCommand extends Command {
     
     @Override
     public void execute() {
-        fFolder.getElements().add(fDiagramModel);
-        // Fire this event so the tree view can select the element
-        IEditorModelManager.INSTANCE.firePropertyChange(this,
-                ITreeModelView.PROPERTY_MODEL_ELEMENT_NEW, null, fDiagramModel);
+        redo();
         
-        // Open Editor
-        EditorManager.openDiagramEditor(fDiagramModel);
+        // Edit in-place
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().editElement(fDiagramModel);
+        }
     }
     
     @Override
     public void undo() {
-        // Close Editor FIRST!
+        // Close the Editor FIRST!
         EditorManager.closeDiagramEditor(fDiagramModel);
 
         fFolder.getElements().remove(fDiagramModel);
         
-        // Fire this event so the tree view can select a parent node
-        IEditorModelManager.INSTANCE.firePropertyChange(this,
-                ITreeModelView.PROPERTY_SELECTION_CHANGED, null, fFolder);
+        // Select the parent node
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fFolder), true);
+        }
+    }
+    
+    @Override
+    public void redo() {
+        fFolder.getElements().add(fDiagramModel);
+        
+        // Expand and select
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().expandToLevel(fFolder, 1);
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fDiagramModel), true);
+        }
+        
+        // Open Editor
+        EditorManager.openDiagramEditor(fDiagramModel);
     }
     
     @Override

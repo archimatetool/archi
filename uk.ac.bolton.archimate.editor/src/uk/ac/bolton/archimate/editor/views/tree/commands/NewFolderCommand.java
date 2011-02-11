@@ -7,9 +7,9 @@
 package uk.ac.bolton.archimate.editor.views.tree.commands;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.StructuredSelection;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
+import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
 import uk.ac.bolton.archimate.model.IFolder;
 
 
@@ -31,19 +31,32 @@ public class NewFolderCommand extends Command {
     
     @Override
     public void execute() {
-        fParent.getFolders().add(fFolder);
+        redo();
         
-        // Fire this event so the tree view can select the element
-        IEditorModelManager.INSTANCE.firePropertyChange(this,
-                ITreeModelView.PROPERTY_MODEL_ELEMENT_NEW, null, fFolder);
+        // Edit in-place
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().editElement(fFolder);
+        }
     }
     
     @Override
     public void undo() {
         fParent.getFolders().remove(fFolder);
         
-        // Fire this event so the tree view can select a parent node
-        IEditorModelManager.INSTANCE.firePropertyChange(this,
-                ITreeModelView.PROPERTY_SELECTION_CHANGED, null, fParent);
+        // Select the parent node
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParent), true);
+        }
+    }
+    
+    @Override
+    public void redo() {
+        fParent.getFolders().add(fFolder);
+        
+        // Expand and select
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().expandToLevel(fParent, 1);
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fFolder), true);
+        }
     }
 }

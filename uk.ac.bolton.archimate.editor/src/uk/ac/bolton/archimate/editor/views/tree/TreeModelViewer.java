@@ -24,6 +24,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
 
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
@@ -46,6 +48,8 @@ import uk.ac.bolton.archimate.model.IRelationship;
  * @author Phillip Beauvoir
  */
 public class TreeModelViewer extends TreeViewer {
+    
+    private TreeCellEditor fCellEditor;
     
     public static String getElementText(Object element) {
         String name = element.toString();
@@ -115,6 +119,36 @@ public class TreeModelViewer extends TreeViewer {
                 }
             }
         });
+        
+        // Cell Editor
+        fCellEditor = new TreeCellEditor(getTree());
+    }
+    
+    /**
+     * Edit an element on the tree
+     * @param element the element to be edited
+     */
+    public void editElement(Object element) {
+        Widget item = findItem(element);
+        if(item instanceof TreeItem) {
+            fCellEditor.editItem((TreeItem)item);
+        }
+    }
+    
+    @Override
+    public void refresh(Object element) {
+        if(fCellEditor != null) {
+            fCellEditor.cancelEditing();
+        }
+        super.refresh(element);
+    }
+    
+    @Override
+    public void refresh(Object element, boolean updateLabels) {
+        if(fCellEditor != null) {
+            fCellEditor.cancelEditing();
+        }
+        super.refresh(element, updateLabels);
     }
     
     /**

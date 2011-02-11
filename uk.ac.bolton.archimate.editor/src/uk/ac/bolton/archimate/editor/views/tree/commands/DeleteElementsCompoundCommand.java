@@ -9,10 +9,10 @@ package uk.ac.bolton.archimate.editor.views.tree.commands;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.StructuredSelection;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
-import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
+import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
 
 /**
  * This Compound Command stores the state of elements so that 
@@ -53,9 +53,8 @@ public class DeleteElementsCompoundCommand extends NonNotifyingCompoundCommand {
         super.execute();
 
         // Select parent
-        if(fParentToSelect != null) {
-            IEditorModelManager.INSTANCE.firePropertyChange(this,
-                    ITreeModelView.PROPERTY_SELECTION_CHANGED, null, fParentToSelect);
+        if(fParentToSelect != null && TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParentToSelect), true);
         }
     }
 
@@ -64,8 +63,9 @@ public class DeleteElementsCompoundCommand extends NonNotifyingCompoundCommand {
         super.undo();
 
         // Select nodes
-        IEditorModelManager.INSTANCE.firePropertyChange(this,
-                ITreeModelView.PROPERTY_SELECTION_CHANGED, null, fSelected);
+        if(TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fSelected), true);
+        }
     }
 
     @Override
@@ -73,9 +73,8 @@ public class DeleteElementsCompoundCommand extends NonNotifyingCompoundCommand {
         super.redo();
 
         // Select parent
-        if(fParentToSelect != null) {
-            IEditorModelManager.INSTANCE.firePropertyChange(this,
-                    ITreeModelView.PROPERTY_SELECTION_CHANGED, null, fParentToSelect);
+        if(fParentToSelect != null && TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParentToSelect), true);
         }
     }
 
