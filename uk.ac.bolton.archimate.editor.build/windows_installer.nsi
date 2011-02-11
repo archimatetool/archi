@@ -3,8 +3,8 @@
 Name Archi
 
 # General Symbol Definitions
-!define VERSION 1.6.0
-!define INSTALLER_VERSION 1.6.0.0
+!define VERSION 1.7.0
+!define INSTALLER_VERSION 1.7.0.0
 !define COMPANY "Bolton University"
 !define URL http://archi.cetis.ac.uk
 !define SRC_FOLDER "\Archi\Archi_win\*"

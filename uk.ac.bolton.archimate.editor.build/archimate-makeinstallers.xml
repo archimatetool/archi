@@ -19,7 +19,7 @@
 	    
 		<!-- EDIT THESE TWO VALUES FOR A BUILD -->
 	    <property name="jre.sourcedir"          location="D:\dev\jre1.6.0_22"/>
-		<property name="version" 				value="1.6.0"/>
+		<property name="version" 				value="1.7.0"/>
 		
 		<property name="app.name" 				value="Archi"/>
 		
