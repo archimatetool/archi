@@ -2,6 +2,8 @@ HTML source
 -----------
 Screenshots are based on the app sized to 1011x763 pixels.
 Ensure images in the HTML docs are no wider than 700 pixels.
+Have only one <p>&nbsp;</p> at the end of each HTML file.
+
 Run HTMLMerger.java to output one HTML file
 Open it in Word
 
