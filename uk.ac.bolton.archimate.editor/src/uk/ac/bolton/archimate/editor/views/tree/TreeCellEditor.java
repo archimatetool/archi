@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.tree.commands.RenameCommandHandler;
 import uk.ac.bolton.archimate.model.INameable;
 
@@ -33,48 +34,83 @@ public class TreeCellEditor {
     
     private Tree fTree;
     
+    // Track last item if we are allowing edit on click
     private TreeItem fLastItem;
+    
     private TreeItem fCurrentItem;
     
     private boolean showBorder = true;
     private TreeEditor fEditor;
     private Composite fComposite;
+    private Text fText;
+    
+    private INameable fElement;
     
     private String fOldText;
     
+    private boolean EDIT_ON_CLICK = false;
+    
     public TreeCellEditor(Tree tree) {
         fTree = tree;
-        
-        // This is OK on Windows, but doesn't work on Mac Cocoa, and gives a dispose error on Linux
-        fTree.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                //_editItem((TreeItem)event.item);
-            }
-        });
-        
-        // This is safer
-        fTree.addListener(SWT.MouseUp, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                if(event.button == 1) {
-                    TreeItem item = fTree.getItem(new Point(event.x, event.y));
-                    _editItem(item);
-                }
-            }
-        });
-        
         fEditor = new TreeEditor(fTree);
+       
+        // Mac Cocoa Context Menu doesn't send FocusOut
+        if(PlatformUtils.isMacCocoa()) {
+            fTree.addListener(SWT.MenuDetect, new Listener() {
+                @Override
+                public void handleEvent(Event event) {
+                    finaliseEdit();
+                }
+            });
+        }
+                
+        if(EDIT_ON_CLICK) {
+            boolean USE_SLECTION_EVENT = false;
+            
+            // Use Selection event.
+            // On Cocoa a Selection event causes a a badly timed FocusOut event (like MouseDown)
+            // On Linux Ubuntu pressing a letter key fires a selection event and selects a new tree node
+            // Not good.
+            if(USE_SLECTION_EVENT) {
+                fTree.addListener(SWT.Selection, new Listener() {
+                    @Override
+                    public void handleEvent(Event event) {
+                        _editItem((TreeItem)event.item);
+                    }
+                });
+            }
+            // Use MouseUp event.
+            // A MouseDown fires a badly timed FocusOut event on Cocoa.
+            // And a double-click also activates it....so it's not good.
+            else {
+                fTree.addListener(SWT.MouseUp, new Listener() {
+                    @Override
+                    public void handleEvent(Event event) {
+                        if(event.button == 1) {
+                            TreeItem item = fTree.getItem(new Point(event.x, event.y));
+                            _editItem(item);
+                        }
+                    }
+                });
+            }
+        }
     }
     
+    /**
+     * Edit a tree item in-place
+     * @param item
+     */
     public void editItem(TreeItem item) {
         fLastItem = item; // Ensure we are convinced
         _editItem(item);
     }
-
+    
     private void _editItem(final TreeItem item) {
+        // Safety check (really needed for Mac Cocoa)
+        finaliseEdit();
+        
         if(item != null && item == fLastItem && RenameCommandHandler.canRename(item.getData())) {
-            final INameable element = (INameable)item.getData();
+            fElement = (INameable)item.getData();
             
             fOldText = item.getText();
             fCurrentItem = item;
@@ -84,13 +120,14 @@ public class TreeCellEditor {
                 fComposite.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
             }
             
-            final Text text = new Text(fComposite, SWT.NONE);
+            fText = new Text(fComposite, SWT.NONE);
+            
             final int inset = showBorder ? 1 : 0;
             
             fComposite.addListener(SWT.Resize, new Listener() {
                 public void handleEvent(Event e) {
                     Rectangle rect = fComposite.getClientArea();
-                    text.setBounds(rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
+                    fText.setBounds(rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
                 }
             });
             
@@ -99,24 +136,17 @@ public class TreeCellEditor {
                 public void handleEvent(Event event) {
                     switch(event.type) {
                         case SWT.FocusOut:
-                            String updatedText = text.getText();
-                            if(!updatedText.equals(element.getName())) {
-                                disposeEditor();
-                                RenameCommandHandler.doRenameCommand(element, updatedText);
-                            }
-                            else {
-                                cancelEditing();
-                            }
+                            finaliseEdit();
                             break;
 
                         case SWT.Verify:
-                            String newText = text.getText();
+                            String newText = fText.getText();
                             String leftText = newText.substring(0, event.start);
                             String rightText = newText.substring(event.end, newText.length());
-                            GC gc = new GC(text);
+                            GC gc = new GC(fText);
                             Point size = gc.textExtent(leftText + event.text + rightText);
                             gc.dispose();
-                            size = text.computeSize(size.x, SWT.DEFAULT);
+                            size = fText.computeSize(size.x, SWT.DEFAULT);
                             fEditor.horizontalAlignment = SWT.LEFT;
                             //Rectangle itemRect = item.getBounds(), rect = fTree.getClientArea();
                             //fEditor.minimumWidth = Math.max(size.x, itemRect.width) + inset * 2;
@@ -130,14 +160,7 @@ public class TreeCellEditor {
                         case SWT.Traverse:
                             switch(event.detail) {
                                 case SWT.TRAVERSE_RETURN:
-                                    updatedText = text.getText();
-                                    if(!updatedText.equals(element.getName())) {
-                                        disposeEditor();
-                                        RenameCommandHandler.doRenameCommand(element, updatedText);
-                                    }
-                                    else {
-                                        cancelEditing();
-                                    }
+                                    finaliseEdit();
                                     event.doit = false;
                                     break;
                                     
@@ -151,23 +174,41 @@ public class TreeCellEditor {
                 }
             };
             
-            text.addListener(SWT.FocusOut, textListener);
-            text.addListener(SWT.Traverse, textListener);
-            text.addListener(SWT.Verify, textListener);
+            fText.addListener(SWT.FocusOut, textListener);
+            fText.addListener(SWT.Traverse, textListener);
+            fText.addListener(SWT.Verify, textListener);
             
             fEditor.setEditor(fComposite, item);
             
-            text.setText(element.getName());
-            text.selectAll();
-            text.setFocus();
+            fText.setText(fElement.getName());
+            fText.selectAll();
+            fText.setFocus();
 
             // Clear item
             item.setText("");
         }
         
+        // Store last item even if null
         fLastItem = item;
     }
     
+    private void finaliseEdit() {
+        if(isEditing()) {
+            String updatedText = fText.getText();
+            if(!updatedText.equals(fElement.getName())) {
+                disposeEditor();
+                RenameCommandHandler.doRenameCommand(fElement, updatedText);
+            }
+            else {
+                cancelEditing();
+            }
+        }
+    }
+    
+    private boolean isEditing() {
+        return fText != null && !fText.isDisposed();
+    }
+
     public void cancelEditing() {
         disposeEditor();
         
@@ -181,6 +222,7 @@ public class TreeCellEditor {
         if(fComposite != null && !fComposite.isDisposed()) {
             fComposite.dispose();
             fComposite = null;
+            fText = null;
         }
         
         if(fEditor != null) {
