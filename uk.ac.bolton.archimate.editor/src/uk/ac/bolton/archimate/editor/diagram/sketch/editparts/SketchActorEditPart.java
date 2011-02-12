@@ -68,7 +68,7 @@ implements IColoredEditPart, ITextEditPart  {
 
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_OPEN) {
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
             // Edit the label if we clicked on it
             if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
                 if(fDirectEditManager == null) {
@@ -77,9 +77,9 @@ implements IColoredEditPart, ITextEditPart  {
                 }
                 fDirectEditManager.show();
             }
-            else {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
-            }
+        }
+        else if(request.getType() == RequestConstants.REQ_OPEN) {
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
     }
     

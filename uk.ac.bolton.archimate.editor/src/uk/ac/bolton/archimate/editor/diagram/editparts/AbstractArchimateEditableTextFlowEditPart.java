@@ -97,7 +97,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
      */
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_OPEN) {
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             // Edit the textflow if we clicked on it
             IEditableTextFlowFigure figure = (IEditableTextFlowFigure)getFigure();
             if(figure.didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
@@ -107,15 +107,11 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
                 }
                 fDirectEditManager.show();
             }
-            else {
-                handleEditRequest(request); 
+            // Else open Properties View
+            else if(request.getType() == RequestConstants.REQ_OPEN){
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
             }
         }
-    }
-    
-    protected void handleEditRequest(Request request) {
-        // Show Properties View
-        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
     }
     
     @SuppressWarnings("rawtypes")

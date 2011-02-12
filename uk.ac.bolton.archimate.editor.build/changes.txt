@@ -3,8 +3,9 @@ Archi Changes
 
 Version 1.7 April XX 2011
 -------------------------
-+ Can now rename a Model Tree node with in-place editing (select & click or contect menu)
-+ When adding a new element on the Model Tree focus is on in-place editing for a new name
++ Can now rename a Model Tree element with in-place editing ("Rename" in context menu)
++ When adding a new element on the Model Tree the focus is put on in-place editing so you can edit the name
++ A View figure's text control can also be edited with a single-click when it is selected
 
 
 

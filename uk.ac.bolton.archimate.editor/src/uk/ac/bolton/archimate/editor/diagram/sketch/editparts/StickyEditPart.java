@@ -42,6 +42,7 @@ import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.StickyFigure;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
+import uk.ac.bolton.archimate.editor.ui.ViewManager;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
@@ -119,18 +120,18 @@ implements IColoredEditPart, ITextAlignedEditPart  {
     
     @Override
     public void performRequest(Request req) {
-        if(req.getType() == RequestConstants.REQ_OPEN) {
-            performDirectEdit();
+        if(req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+            if(fDirectManager == null) {
+                fDirectManager = new StickyDirectEditManager();
+            }
+            fDirectManager.show();
+        }
+        else if(req.getType() == RequestConstants.REQ_OPEN) {
+            // Show Properties view
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
     }
     
-    private void performDirectEdit() {
-        if(fDirectManager == null) {
-            fDirectManager = new StickyDirectEditManager();
-        }
-        fDirectManager.show();
-    }
-
     @Override
     protected ConnectionAnchor getConnectionAnchor() {
         if(fAnchor == null) {

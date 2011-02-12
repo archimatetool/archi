@@ -64,7 +64,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
      */
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_OPEN) {
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
             // Edit the label if we clicked on it
             if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
                 if(fDirectEditManager == null) {
@@ -74,10 +74,8 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
                 fDirectEditManager.show();
             }
             else {
-                handleEditRequest(request); 
+                
             }
         }
     }
-
-    protected abstract void handleEditRequest(Request request);
 }

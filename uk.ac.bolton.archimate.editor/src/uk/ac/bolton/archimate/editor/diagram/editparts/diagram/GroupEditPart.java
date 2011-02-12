@@ -135,7 +135,7 @@ implements IColoredEditPart, ITextEditPart {
      */
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_OPEN) {
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             // Edit the label if we clicked on it
             if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
                 if(fManager == null) {
@@ -144,17 +144,13 @@ implements IColoredEditPart, ITextEditPart {
                 }
                 fManager.show();
             }
-            else {
-                handleEditRequest(request); 
+            // Open Properties view
+            else if(request.getType() == RequestConstants.REQ_OPEN) {
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
             }
         }
     }
 
-    private void handleEditRequest(Request request) {
-        // Show Properties view
-        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
-    }
-    
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {

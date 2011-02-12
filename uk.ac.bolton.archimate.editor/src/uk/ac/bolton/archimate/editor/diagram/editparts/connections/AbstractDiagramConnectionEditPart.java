@@ -149,7 +149,7 @@ implements IDiagramConnectionEditPart {
 
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_OPEN) {
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             // Edit relationship label if we clicked on it
             if(((IDiagramConnectionFigure)getFigure()).didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
                 Label label = ((IDiagramConnectionFigure)getFigure()).getConnectionLabel();
@@ -158,8 +158,9 @@ implements IDiagramConnectionEditPart {
                 }
                 fDirectEditManager.show();
             }
-            else {
-                handleEditRequest(request); 
+            // Open Properties View
+            else if(request.getType() == RequestConstants.REQ_OPEN) {
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
             }
         }
     }
@@ -183,11 +184,6 @@ implements IDiagramConnectionEditPart {
         
         // Add a policy for manual bendpoints
         refreshBendpointEditPolicy();
-    }
-
-    protected void handleEditRequest(Request request) {
-        // Show Properties View
-        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
     }
 
     @Override
