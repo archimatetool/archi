@@ -63,6 +63,24 @@ public final class ArchimateEditorActionFactory {
         }
     };
 
+    /**
+     * Provide our own Rename Action in order to use a LabelRetargetAction and not have name of "Rename..."
+     */
+    public static final ActionFactory RENAME = new ActionFactory("rename", //$NON-NLS-1$
+            IWorkbenchCommandConstants.FILE_RENAME) {
+       
+        @Override
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            LabelRetargetAction action = new LabelRetargetAction(getId(), "Rena&me");
+            action.setToolTipText("Rename");
+            window.getPartService().addPartListener(action);
+            action.setActionDefinitionId(getCommandId());
+            return action;
+        }
+    };
 
     /**
      * A Retargetable Action to Open a Diagram

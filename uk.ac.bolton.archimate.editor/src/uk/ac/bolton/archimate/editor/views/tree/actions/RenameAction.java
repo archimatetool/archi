@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.views.tree.actions;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbenchCommandConstants;
 
 import uk.ac.bolton.archimate.editor.views.tree.TreeModelViewer;
 import uk.ac.bolton.archimate.editor.views.tree.commands.RenameCommandHandler;
@@ -21,8 +22,9 @@ public class RenameAction extends ViewerAction {
     
     public RenameAction(TreeModelViewer selectionProvider) {
         super(selectionProvider);
-        setText("Rename");
+        setText("Re&name");
         setEnabled(false);
+        setActionDefinitionId(IWorkbenchCommandConstants.FILE_RENAME); // register key binding
     }
     
     @Override

@@ -63,15 +63,16 @@ public class TreeCellEditor {
                 }
             });
         }
-                
+        
+        // There's just too many problems with this
         if(EDIT_ON_CLICK) {
-            boolean USE_SLECTION_EVENT = false;
+            boolean USE_SELECTION_EVENT = false;
             
             // Use Selection event.
             // On Cocoa a Selection event causes a a badly timed FocusOut event (like MouseDown)
             // On Linux Ubuntu pressing a letter key fires a selection event and selects a new tree node
             // Not good.
-            if(USE_SLECTION_EVENT) {
+            if(USE_SELECTION_EVENT) {
                 fTree.addListener(SWT.Selection, new Listener() {
                     @Override
                     public void handleEvent(Event event) {
@@ -101,6 +102,10 @@ public class TreeCellEditor {
      * @param item
      */
     public void editItem(TreeItem item) {
+        if(isEditing()) {
+            return;
+        }
+        
         fLastItem = item; // Ensure we are convinced
         _editItem(item);
     }

@@ -77,6 +77,7 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionCopy;
     private IWorkbenchAction fActionPaste;
     private IWorkbenchAction fActionDelete;
+    private IWorkbenchAction fActionRename;
     
     private IWorkbenchAction fActionUndo;
     private IWorkbenchAction fActionRedo;
@@ -192,6 +193,10 @@ extends ActionBarAdvisor {
         // Delete
         fActionDelete = ArchimateEditorActionFactory.DELETE.create(window);
         register(fActionDelete);
+        
+        // Rename
+        fActionRename = ArchimateEditorActionFactory.RENAME.create(window);
+        register(fActionRename);
         
         // Select All
         fActionSelectAll = ActionFactory.SELECT_ALL.create(window);
@@ -333,16 +338,16 @@ extends ActionBarAdvisor {
         menu.add(fActionCut);
         menu.add(fActionCopy);
         menu.add(fActionPaste);
-        menu.add(new Separator());
-
         menu.add(fActionDelete);
-        menu.add(new GroupMarker(IWorkbenchActionConstants.CUT_EXT));
-        menu.add(new Separator());
+        menu.add(new Separator(IWorkbenchActionConstants.CUT_EXT));
+        
+        menu.add(fActionRename);
+        menu.add(new Separator(fActionRename.getId()));
         
         menu.add(fActionSelectAll);
-        menu.add(new Separator());
+        menu.add(new Separator(fActionSelectAll.getId()));
         
-        //menu.add(fActionRename);
+        menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
         
         /*
          * On a Mac, Eclipse adds a "Preferences" menu item under the application menu bar.

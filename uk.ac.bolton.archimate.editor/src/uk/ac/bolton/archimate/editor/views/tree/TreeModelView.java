@@ -294,6 +294,7 @@ implements ITreeModelView {
         actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.OPEN_DIAGRAM.getId(), fActionOpenDiagram);
         actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), fActionDelete);
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
+        actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
     }
     
     /**

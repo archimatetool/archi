@@ -25,6 +25,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
+import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringForwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringToFrontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionLineColorAction;
@@ -208,7 +209,7 @@ extends ActionBarContributor {
         
         IMenuManager editMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_EDIT);
         String groupName = "group1_start";
-        editMenu.insertAfter("delete", new Separator(groupName));
+        editMenu.insertAfter(ArchimateEditorActionFactory.RENAME.getId(), new Separator(groupName));
         
         // Fill Color Action
         editMenu.appendToGroup(groupName, getAction(FillColorAction.ID));
