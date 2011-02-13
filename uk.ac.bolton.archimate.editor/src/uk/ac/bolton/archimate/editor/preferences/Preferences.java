@@ -29,6 +29,18 @@ public class Preferences implements IPreferenceConstants {
         return STORE.getInt(GRID_SIZE);
     }
     
+    public static boolean isGridVisible() {
+        return STORE.getBoolean(GRID_VISIBLE);
+    }
+    
+    public static boolean isGridSnap() {
+        return STORE.getBoolean(GRID_SNAP);
+    }
+    
+    public static boolean doShowGuideLines() {
+        return STORE.getBoolean(GRID_SHOW_GUIDELINES);
+    }
+    
     public static boolean doOpenDiagramsOnLoad() {
         return STORE.getBoolean(OPEN_DIAGRAMS_ON_LOAD);
     }

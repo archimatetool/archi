@@ -1,15 +1,15 @@
 Priority 1
 ----------
 MRU File list
-Profiles and Property key/value pairs
 More alternate figures (e.g Interface Circles)
-Default colours for elements
+Profiles and Property key/value pairs
 
 
 
 Priority 2
 ----------
 Make the Palette easier to use (Global? Floating?)
+Default colours for elements
 
 
 
@@ -17,12 +17,12 @@ Priority 3
 ----------
 Transform Sketch View to Actual Model
 Redo the Cut/Copy/Paste logic
-Version Control / Repository support
 
 
 
 Version 2.0
 -----------
+Version Control / Repository support
 Constrained Viewpoints
 Collapse/Expand container object
 Stakeholder, Concern, Assessment, Goal, Principle, Requirement elements

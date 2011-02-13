@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.actions;
 
-import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.Action;
 
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -14,27 +14,27 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
 
 
 /**
- * Enable or disable the grid. It does not show or hide it.
+ * Toggle the Snap Guide Lines
  * 
  * @author Phillip Beauvoir
  */
-public class ToggleGridEnabledAction extends Action {
+public class ToggleSnapToAlignmentGuidesAction extends Action {
 
-    public ToggleGridEnabledAction() {
-        super("Snap to Grid", AS_CHECK_BOX);
-        setToolTipText("Snap to Grid");
-        setId(SnapToGrid.PROPERTY_GRID_ENABLED);
-        setActionDefinitionId(SnapToGrid.PROPERTY_GRID_ENABLED);
-        setChecked(isChecked());
-    }
+	public ToggleSnapToAlignmentGuidesAction() {
+		super("Show Alignment Guides", AS_CHECK_BOX);
+		setToolTipText("Show Alignment Guides");
+		setId(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY);
+		setActionDefinitionId(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY);
+		setChecked(isChecked());
+	}
 
-    @Override
+	@Override
     public boolean isChecked() {
-        return Preferences.isGridSnap();
-    }
+	    return Preferences.doShowGuideLines();
+	}
 
-    @Override
+	@Override
     public void run() {
-        Preferences.STORE.setValue(IPreferenceConstants.GRID_SNAP, !isChecked());
-    }
+	    Preferences.STORE.setValue(IPreferenceConstants.GRID_SHOW_GUIDELINES, !isChecked());
+	}
 }

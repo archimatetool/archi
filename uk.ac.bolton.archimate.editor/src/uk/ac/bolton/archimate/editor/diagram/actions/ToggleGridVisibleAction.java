@@ -6,10 +6,11 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.actions;
 
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.Action;
+
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 
 
 /**
@@ -19,16 +20,8 @@ import org.eclipse.jface.action.Action;
  */
 public class ToggleGridVisibleAction extends Action {
 
-    private GraphicalViewer diagramViewer;
-
-    /**
-     * Constructor
-     * @param   diagramViewer   the GraphicalViewer whose grid enablement and 
-     *                          visibility properties are to be toggled
-     */
-    public ToggleGridVisibleAction(GraphicalViewer diagramViewer) {
+    public ToggleGridVisibleAction() {
         super("Grid Visible", AS_CHECK_BOX);
-        this.diagramViewer = diagramViewer;
         setToolTipText("Grid Visible");
         setId(GEFActionConstants.TOGGLE_GRID_VISIBILITY);
         setActionDefinitionId(GEFActionConstants.TOGGLE_GRID_VISIBILITY);
@@ -37,15 +30,11 @@ public class ToggleGridVisibleAction extends Action {
 
     @Override
     public boolean isChecked() {
-        Boolean val = (Boolean)diagramViewer.getProperty(SnapToGrid.PROPERTY_GRID_VISIBLE);
-        if (val != null)
-            return val.booleanValue();
-        return false;
+        return Preferences.isGridVisible();
     }
 
     @Override
     public void run() {
-        boolean val = !isChecked();
-        diagramViewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, new Boolean(val));
+        Preferences.STORE.setValue(IPreferenceConstants.GRID_VISIBLE, !isChecked());
     }
 }

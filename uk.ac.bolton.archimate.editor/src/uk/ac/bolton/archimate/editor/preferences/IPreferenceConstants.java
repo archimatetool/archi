@@ -18,6 +18,9 @@ public interface IPreferenceConstants {
     String USER_DATA_FOLDER = "userDataFolder"; //$NON-NLS-1$
     
     String GRID_SIZE = "gridSize"; //$NON-NLS-1$
+    String GRID_VISIBLE = "gridVisible"; //$NON-NLS-1$
+    String GRID_SNAP = "gridSnap"; //$NON-NLS-1$
+    String GRID_SHOW_GUIDELINES = "gridShowGuidelines"; //$NON-NLS-1$
     
     String VIEW_TOOLTIPS = "viewTooltips";
     

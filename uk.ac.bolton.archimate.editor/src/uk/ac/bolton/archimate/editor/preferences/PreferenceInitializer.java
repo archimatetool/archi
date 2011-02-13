@@ -25,7 +25,12 @@ implements IPreferenceConstants {
 		IPreferenceStore store = ArchimateEditorPlugin.INSTANCE.getPreferenceStore();
         
 		store.setDefault(USER_DATA_FOLDER, ArchimateEditorPlugin.INSTANCE.getWorkspaceFolder().getPath());
-        store.setDefault(GRID_SIZE, 12);
+        
+		store.setDefault(GRID_SIZE, 12);
+		store.setDefault(GRID_VISIBLE, false);
+		store.setDefault(GRID_SNAP, true);
+		store.setDefault(GRID_SHOW_GUIDELINES, true);
+        
         store.setDefault(VIEW_TOOLTIPS, true);
         
         store.setDefault(ANIMATE, true);

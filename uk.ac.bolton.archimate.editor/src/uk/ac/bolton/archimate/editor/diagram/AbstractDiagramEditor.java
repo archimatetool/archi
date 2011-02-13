@@ -36,7 +36,6 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.MatchHeightAction;
 import org.eclipse.gef.ui.actions.MatchWidthAction;
-import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
@@ -95,6 +94,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ToggleGridEnabledAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ToggleGridVisibleAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.ToggleSnapToAlignmentGuidesAction;
 import uk.ac.bolton.archimate.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
@@ -135,11 +135,22 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     protected List<UpdateAction> fUpdateCommandStackActions = new ArrayList<UpdateAction>();
     
     /**
-     * Listen to Preferences Changes
+     * Listen to User Preferences Changes
      */
     protected IPropertyChangeListener appPreferencesListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
-            appPreferencesChanged(event);
+            if(IPreferenceConstants.GRID_SIZE == event.getProperty()) {
+                applyUserGridPreferences();
+            }
+            else if(IPreferenceConstants.GRID_VISIBLE == event.getProperty()) {
+                applyUserGridPreferences();
+            }
+            else if(IPreferenceConstants.GRID_SNAP == event.getProperty()) {
+                applyUserGridPreferences();
+            }
+            else if(IPreferenceConstants.GRID_SHOW_GUIDELINES == event.getProperty()) {
+                applyUserGridPreferences();
+            }
         }
     };
     
@@ -312,12 +323,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Set Graphical Properties
      */
     protected void setProperties() {
-        // Snap to Geometry property
-        getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, new Boolean(true));
-        // Grid Enabled
-        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, new Boolean(true));
-        // Grid Size
+        // Grid Preferences
         applyUserGridPreferences();
+        
         // Ctrl + Scroll wheel Zooms
         getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
     }
@@ -326,8 +334,18 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Apply grid Prefs
      */
     protected void applyUserGridPreferences() {
+        // Grid Spacing
         int gridSize = Preferences.getGridSize();
         getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_SPACING, new Dimension(gridSize, gridSize));
+        
+        // Grid Visible
+        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, Preferences.isGridVisible());
+        
+        // Grid Enabled
+        getGraphicalViewer().setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Preferences.isGridSnap());
+
+        // Snap to Guidelines
+        getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, Preferences.doShowGuideLines());
     }
 
     /**
@@ -526,15 +544,15 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getSelectionActions().add(action.getId());
         
         // Use Grid Action
-        action = new ToggleGridEnabledAction(viewer);
+        action = new ToggleGridEnabledAction();
         registry.registerAction(action);
         
         // Show Grid Action
-        action = new ToggleGridVisibleAction(viewer);
+        action = new ToggleGridVisibleAction();
         registry.registerAction(action);
         
-        // Snap to Geometry
-        action = new ToggleSnapToGeometryAction(viewer);
+        // Snap to Alignment Guides
+        action = new ToggleSnapToAlignmentGuidesAction();
         registry.registerAction(action);
         
         // Ruler
@@ -724,16 +742,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
     }
     
-    /**
-     * Application Preferences changed
-     * @param event
-     */
-    protected void appPreferencesChanged(PropertyChangeEvent event) {
-        if(IPreferenceConstants.GRID_SIZE == event.getProperty()) {
-            applyUserGridPreferences();
-        }
-    }
-
     @Override
     public void dispose() {
         super.dispose();
