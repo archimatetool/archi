@@ -78,7 +78,7 @@ extends ActionBarContributor {
                 "Grid Visible", IAction.AS_CHECK_BOX));
         
         addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, 
-                "Show Alignment Guides", IAction.AS_CHECK_BOX));
+                "Snap to Alignment Guides", IAction.AS_CHECK_BOX));
         
         //addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY, 
         //        "Ruler", IAction.AS_CHECK_BOX));
