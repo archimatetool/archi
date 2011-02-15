@@ -156,8 +156,7 @@ public class DerivedRelationsUtils {
         }
         
         // Traverse from element1 to element2
-        List<List<IRelationship>> chains = _traverse(element1, element2,
-                                            new ArrayList<IRelationship>(), new ArrayList<List<IRelationship>>());
+        List<List<IRelationship>> chains = findChains(element1, element2);
         
         if(chains.isEmpty()) {
             return null;
@@ -174,28 +173,11 @@ public class DerivedRelationsUtils {
             }
             else {
                 System.err.println("Found invalid chain:");
-                printChain(chain);
+                _printChain(chain, element2);
             }
         }
         
         return result.isEmpty() ? null : result;
-    }
-    
-    /**
-     * @param chain
-     * @return The weakest type of relationship in a chain
-     */
-    public static EClass getWeakestType(List<IRelationship> chain) {
-        int weakest = weaklist.size() - 1;
-        
-        for(IRelationship rel : chain) {
-            int index = weaklist.indexOf(rel.eClass());
-            if(index < weakest) {
-                weakest = index;
-            }
-        }
-        
-        return weaklist.get(weakest);
     }
     
     /**
@@ -214,8 +196,7 @@ public class DerivedRelationsUtils {
         //System.out.println("-----------------------------------");
         
         // Traverse from element1 to element2
-        List<List<IRelationship>> chains = _traverse(element1, element2,
-                                            new ArrayList<IRelationship>(), new ArrayList<List<IRelationship>>());
+        List<List<IRelationship>> chains = findChains(element1, element2);
         
         if(chains.isEmpty()) {
             return null;
@@ -248,8 +229,57 @@ public class DerivedRelationsUtils {
         return (IRelationship)IArchimateFactory.eINSTANCE.create(relationshipClass);
     }
     
-    private static List<List<IRelationship>> _traverse(IArchimateElement element, IArchimateElement finalTarget,
-                                    List<IRelationship> chain, List<List<IRelationship>> chains) {
+    /**
+     * @param chain
+     * @return The weakest type of relationship in a chain of relationships
+     */
+    public static EClass getWeakestType(List<IRelationship> chain) {
+        int weakest = weaklist.size() - 1;
+        
+        for(IRelationship rel : chain) {
+            int index = weaklist.indexOf(rel.eClass());
+            if(index < weakest) {
+                weakest = index;
+            }
+        }
+        
+        return weaklist.get(weakest);
+    }
+    
+   
+    // =================================================================================== 
+    // TRAVERSE PATHS
+    // ===================================================================================
+    
+    private static IArchimateElement finalTarget;
+    private static List<IRelationship> temp_chain;
+    private static List<List<IRelationship>> chains;
+    private static int weakestFound;
+    
+    /**
+     * @param sourceElement
+     * @param targetElement
+     * @return Find all the chains between element and finalTarget
+     */
+    private static List<List<IRelationship>> findChains(IArchimateElement sourceElement, IArchimateElement targetElement) {
+        finalTarget = targetElement;
+        temp_chain = new ArrayList<IRelationship>();
+        chains = new ArrayList<List<IRelationship>>();
+        weakestFound = weaklist.size();
+        
+        _traverse(sourceElement);
+        
+        return chains;
+    }
+    
+    private static void _traverse(IArchimateElement element) {
+        if(chains.size() > 999) {
+            System.out.println("Too many chains");
+            return;
+        }
+        if(weakestFound == 0) {
+            return;
+        }
         
         //System.out.println("TRAVERSING FROM: " + element.getName());
         
@@ -258,26 +288,7 @@ public class DerivedRelationsUtils {
          */
         for(IRelationship rel : ArchimateModelUtils.getSourceRelationships(element)) {
             if(isStructuralRelationship(rel)) {
-                if(chain.contains(rel)) {
-                    //System.out.println("Reached same relationship in source: " + rel.getName());
-                    continue;
-                }
-                
-                IArchimateElement target = rel.getTarget();
-                if(finalTarget == target) {
-                    if(chain.size() > 0) { // Only chains of length 2 or greater
-                        //System.out.println("Reached target from source: " + element.getName());
-                        List<IRelationship> result = new ArrayList<IRelationship>(chain);
-                        result.add(rel);
-                        chains.add(result);
-                    }
-                }
-                else {
-                    //System.out.println("Adding from source: " + rel.getName());
-                    chain.add(rel);
-                    _traverse(target, finalTarget, chain, chains);
-                    chain.remove(rel);
-                }
+                _addRelationshipToTempChain(rel, true);
             }
         }
         
@@ -286,37 +297,109 @@ public class DerivedRelationsUtils {
          */
         for(IRelationship rel : ArchimateModelUtils.getTargetRelationships(element)) {
             if(isBidirectionalRelationship(rel)) {
-                if(chain.contains(rel)) {
-                    //System.out.println("Reached same relationship in bi-direct: " + rel.getName());
-                    continue;
-                }
+                _addRelationshipToTempChain(rel, false);
+            }
+        }
+    }
+
+    private static void _addRelationshipToTempChain(IRelationship relation, boolean forwards) {
+        if(temp_chain.contains(relation)) {
+            //System.out.println("Reached same relationship in chain: " + relation.getName());
+            return;
+        }
+        
+        // If we get the target element we are traversing fowards, otherwise backwards from a bi-directional check
+        IArchimateElement element = forwards ? relation.getTarget() : relation.getSource();
+        
+        // Arrived at target
+        if(finalTarget == element) {
+            if(temp_chain.size() > 0) { // Only chains of length 2 or greater
+                //System.out.println("Reached target from: " + element.getName());
+                List<IRelationship> chain = new ArrayList<IRelationship>(temp_chain); // make a copy because temp_chain will have relation removed, below
+                chain.add(relation);
                 
-                IArchimateElement source = rel.getSource();
-                if(finalTarget == source) {
-                    if(chain.size() > 0) { // Only chains of length 2 or greater
-                        //System.out.println("Reached target from bi-direct: " + element.getName());
-                        List<IRelationship> result = new ArrayList<IRelationship>(chain);
-                        result.add(rel);
-                        chains.add(result);
+                // Duplicate - there must be a loop
+                if(containsChain(chain, chains)) {
+                    System.err.println("Duplicate chain:");
+                    _printChain(chain, finalTarget);
+                }
+
+                EClass weakest = getWeakestType(chain);
+                int index = weaklist.indexOf(weakest);
+                if(index < weakestFound) {
+                    weakestFound = index;
+                }
+
+                chains.add(chain);
+            }
+        }
+        // Move onto next element in chain
+        else {
+            //System.out.println("Adding to temp chain: " + relation.getName());
+            temp_chain.add(relation);
+            _traverse(element);
+            temp_chain.remove(relation); // back up
+        }
+    }
+    
+    
+    /**
+     * Check if chain already exists in list of collected chains
+     */
+    private static boolean containsChain(List<IRelationship> chain, List<List<IRelationship>> chains) {
+        for(List<IRelationship> stored_chain : chains) {
+            if(stored_chain.size() == chain.size()) { // check only on same length
+                boolean result = true; // assume the same
+                for(int i = 0; i < chain.size(); i++) {
+                    if(stored_chain.get(i) != chain.get(i)) { // relation is different so not the same
+                        result = false;
+                        break;
                     }
                 }
-                else {
-                    //System.out.println("Adding from bi-direct: " + rel.getName());
-                    chain.add(rel);
-                    _traverse(source, finalTarget, chain, chains);
-                    chain.remove(rel);
+                if(result) { // was the same
+                    return true;
                 }
             }
         }
         
-        return chains;
+        return false;
     }
-
     
-    private static void printChain(List<IRelationship> chain) {
-        for(IRelationship rel : chain) {
-            System.out.print(rel.getName() + ", ");
+    // =================================================================================== 
+    // DEBUGGING PRINT
+    // =================================================================================== 
+    
+    private static void _printChain(List<IRelationship> chain, IArchimateElement finalTarget) {
+        String s = chain.get(0).getSource().getName();
+        s += " --> ";
+        for(int i = 1; i < chain.size(); i++) {
+            IRelationship relation = chain.get(i);
+            s += _getRelationshipText(chain, relation);
+            if(isBidirectionalRelationship(relation)) {
+                s += " <-> ";
+            }
+            else {
+                s += " --> ";
+            }
         }
-        System.out.println();
+        s += finalTarget.getName();
+        
+        System.out.println(s);
+    }
+    
+    private static String _getRelationshipText(List<IRelationship> chain, IRelationship relation) {
+        if(isBidirectionalRelationship(relation)) {
+            int index = chain.indexOf(relation);
+            if(index > 0) {
+                IRelationship previous = chain.get(index - 1);
+                if(relation.getTarget() == previous.getTarget()) {
+                    return relation.getTarget().getName();
+                }
+            }
+            return relation.getSource().getName();
+        }
+        else {
+            return relation.getSource().getName();
+        }
     }
 }
