@@ -267,15 +267,20 @@ public class DerivedRelationsUtils {
         chains = new ArrayList<List<IRelationship>>();
         weakestFound = weaklist.size();
         
+        // Easy win check
+        if(!_hasTargetElementValidRelations(targetElement)) {
+            return chains;
+        }
+        
         _traverse(sourceElement);
         
         return chains;
     }
     
     private static void _traverse(IArchimateElement element) {
-        if(chains.size() > 999) {
-            System.out.println("Too many chains");
-            return;
+        if(chains.size() > 500) {
+            //System.out.println("Too many chains");
+            //return;
         }
         if(weakestFound == 0) {
             return;
@@ -303,6 +308,7 @@ public class DerivedRelationsUtils {
     }
 
     private static void _addRelationshipToTempChain(IRelationship relation, boolean forwards) {
+        // Reached the same relationship so go back one (this guards against a loop)
         if(temp_chain.contains(relation)) {
             //System.out.println("Reached same relationship in chain: " + relation.getName());
             return;
@@ -318,8 +324,8 @@ public class DerivedRelationsUtils {
                 List<IRelationship> chain = new ArrayList<IRelationship>(temp_chain); // make a copy because temp_chain will have relation removed, below
                 chain.add(relation);
                 
-                // Duplicate - there must be a loop
-                if(containsChain(chain, chains)) {
+                // Duplicate check - there must be a loop?
+                if(_containsChain(chain, chains)) {
                     System.err.println("Duplicate chain:");
                     _printChain(chain, finalTarget);
                 }
@@ -342,11 +348,31 @@ public class DerivedRelationsUtils {
         }
     }
     
+    /*
+     * This is an easy win check. Traversing will soon find if the source Element has no connections but it may take some
+     * time to traverse to eventually find out that the target element had none. If the targte element has no incoming or 
+     * bi-directional relationships then don't bother traversing.
+     */
+    private static boolean _hasTargetElementValidRelations(IArchimateElement targetElement) {
+        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(targetElement)) {
+            if(isBidirectionalRelationship(relation)) {
+                return true;
+            }
+        }
+        
+        for(IRelationship relation : ArchimateModelUtils.getTargetRelationships(targetElement)) {
+            if(isStructuralRelationship(relation)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
     
     /**
      * Check if chain already exists in list of collected chains
      */
-    private static boolean containsChain(List<IRelationship> chain, List<List<IRelationship>> chains) {
+    private static boolean _containsChain(List<IRelationship> chain, List<List<IRelationship>> chains) {
         for(List<IRelationship> stored_chain : chains) {
             if(stored_chain.size() == chain.size()) { // check only on same length
                 boolean result = true; // assume the same

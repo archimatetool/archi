@@ -108,8 +108,8 @@ public class CreateDerivedRelationAction extends SelectionAction {
         ChainList chainList1 = new ChainList(diagramModelObject1, diagramModelObject2);
         ChainList chainList2 = new ChainList(diagramModelObject2, diagramModelObject1);
         
-        // Already has a direct relationship
-        if(chainList1.hasExistingDirectRelationship() || chainList2.hasExistingDirectRelationship()) {
+        // Already has a direct relationship in both directions
+        if(chainList1.hasExistingDirectRelationship() && chainList2.hasExistingDirectRelationship()) {
             MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
                     "Derived Relation",
                     "There is already a direct relation.");
@@ -161,6 +161,11 @@ public class CreateDerivedRelationAction extends SelectionAction {
         }
         
         List<List<IRelationship>> getChains() {
+            // This Chainlist has a direct relationship, but the other one might not
+            if(hasExistingDirectRelationship()) {
+                return null;
+            }
+            
             if(chains == null) {
                 chains = DerivedRelationsUtils.getDerivedRelationshipChains(srcElement, tgtElement);
             }
