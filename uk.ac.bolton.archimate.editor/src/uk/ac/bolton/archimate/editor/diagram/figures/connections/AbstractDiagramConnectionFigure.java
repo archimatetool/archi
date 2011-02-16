@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -17,17 +17,11 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**
@@ -38,11 +32,11 @@ import uk.ac.bolton.archimate.model.IRelationship;
 public abstract class AbstractDiagramConnectionFigure
 extends PolylineConnection implements IDiagramConnectionFigure {
 
-    private Label fConnectionLabel;
+    protected Label fConnectionLabel;
     
-    private int fTextPosition = -1;
+    protected int fTextPosition = -1;
     
-    protected IDiagramModelConnection fDiagramModelConnection;
+    private IDiagramModelConnection fDiagramModelConnection;
 
     protected Color fFontColor;
     protected Color fLineColor;
@@ -54,6 +48,10 @@ extends PolylineConnection implements IDiagramConnectionFigure {
 		
 		// Have to add this if we want Animation to work!
 		AnimationUtil.addConnectionForRoutingAnimation(this);
+	}
+	
+	public IDiagramModelConnection getModelConnection() {
+	    return fDiagramModelConnection;
 	}
 	
 	protected void setFigureProperties() {
@@ -169,36 +167,13 @@ extends PolylineConnection implements IDiagramConnectionFigure {
     /**
      * Highlight this connection
      */
-    public void highlight(boolean val) {
-        if(val) {
-            setForegroundColor(ColorConstants.red);
-            fLineColor = ColorConstants.red;
-            setLineWidth(2);
-        }
-        else {
-            setLineColor();
-            setLineWidth();
-        }
+    public void highlight(boolean set) {
     }
     
+    /**
+     * Set the tooltip
+     */
     protected void setToolTip() {
-        if(fDiagramModelConnection instanceof IDiagramModelArchimateConnection) {
-            if(!Preferences.doShowViewTooltips()) {
-                setToolTip(null); // clear it in case user changed Prefs
-                return;
-            }
-            
-            if(getToolTip() == null) {
-                setToolTip(new ToolTipFigure());
-            }
-            
-            IRelationship relation = ((IDiagramModelArchimateConnection)fDiagramModelConnection).getRelationship();
-            String text = StringUtils.safeString(relation.getName());
-            ((ToolTipFigure)getToolTip()).setText(text);
-            
-            String type = ArchimateNames.getDefaultName(relation.eClass());
-            ((ToolTipFigure)getToolTip()).setType("Type: " + type);
-        }
     }
     
     public void dispose() {

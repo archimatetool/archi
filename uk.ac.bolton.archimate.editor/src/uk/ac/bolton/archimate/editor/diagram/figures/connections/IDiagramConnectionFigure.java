@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -35,10 +35,10 @@ public interface IDiagramConnectionFigure extends Connection {
     Label getConnectionLabel();
     
     /**
-     * Highlight
-     * @param val
+     * Highlight the connection
+     * @param set if true highlight
      */
-    void highlight(boolean val);
+    void highlight(boolean set);
     
     /**
      * Dispose of figure

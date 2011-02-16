@@ -98,7 +98,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateElement"
         resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//Relationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AggregationRelationship" eSuperTypes="#//Relationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="AssignmentRelationship" eSuperTypes="#//Relationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//Relationship"/>

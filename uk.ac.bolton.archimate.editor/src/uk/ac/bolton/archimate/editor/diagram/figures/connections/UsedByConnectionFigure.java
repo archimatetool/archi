@@ -8,7 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.PolylineDecoration;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -16,9 +16,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * 
  * @author Phillip Beauvoir
  */
-public class UsedByConnectionFigure extends AbstractDiagramConnectionFigure {
+public class UsedByConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public UsedByConnectionFigure(IDiagramModelConnection connection) {
+    public UsedByConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

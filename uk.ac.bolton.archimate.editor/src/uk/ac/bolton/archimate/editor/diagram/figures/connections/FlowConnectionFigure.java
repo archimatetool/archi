@@ -9,7 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -17,9 +17,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * 
  * @author Phillip Beauvoir
  */
-public class FlowConnectionFigure extends AbstractDiagramConnectionFigure {
+public class FlowConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public FlowConnectionFigure(IDiagramModelConnection connection) {
+    public FlowConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

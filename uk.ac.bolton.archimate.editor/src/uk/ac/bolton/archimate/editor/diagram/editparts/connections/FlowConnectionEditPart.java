@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.connections;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.FlowConnectionFigure;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
@@ -21,7 +20,7 @@ public class FlowConnectionEditPart extends AbstractArchimateConnectionEditPart 
 	
     @Override
     protected IFigure createFigure() {
-		return new FlowConnectionFigure((IDiagramModelConnection)getModel());
+		return new FlowConnectionFigure(getModel());
 	}
 	
 }

@@ -10,7 +10,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -18,9 +18,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * 
  * @author Phillip Beauvoir
  */
-public class AggregationConnectionFigure extends AbstractDiagramConnectionFigure {
+public class AggregationConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public AggregationConnectionFigure(IDiagramModelConnection connection) {
+    public AggregationConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

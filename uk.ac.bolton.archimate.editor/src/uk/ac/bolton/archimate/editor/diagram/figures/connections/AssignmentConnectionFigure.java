@@ -9,16 +9,16 @@ package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 /**
  * Assignment Connection Figure class
  * 
  * @author Phillip Beauvoir
  */
-public class AssignmentConnectionFigure extends AbstractDiagramConnectionFigure {
+public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public AssignmentConnectionFigure(IDiagramModelConnection connection) {
+    public AssignmentConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

@@ -21,9 +21,10 @@ package uk.ac.bolton.archimate.model;
  * 1.1.1 - Archi version 1.4.0 added sub-folders in the Views folder which are not backwards-compatible
  * 1.2.0 - Archi version 1.5.0 added the Sketch View which is not backwards-compatible, and text alignment attribute
  * 1.2.1 - Archi version 1.6.0 added IInterfaceElement and lineColor to IDiagramModelConnection
+ * 1.2.2 - Archi version 1.7.0 added accessType to IAccessRelationship
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "1.2.1";
+    String VERSION = "1.2.2";
 }
