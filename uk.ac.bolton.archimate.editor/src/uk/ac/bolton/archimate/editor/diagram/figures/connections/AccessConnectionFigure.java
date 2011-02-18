@@ -21,7 +21,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    private PolylineDecoration fDecorator = new PolylineDecoration();
+    private PolylineDecoration fDecoratorSource = new PolylineDecoration();
+    private PolylineDecoration fDecoratorTarget = new PolylineDecoration();
     
 	public AccessConnectionFigure(IDiagramModelArchimateConnection connection) {
 	    super(connection);
@@ -41,21 +42,24 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         IAccessRelationship relation = (IAccessRelationship)getModelConnection().getRelationship();
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:
+            default:
                 setSourceDecoration(null);
-                setTargetDecoration(fDecorator); // arrow at target endpoint
+                setTargetDecoration(fDecoratorTarget); // arrow at target endpoint
                 break;
 
             case IAccessRelationship.READ_ACCESS:
+                setSourceDecoration(fDecoratorSource); // arrow at source endpoint
                 setTargetDecoration(null);
-                setSourceDecoration(fDecorator); // arrow at source endpoint
                 break;
 
             case IAccessRelationship.UNSPECIFIED_ACCESS:
+                setSourceDecoration(null);  // no arrows
                 setTargetDecoration(null);
-                setSourceDecoration(null); // arrow at source endpoint
                 break;
 
-            default:
+            case IAccessRelationship.READ_WRITE_ACCESS:
+                setSourceDecoration(fDecoratorSource); // both arrows
+                setTargetDecoration(fDecoratorTarget);
                 break;
         }
     }
@@ -80,6 +84,10 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
 
             case IAccessRelationship.UNSPECIFIED_ACCESS:
                 type += " (access)";
+                break;
+
+            case IAccessRelationship.READ_WRITE_ACCESS:
+                type += " (read/write)";
                 break;
 
             default:

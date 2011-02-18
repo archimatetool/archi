@@ -54,7 +54,7 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Element Interface event (Undo/Redo and here!)
+            // Element Access type event (Undo/Redo and here!)
             if(feature == IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE) {
                 refresh();
                 fPage.labelProviderChanged(null); // Update Main label
@@ -68,9 +68,18 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     private boolean fIsUpdating;
     
     private static final String[] fComboTypeItems = {
-        "Write",
+        "Access",
         "Read",
-        "Access"
+        "Write",
+        "Read/Write"
+    };
+    
+    // Map original values to combo box positions
+    private static final int[] fTypeValues = {
+        IAccessRelationship.UNSPECIFIED_ACCESS,
+        IAccessRelationship.READ_ACCESS,
+        IAccessRelationship.WRITE_ACCESS,
+        IAccessRelationship.READ_WRITE_ACCESS
     };
     
     @Override
@@ -85,8 +94,9 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
                 if(isAlive()) {
                     if(!fIsUpdating) {
                         getCommandStack().execute(new EObjectFeatureCommand("Access Type",
-                                fAccessRelationship, IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE,
-                                fComboType.getSelectionIndex()));
+                                                fAccessRelationship,
+                                                IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE,
+                                                fTypeValues[fComboType.getSelectionIndex()]));
                     }
                 }
             }
@@ -115,8 +125,14 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     public void refresh() {
         // Populate fields...
         fIsUpdating = true;
+        
         int type = fAccessRelationship.getAccessType();
+        if(type < IAccessRelationship.WRITE_ACCESS || type > IAccessRelationship.READ_WRITE_ACCESS) {
+            type = IAccessRelationship.WRITE_ACCESS;
+        }
+        type = fTypeValues[type]; // map theirs to ours
         fComboType.select(type);
+        
         fIsUpdating = false;
     }
 

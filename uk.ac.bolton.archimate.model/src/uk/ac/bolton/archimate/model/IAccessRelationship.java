@@ -28,10 +28,11 @@ public interface IAccessRelationship extends IRelationship {
     int WRITE_ACCESS = 0; // Default
     int READ_ACCESS = 1;
     int UNSPECIFIED_ACCESS = 2;
+    int READ_WRITE_ACCESS = 3;
 
     /**
      * Returns the value of the '<em><b>Access Type</b></em>' attribute.
-     * The default value is <code>"0"</code>.
+     * The default value is <code>"2"</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Access Type</em>' attribute isn't clear,
@@ -41,7 +42,7 @@ public interface IAccessRelationship extends IRelationship {
      * @return the value of the '<em>Access Type</em>' attribute.
      * @see #setAccessType(int)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getAccessRelationship_AccessType()
-     * @model default="0"
+     * @model default="2"
      * @generated
      */
     int getAccessType();
