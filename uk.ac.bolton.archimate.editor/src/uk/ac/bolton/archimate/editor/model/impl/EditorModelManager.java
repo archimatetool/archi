@@ -339,6 +339,8 @@ implements IEditorModelManager {
         // Set all diagram models to be marked as "saved" - this for the editor view persistence
         markDiagramModelsAsSaved(model);
         
+        firePropertyChange(this, PROPERTY_MODEL_SAVED, null, model);
+        
         return true;
     }
     

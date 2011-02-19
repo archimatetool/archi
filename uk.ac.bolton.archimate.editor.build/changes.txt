@@ -8,6 +8,7 @@ Version 1.7 April XX 2011
 + A View figure's text control can also be edited with a single-click when it is selected
 + The Grid Snap and Alignment settings are now applied globally to all Views and saved
 + The Access Relation type now has properties of "Access", "Read", "Write", and "Read/Write". This changes the connection's arrow head.
++ Added an "Open Recent" files menu and a preference to set the maximum size of recent files list
 + Changed menu item "Show Alignment Guides" to "Snap to Alignment Guides"
 
 

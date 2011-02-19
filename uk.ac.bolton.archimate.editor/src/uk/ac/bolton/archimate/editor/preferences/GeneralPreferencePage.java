@@ -13,10 +13,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 /**
  * General Preferences Page
@@ -30,6 +35,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fOpenDiagramsOnLoadButton;
     private Button fFilterShowEmptyFoldersButton;
+    
+    private Spinner fMRUSizeSpinner;
     
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -56,6 +63,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fOpenDiagramsOnLoadButton.setLayoutData(gd);
         
+        Label label = new Label(fileGroup, SWT.NULL);
+        label.setText("Size of recently opened file list:");
+        
+        fMRUSizeSpinner = new Spinner(fileGroup, SWT.BORDER);
+        fMRUSizeSpinner.setMinimum(3);
+        fMRUSizeSpinner.setMaximum(15);
+        
         Group treeGroup = new Group(client, SWT.NULL);
         treeGroup.setText("Model Tree");
         treeGroup.setLayout(new GridLayout(2, false));
@@ -73,14 +87,31 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
 
     private void setValues() {
+        // Bug on Mac OS X Carbon - field is initially empty unless we thread this
+        if(PlatformUtils.isMacCarbon()) {
+            Display.getCurrent().asyncExec(new Runnable() {
+                public void run() {
+                    setSpinnerValues();
+                }
+            });
+        }
+        else {
+            setSpinnerValues();
+        }
+
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fFilterShowEmptyFoldersButton.setSelection(getPreferenceStore().getBoolean(FILTER_SHOW_EMPTY_FOLDERS));
+    }
+    
+    private void setSpinnerValues() {
+        fMRUSizeSpinner.setSelection(getPreferenceStore().getInt(MRU_MAX));
     }
     
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(FILTER_SHOW_EMPTY_FOLDERS, fFilterShowEmptyFoldersButton.getSelection());
+        getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         return true;
     }
     
@@ -88,6 +119,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected void performDefaults() {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fFilterShowEmptyFoldersButton.setSelection(getPreferenceStore().getDefaultBoolean(FILTER_SHOW_EMPTY_FOLDERS));
+        fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         super.performDefaults();
     }
 

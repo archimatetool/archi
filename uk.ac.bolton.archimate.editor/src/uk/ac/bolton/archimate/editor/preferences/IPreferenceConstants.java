@@ -17,6 +17,8 @@ package uk.ac.bolton.archimate.editor.preferences;
 public interface IPreferenceConstants {
     String USER_DATA_FOLDER = "userDataFolder"; //$NON-NLS-1$
     
+    String MRU_MAX = "mruMax"; //$NON-NLS-1$
+    
     String GRID_SIZE = "gridSize"; //$NON-NLS-1$
     String GRID_VISIBLE = "gridVisible"; //$NON-NLS-1$
     String GRID_SNAP = "gridSnap"; //$NON-NLS-1$

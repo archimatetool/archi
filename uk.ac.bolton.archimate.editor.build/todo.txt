@@ -1,6 +1,5 @@
 Priority 1
 ----------
-MRU File list
 More alternate figures (e.g Interface Circles)
 Profiles and Property key/value pairs
 
