@@ -261,6 +261,7 @@ extends ActionBarAdvisor {
         MenuManager menu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
         menu.add(new GroupMarker(IWorkbenchActionConstants.FILE_START));
 
+        // New
         MenuManager newMenu = new MenuManager("&New", "new_menu");
         menu.add(newMenu);
         newMenu.add(fActionNewArchimateModel);
@@ -268,6 +269,11 @@ extends ActionBarAdvisor {
         menu.add(new GroupMarker(IWorkbenchActionConstants.NEW_EXT));
         
         menu.add(fActionOpenModel);
+        
+        // Open Recent
+        MenuManager openRecentMenu = new MRUMenuManager(window);
+        menu.add(openRecentMenu);
+        
         menu.add(new Separator());
         
         menu.add(fActionOpenDiagram);

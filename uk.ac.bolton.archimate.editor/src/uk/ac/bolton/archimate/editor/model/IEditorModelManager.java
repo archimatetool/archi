@@ -28,6 +28,8 @@ public interface IEditorModelManager {
     String PROPERTY_MODEL_CREATED = "IEditorModelManager.model.created";
     String PROPERTY_MODEL_ADDED = "IEditorModelManager.model.added";
     String PROPERTY_MODEL_REMOVED = "IEditorModelManager.model.removed";
+    String PROPERTY_MODEL_SAVED = "IEditorModelManager.model.saved";
+    
     String COMMAND_STACK_CHANGED = "IEditorModelManager.model.dirty";
 
     String PROPERTY_ECORE_EVENT = "IEditorModelManager.ecore.event";
