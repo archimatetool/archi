@@ -89,7 +89,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//Relationship/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//Relationship/target"/>
     </genClasses>
-    <genClasses ecoreClass="archimate.ecore#//AccessRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//AccessRelationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AccessRelationship/accessType"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//AggregationRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//AssignmentRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//AssociationRelationship"/>

@@ -184,6 +184,12 @@
                tab="main.tab">
          </propertySection>
          <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.AccessRelationshipSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.AccessRelationshipSection$Filter"
+               id="accessRelationshipSection"
+               tab="main.tab">
+         </propertySection>
+         <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.InterfaceElementSection"
                filter="uk.ac.bolton.archimate.editor.propertysections.InterfaceElementSection$Filter"
                id="interfaceElementSection"

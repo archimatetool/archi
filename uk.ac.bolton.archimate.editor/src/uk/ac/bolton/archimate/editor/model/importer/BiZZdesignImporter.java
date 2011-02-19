@@ -32,6 +32,7 @@ import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.FolderType;
+import uk.ac.bolton.archimate.model.IAccessRelationship;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -279,6 +280,7 @@ public class BiZZdesignImporter implements IModelImporter {
                 for(String partialName : fRelationTypeMap.keySet()) {
                     String fullName = partialName + "Relation";
                     String elementName = eElement.getName();
+                    
                     if(elementName.equals(fullName) || elementName.endsWith(partialName)) {
                         String id = eElement.getAttributeValue(att_id);
                         String from = eElement.getAttributeValue(att_from);
@@ -286,11 +288,13 @@ public class BiZZdesignImporter implements IModelImporter {
                         if(StringUtils.isSet(id)) {
                             EObject fromObject = fElements.get(from);
                             EObject toObject = fElements.get(to);
+                            
                             // We don't currently support recursive relations
                             if(fromObject == toObject) {
                                 System.out.println("Found recursive relationship: " + partialName + " in " + fromObject);
                                 continue;
                             }
+                            
                             if(fromObject instanceof IArchimateElement && toObject instanceof IArchimateElement) {
                                 IRelationship relation = (IRelationship)IArchimateFactory.eINSTANCE.create(fRelationTypeMap.get(partialName));
                                 relation.setId(id);
@@ -306,6 +310,17 @@ public class BiZZdesignImporter implements IModelImporter {
                                     setDocumentation(relation, eElement);
                                     // Map
                                     fRelations.put(id, relation);
+                                }
+                                
+                                // Check for access type in Access relationship ("r" = read, nothing = write)
+                                if(relation instanceof IAccessRelationship) {
+                                    Element node = (Element)XPath.selectSingleNode(eElement, MM_ProfileValues + "/" + MM_Value + "[@name='accessType'][@type='AccessRelationType']");
+                                    if(node != null) {
+                                        String type = node.getValue();
+                                        if("r".equals(type)) {
+                                            ((IAccessRelationship)relation).setAccessType(IAccessRelationship.READ_ACCESS);
+                                        }
+                                    }
                                 }
                             }
                         }

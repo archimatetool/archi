@@ -1008,13 +1008,22 @@ public interface IArchimatePackage extends EPackage {
     int ACCESS_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
 
     /**
+     * The feature id for the '<em><b>Access Type</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACCESS_RELATIONSHIP__ACCESS_TYPE = RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the '<em>Access Relationship</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int ACCESS_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.AggregationRelationship <em>Aggregation Relationship</em>}' class.
@@ -5922,6 +5931,17 @@ public interface IArchimatePackage extends EPackage {
     EClass getAccessRelationship();
 
     /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IAccessRelationship#getAccessType <em>Access Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Access Type</em>'.
+     * @see uk.ac.bolton.archimate.model.IAccessRelationship#getAccessType()
+     * @see #getAccessRelationship()
+     * @generated
+     */
+    EAttribute getAccessRelationship_AccessType();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IAggregationRelationship <em>Aggregation Relationship</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7209,6 +7229,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass ACCESS_RELATIONSHIP = eINSTANCE.getAccessRelationship();
+
+        /**
+         * The meta object literal for the '<em><b>Access Type</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute ACCESS_RELATIONSHIP__ACCESS_TYPE = eINSTANCE.getAccessRelationship_AccessType();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.AggregationRelationship <em>Aggregation Relationship</em>}' class.

@@ -9,7 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -17,9 +17,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * 
  * @author Phillip Beauvoir
  */
-public class SpecialisationConnectionFigure extends AbstractDiagramConnectionFigure {
+public class SpecialisationConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public SpecialisationConnectionFigure(IDiagramModelConnection connection) {
+    public SpecialisationConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

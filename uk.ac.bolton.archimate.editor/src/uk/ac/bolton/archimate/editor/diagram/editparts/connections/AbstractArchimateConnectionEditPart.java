@@ -64,15 +64,20 @@ implements IArchimateConnectionEditPart {
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
+    
+    @Override
+    public IDiagramModelArchimateConnection getModel() {
+        return (IDiagramModelArchimateConnection)super.getModel();
+    }
 
     @Override
     public void activate() {
 		if(!isActive()) {
 			super.activate();
 			// Store this
-            fArchimateModel = ((IDiagramModelArchimateConnection)getModel()).getDiagramModel().getArchimateModel();
+            fArchimateModel = getModel().getDiagramModel().getArchimateModel();
 			// Listen to Archimate Relationship changes
-			((IDiagramModelArchimateConnection)getModel()).getRelationship().eAdapters().add(fConnectionAdapter);
+			getModel().getRelationship().eAdapters().add(fConnectionAdapter);
 			// Register to listen to overall model changes that affect the structural relationship chains
 			if(isShowStructural()) {
 	            fArchimateModel.eAdapters().add(fModelAdapter);
@@ -86,7 +91,7 @@ implements IArchimateConnectionEditPart {
     public void deactivate() {
         if(isActive()) {
             super.deactivate();
-            ((IDiagramModelArchimateConnection)getModel()).getRelationship().eAdapters().remove(fConnectionAdapter);
+            getModel().getRelationship().eAdapters().remove(fConnectionAdapter);
             fArchimateModel.eAdapters().remove(fModelAdapter);
             getViewer().removePropertyChangeListener(propertyListener);
         }
@@ -119,7 +124,7 @@ implements IArchimateConnectionEditPart {
     }
     
     protected void showStructural() {
-        IRelationship relation = ((IDiagramModelArchimateConnection)getModel()).getRelationship();
+        IRelationship relation = getModel().getRelationship();
         boolean doHighlight = DerivedRelationsUtils.isInDerivedChain(relation);
         ((IDiagramConnectionFigure)getFigure()).highlight(doHighlight);
     }
@@ -135,7 +140,7 @@ implements IArchimateConnectionEditPart {
             return getModel();
         }
         if(adapter == IArchimateElement.class) {
-            return ((IDiagramModelArchimateConnection)getModel()).getRelationship();
+            return getModel().getRelationship();
         }
         return super.getAdapter(adapter);
     }

@@ -1740,6 +1740,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getAccessRelationship_AccessType() {
+        return (EAttribute)accessRelationshipEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getAggregationRelationship() {
         return aggregationRelationshipEClass;
     }
@@ -1952,6 +1961,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(relationshipEClass, RELATIONSHIP__TARGET);
 
         accessRelationshipEClass = createEClass(ACCESS_RELATIONSHIP);
+        createEAttribute(accessRelationshipEClass, ACCESS_RELATIONSHIP__ACCESS_TYPE);
 
         aggregationRelationshipEClass = createEClass(AGGREGATION_RELATIONSHIP);
 
@@ -2311,6 +2321,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEReference(getRelationship_Target(), this.getArchimateElement(), null, "target", null, 0, 1, IRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(accessRelationshipEClass, IAccessRelationship.class, "AccessRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getAccessRelationship_AccessType(), ecorePackage.getEInt(), "accessType", "0", 0, 1, IAccessRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(aggregationRelationshipEClass, IAggregationRelationship.class, "AggregationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

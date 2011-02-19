@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.connections;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.SpecialisationConnectionFigure;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
@@ -21,7 +20,7 @@ public class SpecialisationConnectionEditPart extends AbstractArchimateConnectio
 	
     @Override
     protected IFigure createFigure() {
-		return new SpecialisationConnectionFigure((IDiagramModelConnection)getModel());
+		return new SpecialisationConnectionFigure(getModel());
 	}
 	
 }

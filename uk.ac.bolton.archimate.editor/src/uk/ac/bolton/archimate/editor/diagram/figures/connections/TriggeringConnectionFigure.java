@@ -8,16 +8,16 @@ package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.PolygonDecoration;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 /**
  * Triggering Connection Figure class
  * 
  * @author Phillip Beauvoir
  */
-public class TriggeringConnectionFigure extends AbstractDiagramConnectionFigure {
+public class TriggeringConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public TriggeringConnectionFigure(IDiagramModelConnection connection) {
+    public TriggeringConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

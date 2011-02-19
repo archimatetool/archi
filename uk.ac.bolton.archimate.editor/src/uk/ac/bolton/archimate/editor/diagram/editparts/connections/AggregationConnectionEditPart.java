@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.connections;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.AggregationConnectionFigure;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
@@ -21,7 +20,7 @@ public class AggregationConnectionEditPart extends AbstractArchimateConnectionEd
 	
     @Override
     protected IFigure createFigure() {
-		return new AggregationConnectionFigure((IDiagramModelConnection)getModel());
+		return new AggregationConnectionFigure(getModel());
 	}
 	
 }
