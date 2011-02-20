@@ -41,6 +41,8 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IP
     private Canvas overview;
     private ScrollableThumbnail thumbnail;
     private LightweightSystem lws;
+    
+    private ScalableFreeformRootEditPart fCurrentEditPart;
 
     public static String HELP_ID = "uk.ac.bolton.archimate.help.outlineViewHelp"; //$NON-NLS-1$
     
@@ -100,40 +102,36 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IP
     }
 
     /**
-     * Set the EditPart to diplay an overview of
+     * Set the EditPart to display an overview of
      * @param editPart
      */
-    public void setEditPart(EditPart editPart) {
-        // Hide the thumbnail if Edit part is null or not a ScalableFreeformRootEditPart
+    private void setEditPart(EditPart editPart) {
+        if(thumbnail != null) {
+            thumbnail.deactivate();
+            thumbnail = null;
+        }
+        
+        // If Edit part is null or not a ScalableFreeformRootEditPart
         if(editPart == null || !(editPart instanceof ScalableFreeformRootEditPart)) {
-            if(thumbnail != null) {
-                thumbnail.setVisible(false);
-            }
             return;
         }
         
-        ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart)editPart;
+        fCurrentEditPart = (ScalableFreeformRootEditPart)editPart;
         
-        // Have to create this here
-        if(thumbnail == null) {
-            thumbnail = new ScrollableThumbnail();
-            thumbnail.setBorder(new MarginBorder(3));
-            lws.setContents(thumbnail);
-        }
-        
-        thumbnail.setVisible(true);
-        thumbnail.setViewport((Viewport)rootEditPart.getFigure());
-        thumbnail.setSource(rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
-        
-        // Force an update
-        rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS).repaint();
+        // New Thumbnail
+        thumbnail = new ScrollableThumbnail((Viewport)fCurrentEditPart.getFigure());
+        thumbnail.setSource(fCurrentEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
+        thumbnail.setBorder(new MarginBorder(3));
+        lws.setContents(thumbnail);
     }
 
     @Override
     public void partActivated(IWorkbenchPart part) {
         if(part instanceof IEditorPart) {
             EditPart editPart = (EditPart)part.getAdapter(EditPart.class);
-            setEditPart(editPart);
+            if(editPart != fCurrentEditPart) {
+                setEditPart(editPart);
+            }
         }
     }
 
@@ -143,6 +141,12 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IP
 
     @Override
     public void partClosed(IWorkbenchPart part) {
+        if(part instanceof IEditorPart) {
+            EditPart editPart = (EditPart)part.getAdapter(EditPart.class);
+            if(editPart == fCurrentEditPart) {
+                setEditPart(null);
+            }
+        }
     }
 
     @Override

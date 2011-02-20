@@ -11,6 +11,7 @@ Version 1.7 April XX 2011
 + Added an "Open Recent" files menu and a preference to set the maximum size of recent files list
 + Changed menu item "Show Alignment Guides" to "Snap to Alignment Guides"
 * Fixed Magic Connector not switching mode on Mac when pressing Command Key
+* Fixed a bug where the Outline View might not clear when the View's model was closed
 
 
 
