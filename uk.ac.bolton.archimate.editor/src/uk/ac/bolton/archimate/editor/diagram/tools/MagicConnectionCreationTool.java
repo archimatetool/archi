@@ -149,8 +149,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
         
         boolean elementsFirst = Preferences.isMagicConnectorPolarity();
-        boolean ctrlKeyPressed = getCurrentInput().isControlKeyDown();
-        elementsFirst ^= ctrlKeyPressed;
+        boolean modKeyPressed = getCurrentInput().isModKeyDown(SWT.MOD1);
+        elementsFirst ^= modKeyPressed;
         
         Menu menu = new Menu(getCurrentViewer().getControl());
         if(elementsFirst) {
