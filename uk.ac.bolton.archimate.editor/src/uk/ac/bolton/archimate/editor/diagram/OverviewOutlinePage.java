@@ -23,9 +23,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -34,51 +31,53 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * This is a sample implementation of an outline page showing an overview of a graphical editor.
  * It's based on the one by Gunnar Wagenknecht.
  * 
+ * It only works for Editors that provide a ScalableFreeformRootEditPart as their Root Edit Part
+ * 
  * @author Phillip Beauvoir
  */
-public class OverviewOutlinePage extends Page implements IContentOutlinePage, IPartListener, IContextProvider {
+public class OverviewOutlinePage extends Page implements IContentOutlinePage, IContextProvider {
 
-    private Canvas overview;
-    private ScrollableThumbnail thumbnail;
-    private LightweightSystem lws;
-    
-    private ScalableFreeformRootEditPart fCurrentEditPart;
+    private Canvas fCanvas;
+    private ScrollableThumbnail fThumbnail;
+    private ScalableFreeformRootEditPart fEditPart;
 
     public static String HELP_ID = "uk.ac.bolton.archimate.help.outlineViewHelp"; //$NON-NLS-1$
     
     /**
      * Creates a new OverviewOutlinePage instance.
+     * @param abstractDiagramEditor 
      */
-    public OverviewOutlinePage() {
+    public OverviewOutlinePage(IDiagramModelEditor editor) {
+        fEditPart = (ScalableFreeformRootEditPart)editor.getAdapter(EditPart.class);
     }
     
     @Override
     public void createControl(Composite parent) {
         // create canvas and lws
-        overview = new Canvas(parent, SWT.NONE);
-        lws = new LightweightSystem(overview);
+        fCanvas = new Canvas(parent, SWT.NONE);
+        LightweightSystem lws = new LightweightSystem(fCanvas);
         
-        getSite().getPage().addPartListener(this);
+        fThumbnail = new ScrollableThumbnail((Viewport)fEditPart.getFigure());
+        fThumbnail.setSource(fEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
+        fThumbnail.setBorder(new MarginBorder(3));
+        lws.setContents(fThumbnail);
         
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(overview, HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(fCanvas, HELP_ID);
     }
 
     @Override
     public void dispose() {
-        if(thumbnail != null) {
-            thumbnail.deactivate();
-            thumbnail = null;
+        if(fThumbnail != null) {
+            fThumbnail.deactivate();
+            fThumbnail = null;
         }
-        
-        getSite().getPage().removePartListener(this);
-
         super.dispose();
     }
-
+    
     @Override
     public Control getControl() {
-        return overview;
+        return fCanvas;
     }
 
     public ISelection getSelection() {
@@ -99,62 +98,6 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IP
         if(getControl() != null) {
             getControl().setFocus();
         }
-    }
-
-    /**
-     * Set the EditPart to display an overview of
-     * @param editPart
-     */
-    private void setEditPart(EditPart editPart) {
-        if(thumbnail != null) {
-            thumbnail.deactivate();
-            thumbnail = null;
-        }
-        
-        // If Edit part is null or not a ScalableFreeformRootEditPart
-        if(editPart == null || !(editPart instanceof ScalableFreeformRootEditPart)) {
-            return;
-        }
-        
-        fCurrentEditPart = (ScalableFreeformRootEditPart)editPart;
-        
-        // New Thumbnail
-        thumbnail = new ScrollableThumbnail((Viewport)fCurrentEditPart.getFigure());
-        thumbnail.setSource(fCurrentEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
-        thumbnail.setBorder(new MarginBorder(3));
-        lws.setContents(thumbnail);
-    }
-
-    @Override
-    public void partActivated(IWorkbenchPart part) {
-        if(part instanceof IEditorPart) {
-            EditPart editPart = (EditPart)part.getAdapter(EditPart.class);
-            if(editPart != fCurrentEditPart) {
-                setEditPart(editPart);
-            }
-        }
-    }
-
-    @Override
-    public void partBroughtToTop(IWorkbenchPart part) {
-    }
-
-    @Override
-    public void partClosed(IWorkbenchPart part) {
-        if(part instanceof IEditorPart) {
-            EditPart editPart = (EditPart)part.getAdapter(EditPart.class);
-            if(editPart == fCurrentEditPart) {
-                setEditPart(null);
-            }
-        }
-    }
-
-    @Override
-    public void partDeactivated(IWorkbenchPart part) {
-    }
-
-    @Override
-    public void partOpened(IWorkbenchPart part) {
     }
 
     // =================================================================================

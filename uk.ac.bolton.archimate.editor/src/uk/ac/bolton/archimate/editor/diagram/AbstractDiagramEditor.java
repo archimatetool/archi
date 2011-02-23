@@ -699,7 +699,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
          * Return the singleton Outline Page
          */
         if(adapter == IContentOutlinePage.class) {
-            return new OverviewOutlinePage();
+            return new OverviewOutlinePage(this);
         }
         
         /*
