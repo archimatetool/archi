@@ -33,6 +33,10 @@ import uk.ac.bolton.archimate.model.IUsedByRelationship;
  */
 public class DerivedRelationsUtils {
     
+    public static class TooComplicatedException extends Exception {
+
+    }
+    
     static List<EClass> weaklist = new ArrayList<EClass>();
     
     static {
@@ -149,8 +153,9 @@ public class DerivedRelationsUtils {
      * @param element1
      * @param element2
      * @return The list of chains
+     * @throws TooComplicatedException 
      */
-    public static List<List<IRelationship>> getDerivedRelationshipChains(IArchimateElement element1, IArchimateElement element2) {
+    public static List<List<IRelationship>> getDerivedRelationshipChains(IArchimateElement element1, IArchimateElement element2) throws TooComplicatedException {
         if(element1 == null || element2 == null) {
             return null;
         }
@@ -185,8 +190,9 @@ public class DerivedRelationsUtils {
      * @param element1
      * @param element2
      * @return the derived relationship or null
+     * @throws TooComplicatedException 
      */
-    public static IRelationship createDerivedRelationship(IArchimateElement element1, IArchimateElement element2) {
+    public static IRelationship createDerivedRelationship(IArchimateElement element1, IArchimateElement element2) throws TooComplicatedException {
         if(element1 == null || element2 == null) {
             return null;
         }
@@ -251,21 +257,27 @@ public class DerivedRelationsUtils {
     // TRAVERSE PATHS
     // ===================================================================================
     
+    // Too complicated
+    private static final int ITERATION_LIMIT = 20000;
+    
     private static IArchimateElement finalTarget;
     private static List<IRelationship> temp_chain;
     private static List<List<IRelationship>> chains;
     private static int weakestFound;
+    private static int iterations;
     
     /**
      * @param sourceElement
      * @param targetElement
      * @return Find all the chains between element and finalTarget
+     * @throws TooComplicatedException 
      */
-    private static List<List<IRelationship>> findChains(IArchimateElement sourceElement, IArchimateElement targetElement) {
+    private static List<List<IRelationship>> findChains(IArchimateElement sourceElement, IArchimateElement targetElement) throws TooComplicatedException {
         finalTarget = targetElement;
         temp_chain = new ArrayList<IRelationship>();
         chains = new ArrayList<List<IRelationship>>();
         weakestFound = weaklist.size();
+        iterations = 0;
         
         // Easy win check
         if(!_hasTargetElementValidRelations(targetElement)) {
@@ -277,13 +289,15 @@ public class DerivedRelationsUtils {
         return chains;
     }
     
-    private static void _traverse(IArchimateElement element) {
-        if(chains.size() > 500) {
-            //System.out.println("Too many chains");
-            //return;
-        }
+    private static void _traverse(IArchimateElement element) throws TooComplicatedException {
+        // We found the lowest weakest so no point going on
         if(weakestFound == 0) {
             return;
+        }
+        
+        // Too deep
+        if(++iterations > ITERATION_LIMIT) {
+            throw new TooComplicatedException();
         }
         
         //System.out.println("TRAVERSING FROM: " + element.getName());
@@ -307,7 +321,7 @@ public class DerivedRelationsUtils {
         }
     }
 
-    private static void _addRelationshipToTempChain(IRelationship relation, boolean forwards) {
+    private static void _addRelationshipToTempChain(IRelationship relation, boolean forwards) throws TooComplicatedException {
         // Reached the same relationship so go back one (this guards against a loop)
         if(temp_chain.contains(relation)) {
             //System.out.println("Reached same relationship in chain: " + relation.getName());

@@ -33,12 +33,13 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -55,6 +56,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils;
+import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils.TooComplicatedException;
 
 
 /**
@@ -116,11 +118,26 @@ public class CreateDerivedRelationAction extends SelectionAction {
             return;
         }
         
-        // None found
-        if(chainList1.getChains() == null && chainList2.getChains() == null) {
+        // Both chains are too complicated
+        if(chainList1.isTooComplicated && chainList2.isTooComplicated) {
             MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
                     "Derived Relation",
-                    "No derived relation found.");
+                    "There are too many possibilities to compute.");
+            return;
+        }
+        
+        // No chains found, although perhaps one was too complicated...
+        if(chainList1.getChains() == null && chainList2.getChains() == null) {
+            if(chainList1.isTooComplicated || chainList2.isTooComplicated) {
+                MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
+                        "Derived Relation",
+                        "No derived relation found or too complicated to compute.");
+            }
+            else {
+                MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
+                        "Derived Relation",
+                        "No derived relation found.");
+            }
             return;
         }
         
@@ -139,6 +156,8 @@ public class CreateDerivedRelationAction extends SelectionAction {
         }
     }
     
+    // ================================ Helper Classes =====================================
+    
     /**
      * Convenience class to group things together
      */
@@ -148,27 +167,37 @@ public class CreateDerivedRelationAction extends SelectionAction {
         IArchimateElement srcElement;
         IArchimateElement tgtElement;
         List<List<IRelationship>> chains;
+        boolean isTooComplicated;
         
         ChainList(IDiagramModelArchimateObject srcDiagramObject, IDiagramModelArchimateObject tgtDiagramObject) {
             this.srcDiagramObject = srcDiagramObject;
             this.tgtDiagramObject = tgtDiagramObject;
             srcElement = srcDiagramObject.getArchimateElement();
             tgtElement = tgtDiagramObject.getArchimateElement();
+            
+            if(!hasExistingDirectRelationship()) {
+                findChains();
+            }
         }
         
         boolean hasExistingDirectRelationship() {
             return DerivedRelationsUtils.hasDirectStructuralRelationship(srcElement, tgtElement);
         }
         
+        private void findChains() {
+            try {
+                chains = DerivedRelationsUtils.getDerivedRelationshipChains(srcElement, tgtElement);
+            }
+            catch(TooComplicatedException ex) {
+                isTooComplicated = true;
+            }
+        }
+        
         List<List<IRelationship>> getChains() {
-            // This Chainlist has a direct relationship, but the other one might not
             if(hasExistingDirectRelationship()) {
                 return null;
             }
             
-            if(chains == null) {
-                chains = DerivedRelationsUtils.getDerivedRelationshipChains(srcElement, tgtElement);
-            }
             return chains;
         }
     }
@@ -214,29 +243,47 @@ public class CreateDerivedRelationAction extends SelectionAction {
             if(chainList1.getChains() != null) {
                 createTable(composite, chainList1);
             }
+            else if(chainList1.isTooComplicated) {
+                createTooComplicatedMessage(composite, chainList1);
+            }
+            
             if(chainList2.getChains() != null) {
                 createTable(composite, chainList2);
+            }
+            else if(chainList2.isTooComplicated) {
+                createTooComplicatedMessage(composite, chainList2);
             }
             
             return composite;
         }
         
         private void createTable(Composite parent, ChainList chainList) {
-            Label rubric = new Label(parent, SWT.NULL);
-            rubric.setText("From '" + chainList.srcElement.getName() + "' to '" + chainList.tgtElement.getName() + "':");
-            rubric.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            createLabel(parent, chainList);
             
             Composite c = new Composite(parent, SWT.NULL);
             c.setLayout(new TableColumnLayout());
-            c.setLayoutData(new GridData(GridData.FILL_BOTH));
-            DerivedConnectionsTableViewer viewer = new DerivedConnectionsTableViewer(c);
             GridData gd = new GridData(GridData.FILL_BOTH);
             gd.heightHint = 200;
-            viewer.getControl().setLayoutData(gd);
+            c.setLayoutData(gd);
+
+            DerivedConnectionsTableViewer viewer = new DerivedConnectionsTableViewer(c);
             
             viewer.setInput(chainList);
             viewer.addSelectionChangedListener(this);
             viewer.addDoubleClickListener(this);
+        }
+        
+        private void createTooComplicatedMessage(Composite parent, ChainList chainList) {
+            CLabel label = createLabel(parent, chainList);
+            label.setText(label.getText() + "  Too many possibilities to compute!");
+            label.setImage(Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION));
+        }
+        
+        private CLabel createLabel(Composite parent, ChainList chainList) {
+            CLabel label = new CLabel(parent, SWT.NULL);
+            label.setText("From '" + chainList.srcElement.getName() + "' to '" + chainList.tgtElement.getName() + "':");
+            label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            return label;
         }
         
         @Override
