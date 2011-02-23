@@ -151,9 +151,9 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         
         try {
             String pathPart = file.getParent();
-            final int maxLength = 41;
+            final int maxLength = 38;
             if(pathPart.length() > maxLength) {
-                pathPart = pathPart.substring(0, maxLength);
+                pathPart = pathPart.substring(0, maxLength - 3);
                 pathPart += "..." + File.separator;
                 path = pathPart += file.getName();
             }
