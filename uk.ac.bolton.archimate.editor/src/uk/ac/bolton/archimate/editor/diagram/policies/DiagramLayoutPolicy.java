@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
@@ -115,11 +116,11 @@ extends XYLayoutEditPolicy {
     
     @Override
     protected Command getCreateCommand(CreateRequest request) {
-        // Create new Object
-        Rectangle bounds = (Rectangle)getConstraintFor(request);
+        Rectangle bounds = getConstraintFor(request);
         
         if(request.getNewObjectType() instanceof EClass) {
             EClass eClass = (EClass)request.getNewObjectType();
+            
             // Archimate type object
             if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
                 return new CreateDiagramArchimateObjectCommand((IDiagramModelContainer)getHost().getModel(), request, bounds);
@@ -131,6 +132,34 @@ extends XYLayoutEditPolicy {
         }
         
         return null;
+    }
+    
+    /*
+     * Over-ride this to get any extra constraints for an object
+     */
+    @Override
+    protected Rectangle getConstraintFor(CreateRequest request) {
+        Rectangle bounds = (Rectangle)super.getConstraintFor(request);
+        
+        if(request.getNewObjectType() instanceof EClass) {
+            Dimension d = getMaximumSizeFor((EClass)request.getNewObjectType());
+            bounds.width = Math.min(d.width, bounds.width);
+            bounds.height = Math.min(d.height, bounds.height);
+        }
+        
+        return bounds;
+    }
+    
+    /**
+     * @param eClass
+     * @return The Maximum size constraint for an object
+     */
+    protected Dimension getMaximumSizeFor(EClass eClass) {
+        // Junctions should not be bigger than default size
+        if(IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf(eClass)) {
+            return new Dimension(-1, -1);
+        }
+        return IFigure.MAX_DIMENSION;
     }
     
     @Override
