@@ -12,6 +12,8 @@ Version 1.7 April XX 2011
 + Changed menu item "Show Alignment Guides" to "Snap to Alignment Guides"
 * Fixed Magic Connector not switching mode on Mac when pressing Command Key
 * Fixed a bug where the Outline View might not clear when the View's model was closed
+* Derived relations will not be calculated if there are too many potential paths
+* The drag outline figure when dragging and creating from the palette on Mac OS X Cocoa is no longer black
 
 
 

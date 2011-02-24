@@ -8,9 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.util;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
@@ -30,11 +28,9 @@ public final class FigureUtils {
     /**
      * TODO Remove this when GEF 3.7 and Eclipse 3.7 are released as it's not needed
      * Create a drag feedback figure suitable for Mac OS X Cocoa.
-     * The default one for Carbon shows as a black figure because Cocoa doesn't use XOR mode.
-     * @param bounds
-     * @return
+     * The one for Cocoa shows as a black figure because Cocoa doesn't use XOR mode.
      */
-    public static IFigure createMacCocoaDragSourceFeedbackFigure(Rectangle bounds) {
+    public static RectangleFigure createMacCocoaDragSourceFeedbackFigure() {
         RectangleFigure figure = new RectangleFigure() {
             @Override
             public void fillShape(Graphics graphics) {
@@ -45,13 +41,11 @@ public final class FigureUtils {
             
             @Override
             protected void outlineShape(Graphics graphics) {
-                graphics.setAlpha(120);
+                graphics.setAlpha(200);
                 graphics.setForegroundColor(ColorConstants.black);
                 super.outlineShape(graphics);
             }
         };
-        
-        figure.setBounds(bounds);
         
         return figure;
     }
