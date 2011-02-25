@@ -129,9 +129,9 @@ public class TreeModelViewer extends TreeViewer {
      * @param element the element to be edited
      */
     public void editElement(Object element) {
-        Widget item = findItem(element);
-        if(item instanceof TreeItem) {
-            fCellEditor.editItem((TreeItem)item);
+        TreeItem item = findTreeItem(element);
+        if(item != null) {
+            fCellEditor.editItem(item);
         }
     }
     
@@ -149,6 +149,16 @@ public class TreeModelViewer extends TreeViewer {
             fCellEditor.cancelEditing();
         }
         super.refresh(element, updateLabels);
+    }
+    
+    /**
+     * Finds the widget which represents the given element.
+     * @param element the element
+     * @return the TreeItem or null
+     */
+    public TreeItem findTreeItem(Object element) {
+        Widget item = findItem(element);
+        return (TreeItem)(item instanceof TreeItem ? item : null);
     }
     
     /**
