@@ -53,6 +53,10 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
     
     @Override
     public void createControl(Composite parent) {
+        if(fEditPart == null) {
+            return;
+        }
+        
         // create canvas and lws
         fCanvas = new Canvas(parent, SWT.NONE);
         LightweightSystem lws = new LightweightSystem(fCanvas);

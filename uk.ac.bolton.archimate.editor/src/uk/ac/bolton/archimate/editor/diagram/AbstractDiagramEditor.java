@@ -691,14 +691,14 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         /*
          * Return the Zoom Manager
          */
-        if(adapter == ZoomManager.class) {
-            return getGraphicalViewer() == null ? null : getGraphicalViewer().getProperty(ZoomManager.class.toString());
+        if(adapter == ZoomManager.class && getGraphicalViewer() != null) {
+            return getGraphicalViewer().getProperty(ZoomManager.class.toString());
         }
 
         /*
          * Return the singleton Outline Page
          */
-        if(adapter == IContentOutlinePage.class) {
+        if(adapter == IContentOutlinePage.class && getGraphicalViewer() != null) {
             return new OverviewOutlinePage(this);
         }
         
@@ -713,8 +713,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
          * Return the Archimate Model
          * DO NOT REMOVE! SaveAction requires this
          */
-        if(adapter == IArchimateModel.class) {
-            return getModel() == null ? null : getModel().getArchimateModel();
+        if(adapter == IArchimateModel.class && getModel() != null) {
+            return getModel().getArchimateModel();
         }
         
         /*
