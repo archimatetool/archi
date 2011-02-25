@@ -10,37 +10,33 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
 
 /**
- * This Compound Command stores the state of elements so that 
- * when elements are deleted the tree nodes can be re-selected.
+ * This Compound Command stores an element so that when elements are deleted the tree node can be re-selected.
  * It turns off refresh in the Tree, saving on slow redraws.
  * 
  * @author Phillip Beauvoir
  */
 public class DeleteElementsCompoundCommand extends NonNotifyingCompoundCommand {
 
-    private List<?> fSelected;
-    private Object fParentToSelect;
+    // Select this one
+    private Object fObjectToSelect;
 
     public DeleteElementsCompoundCommand(List<?> selected) {
-        fSelected = selected;
-
-        // Find parent
-        Object o = fSelected.get(0);
-        if(o instanceof EObject) {
-            fParentToSelect = ((EObject)o).eContainer();
+        // Find previous sibling object to reselect
+        Object o = selected.get(0);
+        
+        fObjectToSelect = findPreviousSiblingObject(o);
+        
+        // Was null so select parent
+        if(fObjectToSelect == null && o instanceof EObject) {
+            fObjectToSelect = ((EObject)o).eContainer();
         }
-//          Object o = fSelected.get(0);
-//          if(o instanceof IFolder) {
-//              fParentToSelect = o;
-//          }
-//          else if(o instanceof EObject) {
-//              fParentToSelect = ((EObject)o).eContainer();
-//          }
     }
 
     @Override
@@ -52,36 +48,53 @@ public class DeleteElementsCompoundCommand extends NonNotifyingCompoundCommand {
     public void execute() {
         super.execute();
 
-        // Select parent
-        if(fParentToSelect != null && TreeModelView.INSTANCE != null) {
-            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParentToSelect), true);
+        // Select object
+        if(fObjectToSelect != null && TreeModelView.INSTANCE != null) {
+            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fObjectToSelect), true);
         }
     }
-
-    @Override
-    public void undo() {
-        super.undo();
-
-        // Select nodes
-        if(TreeModelView.INSTANCE != null) {
-            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fSelected), true);
+    
+    /**
+     * Find the previous sibling object
+     * @param element the element to to find the sibling of
+     * @return the previous sibling object or null if not found
+     */
+    private Object findPreviousSiblingObject(Object element) {
+        if(TreeModelView.INSTANCE == null) {
+            return null;
         }
+        
+        TreeItem item = TreeModelView.INSTANCE.getViewer().findTreeItem(element);
+        if(item == null) {
+            return null;
+        }
+        
+        TreeItem parentTreeItem = item.getParentItem();
+        
+        // Parent Item not found so must be at top level
+        if(parentTreeItem == null) {
+            Tree tree = item.getParent();
+            int index = tree.indexOf(item);
+            if(index < 1) { // At root or not found
+                return null;
+            }
+            return tree.getItem(index - 1).getData();
+        }
+
+        // Item not found
+        int index = parentTreeItem.indexOf(item);
+        if(index < 1) {
+            return null;
+        }
+
+        // Return Previous item
+        return parentTreeItem.getItem(index - 1).getData();
     }
 
-    @Override
-    public void redo() { // redo() as called by CompoundCommand is *not* the same as execute()!
-        super.redo();
-
-        // Select parent
-        if(fParentToSelect != null && TreeModelView.INSTANCE != null) {
-            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParentToSelect), true);
-        }
-    }
 
     @Override
     public void dispose() {
         super.dispose();
-        fSelected = null;
-        fParentToSelect = null;
+        fObjectToSelect = null;
     }
 }

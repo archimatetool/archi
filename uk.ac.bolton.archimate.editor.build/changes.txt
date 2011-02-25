@@ -15,6 +15,7 @@ Version 1.7 April XX 2011
 * Derived relations will not be calculated if there are too many potential paths
 * The drag outline figure when dragging and creating from the palette on Mac OS X Cocoa is no longer black
 * Junction figures are set to their proper size when dragging and creating from the palette
+* When deleting nodes on the Model Tree the previous node is selected
 
 
 
