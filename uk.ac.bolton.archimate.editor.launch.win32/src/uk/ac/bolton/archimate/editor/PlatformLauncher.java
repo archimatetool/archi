@@ -73,13 +73,16 @@ public class PlatformLauncher implements IPlatformLauncher {
         WindowState state = WindowState.get(WindowState.OPENING);
         if(state.exists()) {
             String s = state.getProperties().getProperty(WindowState.K_OPENING_FILE);
+            
+            // Delete this now before opening model, otherwise we might activate again
+            state.delete();
+            
             if(s != null) {
                 File file = new File(s);
                 if(file.isFile() && !IEditorModelManager.INSTANCE.isModelLoaded(file)) {
                     IEditorModelManager.INSTANCE.openModel(file);
                 }
             }
-            state.delete();
         }
     }
 

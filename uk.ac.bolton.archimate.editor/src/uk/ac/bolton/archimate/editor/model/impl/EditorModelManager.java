@@ -151,7 +151,7 @@ implements IEditorModelManager {
     
     @Override
     public IArchimateModel openModel(File file) {
-        if(file == null || !file.exists()) {
+        if(file == null || !file.exists() || isModelLoaded(file)) {
             return null;
         }
         
