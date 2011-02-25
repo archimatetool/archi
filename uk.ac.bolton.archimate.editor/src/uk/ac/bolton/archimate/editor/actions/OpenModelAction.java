@@ -19,6 +19,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
  * Open Model Action
@@ -46,10 +47,13 @@ implements IWorkbenchAction
             File file = new File(path);
             
             // Check it's not already open
-            if(IEditorModelManager.INSTANCE.isModelLoaded(file)) {
-                MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Open Model", "'" +
-                                                file.getName() + "' " +
-                                                "is already open.");
+            IArchimateModel model = getModel(file);
+            if(model != null) {
+                MessageDialog.openInformation(Display.getCurrent().getActiveShell(),
+                                                "Open Model",
+                                                "File '" + file.getName() + "' " +
+                                                "is already open." +
+                                                " Its model name is '" + model.getName() + "'.");
                 return;
             }
             
@@ -60,6 +64,21 @@ implements IWorkbenchAction
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_OPEN_16);
+    }
+    
+    /**
+     * Get model if it is already open
+     */
+    private IArchimateModel getModel(File file) {
+        if(file != null) {
+            for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+                if(file.equals(model.getFile())) {
+                    return model;
+                }
+            }
+        }
+        
+        return null;
     }
 
     public void dispose() {
