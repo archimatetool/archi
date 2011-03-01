@@ -10,12 +10,16 @@ Version 1.7 April XX 2011
 + The Access Relation type now has properties of "Access", "Read", "Write", and "Read/Write". This changes the connection's arrow head.
 + Added an "Open Recent" files menu and a preference to set the maximum size of recent files list
 + Changed menu item "Show Alignment Guides" to "Snap to Alignment Guides"
++ When deleting nodes on the Model Tree the previous node is selected
++ The Java version shipped with the Windows installer is now version 1.6.0_24
++ Built on Eclipse 3.6.2 RCP
+* The message in the dialog box displayed when opening a model that is already open shows the file name and model name
 * Fixed Magic Connector not switching mode on Mac when pressing Command Key
-* Fixed a bug where the Outline View might not clear when the View's model was closed
+* Fixed a bug where the Outline window might not clear when the View's model was closed
+* Improved performance of the Outline window
 * Derived relations will not be calculated if there are too many potential paths
 * The drag outline figure when dragging and creating from the palette on Mac OS X Cocoa is no longer black
-* Junction figures are set to their proper size when dragging and creating from the palette
-* When deleting nodes on the Model Tree the previous node is selected
+* Junction figures are restricted to their proper size when dragging and creating from the palette
 
 
 
