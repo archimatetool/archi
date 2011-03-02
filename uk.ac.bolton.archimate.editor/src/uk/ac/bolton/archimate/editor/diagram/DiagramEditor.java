@@ -16,6 +16,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.IAction;
@@ -84,9 +85,14 @@ implements IDiagramEditor {
         
         // Native DnD
         viewer.addDropTargetListener(new DiagramTransferDropTargetListener(viewer));
-
+    }
+    
+    @Override
+    protected void configurePaletteViewer(PaletteViewer viewer) {
+        super.configurePaletteViewer(viewer);
+        
         // Help for Palette
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(getEditDomain().getPaletteViewer().getControl(), PALETTE_HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), PALETTE_HELP_ID);
     }
     
     @Override

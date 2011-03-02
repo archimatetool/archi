@@ -289,9 +289,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Set some Properties
         setProperties();
-        
-        // Pallete Selection Listener
-        registerPalleteSelectionListener();
     }
     
     @Override
@@ -349,10 +346,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     }
 
     /**
-     * Create a drag source listener for the palette.
-     * Together with an appropriate transfer drop target listener, this will enable
-     * model element creation by dragging a CombinatedTemplateCreationEntries 
-     * from the palette into the editor.
+     * Create the PaletteViewerProvider.
+     * Over-ride this so we can hook into the creation of the PaletteViewer.
      */
     @Override
     protected PaletteViewerProvider createPaletteViewerProvider() {
@@ -360,24 +355,26 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         boolean showPalette = Preferences.doShowPalette();
         getPalettePreferences().setPaletteState(showPalette ? FlyoutPaletteComposite.STATE_PINNED_OPEN : FlyoutPaletteComposite.STATE_COLLAPSED);
 
-        // DND
         return new PaletteViewerProvider(getEditDomain()) {
             @Override
-            protected void configurePaletteViewer(final PaletteViewer viewer) {
-                super.configurePaletteViewer(viewer);
-                viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+            protected void hookPaletteViewer(PaletteViewer viewer) {
+                super.hookPaletteViewer(viewer);
+                AbstractDiagramEditor.this.configurePaletteViewer(viewer);
             }
         };
     }
     
     /**
-     * Listen to Palette selections and hover to pass on selection...
+     * Configure the Palette Viewer
      */
-    protected void registerPalleteSelectionListener() {
+    protected void configurePaletteViewer(final PaletteViewer viewer) {
+        // Register as drag source to drag onto the canvas
+        viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+
         /*
          * Tool Changed
          */
-        getEditDomain().getPaletteViewer().addPaletteListener(new PaletteListener() {
+        viewer.addPaletteListener(new PaletteListener() {
             @Override
             public void activeToolChanged(PaletteViewer palette, ToolEntry toolEntry) {
                 CreationFactory factory = (CreationFactory)toolEntry.getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
@@ -390,10 +387,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         /*
          * Mouse Hover
          */
-        getEditDomain().getPaletteViewer().getControl().addMouseTrackListener(new MouseTrackAdapter() {
+        viewer.getControl().addMouseTrackListener(new MouseTrackAdapter() {
             @Override
             public void mouseHover(MouseEvent e) {
-                ToolEntry toolEntry = findToolEntryAt(new Point(e.x, e.y));
+                ToolEntry toolEntry = findToolEntryAt(viewer, new Point(e.x, e.y));
                 if(toolEntry != null) {
                     CreationFactory factory = (CreationFactory)toolEntry.getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
                     if(factory != null) {
@@ -403,13 +400,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             }
         });
         
-        getEditDomain().getPaletteViewer().getControl().addMouseListener(new MouseAdapter() {
+        viewer.getControl().addMouseListener(new MouseAdapter() {
             /*
              * If Shift key is pressed set Tool Entry to unload or not
              */
             @Override
             public void mouseDown(MouseEvent e) {
-                ToolEntry toolEntry = findToolEntryAt(new Point(e.x, e.y));
+                ToolEntry toolEntry = findToolEntryAt(viewer, new Point(e.x, e.y));
                 if(toolEntry != null) {
                     boolean shiftKey = (e.stateMask & SWT.SHIFT) != 0;
                     toolEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, !shiftKey);
@@ -421,7 +418,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
              */
             @Override
             public void mouseDoubleClick(MouseEvent e) {
-                ToolEntry toolEntry = findToolEntryAt(new Point(e.x, e.y));
+                ToolEntry toolEntry = findToolEntryAt(viewer, new Point(e.x, e.y));
                 if(toolEntry instanceof FormatPainterToolEntry) {
                     FormatPainterInfo.INSTANCE.reset();
                 }
@@ -432,8 +429,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Find a Tool Entry on the palette at point, or return null
      */
-    private ToolEntry findToolEntryAt(Point pt) {
-        EditPart ep = getEditDomain().getPaletteViewer().findObjectAt(pt);
+    private ToolEntry findToolEntryAt(PaletteViewer viewer, Point pt) {
+        EditPart ep = viewer.findObjectAt(pt);
         if(ep != null && ep.getModel() instanceof ToolEntry) {
             return (ToolEntry)ep.getModel();
         }
