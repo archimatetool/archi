@@ -92,7 +92,7 @@ implements IEditableTextFlowFigure {
         setFontColor();
         
         // Alignment default is CENTER
-        int alignment = fDiagramModelObject.getTextAlignment();
+        int alignment = getDiagramModelObject().getTextAlignment();
         if(alignment == IFontAttribute.TEXT_ALIGNMENT_NONE) {
             alignment = IFontAttribute.TEXT_ALIGNMENT_CENTER;
         }
@@ -100,7 +100,7 @@ implements IEditableTextFlowFigure {
     }
     
     protected void setText() {
-        String text = StringUtils.safeString(fDiagramModelObject.getName());
+        String text = StringUtils.safeString(getDiagramModelObject().getName());
         getTextControl().setText(StringUtils.safeString(text));
     }
     

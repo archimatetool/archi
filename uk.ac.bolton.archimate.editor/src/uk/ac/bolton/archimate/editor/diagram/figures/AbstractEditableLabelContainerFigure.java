@@ -61,7 +61,7 @@ implements IEditableLabelFigure {
     }
     
     protected void setText() {
-        String text = StringUtils.safeString(fDiagramModelObject.getName());
+        String text = StringUtils.safeString(getDiagramModelObject().getName());
         getLabel().setText(text);
     }
 

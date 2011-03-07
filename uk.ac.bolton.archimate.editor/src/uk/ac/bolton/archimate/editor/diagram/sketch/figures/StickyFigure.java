@@ -94,11 +94,11 @@ extends AbstractContainerFigure implements IEditableTextFlowFigure {
         setFontColor();
         
         // Alignment
-        ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(fDiagramModelObject.getTextAlignment());
+        ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
     }
     
     private void setText() {
-        String text = ((ISketchModelSticky)fDiagramModelObject).getContent();
+        String text = ((ISketchModelSticky)getDiagramModelObject()).getContent();
         getTextControl().setText(StringUtils.safeString(text));
     }
 

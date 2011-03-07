@@ -32,7 +32,7 @@ public class BusinessInterfaceFigure extends AbstractRectangleFigure {
 
     @Override
     protected Image getImage() {
-        IInterfaceElement element = (IInterfaceElement)((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
+        IInterfaceElement element = (IInterfaceElement)((IDiagramModelArchimateObject)getDiagramModelObject()).getArchimateElement();
         return element.getInterfaceType() == IInterfaceElement.PROVIDED ? IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_INTERFACE_16)
                 : IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_INTERFACE_REQUIRED_16);
     }

@@ -86,7 +86,7 @@ extends AbstractDiagramModelObjectFigure {
     
     public void refreshVisuals() {
         // Text
-        setText(((IDiagramModelNote)fDiagramModelObject).getContent());
+        setText(((IDiagramModelNote)getDiagramModelObject()).getContent());
         
         // Font
         setFont();
@@ -98,7 +98,7 @@ extends AbstractDiagramModelObjectFigure {
         setFontColor();
 
         // Alignment
-        ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(fDiagramModelObject.getTextAlignment());
+        ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
     }
     
     public void setText(String text) {

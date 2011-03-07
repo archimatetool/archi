@@ -29,7 +29,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public abstract class AbstractDiagramModelObjectFigure extends Figure
 implements IDiagramModelObjectFigure {
     
-    protected IDiagramModelObject fDiagramModelObject;
+    private IDiagramModelObject fDiagramModelObject;
     
     protected Color fFillColor;
     protected Color fFontColor;
@@ -37,6 +37,10 @@ implements IDiagramModelObjectFigure {
     public AbstractDiagramModelObjectFigure(IDiagramModelObject diagramModelObject){
         fDiagramModelObject = diagramModelObject;
         setUI();
+    }
+    
+    public IDiagramModelObject getDiagramModelObject() {
+        return fDiagramModelObject;
     }
     
     /**
