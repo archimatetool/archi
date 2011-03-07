@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.AbstractDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.sketch.dnd.SketchDiagramTransferDropTargetListener;
 import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -81,6 +82,9 @@ implements ISketchEditor {
 
         // Set Model
         viewer.setContents(getModel());
+        
+        // Native DnD
+        viewer.addDropTargetListener(new SketchDiagramTransferDropTargetListener(viewer));
     }
     
     @Override

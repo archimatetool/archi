@@ -7,7 +7,6 @@ Profiles and Property key/value pairs
 
 Priority 2
 ----------
-Make the Palette easier to use (Global? Floating?)
 Default colours for elements
 
 
@@ -16,16 +15,15 @@ Priority 3
 ----------
 Transform Sketch View to Actual Model
 Redo the Cut/Copy/Paste logic
+"Dynamic Viewpoints" - translucent disallowed elements, hints view shows guidelines, viewpoint switches
 
 
 
 Version 2.0
 -----------
 Version Control / Repository support
-Constrained Viewpoints
 Collapse/Expand container object
 Stakeholder, Concern, Assessment, Goal, Principle, Requirement elements
-Alternate Application UI Colour Scheme
 
 
 

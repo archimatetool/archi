@@ -9,10 +9,11 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
@@ -37,7 +38,7 @@ implements EditPartFactory {
         
         // Main Diagram Edit Part
         if(model instanceof IDiagramModel) {
-            child = new DiagramPart();
+            child = new SketchDiagramPart();
         }
         
         // Actor
@@ -48,6 +49,11 @@ implements EditPartFactory {
         // Sticky
         else if(model instanceof ISketchModelSticky) {
             child = new StickyEditPart();
+        }
+        
+        // Diagram Model Reference
+        else if(model instanceof IDiagramModelReference) {
+            child = new DiagramModelReferenceEditPart();
         }
         
         // Connections
