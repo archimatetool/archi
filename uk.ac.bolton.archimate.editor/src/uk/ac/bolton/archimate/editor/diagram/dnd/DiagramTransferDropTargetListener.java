@@ -52,40 +52,64 @@ public class DiagramTransferDropTargetListener extends AbstractTransferDropTarge
         // Iterate thru the selection and see if we have the required type for a drop
         ISelection selection =  LocalSelectionTransfer.getTransfer().getSelection();
         if(selection instanceof IStructuredSelection) {
-            IDiagramModel targetDiagramModel = (IDiagramModel)getViewer().getContents().getModel();
-            IArchimateModel targetArchimateModel = targetDiagramModel.getArchimateModel();
-            
             // Firstly check they are from the same model
-            for(Object object : ((IStructuredSelection)selection).toArray()) {
-                if(object instanceof IArchimateModelElement) {
-                    IArchimateModel sourceArchimateModel = ((IArchimateModelElement)object).getArchimateModel();
-                    if(sourceArchimateModel != targetArchimateModel) {
-                        return false;
-                    }
-                }
+            if(!isSelectionFromSameModel((IStructuredSelection)selection)) {
+                return false;
             }
             
+            // At least one element in the selection is allowed
             for(Object object : ((IStructuredSelection)selection).toArray()) {
-                // Archimate elements
-                if(object instanceof IArchimateElement) {
-                    IArchimateElement element = (IArchimateElement)object;
-                    
-                    // Ensure we have at least one that is not already on the target diagram
-                    if(!DiagramModelUtils.isElementReferencedInDiagram(targetDiagramModel, element)) {
-                        return super.isEnabled(event);
-                    }
-                }
-                // Diagram models
-                else if(object instanceof IDiagramModel) {
-                    // Ensure we have at least one that is not already on the target diagram
-                    if(object != targetDiagramModel) {
-                        return super.isEnabled(event);
-                    }
+                if(isEnabled(object)) {
+                    return super.isEnabled(event);
                 }
             }
         }
         
         return false;
+    }
+    
+    protected boolean isEnabled(Object element) {
+        // Archimate Element
+        if(element instanceof IArchimateElement) {
+            // Ensure it is not already on the target diagram
+            if(!DiagramModelUtils.isElementReferencedInDiagram(getTargetDiagramModel(), (IArchimateElement)element)) {
+                return true;
+            }
+        }
+        // Diagram Model Reference
+        else if(element instanceof IDiagramModel) {
+            // Allowed, but not on the target diagram model
+            if(element != getTargetDiagramModel()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * @return The Target Diagram Model
+     */
+    protected IDiagramModel getTargetDiagramModel() {
+        return (IDiagramModel)getViewer().getContents().getModel();
+    }
+    
+    /**
+     * Check that the dragged selection is being dragged into the same model
+     */
+    protected boolean isSelectionFromSameModel(IStructuredSelection selection) {
+        IArchimateModel targetArchimateModel = getTargetDiagramModel().getArchimateModel();
+        
+        for(Object object : selection.toArray()) {
+            if(object instanceof IArchimateModelElement) {
+                IArchimateModel sourceArchimateModel = ((IArchimateModelElement)object).getArchimateModel();
+                if(sourceArchimateModel != targetArchimateModel) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
     
     @Override

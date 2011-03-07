@@ -47,6 +47,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
 
     @Override
     public EditPart getTargetEditPart(Request request) {
+        // We support Native DND
         if(NativeDropRequest.ID.equals(request.getType())) {
             return getHost();
         }
@@ -55,6 +56,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     
     @Override
     public Command getCommand(Request request) {
+        // We support Native DND
         if(NativeDropRequest.ID.equals(request.getType())) {
             return getDropCommand((NativeDropRequest)request);
         }
@@ -66,18 +68,18 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     // Create a Command for dropping and dragging elements from Tree to diagram/container
     // --------------------------------------------------------------------------------------
     
-    private List<IArchimateElement> elementsToAdd;
-    private List<IRelationship> relationsToAdd;
-    private List<IDiagramModel> diagramRefsToAdd;
+    protected List<IArchimateElement> elementsToAdd;
+    protected List<IRelationship> relationsToAdd;
+    protected List<IDiagramModel> diagramRefsToAdd;
     
-    private IDiagramModelContainer targetContainer;
-    private IDiagramModel targetDiagramModel;
+    protected IDiagramModelContainer targetContainer;
+    protected IDiagramModel targetDiagramModel;
     
     /**
      * @param request
      * @return A command for when a native drop event occurs on the Diagram Container
      */
-    private Command getDropCommand(NativeDropRequest request) {
+    protected Command getDropCommand(NativeDropRequest request) {
         if(!(request.getData() instanceof IStructuredSelection)) {
             return null;
         }
@@ -163,7 +165,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
      * We'll add this as a sub-command to be executed when the main Command executes so that the user
      * Can see the objects added to the view before answering the relations dialog.
      */
-    private Command createAddRelationsCommand() {
+    protected Command createAddRelationsCommand() {
         Command command = null;
         
         if(ConnectionPreferences.createRelationWhenAddingModelTreeElement()) {
@@ -204,7 +206,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     /**
      * Check to see if a relation can be added as a connection
      */
-    private boolean canAddConnection(IRelationship relation) {
+    protected boolean canAddConnection(IRelationship relation) {
         // Source Element is in the list of elements to be added or already on the diagram
         boolean srcElementPresent = elementsToAdd.contains(relation.getSource()) || DiagramModelUtils.findDiagramModelComponentForElement(targetDiagramModel, relation.getSource()) != null;
         // Target Element is in the list of elements to be added or already on the diagram
@@ -216,7 +218,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     /**
      * Check to see if a relation would be a nested connection if it was inside of target container
      */
-    private boolean wouldBeNestedConnection(IRelationship relation) {
+    protected boolean wouldBeNestedConnection(IRelationship relation) {
         // If relation.getTarget() is inside of targetContainer
         if(ConnectionPreferences.useNestedConnections()) {
             if(targetContainer instanceof IDiagramModelArchimateObject &&
@@ -230,10 +232,15 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     /**
      * Gather the elements and relationships that will be added to the diagram
      */
-    private void getElementsToAdd(Object[] objects) {
+    protected void getElementsToAdd(Object[] objects) {
         IArchimateModel targetArchimateModel = targetDiagramModel.getArchimateModel();
         
         for(Object object : objects) {
+            // Check
+            if(!canDropElement(object)) {
+                continue;
+            }
+            
             // Can only add to the same model
             if(object instanceof IArchimateModelElement) {
                 IArchimateModel sourceArchimateModel = ((IArchimateModelElement)object).getArchimateModel();
@@ -276,7 +283,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     /**
      * Add an element and any of its relationships
      */
-    private void addElement(IArchimateElement element) {
+    protected void addElement(IArchimateElement element) {
         // Not already added or already on diagram
         if(!elementsToAdd.contains(element) && DiagramModelUtils.findDiagramModelComponentForElement(targetDiagramModel, element) == null) {  
             elementsToAdd.add(element);
@@ -287,5 +294,13 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
                 }
             }
         }
+    }
+    
+    /**
+     * @param element
+     * @return Whether we can DND an element onto the Container
+     */
+    protected boolean canDropElement(Object element) {
+        return (element instanceof IArchimateElement) || (element instanceof IDiagramModel);
     }
 }
