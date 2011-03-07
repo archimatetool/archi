@@ -11,10 +11,12 @@ import org.eclipse.swt.graphics.Image;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractRectangleFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.IDiagramModelReference;
 
 /**
- * Figure for a Business Actor
+ * Figure for a Diagram Model Reference Figure
  * 
  * @author Phillip Beauvoir
  */
@@ -27,7 +29,16 @@ extends AbstractRectangleFigure {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+        switch(((IDiagramModelReference)getDiagramModelObject()).getReferencedModel().eClass().getClassifierID()) {
+            case IArchimatePackage.DIAGRAM_MODEL:
+                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+                
+            case IArchimatePackage.SKETCH_MODEL:
+                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SKETCH_16);
+
+            default:
+                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+        }
     }
     
     @Override
