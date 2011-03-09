@@ -56,7 +56,9 @@ implements IDiagramModelObjectFigure {
         setFont(FontFactory.get(fontName));
         
         // Need to do this after font change
-        getTextControl().revalidate();
+        if(getTextControl() != null) {
+            getTextControl().revalidate();
+        }
     }
     
     @Override
@@ -88,7 +90,9 @@ implements IDiagramModelObjectFigure {
         Color c = ColorFactory.get(val);
         if(c != fFontColor) {
             fFontColor = c;
-            getTextControl().setForegroundColor(c);
+            if(getTextControl() != null) {
+                getTextControl().setForegroundColor(c);
+            }
         }
     }
     
