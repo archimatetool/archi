@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -68,18 +67,19 @@ implements IColoredEditPart, ITextEditPart  {
 
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             // Edit the label if we clicked on it
-            if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+            IEditableLabelFigure figure = (IEditableLabelFigure)getFigure();
+            if(figure.didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
                 if(fDirectEditManager == null) {
-                    Label label = ((IEditableLabelFigure)getFigure()).getLabel();
-                    fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(label), label);
+                    fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(figure.getLabel()),
+                            figure.getLabel());
                 }
                 fDirectEditManager.show();
             }
-        }
-        else if(request.getType() == RequestConstants.REQ_OPEN) {
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            else if(request.getType() == RequestConstants.REQ_OPEN) {
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            }
         }
     }
     
