@@ -96,7 +96,7 @@ implements IEditableTextFlowFigure {
         if(alignment == IFontAttribute.TEXT_ALIGNMENT_NONE) {
             alignment = IFontAttribute.TEXT_ALIGNMENT_CENTER;
         }
-        ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(alignment);
+        ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
     }
     
     protected void setText() {
