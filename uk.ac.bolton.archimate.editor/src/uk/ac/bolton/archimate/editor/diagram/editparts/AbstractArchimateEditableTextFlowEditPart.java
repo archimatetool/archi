@@ -41,7 +41,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     
     protected DirectEditManager fDirectEditManager;
     
-    protected ConnectionAnchor fAnchor;
+    private ConnectionAnchor fAnchor;
     
     @Override
     protected ConnectionAnchor getConnectionAnchor() {
