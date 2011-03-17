@@ -36,9 +36,12 @@ public interface IPreferenceConstants {
     
     String LINK_VIEW = "linkView";
     
+    String BUSINESS_INTERFACE_FIGURE = "businessInterfaceFigure";
     String APPLICATION_COMPONENT_FIGURE = "applicationComponentFigure";
+    String APPLICATION_INTERFACE_FIGURE = "applicationInterfaceFigure";
     String TECHNOLOGY_NODE_FIGURE = "technologyNodeFigure";
     String TECHNOLOGY_DEVICE_FIGURE = "technologyDeviceFigure";
+    String TECHNOLOGY_INTERFACE_FIGURE = "technologyInterfaceFigure";
     
     String FILTER_SHOW_EMPTY_FOLDERS = "filterShowEmptyFolders";
     
