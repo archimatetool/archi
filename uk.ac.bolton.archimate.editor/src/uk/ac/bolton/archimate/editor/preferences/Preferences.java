@@ -12,8 +12,7 @@ import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 
 
 /**
- * Preferences Manager
- * Convenience class
+ * Preferences Manager convenience class
  * 
  * @author Phillip Beauvoir
  */
@@ -71,18 +70,6 @@ public class Preferences implements IPreferenceConstants {
     
     public static void setLinkView(boolean val) {
         STORE.setValue(LINK_VIEW, val);
-    }
-    
-    public static int getApplicationComponentFigureType() {
-        return STORE.getInt(APPLICATION_COMPONENT_FIGURE);
-    }
-    
-    public static int getTechnologyNodeFigureType() {
-        return STORE.getInt(TECHNOLOGY_NODE_FIGURE);
-    }
-    
-    public static int getTechnologyDeviceFigureType() {
-        return STORE.getInt(TECHNOLOGY_DEVICE_FIGURE);
     }
     
     public static boolean doFilterShowEmptyFolders() {

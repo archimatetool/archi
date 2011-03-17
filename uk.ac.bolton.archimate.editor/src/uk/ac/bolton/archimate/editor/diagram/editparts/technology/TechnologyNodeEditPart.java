@@ -11,6 +11,7 @@ import org.eclipse.draw2d.IFigure;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.technology.TechnologyNodeFigure1;
 import uk.ac.bolton.archimate.editor.diagram.figures.technology.TechnologyNodeFigure2;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 
 /**
@@ -23,7 +24,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
     
     @Override
     protected IFigure createFigure() {
-        int type = Preferences.getTechnologyNodeFigureType();
+        int type = Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_NODE_FIGURE);
         return type == 0 ? new TechnologyNodeFigure1(getModel())
                          : new TechnologyNodeFigure2(getModel());
     }
