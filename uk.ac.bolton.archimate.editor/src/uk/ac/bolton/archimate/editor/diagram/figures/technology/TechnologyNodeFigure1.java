@@ -95,9 +95,6 @@ public class TechnologyNodeFigure1 extends AbstractEditableTextFlowFigure {
         bounds.y += 2 + FOLD_HEIGHT;
         bounds.width = bounds.width - 40;
         bounds.height -= 20;
-        
-        translateFromParent(bounds);
-        
         return bounds;
     }
 

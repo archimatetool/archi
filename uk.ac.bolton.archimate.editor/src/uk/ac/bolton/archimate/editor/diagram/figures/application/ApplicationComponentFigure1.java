@@ -80,9 +80,6 @@ public class ApplicationComponentFigure1 extends AbstractEditableTextFlowFigure 
         bounds.y += 5;
         bounds.width -= 35;
         bounds.height -= 10;
-        
-        translateFromParent(bounds);
-        
         return bounds;
     }
 

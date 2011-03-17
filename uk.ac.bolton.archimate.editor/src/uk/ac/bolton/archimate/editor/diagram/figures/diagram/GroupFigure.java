@@ -89,8 +89,6 @@ extends AbstractEditableLabelContainerFigure {
         bounds.width = getLabel().getPreferredSize().width;
         bounds.height = getLabel().getPreferredSize().height;
         
-        translateFromParent(bounds);
-        
         return bounds;
     }
 

@@ -66,9 +66,6 @@ public abstract class AbstractRectangleFigure extends AbstractEditableTextFlowFi
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;
-        
-        translateFromParent(bounds);
-        
         return bounds;
     }
     

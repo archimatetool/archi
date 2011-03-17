@@ -51,9 +51,11 @@ extends AbstractContainerFigure implements IEditableTextFlowFigure {
         
         setLayoutManager(new DelegatingLayout());
         
-        Locator locator = new Locator() {
+        Locator textLocator = new Locator() {
             public void relocate(IFigure target) {
-                target.setBounds(calculateTextControlBounds());
+                Rectangle bounds = calculateTextControlBounds();
+                translateFromParent(bounds);
+                target.setBounds(bounds);
             }
         };
         
@@ -63,18 +65,17 @@ extends AbstractContainerFigure implements IEditableTextFlowFigure {
         fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_SOFT));
         block.add(fTextFlow);
         page.add(block);
-        add(page, locator);
+        add(page, textLocator);
         
-        Locator locator2 = new Locator() {
+        Locator mainLocator = new Locator() {
             public void relocate(IFigure target) {
                 Rectangle bounds = getBounds().getCopy();
-                bounds.x = 0;
-                bounds.y = 0;
+                translateFromParent(bounds);
                 target.setBounds(bounds);
             }
         };
         
-        add(getMainFigure(), locator2);
+        add(getMainFigure(), mainLocator);
 
         // Have to add this if we want Animation to work on figures!
         AnimationUtil.addFigureForAnimation(getMainFigure());
@@ -118,7 +119,6 @@ extends AbstractContainerFigure implements IEditableTextFlowFigure {
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;
-        translateFromParent(bounds);
         return bounds;
     }
 

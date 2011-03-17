@@ -64,9 +64,6 @@ public class BusinessServiceFigure extends AbstractEditableTextFlowFigure {
         bounds.y += 5;
         bounds.width = bounds.width - 40;
         bounds.height -= 10;
-        
-        translateFromParent(bounds);
-        
         return bounds;
     }
 

@@ -71,9 +71,6 @@ public abstract class AbstractRoundedRectangleFigure extends AbstractEditableTex
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;
-        
-        translateFromParent(bounds);
-        
         return bounds;
     }
     

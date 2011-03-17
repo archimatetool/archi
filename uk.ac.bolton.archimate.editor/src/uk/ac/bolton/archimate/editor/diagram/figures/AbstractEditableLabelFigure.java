@@ -11,6 +11,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -34,13 +35,15 @@ implements IEditableLabelFigure {
     protected void setUI() {
         setLayoutManager(new DelegatingLayout());
         
-        Locator locator = new Locator() {
+        Locator labelLocator = new Locator() {
             public void relocate(IFigure target) {
-                target.setBounds(calculateLabelBounds());
+                Rectangle bounds = calculateLabelBounds();
+                translateFromParent(bounds);
+                target.setBounds(bounds);
             }
         };
         
-        add(getLabel(), locator);
+        add(getLabel(), labelLocator);
     }
     
     public void refreshVisuals() {
