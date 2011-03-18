@@ -7,18 +7,17 @@
 package uk.ac.bolton.archimate.editor;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 
-@SuppressWarnings("restriction")
 public class PlatformLauncher implements IPlatformLauncher {
 
     @Override
@@ -108,7 +107,19 @@ public class PlatformLauncher implements IPlatformLauncher {
     }
 
     private boolean isValidWindow(int hWnd) {
-        int length = OS.GetWindowTextLength(hWnd);
+        // This is the Win32 SWT specific OS method
+        // int length = OS.GetWindowTextLength(hWnd);
+        
+        int length = 0;
+        
+        // We'll get it by reflection...
+        try {
+            length = (Integer)invokeWindowsOSMethod("GetWindowTextLength", hWnd, int.class);
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        
         return length > 0;
     }
 
@@ -125,8 +136,30 @@ public class PlatformLauncher implements IPlatformLauncher {
         return 0;
     }
 
+    /*
+     * Bring the window into focus
+     */
     private void notifyOpenedWindow(int hWnd) {
-        OS.SetForegroundWindow(hWnd);
-        OS.SetFocus(hWnd);
+        // These are the Win32 SWT specific OS methods
+        // OS.SetForegroundWindow(hWnd);
+        // OS.SetFocus(hWnd);
+        
+        // We'll do it by reflection...
+        try {
+            invokeWindowsOSMethod("SetForegroundWindow", hWnd, int.class);
+            invokeWindowsOSMethod("SetFocus", hWnd, int.class);
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Invoke a Windows OS SWT Specific method by reflection
+     */
+    private Object invokeWindowsOSMethod(String methodName, int hWnd, Class<?>... parameterTypes) throws Exception {
+        Class<?> c = Class.forName("org.eclipse.swt.internal.win32.OS");
+        Method m = c.getDeclaredMethod(methodName, parameterTypes);
+        return m.invoke(c, hWnd);
     }
 }

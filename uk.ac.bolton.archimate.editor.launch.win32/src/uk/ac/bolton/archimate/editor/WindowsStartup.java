@@ -6,8 +6,11 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor;
 
+import java.lang.reflect.Field;
+
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
@@ -39,7 +42,7 @@ public class WindowsStartup implements IStartup {
     private void hookWindow(IWorkbenchWindow window) {
         Shell shell = window.getShell();
         if(shell != null && !shell.isDisposed()) {
-            int hWnd = shell.handle;
+            int hWnd = getShellWindowHandle(shell);
             logPrimaryWindow(hWnd);
             shell.addDisposeListener(new DisposeListener() {
                 public void widgetDisposed(DisposeEvent e) {
@@ -51,6 +54,21 @@ public class WindowsStartup implements IStartup {
                     });
                 }
             });
+        }
+    }
+    
+    private int getShellWindowHandle(Shell shell) {
+        // This is the Win32 SWT specific field
+        // return shell.handle;
+        
+        // We'll get it by reflection...
+        try {
+            Field f = Control.class.getDeclaredField("handle");
+            return (Integer)f.get(shell);
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+            return 0;
         }
     }
 
