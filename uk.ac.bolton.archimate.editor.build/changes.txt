@@ -12,7 +12,7 @@ Version 1.7 April XX 2011
 + Added an "Open Recent" files menu and a preference to set the maximum size of recent files list
 + Changed menu item "Show Alignment Guides" to "Snap to Alignment Guides"
 + Can now add View and Sketch References (linked shortcuts) to the Sketch View
-+ When deleting nodes on the Model Tree the previous node is selected
++ When deleting nodes on the Model Tree the previous node is now selected
 + The Java version shipped with the Windows installer is now version 1.6.0_24
 + Built on Eclipse 3.6.2 RCP
 * The message in the dialog box displayed when opening a model that is already open shows the file name and model name
