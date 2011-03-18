@@ -3,6 +3,15 @@ body, table {
 	font-size: 10pt;
 }
 
+.font14 {
+	font-size: 14pt;
+}
+
+.font12 {
+	font-size: 12pt;
+}
+
+
 H1 {
     font-size: 16pt;
 }

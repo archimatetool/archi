@@ -1,0 +1,20 @@
+<project name="Archi Make Help HTML File Ant Script" default="run" basedir=".">
+  	
+	<description>
+	    Make one big HTML file from the smaller HTML files.
+	    This can then be imported into MS Word, formatted and exported as a PDF file.
+  	</description>
+	
+	<!-- Default/Start Target -->
+	<target name="run" depends="init, make_html" />
+	
+	<!-- Init some stuff -->
+	<target name="init">
+	    <property name="class.path" location="bin"/>
+	</target>
+	
+	<target name="make_html">
+		<java classname="uk.ac.bolton.archimate.help.HTMLMerger" classpath="${class.path}"/>
+	</target>
+
+</project>

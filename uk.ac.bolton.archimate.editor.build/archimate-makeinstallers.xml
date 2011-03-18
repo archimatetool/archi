@@ -24,6 +24,7 @@
 		<property name="app.name" 				value="Archi"/>
 		
 		<property name="src.dir"     			location="."/>
+		<property name="help.dir"     			location="../uk.ac.bolton.archimate.help/docs"/>
 	    <property name="output.dir"             location="/${app.name}"/>
 	    <property name="folder.name"            value="${app.name}"/>
 	    <property name="tmp.dir"                location="${output.dir}/${folder.name}"/>
@@ -230,6 +231,8 @@
 			<fileset dir="${src.dir}">
 				<include name="changes.txt" />
 				<include name="LICENSE.txt" />
+			</fileset>
+			<fileset dir="${help.dir}">
 				<include name="Archi User Guide.pdf" />
                 <include name="What's New in Archi.pdf" />
 			</fileset>

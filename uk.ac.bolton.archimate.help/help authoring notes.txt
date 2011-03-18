@@ -1,20 +1,35 @@
-HTML source
------------
-Screenshots are based on the app sized to 1011x763 pixels.
-Ensure images in the HTML docs are no wider than 700 pixels.
-Have only one <p>&nbsp;</p> at the end of each HTML file.
+HTML source notes
+-----------------
+* Screenshots are based on the Archi application sized to 1011x763 pixels.
+* Ensure images in the HTML docs are no wider than 700 pixels.
+* Have only one <p>&nbsp;</p> at the end of each HTML file.
+* Edit "front.html" for the Archi version number
+* If needed, edit the "files.list" for the list of files that will be concatenated
 
-Run HTMLMerger.java to output one HTML file
-Open it in Word
+
+Create one monolithic HTML file to import into MS Word
+------------------------------------------------------
+* Run the "merge-html.xml" Ant script to output one HTML file, "Archi User Guide.html", to the "help" folder
+* Open it in MS Word
 
 
 In MS Word
 ----------
-In Options, Advanced->Web Options->Pictures ensure "Pixels per Inch" is 144 so that images are sized properly (50%).
+* In "Options, Advanced->General->Web Options...->Pictures" ensure "Pixels per Inch" is 144 so that images are sized properly (50%).
 
-1. Apply the styles in Word Template.dot in the uk.ac.bolton.archimate.build projects ("Developer" tab make sure
-   "Automatically update document styles" is ticked)
-2. Click the Office button and select Prepare -> Edit Links to Files. Select all images and tick "Save picture in document". 
-3. Insert Page Numbers at bottom right starting at 0 and make "Different First Page" in the footer settings.
-4. Check for blank pages, spacing and orphan issues.
-5. Save as Word Doc and then PDF
+1. On the "Developer" tab, "Document Template" button, attach the styles in template "docs/Word Template.dot".
+   "Automatically update document styles" is ticked.
+2. Click the Office button and select "Prepare -> Edit Links to Files". Select all images and tick "Save picture in document". 
+3. Insert Page Numbers at bottom right.
+4. From the same Insert Page Numbers menu choose "Format Page Numbers..." and "Start at" 0
+5. Double-click in the footer and tick "Different First Page" in the options.
+6. Check for blank pages, spacing and orphan issues.
+7. Save As Word Doc "Archi User Guide.docx" in the "docs" folder
+8. Save As PDF "Archi User Guide.pdf" in the "docs" folder
+
+
+Create the "What's New in Archi Document"
+-----------------------------------------
+1. Edit the "What's New in Archi.docx" document in the "docs" folder
+2. Copy and Paste sections from the "Archi User Guide.docx" document in the "docs" folder
+3. Save As PDF "What's New in Archi.pdf" in the "docs" folder

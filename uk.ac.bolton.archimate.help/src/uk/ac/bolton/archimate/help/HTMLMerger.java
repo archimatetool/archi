@@ -1,109 +1,39 @@
 package uk.ac.bolton.archimate.help;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
+ * Utility class called from "merge-html.xml" Ant script.
+ * Not part of the Help plug-in.
  * Merge the HTML Help files into one HTML file to open in MS Word and Export as PDF.
- * 
- * IMPORTANT - In MS Word Options make sure in Advanced->Web Options->Pictures that Pixels per Inch is 144
- * so that images are sized properly.
  * 
  * @author Phillip Beauvoir
  */
 public class HTMLMerger {
     
-    static String rootFolder = "help/";
+    // Source and Output folder has to be the same because the generated HTML file will reference the image files in "img" folder
+    static String HELP_SRC_FOLDER = "help/";
+    static String HTML_OUTPUT_FILE = "Archi User Guide.html";
+    static String HTML_FILES_LIST = "files.list";
     
-    static String[] files = {
-        
-        "front.html",
-        "intro.html",
-        "install.html",
-        "archi_working.html",
-        "new_model.html",
-        
-        "model_tree.html",
-        "model_tree_add.html",
-        "model_tree_folders.html",
-        "model_tree_working.html",
-        "model_tree_search.html",
-        
-        "views.html",
-        "views_open_create.html",
-        "views_working.html",
-        "view_nav.html",
-        "view_palette.html",
-        "view_palette_tools.html",
-        "view_palette_creation_tools.html",
-        "view_format_painter.html",
-        "view_addnew.html",
-        "view_magic_connector.html",
-        "view_addexisting.html",
-        "view_group.html",
-        "view_note.html",
-        "view_junction.html",
-        "view_reference.html",
-        "view_conn_bendpoints.html",
-        "view_conn_properties.html",
-        "view_conn_router.html",
-        "view_container_nested.html",
-        "view_z_order.html",
-        "view_copy_paste_delete.html",
-        "view_align_grid.html",
-        
-        "sketch_view.html",
-        
-        "properties_window.html",
-        "properties_model.html",
-        "properties_element.html",
-        "properties_element_appearance.html",
-        "properties_relation.html",
-        "properties_relation_appearance.html",
-        "properties_view.html",
-        "properties_viewref.html",
-        "properties_folder.html",
-        "properties_note.html",
-        "properties_group.html",
-        
-        "navigator.html",
-        "hints.html",
-        "outline.html",
-        
-        "open_save_print.html",
-        "importing.html",
-        "exporting.html",
-        "reporting.html",
-        
-        "templates.html",
-        "templates_new.html",
-        "templates_new_model.html",
-        "templates_managing.html",
-        
-        "derived_rels.html",
-        
-        "preferences.html",
-        "prefs_connections.html",
-        "prefs_diagram.html",
-        "prefs_figures.html",
-        "prefs_general.html",
-        "prefs_help.html",
-        
-    };
-
     /**
      * @param args
      */
     public static void main(String[] args) {
         try {
             System.out.println("Opening Output Stream...");
-            Writer out = new OutputStreamWriter(new FileOutputStream(rootFolder + "Archi User Guide.html"));
+            Writer out = new OutputStreamWriter(new FileOutputStream(HELP_SRC_FOLDER + HTML_OUTPUT_FILE));
             
             System.out.println("Writing Header...");
             out.append("<html>\n");
@@ -114,10 +44,12 @@ public class HTMLMerger {
             out.append("<body>\n");
             
             boolean firstPage = true;
+            
+            List<String> fileList = readFilesList();
 
-            for(String file : files) {
+            for(String file : fileList) {
                 System.out.println("Writing " + file);
-                String content = getContent(new File(rootFolder + file));
+                String content = getContent(new File(HELP_SRC_FOLDER + file));
                 
                 // MS Word Page Break for H1 tag before
                 if(!firstPage && isHeading1(content)) {
@@ -130,7 +62,7 @@ public class HTMLMerger {
                 }
 
                 // Replace local html links with anchor type links
-                for(String s : files) {
+                for(String s : fileList) {
                     content = content.replaceAll("<a href=\"" + s, "<a href=\"#" + s);
                 }
                 
@@ -149,6 +81,29 @@ public class HTMLMerger {
         catch(IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    /**
+     * Read the list of files 
+     * @throws IOException 
+     */
+    private static List<String> readFilesList() throws IOException {
+        List<String> list = new ArrayList<String>();
+        
+        File file = new File(HTML_FILES_LIST);
+        BufferedReader in = new BufferedReader(new FileReader(file));
+        
+        String line;
+        while((line = in.readLine()) != null) {
+            line = line.trim();
+            if(!line.startsWith("#") && !line.isEmpty()) {
+                list.add(line);
+            }
+        }
+
+        in.close();
+        
+        return list;
     }
     
     private static boolean isHeading1(String content) {
