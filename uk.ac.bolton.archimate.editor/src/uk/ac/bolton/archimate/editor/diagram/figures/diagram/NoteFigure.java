@@ -88,6 +88,9 @@ extends AbstractDiagramModelObjectFigure {
         // Text
         setText(((IDiagramModelNote)getDiagramModelObject()).getContent());
         
+        // Tooltip
+        setToolTip();
+        
         // Font
         setFont();
 
