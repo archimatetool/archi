@@ -45,6 +45,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.connections.UsedByConnect
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.GroupEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.NoteEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.junctions.AndJunctionEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.junctions.JunctionEditPart;
@@ -61,6 +62,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
@@ -260,6 +262,11 @@ implements EditPartFactory {
                 default:
                     child = new TriggeringConnectionEditPart();
             }
+        }
+        
+        // Plain Connections
+        else if(model instanceof IDiagramModelConnection) {
+            child = new LineConnectionEditPart();
         }
         
         /*
