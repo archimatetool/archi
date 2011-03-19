@@ -91,6 +91,9 @@ public class DiagramEditorPalette extends PaletteRoot {
         PaletteDrawer drawer = new PaletteDrawer("View");
         add(drawer);
         
+        PaletteToolbar toolBar = new PaletteToolbar("View");
+        drawer.add(toolBar);
+        
         // Note
         PaletteEntry noteEntry = new CombinedTemplateCreationEntry(
                 "Note",
@@ -98,7 +101,7 @@ public class DiagramEditorPalette extends PaletteRoot {
                 new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16));
-        drawer.add(noteEntry);
+        toolBar.add(noteEntry);
         
         // Group
         PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
@@ -107,9 +110,14 @@ public class DiagramEditorPalette extends PaletteRoot {
                 new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
-        drawer.add(groupEntry);
+        toolBar.add(groupEntry);
         
-        return drawer;
+        // Connection
+        ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
+                "Connection");
+        toolBar.add(entry);
+        
+        return toolBar;
     }
 
     /**
@@ -217,8 +225,12 @@ public class DiagramEditorPalette extends PaletteRoot {
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass) {
+        return createConnectionCreationToolEntry(eClass, ArchimateNames.getDefaultName(eClass));
+    }
+    
+    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String name) {
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
-                ArchimateNames.getDefaultName(eClass),
+                name,
                 null,
                 new DiagramModelFactory(eClass),
                 ImageFactory.getImageDescriptor(eClass),

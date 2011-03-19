@@ -6,11 +6,10 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -26,11 +25,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineCellEditor;
-import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractBaseEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.NoteFigure;
+import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
@@ -45,40 +45,20 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
  * 
  * @author Phillip Beauvoir
  */
-public class NoteEditPart extends AbstractBaseEditPart
+public class NoteEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart {
-
-    private Adapter adapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            switch(msg.getEventType()) {
-                case Notification.SET:
-                    Object feature = msg.getFeature();
-                    if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__BOUNDS) {
-                        refreshBounds();
-                    }
-                    else {
-                        refreshFigure();
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    };
-
+    
+    private ConnectionAnchor fAnchor;
     private DirectEditManager fDirectManager;
     
     @Override
-    protected Adapter getECoreAdapter() {
-        return adapter;
-    }
-
-    @Override
     protected void createEditPolicies() {
+        // Allow parts to be connected
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramConnectionPolicy());
+        
         // Add a policy to handle editing the Parts (for example, deleting a part)
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
+        
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new NoteDirectEditPolicy());
     }
 
@@ -105,6 +85,14 @@ implements IColoredEditPart, ITextAlignedEditPart {
             // Show Properties view
             ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
+    }
+
+    @Override
+    protected ConnectionAnchor getConnectionAnchor() {
+        if(fAnchor == null) {
+            fAnchor = new ChopboxAnchor(getFigure());
+        }
+        return fAnchor;
     }
 
     /**
