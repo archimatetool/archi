@@ -366,6 +366,26 @@
             file="hints/model.html"
             title="Model">
       </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDiagramModelConnection"
+            file="hints/connection.html"
+            title="Connection">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ISketchModel"
+            file="hints/sketch.html"
+            title="Sketch">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ISketchModelActor"
+            file="hints/sketch_actor.html"
+            title="Sketch Actor">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.ISketchModelSticky"
+            file="hints/sketch_sticky.html"
+            title="Sticky">
+      </hint>
    </extension>
 
 </plugin>
