@@ -53,6 +53,7 @@ import uk.ac.bolton.archimate.model.IBusinessLayerElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
@@ -206,6 +207,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             object = ((IAdaptable)selected).getAdapter(IArchimateElement.class);
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModelObject.class);
+            }
+            if(object == null) {
+                object = ((IAdaptable)selected).getAdapter(IDiagramModelConnection.class);
             }
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModel.class);
