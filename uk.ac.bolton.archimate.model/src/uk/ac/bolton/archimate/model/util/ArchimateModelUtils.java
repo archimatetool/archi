@@ -248,6 +248,14 @@ public class ArchimateModelUtils {
     }
 
     public static final boolean isValidRelationship(EClass sourceType, EClass targetType, EClass relationshipType) {
+        if(relationshipType == null) {
+            return false;
+        }
+        
+        if(!IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(relationshipType)) {
+            return false;
+        }
+        
         String keyLetter = keyLetters.get(relationshipType);
         if(keyLetter == null) {
             System.err.println("Tried to get keyLetter for " + relationshipType);
