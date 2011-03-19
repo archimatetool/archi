@@ -70,7 +70,9 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         EditPart sourceEditPart = request.getSourceEditPart();
         EditPart targetEditPart = request.getTargetEditPart();
         
-        if(sourceEditPart == null || sourceEditPart == targetEditPart) {
+        if(sourceEditPart == null
+                || sourceEditPart == targetEditPart
+                || (targetEditPart != null && !(targetEditPart.getModel() instanceof IDiagramModelArchimateObject))) {
             eraseSourceFeedback();
             return false;
         }
@@ -82,7 +84,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             IDiagramModelArchimateObject targetDiagramModelObject = (IDiagramModelArchimateObject)targetEditPart.getModel();
             return createConnection(request, sourceDiagramModelObject, targetDiagramModelObject);
         }
-        // If this is null, user clicked on empty canvas
+        
+        // If targetEditPart is null, user clicked on empty canvas
         return createElementAndConnection(sourceDiagramModelObject, request.getLocation());
     }
     
