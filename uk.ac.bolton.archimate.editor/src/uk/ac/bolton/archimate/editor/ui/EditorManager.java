@@ -65,7 +65,10 @@ public class EditorManager {
             id = IDiagramEditor.ID;
         }
         
-        return (IDiagramModelEditor)openEditor(new DiagramEditorInput(model), id);
+        IEditorPart part = openEditor(new DiagramEditorInput(model), id);
+        
+        // Check it actually is IDiagramModelEditor, it could be an org.eclipse.ui.internal.ErrorEditorPart if an error occurs
+        return part instanceof IDiagramModelEditor ? (IDiagramModelEditor)part : null;
     }
     
     /**
