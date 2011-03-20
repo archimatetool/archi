@@ -15,8 +15,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramConnectionCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
-import uk.ac.bolton.archimate.editor.diagram.commands.ReconnectDiagramConnectionSourceCommand;
-import uk.ac.bolton.archimate.editor.diagram.commands.ReconnectDiagramConnectionTargetCommand;
+import uk.ac.bolton.archimate.editor.diagram.commands.ReconnectDiagramConnectionCommand;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -30,7 +29,7 @@ import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 /**
- * A policy which allows a component to be connected to another component via a connection
+ * Diagram Connection Policy
  * 
  * @author Phillip Beauvoir
  */
@@ -45,7 +44,7 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         
         // Plain Connection
         if(classType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
-            cmd = new CreatePlainConnectionCommand(request);
+            cmd = new CreateLineConnectionCommand(request);
         }
         
         // Archimate Model Object Source
@@ -76,28 +75,33 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
 
     @Override
     protected Command getReconnectSourceCommand(ReconnectRequest request) {
-        // ArchiMate Connection
-        if(request.getConnectionEditPart().getModel() instanceof IDiagramModelArchimateConnection) {
+        IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
+        IDiagramModelObject newSource = (IDiagramModelObject)getHost().getModel();
+        
+        // Re-connect ArchiMate Connection Source to Archimate Element
+        if(connection instanceof IDiagramModelArchimateConnection && newSource instanceof IDiagramModelArchimateObject) {
+            // Compound Command
             CompoundCommand result = new CompoundCommand();
             
-            IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)request.getConnectionEditPart().getModel();
-            IDiagramModelArchimateObject newSource = (IDiagramModelArchimateObject)getHost().getModel();
-
-            IRelationship relationship = connection.getRelationship();
-            IArchimateElement newSourceElement = newSource.getArchimateElement();
-
             // Command for this re-connection
-            result.add(new ReconnectArchimateConnectionSourceCommand(connection, newSource));
+            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
+            cmd.setNewSource(newSource);
+            result.add(cmd);
 
             // Check for matching connections in other diagrams
+            IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
+            IArchimateElement newSourceElement = ((IDiagramModelArchimateObject)newSource).getArchimateElement();
+
             for(IDiagramModel diagramModel : newSourceElement.getArchimateModel().getDiagramModels()) {
                 IDiagramModelArchimateConnection matchingConnection = (IDiagramModelArchimateConnection)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, relationship);
                 if(matchingConnection != null && matchingConnection != connection) { // don't use original one
                     // Does the new source exist on the diagram?
-                    IDiagramModelArchimateObject newSource2 = (IDiagramModelArchimateObject)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, newSourceElement);
+                    IDiagramModelArchimateObject matchingSource = (IDiagramModelArchimateObject)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, newSourceElement);
                     // Yes, reconnect
-                    if(newSource2 != null) {
-                        result.add(new ReconnectArchimateConnectionSourceCommand(matchingConnection, newSource2));
+                    if(matchingSource != null) {
+                        ReconnectConnectionCommand cmd2 = new ReconnectConnectionCommand(matchingConnection);
+                        cmd2.setNewSource(matchingSource);
+                        result.add(cmd2);
                     }
                     // No, so delete the matching connection
                     else {
@@ -109,40 +113,43 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return result.unwrap();
         }
         
-        // Plain Connection
-        else if(request.getConnectionEditPart().getModel() instanceof IDiagramModelConnection) {
-            IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
-            IDiagramModelObject newSource = (IDiagramModelObject)getHost().getModel();
-            return new ReconnectPlainConnectionSourceCommand(connection, newSource);
+        // Re-connect Line Connection Source
+        else {
+            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
+            cmd.setNewSource(newSource);
+            return cmd;
         }
-        
-        return null;
     }
 
     @Override
     protected Command getReconnectTargetCommand(ReconnectRequest request) {
-        // ArchiMate Connection
-        if(request.getConnectionEditPart().getModel() instanceof IDiagramModelArchimateConnection) {
+        IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
+        IDiagramModelObject newTarget = (IDiagramModelObject)getHost().getModel();
+
+        // Re-connect ArchiMate Connection Target to Archimate Element
+        if(connection instanceof IDiagramModelArchimateConnection && newTarget instanceof IDiagramModelArchimateObject) {
+            // Compound Command
             CompoundCommand result = new CompoundCommand();
 
-            IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)request.getConnectionEditPart().getModel();
-            IDiagramModelArchimateObject newTarget = (IDiagramModelArchimateObject)getHost().getModel();
-
-            IRelationship relationship = connection.getRelationship();
-            IArchimateElement newTargetElement = newTarget.getArchimateElement();
-
             // Command for this re-connection
-            result.add(new ReconnectArchimateConnectionTargetCommand(connection, newTarget));
+            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
+            cmd.setNewTarget(newTarget);
+            result.add(cmd);
 
             // Check for matching connections in other diagrams
+            IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
+            IArchimateElement newTargetElement = ((IDiagramModelArchimateObject)newTarget).getArchimateElement();
+
             for(IDiagramModel diagramModel : newTargetElement.getArchimateModel().getDiagramModels()) {
                 IDiagramModelArchimateConnection matchingConnection = (IDiagramModelArchimateConnection)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, relationship);
                 if(matchingConnection != null && matchingConnection != connection) { // don't use original one
                     // Does the new target exist on the diagram?
-                    IDiagramModelArchimateObject newTarget2 = (IDiagramModelArchimateObject)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, newTargetElement);
+                    IDiagramModelArchimateObject matchingTarget = (IDiagramModelArchimateObject)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, newTargetElement);
                     // Yes, reconnect
-                    if(newTarget2 != null) {
-                        result.add(new ReconnectArchimateConnectionTargetCommand(matchingConnection, newTarget2));
+                    if(matchingTarget != null) {
+                        ReconnectConnectionCommand cmd2 = new ReconnectConnectionCommand(matchingConnection);
+                        cmd2.setNewTarget(matchingTarget);
+                        result.add(cmd2);
                     }
                     // No, so delete the matching connection
                     else {
@@ -154,16 +161,13 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return result.unwrap();
         }
         
-        // Plain Connection
-        else if(request.getConnectionEditPart().getModel() instanceof IDiagramModelConnection) {
-            IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
-            IDiagramModelObject newTarget = (IDiagramModelObject)getHost().getModel();
-            return new ReconnectPlainConnectionTargetCommand(connection, newTarget);
+        // Re-connect Line Connection Target
+        else {
+            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
+            cmd.setNewTarget(newTarget);
+            return cmd;
         }
-        
-        return null;
     }
-
 
     
     
@@ -173,10 +177,10 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     // ==================================================================================================
     
     /*
-     * Command to create a plain connection
+     * Command to create a line connection
      */
-    private class CreatePlainConnectionCommand extends CreateDiagramConnectionCommand {
-        public CreatePlainConnectionCommand(CreateConnectionRequest request) {
+    private class CreateLineConnectionCommand extends CreateDiagramConnectionCommand {
+        public CreateLineConnectionCommand(CreateConnectionRequest request) {
             super(request);
         }
         
@@ -194,7 +198,7 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
      * Command to create an Archimate type connection.
      * Will also add and remove the associated Archimate Relationship to the model
      */
-    private class CreateArchimateConnectionCommand extends CreatePlainConnectionCommand {
+    private class CreateArchimateConnectionCommand extends CreateLineConnectionCommand {
         public CreateArchimateConnectionCommand(CreateConnectionRequest request) {
             super(request);
         }
@@ -225,69 +229,38 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     }
     
     /*
-     * Command to reconnect a plain connection's source
+     * Command to reconnect a connection
      */
-    private class ReconnectPlainConnectionSourceCommand extends ReconnectDiagramConnectionSourceCommand {
-        public ReconnectPlainConnectionSourceCommand(IDiagramModelConnection connection, IDiagramModelObject newSource) {
-            super(connection, newSource);
+    private class ReconnectConnectionCommand extends ReconnectDiagramConnectionCommand {
+        public ReconnectConnectionCommand(IDiagramModelConnection connection) {
+            super(connection);
         }
-
+        
         @Override
-        public boolean canExecute() {
-            if(super.canExecute()) {
-                return isValidConnection(fNewSource, fTarget, fConnection.eClass());
+        protected boolean checkSourceConnection() {
+            if(super.checkSourceConnection()) {
+                if(fConnection instanceof IDiagramModelArchimateConnection) {
+                    return isValidConnection(fNewSource, fOldTarget, ((IDiagramModelArchimateConnection)fConnection).getRelationship().eClass());
+                }
+                else {
+                    return isValidConnection(fNewSource, fOldTarget, fConnection.eClass());
+                }
             }
+            
             return false;
         }
-    }
-
-    /*
-     * Command to reconnect a plain connection's target
-     */
-    private class ReconnectPlainConnectionTargetCommand extends ReconnectDiagramConnectionTargetCommand {
-        public ReconnectPlainConnectionTargetCommand(IDiagramModelConnection connection, IDiagramModelObject newTarget) {
-            super(connection, newTarget);
-        }
-
+        
         @Override
-        public boolean canExecute() {
-            if(super.canExecute()) {
-                return isValidConnection(fSource, fNewTarget, fConnection.eClass());
+        protected boolean checkTargetConnection() {
+            if(super.checkTargetConnection()) {
+                if(fConnection instanceof IDiagramModelArchimateConnection) {
+                    return isValidConnection(fOldSource, fNewTarget, ((IDiagramModelArchimateConnection)fConnection).getRelationship().eClass());
+                }
+                else {
+                    return isValidConnection(fOldSource, fNewTarget, fConnection.eClass());
+                }
             }
-            return false;
-        }
-    }
-
-    /*
-     * Command to reconnect an Archimate type connection's source
-     */
-    private class ReconnectArchimateConnectionSourceCommand extends ReconnectDiagramConnectionSourceCommand {
-        public ReconnectArchimateConnectionSourceCommand(IDiagramModelArchimateConnection connection, IDiagramModelObject newSource) {
-            super(connection, newSource);
-        }
-
-        @Override
-        public boolean canExecute() {
-            if(super.canExecute()) {
-                return isValidConnection(fNewSource, fTarget, ((IDiagramModelArchimateConnection)fConnection).getRelationship().eClass());
-            }
-            return false;
-        }
-    }
-
-    /*
-     * Command to reconnect an Archimate type connection's target
-     */
-    private class ReconnectArchimateConnectionTargetCommand extends ReconnectDiagramConnectionTargetCommand {
-        public ReconnectArchimateConnectionTargetCommand(IDiagramModelArchimateConnection connection, IDiagramModelObject newTarget) {
-            super(connection, newTarget);
-        }
-
-        @Override
-        public boolean canExecute() {
-            if(super.canExecute()) {
-                return isValidConnection(fSource, fNewTarget, ((IDiagramModelArchimateConnection)fConnection).getRelationship().eClass());
-            }
+            
             return false;
         }
     }
@@ -334,6 +307,10 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         // Connection from/to notes
         if(source instanceof IDiagramModelNote || target instanceof IDiagramModelNote) {
             return relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection();
+        }
+        
+        if(source instanceof IDiagramModelArchimateObject && target == null) {
+            return true;
         }
         
         return false;
