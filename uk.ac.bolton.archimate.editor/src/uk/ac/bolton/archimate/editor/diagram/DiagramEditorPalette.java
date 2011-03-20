@@ -112,9 +112,9 @@ public class DiagramEditorPalette extends PaletteRoot {
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
         toolBar.add(groupEntry);
         
-        // Connection
+        // Note Connection
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                "Connection");
+                "Note Connection");
         toolBar.add(entry);
         
         return toolBar;

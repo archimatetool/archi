@@ -1,6 +1,5 @@
 Priority 1
 ----------
-More alternate figures (e.g Interface Circles)
 Profiles and Property key/value pairs
 
 
@@ -34,5 +33,4 @@ Element names are multi-line
 Advanced Derived Relations
 "Show name as label" overall Preference for connections
 Disallow objects with the same name
-Connection from Note to Element
 Circular relations
