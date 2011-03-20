@@ -70,23 +70,26 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         EditPart sourceEditPart = request.getSourceEditPart();
         EditPart targetEditPart = request.getTargetEditPart();
         
-        if(sourceEditPart == null
-                || sourceEditPart == targetEditPart
-                || (targetEditPart != null && !(targetEditPart.getModel() instanceof IDiagramModelArchimateObject))) {
+        if(sourceEditPart == null || sourceEditPart == targetEditPart) {
             eraseSourceFeedback();
             return false;
         }
         
         IDiagramModelArchimateObject sourceDiagramModelObject = (IDiagramModelArchimateObject)sourceEditPart.getModel();
         
-        // User clicked on target edit part
-        if(targetEditPart != null) {
+        // If targetEditPart is null then user clicked on the canvas or Group, or explicitly on a Group
+        if(targetEditPart == null || targetEditPart instanceof GroupEditPart) {
+            return createElementAndConnection(sourceDiagramModelObject, request.getLocation());
+        }
+        
+        // User clicked on Archimate target edit part
+        if(targetEditPart.getModel() instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject targetDiagramModelObject = (IDiagramModelArchimateObject)targetEditPart.getModel();
             return createConnection(request, sourceDiagramModelObject, targetDiagramModelObject);
         }
         
-        // If targetEditPart is null, user clicked on empty canvas
-        return createElementAndConnection(sourceDiagramModelObject, request.getLocation());
+        eraseSourceFeedback();
+        return false;
     }
     
     /**
