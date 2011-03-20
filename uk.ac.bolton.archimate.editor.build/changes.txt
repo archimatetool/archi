@@ -3,8 +3,9 @@ Archi Changes
 
 Version 1.7 April XX 2011
 -------------------------
-+ Can now rename a Model Tree element with in-place editing ("Rename" in context and main menu)
++ Can now rename a Model Tree element with in-place editing ("Rename" in context and main menu items or F2 key)
 + When adding a new element on the Model Tree the focus is put on in-place editing so you can edit the name
++ Can now rename a View diagram element with "Rename" context and main menu items or F2 key
 + A View figure's text control can also be edited with a single-click when it is selected
 + Added a Preference for circle figures for Interface types
 + Added a Connection type to the Palette for connections to/from Notes

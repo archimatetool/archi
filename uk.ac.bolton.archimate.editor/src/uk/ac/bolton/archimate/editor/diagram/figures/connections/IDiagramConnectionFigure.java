@@ -39,9 +39,4 @@ public interface IDiagramConnectionFigure extends Connection {
      * @param set if true highlight
      */
     void highlight(boolean set);
-    
-    /**
-     * Dispose of figure
-     */
-    void dispose();
 }

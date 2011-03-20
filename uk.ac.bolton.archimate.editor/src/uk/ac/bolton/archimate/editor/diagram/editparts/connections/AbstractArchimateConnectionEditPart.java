@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
-import uk.ac.bolton.archimate.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -126,11 +125,11 @@ implements IArchimateConnectionEditPart {
     protected void showStructural() {
         IRelationship relation = getModel().getRelationship();
         boolean doHighlight = DerivedRelationsUtils.isInDerivedChain(relation);
-        ((IDiagramConnectionFigure)getFigure()).highlight(doHighlight);
+        getFigure().highlight(doHighlight);
     }
     
     protected void clearStructural() {
-        ((IDiagramConnectionFigure)getFigure()).highlight(false);
+        getFigure().highlight(false);
     }
     
     @SuppressWarnings("rawtypes")

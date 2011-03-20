@@ -64,23 +64,39 @@ implements IColoredEditPart, ITextEditPart  {
         // Refresh the figure if necessary
         ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
     }
+    
+    @Override
+    public IEditableLabelFigure getFigure() {
+        return (IEditableLabelFigure)super.getFigure();
+    }
 
     @Override
     public void performRequest(Request request) {
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
+        // REQ_OPEN is Double-click
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-            // Edit the label if we clicked on it
-            IEditableLabelFigure figure = (IEditableLabelFigure)getFigure();
-            if(figure.didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
-                if(fDirectEditManager == null) {
-                    fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(figure.getLabel()),
-                            figure.getLabel());
+            if(request instanceof LocationRequest) {
+                // Edit the text control if we clicked on it
+                if(getFigure().didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+                    getDirectEditManager().show();
                 }
-                fDirectEditManager.show();
+                // Else open Properties View on double-click
+                else if(request.getType() == RequestConstants.REQ_OPEN){
+                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                }
             }
-            else if(request.getType() == RequestConstants.REQ_OPEN) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            else {
+                getDirectEditManager().show();
             }
         }
+    }
+    
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(getFigure().getLabel()),
+                    getFigure().getLabel());
+        }
+        return fDirectEditManager;
     }
     
     @Override

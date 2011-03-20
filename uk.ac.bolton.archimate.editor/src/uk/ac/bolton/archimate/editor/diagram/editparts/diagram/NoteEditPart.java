@@ -126,8 +126,6 @@ implements IColoredEditPart, ITextAlignedEditPart {
             getCellEditor().setValue(StringUtils.safeString(value));
             
             Text text = (Text)getCellEditor().getControl();
-            text.selectAll();
-            
             NoteFigure figure = (NoteFigure)getFigure();
             text.setFont(figure.getFont());
             text.setForeground(figure.getTextControl().getForegroundColor());

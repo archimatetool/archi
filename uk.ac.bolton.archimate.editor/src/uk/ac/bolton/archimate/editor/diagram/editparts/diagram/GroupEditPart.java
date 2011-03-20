@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -28,13 +27,12 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IEditableLabelFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.GroupFigure;
+import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -54,7 +52,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public class GroupEditPart extends AbstractBaseEditPart
 implements IColoredEditPart, ITextEditPart {
     
-    private DirectEditManager fManager;
+    private DirectEditManager fDirectEditManager;
 
     private Adapter adapter = new AdapterImpl() {
         @Override
@@ -124,36 +122,49 @@ implements IColoredEditPart, ITextEditPart {
     }
     
     @Override
+    public IEditableLabelFigure getFigure() {
+        return (IEditableLabelFigure)super.getFigure();
+    }
+    
+    @Override
     public IFigure getContentPane() {
         return ((IContainerFigure)getFigure()).getContentPane();
     }
 
     @Override
     protected void refreshFigure() {
-        // Refresh the figure if necessary
-        ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
+        getFigure().refreshVisuals();
     }
 
-    /** 
-     * Edit Requests are handled here
-     */
     @Override
     public void performRequest(Request request) {
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
+        // REQ_OPEN is Double-click
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-            // Edit the label if we clicked on it
-            if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
-                if(fManager == null) {
-                    Label label = ((IEditableLabelFigure)getFigure()).getLabel();
-                    fManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(label), label);
+            if(request instanceof LocationRequest) {
+                // Edit the text control if we clicked on it
+                if(getFigure().didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+                    getDirectEditManager().show();
                 }
-                fManager.show();
+                // Else open Properties View on double-click
+                else if(request.getType() == RequestConstants.REQ_OPEN){
+                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                }
             }
-            // Open Properties view
-            else if(request.getType() == RequestConstants.REQ_OPEN) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            else {
+                getDirectEditManager().show();
             }
         }
     }
+    
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(getFigure().getLabel()),
+                    getFigure().getLabel());
+        }
+        return fDirectEditManager;
+    }
+
 
     @SuppressWarnings("rawtypes")
     @Override

@@ -89,8 +89,6 @@ public class LabelDirectEditManager extends DirectEditManager {
             IFigure figure = (getEditPart()).getFigure();
             text.setFont(figure.getFont());
         }
-
-        text.selectAll();
     }
 
     /**

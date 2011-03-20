@@ -59,7 +59,7 @@ import uk.ac.bolton.archimate.model.ITextContent;
 public class StickyEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart  {
     
-    private DirectEditManager fDirectManager;
+    private DirectEditManager fDirectEditManager;
     private ConnectionAnchor fAnchor;
 
     @Override
@@ -121,15 +121,19 @@ implements IColoredEditPart, ITextAlignedEditPart  {
     @Override
     public void performRequest(Request req) {
         if(req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
-            if(fDirectManager == null) {
-                fDirectManager = new StickyDirectEditManager();
-            }
-            fDirectManager.show();
+            getDirectEditManager().show();
         }
         else if(req.getType() == RequestConstants.REQ_OPEN) {
             // Show Properties view
             ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
+    }
+
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new StickyDirectEditManager();
+        }
+        return fDirectEditManager;
     }
     
     @Override
@@ -170,8 +174,6 @@ implements IColoredEditPart, ITextAlignedEditPart  {
             getCellEditor().setValue(StringUtils.safeString(value));
             
             Text text = (Text)getCellEditor().getControl();
-            text.selectAll();
-            
             StickyFigure figure = (StickyFigure)getFigure();
             text.setFont(figure.getFont());
             text.setForeground(figure.getTextControl().getForegroundColor());

@@ -17,7 +17,7 @@ import org.eclipse.draw2d.geometry.Dimension;
  * 
  * @author Phillip Beauvoir
  */
-public interface IDiagramModelObjectFigure {
+public interface IDiagramModelObjectFigure extends IFigure {
     
     /**
      * Refresh the visual figure according to the model

@@ -175,7 +175,4 @@ extends PolylineConnection implements IDiagramConnectionFigure {
      */
     protected void setToolTip() {
     }
-    
-    public void dispose() {
-    }
 }

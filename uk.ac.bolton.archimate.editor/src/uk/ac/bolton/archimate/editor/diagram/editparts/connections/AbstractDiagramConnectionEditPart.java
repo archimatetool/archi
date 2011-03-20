@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.RelativeBendpoint;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -127,9 +126,6 @@ implements IDiagramConnectionEditPart {
             ((IDiagramModelConnection)getModel()).eAdapters().remove(fConnectionAdapter);
             
             Preferences.STORE.removePropertyChangeListener(prefsListener);
-            
-            // Dispose of figure
-            ((IDiagramConnectionFigure)getFigure()).dispose();
         }
     }
     
@@ -146,23 +142,39 @@ implements IDiagramConnectionEditPart {
         getFigure().removePropertyChangeListener(Connection.PROPERTY_CONNECTION_ROUTER, figureListener);
         super.deactivateFigure();
     }
+    
+    @Override
+    public IDiagramConnectionFigure getFigure() {
+        return (IDiagramConnectionFigure)super.getFigure();
+    }
 
     @Override
     public void performRequest(Request request) {
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
+        // REQ_OPEN is Double-click
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-            // Edit relationship label if we clicked on it
-            if(((IDiagramConnectionFigure)getFigure()).didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
-                Label label = ((IDiagramConnectionFigure)getFigure()).getConnectionLabel();
-                if(fDirectEditManager == null) {
-                    fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(label), label);
+            if(request instanceof LocationRequest) {
+                // Edit the text control if we clicked on it
+                if(getFigure().didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
+                    getDirectEditManager().show();
                 }
-                fDirectEditManager.show();
+                // Else open Properties View on double-click
+                else if(request.getType() == RequestConstants.REQ_OPEN){
+                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                }
             }
-            // Open Properties View
-            else if(request.getType() == RequestConstants.REQ_OPEN) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            else {
+                getDirectEditManager().show();
             }
         }
+    }
+    
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(getFigure().getConnectionLabel()),
+                    getFigure().getConnectionLabel());
+        }
+        return fDirectEditManager;
     }
     
     @Override
@@ -190,7 +202,7 @@ implements IDiagramConnectionEditPart {
     protected void refreshVisuals() {
         // This will need to be updated when user changes source or target end-connection
         // as well as on Property change.
-        ((IDiagramConnectionFigure)getFigure()).refreshVisuals();
+        getFigure().refreshVisuals();
         
         refreshBendpoints();
     }

@@ -84,6 +84,10 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         action = actionRegistry.getAction(ActionFactory.DELETE.getId());
         menu.appendToGroup(GROUP_EDIT, action);
         
+        menu.add(new Separator());
+        action = actionRegistry.getAction(ActionFactory.RENAME.getId());
+        menu.appendToGroup(GROUP_EDIT, action);
+        
         menu.add(new Separator(GROUP_EXPORT));
         IMenuManager exportMenu = new MenuManager("Export");
         menu.add(exportMenu);

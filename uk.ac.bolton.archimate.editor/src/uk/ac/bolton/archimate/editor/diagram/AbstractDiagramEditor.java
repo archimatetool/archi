@@ -34,6 +34,7 @@ import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
+import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.MatchHeightAction;
 import org.eclipse.gef.ui.actions.MatchWidthAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -519,6 +520,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Add our own Print Action
         action = new PrintDiagramAction(this);
         registry.registerAction(action);
+        
+        // Direct Edit Rename
+        action = new DirectEditAction(this);
+        action.setId(ActionFactory.RENAME.getId()); // Set this for Global Handler
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
         
         // Change the Delete Action label
         action = registry.getAction(ActionFactory.DELETE.getId());

@@ -6,6 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.swt.graphics.Image;
 
@@ -14,7 +15,7 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @author Phillip Beauvoir
  */
-public interface IIconTypeFigure {
+public interface IIconTypeFigure extends IFigure {
 
     /**
      * @return The Image Label

@@ -22,7 +22,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.directedit.TextFlowCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IEditableTextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerLayoutPolicy;
@@ -39,8 +38,7 @@ import uk.ac.bolton.archimate.editor.ui.ViewManager;
 public abstract class AbstractArchimateEditableTextFlowEditPart
 extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditPart {
     
-    protected DirectEditManager fDirectEditManager;
-    
+    private DirectEditManager fDirectEditManager;
     private ConnectionAnchor fAnchor;
     
     @Override
@@ -53,10 +51,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     
     @Override
     protected void refreshFigure() {
-        // Refresh the figure if necessary
-        if(getFigure() instanceof IDiagramModelObjectFigure) {
-            ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
-        }
+        getFigure().refreshVisuals();
     }
     
     @Override
@@ -67,6 +62,11 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     @Override
     public IFigure getContentPane() {
         return ((IContainerFigure)getFigure()).getContentPane();
+    }
+    
+    @Override
+    public IEditableTextFlowFigure getFigure() {
+        return (IEditableTextFlowFigure)super.getFigure();
     }
 
     @Override
@@ -92,26 +92,33 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
         installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ContainerHighlightEditPolicy());
     }
     
-    /** 
-     * Edit Requests are handled here
-     */
     @Override
     public void performRequest(Request request) {
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
+        // REQ_OPEN is Double-click
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-            // Edit the textflow if we clicked on it
-            IEditableTextFlowFigure figure = (IEditableTextFlowFigure)getFigure();
-            if(figure.didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
-                if(fDirectEditManager == null) {
-                    fDirectEditManager = new LabelDirectEditManager(this, new TextFlowCellEditorLocator(figure.getTextControl()),
-                            figure.getTextControl());
+            if(request instanceof LocationRequest) {
+                // Edit the text control if we clicked on it
+                if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
+                    getDirectEditManager().show();
                 }
-                fDirectEditManager.show();
+                // Else open Properties View on double-click
+                else if(request.getType() == RequestConstants.REQ_OPEN){
+                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                }
             }
-            // Else open Properties View
-            else if(request.getType() == RequestConstants.REQ_OPEN){
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            else {
+                getDirectEditManager().show();
             }
         }
+    }
+    
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new LabelDirectEditManager(this, new TextFlowCellEditorLocator(getFigure().getTextControl()),
+                    getFigure().getTextControl());
+        }
+        return fDirectEditManager;
     }
     
     @SuppressWarnings("rawtypes")

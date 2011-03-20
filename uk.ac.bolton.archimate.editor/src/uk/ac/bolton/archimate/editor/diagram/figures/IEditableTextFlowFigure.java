@@ -16,7 +16,7 @@ import org.eclipse.draw2d.text.TextFlow;
  * 
  * @author Phillip Beauvoir
  */
-public interface IEditableTextFlowFigure {
+public interface IEditableTextFlowFigure extends IDiagramModelObjectFigure {
     
     /**
      * @return The Text Control

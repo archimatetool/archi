@@ -8,7 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.Label;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -17,10 +16,10 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IEditableLabelFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
+import uk.ac.bolton.archimate.editor.ui.ViewManager;
 
 /**
  * Edit Part with connections and editable label
@@ -30,9 +29,8 @@ import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 public abstract class AbstractArchimateEditableLabelEditPart
 extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
 
-    protected DirectEditManager fDirectEditManager;
-    
-    protected ConnectionAnchor fAnchor;
+    private DirectEditManager fDirectEditManager;
+    private ConnectionAnchor fAnchor;
     
     @Override
     protected ConnectionAnchor getConnectionAnchor() {
@@ -44,10 +42,12 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
     
     @Override
     protected void refreshFigure() {
-        // Refresh the figure if necessary
-        if(getFigure() instanceof IDiagramModelObjectFigure) {
-            ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
-        }
+        getFigure().refreshVisuals();
+    }
+    
+    @Override
+    public IEditableLabelFigure getFigure() {
+        return (IEditableLabelFigure)super.getFigure();
     }
     
     @Override
@@ -59,23 +59,33 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
     }
     
-    /** 
-     * Edit Requests are handled here
-     */
     @Override
     public void performRequest(Request request) {
-        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
-            // Edit the label if we clicked on it
-            if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
-                if(fDirectEditManager == null) {
-                    Label label = ((IEditableLabelFigure)getFigure()).getLabel();
-                    fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(label), label);
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
+        // REQ_OPEN is Double-click
+        if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
+            if(request instanceof LocationRequest) {
+                // Edit the text control if we clicked on it
+                if(getFigure().didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+                    getDirectEditManager().show();
                 }
-                fDirectEditManager.show();
+                // Else open Properties View on double-click
+                else if(request.getType() == RequestConstants.REQ_OPEN){
+                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                }
             }
             else {
-                
+                getDirectEditManager().show();
             }
         }
     }
+    
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(getFigure().getLabel()),
+                    getFigure().getLabel());
+        }
+        return fDirectEditManager;
+    }
+
 }
