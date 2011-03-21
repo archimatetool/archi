@@ -309,10 +309,6 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection();
         }
         
-        if(source instanceof IDiagramModelArchimateObject && target == null) {
-            return true;
-        }
-        
         return false;
     }
     
