@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 import uk.ac.bolton.archimate.editor.diagram.DiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractBaseEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.IArchimateEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.GroupEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
@@ -77,8 +78,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         
         IDiagramModelArchimateObject sourceDiagramModelObject = (IDiagramModelArchimateObject)sourceEditPart.getModel();
         
-        // If targetEditPart is null then user clicked on the canvas or Group, or explicitly on a Group
-        if(targetEditPart == null || targetEditPart instanceof GroupEditPart) {
+        // If targetEditPart is null then user clicked on the canvas or in a non-Archimate Editpart
+        if(targetEditPart == null) {
             return createElementAndConnection(sourceDiagramModelObject, request.getLocation());
         }
         
@@ -90,6 +91,16 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         
         eraseSourceFeedback();
         return false;
+    }
+    
+    @Override
+    protected void setTargetEditPart(EditPart editpart) {
+        // Set this to null if it's not an Archimate target editpart so we can handle it as if we clicked on the canvas
+        // This also disables unwanted connection target feedback
+        if(!(editpart instanceof IArchimateEditPart)) {
+            editpart = null;
+        }
+        super.setTargetEditPart(editpart);
     }
     
     /**
