@@ -24,6 +24,7 @@ import org.eclipse.swt.events.ArmEvent;
 import org.eclipse.swt.events.ArmListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -36,6 +37,7 @@ import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.ComponentSelectionManager;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -51,10 +53,22 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class MagicConnectionCreationTool extends ConnectionCreationTool {
     
+    private static Cursor cursor = new Cursor(
+            null,
+            IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(),
+            0,
+            0);
+
+    
     /**
      * Flags to update Factory elements when hovering on menu items
      */
     private boolean fArmOnElements, fArmOnConnections;
+    
+    public MagicConnectionCreationTool() {
+       setDefaultCursor(cursor);
+       setDisabledCursor(cursor);
+    }
     
     @Override
     protected boolean handleCreateConnection() {
