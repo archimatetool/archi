@@ -12,6 +12,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -44,7 +45,7 @@ implements IWorkbenchAction
         dialog.setFilterExtensions(new String[] { IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } );
         String path = dialog.open();
         if(path != null) {
-            File file = new File(path);
+            final File file = new File(path);
             
             // Check it's not already open
             IArchimateModel model = getModel(file);
@@ -57,7 +58,11 @@ implements IWorkbenchAction
                 return;
             }
             
-            IEditorModelManager.INSTANCE.openModel(file);
+            BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+                public void run() {
+                    IEditorModelManager.INSTANCE.openModel(file);
+                }
+            });
         }
     }
     

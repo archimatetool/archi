@@ -17,6 +17,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
@@ -177,7 +179,11 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         public void run() {
             if(file.exists()) {
                 if(!IEditorModelManager.INSTANCE.isModelLoaded(file)) {
-                    IEditorModelManager.INSTANCE.openModel(file);
+                    BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+                        public void run() {
+                            IEditorModelManager.INSTANCE.openModel(file);
+                        }
+                    });
                 }
             }
             else {
