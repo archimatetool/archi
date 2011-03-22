@@ -6,11 +6,14 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
+import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
@@ -30,10 +33,30 @@ public class GroupFigure
 extends AbstractEditableLabelContainerFigure {
     
     static Dimension DEFAULT_SIZE = new Dimension(400, 140);
-
-    int FOLD_HEIGHT = 18;
-    int SHADOW_OFFSET = 2;
+    static int FOLD_HEIGHT = 18;
+    static int SHADOW_OFFSET = 2;
     
+    /**
+     * Connection Anchor adjusts for Group shape
+     */
+    static class GroupFigureConnectionAnchor extends ChopboxAnchor {
+        GroupFigureConnectionAnchor(IFigure owner) {
+            super(owner);
+        }
+        
+        @Override
+        public Point getLocation(Point reference) {
+            Point pt = super.getLocation(reference);
+            
+            Rectangle r = getBox();
+            if(pt.x > r.x + (r.width / 2) && pt.y < (r.y + r.height)) {
+                pt.y += FOLD_HEIGHT;
+            }
+            
+            return pt;
+        };
+    }
+
     public GroupFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
@@ -57,6 +80,10 @@ extends AbstractEditableLabelContainerFigure {
         
         // Have to add this if we want Animation to work on figures!
         AnimationUtil.addFigureForAnimation(getMainFigure());
+    }
+    
+    public ConnectionAnchor createConnectionAnchor() {
+        return new GroupFigureConnectionAnchor(this);
     }
     
     @Override

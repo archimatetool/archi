@@ -6,6 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts.business;
 
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
@@ -17,11 +19,20 @@ import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessValueFigur
  * @author Phillip Beauvoir
  */
 public class BusinessValueEditPart
-extends AbstractArchimateEditableTextFlowEditPart {            
+extends AbstractArchimateEditableTextFlowEditPart {
+    
+    private ConnectionAnchor fAnchor;
     
     @Override
     protected IFigure createFigure() {
         return new BusinessValueFigure(getModel());
     }
  
+    @Override
+    protected ConnectionAnchor getConnectionAnchor() {
+        if(fAnchor == null) {
+            fAnchor = new EllipseAnchor(getFigure());
+        }
+        return fAnchor;
+    }
 }
