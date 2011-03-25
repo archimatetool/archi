@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -278,8 +277,7 @@ public class TreeModelViewer extends TreeViewer {
             // If a dirty model show asterisk
             if(element instanceof IArchimateModel) {
                 IArchimateModel model = (IArchimateModel)element;
-                CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-                if(stack.isDirty()) {
+                if(IEditorModelManager.INSTANCE.isModelDirty(model)) {
                     name = "*" + name;
                 }
             }

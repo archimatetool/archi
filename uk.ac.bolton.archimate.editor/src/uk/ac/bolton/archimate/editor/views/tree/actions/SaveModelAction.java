@@ -8,7 +8,6 @@ package uk.ac.bolton.archimate.editor.views.tree.actions;
 
 import java.io.IOException;
 
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchCommandConstants;
@@ -40,7 +39,7 @@ public class SaveModelAction extends ViewerAction {
     @Override
     public void run() {
         // Get selected Model and save it and any Diagrams via EditorModel Manager
-        IArchimateModel model = (IArchimateModel)fView.getAdapter(IArchimateModel.class);
+        IArchimateModel model = getModel();
         if(model != null) {
             try {
                 IEditorModelManager.INSTANCE.saveModel(model);
@@ -54,8 +53,10 @@ public class SaveModelAction extends ViewerAction {
 
     @Override
     public void update(IStructuredSelection selection) {
-        CommandStack stack = (CommandStack)fView.getAdapter(CommandStack.class);
-        setEnabled(stack.isDirty());
+        setEnabled(IEditorModelManager.INSTANCE.isModelDirty(getModel()));
     }
 
+    private IArchimateModel getModel() {
+        return (IArchimateModel)fView.getAdapter(IArchimateModel.class);
+    }
 }

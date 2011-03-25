@@ -104,6 +104,13 @@ public interface IEditorModelManager {
     boolean saveModelAs(IArchimateModel model) throws IOException;
     
     /**
+     * Check if the model needs saving
+     * @param model
+     * @return True if model has been changed and needs saving
+     */
+    boolean isModelDirty(IArchimateModel model);
+    
+    /**
      * Save the state of loaded models
      * @throws IOException
      */

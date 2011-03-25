@@ -89,8 +89,7 @@ implements IEditorModelManager {
         public boolean preShutdown(IWorkbench  workbench, boolean forced) {
             // Handle modified models
             for(IArchimateModel model : getModels()) {
-                CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-                if(stack.isDirty()) {
+                if(isModelDirty(model)) {
                     try {
                         boolean result = askSaveModel(model);
                         if(!result) {
@@ -252,8 +251,7 @@ implements IEditorModelManager {
     @Override
     public boolean closeModel(IArchimateModel model) throws IOException {
         // Check if model needs saving
-        CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-        if(stack.isDirty()) {
+        if(isModelDirty(model)) {
             boolean result = askSaveModel(model);
             if(!result) {
                 return false;
@@ -366,7 +364,17 @@ implements IEditorModelManager {
         
         return false;
     }
-    
+
+    @Override
+    public boolean isModelDirty(IArchimateModel model) {
+        if(model == null) {
+            return false;
+        }
+        
+        CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
+        return stack != null && stack.isDirty();
+    }
+
     /**
      * Ask user for file name to save model
      * @return
@@ -512,5 +520,4 @@ implements IEditorModelManager {
             firePropertyChange(this, PROPERTY_ECORE_EVENT, null, msg);
         }
     }
-
 }

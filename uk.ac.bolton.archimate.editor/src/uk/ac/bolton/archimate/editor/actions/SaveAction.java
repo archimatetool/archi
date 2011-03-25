@@ -10,7 +10,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISharedImages;
@@ -79,14 +78,8 @@ public class SaveAction extends AbstractModelSelectionAction {
     
     @Override
     protected void updateState() {
-        CommandStack stack = null;
-        
         IArchimateModel model = getActiveArchimateModel();
-        if(model != null) {
-            stack = (CommandStack)model.getAdapter(CommandStack.class);
-        }
-        
-        setEnabled(stack != null && stack.isDirty());
+        setEnabled(IEditorModelManager.INSTANCE.isModelDirty(model));
     }
     
     @Override
