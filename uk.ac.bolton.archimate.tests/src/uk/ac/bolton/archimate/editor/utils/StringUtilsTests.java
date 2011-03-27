@@ -6,7 +6,9 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
@@ -57,22 +59,6 @@ public class StringUtilsTests {
 
     // ---------------------------------------------------------------------------------------------
     // TESTS GO HERE 
-    // ---------------------------------------------------------------------------------------------
-
-    /**
-     * stripTags()
-     */
-    @Test
-    public void stripTags_String() {
-        String string = "This is a test String";
-        String result = StringUtils.stripTags(string);
-        assertEquals("String should be the same", string, result);
-        
-        String string2 = "<bold>This is a <i>test String</bold>";
-        result = StringUtils.stripTags(string2);
-        assertEquals("String should be the same", string, result);
-    }
-    
     // ---------------------------------------------------------------------------------------------
 
     /**

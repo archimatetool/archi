@@ -6,7 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.utils;
 
-import java.util.regex.Pattern;
 
 
 
@@ -18,34 +17,9 @@ import java.util.regex.Pattern;
 public final class StringUtils {
     
     /**
-     * The reg expression for HTML tags
-     */
-    static final String HTML_TAG_REGEX = "<[^>]+>"; //$NON-NLS-1$
-
-    /** 
-     * The compiled pattern to match HTML tags
-     */
-    static final Pattern HTML_TAG_REGEX_PATTERN = Pattern.compile(HTML_TAG_REGEX);
-    
-    /**
      * Empty String
      */
     final static String ZERO_LENGTH_STRING = ""; //$NON-NLS-1$
-
-    /**
-     * Strip tags out of a String
-     * @param str
-     * @return
-     */
-    public static String stripTags(String str) {
-        
-        if (str == null || str.indexOf('<') == -1 || str.indexOf('>') == -1) {
-            return str;
-        }
-        
-        str = HTML_TAG_REGEX_PATTERN.matcher(str).replaceAll(""); //$NON-NLS-1$
-        return str;
-    }
 
     /**
      * Ensures that a string is not null. Converts null strings into empty

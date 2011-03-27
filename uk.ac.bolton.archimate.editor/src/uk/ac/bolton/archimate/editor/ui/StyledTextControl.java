@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.action.Action;
@@ -43,6 +42,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
+import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
@@ -53,14 +53,6 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
  * @author Phillip Beauvoir
  */
 public class StyledTextControl implements Listener, LineStyleListener {
-    
-    // Previous versions
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?"    // Original
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%~&=]*)?"   // Added ~
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=]*)?"    // Removed space
-    
-    private static final String regex = "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=\\(\\)]*)?";  // added \\( and \\)
-    private static Pattern pattern = Pattern.compile(regex);
     
     private StyledText fStyledText;
     
@@ -285,7 +277,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
         fLinkRanges = new ArrayList<int[]>();
         fLinks = new ArrayList<String>();
         
-        Matcher matcher = pattern.matcher(s);
+        Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(s);
         while(matcher.find()) {
             String group = matcher.group();
             int start = matcher.start();
