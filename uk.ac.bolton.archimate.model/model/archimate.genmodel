@@ -33,6 +33,13 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//Identifier">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Identifier/id"/>
     </genClasses>
+    <genClasses ecoreClass="archimate.ecore#//Property">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Property/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Property/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//Properties">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Properties/properties"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//Nameable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Nameable/name"/>
     </genClasses>
@@ -71,13 +78,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Folder/elements"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Folder/type"/>
     </genClasses>
-    <genClasses ecoreClass="archimate.ecore#//Property">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Property/key"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Property/value"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateElement/properties"/>
-    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//JunctionElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//InterfaceElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//InterfaceElement/interfaceType"/>

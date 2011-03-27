@@ -109,6 +109,16 @@ public interface IArchimatePackage extends EPackage {
     int IDENTIFIER_FEATURE_COUNT = 1;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IProperties <em>Properties</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.IProperties
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getProperties()
+     * @generated
+     */
+    int PROPERTIES = 3;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.INameable <em>Nameable</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -116,7 +126,132 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getNameable()
      * @generated
      */
-    int NAMEABLE = 2;
+    int NAMEABLE = 4;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.ITextContent <em>Text Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.ITextContent
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getTextContent()
+     * @generated
+     */
+    int TEXT_CONTENT = 5;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDocumentable <em>Documentable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.IDocumentable
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDocumentable()
+     * @generated
+     */
+    int DOCUMENTABLE = 6;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.ICloneable <em>Cloneable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.ICloneable
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getCloneable()
+     * @generated
+     */
+    int CLONEABLE = 7;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IFolderContainer <em>Folder Container</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.IFolderContainer
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderContainer()
+     * @generated
+     */
+    int FOLDER_CONTAINER = 8;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.ArchimateModel <em>Model</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.ArchimateModel
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateModel()
+     * @generated
+     */
+    int ARCHIMATE_MODEL = 9;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IArchimateModelElement <em>Model Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.IArchimateModelElement
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateModelElement()
+     * @generated
+     */
+    int ARCHIMATE_MODEL_ELEMENT = 10;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Folder <em>Folder</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Folder
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolder()
+     * @generated
+     */
+    int FOLDER = 11;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Property <em>Property</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Property
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getProperty()
+     * @generated
+     */
+    int PROPERTY = 2;
+
+    /**
+     * The feature id for the '<em><b>Key</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROPERTY__KEY = 0;
+
+    /**
+     * The feature id for the '<em><b>Value</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROPERTY__VALUE = 1;
+
+    /**
+     * The number of structural features of the '<em>Property</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROPERTY_FEATURE_COUNT = 2;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' map.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROPERTIES__PROPERTIES = 0;
+
+    /**
+     * The number of structural features of the '<em>Properties</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PROPERTIES_FEATURE_COUNT = 1;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -137,16 +272,6 @@ public interface IArchimatePackage extends EPackage {
     int NAMEABLE_FEATURE_COUNT = 1;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.ITextContent <em>Text Content</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.ITextContent
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getTextContent()
-     * @generated
-     */
-    int TEXT_CONTENT = 3;
-
-    /**
      * The feature id for the '<em><b>Content</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -163,16 +288,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int TEXT_CONTENT_FEATURE_COUNT = 1;
-
-    /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDocumentable <em>Documentable</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.IDocumentable
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDocumentable()
-     * @generated
-     */
-    int DOCUMENTABLE = 4;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -193,16 +308,6 @@ public interface IArchimatePackage extends EPackage {
     int DOCUMENTABLE_FEATURE_COUNT = 1;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.ICloneable <em>Cloneable</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.ICloneable
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getCloneable()
-     * @generated
-     */
-    int CLONEABLE = 5;
-
-    /**
      * The number of structural features of the '<em>Cloneable</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -210,16 +315,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int CLONEABLE_FEATURE_COUNT = 0;
-
-    /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IFolderContainer <em>Folder Container</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.IFolderContainer
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderContainer()
-     * @generated
-     */
-    int FOLDER_CONTAINER = 6;
 
     /**
      * The feature id for the '<em><b>Folders</b></em>' containment reference list.
@@ -238,16 +333,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int FOLDER_CONTAINER_FEATURE_COUNT = 1;
-
-    /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.ArchimateModel <em>Model</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.impl.ArchimateModel
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateModel()
-     * @generated
-     */
-    int ARCHIMATE_MODEL = 7;
 
     /**
      * The feature id for the '<em><b>Folders</b></em>' containment reference list.
@@ -322,16 +407,6 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_MODEL_FEATURE_COUNT = FOLDER_CONTAINER_FEATURE_COUNT + 6;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IArchimateModelElement <em>Model Element</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.IArchimateModelElement
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateModelElement()
-     * @generated
-     */
-    int ARCHIMATE_MODEL_ELEMENT = 8;
-
-    /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -348,16 +423,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT = ADAPTER_FEATURE_COUNT + 1;
-
-    /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Folder <em>Folder</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.impl.Folder
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolder()
-     * @generated
-     */
-    int FOLDER = 9;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -423,43 +488,6 @@ public interface IArchimatePackage extends EPackage {
     int FOLDER_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 5;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Property <em>Property</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.impl.Property
-     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getProperty()
-     * @generated
-     */
-    int PROPERTY = 10;
-
-    /**
-     * The feature id for the '<em><b>Key</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PROPERTY__KEY = 0;
-
-    /**
-     * The feature id for the '<em><b>Value</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PROPERTY__VALUE = 1;
-
-    /**
-     * The number of structural features of the '<em>Property</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PROPERTY_FEATURE_COUNT = 2;
-
-    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.ArchimateElement <em>Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -467,7 +495,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateElement()
      * @generated
      */
-    int ARCHIMATE_ELEMENT = 11;
+    int ARCHIMATE_ELEMENT = 12;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -506,22 +534,13 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_ELEMENT__DOCUMENTATION = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ARCHIMATE_ELEMENT__PROPERTIES = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 3;
-
-    /**
      * The number of structural features of the '<em>Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 4;
+    int ARCHIMATE_ELEMENT_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IJunctionElement <em>Junction Element</em>}' class.
@@ -531,7 +550,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getJunctionElement()
      * @generated
      */
-    int JUNCTION_ELEMENT = 12;
+    int JUNCTION_ELEMENT = 13;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -570,15 +589,6 @@ public interface IArchimatePackage extends EPackage {
     int JUNCTION_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int JUNCTION_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Junction Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -595,7 +605,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInterfaceElement()
      * @generated
      */
-    int INTERFACE_ELEMENT = 13;
+    int INTERFACE_ELEMENT = 14;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -634,15 +644,6 @@ public interface IArchimatePackage extends EPackage {
     int INTERFACE_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTERFACE_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -668,7 +669,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getJunction()
      * @generated
      */
-    int JUNCTION = 14;
+    int JUNCTION = 15;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -707,15 +708,6 @@ public interface IArchimatePackage extends EPackage {
     int JUNCTION__DOCUMENTATION = JUNCTION_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int JUNCTION__PROPERTIES = JUNCTION_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Junction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -732,7 +724,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAndJunction()
      * @generated
      */
-    int AND_JUNCTION = 15;
+    int AND_JUNCTION = 16;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -771,15 +763,6 @@ public interface IArchimatePackage extends EPackage {
     int AND_JUNCTION__DOCUMENTATION = JUNCTION_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int AND_JUNCTION__PROPERTIES = JUNCTION_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>And Junction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -796,7 +779,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getOrJunction()
      * @generated
      */
-    int OR_JUNCTION = 16;
+    int OR_JUNCTION = 17;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -835,15 +818,6 @@ public interface IArchimatePackage extends EPackage {
     int OR_JUNCTION__DOCUMENTATION = JUNCTION_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int OR_JUNCTION__PROPERTIES = JUNCTION_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Or Junction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -860,7 +834,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getRelationship()
      * @generated
      */
-    int RELATIONSHIP = 17;
+    int RELATIONSHIP = 18;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -899,15 +873,6 @@ public interface IArchimatePackage extends EPackage {
     int RELATIONSHIP__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RELATIONSHIP__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -942,7 +907,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAccessRelationship()
      * @generated
      */
-    int ACCESS_RELATIONSHIP = 18;
+    int ACCESS_RELATIONSHIP = 19;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -979,15 +944,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int ACCESS_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
-
-    /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ACCESS_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1033,7 +989,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAggregationRelationship()
      * @generated
      */
-    int AGGREGATION_RELATIONSHIP = 19;
+    int AGGREGATION_RELATIONSHIP = 20;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1072,15 +1028,6 @@ public interface IArchimatePackage extends EPackage {
     int AGGREGATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int AGGREGATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1115,7 +1062,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAssignmentRelationship()
      * @generated
      */
-    int ASSIGNMENT_RELATIONSHIP = 20;
+    int ASSIGNMENT_RELATIONSHIP = 21;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1154,15 +1101,6 @@ public interface IArchimatePackage extends EPackage {
     int ASSIGNMENT_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ASSIGNMENT_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1197,7 +1135,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAssociationRelationship()
      * @generated
      */
-    int ASSOCIATION_RELATIONSHIP = 21;
+    int ASSOCIATION_RELATIONSHIP = 22;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1236,15 +1174,6 @@ public interface IArchimatePackage extends EPackage {
     int ASSOCIATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ASSOCIATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1279,7 +1208,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getCompositionRelationship()
      * @generated
      */
-    int COMPOSITION_RELATIONSHIP = 22;
+    int COMPOSITION_RELATIONSHIP = 23;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1318,15 +1247,6 @@ public interface IArchimatePackage extends EPackage {
     int COMPOSITION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPOSITION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1361,7 +1281,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFlowRelationship()
      * @generated
      */
-    int FLOW_RELATIONSHIP = 23;
+    int FLOW_RELATIONSHIP = 24;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1400,15 +1320,6 @@ public interface IArchimatePackage extends EPackage {
     int FLOW_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FLOW_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1443,7 +1354,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getRealisationRelationship()
      * @generated
      */
-    int REALISATION_RELATIONSHIP = 24;
+    int REALISATION_RELATIONSHIP = 25;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1482,15 +1393,6 @@ public interface IArchimatePackage extends EPackage {
     int REALISATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int REALISATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1525,7 +1427,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSpecialisationRelationship()
      * @generated
      */
-    int SPECIALISATION_RELATIONSHIP = 25;
+    int SPECIALISATION_RELATIONSHIP = 26;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1564,15 +1466,6 @@ public interface IArchimatePackage extends EPackage {
     int SPECIALISATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SPECIALISATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1607,7 +1500,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getTriggeringRelationship()
      * @generated
      */
-    int TRIGGERING_RELATIONSHIP = 26;
+    int TRIGGERING_RELATIONSHIP = 27;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1646,15 +1539,6 @@ public interface IArchimatePackage extends EPackage {
     int TRIGGERING_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TRIGGERING_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1689,7 +1573,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getUsedByRelationship()
      * @generated
      */
-    int USED_BY_RELATIONSHIP = 27;
+    int USED_BY_RELATIONSHIP = 28;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1728,15 +1612,6 @@ public interface IArchimatePackage extends EPackage {
     int USED_BY_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1771,7 +1646,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessLayerElement()
      * @generated
      */
-    int BUSINESS_LAYER_ELEMENT = 28;
+    int BUSINESS_LAYER_ELEMENT = 29;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1810,15 +1685,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_LAYER_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_LAYER_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Layer Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1835,7 +1701,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessActivity()
      * @generated
      */
-    int BUSINESS_ACTIVITY = 29;
+    int BUSINESS_ACTIVITY = 30;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1874,15 +1740,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ACTIVITY__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_ACTIVITY__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Activity</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1899,7 +1756,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessActor()
      * @generated
      */
-    int BUSINESS_ACTOR = 30;
+    int BUSINESS_ACTOR = 31;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1938,15 +1795,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ACTOR__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_ACTOR__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Actor</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1963,7 +1811,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessCollaboration()
      * @generated
      */
-    int BUSINESS_COLLABORATION = 31;
+    int BUSINESS_COLLABORATION = 32;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2002,15 +1850,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_COLLABORATION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_COLLABORATION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Collaboration</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2027,7 +1866,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getContract()
      * @generated
      */
-    int CONTRACT = 32;
+    int CONTRACT = 33;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2066,15 +1905,6 @@ public interface IArchimatePackage extends EPackage {
     int CONTRACT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONTRACT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Contract</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2091,7 +1921,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessEvent()
      * @generated
      */
-    int BUSINESS_EVENT = 33;
+    int BUSINESS_EVENT = 34;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2130,15 +1960,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_EVENT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_EVENT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Event</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2155,7 +1976,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessFunction()
      * @generated
      */
-    int BUSINESS_FUNCTION = 34;
+    int BUSINESS_FUNCTION = 35;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2194,15 +2015,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_FUNCTION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_FUNCTION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Function</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2219,7 +2031,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessInteraction()
      * @generated
      */
-    int BUSINESS_INTERACTION = 35;
+    int BUSINESS_INTERACTION = 36;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2258,15 +2070,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_INTERACTION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_INTERACTION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Interaction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2283,7 +2086,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessInterface()
      * @generated
      */
-    int BUSINESS_INTERFACE = 36;
+    int BUSINESS_INTERFACE = 37;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2322,15 +2125,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_INTERFACE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_INTERFACE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2356,7 +2150,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getMeaning()
      * @generated
      */
-    int MEANING = 37;
+    int MEANING = 38;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2395,15 +2189,6 @@ public interface IArchimatePackage extends EPackage {
     int MEANING__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int MEANING__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Meaning</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2420,7 +2205,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessObject()
      * @generated
      */
-    int BUSINESS_OBJECT = 38;
+    int BUSINESS_OBJECT = 39;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2459,15 +2244,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_OBJECT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_OBJECT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Object</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2484,7 +2260,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessProcess()
      * @generated
      */
-    int BUSINESS_PROCESS = 39;
+    int BUSINESS_PROCESS = 40;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2523,15 +2299,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_PROCESS__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_PROCESS__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Process</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2548,7 +2315,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getProduct()
      * @generated
      */
-    int PRODUCT = 40;
+    int PRODUCT = 41;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2587,15 +2354,6 @@ public interface IArchimatePackage extends EPackage {
     int PRODUCT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PRODUCT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Product</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2612,7 +2370,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getRepresentation()
      * @generated
      */
-    int REPRESENTATION = 41;
+    int REPRESENTATION = 42;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2651,15 +2409,6 @@ public interface IArchimatePackage extends EPackage {
     int REPRESENTATION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int REPRESENTATION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Representation</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2676,7 +2425,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessRole()
      * @generated
      */
-    int BUSINESS_ROLE = 42;
+    int BUSINESS_ROLE = 43;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2715,15 +2464,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ROLE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_ROLE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Role</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2740,7 +2480,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessService()
      * @generated
      */
-    int BUSINESS_SERVICE = 43;
+    int BUSINESS_SERVICE = 44;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2779,15 +2519,6 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_SERVICE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BUSINESS_SERVICE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Business Service</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2804,7 +2535,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getValue()
      * @generated
      */
-    int VALUE = 44;
+    int VALUE = 45;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2843,15 +2574,6 @@ public interface IArchimatePackage extends EPackage {
     int VALUE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VALUE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Value</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2868,7 +2590,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationLayerElement()
      * @generated
      */
-    int APPLICATION_LAYER_ELEMENT = 45;
+    int APPLICATION_LAYER_ELEMENT = 46;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2907,15 +2629,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_LAYER_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_LAYER_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Application Layer Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2932,7 +2645,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationCollaboration()
      * @generated
      */
-    int APPLICATION_COLLABORATION = 46;
+    int APPLICATION_COLLABORATION = 47;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2971,15 +2684,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_COLLABORATION__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_COLLABORATION__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Application Collaboration</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2996,7 +2700,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationComponent()
      * @generated
      */
-    int APPLICATION_COMPONENT = 47;
+    int APPLICATION_COMPONENT = 48;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3035,15 +2739,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_COMPONENT__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_COMPONENT__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Application Component</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3060,7 +2755,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationFunction()
      * @generated
      */
-    int APPLICATION_FUNCTION = 48;
+    int APPLICATION_FUNCTION = 49;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3099,15 +2794,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_FUNCTION__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_FUNCTION__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Application Function</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3124,7 +2810,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationInteraction()
      * @generated
      */
-    int APPLICATION_INTERACTION = 49;
+    int APPLICATION_INTERACTION = 50;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3163,15 +2849,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_INTERACTION__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_INTERACTION__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Application Interaction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3188,7 +2865,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationInterface()
      * @generated
      */
-    int APPLICATION_INTERFACE = 50;
+    int APPLICATION_INTERFACE = 51;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3227,15 +2904,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_INTERFACE__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_INTERFACE__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3261,7 +2929,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDataObject()
      * @generated
      */
-    int DATA_OBJECT = 51;
+    int DATA_OBJECT = 52;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3300,15 +2968,6 @@ public interface IArchimatePackage extends EPackage {
     int DATA_OBJECT__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DATA_OBJECT__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Data Object</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3325,7 +2984,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationService()
      * @generated
      */
-    int APPLICATION_SERVICE = 52;
+    int APPLICATION_SERVICE = 53;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3364,15 +3023,6 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_SERVICE__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int APPLICATION_SERVICE__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Application Service</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3389,7 +3039,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getTechnologyLayerElement()
      * @generated
      */
-    int TECHNOLOGY_LAYER_ELEMENT = 53;
+    int TECHNOLOGY_LAYER_ELEMENT = 54;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3428,15 +3078,6 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TECHNOLOGY_LAYER_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Technology Layer Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3453,7 +3094,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArtifact()
      * @generated
      */
-    int ARTIFACT = 54;
+    int ARTIFACT = 55;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3492,15 +3133,6 @@ public interface IArchimatePackage extends EPackage {
     int ARTIFACT__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ARTIFACT__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Artifact</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3517,7 +3149,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getCommunicationPath()
      * @generated
      */
-    int COMMUNICATION_PATH = 55;
+    int COMMUNICATION_PATH = 56;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3556,15 +3188,6 @@ public interface IArchimatePackage extends EPackage {
     int COMMUNICATION_PATH__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMMUNICATION_PATH__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Communication Path</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3581,7 +3204,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getNetwork()
      * @generated
      */
-    int NETWORK = 56;
+    int NETWORK = 57;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3620,15 +3243,6 @@ public interface IArchimatePackage extends EPackage {
     int NETWORK__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int NETWORK__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Network</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3645,7 +3259,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfrastructureInterface()
      * @generated
      */
-    int INFRASTRUCTURE_INTERFACE = 57;
+    int INFRASTRUCTURE_INTERFACE = 58;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3684,15 +3298,6 @@ public interface IArchimatePackage extends EPackage {
     int INFRASTRUCTURE_INTERFACE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFRASTRUCTURE_INTERFACE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3718,7 +3323,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfrastructureService()
      * @generated
      */
-    int INFRASTRUCTURE_SERVICE = 58;
+    int INFRASTRUCTURE_SERVICE = 59;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3757,15 +3362,6 @@ public interface IArchimatePackage extends EPackage {
     int INFRASTRUCTURE_SERVICE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFRASTRUCTURE_SERVICE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Infrastructure Service</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3782,7 +3378,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getNode()
      * @generated
      */
-    int NODE = 59;
+    int NODE = 60;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3821,15 +3417,6 @@ public interface IArchimatePackage extends EPackage {
     int NODE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int NODE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Node</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3846,7 +3433,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSystemSoftware()
      * @generated
      */
-    int SYSTEM_SOFTWARE = 60;
+    int SYSTEM_SOFTWARE = 61;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3885,15 +3472,6 @@ public interface IArchimatePackage extends EPackage {
     int SYSTEM_SOFTWARE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SYSTEM_SOFTWARE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>System Software</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3910,7 +3488,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDevice()
      * @generated
      */
-    int DEVICE = 61;
+    int DEVICE = 62;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3949,15 +3527,6 @@ public interface IArchimatePackage extends EPackage {
     int DEVICE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DEVICE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
-
-    /**
      * The number of structural features of the '<em>Device</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3974,7 +3543,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModel()
      * @generated
      */
-    int DIAGRAM_MODEL = 64;
+    int DIAGRAM_MODEL = 65;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelComponent <em>Diagram Model Component</em>}' class.
@@ -3984,7 +3553,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelComponent()
      * @generated
      */
-    int DIAGRAM_MODEL_COMPONENT = 62;
+    int DIAGRAM_MODEL_COMPONENT = 63;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4030,7 +3599,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelObject()
      * @generated
      */
-    int DIAGRAM_MODEL_OBJECT = 66;
+    int DIAGRAM_MODEL_OBJECT = 67;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}' class.
@@ -4040,7 +3609,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 67;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 68;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4050,7 +3619,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelContainer()
      * @generated
      */
-    int DIAGRAM_MODEL_CONTAINER = 63;
+    int DIAGRAM_MODEL_CONTAINER = 64;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4276,7 +3845,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelReference()
      * @generated
      */
-    int DIAGRAM_MODEL_REFERENCE = 65;
+    int DIAGRAM_MODEL_REFERENCE = 66;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4511,7 +4080,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelGroup()
      * @generated
      */
-    int DIAGRAM_MODEL_GROUP = 68;
+    int DIAGRAM_MODEL_GROUP = 69;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4629,7 +4198,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelNote()
      * @generated
      */
-    int DIAGRAM_MODEL_NOTE = 69;
+    int DIAGRAM_MODEL_NOTE = 70;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4747,7 +4316,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_CONNECTION = 70;
+    int DIAGRAM_MODEL_CONNECTION = 71;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4892,7 +4461,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 71;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 72;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5046,7 +4615,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelBendpoint()
      * @generated
      */
-    int DIAGRAM_MODEL_BENDPOINT = 72;
+    int DIAGRAM_MODEL_BENDPOINT = 73;
 
     /**
      * The feature id for the '<em><b>Weight</b></em>' attribute.
@@ -5110,7 +4679,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 73;
+    int FONT_ATTRIBUTE = 74;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5156,7 +4725,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 74;
+    int BOUNDS = 75;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -5211,7 +4780,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 75;
+    int SKETCH_MODEL = 76;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5293,7 +4862,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 76;
+    int SKETCH_MODEL_STICKY = 77;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5420,7 +4989,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 77;
+    int SKETCH_MODEL_ACTOR = 78;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5538,7 +5107,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 78;
+    int FOLDER_TYPE = 79;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -5548,7 +5117,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 79;
+    int FILE = 80;
 
 
     /**
@@ -5581,6 +5150,27 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getIdentifier_Id();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IProperties <em>Properties</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Properties</em>'.
+     * @see uk.ac.bolton.archimate.model.IProperties
+     * @generated
+     */
+    EClass getProperties();
+
+    /**
+     * Returns the meta object for the map '{@link uk.ac.bolton.archimate.model.IProperties#getProperties <em>Properties</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the map '<em>Properties</em>'.
+     * @see uk.ac.bolton.archimate.model.IProperties#getProperties()
+     * @see #getProperties()
+     * @generated
+     */
+    EReference getProperties_Properties();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.INameable <em>Nameable</em>}'.
@@ -5815,17 +5405,6 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EClass getArchimateElement();
-
-    /**
-     * Returns the meta object for the map '{@link uk.ac.bolton.archimate.model.IArchimateElement#getProperties <em>Properties</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the map '<em>Properties</em>'.
-     * @see uk.ac.bolton.archimate.model.IArchimateElement#getProperties()
-     * @see #getArchimateElement()
-     * @generated
-     */
-    EReference getArchimateElement_Properties();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IJunctionElement <em>Junction Element</em>}'.
@@ -6933,6 +6512,24 @@ public interface IArchimatePackage extends EPackage {
         EAttribute IDENTIFIER__ID = eINSTANCE.getIdentifier_Id();
 
         /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IProperties <em>Properties</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.IProperties
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getProperties()
+         * @generated
+         */
+        EClass PROPERTIES = eINSTANCE.getProperties();
+
+        /**
+         * The meta object literal for the '<em><b>Properties</b></em>' map feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PROPERTIES__PROPERTIES = eINSTANCE.getProperties_Properties();
+
+        /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.INameable <em>Nameable</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -7127,14 +6724,6 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass ARCHIMATE_ELEMENT = eINSTANCE.getArchimateElement();
-
-        /**
-         * The meta object literal for the '<em><b>Properties</b></em>' map feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference ARCHIMATE_ELEMENT__PROPERTIES = eINSTANCE.getArchimateElement_Properties();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IJunctionElement <em>Junction Element</em>}' class.

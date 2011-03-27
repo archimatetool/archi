@@ -77,6 +77,7 @@ import uk.ac.bolton.archimate.model.INetwork;
 import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
 import uk.ac.bolton.archimate.model.IProduct;
+import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
@@ -177,6 +178,18 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.PROPERTY: {
+                @SuppressWarnings("unchecked") Map.Entry<String, String> property = (Map.Entry<String, String>)theEObject;
+                T result = caseProperty(property);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.PROPERTIES: {
+                IProperties properties = (IProperties)theEObject;
+                T result = caseProperties(properties);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.NAMEABLE: {
                 INameable nameable = (INameable)theEObject;
                 T result = caseNameable(nameable);
@@ -233,12 +246,6 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseNameable(folder);
                 if (result == null) result = caseIdentifier(folder);
                 if (result == null) result = caseAdapter(folder);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.PROPERTY: {
-                @SuppressWarnings("unchecked") Map.Entry<String, String> property = (Map.Entry<String, String>)theEObject;
-                T result = caseProperty(property);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1172,6 +1179,21 @@ public class ArchimateSwitch<T> {
      * @generated
      */
     public T caseIdentifier(IIdentifier object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Properties</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Properties</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseProperties(IProperties object) {
         return null;
     }
 

@@ -121,9 +121,9 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
+            case IArchimatePackage.PROPERTY: return (EObject)createProperty();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.FOLDER: return createFolder();
-            case IArchimatePackage.PROPERTY: return (EObject)createProperty();
             case IArchimatePackage.JUNCTION: return createJunction();
             case IArchimatePackage.AND_JUNCTION: return createAndJunction();
             case IArchimatePackage.OR_JUNCTION: return createOrJunction();

@@ -116,6 +116,10 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
             ext.setFeatureKind(IArchimatePackage.Literals.DIAGRAM_MODEL_CONTAINER__CHILDREN, ExtendedMetaData.ELEMENT_FEATURE); // have to do this explicitly
             ext.setName(IArchimatePackage.Literals.DIAGRAM_MODEL_CONTAINER__CHILDREN, "child");
 
+            // The "properties" list element becomes "property"
+            ext.setFeatureKind(IArchimatePackage.Literals.PROPERTIES__PROPERTIES, ExtendedMetaData.ELEMENT_FEATURE); // have to do this explicitly
+            ext.setName(IArchimatePackage.Literals.PROPERTIES__PROPERTIES, "property");
+            
             // The "sourceConnections" list element becomes "sourceConnection"
             ext.setFeatureKind(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS, ExtendedMetaData.ELEMENT_FEATURE); // have to do this explicitly
             ext.setName(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS, "sourceConnection");
