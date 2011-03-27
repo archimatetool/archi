@@ -29,7 +29,7 @@ public class HTMLUtils {
     /**
      * The compiled pattern to match HTML links
      */
-    public static Pattern HTML_LINK_PATTERN = Pattern.compile(HTML_LINK_REGEX);
+    public static final Pattern HTML_LINK_PATTERN = Pattern.compile(HTML_LINK_REGEX);
     
     /**
      * The reg expression for HTML tags

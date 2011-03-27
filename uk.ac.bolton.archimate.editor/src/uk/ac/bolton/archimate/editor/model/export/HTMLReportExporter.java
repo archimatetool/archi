@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -37,6 +38,7 @@ import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
+import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -106,7 +108,7 @@ public class HTMLReportExporter implements IModelExporter {
             title = "(unnamed model)";
         }
         else {
-            title = escape(title);
+            title = parseChars(title);
         }
         
         String date = DateFormat.getDateTimeInstance().format(new Date());
@@ -127,7 +129,7 @@ public class HTMLReportExporter implements IModelExporter {
         String purpose = fModel.getPurpose();
         if(StringUtils.isSet(purpose)) {
             s = "<h3>Purpose of this model</h3>\n";
-            s += "<p>" + escape(purpose) + "</p>";
+            s += "<p>" + parseCharsAndLinks(purpose) + "</p>";
             writer.write(s);
             writer.write("<br/>\n");
         }
@@ -266,10 +268,12 @@ public class HTMLReportExporter implements IModelExporter {
     
     private void writeTableElementRow(IArchimateElement element, String color) throws IOException {
         String name = StringUtils.safeString(element.getName());
-        name = escape(name);
+        name = parseChars(name);
+        
         String type = ArchimateNames.getDefaultName(element.eClass());
+        
         String doc = StringUtils.safeString(element.getDocumentation());
-        doc = escape(doc);
+        doc = parseCharsAndLinks(doc);
         
         String s = "<tr bgcolor=\"" + color + "\">\n";
         s += "<td valign=\"top\">" + name + "</td>\n";
@@ -294,12 +298,12 @@ public class HTMLReportExporter implements IModelExporter {
         
         for(IDiagramModel dm : copy) {
             String name = StringUtils.safeString(dm.getName());
-            name = escape(name);
-            String doc = dm.getDocumentation();
-
+            name = parseChars(name);
             writer.write("<h3>" + name + "</h3>\n");
+            
+            String doc = dm.getDocumentation();
             if(StringUtils.isSet(doc)) {
-                doc = escape(doc);
+                doc = parseCharsAndLinks(doc);
                 writer.write("<p>" + doc + "</p>\n");
             }
             writer.write("<img src=\"" + table.get(dm) + "\"" + "/>\n");
@@ -371,12 +375,37 @@ public class HTMLReportExporter implements IModelExporter {
         return folder;
     }
     
-    private String escape(String s) {
+    private String parseCharsAndLinks(String s) {
+        s = parseChars(s);
+        s = parseLinks(s);
+        return s;
+    }
+    
+    private String parseChars(String s) {
+        // Escape chars
         s = s.replaceAll("&", "&amp;"); // This first
         s = s.replaceAll("<", "&lt;");
         s = s.replaceAll(">", "&gt;");
         s = s.replaceAll("\"", "&quot;");
+        
+        // CRs become breaks
         s = s.replaceAll("(\r\n|\r|\n)", "<br/>"); // This last
+        
+        return s;
+    }
+    
+    private String parseLinks(String s) {
+        Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(s);
+        List<String> done = new ArrayList<String>();
+        
+        while(matcher.find()) {
+            String group = matcher.group();
+            if(!done.contains(group)) {
+                done.add(group);
+                s = s.replaceAll(group, "<a href=\"" + group + "\">" + group + "</a>");
+            }
+        }
+        
         return s;
     }
     
