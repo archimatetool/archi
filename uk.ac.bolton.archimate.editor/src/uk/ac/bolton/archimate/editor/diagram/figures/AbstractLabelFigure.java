@@ -10,7 +10,6 @@ import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
@@ -22,8 +21,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigure
-implements ILabelFigure {
+public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigure {
     
     private Label fLabel;
 
@@ -77,12 +75,6 @@ implements ILabelFigure {
         return fLabel;
     }
 
-    public boolean didClickLabel(Point requestLoc) {
-        Label nameLabel = getLabel();
-        nameLabel.translateToRelative(requestLoc);
-        return nameLabel.containsPoint(requestLoc);
-    }
-    
     @Override
     public IFigure getTextControl() {
         return getLabel();

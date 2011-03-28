@@ -20,9 +20,8 @@ import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.directedit.TextFlowCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.ITextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
@@ -65,8 +64,8 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     }
     
     @Override
-    public ITextFlowFigure getFigure() {
-        return (ITextFlowFigure)super.getFigure();
+    public IDiagramModelObjectFigure getFigure() {
+        return (IDiagramModelObjectFigure)super.getFigure();
     }
 
     @Override
@@ -115,8 +114,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     
     protected DirectEditManager getDirectEditManager() {
         if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, new TextFlowCellEditorLocator(getFigure().getTextControl()),
-                    getFigure().getTextControl());
+            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getTextControl());
         }
         return fDirectEditManager;
     }

@@ -14,9 +14,8 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 
-import uk.ac.bolton.archimate.editor.diagram.directedit.LabelCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.figures.ILabelFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
@@ -46,8 +45,8 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
     }
     
     @Override
-    public ILabelFigure getFigure() {
-        return (ILabelFigure)super.getFigure();
+    public IDiagramModelObjectFigure getFigure() {
+        return (IDiagramModelObjectFigure)super.getFigure();
     }
     
     @Override
@@ -66,7 +65,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             if(request instanceof LocationRequest) {
                 // Edit the text control if we clicked on it
-                if(getFigure().didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+                if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
                     getDirectEditManager().show();
                 }
                 // Else open Properties View on double-click
@@ -82,8 +81,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
     
     protected DirectEditManager getDirectEditManager() {
         if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(getFigure().getLabel()),
-                    getFigure().getLabel());
+            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getTextControl());
         }
         return fDirectEditManager;
     }

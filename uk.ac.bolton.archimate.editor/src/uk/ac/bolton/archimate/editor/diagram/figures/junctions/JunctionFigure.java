@@ -11,6 +11,7 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -96,5 +97,10 @@ public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure
     @Override
     public Color getFillColor() {
         return ColorConstants.black;
+    }
+
+    @Override
+    public boolean didClickTextControl(Point requestLoc) {
+        return false;
     }
 }

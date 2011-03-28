@@ -8,6 +8,8 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -148,7 +150,16 @@ implements IDiagramModelObjectFigure {
             ((ToolTipFigure)getToolTip()).setType("Type: " + type);
         }
     }
-
+    
+    public boolean didClickTextControl(Point requestLoc) {
+        IFigure figure = getTextControl();
+        if(figure != null) {
+            figure.translateToRelative(requestLoc);
+            return figure.containsPoint(requestLoc);
+        }
+        return false;
+    }
+    
     public void dispose() {
     }
 }

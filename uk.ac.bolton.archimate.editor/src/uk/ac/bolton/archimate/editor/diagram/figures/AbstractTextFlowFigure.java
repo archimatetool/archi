@@ -10,7 +10,6 @@ import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
@@ -28,8 +27,7 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractTextFlowFigure extends AbstractContainerFigure
-implements ITextFlowFigure {
+public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
     
     static Dimension DEFAULT_SIZE = new Dimension(120, 55);
 
@@ -110,12 +108,6 @@ implements ITextFlowFigure {
         return fTextFlow;
     }
 
-    public boolean didClickTextControl(Point requestLoc) {
-        TextFlow textControl = getTextControl();
-        textControl.translateToRelative(requestLoc);
-        return textControl.containsPoint(requestLoc);
-    }
-    
     /**
      * Calculate the Text Contrl Bounds or null if none.
      * The Default is to delegate to the Figure Delegate.

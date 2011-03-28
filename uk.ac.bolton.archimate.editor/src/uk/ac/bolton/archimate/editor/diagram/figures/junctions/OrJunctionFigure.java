@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures.junctions;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
@@ -88,4 +89,8 @@ public class OrJunctionFigure extends RectangleFigure implements IDiagramModelOb
         return null;
     }
 
+    @Override
+    public boolean didClickTextControl(Point requestLoc) {
+        return false;
+    }
 }

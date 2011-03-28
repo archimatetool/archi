@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -36,6 +37,12 @@ public interface IDiagramModelObjectFigure extends IFigure {
      * @return The figure used to show text
      */
     IFigure getTextControl();
+    
+    /**
+     * @param requestLoc
+     * @return True if requestLoc is in the Text Control
+     */
+    boolean didClickTextControl(Point requestLoc);
     
     /**
      * Dispose of any resources
