@@ -132,7 +132,7 @@ public class SketchEditorPalette extends PaletteRoot {
 
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                null,
+                SketchEditPartFactory.CONNECTION_LINE,
                 "Line Connection");
         toolBar.add(entry);
         
