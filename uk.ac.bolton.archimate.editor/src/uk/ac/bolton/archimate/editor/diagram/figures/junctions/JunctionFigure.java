@@ -12,6 +12,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
@@ -20,6 +21,7 @@ import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
@@ -36,6 +38,11 @@ public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure
     public JunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         fDiagramModelObject = diagramModelObject;
         setBackgroundColor(ColorConstants.black);
+    }
+
+    @Override
+    public IDiagramModelObject getDiagramModelObject() {
+        return fDiagramModelObject;
     }
 
     @Override
@@ -84,5 +91,10 @@ public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure
     @Override
     public Dimension getDefaultSize() {
         return SIZE;
+    }
+
+    @Override
+    public Color getFillColor() {
+        return ColorConstants.black;
     }
 }

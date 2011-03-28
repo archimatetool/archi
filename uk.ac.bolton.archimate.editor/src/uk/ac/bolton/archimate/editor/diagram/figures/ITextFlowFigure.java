@@ -7,16 +7,15 @@
 package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.TextFlow;
 
 
 /**
- * Figure with Editable Text Label and Text Flow Figure
+ * Figure with Text Flow Control
  * 
  * @author Phillip Beauvoir
  */
-public interface IEditableTextFlowFigure extends IDiagramModelObjectFigure {
+public interface ITextFlowFigure extends IDiagramModelObjectFigure {
     
     /**
      * @return The Text Control
@@ -28,9 +27,4 @@ public interface IEditableTextFlowFigure extends IDiagramModelObjectFigure {
      * @return True if requestLoc is in the Editable Label
      */
     boolean didClickTextControl(Point requestLoc);
-
-    /**
-     * @return The Bounds
-     */
-    Rectangle calculateTextControlBounds();
 }

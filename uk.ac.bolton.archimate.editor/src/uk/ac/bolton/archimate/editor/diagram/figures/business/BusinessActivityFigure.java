@@ -6,27 +6,27 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.business;
 
-import org.eclipse.swt.graphics.Image;
-
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractRoundedRectangleFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 
 /**
- * Business Service Figure
+ * Business Activity Figure
  * 
  * @author Phillip Beauvoir
  */
-public class BusinessActivityFigure extends AbstractRoundedRectangleFigure {
+public class BusinessActivityFigure
+extends AbstractTextFlowFigure {
     
     public BusinessActivityFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
-    }
-    
-    @Override
-    protected Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ACTIVITY_16);
+        
+        // Use a Rounded Rectangle Figure Delegate to Draw
+        RoundedRectangleFigureDelegate figureDelegate = new RoundedRectangleFigureDelegate(this);
+        figureDelegate.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ACTIVITY_16));
+        setFigureDelegate(figureDelegate);
     }
 }

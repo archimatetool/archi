@@ -9,9 +9,8 @@ package uk.ac.bolton.archimate.editor.diagram.figures.technology;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
@@ -22,10 +21,10 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyArtifactFigure extends AbstractEditableTextFlowFigure {
+public class TechnologyArtifactFigure extends AbstractTextFlowFigure {
 
-    int FOLD_HEIGHT = 18;
-    int SHADOW_OFFSET = 2;
+    protected int FOLD_HEIGHT = 18;
+    protected int SHADOW_OFFSET = 2;
 
     public TechnologyArtifactFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -76,6 +75,7 @@ public class TechnologyArtifactFigure extends AbstractEditableTextFlowFigure {
         graphics.popState();
     }
 
+    @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         bounds.x += 20;
@@ -84,10 +84,4 @@ public class TechnologyArtifactFigure extends AbstractEditableTextFlowFigure {
         bounds.height -= 10;
         return bounds;
     }
-
-    @Override
-    protected Image getImage() {
-        return null;
-    }
-
 }

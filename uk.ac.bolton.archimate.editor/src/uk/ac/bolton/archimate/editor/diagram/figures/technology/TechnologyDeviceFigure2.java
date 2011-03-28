@@ -37,7 +37,6 @@ public class TechnologyDeviceFigure2 extends TechnologyNodeFigure1 {
         }
     }
 
-    @Override
     protected Image getImage() {
         return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_TECHNOLOGY_DEVICE_16);
     }

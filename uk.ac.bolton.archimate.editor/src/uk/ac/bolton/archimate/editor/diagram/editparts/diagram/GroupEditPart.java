@@ -27,7 +27,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.ITextEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableLabelFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ILabelFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.GroupFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
@@ -104,9 +104,9 @@ implements IColoredEditPart, ITextEditPart {
     public void performRequest(Request request) {
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             // Edit the label if we clicked on it
-            if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+            if(((ILabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
                 if(fManager == null) {
-                    Label label = ((IEditableLabelFigure)getFigure()).getLabel();
+                    Label label = ((ILabelFigure)getFigure()).getLabel();
                     fManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(label), label);
                 }
                 fManager.show();

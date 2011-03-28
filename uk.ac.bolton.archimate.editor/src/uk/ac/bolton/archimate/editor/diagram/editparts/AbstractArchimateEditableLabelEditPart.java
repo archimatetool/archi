@@ -16,7 +16,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableLabelFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ILabelFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
@@ -46,8 +46,8 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
     }
     
     @Override
-    public IEditableLabelFigure getFigure() {
-        return (IEditableLabelFigure)super.getFigure();
+    public ILabelFigure getFigure() {
+        return (ILabelFigure)super.getFigure();
     }
     
     @Override

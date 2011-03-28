@@ -7,9 +7,11 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.business;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.handles.HandleBounds;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEllipseFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.EllipseFigureDelegate;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 /**
@@ -17,12 +19,17 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class BusinessInterfaceFigure2 extends AbstractEllipseFigure {
+public class BusinessInterfaceFigure2
+extends AbstractTextFlowFigure implements HandleBounds {
     
-    static Dimension DEFAULT_SIZE = new Dimension(60, 60);
+    protected static Dimension DEFAULT_SIZE = new Dimension(60, 60);
     
     public BusinessInterfaceFigure2(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
+        
+        // Use an Ellipse Figure Delegate to Draw
+        EllipseFigureDelegate figureDelegate = new EllipseFigureDelegate(this);
+        setFigureDelegate(figureDelegate);
     }
     
     @Override
@@ -31,7 +38,9 @@ public class BusinessInterfaceFigure2 extends AbstractEllipseFigure {
     }
     
     @Override
-    protected Image getImage() {
-        return null;
+    public Rectangle getHandleBounds() {
+        Rectangle bounds = getMainFigure().getBounds().getCopy();
+        translateToParent(bounds);
+        return bounds;
     }
 }

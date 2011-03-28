@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -31,8 +32,11 @@ implements IDiagramModelObjectFigure {
     
     private IDiagramModelObject fDiagramModelObject;
     
-    protected Color fFillColor;
-    protected Color fFontColor;
+    private Color fFillColor;
+    private Color fFontColor;
+    
+    // Delegate to do drawing
+    private IFigureDelegate fFigureDelegate;
     
     public AbstractDiagramModelObjectFigure(IDiagramModelObject diagramModelObject){
         fDiagramModelObject = diagramModelObject;
@@ -41,6 +45,25 @@ implements IDiagramModelObjectFigure {
     
     public IDiagramModelObject getDiagramModelObject() {
         return fDiagramModelObject;
+    }
+    
+    public IFigureDelegate getFigureDelegate() {
+        return fFigureDelegate;
+    }
+    
+    public void setFigureDelegate(IFigureDelegate figureDelegate) {
+        fFigureDelegate = figureDelegate;
+    }
+    
+    /**
+     * Draw the figure.
+     * The default behaviour is to delegate to the Figure Delegate if one is set.
+     * @param graphics
+     */
+    protected void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+        }
     }
     
     /**
@@ -83,6 +106,16 @@ implements IDiagramModelObjectFigure {
     }
     
     /**
+     * @return The Fill Color to use
+     */
+    public Color getFillColor() {
+        if(fFillColor == null) {
+            return ColorFactory.getDefaultColor(fDiagramModelObject);
+        }
+        return fFillColor;
+    }
+    
+    /**
      * Set the font color to that in the model, or failing that, as per default
      */
     protected void setFontColor() {
@@ -94,16 +127,6 @@ implements IDiagramModelObjectFigure {
                 getTextControl().setForegroundColor(c);
             }
         }
-    }
-    
-    /**
-     * @return The Fill Color to use
-     */
-    protected Color getFillColor() {
-        if(fFillColor == null) {
-            return ColorFactory.getDefaultColor(fDiagramModelObject);
-        }
-        return fFillColor;
     }
     
     protected void setToolTip() {

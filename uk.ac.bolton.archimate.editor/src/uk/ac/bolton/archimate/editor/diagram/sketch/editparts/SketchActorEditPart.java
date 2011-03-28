@@ -21,7 +21,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableLabelFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ILabelFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.SketchActorFigure;
@@ -66,8 +66,8 @@ implements IColoredEditPart, ITextEditPart  {
     }
     
     @Override
-    public IEditableLabelFigure getFigure() {
-        return (IEditableLabelFigure)super.getFigure();
+    public ILabelFigure getFigure() {
+        return (ILabelFigure)super.getFigure();
     }
 
     @Override

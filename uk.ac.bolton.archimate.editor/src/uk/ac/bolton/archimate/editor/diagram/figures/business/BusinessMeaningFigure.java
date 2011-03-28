@@ -9,9 +9,8 @@ package uk.ac.bolton.archimate.editor.diagram.figures.business;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
@@ -21,9 +20,10 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class BusinessMeaningFigure extends AbstractEditableTextFlowFigure {
+public class BusinessMeaningFigure
+extends AbstractTextFlowFigure {
 
-    int SHADOW_OFFSET = 2;
+    protected int SHADOW_OFFSET = 2;
     
     public BusinessMeaningFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -67,6 +67,7 @@ public class BusinessMeaningFigure extends AbstractEditableTextFlowFigure {
         graphics.popState();
     }
 
+    @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         bounds.x += 20;
@@ -74,10 +75,5 @@ public class BusinessMeaningFigure extends AbstractEditableTextFlowFigure {
         bounds.width = bounds.width - 40;
         bounds.height -= 10;
         return bounds;
-    }
-
-    @Override
-    protected Image getImage() {
-        return null;
     }
 }

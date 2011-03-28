@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures.junctions;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
@@ -17,6 +18,7 @@ import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
@@ -32,6 +34,11 @@ public class OrJunctionFigure extends RectangleFigure implements IDiagramModelOb
     
     public OrJunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         fDiagramModelObject = diagramModelObject;
+    }
+    
+    @Override
+    public IDiagramModelObject getDiagramModelObject() {
+        return fDiagramModelObject;
     }
 
     @Override
@@ -75,4 +82,10 @@ public class OrJunctionFigure extends RectangleFigure implements IDiagramModelOb
     public Dimension getDefaultSize() {
         return SIZE;
     }
+    
+    @Override
+    public Color getFillColor() {
+        return null;
+    }
+
 }

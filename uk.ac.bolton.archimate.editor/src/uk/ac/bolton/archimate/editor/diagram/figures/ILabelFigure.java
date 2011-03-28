@@ -8,15 +8,14 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 
 /**
- * Figure with Editable Text Label
+ * Figure with Text Label
  * 
  * @author Phillip Beauvoir
  */
-public interface IEditableLabelFigure extends IDiagramModelObjectFigure {
+public interface ILabelFigure extends IDiagramModelObjectFigure {
     
     /**
      * @return The Text Label
@@ -28,9 +27,4 @@ public interface IEditableLabelFigure extends IDiagramModelObjectFigure {
      * @return True if requestLoc is in the Editable Label
      */
     boolean didClickLabel(Point requestLoc);
-
-    /**
-     * @return Label Bounds
-     */
-    Rectangle calculateLabelBounds();
 }

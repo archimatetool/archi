@@ -18,16 +18,16 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
- * Abstract Figure with Editable Label
+ * Abstract Figure with Label
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractEditableLabelFigure extends AbstractDiagramModelObjectFigure
-implements IEditableLabelFigure {
+public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigure
+implements ILabelFigure {
     
     private Label fLabel;
 
-    public AbstractEditableLabelFigure(IDiagramModelObject diagramModelObject) {
+    public AbstractLabelFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
     
@@ -37,9 +37,11 @@ implements IEditableLabelFigure {
         
         Locator labelLocator = new Locator() {
             public void relocate(IFigure target) {
-                Rectangle bounds = calculateLabelBounds();
-                translateFromParent(bounds);
-                target.setBounds(bounds);
+                Rectangle bounds = calculateTextControlBounds();
+                if(bounds != null) {
+                    translateFromParent(bounds);
+                    target.setBounds(bounds);
+                }
             }
         };
         
@@ -84,5 +86,16 @@ implements IEditableLabelFigure {
     @Override
     public IFigure getTextControl() {
         return getLabel();
+    }
+    
+    /**
+     * Calculate the Text Control Bounds or null if none.
+     * The Default is to delegate to the Figure Delegate.
+     */
+    protected Rectangle calculateTextControlBounds() {
+        if(getFigureDelegate() != null) {
+            return getFigureDelegate().calculateTextControlBounds();
+        }
+        return null;
     }
 }

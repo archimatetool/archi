@@ -21,7 +21,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ITextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
@@ -32,7 +32,7 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
  * @author Phillip Beauvoir
  */
 public class StickyFigure
-extends AbstractContainerFigure implements IEditableTextFlowFigure {
+extends AbstractContainerFigure implements ITextFlowFigure {
     
     protected int SHADOW_OFFSET = 3;
     protected int TEXT_INDENT = 10;

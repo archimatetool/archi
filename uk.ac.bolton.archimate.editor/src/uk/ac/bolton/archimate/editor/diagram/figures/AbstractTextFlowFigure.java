@@ -16,7 +16,6 @@ import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
-import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
@@ -25,12 +24,12 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 
 
 /**
- * Abstract Figure with Editable Label
+ * Abstract Figure with Text Flow Control
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractEditableTextFlowFigure extends AbstractContainerFigure
-implements IEditableTextFlowFigure {
+public abstract class AbstractTextFlowFigure extends AbstractContainerFigure
+implements ITextFlowFigure {
     
     static Dimension DEFAULT_SIZE = new Dimension(120, 55);
 
@@ -38,7 +37,7 @@ implements IEditableTextFlowFigure {
     
     protected int TEXT_PADDING = 10;
     
-    public AbstractEditableTextFlowFigure(IDiagramModelObject diagramModelObject) {
+    public AbstractTextFlowFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
     
@@ -49,8 +48,10 @@ implements IEditableTextFlowFigure {
         Locator textLocator = new Locator() {
             public void relocate(IFigure target) {
                 Rectangle bounds = calculateTextControlBounds();
-                translateFromParent(bounds);
-                target.setBounds(bounds);
+                if(bounds != null) {
+                    translateFromParent(bounds);
+                    target.setBounds(bounds);
+                }
             }
         };
 
@@ -116,9 +117,15 @@ implements IEditableTextFlowFigure {
     }
     
     /**
-     * @return The Image to display
+     * Calculate the Text Contrl Bounds or null if none.
+     * The Default is to delegate to the Figure Delegate.
      */
-    protected abstract Image getImage();
+    protected Rectangle calculateTextControlBounds() {
+        if(getFigureDelegate() != null) {
+            return getFigureDelegate().calculateTextControlBounds();
+        }
+        return null;
+    }
     
     @Override
     public Dimension getDefaultSize() {

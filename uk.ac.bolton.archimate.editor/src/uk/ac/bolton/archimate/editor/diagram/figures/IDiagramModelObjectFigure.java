@@ -8,6 +8,9 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.graphics.Color;
+
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 
@@ -18,6 +21,11 @@ import org.eclipse.draw2d.geometry.Dimension;
  * @author Phillip Beauvoir
  */
 public interface IDiagramModelObjectFigure extends IFigure {
+    
+    /**
+     * @return The DiagramModelObject
+     */
+    IDiagramModelObject getDiagramModelObject();
     
     /**
      * Refresh the visual figure according to the model
@@ -38,4 +46,9 @@ public interface IDiagramModelObjectFigure extends IFigure {
      * @return The default Size for this object
      */
     Dimension getDefaultSize();
+
+    /**
+     * @return The Fill Color if any
+     */
+    Color getFillColor();
 }

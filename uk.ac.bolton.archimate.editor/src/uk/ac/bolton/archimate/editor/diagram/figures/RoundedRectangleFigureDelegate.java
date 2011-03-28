@@ -8,31 +8,26 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 
 /**
- * Abstract Figure
+ * Rounded Rectangle Figure Delegate
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractRoundedRectangleFigure extends AbstractEditableTextFlowFigure {
+public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
 
     protected int ARC = 20;
-    protected int SHADOW_OFFSET = 2;
-    protected int TEXT_INDENT = 20;
     
-    protected AbstractRoundedRectangleFigure(IDiagramModelObject diagramModelObject) {
-        super(diagramModelObject);
+    public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner) {
+        super(owner);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle bounds = fOwner.getBounds().getCopy();
         
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
@@ -40,7 +35,7 @@ public abstract class AbstractRoundedRectangleFigure extends AbstractEditableTex
                 ARC, ARC);
 
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(getFillColor());
+        graphics.setBackgroundColor(fOwner.getFillColor());
         graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET), ARC, ARC);
         
         // Outline
@@ -55,27 +50,13 @@ public abstract class AbstractRoundedRectangleFigure extends AbstractEditableTex
     }
     
     @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = getBounds().getCopy();
+    public void drawTargetFeedback(Graphics graphics) {
+        Rectangle bounds = fOwner.getBounds().getCopy();
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
         graphics.drawRoundRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1),
                 ARC, ARC);
         graphics.popState();
-    }
-    
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width = bounds.width - (TEXT_INDENT * 2);
-        bounds.height -= 10;
-        return bounds;
-    }
-    
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
     }
 }

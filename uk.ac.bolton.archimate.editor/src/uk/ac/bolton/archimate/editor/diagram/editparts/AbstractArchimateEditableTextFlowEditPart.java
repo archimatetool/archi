@@ -22,7 +22,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.directedit.TextFlowCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ITextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
@@ -65,8 +65,8 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     }
     
     @Override
-    public IEditableTextFlowFigure getFigure() {
-        return (IEditableTextFlowFigure)super.getFigure();
+    public ITextFlowFigure getFigure() {
+        return (ITextFlowFigure)super.getFigure();
     }
 
     @Override
