@@ -19,7 +19,8 @@ In MS Word
 
 1. On the "Developer" tab, "Document Template" button, attach the styles in template "docs/Word Template.dot".
    "Automatically update document styles" is ticked.
-2. Click the Office button and select "Prepare -> Edit Links to Files". Select all images and tick "Save picture in document". 
+2. Click the Office button and select "Prepare -> Edit Links to Files". (This option will not be there if there are no linked pictures).
+   Select all images and click the "Break link" button
 3. Insert Page Numbers at bottom right.
 4. From the same Insert Page Numbers menu choose "Format Page Numbers..." and "Start at" 0
 5. Double-click in the footer and tick "Different First Page" in the options.
@@ -32,4 +33,6 @@ Create the "What's New in Archi Document"
 -----------------------------------------
 1. Edit the "What's New in Archi.docx" document in the "docs" folder
 2. Copy and Paste sections from the "Archi User Guide.docx" document in the "docs" folder
-3. Save As PDF "What's New in Archi.pdf" in the "docs" folder
+3. Click the Office button and select "Prepare -> Edit Links to Files". (This option will not be there if there are no linked pictures).
+   Select all images and click the "Break link" button
+4. Save As PDF "What's New in Archi.pdf" in the "docs" folder

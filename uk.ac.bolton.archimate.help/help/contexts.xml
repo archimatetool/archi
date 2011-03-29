@@ -56,6 +56,10 @@
        <description>A table showing the Views (if any) where the selected element is used (displayed in a diagram). Double-clicking on an entry in the table will open the View and select the element in the diagram.</description>
        <topic href="help/properties_element.html" label="Element Properties"/>
     </context>
+    <context id="diagramFigureTypeSection" title="Figure Type">
+       <topic href="help/properties_figures.html" label="Figure Types"/>
+       <description>Choose the figure to represent this Element.</description>
+    </context>
     <context id="diagramEditorPaletteHelp" title="The Palette">
        <description>The Palette is used for creating and selecting.</description>
        <topic href="help/view_palette.html" label="The Palette"/>
