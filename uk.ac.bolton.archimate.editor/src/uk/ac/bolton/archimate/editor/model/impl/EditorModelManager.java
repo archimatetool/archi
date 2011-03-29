@@ -163,8 +163,7 @@ implements IEditorModelManager {
                 }
             }
 
-            // This will notify tree to open nodes and select
-            firePropertyChange(this, PROPERTY_MODEL_CREATED, null, model);
+            firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
         }
         
         return model;
@@ -180,8 +179,7 @@ implements IEditorModelManager {
 
         model.eAdapters().add(new ECoreAdapter());
 
-        // This will notify tree to open nodes and select
-        firePropertyChange(this, PROPERTY_MODEL_CREATED, null, model);
+        firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
     }
     
     @Override
@@ -243,7 +241,7 @@ implements IEditorModelManager {
         markDiagramModelsAsSaved(model);
 
         // This last
-        firePropertyChange(this, PROPERTY_MODEL_ADDED, null, model);
+        firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
 
         return model;
     }

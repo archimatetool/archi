@@ -426,8 +426,9 @@ implements ITreeModelView {
         Object source = evt.getSource();
         //Object newValue = evt.getNewValue();
         
-        // New Model created
-        if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED) {
+        // New Model created or opened
+        if(propertyName == IEditorModelManager.PROPERTY_MODEL_CREATED ||
+                propertyName == IEditorModelManager.PROPERTY_MODEL_OPENED) {
             getViewer().refresh();
             
             IArchimateModel model = (IArchimateModel)evt.getNewValue();
@@ -440,9 +441,8 @@ implements ITreeModelView {
             getViewer().setSelection(new StructuredSelection(model), true);
         }
         
-        // Model added/removed
-        else if(propertyName == IEditorModelManager.PROPERTY_MODEL_ADDED ||
-                propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
+        // Model removed
+        else if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
             getViewer().refresh();
         }
         

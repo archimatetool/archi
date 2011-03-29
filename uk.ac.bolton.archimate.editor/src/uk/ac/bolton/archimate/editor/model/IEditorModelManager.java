@@ -26,7 +26,8 @@ public interface IEditorModelManager {
     String ARCHIMATE_FILE_WILDCARD = "*.archimate";
     
     String PROPERTY_MODEL_CREATED = "IEditorModelManager.model.created";
-    String PROPERTY_MODEL_ADDED = "IEditorModelManager.model.added";
+    String PROPERTY_MODEL_OPENED = "IEditorModelManager.model.opened";
+    String PROPERTY_MODEL_LOADED = "IEditorModelManager.model.loaded";
     String PROPERTY_MODEL_REMOVED = "IEditorModelManager.model.removed";
     String PROPERTY_MODEL_SAVED = "IEditorModelManager.model.saved";
     
