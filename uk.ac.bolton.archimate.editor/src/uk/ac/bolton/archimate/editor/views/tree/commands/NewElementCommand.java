@@ -44,8 +44,8 @@ public class NewElementCommand extends Command {
     public void undo() {
         fFolder.getElements().remove(fElement);
         
-        // Select the parent node
-        if(TreeModelView.INSTANCE != null) {
+        // Select the parent node if none selected
+        if(TreeModelView.INSTANCE != null && TreeModelView.INSTANCE.getViewer().getSelection().isEmpty()) {
             TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fFolder), true);
         }
     }

@@ -43,8 +43,8 @@ public class NewFolderCommand extends Command {
     public void undo() {
         fParent.getFolders().remove(fFolder);
         
-        // Select the parent node
-        if(TreeModelView.INSTANCE != null) {
+        // Select the parent node if none selected
+        if(TreeModelView.INSTANCE != null && TreeModelView.INSTANCE.getViewer().getSelection().isEmpty()) {
             TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParent), true);
         }
     }

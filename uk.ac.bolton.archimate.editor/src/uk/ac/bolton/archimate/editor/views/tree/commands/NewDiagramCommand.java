@@ -48,8 +48,8 @@ public class NewDiagramCommand extends Command {
 
         fFolder.getElements().remove(fDiagramModel);
         
-        // Select the parent node
-        if(TreeModelView.INSTANCE != null) {
+        // Select the parent node if none selected
+        if(TreeModelView.INSTANCE != null && TreeModelView.INSTANCE.getViewer().getSelection().isEmpty()) {
             TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fFolder), true);
         }
     }
