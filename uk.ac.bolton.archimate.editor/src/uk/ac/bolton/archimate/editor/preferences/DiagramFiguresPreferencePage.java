@@ -96,7 +96,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         client2.setLayout(new TableColumnLayout());
         
         GridData gd = new GridData(GridData.FILL_BOTH);
-        gd.heightHint = 80; // need this
+        gd.heightHint = 80; // need this to set a smaller height
+        gd.widthHint = 80;  // need this to stop it getting larger when the splitter is resized in the Prefs dialog
         client2.setLayoutData(gd);
         
         createTable(client2);
