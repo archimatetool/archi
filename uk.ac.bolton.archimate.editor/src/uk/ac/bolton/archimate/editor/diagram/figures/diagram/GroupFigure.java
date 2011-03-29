@@ -48,9 +48,13 @@ extends AbstractLabelContainerFigure {
         public Point getLocation(Point reference) {
             Point pt = super.getLocation(reference);
             
-            Rectangle r = getBox();
-            if(pt.x > r.x + (r.width / 2) && pt.y < (r.y + r.height)) {
-                pt.y += FOLD_HEIGHT;
+            Rectangle r = getBox().getCopy();
+            getOwner().translateToAbsolute(r);
+            
+            int shiftY = FOLD_HEIGHT - (pt.y - r.y) - 1;
+            
+            if(pt.x > r.x + (r.width / 2) && shiftY > 0) {
+                pt.y += shiftY;
             }
             
             return pt;
