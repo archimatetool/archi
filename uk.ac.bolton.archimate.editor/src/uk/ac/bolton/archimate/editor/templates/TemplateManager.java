@@ -31,6 +31,9 @@ public class TemplateManager implements ITemplateXMLTags {
     public static final String ARCHIMATE_TEMPLATE_FILE_EXTENSION = ".architemplate";
     public static final String ARCHIMATE_TEMPLATE_FILE_WILDCARD = "*.architemplate";
     
+    // Prefix of name of tmp file created when opening a template
+    public static final String ARCHIMATE_TEMPLATE_FILE_TMP_PREFIX = "~architemplate";
+    
     public static final String ZIP_ENTRY_MANIFEST = "manifest.xml";
     public static final String ZIP_ENTRY_MODEL = "model.archimate";
     public static final String ZIP_ENTRY_THUMBNAILS = "Thumbnails/";

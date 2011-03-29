@@ -59,13 +59,12 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                 @Override
                 public void run() {
                     try {
-                        File tmp = File.createTempFile("architemplate", null);
+                        File tmp = File.createTempFile(TemplateManager.ARCHIMATE_TEMPLATE_FILE_TMP_PREFIX, null);
                         tmp.deleteOnExit();
                         File file = ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmp);
                         if(file != null && file.exists()) {
                             IArchimateModel model = IEditorModelManager.INSTANCE.openModel(file);
                             if(model != null) {
-                                model.setFile(null);
                                 model.setName("(new) " + model.getName());
                             }
                             else {

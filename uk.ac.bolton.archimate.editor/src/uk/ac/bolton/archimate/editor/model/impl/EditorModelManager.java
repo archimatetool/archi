@@ -39,6 +39,7 @@ import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.IncompatibleModelVersionException;
 import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.LaterModelVersionException;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.ui.EditorManager;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
 import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
@@ -154,13 +155,18 @@ implements IEditorModelManager {
             return null;
         }
         
-        IArchimateModel  model = loadModel(file);
+        IArchimateModel model = loadModel(file);
         if(model != null) {
             // Open Views of newly opened model if set in Preferences
             if(Preferences.doOpenDiagramsOnLoad()) {
                 for(IDiagramModel dm : model.getDiagramModels()) {
                     EditorManager.openDiagramEditor(dm);
                 }
+            }
+            
+            // Temporary file created from Template Manager, so set file to null
+            if(file.getName().startsWith(TemplateManager.ARCHIMATE_TEMPLATE_FILE_TMP_PREFIX)) {
+                model.setFile(null);
             }
 
             firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
