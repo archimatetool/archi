@@ -140,6 +140,9 @@
             labelProvider="uk.ac.bolton.archimate.editor.propertysections.PropertiesLabelProvider">
          <propertyCategory
                category="category_main"></propertyCategory>
+         <propertyCategory
+               category="category_appearance">
+         </propertyCategory>
       </propertyContributor>
    </extension>
    <extension
@@ -153,7 +156,7 @@
          </propertyTab>
          <propertyTab
                afterTab="main.tab"
-               category="category_main"
+               category="category_appearance"
                id="appearance.tab"
                label="Appearance">
          </propertyTab>
@@ -162,6 +165,13 @@
                category="category_main"
                id="analysis.tab"
                label="Analysis">
+         </propertyTab>
+         <propertyTab
+               afterTab="appearance.tab"
+               category="category_appearance"
+               id="figure.tab"
+               indented="true"
+               label="Figure">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -335,6 +345,12 @@
             <input
                   type="uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchActorEditPart">
             </input>
+         </propertySection>
+         <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.DiagramFigureTypeSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.DiagramFigureTypeSection$Filter"
+               id="diagramFigureTypeSection"
+               tab="figure.tab">
          </propertySection>
       </propertySections>
    </extension>

@@ -9,10 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.technology;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
-import uk.ac.bolton.archimate.editor.diagram.figures.technology.TechnologyDeviceFigure1;
-import uk.ac.bolton.archimate.editor.diagram.figures.technology.TechnologyDeviceFigure2;
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.diagram.figures.technology.TechnologyDeviceFigure;
 
 /**
  * Technology Device Edit Part
@@ -24,9 +21,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
     
     @Override
     protected IFigure createFigure() {
-        int type = Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_DEVICE_FIGURE);
-        return type == 0 ? new TechnologyDeviceFigure1(getModel())
-                         : new TechnologyDeviceFigure2(getModel());
+        return new TechnologyDeviceFigure(getModel());
     }
 
 }

@@ -6,8 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
@@ -40,7 +38,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelNote;
 public class NoteEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart {
     
-    private ConnectionAnchor fAnchor;
     private DirectEditManager fDirectManager;
     
     @Override
@@ -77,14 +74,6 @@ implements IColoredEditPart, ITextAlignedEditPart {
             // Show Properties view
             ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
-    }
-
-    @Override
-    protected ConnectionAnchor getConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
     }
 
     /**

@@ -27,7 +27,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
     
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
@@ -35,7 +35,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
                 ARC, ARC);
 
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(fOwner.getFillColor());
+        graphics.setBackgroundColor(getOwner().getFillColor());
         graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET), ARC, ARC);
         
         // Outline
@@ -51,7 +51,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
     
     @Override
     public void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);

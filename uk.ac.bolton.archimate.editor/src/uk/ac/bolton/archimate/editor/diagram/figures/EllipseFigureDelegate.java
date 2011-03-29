@@ -17,27 +17,25 @@ import org.eclipse.swt.SWT;
  * 
  * @author Phillip Beauvoir
  */
-public class EllipseFigureDelegate implements IFigureDelegate {
+public class EllipseFigureDelegate extends AbstractFigureDelegate {
     
     protected int SHADOW_OFFSET = 2;
     
-    protected IDiagramModelObjectFigure fOwner;
-    
     public EllipseFigureDelegate(IDiagramModelObjectFigure owner) {
-        fOwner = owner;
+        super(owner);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
 
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
         graphics.fillOval(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
 
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(fOwner.getFillColor());
+        graphics.setBackgroundColor(getOwner().getFillColor());
         graphics.fillOval(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
 
         // Outline
@@ -47,7 +45,7 @@ public class EllipseFigureDelegate implements IFigureDelegate {
     
     @Override
     public void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
@@ -57,7 +55,7 @@ public class EllipseFigureDelegate implements IFigureDelegate {
 
     @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         bounds.y += 10;
         return bounds;
     }

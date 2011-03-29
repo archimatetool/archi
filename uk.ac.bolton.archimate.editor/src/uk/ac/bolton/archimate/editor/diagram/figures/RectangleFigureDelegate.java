@@ -18,29 +18,27 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @author Phillip Beauvoir
  */
-public class RectangleFigureDelegate implements IFigureDelegate {
+public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
     protected int SHADOW_OFFSET = 2;
     protected int TEXT_INDENT = 20;
     
-    protected IDiagramModelObjectFigure fOwner;
-    
     private Image fImage;
     
     public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
-        fOwner = owner;
+        super(owner);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
         graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
 
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(fOwner.getFillColor());
+        graphics.setBackgroundColor(getOwner().getFillColor());
         graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
         
         // Outline
@@ -62,12 +60,13 @@ public class RectangleFigureDelegate implements IFigureDelegate {
     }
 
     protected Point calculateImageLocation() {
-        Rectangle bounds = fOwner.getBounds();
+        Rectangle bounds = getOwner().getBounds();
         return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
     }
     
+    @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         bounds.x += TEXT_INDENT;
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
@@ -75,8 +74,9 @@ public class RectangleFigureDelegate implements IFigureDelegate {
         return bounds;
     }
     
+    @Override
     public void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = fOwner.getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);

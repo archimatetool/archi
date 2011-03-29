@@ -45,17 +45,24 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
     @Override
     public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
         super.createControls(parent, tabbedPropertySheetPage);
-        
         fPage = tabbedPropertySheetPage;
-        
+        setLayout(parent);
+        createControls(parent);
+    }
+    
+    /**
+     * Set the layout for the main parent composite
+     * @param parent
+     */
+    protected void setLayout(Composite parent) {
         GridLayout layout = new GridLayout(2, false);
         layout.marginTop = V_SPACING;
         layout.marginHeight = 0;
         layout.marginBottom = shouldUseExtraSpace() ? 5 : 0; 
         layout.verticalSpacing = V_SPACING;
         parent.setLayout(layout);
+        
         parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, shouldUseExtraSpace()));
-        createControls(parent);
     }
     
     /**

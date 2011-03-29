@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.IEditorPart;
 
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
@@ -61,6 +62,7 @@ public class DiagramModelFactory implements ICreationFactory {
             ((IArchimateElement)object).setName(ArchimateNames.getDefaultName(fTemplate));
             IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
             dmo.setArchimateElement((IArchimateElement)object);
+            dmo.setType(Preferences.getDefaultFigureType(dmo));
             return dmo;
         }
         

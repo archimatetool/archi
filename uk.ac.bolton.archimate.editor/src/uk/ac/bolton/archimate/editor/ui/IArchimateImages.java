@@ -24,7 +24,9 @@ public interface IArchimateImages {
     
     String ICON_APP_16 = IMGPATH + "app-16.png"; //$NON-NLS-1$
     String ICON_APP_32 = IMGPATH + "app-32.png"; //$NON-NLS-1$
+    String ICON_APP_48 = IMGPATH + "app-48.png"; //$NON-NLS-1$
     String ICON_APP_64 = IMGPATH + "app-64.png"; //$NON-NLS-1$
+    String ICON_APP_128 = IMGPATH + "app-128.png"; //$NON-NLS-1$
     
     String BROWN_PAPER = IMGPATH + "br_paper.jpg";
     String DEFAULT_MODEL_THUMB = IMGPATH + "default_model_thumb.png";
@@ -143,4 +145,21 @@ public interface IArchimateImages {
     String CURSOR_IMG_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey-cursor.gif"; //$NON-NLS-1$
     
     String CURSOR_IMG_MAGIC_CONNECTOR = IMGPATH + "magic-connector-cursor.gif"; //$NON-NLS-1$
+    
+    // Figures
+    String FIGURES_IMGPATH = IMGPATH + "figures/"; //$NON-NLS-1$
+    
+    String FIGURE_BUSINESS_INTERFACE1 = FIGURES_IMGPATH + "bi1.png";
+    String FIGURE_BUSINESS_INTERFACE2 = FIGURES_IMGPATH + "bi2.png";
+    String FIGURE_APPLICATION_COMPONENT1 = FIGURES_IMGPATH + "ac1.png";
+    String FIGURE_APPLICATION_COMPONENT2 = FIGURES_IMGPATH + "ac2.png";
+    String FIGURE_APPLICATION_INTERFACE1 = FIGURES_IMGPATH + "ai1.png";
+    String FIGURE_APPLICATION_INTERFACE2 = FIGURES_IMGPATH + "ai2.png";
+    String FIGURE_TECHNOLOGY_DEVICE1 = FIGURES_IMGPATH + "td1.png";
+    String FIGURE_TECHNOLOGY_DEVICE2 = FIGURES_IMGPATH + "td2.png";
+    String FIGURE_TECHNOLOGY_NODE1 = FIGURES_IMGPATH + "tn1.png";
+    String FIGURE_TECHNOLOGY_NODE2 = FIGURES_IMGPATH + "tn2.png";
+    String FIGURE_TECHNOLOGY_INTERFACE1 = FIGURES_IMGPATH + "ti1.png";
+    String FIGURE_TECHNOLOGY_INTERFACE2 = FIGURES_IMGPATH + "ti2.png";
+
 }

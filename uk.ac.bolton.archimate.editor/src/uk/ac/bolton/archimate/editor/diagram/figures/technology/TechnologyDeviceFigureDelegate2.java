@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -11,20 +11,20 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
+import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 
 /**
- * Technology Device 2 Figure
+ * Technology Device Figure Delegate 2
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyDeviceFigure2 extends TechnologyNodeFigure1 {
+public class TechnologyDeviceFigureDelegate2 extends TechnologyNodeFigureDelegate {
 
-    public TechnologyDeviceFigure2(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public TechnologyDeviceFigureDelegate2(IDiagramModelObjectFigure owner) {
+        super(owner);
     }
     
     @Override
@@ -42,7 +42,7 @@ public class TechnologyDeviceFigure2 extends TechnologyNodeFigure1 {
     }
     
     protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         return new Point(bounds.x + bounds.width - FOLD_HEIGHT * 2 - 5, bounds.y + FOLD_HEIGHT + 2);
     }
 

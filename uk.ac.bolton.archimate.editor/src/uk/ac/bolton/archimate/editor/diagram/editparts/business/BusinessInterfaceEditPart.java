@@ -10,13 +10,12 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.EditPart;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
-import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessInterfaceFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessInterfaceFigure2;
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
  * Business Interface Edit Part
@@ -30,22 +29,43 @@ extends AbstractArchimateEditableTextFlowEditPart {
     
     @Override
     protected IFigure createFigure() {
-        int type = Preferences.STORE.getInt(IPreferenceConstants.BUSINESS_INTERFACE_FIGURE);
-        return type == 0 ? new BusinessInterfaceFigure(getModel()) : new BusinessInterfaceFigure2(getModel());
+        return new BusinessInterfaceFigure(getModel());
     }
     
     @Override
-    protected ConnectionAnchor getConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fAnchor == null) {
-            int type = Preferences.STORE.getInt(IPreferenceConstants.BUSINESS_INTERFACE_FIGURE);
-            if(type == 0) {
-                fAnchor = new ChopboxAnchor(getFigure());
-            }
-            else {
-                fAnchor = new EllipseAnchor(((IContainerFigure)getFigure()).getContentPane());
+            switch(getModel().getType()) {
+                case 1:
+                    fAnchor = new EllipseAnchor(getFigure());
+                    break;
+
+                default:
+                    fAnchor = new ChopboxAnchor(getFigure());
+                    break;
             }
         }
+        
         return fAnchor;
+    }
+
+    @Override
+    protected void eCoreChanged(Notification msg) {
+        super.eCoreChanged(msg);
+        
+        // Update Connection Anchors
+        if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
+            fAnchor = null; // Force update
+            
+            for(Object o : getSourceConnections()) {
+                EditPart e = (EditPart)o;
+                e.refresh();
+            }
+            for(Object o : getTargetConnections()) {
+                EditPart e = (EditPart)o;
+                e.refresh();
+            }
+        }
     }
 
 }

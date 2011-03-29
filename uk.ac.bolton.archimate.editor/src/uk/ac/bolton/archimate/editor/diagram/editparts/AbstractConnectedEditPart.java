@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.editparts;
 
 import java.util.List;
 
+import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -28,6 +29,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public abstract class AbstractConnectedEditPart
 extends AbstractBaseEditPart
 implements NodeEditPart {
+    
+    private ConnectionAnchor fAnchor;
     
     private Adapter adapter = new AdapterImpl() {
         @Override
@@ -91,24 +94,29 @@ implements NodeEditPart {
     }
 
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-    	return getConnectionAnchor();
+    	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-    	return getConnectionAnchor();
+    	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-    	return getConnectionAnchor();
+    	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-    	return getConnectionAnchor();
+    	return getDefaultConnectionAnchor();
     }
     
     /**
-     * @return The overall connection anchor to use
+     * @return The connection anchor to use for source and target connections
+     * Default is a Chopbox connection anchor
      */
-    protected abstract ConnectionAnchor getConnectionAnchor();
-
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
+        if(fAnchor == null) {
+            fAnchor = new ChopboxAnchor(getFigure());
+        }
+        return fAnchor;
+    }
 }

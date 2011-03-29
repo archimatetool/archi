@@ -8,8 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 
 import java.util.List;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
@@ -51,7 +49,6 @@ public class StickyEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart  {
     
     private DirectEditManager fDirectEditManager;
-    private ConnectionAnchor fAnchor;
 
     @Override
     protected List<?> getModelChildren() {
@@ -127,14 +124,6 @@ implements IColoredEditPart, ITextAlignedEditPart  {
         return fDirectEditManager;
     }
     
-    @Override
-    protected ConnectionAnchor getConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
-    }
-
     /**
      * DirectEditPolicy
      */

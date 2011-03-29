@@ -8,8 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts;
 
 import java.util.List;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -38,15 +36,6 @@ public abstract class AbstractArchimateEditableTextFlowEditPart
 extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditPart {
     
     private DirectEditManager fDirectEditManager;
-    private ConnectionAnchor fAnchor;
-    
-    @Override
-    protected ConnectionAnchor getConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
-    }
     
     @Override
     protected void refreshFigure() {
