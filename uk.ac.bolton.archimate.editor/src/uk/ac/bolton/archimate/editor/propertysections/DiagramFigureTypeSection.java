@@ -187,7 +187,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseDown(MouseEvent e) {
-                    if(isAlive()) {
+                    if(!selected && isAlive()) {
                         int newType = fDiagramObject.getType() == 0 ? 1 : 0;
                         getCommandStack().execute(new EObjectFeatureCommand("Figure Type", getEObject(),
                                 IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, newType));
