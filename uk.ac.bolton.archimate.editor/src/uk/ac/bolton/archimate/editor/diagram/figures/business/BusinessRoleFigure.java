@@ -6,9 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.business;
 
-import org.eclipse.swt.graphics.Image;
-
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractRectangleFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.RectangleFigureDelegate;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
@@ -18,15 +17,14 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class BusinessRoleFigure
-extends AbstractRectangleFigure {
+extends AbstractTextFlowFigure {
     
     public BusinessRoleFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
+        
+        // Use a Rectangle Figure Delegate to Draw
+        RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this);
+        figureDelegate.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ROLE_16));
+        setFigureDelegate(figureDelegate);
     }
-
-    @Override
-    protected Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ROLE_16);
-    }
-    
 }

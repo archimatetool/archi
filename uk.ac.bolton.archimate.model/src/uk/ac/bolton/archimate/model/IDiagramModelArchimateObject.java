@@ -16,6 +16,7 @@ package uk.ac.bolton.archimate.model;
  * The following features are supported:
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelArchimateObject#getArchimateElement <em>Archimate Element</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelArchimateObject#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,6 +50,33 @@ public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiag
      * @generated
      */
     void setArchimateElement(IArchimateElement value);
+
+    /**
+     * Returns the value of the '<em><b>Type</b></em>' attribute.
+     * The default value is <code>"0"</code>.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Type</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Type</em>' attribute.
+     * @see #setType(int)
+     * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelArchimateObject_Type()
+     * @model default="0"
+     * @generated
+     */
+    int getType();
+
+    /**
+     * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelArchimateObject#getType <em>Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Type</em>' attribute.
+     * @see #getType()
+     * @generated
+     */
+    void setType(int value);
 
     /**
      * <!-- begin-user-doc -->

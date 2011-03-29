@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -10,34 +10,35 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import org.eclipse.swt.graphics.Image;
 
 
 /**
- * Rectangle Figure with Editable Label, Gradient Fill and Image
+ * Rectangle Figure Delegate
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractRectangleFigure extends AbstractEditableTextFlowFigure {
+public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
     protected int SHADOW_OFFSET = 2;
     protected int TEXT_INDENT = 20;
     
-    protected AbstractRectangleFigure(IDiagramModelObject diagramModelObject) {
-        super(diagramModelObject);
+    private Image fImage;
+    
+    public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
+        super(owner);
     }
     
     @Override
-    protected void drawFigure(Graphics graphics) {
-        Rectangle bounds = getBounds().getCopy();
+    public void drawFigure(Graphics graphics) {
+        Rectangle bounds = getOwner().getBounds().getCopy();
         
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
         graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
 
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(getFillColor());
+        graphics.setBackgroundColor(getOwner().getFillColor());
         graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
         
         // Outline
@@ -50,18 +51,22 @@ public abstract class AbstractRectangleFigure extends AbstractEditableTextFlowFi
         }
     }
     
-    @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = getBounds().getCopy();
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
-        graphics.popState();
+    public void setImage(Image image) {
+        fImage = image;
+    }
+    
+    public Image getImage() {
+        return fImage;
     }
 
+    protected Point calculateImageLocation() {
+        Rectangle bounds = getOwner().getBounds();
+        return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
+    }
+    
+    @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         bounds.x += TEXT_INDENT;
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
@@ -69,8 +74,13 @@ public abstract class AbstractRectangleFigure extends AbstractEditableTextFlowFi
         return bounds;
     }
     
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
+    @Override
+    public void drawTargetFeedback(Graphics graphics) {
+        Rectangle bounds = getOwner().getBounds().getCopy();
+        graphics.pushState();
+        graphics.setForegroundColor(ColorConstants.blue);
+        graphics.setLineWidth(2);
+        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        graphics.popState();
     }
 }

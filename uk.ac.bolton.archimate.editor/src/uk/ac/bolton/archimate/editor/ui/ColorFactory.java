@@ -43,6 +43,15 @@ public class ColorFactory {
      */
     private static ColorRegistry ColorRegistry = new ColorRegistry();
     
+    public static Color get(int red, int green, int blue) {
+        return get(new RGB(red, green, blue));
+    }
+    
+    public static Color get(RGB rgb) {
+        String rgbValue = convertRGBToString(rgb);
+        return get(rgbValue);
+    }
+    
     public static Color get(String rgbValue) {
         if(rgbValue == null) {
             return null;

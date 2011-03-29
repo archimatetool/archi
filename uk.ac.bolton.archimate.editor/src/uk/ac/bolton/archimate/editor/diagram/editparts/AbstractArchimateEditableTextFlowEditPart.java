@@ -8,8 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts;
 
 import java.util.List;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -20,9 +18,8 @@ import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.directedit.TextFlowCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
@@ -39,15 +36,6 @@ public abstract class AbstractArchimateEditableTextFlowEditPart
 extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditPart {
     
     private DirectEditManager fDirectEditManager;
-    private ConnectionAnchor fAnchor;
-    
-    @Override
-    protected ConnectionAnchor getConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
-    }
     
     @Override
     protected void refreshFigure() {
@@ -65,8 +53,8 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     }
     
     @Override
-    public IEditableTextFlowFigure getFigure() {
-        return (IEditableTextFlowFigure)super.getFigure();
+    public IDiagramModelObjectFigure getFigure() {
+        return (IDiagramModelObjectFigure)super.getFigure();
     }
 
     @Override
@@ -115,8 +103,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     
     protected DirectEditManager getDirectEditManager() {
         if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, new TextFlowCellEditorLocator(getFigure().getTextControl()),
-                    getFigure().getTextControl());
+            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getTextControl());
         }
         return fDirectEditManager;
     }

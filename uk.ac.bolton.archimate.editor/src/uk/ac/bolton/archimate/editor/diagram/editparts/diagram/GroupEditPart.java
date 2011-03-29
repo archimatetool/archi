@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -19,7 +18,6 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 
-import uk.ac.bolton.archimate.editor.diagram.directedit.LabelCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
@@ -27,7 +25,6 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.ITextEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableLabelFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.GroupFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
@@ -87,6 +84,11 @@ implements IColoredEditPart, ITextEditPart {
     }
     
     @Override
+    public IDiagramModelObjectFigure getFigure() {
+        return (IDiagramModelObjectFigure)super.getFigure();
+    }
+    
+    @Override
     public IFigure getContentPane() {
         return ((IContainerFigure)getFigure()).getContentPane();
     }
@@ -94,7 +96,7 @@ implements IColoredEditPart, ITextEditPart {
     @Override
     protected void refreshFigure() {
         // Refresh the figure if necessary
-        ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
+        getFigure().refreshVisuals();
     }
 
     /** 
@@ -104,10 +106,9 @@ implements IColoredEditPart, ITextEditPart {
     public void performRequest(Request request) {
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             // Edit the label if we clicked on it
-            if(((IEditableLabelFigure)getFigure()).didClickLabel(((LocationRequest)request).getLocation().getCopy())) {
+            if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
                 if(fManager == null) {
-                    Label label = ((IEditableLabelFigure)getFigure()).getLabel();
-                    fManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(label), label);
+                    fManager = new LabelDirectEditManager(this, getFigure().getTextControl());
                 }
                 fManager.show();
             }
@@ -119,7 +120,7 @@ implements IColoredEditPart, ITextEditPart {
     }
     
     @Override
-    protected ConnectionAnchor getConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fAnchor == null) {
             fAnchor = ((GroupFigure)getFigure()).createConnectionAnchor();
         }

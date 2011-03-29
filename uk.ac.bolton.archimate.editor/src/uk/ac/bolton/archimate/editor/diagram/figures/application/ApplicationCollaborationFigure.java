@@ -6,9 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.application;
 
-import org.eclipse.swt.graphics.Image;
-
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractRectangleFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.RectangleFigureDelegate;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
@@ -18,14 +17,14 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class ApplicationCollaborationFigure
-extends AbstractRectangleFigure {
+extends AbstractTextFlowFigure {
     
     public ApplicationCollaborationFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
-    }
-
-    @Override
-    protected Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_COLLABORATION_16);
+        
+        // Use a Rectangle Figure Delegate to Draw
+        RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this);
+        figureDelegate.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_COLLABORATION_16));
+        setFigureDelegate(figureDelegate);
     }
 }

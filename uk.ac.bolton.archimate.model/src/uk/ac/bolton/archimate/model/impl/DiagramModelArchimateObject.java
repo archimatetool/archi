@@ -8,11 +8,13 @@ package uk.ac.bolton.archimate.model.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -32,6 +34,7 @@ import uk.ac.bolton.archimate.model.IFolder;
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelArchimateObject#getChildren <em>Children</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelArchimateObject#getArchimateElement <em>Archimate Element</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelArchimateObject#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,6 +51,24 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * @ordered
      */
     protected EList<IDiagramModelObject> children;
+    /**
+     * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getType()
+     * @generated
+     * @ordered
+     */
+    protected static final int TYPE_EDEFAULT = 0;
+    /**
+     * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getType()
+     * @generated
+     * @ordered
+     */
+    protected int type = TYPE_EDEFAULT;
     /**
      * Wrapped Archimate Element
      */
@@ -122,6 +143,27 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setType(int newType) {
+        int oldType = type;
+        type = newType;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, oldType, type));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated NOT
      */
     public void addArchimateElementToModel(IFolder parent) {
@@ -186,6 +228,8 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
                 return getChildren();
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT:
                 return getArchimateElement();
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE:
+                return getType();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -206,6 +250,9 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT:
                 setArchimateElement((IArchimateElement)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE:
+                setType((Integer)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -224,6 +271,9 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT:
                 setArchimateElement((IArchimateElement)null);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE:
+                setType(TYPE_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -240,6 +290,8 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
                 return children != null && !children.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT:
                 return getArchimateElement() != null;
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE:
+                return type != TYPE_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -274,6 +326,22 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
             }
         }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String toString() {
+        if (eIsProxy()) return super.toString();
+
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (type: "); //$NON-NLS-1$
+        result.append(type);
+        result.append(')');
+        return result.toString();
     }
 
 } //DiagramModelArchimateObject

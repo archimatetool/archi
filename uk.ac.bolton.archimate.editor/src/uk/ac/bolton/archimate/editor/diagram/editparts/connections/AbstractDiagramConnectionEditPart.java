@@ -35,7 +35,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
-import uk.ac.bolton.archimate.editor.diagram.directedit.LabelCellEditorLocator;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.ManualBendpointEditPolicy;
@@ -171,8 +170,7 @@ implements IDiagramConnectionEditPart {
     
     protected DirectEditManager getDirectEditManager() {
         if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, new LabelCellEditorLocator(getFigure().getConnectionLabel()),
-                    getFigure().getConnectionLabel());
+            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getConnectionLabel());
         }
         return fDirectEditManager;
     }

@@ -8,7 +8,8 @@ package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
 import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractRectangleFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.RectangleFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -21,26 +22,31 @@ import uk.ac.bolton.archimate.model.IDiagramModelReference;
  * @author Phillip Beauvoir
  */
 public class DiagramModelReferenceFigure
-extends AbstractRectangleFigure {
+extends AbstractTextFlowFigure {
     
     public DiagramModelReferenceFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
+        
+        // Use a Rectangle Figure Delegate to Draw
+        RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
+            @Override
+            public Image getImage() {
+                switch(((IDiagramModelReference)getDiagramModelObject()).getReferencedModel().eClass().getClassifierID()) {
+                    case IArchimatePackage.DIAGRAM_MODEL:
+                        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+                        
+                    case IArchimatePackage.SKETCH_MODEL:
+                        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SKETCH_16);
+
+                    default:
+                        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+                }
+            }
+        };
+        
+        setFigureDelegate(figureDelegate);
     }
 
-    @Override
-    public Image getImage() {
-        switch(((IDiagramModelReference)getDiagramModelObject()).getReferencedModel().eClass().getClassifierID()) {
-            case IArchimatePackage.DIAGRAM_MODEL:
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
-                
-            case IArchimatePackage.SKETCH_MODEL:
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SKETCH_16);
-
-            default:
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
-        }
-    }
-    
     @Override
     protected void setToolTip() {
         super.setToolTip();
@@ -48,5 +54,4 @@ extends AbstractRectangleFigure {
             ((ToolTipFigure)getToolTip()).setType("Type: View Reference");
         }
     }
-
 }

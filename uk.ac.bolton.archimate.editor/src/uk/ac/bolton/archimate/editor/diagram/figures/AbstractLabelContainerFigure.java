@@ -10,7 +10,6 @@ import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
@@ -18,16 +17,15 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
- * Abstract Figure with Editable Label Container type
+ * Abstract Figure with Label Container type
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractEditableLabelContainerFigure extends AbstractContainerFigure
-implements IEditableLabelFigure {
+public abstract class AbstractLabelContainerFigure extends AbstractContainerFigure {
     
     private Label fLabel;
 
-    public AbstractEditableLabelContainerFigure(IDiagramModelObject diagramModelObject) {
+    public AbstractLabelContainerFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
     
@@ -37,9 +35,11 @@ implements IEditableLabelFigure {
         
         Locator labelLocator = new Locator() {
             public void relocate(IFigure target) {
-                Rectangle bounds = calculateLabelBounds();
-                translateFromParent(bounds);
-                target.setBounds(bounds);
+                Rectangle bounds = calculateTextControlBounds();
+                if(bounds != null) {
+                    translateFromParent(bounds);
+                    target.setBounds(bounds);
+                }
             }
         };
         
@@ -75,14 +75,19 @@ implements IEditableLabelFigure {
         return fLabel;
     }
 
-    public boolean didClickLabel(Point requestLoc) {
-        Label nameLabel = getLabel();
-        nameLabel.translateToRelative(requestLoc);
-        return nameLabel.containsPoint(requestLoc);
-    }
-    
     @Override
     public IFigure getTextControl() {
         return getLabel();
+    }
+    
+    /**
+     * Calculate the Text Control Bounds or null if none.
+     * The Default is to delegate to the Figure Delegate.
+     */
+    protected Rectangle calculateTextControlBounds() {
+        if(getFigureDelegate() != null) {
+            return getFigureDelegate().calculateTextControlBounds();
+        }
+        return null;
     }
 }

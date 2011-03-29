@@ -91,17 +91,13 @@ implements IContainerFigure {
     }
     
     /**
-     * Draw the figure
-     * @param graphics
-     */
-    protected void drawFigure(Graphics graphics) {
-    }
-
-    /**
      * Draw any hover over hiliting
      * @param graphics
      */
     protected void drawTargetFeedback(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawTargetFeedback(graphics);
+        }
     }
     
     public void eraseTargetFeedback() {

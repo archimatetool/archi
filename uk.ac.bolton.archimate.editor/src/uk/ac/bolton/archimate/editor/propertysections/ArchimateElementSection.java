@@ -12,9 +12,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IFilter;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -67,13 +64,6 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
 
     private PropertySectionTextControl fTextName;
     private PropertySectionTextControl fTextDocumentation;
-    
-    protected void addClient(Composite parent) {
-        GridLayout layout = new GridLayout();
-        parent.setLayout(layout);
-        parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        createControls(parent);
-    }
     
     @Override
     protected void createControls(Composite parent) {

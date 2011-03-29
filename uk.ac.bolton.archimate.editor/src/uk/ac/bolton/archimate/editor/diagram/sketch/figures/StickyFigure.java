@@ -12,7 +12,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
@@ -21,7 +20,6 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IEditableTextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
@@ -31,8 +29,7 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
  * 
  * @author Phillip Beauvoir
  */
-public class StickyFigure
-extends AbstractContainerFigure implements IEditableTextFlowFigure {
+public class StickyFigure extends AbstractContainerFigure {
     
     protected int SHADOW_OFFSET = 3;
     protected int TEXT_INDENT = 10;
@@ -107,12 +104,6 @@ extends AbstractContainerFigure implements IEditableTextFlowFigure {
         return fTextFlow;
     }
     
-    public boolean didClickTextControl(Point requestLoc) {
-        TextFlow textControl = getTextControl();
-        textControl.translateToRelative(requestLoc);
-        return textControl.containsPoint(requestLoc);
-    }
-
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         bounds.x += TEXT_INDENT;

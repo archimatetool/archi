@@ -12,11 +12,11 @@ import java.util.List;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -30,6 +30,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+
 /**
  * Diagram Figures Preferences Page
  * 
@@ -40,8 +42,6 @@ extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants
 {
     public static String HELPID = "uk.ac.bolton.archimate.help.prefsFigures"; //$NON-NLS-1$
-    
-    private List<Image> fImages = new ArrayList<Image>();
     
     private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
     
@@ -57,10 +57,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
             this.name = name;
             this.key = key;
             
-            img1 = loadImage(image1);
-            fImages.add(img1);
-            img2 = loadImage(image2);
-            fImages.add(img2);
+            img1 = IArchimateImages.ImageFactory.getImage(image1);
+            img2 = IArchimateImages.ImageFactory.getImage(image2);
         }
         
         Image getImage() {
@@ -77,15 +75,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
 	 */
 	public DiagramFiguresPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
-		setDescription("Double-click on a figure to set its default shape." +
-		        " " + "Views will need to be closed and re-opened for this to take effect.");
+		setDescription("Select the default figures to use when creating new elements.");
 	}
-	
 
     @Override
     protected Control createContents(Composite parent) {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        
+        loadFigures();
         
         GridLayout gridLayout = new GridLayout();
         gridLayout.marginWidth = 0;
@@ -93,7 +91,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(gridLayout);
-        
+
         Composite client2 = new Composite(client, SWT.NULL);
         client2.setLayout(new TableColumnLayout());
         
@@ -103,8 +101,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         
         createTable(client2);
         
-        fTableViewer.getControl().setLayoutData(gd);
-        
         setValues();
         
         fTableViewer.setInput(fChoices);
@@ -112,8 +108,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         return client;
     }
     
-    private Image loadImage(String imageName) {
-        return new Image(getShell().getDisplay(), getClass().getResourceAsStream(imageName));
+    private void loadFigures() {
+        fChoices.add(new ImageChoice("Business Interface",
+                BUSINESS_INTERFACE_FIGURE, IArchimateImages.FIGURE_BUSINESS_INTERFACE1, IArchimateImages.FIGURE_BUSINESS_INTERFACE2));
+        fChoices.add(new ImageChoice("Application Component",
+                APPLICATION_COMPONENT_FIGURE, IArchimateImages.FIGURE_APPLICATION_COMPONENT1, IArchimateImages.FIGURE_APPLICATION_COMPONENT2));
+        fChoices.add(new ImageChoice("Application Interface",
+                APPLICATION_INTERFACE_FIGURE, IArchimateImages.FIGURE_APPLICATION_INTERFACE1, IArchimateImages.FIGURE_APPLICATION_INTERFACE2));
+        fChoices.add(new ImageChoice("Device",
+                TECHNOLOGY_DEVICE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE1, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE2));
+        fChoices.add(new ImageChoice("Node",
+                TECHNOLOGY_NODE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_NODE1, IArchimateImages.FIGURE_TECHNOLOGY_NODE2));
+        fChoices.add(new ImageChoice("Infrastructure Interface",
+                TECHNOLOGY_INTERFACE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2));
     }
     
     private void createTable(Composite parent) {
@@ -152,16 +159,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         
         fTableViewer.setLabelProvider(new TableLabelProvider());
         
-        fChoices.add(new ImageChoice("Business Interface", BUSINESS_INTERFACE_FIGURE, "bi1.png", "bi2.png"));
-        fChoices.add(new ImageChoice("Application Component", APPLICATION_COMPONENT_FIGURE, "ac1.png", "ac2.png"));
-        fChoices.add(new ImageChoice("Application Interface", APPLICATION_INTERFACE_FIGURE, "ai1.png", "ai2.png"));
-        fChoices.add(new ImageChoice("Device", TECHNOLOGY_DEVICE_FIGURE, "td1.png", "td2.png"));
-        fChoices.add(new ImageChoice("Node", TECHNOLOGY_NODE_FIGURE, "tn1.png", "tn2.png"));
-        fChoices.add(new ImageChoice("Infrastructure Interface", TECHNOLOGY_INTERFACE_FIGURE, "ti1.png", "ti2.png"));
-        
-        fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+        fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
-            public void doubleClick(DoubleClickEvent event) {
+            public void selectionChanged(SelectionChangedEvent event) {
                 ImageChoice ic = (ImageChoice)((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(ic != null) {
                     ic.flip();
@@ -198,16 +198,5 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     }
 
     public void init(IWorkbench workbench) {
-    }
-    
-    @Override
-    public void dispose() {
-        super.dispose();
-        
-        for(Image img : fImages) {
-            if(!img.isDisposed()) {
-                img.dispose();
-            }
-        }
     }
 }

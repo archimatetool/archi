@@ -8,9 +8,9 @@ package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractRectangleFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.RectangleFigureDelegate;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 /**
@@ -19,19 +19,17 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * @author Phillip Beauvoir
  */
 public class EmptyFigure
-extends AbstractRectangleFigure {
+extends AbstractTextFlowFigure {
     
     public EmptyFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
+        
+        // Use a Rectangle Figure Delegate to Draw
+        setFigureDelegate(new RectangleFigureDelegate(this));
     }
 
     @Override
     public Color getFillColor() {
         return ColorConstants.white;
-    }
-
-    @Override
-    public Image getImage() {
-        return null;
     }
 }

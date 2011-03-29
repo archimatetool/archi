@@ -8,10 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 
 import java.util.List;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -21,34 +18,26 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 
-import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineCellEditor;
+import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.StickyFigure;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IFontAttribute;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
-import uk.ac.bolton.archimate.model.ITextContent;
 
 
 /**
@@ -60,7 +49,6 @@ public class StickyEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart  {
     
     private DirectEditManager fDirectEditManager;
-    private ConnectionAnchor fAnchor;
 
     @Override
     protected List<?> getModelChildren() {
@@ -131,68 +119,11 @@ implements IColoredEditPart, ITextAlignedEditPart  {
 
     protected DirectEditManager getDirectEditManager() {
         if(fDirectEditManager == null) {
-            fDirectEditManager = new StickyDirectEditManager();
+            fDirectEditManager = new MultiLineTextDirectEditManager(this);
         }
         return fDirectEditManager;
     }
     
-    @Override
-    protected ConnectionAnchor getConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
-    }
-
-    /**
-     * DirectEditManager
-     */
-    private class StickyDirectEditManager extends DirectEditManager {
-        public StickyDirectEditManager() {
-            super(StickyEditPart.this, MultiLineCellEditor.class, new StickyCellEditorLocator());
-        }
-
-        @Override
-        protected CellEditor createCellEditorOn(Composite composite) {
-            ISketchModelSticky sticky = (ISketchModelSticky)getModel();
-            int alignment = sticky.getTextAlignment();
-            if(alignment == IFontAttribute.TEXT_ALIGNMENT_CENTER) {
-                alignment = SWT.CENTER;
-            }
-            else if(alignment == IFontAttribute.TEXT_ALIGNMENT_RIGHT) {
-                alignment = SWT.RIGHT;
-            }
-            else {
-                alignment = SWT.LEFT;
-            }
-            return new MultiLineCellEditor(composite, alignment);
-        }
-
-        @Override
-        protected void initCellEditor() {
-            String value = ((ITextContent)getModel()).getContent();
-            getCellEditor().setValue(StringUtils.safeString(value));
-            
-            Text text = (Text)getCellEditor().getControl();
-            StickyFigure figure = (StickyFigure)getFigure();
-            text.setFont(figure.getFont());
-            text.setForeground(figure.getTextControl().getForegroundColor());
-        }
-    }
-    
-    /**
-     * CellEditorLocator
-     */
-    private class StickyCellEditorLocator implements CellEditorLocator {
-        public void relocate(CellEditor celleditor) {
-            IFigure figure = getFigure();
-            Text text = (Text)celleditor.getControl();
-            Rectangle rect = figure.getBounds().getCopy();
-            figure.translateToAbsolute(rect);
-            text.setBounds(rect.x + 5, rect.y + 5, rect.width, rect.height);
-        }
-    }
-
     /**
      * DirectEditPolicy
      */

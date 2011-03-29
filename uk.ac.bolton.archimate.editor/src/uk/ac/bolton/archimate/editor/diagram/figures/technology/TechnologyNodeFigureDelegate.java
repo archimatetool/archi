@@ -9,31 +9,30 @@ package uk.ac.bolton.archimate.editor.diagram.figures.technology;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
+import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 
 /**
- * Technology Node Figure
+ * Technology Node Figure Delegate
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyNodeFigure1 extends AbstractEditableTextFlowFigure {
+public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
 
-    int FOLD_HEIGHT = 14;
-    int SHADOW_OFFSET = 2;
+    protected int FOLD_HEIGHT = 14;
+    protected int SHADOW_OFFSET = 2;
 
-    public TechnologyNodeFigure1(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public TechnologyNodeFigureDelegate(IDiagramModelObjectFigure owner) {
+        super(owner);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = getBounds();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         
         // Main Shadow
         graphics.setAlpha(100);
@@ -50,10 +49,10 @@ public class TechnologyNodeFigure1 extends AbstractEditableTextFlowFigure {
 
         // Fill front rectangle
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(getFillColor());
+        graphics.setBackgroundColor(getOwner().getFillColor());
         graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT - SHADOW_OFFSET);
 
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getOwner().getFillColor()));
 
         // Angle 1
         int[] points1 = new int[] {
@@ -81,25 +80,22 @@ public class TechnologyNodeFigure1 extends AbstractEditableTextFlowFigure {
     }
     
     @Override
-    protected void drawTargetFeedback(Graphics graphics) {
+    public void drawTargetFeedback(Graphics graphics) {
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
+        Rectangle bounds = getOwner().getBounds().getCopy();
         graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
         graphics.popState();
     }
 
+    @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         bounds.x += 20;
         bounds.y += 2 + FOLD_HEIGHT;
         bounds.width = bounds.width - 40;
         bounds.height -= 20;
         return bounds;
-    }
-
-    @Override
-    protected Image getImage() {
-        return null;
     }
 }

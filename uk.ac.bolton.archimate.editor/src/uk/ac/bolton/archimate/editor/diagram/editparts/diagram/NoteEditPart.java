@@ -6,10 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -17,14 +14,9 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 
-import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineCellEditor;
+import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
@@ -34,10 +26,8 @@ import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
-import uk.ac.bolton.archimate.model.IFontAttribute;
 
 
 /**
@@ -48,7 +38,6 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 public class NoteEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart {
     
-    private ConnectionAnchor fAnchor;
     private DirectEditManager fDirectManager;
     
     @Override
@@ -77,71 +66,13 @@ implements IColoredEditPart, ITextAlignedEditPart {
     public void performRequest(Request req) {
         if(req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
             if(fDirectManager == null) {
-                fDirectManager = new NoteDirectEditManager();
+                fDirectManager = new MultiLineTextDirectEditManager(this);
             }
             fDirectManager.show();
         }
         else if(req.getType() == RequestConstants.REQ_OPEN) {
             // Show Properties view
             ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
-        }
-    }
-
-    @Override
-    protected ConnectionAnchor getConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
-    }
-
-    /**
-     * DirectEditManager
-     */
-    private class NoteDirectEditManager extends DirectEditManager {
-
-        public NoteDirectEditManager() {
-            super(NoteEditPart.this, MultiLineCellEditor.class, new NoteCellEditorLocator());
-        }
-        
-        @Override
-        protected CellEditor createCellEditorOn(Composite composite) {
-            IDiagramModelNote note = (IDiagramModelNote)getModel();
-            int alignment = note.getTextAlignment();
-            if(alignment == IFontAttribute.TEXT_ALIGNMENT_CENTER) {
-                alignment = SWT.CENTER;
-            }
-            else if(alignment == IFontAttribute.TEXT_ALIGNMENT_RIGHT) {
-                alignment = SWT.RIGHT;
-            }
-            else {
-                alignment = SWT.LEFT;
-            }
-            return new MultiLineCellEditor(composite, alignment);
-        }
-
-        @Override
-        protected void initCellEditor() {
-            String value = ((IDiagramModelNote)getModel()).getContent();
-            getCellEditor().setValue(StringUtils.safeString(value));
-            
-            Text text = (Text)getCellEditor().getControl();
-            NoteFigure figure = (NoteFigure)getFigure();
-            text.setFont(figure.getFont());
-            text.setForeground(figure.getTextControl().getForegroundColor());
-        }
-    }
-
-    /**
-     * CellEditorLocator
-     */
-    private class NoteCellEditorLocator implements CellEditorLocator {
-        public void relocate(CellEditor celleditor) {
-            IFigure figure = getFigure();
-            Text text = (Text)celleditor.getControl();
-            Rectangle rect = figure.getBounds().getCopy();
-            figure.translateToAbsolute(rect);
-            text.setBounds(rect.x + 5, rect.y + 5, rect.width, rect.height);
         }
     }
 

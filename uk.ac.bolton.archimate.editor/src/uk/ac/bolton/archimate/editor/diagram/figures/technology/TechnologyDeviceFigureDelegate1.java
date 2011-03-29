@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -9,31 +9,30 @@ package uk.ac.bolton.archimate.editor.diagram.figures.technology;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEditableTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
+import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 
 /**
- * Technology Device Figure
+ * Technology Device Figure Delegate 1
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyDeviceFigure1 extends AbstractEditableTextFlowFigure {
+public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
 
-    int SHADOW_OFFSET = 2;
-    int INDENT = 15;
+    protected int SHADOW_OFFSET = 2;
+    protected int INDENT = 15;
 
-    public TechnologyDeviceFigure1(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public TechnologyDeviceFigureDelegate1(IDiagramModelObjectFigure owner) {
+        super(owner);
     }
 
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = getBounds();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         
         int height_indent = bounds.height / 6;
         
@@ -52,7 +51,7 @@ public class TechnologyDeviceFigure1 extends AbstractEditableTextFlowFigure {
         graphics.fillPolygon(points1);
         
         graphics.setAlpha(255);
-        graphics.setBackgroundColor(getFillColor());
+        graphics.setBackgroundColor(getOwner().getFillColor());
         graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y,
                 bounds.width - SHADOW_OFFSET, bounds.height - height_indent - SHADOW_OFFSET), 30, 30);
     
@@ -62,7 +61,7 @@ public class TechnologyDeviceFigure1 extends AbstractEditableTextFlowFigure {
                 bounds.x + bounds.width - INDENT - SHADOW_OFFSET, bounds.y + bounds.height - height_indent - 3,
                 bounds.x + bounds.width - 4, bounds.y + bounds.height - SHADOW_OFFSET
         };
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getOwner().getFillColor()));
         graphics.fillPolygon(points2);
 
         graphics.setBackgroundColor(ColorConstants.black);
@@ -72,26 +71,22 @@ public class TechnologyDeviceFigure1 extends AbstractEditableTextFlowFigure {
     }
     
     @Override
-    protected void drawTargetFeedback(Graphics graphics) {
+    public void drawTargetFeedback(Graphics graphics) {
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
+        Rectangle bounds = getOwner().getBounds().getCopy();
         graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
         graphics.popState();
     }
 
+    @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
+        Rectangle bounds = getOwner().getBounds().getCopy();
         bounds.x += 20;
         bounds.y += 5;
         bounds.width = bounds.width - 40;
         bounds.height -= 10;
         return bounds;
     }
-
-    @Override
-    protected Image getImage() {
-        return null;
-    }
-
 }

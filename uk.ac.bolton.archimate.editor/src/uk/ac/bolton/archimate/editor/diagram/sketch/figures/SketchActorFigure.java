@@ -11,7 +11,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEditableLabelFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractLabelFigure;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 
@@ -20,7 +20,7 @@ import uk.ac.bolton.archimate.model.ISketchModelActor;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchActorFigure extends AbstractEditableLabelFigure {
+public class SketchActorFigure extends AbstractLabelFigure {
 
     static Dimension DEFAULT_SIZE = new Dimension(75, 100);
     
@@ -73,7 +73,7 @@ public class SketchActorFigure extends AbstractEditableLabelFigure {
     }
 
     @Override
-    public Rectangle calculateLabelBounds() {
+    public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         bounds.y += bounds.height - getLabel().getPreferredSize().height;
         bounds.height = getLabel().getPreferredSize().height;

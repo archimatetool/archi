@@ -1,36 +1,37 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures;
 
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 
+
 /**
- * Figure with Editable Text Label
+ * Figure Delegate that takes care of drawing the figure
  * 
  * @author Phillip Beauvoir
  */
-public interface IEditableLabelFigure extends IDiagramModelObjectFigure {
+public interface IFigureDelegate {
     
     /**
-     * @return The Text Label
+     * Draw the figure
+     * @param graphics
      */
-    Label getLabel();
-
+    void drawFigure(Graphics graphics);
+    
     /**
-     * @param requestLoc
-     * @return True if requestLoc is in the Editable Label
+     * @return The bounds of the Text Control or null if none
      */
-    boolean didClickLabel(Point requestLoc);
-
+    Rectangle calculateTextControlBounds();
+    
     /**
-     * @return Label Bounds
+     * Draw any target feedback, if any
+     * @param graphics
      */
-    Rectangle calculateLabelBounds();
+    void drawTargetFeedback(Graphics graphics);
 }

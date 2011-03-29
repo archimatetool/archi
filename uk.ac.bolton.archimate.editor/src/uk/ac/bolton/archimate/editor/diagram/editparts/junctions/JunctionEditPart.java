@@ -37,7 +37,7 @@ implements INonResizableEditPart {
     }
 
     @Override
-    protected ConnectionAnchor getConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fAnchor == null) {
             fAnchor = new EllipseAnchor(getFigure());
         }

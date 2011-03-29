@@ -8,10 +8,12 @@ package uk.ac.bolton.archimate.editor.diagram.directedit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
@@ -30,11 +32,12 @@ public class LabelDirectEditManager extends DirectEditManager {
     private boolean USE_ORIGINAL_FONT = false;
     
     private VerifyListener fVerifyListener;
-    private IFigure fOriginalFigure;
+    private IFigure fTextFigure;
 
-    public LabelDirectEditManager(GraphicalEditPart source, CellEditorLocator locator, IFigure originalFigure) {
-        super(source, TextCellEditor.class, locator);
-        fOriginalFigure = originalFigure;
+    public LabelDirectEditManager(GraphicalEditPart source, IFigure textFigure) {
+        super(source, TextCellEditor.class, null);
+        fTextFigure = textFigure;
+        setLocator(new TextCellEditorLocator());
     }
 
     /**
@@ -78,11 +81,11 @@ public class LabelDirectEditManager extends DirectEditManager {
         text.addVerifyListener(fVerifyListener);
 
         // set the initial value of the text
-        if(fOriginalFigure instanceof Label) {
-            getCellEditor().setValue(((Label)fOriginalFigure).getText());
+        if(fTextFigure instanceof Label) {
+            getCellEditor().setValue(((Label)fTextFigure).getText());
         }
-        else if(fOriginalFigure instanceof TextFlow) {
-            getCellEditor().setValue(((TextFlow)fOriginalFigure).getText());
+        else if(fTextFigure instanceof TextFlow) {
+            getCellEditor().setValue(((TextFlow)fTextFigure).getText());
         }
 
         if(USE_ORIGINAL_FONT) {
@@ -100,5 +103,32 @@ public class LabelDirectEditManager extends DirectEditManager {
         Text text = (Text)getCellEditor().getControl();
         text.removeVerifyListener(fVerifyListener);
         fVerifyListener = null;
+    }
+    
+    
+    class TextCellEditorLocator implements CellEditorLocator {
+        public void relocate(CellEditor celleditor) {
+            Text text = (Text)celleditor.getControl();
+            
+            Point preferredSize = text.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+            
+            Rectangle rect;
+            
+            if(fTextFigure instanceof Label) {
+                rect = ((Label)fTextFigure).getTextBounds().getCopy();
+            }
+            else {
+                rect = fTextFigure.getBounds().getCopy();
+            }
+            
+            fTextFigure.translateToAbsolute(rect);
+            
+            if(text.getCharCount() > 1) {
+                text.setBounds(rect.x - 1, rect.y - 1, preferredSize.x + 1, preferredSize.y + 1);
+            }
+            else {
+                text.setBounds(rect.x - 1, rect.y - 1, preferredSize.y + 1, preferredSize.y + 1);
+            }
+        }
     }
 }

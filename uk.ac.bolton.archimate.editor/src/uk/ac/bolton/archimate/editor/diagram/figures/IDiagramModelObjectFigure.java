@@ -8,6 +8,10 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
+
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 
@@ -20,6 +24,11 @@ import org.eclipse.draw2d.geometry.Dimension;
 public interface IDiagramModelObjectFigure extends IFigure {
     
     /**
+     * @return The DiagramModelObject
+     */
+    IDiagramModelObject getDiagramModelObject();
+    
+    /**
      * Refresh the visual figure according to the model
      */
     void refreshVisuals();
@@ -30,6 +39,12 @@ public interface IDiagramModelObjectFigure extends IFigure {
     IFigure getTextControl();
     
     /**
+     * @param requestLoc
+     * @return True if requestLoc is in the Text Control
+     */
+    boolean didClickTextControl(Point requestLoc);
+    
+    /**
      * Dispose of any resources
      */
     void dispose();
@@ -38,4 +53,9 @@ public interface IDiagramModelObjectFigure extends IFigure {
      * @return The default Size for this object
      */
     Dimension getDefaultSize();
+
+    /**
+     * @return The Fill Color if any
+     */
+    Color getFillColor();
 }

@@ -18,7 +18,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractEditableLabelContainerFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractLabelContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
@@ -30,11 +30,11 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * @author Phillip Beauvoir
  */
 public class GroupFigure
-extends AbstractEditableLabelContainerFigure {
+extends AbstractLabelContainerFigure {
     
-    static Dimension DEFAULT_SIZE = new Dimension(400, 140);
-    static int FOLD_HEIGHT = 18;
-    static int SHADOW_OFFSET = 2;
+    protected static Dimension DEFAULT_SIZE = new Dimension(400, 140);
+    protected static int FOLD_HEIGHT = 18;
+    protected static int SHADOW_OFFSET = 2;
     
     /**
      * Connection Anchor adjusts for Group shape
@@ -106,7 +106,8 @@ extends AbstractEditableLabelContainerFigure {
         return DEFAULT_SIZE;
     }
 
-    public Rectangle calculateLabelBounds() {
+    @Override
+    protected Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         
         // This first
