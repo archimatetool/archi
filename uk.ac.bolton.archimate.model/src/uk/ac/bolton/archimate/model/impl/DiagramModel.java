@@ -317,8 +317,13 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
      */
     public EObject getCopy() {
         IDiagramModel newDiagramModel = (IDiagramModel)IArchimateFactory.eINSTANCE.create(eClass());
+        
         newDiagramModel.setName(getName());
+        newDiagramModel.setConnectionRouterType(getConnectionRouterType());
+        newDiagramModel.setDocumentation(getDocumentation());
+        
         // Future - add all children
+        
         return newDiagramModel;
     }
 
