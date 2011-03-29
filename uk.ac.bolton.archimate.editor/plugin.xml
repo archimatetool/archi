@@ -139,9 +139,9 @@
             contributorId="uk.ac.bolton.archimate.editor"
             labelProvider="uk.ac.bolton.archimate.editor.propertysections.PropertiesLabelProvider">
          <propertyCategory
-               category="category_main"></propertyCategory>
+               category="main.category"></propertyCategory>
          <propertyCategory
-               category="category_appearance">
+               category="analysis.category">
          </propertyCategory>
       </propertyContributor>
    </extension>
@@ -150,28 +150,27 @@
       <propertyTabs
             contributorId="uk.ac.bolton.archimate.editor">
          <propertyTab
-               category="category_main"
+               category="main.category"
                id="main.tab"
                label="Main">
          </propertyTab>
          <propertyTab
                afterTab="main.tab"
-               category="category_appearance"
+               category="main.category"
                id="appearance.tab"
                label="Appearance">
          </propertyTab>
          <propertyTab
                afterTab="appearance.tab"
-               category="category_main"
-               id="analysis.tab"
-               label="Analysis">
-         </propertyTab>
-         <propertyTab
-               afterTab="appearance.tab"
-               category="category_appearance"
+               category="main.category"
                id="figure.tab"
                indented="true"
                label="Figure">
+         </propertyTab>
+         <propertyTab
+               category="analysis.category"
+               id="analysis.tab"
+               label="Analysis">
          </propertyTab>
       </propertyTabs>
    </extension>
