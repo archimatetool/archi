@@ -170,4 +170,24 @@ public final class ArchimateEditorActionFactory {
             return action;
         }
     };
+    
+    /**
+     * A Retargetable Action to Duplicate
+     */
+    public static final ActionFactory DUPLICATE = new ActionFactory("duplicate", //$NON-NLS-1$
+                                "uk.ac.bolton.archimate.editor.action.duplicate") {
+        
+        @Override
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            LabelRetargetAction action = new LabelRetargetAction(getId(), "Duplicate");
+            window.getPartService().addPartListener(action);
+            // Don't do this unless registering a key binding in plugin.xml
+            action.setActionDefinitionId(getCommandId());
+            return action;
+        }
+    };
+
 }

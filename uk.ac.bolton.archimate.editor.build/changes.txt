@@ -6,9 +6,9 @@ Version 1.7 April XX 2011
 + Can now rename a Model Tree element with in-place editing ("Rename" in context and main menu items or F2 key)
 + When adding a new element on the Model Tree the focus is put on in-place editing so you can edit the name
 + Can now rename a View diagram element with "Rename" context and main menu items or F2 key
-+ A View figure's text control can also be edited with a single-click when it is selected
-+ Some elements can have an alternative figure set in the Properties window
-+ Preferences for alternative figures now set the default for newly added elements
++ New "Duplicate" command in the Model Tree duplicates Elements and Views
++ Some View elements can have an alternative figure specified in the Properties window
++ Preferences for alternative figures now sets the default for newly added elements
 + Added a Connection type to the Palette for connections to/from Notes
 + The Grid Snap and Alignment settings are now applied globally to all Views and saved
 + The Access Relation type now has properties of "Access", "Read", "Write", and "Read/Write". This changes the connection's arrow head.
@@ -16,6 +16,7 @@ Version 1.7 April XX 2011
 + Changed menu item "Show Alignment Guides" to "Snap to Alignment Guides"
 + Can now add View and Sketch References (linked shortcuts) to the Sketch View
 + When deleting nodes on the Model Tree the previous node is now selected
++ A View figure's text control can also be edited with a single-click when it is selected
 + The Magic Connector cursor is now more magical
 + Links in Documentation for elements are now saved as links in HTML Report
 + The Java version shipped with the Windows installer is now version 1.6.0_24
@@ -27,7 +28,8 @@ Version 1.7 April XX 2011
 * Derived relations will not be calculated if there are too many potential paths
 * The drag outline figure when dragging and creating from the palette on Mac OS X Cocoa is no longer black
 * Junction figures are restricted to their proper size when dragging and creating from the palette
-* Fixed Connection line colour not copied when pasting connections
+* Fixed Connection line colour not copied when copy & paste
+* Fixed Interface element type parameter not copied when copy & paste
 
 
 

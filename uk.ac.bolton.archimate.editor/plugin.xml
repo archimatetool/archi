@@ -392,6 +392,11 @@
             sequence="M1+M">
       </key>
       <key
+            commandId="uk.ac.bolton.archimate.editor.action.duplicate"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="M1+D">
+      </key>
+      <key
             commandId="uk.ac.bolton.archimate.editor.action.openDiagram"
             schemeId="uk.ac.bolton.archimate.editor.keybindings"
             sequence="M1+M2+O">
@@ -435,6 +440,10 @@
       <command
             id="uk.ac.bolton.archimate.editor.action.closeModel"
             name="Close Model">
+      </command>
+      <command
+            id="uk.ac.bolton.archimate.editor.action.duplicate"
+            name="Duplicate">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.openDiagram"

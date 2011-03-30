@@ -78,6 +78,7 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionPaste;
     private IWorkbenchAction fActionDelete;
     private IWorkbenchAction fActionRename;
+    private IWorkbenchAction fActionDuplicate;
     
     private IWorkbenchAction fActionUndo;
     private IWorkbenchAction fActionRedo;
@@ -198,6 +199,10 @@ extends ActionBarAdvisor {
         fActionRename = ArchimateEditorActionFactory.RENAME.create(window);
         register(fActionRename);
         
+        // Duplicate
+        fActionDuplicate = ArchimateEditorActionFactory.DUPLICATE.create(window);
+        register(fActionDuplicate);
+
         // Select All
         fActionSelectAll = ActionFactory.SELECT_ALL.create(window);
         register(fActionSelectAll);
@@ -347,6 +352,7 @@ extends ActionBarAdvisor {
         menu.add(fActionDelete);
         menu.add(new Separator(IWorkbenchActionConstants.CUT_EXT));
         
+        menu.add(fActionDuplicate);
         menu.add(fActionRename);
         menu.add(new Separator(fActionRename.getId()));
         

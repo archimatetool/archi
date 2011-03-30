@@ -51,6 +51,7 @@ import uk.ac.bolton.archimate.editor.ui.ViewManager;
 import uk.ac.bolton.archimate.editor.views.AbstractModelView;
 import uk.ac.bolton.archimate.editor.views.tree.actions.CloseModelAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.DeleteAction;
+import uk.ac.bolton.archimate.editor.views.tree.actions.DuplicateAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.IViewerAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.LinkToEditorAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.NewFolderAction;
@@ -59,6 +60,7 @@ import uk.ac.bolton.archimate.editor.views.tree.actions.PropertiesAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.RenameAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.SaveModelAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.TreeModelViewActionFactory;
+import uk.ac.bolton.archimate.editor.views.tree.commands.DuplicateCommandHandler;
 import uk.ac.bolton.archimate.editor.views.tree.search.SearchFilter;
 import uk.ac.bolton.archimate.editor.views.tree.search.SearchWidget;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -101,6 +103,7 @@ implements ITreeModelView {
     private IViewerAction fActionRename;
     private IViewerAction fActionOpenDiagram;
     private IViewerAction fActionNewFolder;
+    private IViewerAction fActionDuplicate;
     
     public TreeModelView() {
         INSTANCE = this;
@@ -268,6 +271,8 @@ implements ITreeModelView {
         
         fActionNewFolder = new NewFolderAction(getSelectionProvider());
         
+        fActionDuplicate = new DuplicateAction(getViewer());
+        
         fActionToggleSearchField = new Action("", IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
@@ -295,6 +300,7 @@ implements ITreeModelView {
         actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), fActionDelete);
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
         actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
+        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.DUPLICATE.getId(), fActionDuplicate);
     }
     
     /**
@@ -321,7 +327,8 @@ implements ITreeModelView {
      * @param manager
      */
     private void fillContextMenu(IMenuManager manager) {
-        Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
+        IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
+        Object selected = selection.getFirstElement();
         boolean isEmpty = selected == null;
         
         if(isEmpty) {
@@ -365,6 +372,10 @@ implements ITreeModelView {
             manager.add(fActionDelete);
             manager.add(fActionRename);
             manager.add(new Separator());
+            if(DuplicateCommandHandler.canDuplicate(selection)) {
+                manager.add(fActionDuplicate);
+                manager.add(new Separator());
+            }
             manager.add(fActionProperties);
         }
         
@@ -381,6 +392,7 @@ implements ITreeModelView {
         fActionOpenDiagram.update(selection);
         fActionCloseModel.update(selection);
         fActionDelete.update(selection);
+        fActionDuplicate.update(selection);
         fActionRename.update(selection);
         fActionProperties.update(selection);
         fActionNewFolder.update(selection);
