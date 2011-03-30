@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.views.tree.commands;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -48,7 +49,6 @@ public class DeleteCommandHandler {
      * If deleting elements from more than one model in the tree we need to use the
      * Command Stack allocated to each model. And then allocate one CompoundCommand per Command Stack.
      */
-    private List<CommandStack> fCommandStacks = new ArrayList<CommandStack>();
     private Hashtable<CommandStack, CompoundCommand> fCommandMap = new Hashtable<CommandStack, CompoundCommand>();
     
     private ISelectionProvider fSelectionProvider;
@@ -141,9 +141,8 @@ public class DeleteCommandHandler {
         createCommands();
         
         // Execute the Commands on the CommandStack(s) - there could be more than one if more than one model open in the Tree
-        for(CommandStack stack : fCommandStacks) {
-            CompoundCommand compoundCommand = fCommandMap.get(stack);
-            stack.execute(compoundCommand);
+        for(Entry<CommandStack, CompoundCommand> entry : fCommandMap.entrySet()) {
+            entry.getKey().execute(entry.getValue());
         }
         
         dispose();
@@ -324,10 +323,6 @@ public class DeleteCommandHandler {
             return null;
         }
         
-        if(!fCommandStacks.contains(stack)) {
-            fCommandStacks.add(stack);
-        }
-        
         CompoundCommand compoundCommand = fCommandMap.get(stack);
         if(compoundCommand == null) {
             List<?> selected = ((IStructuredSelection)fSelectionProvider.getSelection()).toList();
@@ -342,7 +337,6 @@ public class DeleteCommandHandler {
         fSelectedObjects = null;
         fElementsToDelete = null;
         fSelectionProvider = null;
-        fCommandStacks = null;
         fCommandMap = null;
     }
 
