@@ -551,6 +551,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         newConnection.setType(getType());
         newConnection.setFont(getFont());
         newConnection.setFontColor(getFontColor());
+        newConnection.setLineColor(getLineColor());
         
         // Bendpoints
         for(IDiagramModelBendpoint bendpoint : getBendpoints()) {
