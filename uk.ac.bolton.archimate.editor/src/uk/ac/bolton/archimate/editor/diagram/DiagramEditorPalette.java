@@ -43,8 +43,8 @@ public class DiagramEditorPalette extends PaletteRoot {
     
     public DiagramEditorPalette() {
         createControlsGroup();
-        createExtrasGroup();
         createRelationsGroup();
+        createExtrasGroup();
         createBusinessLayerGroup();
         createApplicationLayerGroup();
         createTechnologyLayerGroup();
