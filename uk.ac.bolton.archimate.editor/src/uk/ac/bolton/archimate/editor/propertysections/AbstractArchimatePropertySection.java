@@ -120,7 +120,8 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
     protected abstract void setElement(Object element);
     
     /**
-     * If the Property sheet was Pinned and the Element deleted then return false
+     * If the Property sheet was Active (or Pinned) and the Element deleted then the Element's
+     * info could still be showing.
      * @return True if alive
      */
     protected boolean isAlive() {
