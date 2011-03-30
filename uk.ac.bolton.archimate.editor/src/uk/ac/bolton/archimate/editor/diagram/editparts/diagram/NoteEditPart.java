@@ -38,7 +38,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelNote;
 public class NoteEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart {
     
-    private DirectEditManager fDirectManager;
+    private DirectEditManager fDirectEditManager;
     
     @Override
     protected void createEditPolicies() {
@@ -65,15 +65,19 @@ implements IColoredEditPart, ITextAlignedEditPart {
     @Override
     public void performRequest(Request req) {
         if(req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
-            if(fDirectManager == null) {
-                fDirectManager = new MultiLineTextDirectEditManager(this);
-            }
-            fDirectManager.show();
+            getDirectEditManager().show();
         }
         else if(req.getType() == RequestConstants.REQ_OPEN) {
             // Show Properties view
             ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
+    }
+
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new MultiLineTextDirectEditManager(this);
+        }
+        return fDirectEditManager;
     }
 
     /**

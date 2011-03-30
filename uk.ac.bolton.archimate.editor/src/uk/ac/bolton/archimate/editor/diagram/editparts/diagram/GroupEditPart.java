@@ -46,7 +46,7 @@ public class GroupEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextEditPart {
     
     private ConnectionAnchor fAnchor;
-    private DirectEditManager fManager;
+    private DirectEditManager fDirectEditManager;
 
     @Override
     protected List<?> getModelChildren() {
@@ -104,19 +104,30 @@ implements IColoredEditPart, ITextEditPart {
      */
     @Override
     public void performRequest(Request request) {
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command
+        // REQ_OPEN is Double-click
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
-            // Edit the label if we clicked on it
-            if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
-                if(fManager == null) {
-                    fManager = new LabelDirectEditManager(this, getFigure().getTextControl());
+            if(request instanceof LocationRequest) {
+                // Edit the text control if we clicked on it
+                if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
+                    getDirectEditManager().show();
                 }
-                fManager.show();
+                // Else open Properties View on double-click
+                else if(request.getType() == RequestConstants.REQ_OPEN){
+                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                }
             }
-            // Open Properties view
-            else if(request.getType() == RequestConstants.REQ_OPEN) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            else {
+                getDirectEditManager().show();
             }
         }
+    }
+    
+    protected DirectEditManager getDirectEditManager() {
+        if(fDirectEditManager == null) {
+            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getTextControl());
+        }
+        return fDirectEditManager;
     }
     
     @Override
