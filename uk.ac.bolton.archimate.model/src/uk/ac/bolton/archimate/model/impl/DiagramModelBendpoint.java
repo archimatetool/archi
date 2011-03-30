@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
 
@@ -264,15 +264,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * @generated NOT
      */
     public EObject getCopy() {
-        IDiagramModelBendpoint bendpoint = IArchimateFactory.eINSTANCE.createDiagramModelBendpoint();
-        
-        bendpoint.setEndX(getEndX());
-        bendpoint.setEndY(getEndY());
-        bendpoint.setStartX(getStartX());
-        bendpoint.setStartY(getStartY());
-        bendpoint.setWeight(getWeight());
-        
-        return bendpoint;
+        return EcoreUtil.copy(this);
     }
 
     /**

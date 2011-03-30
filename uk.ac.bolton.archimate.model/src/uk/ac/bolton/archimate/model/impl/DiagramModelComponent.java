@@ -14,9 +14,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.ICloneable;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -185,11 +185,9 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
      * @generated NOT
      */
     public EObject getCopy() {
-        IDiagramModelComponent newComponent = (IDiagramModelComponent)IArchimateFactory.eINSTANCE.create(eClass());
-        
-        newComponent.setName(getName());
-        
-        return newComponent;
+        IDiagramModelComponent newObject = EcoreUtil.copy(this);
+        newObject.setId(null); // need a new ID
+        return newObject;
     }
 
     /**

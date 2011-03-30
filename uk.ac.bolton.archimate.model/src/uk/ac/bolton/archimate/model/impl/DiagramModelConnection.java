@@ -544,21 +544,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     @Override
     public EObject getCopy() {
         IDiagramModelConnection newConnection = (IDiagramModelConnection)super.getCopy();
-        
-        newConnection.setText(getText());
-        newConnection.setTextPosition(getTextPosition());
-        newConnection.setLineWidth(getLineWidth());
-        newConnection.setType(getType());
-        newConnection.setFont(getFont());
-        newConnection.setFontColor(getFontColor());
-        newConnection.setLineColor(getLineColor());
-        
-        // Bendpoints
-        for(IDiagramModelBendpoint bendpoint : getBendpoints()) {
-            IDiagramModelBendpoint bendpointCopy = (IDiagramModelBendpoint)bendpoint.getCopy();
-            newConnection.getBendpoints().add(bendpointCopy);
-        }
-        
+        newConnection.setSource(null);
+        newConnection.setTarget(null);
         return newConnection;
     }
 

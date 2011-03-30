@@ -199,7 +199,8 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
         IArchimateElement element = (IArchimateElement)getArchimateElement().getCopy();
         newObject.setArchimateElement(element);
         
-        newObject.setType(getType());
+        // Clear children
+        newObject.getChildren().clear();
         
         return newObject;
     }

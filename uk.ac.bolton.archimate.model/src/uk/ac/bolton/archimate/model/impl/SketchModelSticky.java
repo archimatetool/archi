@@ -124,7 +124,8 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
     @Override
     public EObject getCopy() {
         ISketchModelSticky newObject = (ISketchModelSticky)super.getCopy();
-        newObject.setContent(getContent());
+        //newObject.setContent(getContent());
+        newObject.getChildren().clear();
         return newObject;
     }
 

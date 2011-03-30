@@ -8,7 +8,6 @@ package uk.ac.bolton.archimate.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -89,13 +88,6 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT, oldContent, content));
     }
     
-    @Override
-    public EObject getCopy() {
-        IDiagramModelNote newObject = (IDiagramModelNote)super.getCopy();
-        newObject.setContent(getContent());
-        return newObject;
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

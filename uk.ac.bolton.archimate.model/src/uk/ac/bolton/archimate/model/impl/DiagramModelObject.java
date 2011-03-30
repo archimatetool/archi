@@ -382,11 +382,8 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     public EObject getCopy() {
         IDiagramModelObject newObject = (IDiagramModelObject)super.getCopy();
         
-        newObject.setBounds(getBounds().getCopy());
-        newObject.setFillColor(getFillColor());
-        newObject.setFont(getFont());
-        newObject.setFontColor(getFontColor());
-        newObject.setTextAlignment(getTextAlignment());
+        newObject.getSourceConnections().clear();
+        newObject.getTargetConnections().clear();
         
         return newObject;
     }

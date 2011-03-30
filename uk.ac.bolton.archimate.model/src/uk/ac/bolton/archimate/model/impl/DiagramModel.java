@@ -322,8 +322,6 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
         newDiagramModel.setConnectionRouterType(getConnectionRouterType());
         newDiagramModel.setDocumentation(getDocumentation());
         
-        // Future - add all children
-        
         return newDiagramModel;
     }
 

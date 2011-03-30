@@ -14,10 +14,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -175,12 +175,13 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
      * @generated NOT
      */
     public EObject getCopy() {
-        IArchimateElement newObject = (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass());
-        newObject.setName(getName());
-        newObject.setDocumentation(getDocumentation());
+        IArchimateElement newObject = EcoreUtil.copy(this);
+        newObject.setId(null); // need a new ID
+        
 //        if(eIsSet(IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES)) {
 //            newObject.getProperties().addAll(getProperties());
 //        }
+  
         return newObject;
     }
 

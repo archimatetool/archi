@@ -10,8 +10,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IBounds;
 
@@ -226,8 +226,7 @@ public class Bounds extends EObjectImpl implements IBounds {
      * @generated NOT
      */
     public IBounds getCopy() {
-        IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(getX(), getY(), getWidth(), getHeight());
-        return bounds;
+        return EcoreUtil.copy(this);
     }
 
     /**
