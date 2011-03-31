@@ -21,9 +21,6 @@ import uk.ac.bolton.archimate.editor.model.IModelImporter;
  */
 public class ImportManager {
     
-    public static String BIZZDESIGN_ARCHITECT_2 = "BiZZdesignArchitect2";
-    public static String BIZZDESIGN_ARCHITECT_3 = "BiZZdesignArchitect2";
-    
     public static String BIZZDESIGN_ARCHITECT_EXT = ".xma";
     
     /**
