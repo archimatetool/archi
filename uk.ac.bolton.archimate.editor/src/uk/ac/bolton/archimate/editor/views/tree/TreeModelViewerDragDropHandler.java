@@ -27,8 +27,9 @@ import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.TreeItem;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
+import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
-import uk.ac.bolton.archimate.editor.model.importer.BiZZdesignImporter;
+import uk.ac.bolton.archimate.editor.model.importer.ImportManager;
 import uk.ac.bolton.archimate.editor.views.tree.commands.MoveFolderCommand;
 import uk.ac.bolton.archimate.editor.views.tree.commands.MoveObjectCommand;
 import uk.ac.bolton.archimate.model.FolderType;
@@ -198,10 +199,13 @@ public class TreeModelViewerDragDropHandler {
                             && !IEditorModelManager.INSTANCE.isModelLoaded(file)) {
                         IEditorModelManager.INSTANCE.openModel(file);
                     }
-                    // BiZZdesign Architect
-                    else if(file.getName().toLowerCase().endsWith(".xma")) {
+                    // Other type
+                    else {
                         try {
-                            new BiZZdesignImporter(file).doImport();
+                            IModelImporter importer = ImportManager.getImporter(file);
+                            if(importer != null) {
+                                importer.doImport();
+                            }
                         }
                         catch(IOException ex) {
                             ex.printStackTrace();

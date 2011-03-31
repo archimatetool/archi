@@ -55,13 +55,13 @@ import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**
- * BiZZdesign Architect Importer
+ * BiZZdesign Architect v2 Importer
  * 
  * A rather strange format...
  * 
  * @author Phillip Beauvoir
  */
-public class BiZZdesignImporter implements IModelImporter {
+public class BiZZdesign2Importer implements IModelImporter {
     
     public static final String MM_Application = "MM_Application";
     public static final String MM_Document = "MM_Document";
@@ -176,7 +176,7 @@ public class BiZZdesignImporter implements IModelImporter {
     
     private String AMBER_COMPONENT_ID;
     
-    public BiZZdesignImporter(File file) {
+    public BiZZdesign2Importer(File file) {
         fFile = file;
     }
 

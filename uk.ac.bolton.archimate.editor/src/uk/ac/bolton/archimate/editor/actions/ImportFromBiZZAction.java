@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
-import uk.ac.bolton.archimate.editor.model.importer.BiZZdesignImporter;
+import uk.ac.bolton.archimate.editor.model.importer.ImportManager;
 
 /**
  * Import BiZZdesign Architect Action
@@ -44,8 +44,14 @@ implements IWorkbenchAction {
         if(path != null) {
             File file = new File(path);
             try {
-                IModelImporter importer = new BiZZdesignImporter(file);
-                importer.doImport();
+                IModelImporter importer = ImportManager.getImporter(file);
+                if(importer != null) {
+                    importer.doImport();
+                }
+                else {
+                    MessageDialog.openError(workbenchWindow.getShell(), "Import BiZZdesign Architect Model",
+                            "Cannot import. Unknown format.");
+                }
             }
             catch(IOException ex) {
                 MessageDialog.openError(workbenchWindow.getShell(), "Error opening file", ex.getMessage());
