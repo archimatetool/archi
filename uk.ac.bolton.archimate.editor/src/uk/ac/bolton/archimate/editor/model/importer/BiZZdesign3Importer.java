@@ -292,7 +292,7 @@ public class BiZZdesign3Importer implements IModelImporter {
                 String id = eElement.getAttributeValue(ATT_ID);
                 if(StringUtils.isSet(id)) {
                     IArchimateElement eObject = (IArchimateElement)IArchimateFactory.eINSTANCE.create(fElementTypeMap.get(tag));
-                    eObject.setId(tag + " " + id);
+                    eObject.setId(id);
                     IFolder folder = getDefaultFolderForElement(eObject, model);
                     if(folder != null) {
                         // Add to folder
