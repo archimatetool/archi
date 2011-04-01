@@ -122,7 +122,7 @@ public class TreeModelViewActionFactory {
                 element.setName(getText());
                 // Execute Command
                 Command cmd = new NewElementCommand(folder, element);
-                CommandStack commandStack = (CommandStack)folder.getArchimateModel().getAdapter(CommandStack.class);
+                CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
         };
@@ -141,7 +141,7 @@ public class TreeModelViewActionFactory {
                 
                 // Execute Command
                 Command cmd = new NewDiagramCommand(folder, diagramModel, "New View");
-                CommandStack commandStack = (CommandStack)folder.getArchimateModel().getAdapter(CommandStack.class);
+                CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
         };
@@ -160,7 +160,7 @@ public class TreeModelViewActionFactory {
                 
                 // Execute Command
                 Command cmd = new NewDiagramCommand(folder, sketchModel, "New Sketch");
-                CommandStack commandStack = (CommandStack)folder.getArchimateModel().getAdapter(CommandStack.class);
+                CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
         };

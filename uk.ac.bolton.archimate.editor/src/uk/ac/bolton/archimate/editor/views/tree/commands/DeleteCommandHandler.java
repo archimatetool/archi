@@ -24,9 +24,8 @@ import uk.ac.bolton.archimate.editor.model.commands.DeleteDiagramModelCommand;
 import uk.ac.bolton.archimate.editor.model.commands.DeleteElementCommand;
 import uk.ac.bolton.archimate.editor.model.commands.DeleteFolderCommand;
 import uk.ac.bolton.archimate.model.FolderType;
+import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
@@ -152,23 +151,34 @@ public class DeleteCommandHandler {
      * Create the Delete Commands
      */
     private void createCommands() {
-        // We need to ensure that the Delete Diagram Model Commands are called first in order to close
-        // any open diagram editors gracefully before removing their models from parent folders.
+        /*
+         *  We need to ensure that the Delete Diagram Model Commands are called first in order to close
+         *  any open diagram editors before removing their models from parent folders.
+         */
         for(Object object : fElementsToDelete) {
-            CompoundCommand compoundCommand = getCompoundCommand(object);
-            if(compoundCommand == null) { // sanity check
-                continue;
-            }
-            
             if(object instanceof IDiagramModel) {
-                Command cmd = new DeleteDiagramModelCommand((IDiagramModel)object);
-                compoundCommand.add(cmd);
+                CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
+                if(compoundCommand != null) {
+                    Command cmd = new DeleteDiagramModelCommand((IDiagramModel)object);
+                    compoundCommand.add(cmd);
+                }
+                else {
+                    System.err.println("Could not get CompoundCommand in " + getClass());
+                }
             }
         }
         
+        /*
+         * Then the other types
+         */
         for(Object object : fElementsToDelete) {
-            CompoundCommand compoundCommand = getCompoundCommand(object);
+            if(object instanceof IDiagramModel) { // already done
+                continue;
+            }
+            
+            CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
             if(compoundCommand == null) { // sanity check
+                System.err.println("Could not get CompoundCommand in " + getClass());
                 continue;
             }
 
@@ -298,31 +308,16 @@ public class DeleteCommandHandler {
     
     /**
      * Get, and if need be create, a CompoundCommand to which to add the object to be deleted command
-     * @param object
-     * @return
      */
-    private CompoundCommand getCompoundCommand(Object object) {
-        IArchimateModel model = null;
-        
-        // Get the model it belongs to...
-        if(object instanceof IArchimateModelElement) {
-            model = ((IArchimateModelElement)object).getArchimateModel();
-        }
-        else if(object instanceof IDiagramModelComponent) {
-            model = ((IDiagramModelComponent)object).getDiagramModel().getArchimateModel();
-        }
-        else {
-            System.err.println("model was null in " + getClass());
-            return null;
-        }
-        
-        // ...so that we can get the Command Stack registered to it
-        CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
+    private CompoundCommand getCompoundCommand(IAdapter object) {
+        // Get the Command Stack registered to the object
+        CommandStack stack = (CommandStack)object.getAdapter(CommandStack.class);
         if(stack == null) {
             System.err.println("CommandStack was null in " + getClass());
             return null;
         }
         
+        // Now get or create a Compound Command
         CompoundCommand compoundCommand = fCommandMap.get(stack);
         if(compoundCommand == null) {
             List<?> selected = ((IStructuredSelection)fSelectionProvider.getSelection()).toList();

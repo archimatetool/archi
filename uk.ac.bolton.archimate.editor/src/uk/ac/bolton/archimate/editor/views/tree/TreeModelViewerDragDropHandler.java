@@ -220,7 +220,7 @@ public class TreeModelViewerDragDropHandler {
      * Move Tree Objects
      */
     private void moveTreeObjects(IFolder newParent) {
-        CommandStack stack = (CommandStack)newParent.getArchimateModel().getAdapter(CommandStack.class);
+        CommandStack stack = (CommandStack)newParent.getAdapter(CommandStack.class);
         
         CompoundCommand compoundCommand = new NonNotifyingCompoundCommand() {
             @Override

@@ -20,9 +20,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.ui.EditorManager;
 import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
+import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -123,8 +122,9 @@ public class DuplicateCommandHandler {
     
     private void createCommands() {
         for(Object object : fElementsToDuplicate) {
-            CompoundCommand compoundCommand = getCompoundCommand(object);
+            CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
             if(compoundCommand == null) { // sanity check
+                System.err.println("Could not get CompoundCommand in " + getClass());
                 continue;
             }
             
@@ -151,25 +151,15 @@ public class DuplicateCommandHandler {
     /**
      * Get, and if need be create, a CompoundCommand to which to add the object to be duplicated command
      */
-    private CompoundCommand getCompoundCommand(Object object) {
-        IArchimateModel model = null;
-        
-        // Get the model it belongs to...
-        if(object instanceof IArchimateModelElement) {
-            model = ((IArchimateModelElement)object).getArchimateModel();
-        }
-        else {
-            System.err.println("model was null in " + getClass());
-            return null;
-        }
-        
-        // ...so that we can get the Command Stack registered to it
-        CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
+    private CompoundCommand getCompoundCommand(IAdapter object) {
+        // Get the Command Stack registered to the object
+        CommandStack stack = (CommandStack)object.getAdapter(CommandStack.class);
         if(stack == null) {
             System.err.println("CommandStack was null in " + getClass());
             return null;
         }
         
+        // Now get or create a Compound Command
         CompoundCommand compoundCommand = fCommandMap.get(stack);
         if(compoundCommand == null) {
             compoundCommand = new NonNotifyingCompoundCommand("Duplicate");

@@ -46,7 +46,7 @@ public class NewFolderAction extends ViewerAction {
             
             // Execute Command
             Command cmd = new NewFolderCommand(parent, folder);
-            CommandStack commandStack = (CommandStack)parent.getArchimateModel().getAdapter(CommandStack.class);
+            CommandStack commandStack = (CommandStack)parent.getAdapter(CommandStack.class);
             commandStack.execute(cmd);
         }
     }

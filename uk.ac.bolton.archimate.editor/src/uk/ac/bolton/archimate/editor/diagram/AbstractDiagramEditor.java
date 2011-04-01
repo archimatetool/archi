@@ -197,7 +197,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             @Override
             public CommandStack getCommandStack() {
                 if(stack == null) {
-                    stack = (CommandStack)fDiagramModel.getArchimateModel().getAdapter(CommandStack.class);
+                    stack = (CommandStack)fDiagramModel.getAdapter(CommandStack.class);
                 }
                 return stack;
             }

@@ -97,9 +97,6 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         // The Selected Archimate Model in scope
         if(adapter == IArchimateModel.class) {
             Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
-            if(selected instanceof IArchimateModel) {
-                return selected;
-            }
             if(selected instanceof IArchimateModelElement) {
                 return ((IArchimateModelElement)selected).getArchimateModel();
             }

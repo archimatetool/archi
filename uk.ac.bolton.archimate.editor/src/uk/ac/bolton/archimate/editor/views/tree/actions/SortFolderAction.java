@@ -36,7 +36,7 @@ public class SortFolderAction extends ViewerAction {
         if(selected instanceof IFolder) {
             IFolder folder = (IFolder)selected;
             Command cmd = new SortFolderCommand(folder);
-            CommandStack commandStack = (CommandStack)folder.getArchimateModel().getAdapter(CommandStack.class);
+            CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
             commandStack.execute(cmd);
         }
     }
