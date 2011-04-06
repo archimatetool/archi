@@ -29,7 +29,7 @@ extends AbstractTextFlowFigure {
         fFigureDelegate1 = new TechnologyNodeFigureDelegate(this);
         
         fFigureDelegate2 = new RectangleFigureDelegate(this);
-        fFigureDelegate2.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_TECHNOLOGY_NODE_16));
+        fFigureDelegate2.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_NODE_16));
     }
     
     @Override

@@ -56,7 +56,9 @@ public interface IArchimateImages {
     String ICON_ACTOR_16 = ARCHIMATE_IMGPATH + "actor-16.png"; //$NON-NLS-1$
     String ICON_COLLABORATION_16 = ARCHIMATE_IMGPATH + "collaboration-16.png"; //$NON-NLS-1$
     String ICON_COMMUNICATION_PATH_16 = ARCHIMATE_IMGPATH + "communication-path-16.png"; //$NON-NLS-1$
+    String ICON_COMPONENT_16 = ARCHIMATE_IMGPATH + "component-16.png"; //$NON-NLS-1$
     String ICON_CONTRACT_16 = ARCHIMATE_IMGPATH + "contract-16.png"; //$NON-NLS-1$
+    String ICON_DEVICE_16 = ARCHIMATE_IMGPATH + "device-16.png"; //$NON-NLS-1$
     String ICON_EVENT_16 = ARCHIMATE_IMGPATH + "event-16.png"; //$NON-NLS-1$
     String ICON_FUNCTION_16 = ARCHIMATE_IMGPATH + "function-16.png"; //$NON-NLS-1$
     String ICON_INTERACTION_16 = ARCHIMATE_IMGPATH + "interaction-16.png"; //$NON-NLS-1$
@@ -65,6 +67,7 @@ public interface IArchimateImages {
     String ICON_INTERFACE_SYMMETRIC_16 = ARCHIMATE_IMGPATH + "interface-symmetric-16.png"; //$NON-NLS-1$
     String ICON_MEANING_16 = ARCHIMATE_IMGPATH + "meaning-16.png"; //$NON-NLS-1$
     String ICON_NETWORK_16 = ARCHIMATE_IMGPATH + "network-16.png"; //$NON-NLS-1$
+    String ICON_NODE_16 = ARCHIMATE_IMGPATH + "node-16.png"; //$NON-NLS-1$
     String ICON_OBJECT_16 = ARCHIMATE_IMGPATH + "object-16.png"; //$NON-NLS-1$
     String ICON_PROCESS_16 = ARCHIMATE_IMGPATH + "process-16.png"; //$NON-NLS-1$
     String ICON_PRODUCT_16 = ARCHIMATE_IMGPATH + "product-16.png"; //$NON-NLS-1$

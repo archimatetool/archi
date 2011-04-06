@@ -30,7 +30,7 @@ extends AbstractTextFlowFigure {
         fFigureDelegate1 = new ApplicationComponentFigureDelegate(this);
         
         fFigureDelegate2 = new RectangleFigureDelegate(this);
-        fFigureDelegate2.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APPLICATION_COMPONENT_16));
+        fFigureDelegate2.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_COMPONENT_16));
     }
     
     @Override

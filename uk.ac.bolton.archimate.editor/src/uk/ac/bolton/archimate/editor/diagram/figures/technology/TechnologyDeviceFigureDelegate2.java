@@ -38,7 +38,7 @@ public class TechnologyDeviceFigureDelegate2 extends TechnologyNodeFigureDelegat
     }
 
     protected Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_TECHNOLOGY_DEVICE_16);
+        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DEVICE_16);
     }
     
     protected Point calculateImageLocation() {
