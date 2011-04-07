@@ -107,11 +107,6 @@
 		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>		
 	
     	<antcall target="make_mac">
-    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-carbon32-${version}.zip"/>
-        	<param name="output_mac.dir"  	value="${output.dir}/macosx.carbon.x86"/>
-    	</antcall>
-
-    	<antcall target="make_mac">
     		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-cocoa32-${version}.zip"/>
         	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86"/>
     	</antcall>
@@ -182,7 +177,6 @@
             <param name="lnx.tar"               value="${output.dir}/${app.name}-lnx64-${version}.tar"/>
             <param name="output_lnx.dir"        value="${output.dir}/linux.gtk.x86_64"/>
         </antcall>
-
 	</target>
 	
 	<!-- Make Linux version -->
