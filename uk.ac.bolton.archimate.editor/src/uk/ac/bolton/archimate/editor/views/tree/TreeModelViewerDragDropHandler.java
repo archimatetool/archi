@@ -24,12 +24,14 @@ import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TreeItem;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.model.importer.ImportManager;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.tree.commands.MoveFolderCommand;
 import uk.ac.bolton.archimate.editor.views.tree.commands.MoveObjectCommand;
 import uk.ac.bolton.archimate.model.FolderType;
@@ -220,9 +222,7 @@ public class TreeModelViewerDragDropHandler {
      * Move Tree Objects
      */
     private void moveTreeObjects(IFolder newParent) {
-        CommandStack stack = (CommandStack)newParent.getAdapter(CommandStack.class);
-        
-        CompoundCommand compoundCommand = new NonNotifyingCompoundCommand() {
+        final CompoundCommand compoundCommand = new NonNotifyingCompoundCommand() {
             @Override
             public String getLabel() {
                 return getCommands().size() > 1 ? "Move Elements" : super.getLabel();
@@ -239,7 +239,23 @@ public class TreeModelViewerDragDropHandler {
             }
         }
         
-        stack.execute(compoundCommand); // Don't use unwrap() because we want to send event
+        final CommandStack stack = (CommandStack)newParent.getAdapter(CommandStack.class);
+        
+        /*
+         * Bug in Mac Carbon introduced in Eclipse 3.6.1 - http://bugs.eclipse.org/bugs/show_bug.cgi?id=341895
+         * Refreshing a tree after DND causes NPE unless we put this on a thread
+         */
+    	if(PlatformUtils.isMacCarbon()) {
+    		Display.getCurrent().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					stack.execute(compoundCommand);
+				}
+			});
+    	}
+    	else {
+    		stack.execute(compoundCommand);
+    	}
     }
     
     /**
