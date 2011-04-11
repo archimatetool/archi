@@ -67,7 +67,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
         createCLabel(parent, "Used in Views:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         // Table
-        Table table = createTable(parent);
+        Table table = createTable(parent, SWT.NONE);
         fTableViewer = new TableViewer(table);
         
         // Help ID

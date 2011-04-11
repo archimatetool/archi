@@ -67,7 +67,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         createCLabel(parent, "Model Relations:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         // Table
-        Table table = createTable(parent);
+        Table table = createTable(parent, SWT.NONE);
         fTableViewer = new TableViewer(table);
         
         // Help ID

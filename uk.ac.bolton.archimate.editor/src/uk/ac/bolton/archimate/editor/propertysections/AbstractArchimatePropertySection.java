@@ -248,8 +248,8 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      * @param parent
      * @return Table
      */
-    protected Table createTable(Composite parent) {
-        Table table = getWidgetFactory().createTable(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+    protected Table createTable(Composite parent, int style) {
+        Table table = getWidgetFactory().createTable(parent, style | SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
         GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         // This ensures a minumum and equal size
         gd.widthHint = 100;
