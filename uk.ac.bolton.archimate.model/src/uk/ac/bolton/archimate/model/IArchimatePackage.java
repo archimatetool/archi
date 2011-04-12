@@ -236,7 +236,7 @@ public interface IArchimatePackage extends EPackage {
     int PROPERTY_FEATURE_COUNT = 2;
 
     /**
-     * The feature id for the '<em><b>Properties</b></em>' map.
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -371,13 +371,22 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_MODEL__ARCHIMATE_MODEL = FOLDER_CONTAINER_FEATURE_COUNT + 2;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_MODEL__PROPERTIES = FOLDER_CONTAINER_FEATURE_COUNT + 3;
+
+    /**
      * The feature id for the '<em><b>Purpose</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ARCHIMATE_MODEL__PURPOSE = FOLDER_CONTAINER_FEATURE_COUNT + 3;
+    int ARCHIMATE_MODEL__PURPOSE = FOLDER_CONTAINER_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>File</b></em>' attribute.
@@ -386,7 +395,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_MODEL__FILE = FOLDER_CONTAINER_FEATURE_COUNT + 4;
+    int ARCHIMATE_MODEL__FILE = FOLDER_CONTAINER_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Version</b></em>' attribute.
@@ -395,7 +404,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_MODEL__VERSION = FOLDER_CONTAINER_FEATURE_COUNT + 5;
+    int ARCHIMATE_MODEL__VERSION = FOLDER_CONTAINER_FEATURE_COUNT + 6;
 
     /**
      * The number of structural features of the '<em>Model</em>' class.
@@ -404,7 +413,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_MODEL_FEATURE_COUNT = FOLDER_CONTAINER_FEATURE_COUNT + 6;
+    int ARCHIMATE_MODEL_FEATURE_COUNT = FOLDER_CONTAINER_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -534,13 +543,22 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_ELEMENT__DOCUMENTATION = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_ELEMENT__PROPERTIES = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 3;
+
+    /**
      * The number of structural features of the '<em>Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 3;
+    int ARCHIMATE_ELEMENT_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IJunctionElement <em>Junction Element</em>}' class.
@@ -587,6 +605,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int JUNCTION_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int JUNCTION_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Junction Element</em>' class.
@@ -642,6 +669,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int INTERFACE_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTERFACE_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
@@ -708,6 +744,15 @@ public interface IArchimatePackage extends EPackage {
     int JUNCTION__DOCUMENTATION = JUNCTION_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int JUNCTION__PROPERTIES = JUNCTION_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Junction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -761,6 +806,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int AND_JUNCTION__DOCUMENTATION = JUNCTION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_JUNCTION__PROPERTIES = JUNCTION_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>And Junction</em>' class.
@@ -818,6 +872,15 @@ public interface IArchimatePackage extends EPackage {
     int OR_JUNCTION__DOCUMENTATION = JUNCTION_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_JUNCTION__PROPERTIES = JUNCTION_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Or Junction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -871,6 +934,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int RELATIONSHIP__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RELATIONSHIP__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -944,6 +1016,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int ACCESS_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACCESS_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1028,6 +1109,15 @@ public interface IArchimatePackage extends EPackage {
     int AGGREGATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AGGREGATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+
+    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1099,6 +1189,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int ASSIGNMENT_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSIGNMENT_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1174,6 +1273,15 @@ public interface IArchimatePackage extends EPackage {
     int ASSOCIATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSOCIATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+
+    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1245,6 +1353,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int COMPOSITION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPOSITION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1320,6 +1437,15 @@ public interface IArchimatePackage extends EPackage {
     int FLOW_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FLOW_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+
+    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1391,6 +1517,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int REALISATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REALISATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1466,6 +1601,15 @@ public interface IArchimatePackage extends EPackage {
     int SPECIALISATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALISATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+
+    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1537,6 +1681,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int TRIGGERING_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TRIGGERING_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1612,6 +1765,15 @@ public interface IArchimatePackage extends EPackage {
     int USED_BY_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int USED_BY_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+
+    /**
      * The feature id for the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1685,6 +1847,15 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_LAYER_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_LAYER_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Business Layer Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1738,6 +1909,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BUSINESS_ACTIVITY__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_ACTIVITY__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Business Activity</em>' class.
@@ -1795,6 +1975,15 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_ACTOR__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_ACTOR__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Business Actor</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1848,6 +2037,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BUSINESS_COLLABORATION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_COLLABORATION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Business Collaboration</em>' class.
@@ -1905,6 +2103,15 @@ public interface IArchimatePackage extends EPackage {
     int CONTRACT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRACT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Contract</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1958,6 +2165,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BUSINESS_EVENT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_EVENT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Business Event</em>' class.
@@ -2015,6 +2231,15 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_FUNCTION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_FUNCTION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Business Function</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2070,6 +2295,15 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_INTERACTION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_INTERACTION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Business Interaction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2123,6 +2357,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BUSINESS_INTERFACE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_INTERFACE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
@@ -2189,6 +2432,15 @@ public interface IArchimatePackage extends EPackage {
     int MEANING__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MEANING__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Meaning</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2242,6 +2494,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BUSINESS_OBJECT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_OBJECT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Business Object</em>' class.
@@ -2299,6 +2560,15 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_PROCESS__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_PROCESS__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Business Process</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2352,6 +2622,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int PRODUCT__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRODUCT__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Product</em>' class.
@@ -2409,6 +2688,15 @@ public interface IArchimatePackage extends EPackage {
     int REPRESENTATION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REPRESENTATION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Representation</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2462,6 +2750,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BUSINESS_ROLE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_ROLE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Business Role</em>' class.
@@ -2519,6 +2816,15 @@ public interface IArchimatePackage extends EPackage {
     int BUSINESS_SERVICE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BUSINESS_SERVICE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Business Service</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2572,6 +2878,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int VALUE__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VALUE__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Value</em>' class.
@@ -2629,6 +2944,15 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_LAYER_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_LAYER_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Application Layer Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2682,6 +3006,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int APPLICATION_COLLABORATION__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_COLLABORATION__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Application Collaboration</em>' class.
@@ -2739,6 +3072,15 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_COMPONENT__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_COMPONENT__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Application Component</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2792,6 +3134,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int APPLICATION_FUNCTION__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_FUNCTION__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Application Function</em>' class.
@@ -2849,6 +3200,15 @@ public interface IArchimatePackage extends EPackage {
     int APPLICATION_INTERACTION__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_INTERACTION__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Application Interaction</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2902,6 +3262,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int APPLICATION_INTERFACE__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_INTERFACE__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
@@ -2968,6 +3337,15 @@ public interface IArchimatePackage extends EPackage {
     int DATA_OBJECT__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DATA_OBJECT__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Data Object</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3021,6 +3399,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int APPLICATION_SERVICE__DOCUMENTATION = APPLICATION_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int APPLICATION_SERVICE__PROPERTIES = APPLICATION_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Application Service</em>' class.
@@ -3078,6 +3465,15 @@ public interface IArchimatePackage extends EPackage {
     int TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TECHNOLOGY_LAYER_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Technology Layer Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3131,6 +3527,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int ARTIFACT__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARTIFACT__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Artifact</em>' class.
@@ -3188,6 +3593,15 @@ public interface IArchimatePackage extends EPackage {
     int COMMUNICATION_PATH__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMMUNICATION_PATH__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Communication Path</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3243,6 +3657,15 @@ public interface IArchimatePackage extends EPackage {
     int NETWORK__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NETWORK__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Network</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3296,6 +3719,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int INFRASTRUCTURE_INTERFACE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_INTERFACE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Interface Type</b></em>' attribute.
@@ -3362,6 +3794,15 @@ public interface IArchimatePackage extends EPackage {
     int INFRASTRUCTURE_SERVICE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_SERVICE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>Infrastructure Service</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3415,6 +3856,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int NODE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int NODE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Node</em>' class.
@@ -3472,6 +3922,15 @@ public interface IArchimatePackage extends EPackage {
     int SYSTEM_SOFTWARE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SYSTEM_SOFTWARE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
+
+    /**
      * The number of structural features of the '<em>System Software</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3525,6 +3984,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DEVICE__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEVICE__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Device</em>' class.
@@ -3721,13 +4189,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL__DOCUMENTATION = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL__PROPERTIES = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 5;
+
+    /**
      * The feature id for the '<em><b>Connection Router Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
      * The number of structural features of the '<em>Diagram Model</em>' class.
@@ -3736,7 +4213,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4846,6 +5323,15 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL__DOCUMENTATION = DIAGRAM_MODEL__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL__PROPERTIES = DIAGRAM_MODEL__PROPERTIES;
+
+    /**
      * The feature id for the '<em><b>Connection Router Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5171,10 +5657,10 @@ public interface IArchimatePackage extends EPackage {
     EClass getProperties();
 
     /**
-     * Returns the meta object for the map '{@link uk.ac.bolton.archimate.model.IProperties#getProperties <em>Properties</em>}'.
+     * Returns the meta object for the containment reference list '{@link uk.ac.bolton.archimate.model.IProperties#getProperties <em>Properties</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the map '<em>Properties</em>'.
+     * @return the meta object for the containment reference list '<em>Properties</em>'.
      * @see uk.ac.bolton.archimate.model.IProperties#getProperties()
      * @see #getProperties()
      * @generated
@@ -5372,34 +5858,32 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getFolder_Type();
 
     /**
-     * Returns the meta object for class '{@link java.util.Map.Entry <em>Property</em>}'.
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IProperty <em>Property</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Property</em>'.
-     * @see java.util.Map.Entry
-     * @model keyDataType="org.eclipse.emf.ecore.EString"
-     *        valueDataType="org.eclipse.emf.ecore.EString"
+     * @see uk.ac.bolton.archimate.model.IProperty
      * @generated
      */
     EClass getProperty();
 
     /**
-     * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IProperty#getKey <em>Key</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Key</em>'.
-     * @see java.util.Map.Entry
+     * @see uk.ac.bolton.archimate.model.IProperty#getKey()
      * @see #getProperty()
      * @generated
      */
     EAttribute getProperty_Key();
 
     /**
-     * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IProperty#getValue <em>Value</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Value</em>'.
-     * @see java.util.Map.Entry
+     * @see uk.ac.bolton.archimate.model.IProperty#getValue()
      * @see #getProperty()
      * @generated
      */
@@ -6542,7 +7026,7 @@ public interface IArchimatePackage extends EPackage {
         EClass PROPERTIES = eINSTANCE.getProperties();
 
         /**
-         * The meta object literal for the '<em><b>Properties</b></em>' map feature.
+         * The meta object literal for the '<em><b>Properties</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated

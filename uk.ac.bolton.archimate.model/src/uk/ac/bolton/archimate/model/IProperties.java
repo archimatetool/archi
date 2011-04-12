@@ -6,8 +6,7 @@
  */
 package uk.ac.bolton.archimate.model;
 
-import org.eclipse.emf.common.util.EMap;
-
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,20 +27,19 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface IProperties extends EObject {
     /**
-     * Returns the value of the '<em><b>Properties</b></em>' map.
-     * The key is of type {@link java.lang.String},
-     * and the value is of type {@link java.lang.String},
+     * Returns the value of the '<em><b>Properties</b></em>' containment reference list.
+     * The list contents are of type {@link uk.ac.bolton.archimate.model.IProperty}.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Properties</em>' map isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Properties</em>' map.
+     * @return the value of the '<em>Properties</em>' containment reference list.
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getProperties_Properties()
-     * @model mapType="uk.ac.bolton.archimate.model.Property<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+     * @model containment="true"
      * @generated
      */
-    EMap<String, String> getProperties();
+    EList<IProperty> getProperties();
 
 } // IProperties

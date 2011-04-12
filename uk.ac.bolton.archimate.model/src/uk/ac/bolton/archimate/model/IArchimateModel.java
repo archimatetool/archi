@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface IArchimateModel extends IFolderContainer, INameable, IIdentifier, IArchimateModelElement {
+public interface IArchimateModel extends IFolderContainer, INameable, IIdentifier, IArchimateModelElement, IProperties {
     /**
      * Returns the value of the '<em><b>Purpose</b></em>' attribute.
      * <!-- begin-user-doc -->

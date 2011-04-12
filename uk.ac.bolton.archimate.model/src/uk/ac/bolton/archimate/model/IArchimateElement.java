@@ -17,6 +17,6 @@ package uk.ac.bolton.archimate.model;
  * @model abstract="true"
  * @generated
  */
-public interface IArchimateElement extends IArchimateModelElement, IIdentifier, ICloneable, INameable, IDocumentable {
+public interface IArchimateElement extends IArchimateModelElement, IIdentifier, ICloneable, INameable, IDocumentable, IProperties {
 
 } // IArchimateElement

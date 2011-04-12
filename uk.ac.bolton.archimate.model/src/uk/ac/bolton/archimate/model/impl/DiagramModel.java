@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import uk.ac.bolton.archimate.model.IAdapter;
@@ -35,6 +36,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.IIdentifier;
 import uk.ac.bolton.archimate.model.INameable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,6 +52,7 @@ import uk.ac.bolton.archimate.model.INameable;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getDiagramModel <em>Diagram Model</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getChildren <em>Children</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getProperties <em>Properties</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getConnectionRouterType <em>Connection Router Type</em>}</li>
  * </ul>
  * </p>
@@ -125,6 +129,16 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
      * @ordered
      */
     protected String documentation = DOCUMENTATION_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * The default value of the '{@link #getConnectionRouterType() <em>Connection Router Type</em>}' attribute.
@@ -290,6 +304,18 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated NOT
      */
     public Object getAdapter(Object adapter) {
@@ -321,6 +347,7 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
         newDiagramModel.setName(getName());
         newDiagramModel.setConnectionRouterType(getConnectionRouterType());
         newDiagramModel.setDocumentation(getDocumentation());
+        newDiagramModel.getProperties().addAll(EcoreUtil.copyAll(getProperties()));
         
         return newDiagramModel;
     }
@@ -335,6 +362,8 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -359,6 +388,8 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
                 return getChildren();
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
                 return getDocumentation();
+            case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES:
+                return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 return getConnectionRouterType();
         }
@@ -387,6 +418,10 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
                 setDocumentation((String)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 setConnectionRouterType((Integer)newValue);
                 return;
@@ -413,6 +448,9 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
                 return;
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES:
+                getProperties().clear();
                 return;
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 setConnectionRouterType(CONNECTION_ROUTER_TYPE_EDEFAULT);
@@ -441,6 +479,8 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
                 return children != null && !children.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+            case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES:
+                return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 return connectionRouterType != CONNECTION_ROUTER_TYPE_EDEFAULT;
         }
@@ -489,6 +529,12 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -531,6 +577,12 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
         if (baseClass == IDocumentable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.DIAGRAM_MODEL__PROPERTIES;
                 default: return -1;
             }
         }

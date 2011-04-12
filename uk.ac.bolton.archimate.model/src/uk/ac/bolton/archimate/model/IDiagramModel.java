@@ -23,7 +23,7 @@ package uk.ac.bolton.archimate.model;
  * @model
  * @generated
  */
-public interface IDiagramModel extends IArchimateModelElement, IDiagramModelContainer, IDocumentable {
+public interface IDiagramModel extends IArchimateModelElement, IDiagramModelContainer, IDocumentable, IProperties {
     
     /*
      * Connection Router Types

@@ -6,8 +6,6 @@
  */
 package uk.ac.bolton.archimate.model.impl;
 
-import java.util.Map;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -66,6 +64,7 @@ import uk.ac.bolton.archimate.model.INetwork;
 import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
 import uk.ac.bolton.archimate.model.IProduct;
+import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
 import uk.ac.bolton.archimate.model.ISketchModel;
@@ -121,7 +120,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
-            case IArchimatePackage.PROPERTY: return (EObject)createProperty();
+            case IArchimatePackage.PROPERTY: return createProperty();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.FOLDER: return createFolder();
             case IArchimatePackage.JUNCTION: return createJunction();
@@ -220,7 +219,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public Map.Entry<String, String> createProperty() {
+    public IProperty createProperty() {
         Property property = new Property();
         return property;
     }

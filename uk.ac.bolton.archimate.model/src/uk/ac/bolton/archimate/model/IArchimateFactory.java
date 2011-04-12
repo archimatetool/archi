@@ -27,6 +27,15 @@ public interface IArchimateFactory extends EFactory {
     IArchimateFactory eINSTANCE = uk.ac.bolton.archimate.model.impl.ArchimateFactory.init();
 
     /**
+     * Returns a new object of class '<em>Property</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Property</em>'.
+     * @generated
+     */
+    IProperty createProperty();
+
+    /**
      * Returns a new object of class '<em>Model</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

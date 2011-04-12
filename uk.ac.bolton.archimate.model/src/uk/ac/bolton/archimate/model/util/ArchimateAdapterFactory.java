@@ -6,8 +6,6 @@
  */
 package uk.ac.bolton.archimate.model.util;
 
-import java.util.Map;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -79,6 +77,7 @@ import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
@@ -158,7 +157,7 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createIdentifierAdapter();
             }
             @Override
-            public Adapter caseProperty(Map.Entry<String, String> object) {
+            public Adapter caseProperty(IProperty object) {
                 return createPropertyAdapter();
             }
             @Override
@@ -612,13 +611,13 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Property</em>}'.
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IProperty <em>Property</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see java.util.Map.Entry
+     * @see uk.ac.bolton.archimate.model.IProperty
      * @generated
      */
     public Adapter createPropertyAdapter() {

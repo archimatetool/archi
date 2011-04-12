@@ -168,6 +168,7 @@
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelArchimateObject">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelArchimateObject/archimateElement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelArchimateObject/type"/>
       <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateObject/addArchimateElementToModel">
         <genParameters ecoreParameter="archimate.ecore#//DiagramModelArchimateObject/addArchimateElementToModel/parent"/>
       </genOperations>

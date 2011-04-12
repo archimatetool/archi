@@ -22,7 +22,7 @@ package uk.ac.bolton.archimate.model;
  * 1.2.0 - Archi version 1.5.0 added the Sketch View which is not backwards-compatible, and text alignment attribute
  * 1.2.1 - Archi version 1.6.0 added IInterfaceElement and lineColor to IDiagramModelConnection
  * 1.3.0 - Archi version 1.7.0 added accessType to IAccessRelationship, diagram shortcuts in Sketch Diagrams,
- *         type in IDiagramModelArchimateObject, and plain connections in Diagrams
+ *         type in IDiagramModelArchimateObject, plain connections in Diagrams, and Properties to Elements
  * 
  * @author Phillip Beauvoir
  */

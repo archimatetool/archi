@@ -7,7 +7,6 @@
 package uk.ac.bolton.archimate.model.impl;
 
 import java.io.File;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -86,6 +85,7 @@ import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
@@ -2179,6 +2179,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         archimateModelEClass.getESuperTypes().add(this.getNameable());
         archimateModelEClass.getESuperTypes().add(this.getIdentifier());
         archimateModelEClass.getESuperTypes().add(this.getArchimateModelElement());
+        archimateModelEClass.getESuperTypes().add(this.getProperties());
         archimateModelElementEClass.getESuperTypes().add(this.getAdapter());
         folderEClass.getESuperTypes().add(this.getArchimateModelElement());
         folderEClass.getESuperTypes().add(this.getFolderContainer());
@@ -2189,6 +2190,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         archimateElementEClass.getESuperTypes().add(this.getCloneable());
         archimateElementEClass.getESuperTypes().add(this.getNameable());
         archimateElementEClass.getESuperTypes().add(this.getDocumentable());
+        archimateElementEClass.getESuperTypes().add(this.getProperties());
         junctionElementEClass.getESuperTypes().add(this.getArchimateElement());
         interfaceElementEClass.getESuperTypes().add(this.getArchimateElement());
         junctionEClass.getESuperTypes().add(this.getJunctionElement());
@@ -2250,6 +2252,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelEClass.getESuperTypes().add(this.getArchimateModelElement());
         diagramModelEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelEClass.getESuperTypes().add(this.getDocumentable());
+        diagramModelEClass.getESuperTypes().add(this.getProperties());
         diagramModelReferenceEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelObjectEClass.getESuperTypes().add(this.getDiagramModelComponent());
         diagramModelObjectEClass.getESuperTypes().add(this.getFontAttribute());
@@ -2283,9 +2286,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(identifierEClass, IIdentifier.class, "Identifier", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getIdentifier_Id(), ecorePackage.getEString(), "id", null, 0, 1, IIdentifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(propertyEClass, Map.Entry.class, "Property", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getProperty_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-        initEAttribute(getProperty_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEClass(propertyEClass, IProperty.class, "Property", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getProperty_Key(), ecorePackage.getEString(), "key", "", 0, 1, IProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getProperty_Value(), ecorePackage.getEString(), "value", "", 0, 1, IProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(propertiesEClass, IProperties.class, "Properties", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getProperties_Properties(), this.getProperty(), null, "properties", null, 0, -1, IProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

@@ -6,14 +6,20 @@
  */
 package uk.ac.bolton.archimate.model.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import uk.ac.bolton.archimate.model.IAdapter;
@@ -25,6 +31,8 @@ import uk.ac.bolton.archimate.model.ICloneable;
 import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.IIdentifier;
 import uk.ac.bolton.archimate.model.INameable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,6 +45,7 @@ import uk.ac.bolton.archimate.model.INameable;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.ArchimateElement#getId <em>Id</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.ArchimateElement#getName <em>Name</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.ArchimateElement#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.ArchimateElement#getProperties <em>Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -102,6 +111,16 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
      * @ordered
      */
     protected String documentation = DOCUMENTATION_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * Adapter Map for arbitrary objects
@@ -172,16 +191,23 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated NOT
      */
     public EObject getCopy() {
         IArchimateElement newObject = EcoreUtil.copy(this);
         newObject.setId(null); // need a new ID
-        
-//        if(eIsSet(IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES)) {
-//            newObject.getProperties().addAll(getProperties());
-//        }
-  
         return newObject;
     }
 
@@ -205,6 +231,20 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
      */
     public void setAdapter(Object adapter, Object object) {
         fAdapterMap.put(adapter, object);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -257,6 +297,8 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
                 return getName();
             case IArchimatePackage.ARCHIMATE_ELEMENT__DOCUMENTATION:
                 return getDocumentation();
+            case IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES:
+                return getProperties();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -266,6 +308,7 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
@@ -277,6 +320,10 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
                 return;
             case IArchimatePackage.ARCHIMATE_ELEMENT__DOCUMENTATION:
                 setDocumentation((String)newValue);
+                return;
+            case IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -299,6 +346,9 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
             case IArchimatePackage.ARCHIMATE_ELEMENT__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
                 return;
+            case IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES:
+                getProperties().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -319,6 +369,8 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.ARCHIMATE_ELEMENT__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+            case IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES:
+                return properties != null && !properties.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -353,6 +405,12 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -383,6 +441,12 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
         if (baseClass == IDocumentable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.ARCHIMATE_ELEMENT__DOCUMENTATION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.ARCHIMATE_ELEMENT__PROPERTIES;
                 default: return -1;
             }
         }

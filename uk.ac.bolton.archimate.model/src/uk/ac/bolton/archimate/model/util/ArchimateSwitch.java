@@ -7,7 +7,6 @@
 package uk.ac.bolton.archimate.model.util;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -78,6 +77,7 @@ import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
@@ -179,7 +179,7 @@ public class ArchimateSwitch<T> {
                 return result;
             }
             case IArchimatePackage.PROPERTY: {
-                @SuppressWarnings("unchecked") Map.Entry<String, String> property = (Map.Entry<String, String>)theEObject;
+                IProperty property = (IProperty)theEObject;
                 T result = caseProperty(property);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -227,6 +227,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseNameable(archimateModel);
                 if (result == null) result = caseIdentifier(archimateModel);
                 if (result == null) result = caseArchimateModelElement(archimateModel);
+                if (result == null) result = caseProperties(archimateModel);
                 if (result == null) result = caseAdapter(archimateModel);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -257,6 +258,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(archimateElement);
                 if (result == null) result = caseNameable(archimateElement);
                 if (result == null) result = caseDocumentable(archimateElement);
+                if (result == null) result = caseProperties(archimateElement);
                 if (result == null) result = caseAdapter(archimateElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -270,6 +272,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(junctionElement);
                 if (result == null) result = caseNameable(junctionElement);
                 if (result == null) result = caseDocumentable(junctionElement);
+                if (result == null) result = caseProperties(junctionElement);
                 if (result == null) result = caseAdapter(junctionElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -283,6 +286,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(interfaceElement);
                 if (result == null) result = caseNameable(interfaceElement);
                 if (result == null) result = caseDocumentable(interfaceElement);
+                if (result == null) result = caseProperties(interfaceElement);
                 if (result == null) result = caseAdapter(interfaceElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -297,6 +301,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(junction);
                 if (result == null) result = caseNameable(junction);
                 if (result == null) result = caseDocumentable(junction);
+                if (result == null) result = caseProperties(junction);
                 if (result == null) result = caseAdapter(junction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -311,6 +316,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(andJunction);
                 if (result == null) result = caseNameable(andJunction);
                 if (result == null) result = caseDocumentable(andJunction);
+                if (result == null) result = caseProperties(andJunction);
                 if (result == null) result = caseAdapter(andJunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -325,6 +331,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(orJunction);
                 if (result == null) result = caseNameable(orJunction);
                 if (result == null) result = caseDocumentable(orJunction);
+                if (result == null) result = caseProperties(orJunction);
                 if (result == null) result = caseAdapter(orJunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -338,6 +345,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(relationship);
                 if (result == null) result = caseNameable(relationship);
                 if (result == null) result = caseDocumentable(relationship);
+                if (result == null) result = caseProperties(relationship);
                 if (result == null) result = caseAdapter(relationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -352,6 +360,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(accessRelationship);
                 if (result == null) result = caseNameable(accessRelationship);
                 if (result == null) result = caseDocumentable(accessRelationship);
+                if (result == null) result = caseProperties(accessRelationship);
                 if (result == null) result = caseAdapter(accessRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -366,6 +375,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(aggregationRelationship);
                 if (result == null) result = caseNameable(aggregationRelationship);
                 if (result == null) result = caseDocumentable(aggregationRelationship);
+                if (result == null) result = caseProperties(aggregationRelationship);
                 if (result == null) result = caseAdapter(aggregationRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -380,6 +390,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(assignmentRelationship);
                 if (result == null) result = caseNameable(assignmentRelationship);
                 if (result == null) result = caseDocumentable(assignmentRelationship);
+                if (result == null) result = caseProperties(assignmentRelationship);
                 if (result == null) result = caseAdapter(assignmentRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -394,6 +405,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(associationRelationship);
                 if (result == null) result = caseNameable(associationRelationship);
                 if (result == null) result = caseDocumentable(associationRelationship);
+                if (result == null) result = caseProperties(associationRelationship);
                 if (result == null) result = caseAdapter(associationRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -408,6 +420,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(compositionRelationship);
                 if (result == null) result = caseNameable(compositionRelationship);
                 if (result == null) result = caseDocumentable(compositionRelationship);
+                if (result == null) result = caseProperties(compositionRelationship);
                 if (result == null) result = caseAdapter(compositionRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -422,6 +435,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(flowRelationship);
                 if (result == null) result = caseNameable(flowRelationship);
                 if (result == null) result = caseDocumentable(flowRelationship);
+                if (result == null) result = caseProperties(flowRelationship);
                 if (result == null) result = caseAdapter(flowRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -436,6 +450,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(realisationRelationship);
                 if (result == null) result = caseNameable(realisationRelationship);
                 if (result == null) result = caseDocumentable(realisationRelationship);
+                if (result == null) result = caseProperties(realisationRelationship);
                 if (result == null) result = caseAdapter(realisationRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -450,6 +465,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(specialisationRelationship);
                 if (result == null) result = caseNameable(specialisationRelationship);
                 if (result == null) result = caseDocumentable(specialisationRelationship);
+                if (result == null) result = caseProperties(specialisationRelationship);
                 if (result == null) result = caseAdapter(specialisationRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -464,6 +480,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(triggeringRelationship);
                 if (result == null) result = caseNameable(triggeringRelationship);
                 if (result == null) result = caseDocumentable(triggeringRelationship);
+                if (result == null) result = caseProperties(triggeringRelationship);
                 if (result == null) result = caseAdapter(triggeringRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -478,6 +495,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(usedByRelationship);
                 if (result == null) result = caseNameable(usedByRelationship);
                 if (result == null) result = caseDocumentable(usedByRelationship);
+                if (result == null) result = caseProperties(usedByRelationship);
                 if (result == null) result = caseAdapter(usedByRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -491,6 +509,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessLayerElement);
                 if (result == null) result = caseNameable(businessLayerElement);
                 if (result == null) result = caseDocumentable(businessLayerElement);
+                if (result == null) result = caseProperties(businessLayerElement);
                 if (result == null) result = caseAdapter(businessLayerElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -505,6 +524,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessActivity);
                 if (result == null) result = caseNameable(businessActivity);
                 if (result == null) result = caseDocumentable(businessActivity);
+                if (result == null) result = caseProperties(businessActivity);
                 if (result == null) result = caseAdapter(businessActivity);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -519,6 +539,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessActor);
                 if (result == null) result = caseNameable(businessActor);
                 if (result == null) result = caseDocumentable(businessActor);
+                if (result == null) result = caseProperties(businessActor);
                 if (result == null) result = caseAdapter(businessActor);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -533,6 +554,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessCollaboration);
                 if (result == null) result = caseNameable(businessCollaboration);
                 if (result == null) result = caseDocumentable(businessCollaboration);
+                if (result == null) result = caseProperties(businessCollaboration);
                 if (result == null) result = caseAdapter(businessCollaboration);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -547,6 +569,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(contract);
                 if (result == null) result = caseNameable(contract);
                 if (result == null) result = caseDocumentable(contract);
+                if (result == null) result = caseProperties(contract);
                 if (result == null) result = caseAdapter(contract);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -561,6 +584,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessEvent);
                 if (result == null) result = caseNameable(businessEvent);
                 if (result == null) result = caseDocumentable(businessEvent);
+                if (result == null) result = caseProperties(businessEvent);
                 if (result == null) result = caseAdapter(businessEvent);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -575,6 +599,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessFunction);
                 if (result == null) result = caseNameable(businessFunction);
                 if (result == null) result = caseDocumentable(businessFunction);
+                if (result == null) result = caseProperties(businessFunction);
                 if (result == null) result = caseAdapter(businessFunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -589,6 +614,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessInteraction);
                 if (result == null) result = caseNameable(businessInteraction);
                 if (result == null) result = caseDocumentable(businessInteraction);
+                if (result == null) result = caseProperties(businessInteraction);
                 if (result == null) result = caseAdapter(businessInteraction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -604,6 +630,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessInterface);
                 if (result == null) result = caseNameable(businessInterface);
                 if (result == null) result = caseDocumentable(businessInterface);
+                if (result == null) result = caseProperties(businessInterface);
                 if (result == null) result = caseAdapter(businessInterface);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -618,6 +645,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(meaning);
                 if (result == null) result = caseNameable(meaning);
                 if (result == null) result = caseDocumentable(meaning);
+                if (result == null) result = caseProperties(meaning);
                 if (result == null) result = caseAdapter(meaning);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -632,6 +660,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessObject);
                 if (result == null) result = caseNameable(businessObject);
                 if (result == null) result = caseDocumentable(businessObject);
+                if (result == null) result = caseProperties(businessObject);
                 if (result == null) result = caseAdapter(businessObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -646,6 +675,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessProcess);
                 if (result == null) result = caseNameable(businessProcess);
                 if (result == null) result = caseDocumentable(businessProcess);
+                if (result == null) result = caseProperties(businessProcess);
                 if (result == null) result = caseAdapter(businessProcess);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -660,6 +690,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(product);
                 if (result == null) result = caseNameable(product);
                 if (result == null) result = caseDocumentable(product);
+                if (result == null) result = caseProperties(product);
                 if (result == null) result = caseAdapter(product);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -674,6 +705,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(representation);
                 if (result == null) result = caseNameable(representation);
                 if (result == null) result = caseDocumentable(representation);
+                if (result == null) result = caseProperties(representation);
                 if (result == null) result = caseAdapter(representation);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -688,6 +720,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessRole);
                 if (result == null) result = caseNameable(businessRole);
                 if (result == null) result = caseDocumentable(businessRole);
+                if (result == null) result = caseProperties(businessRole);
                 if (result == null) result = caseAdapter(businessRole);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -702,6 +735,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(businessService);
                 if (result == null) result = caseNameable(businessService);
                 if (result == null) result = caseDocumentable(businessService);
+                if (result == null) result = caseProperties(businessService);
                 if (result == null) result = caseAdapter(businessService);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -716,6 +750,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(value);
                 if (result == null) result = caseNameable(value);
                 if (result == null) result = caseDocumentable(value);
+                if (result == null) result = caseProperties(value);
                 if (result == null) result = caseAdapter(value);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -729,6 +764,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationLayerElement);
                 if (result == null) result = caseNameable(applicationLayerElement);
                 if (result == null) result = caseDocumentable(applicationLayerElement);
+                if (result == null) result = caseProperties(applicationLayerElement);
                 if (result == null) result = caseAdapter(applicationLayerElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -743,6 +779,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationCollaboration);
                 if (result == null) result = caseNameable(applicationCollaboration);
                 if (result == null) result = caseDocumentable(applicationCollaboration);
+                if (result == null) result = caseProperties(applicationCollaboration);
                 if (result == null) result = caseAdapter(applicationCollaboration);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -757,6 +794,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationComponent);
                 if (result == null) result = caseNameable(applicationComponent);
                 if (result == null) result = caseDocumentable(applicationComponent);
+                if (result == null) result = caseProperties(applicationComponent);
                 if (result == null) result = caseAdapter(applicationComponent);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -771,6 +809,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationFunction);
                 if (result == null) result = caseNameable(applicationFunction);
                 if (result == null) result = caseDocumentable(applicationFunction);
+                if (result == null) result = caseProperties(applicationFunction);
                 if (result == null) result = caseAdapter(applicationFunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -785,6 +824,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationInteraction);
                 if (result == null) result = caseNameable(applicationInteraction);
                 if (result == null) result = caseDocumentable(applicationInteraction);
+                if (result == null) result = caseProperties(applicationInteraction);
                 if (result == null) result = caseAdapter(applicationInteraction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -800,6 +840,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationInterface);
                 if (result == null) result = caseNameable(applicationInterface);
                 if (result == null) result = caseDocumentable(applicationInterface);
+                if (result == null) result = caseProperties(applicationInterface);
                 if (result == null) result = caseAdapter(applicationInterface);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -814,6 +855,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(dataObject);
                 if (result == null) result = caseNameable(dataObject);
                 if (result == null) result = caseDocumentable(dataObject);
+                if (result == null) result = caseProperties(dataObject);
                 if (result == null) result = caseAdapter(dataObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -828,6 +870,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(applicationService);
                 if (result == null) result = caseNameable(applicationService);
                 if (result == null) result = caseDocumentable(applicationService);
+                if (result == null) result = caseProperties(applicationService);
                 if (result == null) result = caseAdapter(applicationService);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -841,6 +884,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(technologyLayerElement);
                 if (result == null) result = caseNameable(technologyLayerElement);
                 if (result == null) result = caseDocumentable(technologyLayerElement);
+                if (result == null) result = caseProperties(technologyLayerElement);
                 if (result == null) result = caseAdapter(technologyLayerElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -855,6 +899,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(artifact);
                 if (result == null) result = caseNameable(artifact);
                 if (result == null) result = caseDocumentable(artifact);
+                if (result == null) result = caseProperties(artifact);
                 if (result == null) result = caseAdapter(artifact);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -869,6 +914,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(communicationPath);
                 if (result == null) result = caseNameable(communicationPath);
                 if (result == null) result = caseDocumentable(communicationPath);
+                if (result == null) result = caseProperties(communicationPath);
                 if (result == null) result = caseAdapter(communicationPath);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -883,6 +929,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(network);
                 if (result == null) result = caseNameable(network);
                 if (result == null) result = caseDocumentable(network);
+                if (result == null) result = caseProperties(network);
                 if (result == null) result = caseAdapter(network);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -898,6 +945,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(infrastructureInterface);
                 if (result == null) result = caseNameable(infrastructureInterface);
                 if (result == null) result = caseDocumentable(infrastructureInterface);
+                if (result == null) result = caseProperties(infrastructureInterface);
                 if (result == null) result = caseAdapter(infrastructureInterface);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -912,6 +960,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(infrastructureService);
                 if (result == null) result = caseNameable(infrastructureService);
                 if (result == null) result = caseDocumentable(infrastructureService);
+                if (result == null) result = caseProperties(infrastructureService);
                 if (result == null) result = caseAdapter(infrastructureService);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -926,6 +975,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(node);
                 if (result == null) result = caseNameable(node);
                 if (result == null) result = caseDocumentable(node);
+                if (result == null) result = caseProperties(node);
                 if (result == null) result = caseAdapter(node);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -940,6 +990,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(systemSoftware);
                 if (result == null) result = caseNameable(systemSoftware);
                 if (result == null) result = caseDocumentable(systemSoftware);
+                if (result == null) result = caseProperties(systemSoftware);
                 if (result == null) result = caseAdapter(systemSoftware);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -954,6 +1005,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(device);
                 if (result == null) result = caseNameable(device);
                 if (result == null) result = caseDocumentable(device);
+                if (result == null) result = caseProperties(device);
                 if (result == null) result = caseAdapter(device);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -985,6 +1037,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseArchimateModelElement(diagramModel);
                 if (result == null) result = caseDiagramModelContainer(diagramModel);
                 if (result == null) result = caseDocumentable(diagramModel);
+                if (result == null) result = caseProperties(diagramModel);
                 if (result == null) result = caseDiagramModelComponent(diagramModel);
                 if (result == null) result = caseAdapter(diagramModel);
                 if (result == null) result = caseIdentifier(diagramModel);
@@ -1111,6 +1164,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseArchimateModelElement(sketchModel);
                 if (result == null) result = caseDiagramModelContainer(sketchModel);
                 if (result == null) result = caseDocumentable(sketchModel);
+                if (result == null) result = caseProperties(sketchModel);
                 if (result == null) result = caseDiagramModelComponent(sketchModel);
                 if (result == null) result = caseAdapter(sketchModel);
                 if (result == null) result = caseIdentifier(sketchModel);
@@ -1179,6 +1233,21 @@ public class ArchimateSwitch<T> {
      * @generated
      */
     public T caseIdentifier(IIdentifier object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Property</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseProperty(IProperty object) {
         return null;
     }
 
@@ -1284,21 +1353,6 @@ public class ArchimateSwitch<T> {
      * @generated
      */
     public T caseArchimateModelElement(IArchimateModelElement object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Property</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Property</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseProperty(Map.Entry<String, String> object) {
         return null;
     }
 

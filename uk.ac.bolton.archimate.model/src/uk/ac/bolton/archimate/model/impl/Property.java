@@ -7,17 +7,12 @@
 package uk.ac.bolton.archimate.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.BasicEMap;
-import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,49 +21,49 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link uk.ac.bolton.archimate.model.impl.Property#getTypedKey <em>Key</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.impl.Property#getTypedValue <em>Value</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.Property#getKey <em>Key</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.Property#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class Property extends EObjectImpl implements BasicEMap.Entry<String,String> {
+public class Property extends EObjectImpl implements IProperty {
     /**
-     * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
+     * The default value of the '{@link #getKey() <em>Key</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTypedKey()
+     * @see #getKey()
      * @generated
      * @ordered
      */
-    protected static final String KEY_EDEFAULT = null;
+    protected static final String KEY_EDEFAULT = "";
 
     /**
-     * The cached value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
+     * The cached value of the '{@link #getKey() <em>Key</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTypedKey()
+     * @see #getKey()
      * @generated
      * @ordered
      */
     protected String key = KEY_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
+     * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTypedValue()
+     * @see #getValue()
      * @generated
      * @ordered
      */
-    protected static final String VALUE_EDEFAULT = null;
+    protected static final String VALUE_EDEFAULT = "";
 
     /**
-     * The cached value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
+     * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTypedValue()
+     * @see #getValue()
      * @generated
      * @ordered
      */
@@ -98,55 +93,13 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getTypedKey() {
-        return key;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setTypedKey(String newKey) {
-        String oldKey = key;
-        key = newKey;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROPERTY__KEY, oldKey, key));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String getTypedValue() {
-        return value;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setTypedValue(String newValue) {
-        String oldValue = value;
-        value = newValue;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROPERTY__VALUE, oldValue, value));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case IArchimatePackage.PROPERTY__KEY:
-                return getTypedKey();
+                return getKey();
             case IArchimatePackage.PROPERTY__VALUE:
-                return getTypedValue();
+                return getValue();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -160,10 +113,10 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case IArchimatePackage.PROPERTY__KEY:
-                setTypedKey((String)newValue);
+                setKey((String)newValue);
                 return;
             case IArchimatePackage.PROPERTY__VALUE:
-                setTypedValue((String)newValue);
+                setValue((String)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -178,10 +131,10 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
     public void eUnset(int featureID) {
         switch (featureID) {
             case IArchimatePackage.PROPERTY__KEY:
-                setTypedKey(KEY_EDEFAULT);
+                setKey(KEY_EDEFAULT);
                 return;
             case IArchimatePackage.PROPERTY__VALUE:
-                setTypedValue(VALUE_EDEFAULT);
+                setValue(VALUE_EDEFAULT);
                 return;
         }
         super.eUnset(featureID);
@@ -226,37 +179,8 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
      * <!-- end-user-doc -->
      * @generated
      */
-    protected int hash = -1;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public int getHash() {
-        if (hash == -1) {
-            Object theKey = getKey();
-            hash = (theKey == null ? 0 : theKey.hashCode());
-        }
-        return hash;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setHash(int hash) {
-        this.hash = hash;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public String getKey() {
-        return getTypedKey();
+        return key;
     }
 
     /**
@@ -264,8 +188,11 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setKey(String key) {
-        setTypedKey(key);
+    public void setKey(String newKey) {
+        String oldKey = key;
+        key = newKey;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROPERTY__KEY, oldKey, key));
     }
 
     /**
@@ -274,7 +201,7 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
      * @generated
      */
     public String getValue() {
-        return getTypedValue();
+        return value;
     }
 
     /**
@@ -282,21 +209,11 @@ public class Property extends EObjectImpl implements BasicEMap.Entry<String,Stri
      * <!-- end-user-doc -->
      * @generated
      */
-    public String setValue(String value) {
-        String oldValue = getValue();
-        setTypedValue(value);
-        return oldValue;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @SuppressWarnings("unchecked")
-    public EMap<String, String> getEMap() {
-        EObject container = eContainer();
-        return container == null ? null : (EMap<String, String>)container.eGet(eContainmentFeature());
+    public void setValue(String newValue) {
+        String oldValue = value;
+        value = newValue;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.PROPERTY__VALUE, oldValue, value));
     }
 
 } //Property
