@@ -119,6 +119,7 @@ public interface IArchimateImages {
     String ICON_ALIGN_TEXT_CENTER = IMGPATH + "aligncenter.gif"; //$NON-NLS-1$
     String ICON_ALIGN_TEXT_RIGHT = IMGPATH + "alignright.gif"; //$NON-NLS-1$
     String ICON_CANCEL_SEARCH_16 = IMGPATH + "cancelsearch-16.png"; //$NON-NLS-1$
+    String ICON_COG = IMGPATH + "cog.png"; //$NON-NLS-1$
     String ICON_DIAGRAM_16 = IMGPATH + "diagram-16.png"; //$NON-NLS-1$
     String ICON_DEFAULT_SIZE = IMGPATH + "default-size.png"; //$NON-NLS-1$
     String ICON_DERIVED_16 = IMGPATH + "derived-16.png"; //$NON-NLS-1$
@@ -129,6 +130,7 @@ public interface IArchimateImages {
     String ICON_GROUP_16 = IMGPATH + "group-16.png"; //$NON-NLS-1$
     String ICON_LINKED_16 = IMGPATH + "linked.gif"; //$NON-NLS-1$
     String ICON_MAGIC_CONNECTION_16 = IMGPATH + "magic_connection.gif"; //$NON-NLS-1$
+    String ICON_MINUS = IMGPATH + "minus.png"; //$NON-NLS-1$
     String ICON_MODELS_16 = IMGPATH + "models.gif"; //$NON-NLS-1$
     String ICON_NAVIGATOR_16 = IMGPATH + "navigator-16.png"; //$NON-NLS-1$
     String ICON_NAVIGATOR_DOWNWARD_16 = IMGPATH + "nav-downward.gif"; //$NON-NLS-1$
@@ -138,6 +140,7 @@ public interface IArchimateImages {
     String ICON_NOTE_16 = IMGPATH + "note-16.gif"; //$NON-NLS-1$
     String ICON_OPEN_16 = IMGPATH + "open.gif"; //$NON-NLS-1$
     String ICON_PIN_16 = IMGPATH + "pin.gif"; //$NON-NLS-1$
+    String ICON_PLUS = IMGPATH + "plus.png"; //$NON-NLS-1$
     String ICON_PROPERTIES_16 = IMGPATH + "properties.gif"; //$NON-NLS-1$
     String ICON_SEARCH_16 = IMGPATH + "search-16.png"; //$NON-NLS-1$
     String ICON_SKETCH_16 = IMGPATH + "sketch-16.png"; //$NON-NLS-1$
