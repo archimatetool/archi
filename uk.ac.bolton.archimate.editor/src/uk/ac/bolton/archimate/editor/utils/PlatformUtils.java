@@ -38,6 +38,13 @@ public class PlatformUtils {
     public static boolean isLinux() {
         return Platform.getOS().equals(Platform.OS_LINUX);
     }
+    
+    /**
+     * @return True if we're running on Linux GTK
+     */
+    public static boolean isGTK() {
+    	return Platform.WS_GTK.equals(Platform.getWS());
+    }
 
     /**
      * @return True if we're running on Mac OS X Cocoa

@@ -21,6 +21,7 @@ Version 1.7 April XX 2011
 + Links in Documentation for elements are now saved as links in HTML Report
 + The Java version shipped with the Windows installer is now version 1.6.0_24
 + Built on Eclipse 3.6.2 RCP
+* Fixed palette not resizing and consequent loss of keyboard input on Linux
 * The message in the dialog box displayed when opening a model that is already open shows the file name and model name
 * Fixed Magic Connector not switching mode on Mac when pressing Command Key
 * Fixed a bug where the Outline window might not clear when the View's model was closed
