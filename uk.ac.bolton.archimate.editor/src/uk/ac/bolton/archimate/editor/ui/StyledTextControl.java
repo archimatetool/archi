@@ -6,8 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.ui;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -36,11 +34,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.browser.IWebBrowser;
-import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
@@ -318,44 +311,6 @@ public class StyledTextControl implements Listener, LineStyleListener {
         return null;
     }
 
-    private void openLink(Shell shell, String href) {
-        // format the href for an html file (file:///<filename.html>
-        // required for Mac only.
-        if(href.startsWith("file:")) {
-            href = href.substring(5);
-            while(href.startsWith("/")) {
-                href = href.substring(1);
-            }
-            href = "file:///" + href;
-        }
-        
-        IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
-        try {
-            IWebBrowser browser = support.getExternalBrowser();
-            browser.openURL(new URL(urlEncodeForSpaces(href.toCharArray())));
-        }
-        catch(MalformedURLException ex) {
-            ex.printStackTrace();
-        }
-        catch(PartInitException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private String urlEncodeForSpaces(char[] input) {
-        StringBuffer retu = new StringBuffer(input.length);
-        for(int i = 0; i < input.length; i++) {
-            if(input[i] == ' ') {
-                retu.append("%20"); //$NON-NLS-1$
-            }
-            else {
-                retu.append(input[i]);
-            }
-        }
-        return retu.toString();
-    }
-
-    
     @Override
     public void handleEvent(Event event) {
         switch(event.type) {
@@ -413,7 +368,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
         }
         else if(modKey && isLinkAt(offset)) {
             fStyledText.setCursor(fBusyCursor);
-            openLink(fStyledText.getShell(), getLinkAt(offset));
+            HTMLUtils.openLinkInBrowser(getLinkAt(offset));
             setCursor(null);
         }
     }

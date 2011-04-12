@@ -6,7 +6,14 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.utils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.regex.Pattern;
+
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.browser.IWebBrowser;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 
 /**
@@ -55,6 +62,45 @@ public class HTMLUtils {
         return str;
     }
 
+    /**
+     * Open a link in a Browser
+     * @param href
+     */
+    public static void openLinkInBrowser(String href) {
+        // format the href for an html file (file:///<filename.html>
+        // required for Mac only.
+        if(href.startsWith("file:")) {
+            href = href.substring(5);
+            while(href.startsWith("/")) {
+                href = href.substring(1);
+            }
+            href = "file:///" + href;
+        }
+        
+        IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+        try {
+            IWebBrowser browser = support.getExternalBrowser();
+            browser.openURL(new URL(urlEncodeForSpaces(href.toCharArray())));
+        }
+        catch(MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+        catch(PartInitException ex) {
+            ex.printStackTrace();
+        }
+    }
 
+    private static String urlEncodeForSpaces(char[] input) {
+        StringBuffer retu = new StringBuffer(input.length);
+        for(int i = 0; i < input.length; i++) {
+            if(input[i] == ' ') {
+                retu.append("%20"); //$NON-NLS-1$
+            }
+            else {
+                retu.append(input[i]);
+            }
+        }
+        return retu.toString();
+    }
     
 }
