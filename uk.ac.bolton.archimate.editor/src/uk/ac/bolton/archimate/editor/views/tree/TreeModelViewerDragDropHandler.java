@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -53,7 +53,7 @@ public class TreeModelViewerDragDropHandler {
     
     private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE; 
 
-    private boolean fIsValidSelection = true; // Default needed for dragging files
+    private boolean fIsValidTreeSelection;
     
     // Can only drag local type
     Transfer[] sourceTransferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer() };
@@ -75,7 +75,7 @@ public class TreeModelViewerDragDropHandler {
             
             public void dragFinished(DragSourceEvent event) {
                 LocalSelectionTransfer.getTransfer().setSelection(null);
-                fIsValidSelection = true; // Reset to default
+                fIsValidTreeSelection = false; // Reset to default
             }
 
             public void dragSetData(DragSourceEvent event) {
@@ -88,7 +88,7 @@ public class TreeModelViewerDragDropHandler {
             public void dragStart(DragSourceEvent event) {
                 // Drag started from the Tree
                 IStructuredSelection selection = (IStructuredSelection)fViewer.getSelection();
-                setIsValidSelection(selection);
+                setIsValidTreeSelection(selection);
 
                 LocalSelectionTransfer.getTransfer().setSelection(selection);
                 event.doit = true;
@@ -96,59 +96,23 @@ public class TreeModelViewerDragDropHandler {
         });
     }
     
-    /**
-     * Set whether we have a valid selection of objects dragged from the Tree
-     * @param selection
-     */
-    private void setIsValidSelection(IStructuredSelection selection) {
-        fIsValidSelection = true;
-        
-        IArchimateModel model = null;
-        
-        for(Object object : selection.toArray()) {
-            // Can't drag Models
-            if(object instanceof IArchimateModel) {
-                fIsValidSelection = false;
-                break;
-            }
-            // Can only drag user folders
-            if(object instanceof IFolder && ((IFolder)object).getType() != FolderType.USER) {
-                fIsValidSelection = false;
-                break;
-            }
-            // Don't allow mixed parent models
-            if(object instanceof IArchimateModelElement) {
-                IArchimateModel m = ((IArchimateModelElement)object).getArchimateModel();
-                if(model != null && m != model) {
-                    fIsValidSelection = false;
-                    break;
-                }
-                model = m;
-            }
-        }
-    }
-    
-    private boolean isValidSelection() {
-        return fIsValidSelection;
-    }
-
     private void registerDropSupport() {
         fViewer.addDropSupport(fDragOperations, targetTransferTypes, new DropTargetListener() {
             int operations = DND.DROP_NONE;
             
             public void dragEnter(DropTargetEvent event) {
-                operations = isValidSelection() ? event.detail : DND.DROP_NONE;
+                operations = isValidSelection(event) ? event.detail : DND.DROP_NONE;
             }
 
             public void dragLeave(DropTargetEvent event) {
             }
 
             public void dragOperationChanged(DropTargetEvent event) {
-                operations = isValidSelection() ? event.detail : DND.DROP_NONE;
+                operations = isValidSelection(event) ? event.detail : DND.DROP_NONE;
             }
 
             public void dragOver(DropTargetEvent event) {
-                event.detail = isValidDropTarget(event) ? operations : DND.DROP_NONE;
+                event.detail = isValidSelection(event) && isValidDropTarget(event) ? operations : DND.DROP_NONE;
                 
                 if(operations == DND.DROP_NONE) {
                     event.feedback = DND.FEEDBACK_NONE;
@@ -174,7 +138,47 @@ public class TreeModelViewerDragDropHandler {
         });
     }
     
-    private void doDropOperation(DropTargetEvent event) {
+    /**
+     * Set whether we have a valid selection of objects dragged from the Tree
+     * Do it at the start of the drag operation.
+     */
+    private void setIsValidTreeSelection(IStructuredSelection selection) {
+    	fIsValidTreeSelection = true;
+        
+        IArchimateModel model = null;
+        
+        for(Object object : selection.toArray()) {
+            // Can't drag Models
+            if(object instanceof IArchimateModel) {
+            	fIsValidTreeSelection = false;
+                break;
+            }
+            // Can only drag user folders
+            if(object instanceof IFolder && ((IFolder)object).getType() != FolderType.USER) {
+            	fIsValidTreeSelection = false;
+                break;
+            }
+            // Don't allow mixed parent models
+            if(object instanceof IArchimateModelElement) {
+                IArchimateModel m = ((IArchimateModelElement)object).getArchimateModel();
+                if(model != null && m != model) {
+                	fIsValidTreeSelection = false;
+                    break;
+                }
+                model = m;
+            }
+        }
+    }
+    
+    private boolean isValidSelection(DropTargetEvent event) {
+        return fIsValidTreeSelection || isValidFileSelection(event);
+    }
+
+    private boolean isValidFileSelection(DropTargetEvent event) {
+		return isFileDragOperation(event.currentDataType);
+	}
+
+	private void doDropOperation(DropTargetEvent event) {
         //boolean move = event.detail == DND.DROP_MOVE;
         
         // Local
