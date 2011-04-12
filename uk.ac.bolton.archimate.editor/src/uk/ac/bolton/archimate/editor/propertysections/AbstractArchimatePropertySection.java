@@ -25,6 +25,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.ui.StyledTextControl;
 import uk.ac.bolton.archimate.model.IAdapter;
+import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
@@ -125,7 +126,8 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      * @return True if alive
      */
     protected boolean isAlive() {
-        return getEObject() != null && getEObject().eContainer() != null;
+        return (getEObject() != null) && 
+        	   (getEObject() instanceof IArchimateModel) || (getEObject().eContainer() != null);
     }
 
     @Override
@@ -249,7 +251,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      * @return Table
      */
     protected Table createTable(Composite parent, int style) {
-        Table table = getWidgetFactory().createTable(parent, style | SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+        Table table = getWidgetFactory().createTable(parent, style | SWT.BORDER | SWT.FULL_SELECTION);
         GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         // This ensures a minumum and equal size
         gd.widthHint = 100;

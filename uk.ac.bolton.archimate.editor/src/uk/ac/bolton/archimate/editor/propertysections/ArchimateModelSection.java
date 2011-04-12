@@ -130,11 +130,6 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     }
 
     @Override
-    protected boolean isAlive() {
-        return fModel != null;
-    }
-
-    @Override
     protected Adapter getECoreAdapter() {
         return eAdapter;
     }
