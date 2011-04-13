@@ -35,6 +35,7 @@ import uk.ac.bolton.archimate.model.IInterfaceElement;
 public class ImageFactory {
     
     public static final String ECLIPSE_IMAGE_NEW_WIZARD = "new_wizard"; //$NON-NLS-1$
+    public static final String ECLIPSE_IMAGE_IMPORT_PREF_WIZARD = "import_pref_wizard";  //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON = "properties_view"; //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_OUTLINE_VIEW_ICON = "outline_view"; //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_FILE = "file"; //$NON-NLS-1$
@@ -144,6 +145,10 @@ public class ImageFactory {
         // New Wizard
         if(ECLIPSE_IMAGE_NEW_WIZARD.equals(imageName)) {
             return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/new_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        // Import Prefs Wizard
+        if(ECLIPSE_IMAGE_IMPORT_PREF_WIZARD.equals(imageName)) {
+            return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/importpref_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // User
