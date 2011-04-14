@@ -88,7 +88,7 @@ implements ITreeModelView {
     
     private Composite fParentComposite;
     private SearchWidget fSearchWidget;
-    private SearchFilter fSearchFilter;
+    private SearchFilter fSearchFilter; // Keep track of Search Filter so we can restore expanded nodes state
     
     private IAction fActionToggleSearchField;
     
@@ -226,7 +226,7 @@ implements ITreeModelView {
             fParentComposite.layout();
             fTreeViewer.getTree().setRedraw(false);
             fTreeViewer.resetFilters();
-            fSearchFilter.reset();
+            fSearchFilter.clear();
             fTreeViewer.getTree().setRedraw(true);
         }
     }

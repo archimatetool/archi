@@ -23,6 +23,8 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.INameable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * Search Filter
@@ -30,15 +32,15 @@ import uk.ac.bolton.archimate.model.INameable;
  * @author Phillip Beauvoir
  */
 public class SearchFilter extends ViewerFilter {
-    public static final int FILTER_NAME = 1;
-    public static final int FILTER_DOC = 1 << 1;
-    
     private TreeViewer fViewer;
     private String fSearchText = "";
     private TreePath[] fExpanded;
     
-    private int fFilterFlags;
+    private boolean fFilterName;
+    private boolean fFilterDocumentation;
+    
     private List<EClass> fObjectFilter = new ArrayList<EClass>();
+    private List<String> fPropertiesFilter = new ArrayList<String>();
     
     public SearchFilter(TreeViewer viewer) {
         fViewer = viewer;
@@ -75,44 +77,82 @@ public class SearchFilter extends ViewerFilter {
         });
     }
     
-    public void reset() {
+    public void clear() {
         if(isFiltering()) {
             restoreState();
         }
         fSearchText = "";
-        fObjectFilter.clear();
+        reset();
+    }
+    
+    public void resetFilters() {
+    	reset();
+    	refresh();
+    }
+    
+    private void reset() {
+    	fFilterName = false;
+    	fFilterDocumentation = false;
+    	fObjectFilter.clear();
+    	fPropertiesFilter.clear();
     }
 
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
-        if(!isFiltering()) {
-            return true;
-        }
-        
+    	if(!isFiltering()) {
+    		return true;
+    	}
+    	
         if(element instanceof IArchimateElement || element instanceof IDiagramModel) {
-            // Object filter (only if filter list contains something)
+            // EObject Type filter - easy win
             if(!fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass())) {
-                return false;
+            	return false;
             }
             
-            if(fFilterFlags == 0) {
-                return true;
+            // Properties Key filter - easy win
+            if(!fPropertiesFilter.isEmpty()) {
+            	boolean result = false;
+            	for(IProperty property : ((IProperties)element).getProperties()) {
+            		if(fPropertiesFilter.contains(property.getKey())) {
+            			result = true;
+            			break;
+            		}
+            	}
+            	if(!result) {
+            		return false;
+            	}
+            }
+            
+            // Now do search text...
+            if(!hasSearchText()) {
+            	return true;
             }
             
             // Name
-            if((fFilterFlags & FILTER_NAME) != 0) {
+            if(fFilterName) {
                 String name = StringUtils.safeString(((INameable)element).getName());
                 if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
-                    return true;
+                	return true;
                 }
             }
             
             // Documentation
-            if((fFilterFlags & FILTER_DOC) != 0) {
+            if(fFilterDocumentation) {
                 String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
                 if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
-                    return true;
+                	return true;
                 }
+            }
+            
+            // Properties Value
+            if(!fPropertiesFilter.isEmpty()) {
+            	for(IProperty property : ((IProperties)element).getProperties()) {
+            		if(fPropertiesFilter.contains(property.getKey())) {
+            			if(property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
+            				return true;
+            			}
+            		}
+            	}
             }
             
             return false;
@@ -122,16 +162,29 @@ public class SearchFilter extends ViewerFilter {
     }
     
     public boolean isFiltering() {
-        return fSearchText.length() > 0 || !fObjectFilter.isEmpty();
+        return hasSearchText() || !fObjectFilter.isEmpty() || !fPropertiesFilter.isEmpty();
     }
     
-    public void setFilterFlags(int flags) {
-        if(fFilterFlags != flags) {
-            fFilterFlags = flags;
-            if(isFiltering()) {
+    private boolean hasSearchText() {
+    	return fSearchText.length() > 0;
+    }
+    
+    public void setFilterOnName(boolean set) {
+    	if(fFilterName != set) {
+    		fFilterName = set;
+    		if(isFiltering()) {
                 refresh();
             }
-        }
+    	}
+    }
+    
+    public void setFilterOnDocumentation(boolean set) {
+    	if(fFilterDocumentation != set) {
+    		fFilterDocumentation = set;
+    		if(isFiltering()) {
+                refresh();
+            }
+    	}
     }
     
     public void addObjectFilter(EClass eClass) {
@@ -148,18 +201,25 @@ public class SearchFilter extends ViewerFilter {
         refresh();
     }
     
-    public void clearObjectFilter() {
-        if(!fObjectFilter.isEmpty()) {
-            fObjectFilter.clear();
-            refresh();
+    public void addPropertiesFilter(String key) {
+        // Fresh filter
+        if(!isFiltering()) {
+            saveState();
         }
+        fPropertiesFilter.add(key);
+        refresh();
     }
-
-    private void saveState() {
+    
+    public void removePropertiesFilter(String key) {
+    	fPropertiesFilter.remove(key);
+        refresh();
+    }
+    
+    void saveState() {
         fExpanded = fViewer.getExpandedTreePaths();
     }
     
-    private void restoreState() {
+    void restoreState() {
         IStructuredSelection selection = (IStructuredSelection)fViewer.getSelection(); // first
         if(fExpanded != null) {
             fViewer.setExpandedTreePaths(fExpanded);

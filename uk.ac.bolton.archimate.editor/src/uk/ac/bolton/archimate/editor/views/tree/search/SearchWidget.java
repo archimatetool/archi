@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -7,9 +7,11 @@
 package uk.ac.bolton.archimate.editor.views.tree.search;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
@@ -26,9 +28,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 import uk.ac.bolton.archimate.editor.actions.AbstractDropDownAction;
+import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
+import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.model.IArchimateModel;
+import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
@@ -46,30 +52,30 @@ public class SearchWidget extends Composite {
     private IAction fActionFilterName;
     private IAction fActionFilterDoc;
     
+    private MenuManager fPropertiesMenu;
+    
     private List<IAction> fObjectActions = new ArrayList<IAction>();
     
-    private int fSearchFlags = SearchFilter.FILTER_NAME;
-
     public SearchWidget(Composite parent, SearchFilter filter) {
         super(parent, SWT.NULL);
+        
+        fSearchFilter = filter;
         
         GridLayout layout = new GridLayout(2, false);
         setLayout(layout);
         setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fSearchFilter = filter;
-
         setupToolBar();
         setupSearchTextWidget();
         
-        doSetFilterFlags();
+        fSearchFilter.saveState();
     }
     
     @Override
     public boolean setFocus() {
         return fSearchControl.setFocus();
     }
-    
+
     protected void setupSearchTextWidget() {
         if(PlatformUtils.isWindows()) {
             fSearchControl = new SearchTextWidget(this);
@@ -97,38 +103,30 @@ public class SearchWidget extends Composite {
         fActionFilterName = new Action("Name", IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
-                fSearchFlags ^= SearchFilter.FILTER_NAME;
-                doSetFilterFlags();
+            	fSearchFilter.setFilterOnName(isChecked());
             };
         };
         fActionFilterName.setToolTipText("Search in Name");
         fActionFilterName.setChecked(true);
+        fSearchFilter.setFilterOnName(true);
         
         fActionFilterDoc = new Action("Documentation", IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
-                fSearchFlags ^= SearchFilter.FILTER_DOC;
-                doSetFilterFlags();
+            	fSearchFilter.setFilterOnDocumentation(isChecked());
             }
         };
         fActionFilterDoc.setToolTipText("Search in Documentation");
 
-        ToolBarManager toolBarmanager = new ToolBarManager(SWT.FLAT);
+        final ToolBarManager toolBarmanager = new ToolBarManager(SWT.FLAT);
         toolBarmanager.createControl(this);
+
+        fPropertiesMenu = new MenuManager("Properties");
 
         AbstractDropDownAction dropDownAction = new AbstractDropDownAction("Filter Options") {
             @Override
             public void run() {
-                // Clear objects
-                for(IAction action : fObjectActions) {
-                    action.setChecked(false);
-                }
-                fSearchFilter.clearObjectFilter();
-                // Clear flags
-                fSearchFlags = SearchFilter.FILTER_NAME;
-                fActionFilterName.setChecked(true);
-                fActionFilterDoc.setChecked(false);
-                doSetFilterFlags();
+            	showMenu(toolBarmanager);
             }
             
             @Override
@@ -138,8 +136,14 @@ public class SearchWidget extends Composite {
         };
         toolBarmanager.add(dropDownAction);
 
+        // Name & Documentation
         dropDownAction.add(fActionFilterName);
         dropDownAction.add(fActionFilterDoc);
+        
+        // Properties
+        dropDownAction.add(fPropertiesMenu);
+        populatePropertiesMenu(fPropertiesMenu);
+        
         dropDownAction.add(new Separator());
         
         MenuManager businessMenu = new MenuManager("Business");
@@ -166,10 +170,37 @@ public class SearchWidget extends Composite {
             relationsMenu.add(createObjectAction(eClass));
         }
         
+        dropDownAction.add(new Separator());
+        
+        IAction action = new Action("Clear Filters") {
+            @Override
+            public void run() {
+            	reset();
+            }
+        };
+        dropDownAction.add(action);
+        
         toolBarmanager.update(true);
     }
     
-    private IAction createObjectAction(final EClass eClass) {
+    private void reset() {
+    	// Clear Name & Documentation
+    	fActionFilterName.setChecked(false);
+    	fActionFilterDoc.setChecked(false);
+
+    	// Clear Objects
+    	for(IAction action : fObjectActions) {
+    		action.setChecked(false);
+    	}
+
+    	// Clear & Reset Properties sub-menus
+    	fPropertiesMenu.removeAll();
+    	populatePropertiesMenu(fPropertiesMenu);
+
+    	fSearchFilter.resetFilters();
+    }
+
+	private IAction createObjectAction(final EClass eClass) {
         IAction action = new Action(ArchimateNames.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
@@ -180,12 +211,6 @@ public class SearchWidget extends Composite {
                     fSearchFilter.removeObjectFilter(eClass);
                 }
             }
-            
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return null;
-                //return UIResources.getImageDescriptor(eClass);
-            }
         };
         
         fObjectActions.add(action);
@@ -193,7 +218,40 @@ public class SearchWidget extends Composite {
         return action;
     }
 
-    private void doSetFilterFlags() {
-        fSearchFilter.setFilterFlags(fSearchFlags);
+	private void populatePropertiesMenu(MenuManager propertiesMenu) {
+		// Models that are loaded are the ones in the Models Tree
+		List<String> list = new ArrayList<String>();
+		
+		for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+			getAllUniquePropertyKeysForModel(model, list);
+		}
+		
+		for(final String key : list) {
+			IAction action = new Action(key, IAction.AS_CHECK_BOX) {
+	            @Override
+	            public void run() {
+	                if(isChecked()) {
+	                	fSearchFilter.addPropertiesFilter(key);
+	                }
+	                else {
+	                	fSearchFilter.removePropertiesFilter(key);
+	                }
+	            }
+	        };
+	        
+	        propertiesMenu.add(action);
+		}
+	}
+	
+    private void getAllUniquePropertyKeysForModel(IArchimateModel model, List<String> list) {
+        for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+            EObject element = iter.next();
+            if(element instanceof IProperty) {
+            	String key = ((IProperty)element).getKey();
+            	if(StringUtils.isSetAfterTrim(key) && !list.contains(key)) {
+            		list.add(key);
+            	}
+            }
+        }
     }
 }
