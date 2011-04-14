@@ -141,7 +141,7 @@
          <propertyCategory
                category="main.category"></propertyCategory>
          <propertyCategory
-               category="analysis.category">
+               category="appearance.category">
          </propertyCategory>
       </propertyContributor>
    </extension>
@@ -157,20 +157,26 @@
          <propertyTab
                afterTab="main.tab"
                category="main.category"
+               id="properties.tab"
+               label="Properties">
+         </propertyTab>
+         <propertyTab
+               afterTab="properties.tab"
+               category="main.category"
+               id="analysis.tab"
+               label="Analysis">
+         </propertyTab>
+         <propertyTab
+               category="appearance.category"
                id="appearance.tab"
                label="Appearance">
          </propertyTab>
          <propertyTab
                afterTab="appearance.tab"
-               category="main.category"
+               category="appearance.category"
                id="figure.tab"
                indented="true"
                label="Figure">
-         </propertyTab>
-         <propertyTab
-               category="analysis.category"
-               id="analysis.tab"
-               label="Analysis">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -350,6 +356,12 @@
                filter="uk.ac.bolton.archimate.editor.propertysections.DiagramFigureTypeSection$Filter"
                id="diagramFigureTypeSection"
                tab="figure.tab">
+         </propertySection>
+         <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.ArchimatePropertiesSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.ArchimatePropertiesSection$Filter"
+               id="archimatePropertiesSection"
+               tab="properties.tab">
          </propertySection>
       </propertySections>
    </extension>
