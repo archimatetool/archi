@@ -14,6 +14,8 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuCreator;
+import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 
@@ -53,6 +55,25 @@ public abstract class AbstractDropDownAction extends Action implements IMenuCrea
         }
 
         return fMenu;
+    }
+    
+    /**
+     * Show the menu at the bottom of a Toolbar Manager
+     * @param manager
+     */
+    public void showMenu(ToolBarManager manager) {
+    	showMenu(manager.getControl());
+    }
+
+    /**
+     * Show the menu at the bottom of a Control (for example a ToolBar)
+     * @param control
+     */
+    public void showMenu(Control control) {
+    	Menu menu = getMenu(control);
+    	Point point = control.toDisplay(new Point(0, control.getBounds().height));
+    	menu.setLocation(point);
+        menu.setVisible(true);
     }
     
     private void fill() {
