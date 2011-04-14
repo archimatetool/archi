@@ -99,66 +99,67 @@ public class SearchFilter extends ViewerFilter {
 
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
-    	if(!isFiltering()) {
+    	if(!isFiltering() || !isFilteredElementType(element)) {
     		return true;
     	}
     	
-        if(element instanceof IArchimateElement || element instanceof IDiagramModel) {
-            // EObject Type filter - easy win
-            if(!fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass())) {
-            	return false;
-            }
-            
-            // Properties Key filter - easy win
-            if(!fPropertiesFilter.isEmpty()) {
-            	boolean result = false;
-            	for(IProperty property : ((IProperties)element).getProperties()) {
-            		if(fPropertiesFilter.contains(property.getKey())) {
-            			result = true;
-            			break;
-            		}
-            	}
-            	if(!result) {
-            		return false;
-            	}
-            }
-            
-            // Now do search text...
-            if(!hasSearchText()) {
-            	return true;
-            }
-            
-            // Name
-            if(fFilterName) {
-                String name = StringUtils.safeString(((INameable)element).getName());
-                if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
-                	return true;
-                }
-            }
-            
-            // Documentation
-            if(fFilterDocumentation) {
-                String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
-                if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
-                	return true;
-                }
-            }
-            
-            // Properties Value
-            if(!fPropertiesFilter.isEmpty()) {
-            	for(IProperty property : ((IProperties)element).getProperties()) {
-            		if(fPropertiesFilter.contains(property.getKey())) {
-            			if(property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
-            				return true;
-            			}
-            		}
-            	}
-            }
-            
-            return false;
-        }
-        
-        return true;
+    	// EObject Type filter - easy win
+    	if(!fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass())) {
+    		return false;
+    	}
+    	
+    	// Properties Key filter - easy win
+    	if(!fPropertiesFilter.isEmpty() && element instanceof IProperties) {
+    		boolean result = false;
+    		for(IProperty property : ((IProperties)element).getProperties()) {
+    			if(fPropertiesFilter.contains(property.getKey())) {
+    				result = true;
+    				break;
+    			}
+    		}
+    		if(!result) {
+    			return false;
+    		}
+    	}
+
+    	// Now do search text...
+    	if(!hasSearchText()) {
+    		return true;
+    	}
+
+    	// Name
+    	if(fFilterName && element instanceof INameable) {
+    		String name = StringUtils.safeString(((INameable)element).getName());
+    		if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
+    			return true;
+    		}
+    	}
+
+    	// Documentation
+    	if(fFilterDocumentation && element instanceof IDocumentable) {
+    		String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
+    		if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
+    			return true;
+    		}
+    	}
+
+    	// Properties Value
+    	if(!fPropertiesFilter.isEmpty() && element instanceof IProperties) {
+    		for(IProperty property : ((IProperties)element).getProperties()) {
+    			if(fPropertiesFilter.contains(property.getKey())) {
+    				if(property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
+    					return true;
+    				}
+    			}
+    		}
+    	}
+
+    	return false;
+    }
+    
+    private boolean isFilteredElementType(Object element) {
+    	// Don't do IArchimateModel type - too many problems
+    	return element instanceof IArchimateElement || element instanceof IDiagramModel;
     }
     
     public boolean isFiltering() {
