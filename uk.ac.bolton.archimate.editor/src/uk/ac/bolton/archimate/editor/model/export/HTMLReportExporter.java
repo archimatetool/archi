@@ -47,6 +47,8 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.INameable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 
 /**
@@ -93,6 +95,7 @@ public class HTMLReportExporter implements IModelExporter {
         writeBusinessElements();
         writeApplicationElements();
         writeTechnologyElements();
+        writeConnectionElements();
         writeDiagrams();
         
         writeCloser();
@@ -103,36 +106,24 @@ public class HTMLReportExporter implements IModelExporter {
     }
     
     private void writeHeader() throws IOException {
-        String title = fModel.getName();
-        if(!StringUtils.isSet(title)) {
-            title = "(unnamed model)";
-        }
-        else {
-            title = parseChars(title);
-        }
-        
-        String date = DateFormat.getDateTimeInstance().format(new Date());
-        
         String s = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"; //$NON-NLS-1$
         s += "<html>\n"; 
         s += "<head>\n";
-        s += "<title>" + title + "</title>\n"; 
+        s += "<title>" + "Archi Report" + "</title>\n";
+        
+        s += "<style type=\"text/css\">\n";
+        s += "table { border-collapse:collapse; }\n";
+        s += "table, td, th { border:1px solid black; }\n";
+        s += "</style>\n";
+        
         s += "</head>\n";
         s += "<body style=\"font-family:Verdana; font-size:10pt;\">\n";
-        s += "<h1>" + title + "</h1>\n"; 
-        s += "<h3>" + date + "</h3>\n";
+        s += "<h1>" + "Archi Report" + "</h1>\n"; 
         writer.write(s);
         
         writer.write("<br/>\n");
-        
-        // Purpose
-        String purpose = fModel.getPurpose();
-        if(StringUtils.isSet(purpose)) {
-            s = "<h3>Purpose of this model</h3>\n";
-            s += "<p>" + parseCharsAndLinks(purpose) + "</p>";
-            writer.write(s);
-            writer.write("<br/>\n");
-        }
+        writeModelSummary(fModel);
+        writer.write("<br/>\n");
     }
     
     private void writeCloser() throws IOException {
@@ -151,19 +142,19 @@ public class HTMLReportExporter implements IModelExporter {
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessRole());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessInterface());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
-        writeTable(list, "Business Actors", color);
+        writeElements(list, "Business Actors", color);
         
         // Business Functions
         list.clear();
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessFunction());
-        writeTable(list, "Business Functions", color);
+        writeElements(list, "Business Functions", color);
         
         // Business Information
         list.clear();
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessObject());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getRepresentation());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getMeaning());
-        writeTable(list, "Business Information", color);
+        writeElements(list, "Business Information", color);
         
         // Business Processes
         list.clear();
@@ -171,7 +162,7 @@ public class HTMLReportExporter implements IModelExporter {
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessEvent());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessInteraction());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessProcess());
-        writeTable(list, "Business Processes", color);
+        writeElements(list, "Business Processes", color);
         
         // Business Products
         list.clear();
@@ -179,7 +170,7 @@ public class HTMLReportExporter implements IModelExporter {
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getProduct());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessService());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getValue());
-        writeTable(list, "Business Products", color);
+        writeElements(list, "Business Products", color);
     }
     
     private void writeApplicationElements() throws IOException {
@@ -194,12 +185,12 @@ public class HTMLReportExporter implements IModelExporter {
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationInteraction());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationInterface());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationService());
-        writeTable(list, "Applications", color);
+        writeElements(list, "Applications", color);
         
         // Application Data
         list.clear();
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getDataObject());
-        writeTable(list, "Application Data", color);
+        writeElements(list, "Application Data", color);
     }
     
     private void writeTechnologyElements() throws IOException {
@@ -216,33 +207,24 @@ public class HTMLReportExporter implements IModelExporter {
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getNetwork());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureService());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getSystemSoftware());
-        writeTable(list, "Infrastructures", color);
-    }
-
-    private void writeTable(List<EObject> list, String title, String color) throws IOException {
-        if(!list.isEmpty()) {
-            writer.write("<h3>" + title + "</h3>\n");
-            writeTableFirstRow();
-            writeElementRows(list, color);
-            writeTableClose();
-        }
+        writeElements(list, "Infrastructures", color);
     }
     
-    private void writeElementRows(List<EObject> list, String color) throws IOException {
-        // Sort a *copy* of the List
-        List<EObject> copy = new ArrayList<EObject>(list);
-        sort(copy);
+    private void writeConnectionElements() throws IOException {
+        IFolder connectionsFolder = fModel.getFolder(FolderType.CONNECTORS);
+        String color = ColorFactory.convertRGBToString(ColorFactory.COLOR_DIAGRAM_MODEL_REF.getRGB());
         
-        for(EObject object : copy) {
-            if(object instanceof IArchimateElement) {
-                writeTableElementRow((IArchimateElement)object, color);
-            }
-        }
+        List<EObject> list = new ArrayList<EObject>();
+        getElements(connectionsFolder, list, null);
+        writeElements(list, "Connectors", color);
     }
     
     private void getElements(IFolder folder, List<EObject> list, EClass type) {
         for(EObject object : folder.getElements()) {
-            if(object.eClass() == type) {
+        	if(type == null) {
+                list.add(object);
+            }
+        	else if(object.eClass() == type) {
                 list.add(object);
             }
         }
@@ -252,35 +234,96 @@ public class HTMLReportExporter implements IModelExporter {
         }
     }
     
-    private void writeTableFirstRow() throws IOException {
-        String s = "<table width=\"100%\" border=\"0\">\n";
-        s += "<tr bgcolor=\"#CCCCCC\">\n";
-        s += "<td width=\"30%\">Name</td>\n";
-        s += "<td width=\"20%\">Type</td>\n";
-        s += "<td width=\"50%\">Documentation</td>\n";
-        s += "</tr>\n";
-        writer.write(s);
+    private void writeElements(List<EObject> list, String title, String color) throws IOException {
+        if(!list.isEmpty()) {
+            writer.write("<h2>" + title + "</h2>\n");
+            
+            // Sort a *copy* of the List
+            List<EObject> copy = new ArrayList<EObject>(list);
+            sort(copy);
+            
+            for(EObject object : copy) {
+                if(object instanceof IArchimateElement) {
+                    writeTableElement((IArchimateElement)object, color);
+                    writer.write("<p/>");
+                }
+            }
+            
+            writer.write("<br/>");
+        }
     }
     
-    private void writeTableClose() throws IOException {
+    private void writeModelSummary(IArchimateModel model) throws IOException {
+    	writer.write("<table width=\"100%\" border=\"0\">\n");
+    	
+    	writer.write("<tr bgcolor=\"" + "#F0F0F0" + "\">\n");
+    	String name = fModel.getName();
+        if(!StringUtils.isSet(name)) {
+        	name = "(unnamed model)";
+        }
+        else {
+        	name = parseChars(name);
+        }
+        writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
+        writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
+        writer.write("</tr>\n");
+        
+        writer.write("<tr>\n");
+        String date = DateFormat.getDateTimeInstance().format(new Date());
+        writer.write("<td valign=\"top\">Date</td>\n");
+        writer.write("<td valign=\"top\">" + date + "</td>\n");
+        writer.write("</tr>\n");
+        
+        writer.write("<tr>\n");
+        String doc = StringUtils.safeString(model.getPurpose());
+        doc = parseCharsAndLinks(doc);
+        writer.write("<td valign=\"top\">Purpose</td>\n");
+        writer.write("<td valign=\"top\">" + doc + "</td>\n");
+        writer.write("</tr>\n");
+        
+        writeProperties(model);
+        
+        writer.write("</table>\n");
+
+    }
+    
+    private void writeTableElement(IArchimateElement element, String color) throws IOException {
+    	writer.write("<table width=\"100%\" border=\"0\">\n");
+    	
+    	writer.write("<tr bgcolor=\"" + color + "\">\n");
+        String name = StringUtils.safeString(element.getName());
+        name = parseChars(name);
+        writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
+        writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
+        writer.write("</tr>\n");
+        
+        writer.write("<tr>\n");
+        String type = ArchimateNames.getDefaultName(element.eClass());
+        writer.write("<td valign=\"top\">Type</td>\n");
+        writer.write("<td valign=\"top\">" + type + "</td>\n");
+        writer.write("</tr>\n");
+        
+        writer.write("<tr>\n");
+        String doc = StringUtils.safeString(element.getDocumentation());
+        doc = parseCharsAndLinks(doc);
+        writer.write("<td valign=\"top\">Documentation</td>\n");
+        writer.write("<td valign=\"top\">" + doc + "</td>\n");
+        writer.write("</tr>\n");
+        
+        writeProperties(element);
+        
         writer.write("</table>\n");
     }
     
-    private void writeTableElementRow(IArchimateElement element, String color) throws IOException {
-        String name = StringUtils.safeString(element.getName());
-        name = parseChars(name);
-        
-        String type = ArchimateNames.getDefaultName(element.eClass());
-        
-        String doc = StringUtils.safeString(element.getDocumentation());
-        doc = parseCharsAndLinks(doc);
-        
-        String s = "<tr bgcolor=\"" + color + "\">\n";
-        s += "<td valign=\"top\">" + name + "</td>\n";
-        s += "<td valign=\"top\">" + type + "</td>\n";
-        s += "<td valign=\"top\">" + doc + "</td>\n";
-        s += "</tr>\n";
-        writer.write(s);
+    private void writeProperties(IProperties element) throws IOException {
+    	for(IProperty property : element.getProperties()) {
+        	writer.write("<tr>\n");
+        	String key = parseChars(property.getKey());
+        	writer.write("<td valign=\"top\">" + key + "</td>\n");
+        	String value = parseCharsAndLinks(property.getValue());
+        	writer.write("<td valign=\"top\">" + value + "</td>\n");
+        	writer.write("</tr>\n");
+		}
     }
     
     private void writeDiagrams() throws IOException {
@@ -295,17 +338,29 @@ public class HTMLReportExporter implements IModelExporter {
         Hashtable<IDiagramModel, String> table = saveDiagrams(copy);
         
         writer.write("<br/><br/><br/>\n");
+        writer.write("<h2>" + "Views" + "</h2>\n");
         
         for(IDiagramModel dm : copy) {
+        	writer.write("<table width=\"100%\" border=\"0\">\n");
+        	
+        	writer.write("<tr bgcolor=\"" + "#e0e4e6" + "\">\n");
             String name = StringUtils.safeString(dm.getName());
             name = parseChars(name);
-            writer.write("<h3>" + name + "</h3>\n");
+            writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
+            writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
+            writer.write("</tr>\n");
             
-            String doc = dm.getDocumentation();
-            if(StringUtils.isSet(doc)) {
-                doc = parseCharsAndLinks(doc);
-                writer.write("<p>" + doc + "</p>\n");
-            }
+            writer.write("<tr>\n");
+            String doc = StringUtils.safeString(dm.getDocumentation());
+            doc = parseCharsAndLinks(doc);
+            writer.write("<td valign=\"top\">Documentation</td>\n");
+            writer.write("<td valign=\"top\">" + doc + "</td>\n");
+            writer.write("</tr>\n");
+            
+            writeProperties(dm);
+        	
+        	writer.write("</table>\n");
+        	
             writer.write("<img src=\"" + table.get(dm) + "\"" + "/>\n");
             writer.write("<br/><br/><br/><br/>\n");
         }
