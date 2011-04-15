@@ -58,6 +58,10 @@ public class ImportManager {
             return new BiZZdesign2Importer(file);
         }
         
+        if(s.contains("MM_Document version=\"2.0\"")) {
+            //return new BiZZdesign3Importer(file);
+        }
+        
         return null;
     }
 }
