@@ -3,13 +3,16 @@ Archi Changes
 
 Version 1.7 April XX 2011
 -------------------------
++ Can now add User Properties to Elements
++ Search/Filter on Model Tree can search on User Properties
++ HTML Report improved and contains User Properties
 + Can now rename a Model Tree element with in-place editing ("Rename" in context and main menu items or F2 key)
 + When adding a new element on the Model Tree the focus is put on in-place editing so you can edit the name
 + Can now rename a View diagram element with "Rename" context and main menu items or F2 key
 + New "Duplicate" command in the Model Tree duplicates Elements and Views
-+ Some View elements can have an alternative figure specified in the Properties window
++ Some View elements can show an alternative figure
 + Preferences for alternative figures now sets the default for newly added elements
-+ Added a Connection type to the Palette for connections to/from Notes
++ Added a Note Connection type to the Palette for connections to/from Notes
 + The Grid Snap and Alignment settings are now applied globally to all Views and saved
 + The Access Relation type now has properties of "Access", "Read", "Write", and "Read/Write". This changes the connection's arrow head.
 + Added an "Open Recent" files menu and a preference to set the maximum size of recent files list

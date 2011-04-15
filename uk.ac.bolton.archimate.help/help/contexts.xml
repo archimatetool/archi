@@ -83,6 +83,11 @@
        <description>Edit the General Preferences.</description>
        <topic href="help/prefs_general.html" label="General Preferences"/>
     </context>
+    <context id="userProperties" title="User Properties">
+       <description>Edit User Properties</description>
+       <topic href="help/properties_user_properties.html" label="User Properties"/>
+       <topic href="help/properties_element.html" label="Element Properties"/>
+    </context>
     <context id="NewNestedRelationDialog" title="Container Elements and Nested Element Relationships">
        <description>Add a new Nested Element Relationship.</description>
        <topic href="help/view_container_nested.html" label="Container Elements and Nested Element Relationships"/>
