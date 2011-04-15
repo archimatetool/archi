@@ -358,8 +358,8 @@
                tab="figure.tab">
          </propertySection>
          <propertySection
-               class="uk.ac.bolton.archimate.editor.propertysections.ArchimatePropertiesSection"
-               filter="uk.ac.bolton.archimate.editor.propertysections.ArchimatePropertiesSection$Filter"
+               class="uk.ac.bolton.archimate.editor.propertysections.UserPropertiesSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.UserPropertiesSection$Filter"
                id="archimatePropertiesSection"
                tab="properties.tab">
          </propertySection>

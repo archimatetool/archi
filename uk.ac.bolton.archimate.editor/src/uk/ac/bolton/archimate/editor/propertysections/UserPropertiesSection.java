@@ -106,13 +106,13 @@ import uk.ac.bolton.archimate.model.IProperty;
 
 
 /**
- * Properties Section for an Archimate Element, Archimate Model or Diagram Model
+ * User Properties Section for an Archimate Element, Archimate Model or Diagram Model
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimatePropertiesSection extends AbstractArchimatePropertySection {
+public class UserPropertiesSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.archimatePropertiesSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.userPropertiesSection";
     
     /**
      * Filter to show or reject this section depending on input value
@@ -371,7 +371,7 @@ public class ArchimatePropertiesSection extends AbstractArchimatePropertySection
             @Override
             public void run() {
                 if(isAlive()) {
-                	ArchimatePropertiesManagerDialog dialog = new ArchimatePropertiesManagerDialog(fPage.getSite().getShell(),
+                	UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
                 											((IArchimateModelElement)fPropertiesElement).getArchimateModel());
                 	dialog.open();
                 }

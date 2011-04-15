@@ -66,13 +66,13 @@ import uk.ac.bolton.archimate.model.IProperty;
 
 
 /**
- * Archimate Properties Manager Dialog
+ * User Properties Manager Dialog
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimatePropertiesManagerDialog extends ExtendedTitleAreaDialog {
+public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.ArchimatePropertiesManagerDialog"; //$NON-NLS-1$
+    public static String HELPID = "uk.ac.bolton.archimate.help.userPropertiesManagerDialog"; //$NON-NLS-1$
     
     private static class KeyEntry {
     	String newName;
@@ -92,8 +92,8 @@ public class ArchimatePropertiesManagerDialog extends ExtendedTitleAreaDialog {
     private Button fButtonDelete, fButtonRename;
     private IAction fActionDelete, fActionRename;
     
-    public ArchimatePropertiesManagerDialog(Shell parentShell, IArchimateModel model) {
-        super(parentShell, "ArchimatePropertiesManagerDialog");
+    public UserPropertiesManagerDialog(Shell parentShell, IArchimateModel model) {
+        super(parentShell, "UserPropertiesManagerDialog");
         setTitleImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
