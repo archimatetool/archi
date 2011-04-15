@@ -121,8 +121,6 @@ public class SearchWidget extends Composite {
         final ToolBarManager toolBarmanager = new ToolBarManager(SWT.FLAT);
         toolBarmanager.createControl(this);
 
-        fPropertiesMenu = new MenuManager("Properties");
-
         AbstractDropDownAction dropDownAction = new AbstractDropDownAction("Filter Options") {
             @Override
             public void run() {
@@ -141,6 +139,7 @@ public class SearchWidget extends Composite {
         dropDownAction.add(fActionFilterDoc);
         
         // Properties
+        fPropertiesMenu = new MenuManager("Properties");
         dropDownAction.add(fPropertiesMenu);
         populatePropertiesMenu(fPropertiesMenu);
         
@@ -172,7 +171,7 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
-        IAction action = new Action("Clear Filters") {
+        IAction action = new Action("Reset Filters") {
             @Override
             public void run() {
             	reset();
@@ -184,8 +183,7 @@ public class SearchWidget extends Composite {
     }
     
     private void reset() {
-    	// Clear Name & Documentation
-    	fActionFilterName.setChecked(false);
+    	// Clear Documentation
     	fActionFilterDoc.setChecked(false);
 
     	// Clear Objects
@@ -198,6 +196,10 @@ public class SearchWidget extends Composite {
     	populatePropertiesMenu(fPropertiesMenu);
 
     	fSearchFilter.resetFilters();
+    	
+    	// Default to search on Name
+    	fActionFilterName.setChecked(true);
+        fSearchFilter.setFilterOnName(true);
     }
 
 	private IAction createObjectAction(final EClass eClass) {
@@ -241,6 +243,8 @@ public class SearchWidget extends Composite {
 	        
 	        propertiesMenu.add(action);
 		}
+		
+		propertiesMenu.update(true);
 	}
 	
     private void getAllUniquePropertyKeysForModel(IArchimateModel model, List<String> list) {
