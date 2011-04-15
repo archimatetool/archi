@@ -112,7 +112,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  */
 public class UserPropertiesSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.userPropertiesSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.userProperties";
     
     /**
      * Filter to show or reject this section depending on input value
@@ -1011,8 +1011,6 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     // -----------------------------------------------------------------------------------------------------------------
    
     private class MultipleAddDialog extends ExtendedTitleAreaDialog {
-    	private String HELPID = "uk.ac.bolton.archimate.help.ArchimatePropertiesMultipleAddDialog"; //$NON-NLS-1$
-        
     	private CheckboxTableViewer tableViewer;
     	private Button buttonSelectAll, buttonDeselectAll;
     	
@@ -1047,7 +1045,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         @Override
         protected Control createDialogArea(Composite parent) {
             // Help
-            PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+            PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
             setTitle("Add Multiple Property Keys");
             setMessage("Select the Property Keys to add to this Element");
