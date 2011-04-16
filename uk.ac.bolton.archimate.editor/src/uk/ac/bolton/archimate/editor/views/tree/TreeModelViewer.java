@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -28,10 +26,7 @@ import org.eclipse.swt.widgets.Widget;
 
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
-import uk.ac.bolton.archimate.editor.views.tree.search.SearchFilter;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -109,16 +104,6 @@ public class TreeModelViewer extends TreeViewer {
             }
         });
         
-        // Listen to Prefs change to update filter preference
-        Preferences.STORE.addPropertyChangeListener(new IPropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent event) {
-                if(IPreferenceConstants.FILTER_SHOW_EMPTY_FOLDERS.equals(event.getProperty()) && isFiltering()) {
-                    refresh();
-                }
-            }
-        });
-        
         // Cell Editor
         fCellEditor = new TreeCellEditor(getTree());
     }
@@ -161,13 +146,6 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
-     * @return True if this viewer is being filtered
-     */
-    public boolean isFiltering() {
-        return getFilters().length > 0 && ((SearchFilter)getFilters()[0]).isFiltering();
-    }
-
-    /**
      *  Content Provider
      */
     private class ModelTreeViewerContentProvider implements ITreeContentProvider {
@@ -183,56 +161,19 @@ public class TreeModelViewer extends TreeViewer {
         }
 
         public Object[] getChildren(Object parentElement) {
-            boolean doShowEmptyFolders = Preferences.doFilterShowEmptyFolders();
-            
             if(parentElement instanceof IEditorModelManager) {
-                // If filter is on and prefs set, filter out empty folders
-                if(isFiltering() && !doShowEmptyFolders) {
-                    List<Object> list = new ArrayList<Object>();
-                    for(IArchimateModel model : ((IEditorModelManager)parentElement).getModels()) {
-                        if(getFilteredChildren(model).length > 0) {
-                            list.add(model);
-                        }
-                    }
-                    return list.toArray();
-                }
-                else {
-                    return ((IEditorModelManager)parentElement).getModels().toArray();
-                }
+            	return ((IEditorModelManager)parentElement).getModels().toArray();
             }
             
             if(parentElement instanceof IArchimateModel) {
-                // If filter is on and prefs set, filter out empty folders
-                if(isFiltering() && !doShowEmptyFolders) {
-                    List<Object> list = new ArrayList<Object>();
-                    for(IFolder folder : ((IArchimateModel)parentElement).getFolders()) {
-                        if(getFilteredChildren(folder).length > 0) {
-                            list.add(folder);
-                        }
-                    }
-                    return list.toArray();
-                }
-                else {
-                    return ((IArchimateModel)parentElement).getFolders().toArray();
-                }
+            	return ((IArchimateModel)parentElement).getFolders().toArray();
             }
 
             if(parentElement instanceof IFolder) {
                 List<Object> list = new ArrayList<Object>();
                 
-                // If filter is on and prefs set, filter out empty folders
-                if(isFiltering() && !doShowEmptyFolders) {
-                    for(IFolder folder : ((IFolder)parentElement).getFolders()) {
-                        if(getFilteredChildren(folder).length > 0) {
-                            list.add(folder);
-                        }
-                    }
-                }
                 // Folders
-                else {
-                    list.addAll(((IFolder)parentElement).getFolders());
-                }
-                
+                list.addAll(((IFolder)parentElement).getFolders());
                 // Elements
                 list.addAll(((IFolder)parentElement).getElements());
                 
@@ -250,18 +191,8 @@ public class TreeModelViewer extends TreeViewer {
         }
 
         public boolean hasChildren(Object element) {
-            if(element instanceof IArchimateModel) {
-                return !((IArchimateModel)element).getFolders().isEmpty();
-            }
-            
-            if(element instanceof IFolder) {
-                Object[] children = getFilteredChildren(element);
-                return children.length > 0;
-            }
-            
-            return false;
+        	return getChildren(element).length > 0;
         }
-        
     }
     
     /**

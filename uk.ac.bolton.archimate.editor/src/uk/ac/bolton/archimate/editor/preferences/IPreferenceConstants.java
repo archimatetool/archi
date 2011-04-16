@@ -43,8 +43,6 @@ public interface IPreferenceConstants {
     String TECHNOLOGY_DEVICE_FIGURE = "technologyDeviceFigure";
     String TECHNOLOGY_INTERFACE_FIGURE = "technologyInterfaceFigure";
     
-    String FILTER_SHOW_EMPTY_FOLDERS = "filterShowEmptyFolders";
-    
     String SKETCH_SHOW_BACKGROUND = "sketchShowBackground";
     
     String PALETTE_STATE = "palette_state";

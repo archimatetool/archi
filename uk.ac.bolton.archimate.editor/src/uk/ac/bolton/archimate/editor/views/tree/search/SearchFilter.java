@@ -19,9 +19,9 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDocumentable;
+import uk.ac.bolton.archimate.model.IFolder;
+import uk.ac.bolton.archimate.model.IFolderContainer;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
@@ -41,6 +41,8 @@ public class SearchFilter extends ViewerFilter {
     
     private List<EClass> fObjectFilter = new ArrayList<EClass>();
     private List<String> fPropertiesFilter = new ArrayList<String>();
+    
+    private boolean fShowAllFolders = false;
     
     public SearchFilter(TreeViewer viewer) {
         fViewer = viewer;
@@ -99,75 +101,98 @@ public class SearchFilter extends ViewerFilter {
 
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
-    	if(!isFiltering() || !isFilteredElementType(element)) {
+    	if(!isFiltering()) {
     		return true;
     	}
     	
-    	// EObject Type filter - easy win
-    	if(!fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass())) {
+    	return checkFilter(element);
+    }
+    
+    private boolean checkFilter(Object element) {
+    	if(element instanceof IFolderContainer) {
+    		for(IFolder folder : ((IFolderContainer)element).getFolders()) {
+				if(checkFilter(folder)) {
+					return true;
+				}
+			}
+    	}
+    	
+    	if(element instanceof IFolder) {
+    		for(Object o : ((IFolder)element).getElements()) {
+				if(checkFilter(o)) {
+					return true;
+				}
+			}
+    		
+    		if(fShowAllFolders) {
+    			return true;
+    		}
+    	}
+    	
+    	// EObject Type filter - do this first as the master filter
+    	if(isObjectFiltered(element)) {
     		return false;
     	}
     	
-    	// Properties Key filter - easy win
-    	if(!fPropertiesFilter.isEmpty() && element instanceof IProperties) {
-    		boolean result = false;
+    	boolean textSearchResult = false;
+    	boolean propertyKeyResult = false;
+    	
+    	// Properties Key filter
+    	if(isFilteringPropertyKeys() && element instanceof IProperties) {
     		for(IProperty property : ((IProperties)element).getProperties()) {
     			if(fPropertiesFilter.contains(property.getKey())) {
-    				result = true;
-    				break;
-    			}
-    		}
-    		if(!result) {
-    			return false;
-    		}
-    	}
-
-    	// Now do search text...
-    	if(!hasSearchText()) {
-    		return true;
-    	}
-
-    	// Name
-    	if(fFilterName && element instanceof INameable) {
-    		String name = StringUtils.safeString(((INameable)element).getName());
-    		if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
-    			return true;
-    		}
-    	}
-
-    	// Documentation
-    	if(fFilterDocumentation && element instanceof IDocumentable) {
-    		String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
-    		if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
-    			return true;
-    		}
-    	}
-
-    	// Properties Value
-    	if(!fPropertiesFilter.isEmpty() && element instanceof IProperties) {
-    		for(IProperty property : ((IProperties)element).getProperties()) {
-    			if(fPropertiesFilter.contains(property.getKey())) {
-    				if(property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
-    					return true;
+    				propertyKeyResult = true;
+    				if(hasSearchText() && property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
+    					textSearchResult = true;
     				}
     			}
     		}
     	}
+    	
+    	// If has search Text and no text found yet
+    	if(hasSearchText()) {
+        	// Name...
+        	if(fFilterName && !textSearchResult && element instanceof INameable) {
+        		String name = StringUtils.safeString(((INameable)element).getName());
+        		if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
+        			textSearchResult = true;
+        		}
+        	}
 
-    	return false;
+        	// Then Documentation
+        	if(fFilterDocumentation && !textSearchResult && element instanceof IDocumentable) {
+        		String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
+        		if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
+        			textSearchResult = true;
+        		}
+        	}
+    	}
+
+    	if((hasSearchText())) {
+    		return textSearchResult;
+    	}
+    	
+    	if(isFilteringPropertyKeys()) {
+    		return propertyKeyResult;
+    	}
+    	
+    	return !isObjectFiltered(element);
     }
     
-    private boolean isFilteredElementType(Object element) {
-    	// Don't do IArchimateModel type - too many problems
-    	return element instanceof IArchimateElement || element instanceof IDiagramModel;
+    private boolean isObjectFiltered(Object element) {
+    	return !fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass());
     }
     
-    public boolean isFiltering() {
+    private boolean isFiltering() {
         return hasSearchText() || !fObjectFilter.isEmpty() || !fPropertiesFilter.isEmpty();
     }
     
     private boolean hasSearchText() {
     	return fSearchText.length() > 0;
+    }
+    
+    private boolean isFilteringPropertyKeys() {
+    	return !fPropertiesFilter.isEmpty();
     }
     
     public void setFilterOnName(boolean set) {
@@ -214,6 +239,13 @@ public class SearchFilter extends ViewerFilter {
     public void removePropertiesFilter(String key) {
     	fPropertiesFilter.remove(key);
         refresh();
+    }
+    
+    public void setShowAllFolders(boolean set) {
+    	if(set != fShowAllFolders) {
+    		fShowAllFolders = set;
+    		refresh();
+    	}
     }
     
     void saveState() {

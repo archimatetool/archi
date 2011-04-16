@@ -171,7 +171,17 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
-        IAction action = new Action("Reset Filters") {
+        IAction action = new Action("Show All Folders", IAction.AS_CHECK_BOX) {
+            @Override
+            public void run() {
+            	fSearchFilter.setShowAllFolders(isChecked());
+            }
+        };
+        dropDownAction.add(action);
+        
+        dropDownAction.add(new Separator());
+        
+        action = new Action("Reset Filters") {
             @Override
             public void run() {
             	reset();

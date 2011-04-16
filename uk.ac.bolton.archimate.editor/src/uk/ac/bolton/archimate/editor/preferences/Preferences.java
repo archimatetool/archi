@@ -74,10 +74,6 @@ public class Preferences implements IPreferenceConstants {
         STORE.setValue(LINK_VIEW, val);
     }
     
-    public static boolean doFilterShowEmptyFolders() {
-        return STORE.getBoolean(FILTER_SHOW_EMPTY_FOLDERS);
-    }
-    
     public static boolean doSketchShowBackground() {
         return STORE.getBoolean(SKETCH_SHOW_BACKGROUND);
     }

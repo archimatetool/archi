@@ -44,8 +44,6 @@ implements IPreferenceConstants {
         
         store.setDefault(LINK_VIEW, false);
         
-        store.setDefault(FILTER_SHOW_EMPTY_FOLDERS, false);
-        
         store.setDefault(OPEN_DIAGRAMS_ON_LOAD, false);
         
         store.setDefault(SKETCH_SHOW_BACKGROUND, true);

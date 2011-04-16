@@ -34,7 +34,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public static String HELPID = "uk.ac.bolton.archimate.help.prefsGeneral"; //$NON-NLS-1$
     
     private Button fOpenDiagramsOnLoadButton;
-    private Button fFilterShowEmptyFoldersButton;
     
     private Spinner fMRUSizeSpinner;
     
@@ -70,17 +69,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMRUSizeSpinner.setMinimum(3);
         fMRUSizeSpinner.setMaximum(15);
         
-        Group treeGroup = new Group(client, SWT.NULL);
-        treeGroup.setText("Model Tree");
-        treeGroup.setLayout(new GridLayout(2, false));
-        treeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fFilterShowEmptyFoldersButton = new Button(treeGroup, SWT.CHECK);
-        fFilterShowEmptyFoldersButton.setText("Show empty folders when filtering and searching");
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fFilterShowEmptyFoldersButton.setLayoutData(gd);
-        
         setValues();
         
         return client;
@@ -100,7 +88,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
 
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
-        fFilterShowEmptyFoldersButton.setSelection(getPreferenceStore().getBoolean(FILTER_SHOW_EMPTY_FOLDERS));
     }
     
     private void setSpinnerValues() {
@@ -110,7 +97,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
-        getPreferenceStore().setValue(FILTER_SHOW_EMPTY_FOLDERS, fFilterShowEmptyFoldersButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         return true;
     }
@@ -118,7 +104,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     protected void performDefaults() {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
-        fFilterShowEmptyFoldersButton.setSelection(getPreferenceStore().getDefaultBoolean(FILTER_SHOW_EMPTY_FOLDERS));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         super.performDefaults();
     }
