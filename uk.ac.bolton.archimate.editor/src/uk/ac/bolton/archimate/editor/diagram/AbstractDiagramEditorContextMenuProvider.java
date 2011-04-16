@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -35,6 +35,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
     
     public static final String GROUP_UNDO = "group_undo";
     public static final String GROUP_EDIT = "group_edit";
+    public static final String GROUP_RENAME = "group_rename";
     public static final String GROUP_EXPORT = "group_export";
     public static final String GROUP_ORDER = "group_order";
     public static final String GROUP_POSITION = "group_position";
@@ -84,10 +85,11 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         action = actionRegistry.getAction(ActionFactory.DELETE.getId());
         menu.appendToGroup(GROUP_EDIT, action);
         
-        menu.add(new Separator());
-        action = actionRegistry.getAction(ActionFactory.RENAME.getId());
-        menu.appendToGroup(GROUP_EDIT, action);
+        menu.add(new Separator(GROUP_RENAME));
         
+        action = actionRegistry.getAction(ActionFactory.RENAME.getId());
+        menu.appendToGroup(GROUP_RENAME, action);
+
         menu.add(new Separator(GROUP_EXPORT));
         IMenuManager exportMenu = new MenuManager("Export");
         menu.add(exportMenu);
