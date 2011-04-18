@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
+import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -25,17 +26,6 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
 public class SketchEditPartFactory
 implements EditPartFactory {
     
-    // TODO Convert IDiagramModelConnection.type to integer
-    
-    public static final String CONNECTION_LINE = null;
-    public static final String CONNECTION_ARROW = "1";
-    public static final String CONNECTION_DASHED_ARROW = "2";
-
-    @Deprecated
-    public static final String CONNECTION_ARROW_OLD = "sketch_arrow";
-    @Deprecated
-    public static final String CONNECTION_DASHED_ARROW_OLD = "sketch_dashed_arrow";
-
     public EditPart createEditPart(EditPart context, Object model) {
         EditPart child = null;
         
@@ -67,10 +57,10 @@ implements EditPartFactory {
         else if(model instanceof IDiagramModelConnection) {
             IDiagramModelConnection connection = (IDiagramModelConnection)model;
             String type = connection.getType();
-            if(CONNECTION_ARROW.equals(type) || CONNECTION_ARROW_OLD.equals(type)) {
+            if(DiagramConstants.CONNECTION_ARROW.equals(type) || DiagramConstants.CONNECTION_ARROW_OLD.equals(type)) {
                 child = new ArrowConnectionEditPart();
             }
-            else if(CONNECTION_DASHED_ARROW.equals(type) || CONNECTION_DASHED_ARROW_OLD.equals(type)) {
+            else if(DiagramConstants.CONNECTION_DASHED_ARROW.equals(type) || DiagramConstants.CONNECTION_DASHED_ARROW_OLD.equals(type)) {
                 child = new DashedArrowConnectionEditPart();
             }
             else {

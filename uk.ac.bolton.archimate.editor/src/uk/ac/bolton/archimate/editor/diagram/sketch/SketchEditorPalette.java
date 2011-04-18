@@ -31,7 +31,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFactory;
+import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
@@ -132,19 +132,19 @@ public class SketchEditorPalette extends PaletteRoot {
 
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                SketchEditPartFactory.CONNECTION_LINE,
+                DiagramConstants.CONNECTION_LINE,
                 "Line Connection");
         toolBar.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                SketchEditPartFactory.CONNECTION_ARROW,
+                DiagramConstants.CONNECTION_ARROW,
                 "Arrow Connection");
         toolBar.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                SketchEditPartFactory.CONNECTION_DASHED_ARROW,
+                DiagramConstants.CONNECTION_DASHED_ARROW,
                 "Dashed Connection");
         toolBar.add(entry);
         

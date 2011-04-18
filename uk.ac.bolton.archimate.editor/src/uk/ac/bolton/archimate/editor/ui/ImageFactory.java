@@ -22,7 +22,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import uk.ac.bolton.archimate.editor.Logger;
-import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFactory;
+import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 
@@ -399,10 +399,10 @@ public class ImageFactory {
                 
             // Other connections
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION:
-                if(SketchEditPartFactory.CONNECTION_ARROW.equals(type)) {
+                if(DiagramConstants.CONNECTION_ARROW.equals(type)) {
                     return IArchimateImages.ICON_TRIGGERING_CONNECTION_16;
                 }
-                if(SketchEditPartFactory.CONNECTION_DASHED_ARROW.equals(type)) {
+                if(DiagramConstants.CONNECTION_DASHED_ARROW.equals(type)) {
                     return IArchimateImages.ICON_FLOW_CONNECTION_16;
                 }
                 return IArchimateImages.ICON_ASSOCIATION_CONNECTION_16;
