@@ -12,6 +12,7 @@ import org.eclipse.gef.EditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
