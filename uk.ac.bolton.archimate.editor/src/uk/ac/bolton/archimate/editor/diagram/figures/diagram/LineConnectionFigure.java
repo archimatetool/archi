@@ -6,6 +6,10 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.swt.SWT;
+
+import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
@@ -25,6 +29,24 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
 
     @Override
     protected void setFigureProperties() {
+    }
+    
+    @Override
+    public void refreshVisuals() {
+        super.refreshVisuals();
+
+        String type = getModelConnection().getType();
+        if(DiagramConstants.CONNECTION_DASHED.equals(type)) {
+            setLineStyle(SWT.LINE_CUSTOM);
+            setLineDash(new float[] { 4 });
+        }
+        else if(DiagramConstants.CONNECTION_DOTTED.equals(type)) {
+            setLineStyle(SWT.LINE_CUSTOM);
+            setLineDash(new float[] { 1.5f, 3 });
+        }
+        else {
+            setLineStyle(Graphics.LINE_SOLID);
+        }
     }
     
     @Override

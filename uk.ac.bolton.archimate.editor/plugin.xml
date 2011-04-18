@@ -242,6 +242,15 @@
             </input>
          </propertySection>
          <propertySection
+               afterSection="connectionSection"
+               class="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionLineStyleSection"
+               id="connectionTypeSection"
+               tab="appearance.tab">
+            <input
+                  type="uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart">
+            </input>
+         </propertySection>
+         <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.GroupSection"
                id="groupSection"
                tab="main.tab">
@@ -291,7 +300,7 @@
             </input>
          </propertySection>
          <propertySection
-               afterSection="connectionSection"
+               afterSection="connectionTypeSection"
                class="uk.ac.bolton.archimate.editor.propertysections.FontSection"
                id="fontSection2"
                tab="appearance.tab">
