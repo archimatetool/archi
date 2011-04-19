@@ -9,56 +9,57 @@
 <p>User Properties can be created and managed from the &quot;Properties&quot; tab in the <a href="properties_window.html">Properties Window</a>.</p>
 <p>&nbsp;</p>
 <p class="font12"><strong>The Properties Tab</strong></p>
-<p>This tab allows you to add arbitrary User Properties, or attributes, to an Element, Model or View. For example you may wish to add information such as &quot;Cost&quot;, &quot;Location&quot;, &quot;Duration&quot;, &quot;Time&quot;, &quot;Link&quot; and so on. Properties are stored as key/value pairs. Keys may appear more than once and values are free text. If the value of a Property starts with &quot;http://&quot;, &quot;https://&quot; or &quot;ftp://&quot; it will show in blue to denote a hyperlink. Double-clicking on the table row will open the link in a Browser.</p>
-<p class="caption"><img src="img/properties_user1.png" alt="" width="668" height="267"><br>
+<p>This tab allows you to add arbitrary User Properties, or attributes, to an Element, Model or View. For example you may wish to add information such as &quot;Cost&quot;, &quot;Location&quot;, &quot;Duration&quot;, &quot;Time&quot;, &quot;Link&quot; and so on. Properties are stored as name/value pairs. Properties with the same name may appear more than once in the model or element and values are free text. If the value of a Property starts with &quot;http://&quot;, &quot;https://&quot; or &quot;ftp://&quot; it will show in blue to denote a hyperlink. Double-clicking on the table row will open the link in a Browser.</p>
+<p class="caption"><img src="img/properties_user1.png" alt="" width="694" height="239"><br>
   User Properties</p>
-<p><strong>To add a new User Property entry:</strong></p>
+<p><strong>To Add a New User Property entry:</strong></p>
 <ol>
   <li>Click on the &quot;New&quot; toolbar button to the right of the Properties table, or select &quot;New&quot; from the right-click menu</li>
-  <li>Edit the Property's Key name in the table cell. If there are existing Property Keys you can select one of these instead from the combo box in the cell editor<br>
+  <li>Edit the Property's Name in the table cell. If there are existing Properties used elsewhere in the Model you can select one of these instead from the combo box in the cell editor<br>
     <br>
-    <img src="img/properties_user2.png" width="349" height="267"><br>
+    <img src="img/properties_user2.png" width="376" height="239"><br>
     <br>
   </li>
-  <li>Edit the Property's value in the &quot;Value Cell</li>
+  <li>Edit the Property's value in the &quot;Value&quot; Cell</li>
 </ol>
-<p><strong>To change an existing User Property Key to a new or existing Key:</strong></p>
+<p><strong>To Change an Existing User Property Name to a New or Existing Name:</strong></p>
 <ol>
-  <li>Click on the Property Key cell in the Properties table and  type in the new name</li>
-  <li>If there are existing Property Keys you can select one of these instead from the combo box in the cell editor</li>
+  <li>Click on the Property Name cell in the Properties table and  type in the new name</li>
+  <li>If there are existing Properties used elsewhere in the Model  you can select one of these instead from the combo box in the cell editor</li>
 </ol>
-<p><strong>To remove a Property entry:</strong></p>
+<p><strong>To Remove a Property Entry:</strong></p>
 <ol>
   <li>Select the Property entry or entries you wish to remove</li>
   <li>Click on the &quot;Remove&quot; toolbar button to the right of the Properties table, or select &quot;Remove&quot; from the right-click menu</li>
 </ol>
-<p><strong>To re-order Property entries:</strong></p>
+<p class="boxout"><strong>Note:</strong> Adding a new Property to an Element in the Properties window means that it becomes available as a re-usable Property  for  all elements in the same model that have User Properties. Removing a Property in the Properties window only removes it from the selected Element. If it is used in other Elements it is still available.</p>
+<p><strong>To Re-order Property Entries by Drag and Drop:</strong></p>
 <ol>
   <li>Select the Property entry or entries in the Properties table you wish to re-order</li>
-  <li>Drag and Drop the entries in the in the Properties table</li>
+  <li>Drag and Drop the entries in the in the Properties table to re-arrange them</li>
 </ol>
-<p><strong>To sort the Property keys:</strong></p>
+<p><strong>To Sort the Property Names:</strong></p>
 <ol>
-  <li>Click on the &quot;Key&quot; table column header</li>
-  <li>The Property Keys will be sorted alphabetically</li>
+  <li>Click on the &quot;Name&quot; table column header</li>
+  <li>The Property Names will be sorted alphabetically</li>
 </ol>
-<p><strong>To add a hyperlink Property entry:</strong></p>
+<p><strong>To Add a Hyperlink Property Entry:</strong></p>
 <ol>
   <li>Select the Property entry in the Properties table you wish to use as a hyperlink</li>
-  <li>Edit the value so that it contains a URL that starts with &quot;http://&quot;, &quot;https://&quot; of &quot;ftp://&quot;</li>
+  <li>Edit the value so that it contains a URL that starts with &quot;http://&quot;, &quot;https://&quot; or &quot;ftp://&quot;</li>
   <li>Double-click the Property row to open the link in a Browser</li>
 </ol>
-<p><strong>To add  Property entries using existing Property Keys:</strong></p>
+<p><strong>To Add  New Property Entries using Existing Property Names:</strong></p>
 <ol>
   <li>Click on the &quot;New Multiple...&quot; toolbar button to the right of the Properties table, or select &quot;New Multiple...&quot; from the right-click menu</li>
-  <li>Select the Property Keys you wish to add from the dialog<br>
+  <li>Select the Properties you wish to add from the dialog<br>
     <br>
     <img src="img/properties_user_dialog1.png" width="525" height="347"><br>
     <br>
   </li>
-  <li>Press OK and then edit the Values in the Properties table</li>
+  <li>Press OK and then edit the new Values in the Properties table</li>
 </ol>
-<p><strong>To manage and view existing Property Keys globally:</strong></p>
+<p><strong>To Manage and View User Properties Globally:</strong></p>
 <ol>
   <li>Click on the &quot;Manage&quot; toolbar button to the right of the Properties table, or select &quot;Manage&quot; from the right-click menu</li>
   <li>The &quot;Properties Manager&quot; dialog appears showing all used Property keys in the Model globally and the number of times they have been used:<br>
@@ -66,12 +67,10 @@
     <img src="img/properties_user_dialog2.png" width="525" height="350"><br>
     <br>
   </li>
-  <li>You can Delete Property Keys here. All occurrences of the Property Key and their Values will be deleted from all Elements that use it</li>
-  <li>You can Rename Property Keys by editing the name in the &quot;New Key Name&quot; column. All occurrences of the Property Key will be renamed in all Elements that use it<br>
+  <li>You can Delete Properties here. All occurrences of the Property  and its declared Values will be deleted from all Elements that use it</li>
+  <li>You can Rename Properties by editing the name in the &quot;New  Name&quot; column. All occurrences of the Property Name will be renamed in all Elements that use it<br>
   </li>
 </ol>
-  <p>&nbsp;</p>
-  <p class="boxout"><strong>Note:</strong> Adding a new Property Key means that it becomes available as a re-usable Property Key for  all elements in the same model that have User Properties. Removing a Property Key only removes it from the selected Element. If it is used in other Elements it is still available.</p>
 <p>&nbsp;</p>
 </body>
 </html>
