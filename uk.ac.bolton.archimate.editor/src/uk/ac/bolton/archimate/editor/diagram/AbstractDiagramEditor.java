@@ -779,84 +779,84 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     // -----------------------------------------------------------------------------------------------------------
     
     
-	/**
-	 * Bug 321560 - [Palette] Using GTK, resizing palette does not work well and
-	 * loose keyboard: https://bugs.eclipse.org/bugs/show_bug.cgi?id=321560
-	 * <ul>
-	 * <li>Platform: Linux GTK
-	 * <li>Version: >= 3.5.2
-	 * <p>
-	 * The fix consists in removing the FlyoutComposite#Sash#SashDragManager and
-	 * replacing it with running the FlyoutComposite#ResizeAction. We remove the
-	 * SashDragManager by removing mouse and mouseMove listeners from sash. We
-	 * find the reference to ResizeAction by inspecting the context menu of the
-	 * title part in paletteContainer.
-	 */
+    /**
+     * Bug 321560 - [Palette] Using GTK, resizing palette does not work well and
+     * loose keyboard: https://bugs.eclipse.org/bugs/show_bug.cgi?id=321560
+     * <ul>
+     * <li>Platform: Linux GTK
+     * <li>Version: >= 3.5.2
+     * <p>
+     * The fix consists in removing the FlyoutComposite#Sash#SashDragManager and
+     * replacing it with running the FlyoutComposite#ResizeAction. We remove the
+     * SashDragManager by removing mouse and mouseMove listeners from sash. We
+     * find the reference to ResizeAction by inspecting the context menu of the
+     * title part in paletteContainer.
+     */
     private void fixBug321560() {
-    	if(PlatformUtils.isGTK() && SWT.getVersion() >= 3520) {
-    		try {
-    			final Composite splitter = (Composite)getPrivateFieldValue(this, GraphicalEditorWithFlyoutPalette.class, "splitter");
-    			Control[] children = splitter.getChildren();
-    			Control sash = children[0];
-    			Composite paletteContainer = (Composite)children[1];
+        if(PlatformUtils.isGTK() && SWT.getVersion() >= 3520) {
+            try {
+                final Composite splitter = (Composite)getPrivateFieldValue(this, GraphicalEditorWithFlyoutPalette.class, "splitter");
+                Control[] children = splitter.getChildren();
+                Control sash = children[0];
+                Composite paletteContainer = (Composite)children[1];
 
-    			Control[] paletteChildren = paletteContainer.getChildren();
-    			Control title = paletteChildren[0];
+                Control[] paletteChildren = paletteContainer.getChildren();
+                Control title = paletteChildren[0];
 
-    			Menu contextMenu = title.getMenu();
-    			Listener[] listeners = getListeners(contextMenu, SWT.Show);
+                Menu contextMenu = title.getMenu();
+                Listener[] listeners = getListeners(contextMenu, SWT.Show);
 
-    			Object innerListener = listeners[0];
-    			if(innerListener instanceof TypedListener) {
-    				innerListener = ((TypedListener)innerListener).getEventListener();
-    			}
+                Object innerListener = listeners[0];
+                if(innerListener instanceof TypedListener) {
+                    innerListener = ((TypedListener)innerListener).getEventListener();
+                }
 
-    			IMenuManager mgr = (IMenuManager)getPrivateFieldValue(innerListener, innerListener.getClass(), "this$0");
+                IMenuManager mgr = (IMenuManager)getPrivateFieldValue(innerListener, innerListener.getClass(), "this$0");
 
-    			final IAction resizeAction = ((ActionContributionItem)mgr.getItems()[0]).getAction();
-    			if(resizeAction == null) {
-    				return;
-    			}
+                final IAction resizeAction = ((ActionContributionItem)mgr.getItems()[0]).getAction();
+                if(resizeAction == null) {
+                    return;
+                }
 
-    			// Apply the hack at the very end. This makes sure that the code
-    			// above can fail without side effects:
+                // Apply the hack at the very end. This makes sure that the code
+                // above can fail without side effects:
 
-    			// remove Mouse and MouseMove listeners
-    			removeListeners(sash, SWT.MouseMove);
-    			removeListeners(sash, SWT.MouseUp);
-    			removeListeners(sash, SWT.MouseDown);
-    			removeListeners(sash, SWT.MouseDoubleClick);
+                // remove Mouse and MouseMove listeners
+                removeListeners(sash, SWT.MouseMove);
+                removeListeners(sash, SWT.MouseUp);
+                removeListeners(sash, SWT.MouseDown);
+                removeListeners(sash, SWT.MouseDoubleClick);
 
-    			// Add our own mouseDown listener that runs the ResizeAction
-    			sash.addListener(SWT.MouseDown, new Listener() {
-    				public void handleEvent(Event event) {
-    					if(resizeAction.isEnabled()) {
-    						resizeAction.run();
-    					}
-    				}
-    			});
-    		}
-    		catch(Exception ex) {
-    			ex.printStackTrace();
-    		}
-    	}
+                // Add our own mouseDown listener that runs the ResizeAction
+                sash.addListener(SWT.MouseDown, new Listener() {
+                    public void handleEvent(Event event) {
+                        if(resizeAction.isEnabled()) {
+                            resizeAction.run();
+                        }
+                    }
+                });
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     private Object getPrivateFieldValue(Object object, Class<?> cls, String string) throws Exception {
-    	Field f = cls.getDeclaredField(string);
-    	f.setAccessible(true);
-    	return f.get(object);
+        Field f = cls.getDeclaredField(string);
+        f.setAccessible(true);
+        return f.get(object);
     }
 
     private void removeListeners(Control control, int eventType) throws Exception {
-    	Listener[] listeners = getListeners(control, eventType);
-    	for(int i = 0; i < listeners.length; i++) {
-    		control.removeListener(eventType, listeners[i]);
-    	}
+        Listener[] listeners = getListeners(control, eventType);
+        for(int i = 0; i < listeners.length; i++) {
+            control.removeListener(eventType, listeners[i]);
+        }
     }
 
     private Listener[] getListeners(Widget w, int eventType) throws Exception {
-    	Method method = w.getClass().getMethod("getListeners", int.class);
-    	return (Listener[])method.invoke(w, eventType);
+        Method method = w.getClass().getMethod("getListeners", int.class);
+        return (Listener[])method.invoke(w, eventType);
     }
 }

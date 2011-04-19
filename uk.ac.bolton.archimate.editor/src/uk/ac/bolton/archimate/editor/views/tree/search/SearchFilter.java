@@ -35,37 +35,37 @@ public class SearchFilter extends ViewerFilter {
     private TreeViewer fViewer;
     private String fSearchText = "";
     private TreePath[] fExpanded;
-    
+
     private boolean fFilterName;
     private boolean fFilterDocumentation;
-    
+
     private List<EClass> fObjectFilter = new ArrayList<EClass>();
     private List<String> fPropertiesFilter = new ArrayList<String>();
-    
+
     private boolean fShowAllFolders = false;
-    
+
     public SearchFilter(TreeViewer viewer) {
         fViewer = viewer;
     }
-    
+
     public void setSearchText(String text) {
         // Fresh text, so store expanded state
         if(!isFiltering() && text.length() > 0) {
             saveState();
         }
-        
+
         fSearchText = text;
         refresh();
     }
-    
+
     private void refresh() {
         Display.getCurrent().asyncExec(new Runnable() {
             @Override
             public void run() {
                 fViewer.getTree().setRedraw(false);
-                
+
                 fViewer.refresh();
-                
+
                 // Something to show
                 if(isFiltering()) {
                     fViewer.expandAll();
@@ -78,7 +78,7 @@ public class SearchFilter extends ViewerFilter {
             }
         });
     }
-    
+
     public void clear() {
         if(isFiltering()) {
             restoreState();
@@ -86,133 +86,133 @@ public class SearchFilter extends ViewerFilter {
         fSearchText = "";
         reset();
     }
-    
+
     public void resetFilters() {
-    	reset();
-    	refresh();
+        reset();
+        refresh();
     }
-    
+
     private void reset() {
-    	fFilterName = false;
-    	fFilterDocumentation = false;
-    	fObjectFilter.clear();
-    	fPropertiesFilter.clear();
+        fFilterName = false;
+        fFilterDocumentation = false;
+        fObjectFilter.clear();
+        fPropertiesFilter.clear();
     }
 
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
-    	if(!isFiltering()) {
-    		return true;
-    	}
-    	
-    	return checkFilter(element);
+        if(!isFiltering()) {
+            return true;
+        }
+
+        return checkFilter(element);
     }
-    
+
     private boolean checkFilter(Object element) {
-    	if(element instanceof IFolderContainer) {
-    		for(IFolder folder : ((IFolderContainer)element).getFolders()) {
-				if(checkFilter(folder)) {
-					return true;
-				}
-			}
-    	}
-    	
-    	if(element instanceof IFolder) {
-    		for(Object o : ((IFolder)element).getElements()) {
-				if(checkFilter(o)) {
-					return true;
-				}
-			}
-    		
-    		if(fShowAllFolders) {
-    			return true;
-    		}
-    	}
-    	
-    	// EObject Type filter - do this first as the master filter
-    	if(isObjectFiltered(element)) {
-    		return false;
-    	}
-    	
-    	boolean textSearchResult = false;
-    	boolean propertyKeyResult = false;
-    	
-    	// Properties Key filter
-    	if(isFilteringPropertyKeys() && element instanceof IProperties) {
-    		for(IProperty property : ((IProperties)element).getProperties()) {
-    			if(fPropertiesFilter.contains(property.getKey())) {
-    				propertyKeyResult = true;
-    				if(hasSearchText() && property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
-    					textSearchResult = true;
-    				}
-    			}
-    		}
-    	}
-    	
-    	// If has search Text and no text found yet
-    	if(hasSearchText()) {
-        	// Name...
-        	if(fFilterName && !textSearchResult && element instanceof INameable) {
-        		String name = StringUtils.safeString(((INameable)element).getName());
-        		if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
-        			textSearchResult = true;
-        		}
-        	}
+        if(element instanceof IFolderContainer) {
+            for(IFolder folder : ((IFolderContainer)element).getFolders()) {
+                if(checkFilter(folder)) {
+                    return true;
+                }
+            }
+        }
 
-        	// Then Documentation
-        	if(fFilterDocumentation && !textSearchResult && element instanceof IDocumentable) {
-        		String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
-        		if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
-        			textSearchResult = true;
-        		}
-        	}
-    	}
+        if(element instanceof IFolder) {
+            for(Object o : ((IFolder)element).getElements()) {
+                if(checkFilter(o)) {
+                    return true;
+                }
+            }
 
-    	if((hasSearchText())) {
-    		return textSearchResult;
-    	}
-    	
-    	if(isFilteringPropertyKeys()) {
-    		return propertyKeyResult;
-    	}
-    	
-    	return !isObjectFiltered(element);
+            if(fShowAllFolders) {
+                return true;
+            }
+        }
+
+        // EObject Type filter - do this first as the master filter
+        if(isObjectFiltered(element)) {
+            return false;
+        }
+
+        boolean textSearchResult = false;
+        boolean propertyKeyResult = false;
+
+        // Properties Key filter
+        if(isFilteringPropertyKeys() && element instanceof IProperties) {
+            for(IProperty property : ((IProperties)element).getProperties()) {
+                if(fPropertiesFilter.contains(property.getKey())) {
+                    propertyKeyResult = true;
+                    if(hasSearchText() && property.getValue().toLowerCase().contains(fSearchText.toLowerCase())) {
+                        textSearchResult = true;
+                    }
+                }
+            }
+        }
+
+        // If has search Text and no text found yet
+        if(hasSearchText()) {
+            // Name...
+            if(fFilterName && !textSearchResult && element instanceof INameable) {
+                String name = StringUtils.safeString(((INameable)element).getName());
+                if(name.toLowerCase().contains(fSearchText.toLowerCase())) {
+                    textSearchResult = true;
+                }
+            }
+
+            // Then Documentation
+            if(fFilterDocumentation && !textSearchResult && element instanceof IDocumentable) {
+                String text = StringUtils.safeString(((IDocumentable)element).getDocumentation());
+                if(text.toLowerCase().contains(fSearchText.toLowerCase())) {
+                    textSearchResult = true;
+                }
+            }
+        }
+
+        if((hasSearchText())) {
+            return textSearchResult;
+        }
+
+        if(isFilteringPropertyKeys()) {
+            return propertyKeyResult;
+        }
+
+        return !isObjectFiltered(element);
     }
-    
+
     private boolean isObjectFiltered(Object element) {
-    	return !fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass());
+        return !fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass());
     }
-    
+
     private boolean isFiltering() {
         return hasSearchText() || !fObjectFilter.isEmpty() || !fPropertiesFilter.isEmpty();
     }
-    
+
     private boolean hasSearchText() {
-    	return fSearchText.length() > 0;
+        return fSearchText.length() > 0;
     }
-    
+
     private boolean isFilteringPropertyKeys() {
-    	return !fPropertiesFilter.isEmpty();
+        return !fPropertiesFilter.isEmpty();
     }
-    
+
     public void setFilterOnName(boolean set) {
-    	if(fFilterName != set) {
-    		fFilterName = set;
-    		if(isFiltering()) {
+        if(fFilterName != set) {
+            fFilterName = set;
+            if(isFiltering()) {
                 refresh();
             }
-    	}
+        }
     }
-    
+
     public void setFilterOnDocumentation(boolean set) {
-    	if(fFilterDocumentation != set) {
-    		fFilterDocumentation = set;
-    		if(isFiltering()) {
+        if(fFilterDocumentation != set) {
+            fFilterDocumentation = set;
+            if(isFiltering()) {
                 refresh();
             }
-    	}
+        }
     }
-    
+
     public void addObjectFilter(EClass eClass) {
         // Fresh filter
         if(!isFiltering()) {
@@ -221,12 +221,12 @@ public class SearchFilter extends ViewerFilter {
         fObjectFilter.add(eClass);
         refresh();
     }
-    
+
     public void removeObjectFilter(EClass eClass) {
         fObjectFilter.remove(eClass);
         refresh();
     }
-    
+
     public void addPropertiesFilter(String key) {
         // Fresh filter
         if(!isFiltering()) {
@@ -235,23 +235,23 @@ public class SearchFilter extends ViewerFilter {
         fPropertiesFilter.add(key);
         refresh();
     }
-    
+
     public void removePropertiesFilter(String key) {
-    	fPropertiesFilter.remove(key);
+        fPropertiesFilter.remove(key);
         refresh();
     }
-    
+
     public void setShowAllFolders(boolean set) {
-    	if(set != fShowAllFolders) {
-    		fShowAllFolders = set;
-    		refresh();
-    	}
+        if(set != fShowAllFolders) {
+            fShowAllFolders = set;
+            refresh();
+        }
     }
-    
+
     void saveState() {
         fExpanded = fViewer.getExpandedTreePaths();
     }
-    
+
     void restoreState() {
         IStructuredSelection selection = (IStructuredSelection)fViewer.getSelection(); // first
         if(fExpanded != null) {

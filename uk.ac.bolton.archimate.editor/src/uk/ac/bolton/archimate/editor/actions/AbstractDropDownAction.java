@@ -70,9 +70,9 @@ public abstract class AbstractDropDownAction extends Action implements IMenuCrea
      * @param control
      */
     public void showMenu(Control control) {
-    	Menu menu = getMenu(control);
-    	Point point = control.toDisplay(new Point(0, control.getBounds().height));
-    	menu.setLocation(point);
+        Menu menu = getMenu(control);
+        Point point = control.toDisplay(new Point(0, control.getBounds().height));
+        menu.setLocation(point);
         menu.setVisible(true);
     }
     

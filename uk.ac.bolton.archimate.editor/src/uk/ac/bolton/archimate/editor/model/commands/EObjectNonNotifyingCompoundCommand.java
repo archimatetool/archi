@@ -21,41 +21,41 @@ import org.eclipse.gef.commands.CompoundCommand;
  */
 public class EObjectNonNotifyingCompoundCommand extends CompoundCommand {
 
-	public static final int START = 999;
-	public static final int END = 1000;
+    public static final int START = 999;
+    public static final int END = 1000;
 
-	protected EObject eObject;
-	protected Notification msgStart, msgEnd;
+    protected EObject eObject;
+    protected Notification msgStart, msgEnd;
 
-	public EObjectNonNotifyingCompoundCommand(EObject eObject) {
-		this(eObject, null);
-	}
+    public EObjectNonNotifyingCompoundCommand(EObject eObject) {
+        this(eObject, null);
+    }
 
-	public EObjectNonNotifyingCompoundCommand(EObject eObject, String label) {
-		super(label);
-		this.eObject = eObject;
-		msgStart = new NotificationImpl(START, null, eObject);
-		msgEnd = new NotificationImpl(END, null, eObject);
-	}
+    public EObjectNonNotifyingCompoundCommand(EObject eObject, String label) {
+        super(label);
+        this.eObject = eObject;
+        msgStart = new NotificationImpl(START, null, eObject);
+        msgEnd = new NotificationImpl(END, null, eObject);
+    }
 
-	@Override
-	public void execute() {
-		eObject.eNotify(msgStart);
-		super.execute();
-		eObject.eNotify(msgEnd);
-	}
+    @Override
+    public void execute() {
+        eObject.eNotify(msgStart);
+        super.execute();
+        eObject.eNotify(msgEnd);
+    }
 
-	@Override
-	public void undo() {
-		eObject.eNotify(msgStart);
-		super.undo();
-		eObject.eNotify(msgEnd);
-	}
+    @Override
+    public void undo() {
+        eObject.eNotify(msgStart);
+        super.undo();
+        eObject.eNotify(msgEnd);
+    }
 
-	@Override
-	public void redo() {
-		eObject.eNotify(msgStart);
-		super.redo();
-		eObject.eNotify(msgEnd);
-	}
+    @Override
+    public void redo() {
+        eObject.eNotify(msgStart);
+        super.redo();
+        eObject.eNotify(msgEnd);
+    }
 }

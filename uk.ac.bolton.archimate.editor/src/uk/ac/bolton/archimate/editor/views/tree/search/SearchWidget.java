@@ -193,22 +193,22 @@ public class SearchWidget extends Composite {
     }
     
     private void reset() {
-    	// Clear Documentation
-    	fActionFilterDoc.setChecked(false);
+        // Clear Documentation
+        fActionFilterDoc.setChecked(false);
 
-    	// Clear Objects
-    	for(IAction action : fObjectActions) {
-    		action.setChecked(false);
-    	}
+        // Clear Objects
+        for(IAction action : fObjectActions) {
+            action.setChecked(false);
+        }
 
-    	// Clear & Reset Properties sub-menus
-    	fPropertiesMenu.removeAll();
-    	populatePropertiesMenu(fPropertiesMenu);
+        // Clear & Reset Properties sub-menus
+        fPropertiesMenu.removeAll();
+        populatePropertiesMenu(fPropertiesMenu);
 
-    	fSearchFilter.resetFilters();
-    	
-    	// Default to search on Name
-    	fActionFilterName.setChecked(true);
+        fSearchFilter.resetFilters();
+
+        // Default to search on Name
+        fActionFilterName.setChecked(true);
         fSearchFilter.setFilterOnName(true);
     }
 
@@ -231,32 +231,32 @@ public class SearchWidget extends Composite {
     }
 
 	private void populatePropertiesMenu(MenuManager propertiesMenu) {
-		// Models that are loaded are the ones in the Models Tree
-		List<String> list = new ArrayList<String>();
-		
-		for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
-			getAllUniquePropertyKeysForModel(model, list);
-		}
-		
-		for(final String key : list) {
-			IAction action = new Action(key, IAction.AS_CHECK_BOX) {
+	    // Models that are loaded are the ones in the Models Tree
+	    List<String> list = new ArrayList<String>();
+
+	    for(IArchimateModel model : IEditorModelManager.INSTANCE.getModels()) {
+	        getAllUniquePropertyKeysForModel(model, list);
+	    }
+
+	    for(final String key : list) {
+	        IAction action = new Action(key, IAction.AS_CHECK_BOX) {
 	            @Override
 	            public void run() {
 	                if(isChecked()) {
-	                	fSearchFilter.addPropertiesFilter(key);
+	                    fSearchFilter.addPropertiesFilter(key);
 	                }
 	                else {
-	                	fSearchFilter.removePropertiesFilter(key);
+	                    fSearchFilter.removePropertiesFilter(key);
 	                }
 	            }
 	        };
-	        
+
 	        propertiesMenu.add(action);
-		}
-		
-		propertiesMenu.update(true);
+	    }
+
+	    propertiesMenu.update(true);
 	}
-	
+
     private void getAllUniquePropertyKeysForModel(IArchimateModel model, List<String> list) {
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();

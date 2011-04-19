@@ -334,33 +334,33 @@ public class HTMLReportExporter implements IModelExporter {
         // Sort a *copy* of the List
         List<IDiagramModel> copy = new ArrayList<IDiagramModel>(fModel.getDiagramModels());
         sort(copy);
-        
+
         Hashtable<IDiagramModel, String> table = saveDiagrams(copy);
-        
+
         writer.write("<br/><br/><br/>\n");
         writer.write("<h2>" + "Views" + "</h2>\n");
-        
+
         for(IDiagramModel dm : copy) {
-        	writer.write("<table width=\"100%\" border=\"0\">\n");
-        	
-        	writer.write("<tr bgcolor=\"" + "#e0e4e6" + "\">\n");
+            writer.write("<table width=\"100%\" border=\"0\">\n");
+
+            writer.write("<tr bgcolor=\"" + "#e0e4e6" + "\">\n");
             String name = StringUtils.safeString(dm.getName());
             name = parseChars(name);
             writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
             writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
             writer.write("</tr>\n");
-            
+
             writer.write("<tr>\n");
             String doc = StringUtils.safeString(dm.getDocumentation());
             doc = parseCharsAndLinks(doc);
             writer.write("<td valign=\"top\">Documentation</td>\n");
             writer.write("<td valign=\"top\">" + doc + "</td>\n");
             writer.write("</tr>\n");
-            
+
             writeProperties(dm);
-        	
-        	writer.write("</table>\n");
-        	
+
+            writer.write("</table>\n");
+
             writer.write("<img src=\"" + table.get(dm) + "\"" + "/>\n");
             writer.write("<br/><br/><br/><br/>\n");
         }

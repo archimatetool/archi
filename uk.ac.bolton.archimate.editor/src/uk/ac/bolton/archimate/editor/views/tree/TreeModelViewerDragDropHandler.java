@@ -143,14 +143,14 @@ public class TreeModelViewerDragDropHandler {
      * Do it at the start of the drag operation.
      */
     private void setIsValidTreeSelection(IStructuredSelection selection) {
-    	fIsValidTreeSelection = true;
+        fIsValidTreeSelection = true;
         
         IArchimateModel model = null;
         
         for(Object object : selection.toArray()) {
             // Can't drag Models
             if(object instanceof IArchimateModel) {
-            	fIsValidTreeSelection = false;
+                fIsValidTreeSelection = false;
                 break;
             }
             // Can only drag user folders
@@ -162,7 +162,7 @@ public class TreeModelViewerDragDropHandler {
             if(object instanceof IArchimateModelElement) {
                 IArchimateModel m = ((IArchimateModelElement)object).getArchimateModel();
                 if(model != null && m != model) {
-                	fIsValidTreeSelection = false;
+                    fIsValidTreeSelection = false;
                     break;
                 }
                 model = m;
@@ -175,10 +175,10 @@ public class TreeModelViewerDragDropHandler {
     }
 
     private boolean isValidFileSelection(DropTargetEvent event) {
-		return isFileDragOperation(event.currentDataType);
-	}
+        return isFileDragOperation(event.currentDataType);
+    }
 
-	private void doDropOperation(DropTargetEvent event) {
+    private void doDropOperation(DropTargetEvent event) {
         //boolean move = event.detail == DND.DROP_MOVE;
         
         // Local
@@ -249,17 +249,17 @@ public class TreeModelViewerDragDropHandler {
          * Bug in Mac Carbon introduced in Eclipse 3.6.1 - http://bugs.eclipse.org/bugs/show_bug.cgi?id=341895
          * Refreshing a tree after DND causes NPE unless we put this on a thread
          */
-    	if(PlatformUtils.isMacCarbon()) {
-    		Display.getCurrent().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					stack.execute(compoundCommand);
-				}
-			});
-    	}
-    	else {
-    		stack.execute(compoundCommand);
-    	}
+        if(PlatformUtils.isMacCarbon()) {
+            Display.getCurrent().asyncExec(new Runnable() {
+                @Override
+                public void run() {
+                    stack.execute(compoundCommand);
+                }
+            });
+        }
+        else {
+            stack.execute(compoundCommand);
+        }
     }
     
     /**
