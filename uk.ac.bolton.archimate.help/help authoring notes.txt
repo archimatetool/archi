@@ -10,7 +10,7 @@ Edit the source HTML files
 * Edit "front.html" for the Archi version number
 * Ensure "files.list" for the list of files that will be concatenated is up to date
 * Ensure "contexts.xml" is up to date
-* Ensure "toc.xml" is up to date and corresponds to "files.list
+* Ensure "toc.xml" is up to date and corresponds to "files.list"
 
 
 Create one monolithic HTML file to import into MS Word
