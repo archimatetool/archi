@@ -26,10 +26,13 @@ import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IFolderContainer;
 import uk.ac.bolton.archimate.model.IIdentifier;
 import uk.ac.bolton.archimate.model.INameable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,6 +45,8 @@ import uk.ac.bolton.archimate.model.INameable;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getFolders <em>Folders</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getName <em>Name</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getId <em>Id</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getProperties <em>Properties</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getElements <em>Elements</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.Folder#getType <em>Type</em>}</li>
  * </ul>
@@ -95,6 +100,33 @@ public class Folder extends EObjectImpl implements IFolder {
      * @ordered
      */
     protected String id = ID_EDEFAULT;
+    /**
+     * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected static final String DOCUMENTATION_EDEFAULT = ""; //$NON-NLS-1$
+    /**
+     * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected String documentation = DOCUMENTATION_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
     /**
      * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -195,6 +227,39 @@ public class Folder extends EObjectImpl implements IFolder {
      * <!-- end-user-doc -->
      * @generated
      */
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDocumentation(String newDocumentation) {
+        String oldDocumentation = documentation;
+        documentation = newDocumentation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.FOLDER__DOCUMENTATION, oldDocumentation, documentation));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.FOLDER__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EList<EObject> getElements() {
         if (elements == null) {
             elements = new EObjectContainmentEList<EObject>(EObject.class, this, IArchimatePackage.FOLDER__ELEMENTS);
@@ -279,6 +344,8 @@ public class Folder extends EObjectImpl implements IFolder {
         switch (featureID) {
             case IArchimatePackage.FOLDER__FOLDERS:
                 return ((InternalEList<?>)getFolders()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.FOLDER__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.FOLDER__ELEMENTS:
                 return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
         }
@@ -301,6 +368,10 @@ public class Folder extends EObjectImpl implements IFolder {
                 return getName();
             case IArchimatePackage.FOLDER__ID:
                 return getId();
+            case IArchimatePackage.FOLDER__DOCUMENTATION:
+                return getDocumentation();
+            case IArchimatePackage.FOLDER__PROPERTIES:
+                return getProperties();
             case IArchimatePackage.FOLDER__ELEMENTS:
                 return getElements();
             case IArchimatePackage.FOLDER__TYPE:
@@ -327,6 +398,13 @@ public class Folder extends EObjectImpl implements IFolder {
                 return;
             case IArchimatePackage.FOLDER__ID:
                 setId((String)newValue);
+                return;
+            case IArchimatePackage.FOLDER__DOCUMENTATION:
+                setDocumentation((String)newValue);
+                return;
+            case IArchimatePackage.FOLDER__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
             case IArchimatePackage.FOLDER__ELEMENTS:
                 getElements().clear();
@@ -356,6 +434,12 @@ public class Folder extends EObjectImpl implements IFolder {
             case IArchimatePackage.FOLDER__ID:
                 setId(ID_EDEFAULT);
                 return;
+            case IArchimatePackage.FOLDER__DOCUMENTATION:
+                setDocumentation(DOCUMENTATION_EDEFAULT);
+                return;
+            case IArchimatePackage.FOLDER__PROPERTIES:
+                getProperties().clear();
+                return;
             case IArchimatePackage.FOLDER__ELEMENTS:
                 getElements().clear();
                 return;
@@ -382,6 +466,10 @@ public class Folder extends EObjectImpl implements IFolder {
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.FOLDER__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case IArchimatePackage.FOLDER__DOCUMENTATION:
+                return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+            case IArchimatePackage.FOLDER__PROPERTIES:
+                return properties != null && !properties.isEmpty();
             case IArchimatePackage.FOLDER__ELEMENTS:
                 return elements != null && !elements.isEmpty();
             case IArchimatePackage.FOLDER__TYPE:
@@ -415,6 +503,18 @@ public class Folder extends EObjectImpl implements IFolder {
                 default: return -1;
             }
         }
+        if (baseClass == IDocumentable.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.FOLDER__DOCUMENTATION: return IArchimatePackage.DOCUMENTABLE__DOCUMENTATION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.FOLDER__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -443,6 +543,18 @@ public class Folder extends EObjectImpl implements IFolder {
                 default: return -1;
             }
         }
+        if (baseClass == IDocumentable.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.FOLDER__DOCUMENTATION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.FOLDER__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -460,6 +572,8 @@ public class Folder extends EObjectImpl implements IFolder {
         result.append(name);
         result.append(", id: "); //$NON-NLS-1$
         result.append(id);
+        result.append(", documentation: "); //$NON-NLS-1$
+        result.append(documentation);
         result.append(", type: "); //$NON-NLS-1$
         result.append(type);
         result.append(')');

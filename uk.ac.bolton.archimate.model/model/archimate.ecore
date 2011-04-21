@@ -78,7 +78,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="archimateModel" eType="#//ArchimateModel"
         changeable="false" volatile="true" transient="true" resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelElement #//FolderContainer #//Nameable #//Identifier">
+  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelElement #//FolderContainer #//Nameable #//Identifier #//Documentable #//Properties">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"
         resolveProxies="false"/>

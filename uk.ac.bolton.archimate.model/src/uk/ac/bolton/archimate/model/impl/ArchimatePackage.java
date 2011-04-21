@@ -2185,6 +2185,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         folderEClass.getESuperTypes().add(this.getFolderContainer());
         folderEClass.getESuperTypes().add(this.getNameable());
         folderEClass.getESuperTypes().add(this.getIdentifier());
+        folderEClass.getESuperTypes().add(this.getDocumentable());
+        folderEClass.getESuperTypes().add(this.getProperties());
         archimateElementEClass.getESuperTypes().add(this.getArchimateModelElement());
         archimateElementEClass.getESuperTypes().add(this.getIdentifier());
         archimateElementEClass.getESuperTypes().add(this.getCloneable());

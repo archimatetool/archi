@@ -246,6 +246,8 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseFolderContainer(folder);
                 if (result == null) result = caseNameable(folder);
                 if (result == null) result = caseIdentifier(folder);
+                if (result == null) result = caseDocumentable(folder);
+                if (result == null) result = caseProperties(folder);
                 if (result == null) result = caseAdapter(folder);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
