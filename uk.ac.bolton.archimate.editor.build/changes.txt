@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 1.7 April 20 2011
+Version 1.7 April XX 2011
 -------------------------
 + Can now add User Properties to Elements
 + Search/Filter on Model Tree can search on User Properties
@@ -22,6 +22,7 @@ Version 1.7 April 20 2011
 + A View figure's text control can also be edited with a single-click when it is selected
 + The Magic Connector cursor is now more magical
 + Links in Documentation for elements are now saved as links in HTML Report
++ Added the "Documentation" text field to Folders
 + The Java version shipped with the Windows installer is now version 1.6.0_24
 + Built on Eclipse 3.6.2 RCP
 * Fixed palette not resizing and consequent loss of keyboard input on Linux

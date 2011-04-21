@@ -34,10 +34,14 @@ public class FolderSection extends AbstractArchimatePropertySection {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Folder Name event (Undo/Redo and here!)
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refresh();
+            // Folder Name event (Undo/Redo and here)
+            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME ) {
+                refreshNameField();
                 fPage.labelProviderChanged(null); // Update Main label
+            }
+            // Folder Documentation event (Undo/Redo and here)
+            else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
+                refreshDocumentationField();
             }
         }
     };
@@ -46,10 +50,12 @@ public class FolderSection extends AbstractArchimatePropertySection {
     private IFolder fFolder;
     
     private PropertySectionTextControl fTextName;
+    private PropertySectionTextControl fTextDocumentation;
     
     @Override
     protected void createControls(Composite parent) {
         fTextName = createNameControl(parent, "Add a name for this folder here");
+        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this folder here");
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -67,15 +73,20 @@ public class FolderSection extends AbstractArchimatePropertySection {
     
     @Override
     public void refresh() {
-        if(fFolder == null) {
-            return;
-        }
-        
         // Populate fields...
-        fTextName.getTextControl().setEnabled(fFolder.getType() == FolderType.USER);
+        refreshNameField();
+        refreshDocumentationField();
+    }
+    
+    protected void refreshNameField() {
+        fTextName.getTextControl().setEnabled(fFolder != null && fFolder.getType() == FolderType.USER);
         fTextName.refresh(fFolder);
     }
     
+    protected void refreshDocumentationField() {
+        fTextDocumentation.refresh(fFolder);
+    }
+
     @Override
     protected Adapter getECoreAdapter() {
         return eAdapter;
@@ -85,4 +96,10 @@ public class FolderSection extends AbstractArchimatePropertySection {
     protected EObject getEObject() {
         return fFolder;
     }
+    
+    @Override
+    public boolean shouldUseExtraSpace() {
+        return true;
+    }
+
 }
