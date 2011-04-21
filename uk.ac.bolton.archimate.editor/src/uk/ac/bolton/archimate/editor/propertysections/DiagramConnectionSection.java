@@ -43,11 +43,15 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Model event (Undo/Redo and here!)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT ||
-                    feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION ||
-                    feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH) {
-                refresh();
+            // Model event (Undo/Redo and here)
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT) {
+                refreshTextField();
+            }
+            else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
+                refreshTextPositionCombo();
+            }
+            else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH) {
+                refreshLineWidthCombo();
             }
         }
     };
@@ -149,21 +153,31 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     
     @Override
     public void refresh() {
-        if(fConnection == null) {
-            return;
-        }
-        
         // Populate fields...
-        fIsUpdating = true;
-
-        int pos = fConnection.getTextPosition();
-        fComboTextPosition.select(pos);
-
-        int lineWidth = fConnection.getLineWidth();
-        fComboLineWidth.select(lineWidth - 1);
-        
-        fIsUpdating = false;
-        
+        refreshTextPositionCombo();
+        refreshLineWidthCombo();
+        refreshTextField();
+    }
+    
+    protected void refreshTextPositionCombo() {
+        if(fConnection != null) {
+            fIsUpdating = true;
+            int pos = fConnection.getTextPosition();
+            fComboTextPosition.select(pos);
+            fIsUpdating = false;
+        }
+    }
+    
+    protected void refreshLineWidthCombo() {
+        if(fConnection != null) {
+            fIsUpdating = true;
+            int lineWidth = fConnection.getLineWidth();
+            fComboLineWidth.select(lineWidth - 1);
+            fIsUpdating = false;
+        }
+    }
+    
+    protected void refreshTextField() {
         fTextConnection.refresh(fConnection);
     }
     

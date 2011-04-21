@@ -33,14 +33,14 @@ public class SketchElementSection extends AbstractArchimatePropertySection {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Model Name event (Undo/Redo and here!)
+            // Model Name event (Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refresh();
+                refreshNameField();
                 fPage.labelProviderChanged(null); // Update Main label
             }
-            // Element Documentation event (Undo/Redo and here!)
+            // Element Documentation event (Undo/Redo and here)
             else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
-                refresh();
+                refreshDocumentationField();
             }
         }
     };
@@ -73,10 +73,18 @@ public class SketchElementSection extends AbstractArchimatePropertySection {
     @Override
     public void refresh() {
         // Populate fields...
-        fTextName.refresh(fEObject);
-        fTextDocumentation.refresh(fEObject);
+        refreshNameField();
+        refreshDocumentationField();
     }
     
+    protected void refreshNameField() {
+        fTextName.refresh(fEObject);
+    }
+    
+    protected void refreshDocumentationField() {
+        fTextDocumentation.refresh(fEObject);
+    }
+
     @Override
     protected Adapter getECoreAdapter() {
         return eAdapter;

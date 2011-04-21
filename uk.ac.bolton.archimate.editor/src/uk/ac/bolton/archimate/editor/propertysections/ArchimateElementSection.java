@@ -48,14 +48,14 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Element Name event (Undo/Redo and here!)
+            // Element Name event (Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refresh();
+                refreshNameField();
                 fPage.labelProviderChanged(null); // Update Main label
             }
-            // Element Documentation event (Undo/Redo and here!)
+            // Element Documentation event (Undo/Redo and here)
             else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
-                refresh();
+                refreshDocumentationField();
             }
         }
     };
@@ -92,7 +92,15 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
     @Override
     public void refresh() {
         // Populate fields...
+        refreshNameField();
+        refreshDocumentationField();
+    }
+    
+    protected void refreshNameField() {
         fTextName.refresh(fArchimateElement);
+    }
+    
+    protected void refreshDocumentationField() {
         fTextDocumentation.refresh(fArchimateElement);
     }
 

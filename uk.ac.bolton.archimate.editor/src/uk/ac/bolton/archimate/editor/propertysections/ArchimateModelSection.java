@@ -41,16 +41,16 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Model Name event (Undo/Redo and here!)
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refresh();
+                refreshNameField();
                 fPage.labelProviderChanged(null); // Update Main label
             }
             // Model File
             else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__FILE) {
-                refresh();
+                refreshFileField();
             }
             // Model Purpose event (Undo/Redo and here!)
             else if(feature == IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE) {
-                refresh();
+                refreshPurposeField();
             }
         }
     };
@@ -116,8 +116,16 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
         }
         
         // Populate fields...
+        refreshNameField();
+        refreshFileField();
+        refreshPurposeField();
+    }
+    
+    protected void refreshNameField() {
         fTextName.refresh(fModel);
-        
+    }
+    
+    protected void refreshFileField() {
         File file = fModel.getFile();
         if(file != null) {
             fTextFile.setText(file.getAbsolutePath());
@@ -125,7 +133,9 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
         else{
             fTextFile.setText("(not saved)");
         }
-        
+    }
+    
+    protected void refreshPurposeField() {
         fTextPurpose.refresh(fModel);
     }
 
