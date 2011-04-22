@@ -264,8 +264,8 @@ public class HTMLReportExporter implements IModelExporter {
         else {
         	name = parseChars(name);
         }
-        writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
-        writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
+        writer.write("<td width=\"20%\" valign=\"top\">Name</td>\n");
+        writer.write("<td width=\"80%\" valign=\"top\">" + name + "</td>\n");
         writer.write("</tr>\n");
         
         writer.write("<tr>\n");
@@ -293,8 +293,8 @@ public class HTMLReportExporter implements IModelExporter {
     	writer.write("<tr bgcolor=\"" + color + "\">\n");
         String name = StringUtils.safeString(element.getName());
         name = parseChars(name);
-        writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
-        writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
+        writer.write("<td width=\"20%\" valign=\"top\">Name</td>\n");
+        writer.write("<td width=\"80%\" valign=\"top\">" + name + "</td>\n");
         writer.write("</tr>\n");
         
         writer.write("<tr>\n");
@@ -346,8 +346,8 @@ public class HTMLReportExporter implements IModelExporter {
             writer.write("<tr bgcolor=\"" + "#e0e4e6" + "\">\n");
             String name = StringUtils.safeString(dm.getName());
             name = parseChars(name);
-            writer.write("<td width=\"20% valign=\"top\">Name</td>\n");
-            writer.write("<td width=\"80% valign=\"top\">" + name + "</td>\n");
+            writer.write("<td width=\"20%\" valign=\"top\">Name</td>\n");
+            writer.write("<td width=\"80%\" valign=\"top\">" + name + "</td>\n");
             writer.write("</tr>\n");
 
             writer.write("<tr>\n");
