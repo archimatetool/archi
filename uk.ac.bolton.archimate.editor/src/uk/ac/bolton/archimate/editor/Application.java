@@ -6,7 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -16,8 +15,6 @@ import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 
@@ -34,9 +31,6 @@ implements IApplication {
      */
     public static String ID = ArchimateEditorPlugin.PLUGIN_ID + ".app"; //$NON-NLS-1$
     
-    public static File WORKSPACE_FOLDER = new File(PlatformUtils.getApplicationDataFolder(),
-                                                   "ArchiMate Modeller");
-
 	/**
 	 * Constructor
 	 */
