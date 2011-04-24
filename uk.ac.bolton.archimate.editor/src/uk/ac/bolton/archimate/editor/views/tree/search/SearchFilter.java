@@ -105,13 +105,19 @@ public class SearchFilter extends ViewerFilter {
             return true;
         }
 
-        return checkFilter(element);
+        return isElementVisible(parentElement, element);
     }
 
-    private boolean checkFilter(Object element) {
+    /**
+     * Query whether element is to be shown (or any children) when filtering
+     * This will also query child elements of element if it's a container
+     * @param element Any element including containers
+     * @return
+     */
+    public boolean isElementVisible(Object parentElement, Object element) {
         if(element instanceof IFolderContainer) {
             for(IFolder folder : ((IFolderContainer)element).getFolders()) {
-                if(checkFilter(folder)) {
+                if(isElementVisible(parentElement, folder)) {
                     return true;
                 }
             }
@@ -119,7 +125,7 @@ public class SearchFilter extends ViewerFilter {
 
         if(element instanceof IFolder) {
             for(Object o : ((IFolder)element).getElements()) {
-                if(checkFilter(o)) {
+                if(isElementVisible(parentElement, o)) {
                     return true;
                 }
             }
@@ -128,7 +134,16 @@ public class SearchFilter extends ViewerFilter {
                 return true;
             }
         }
-
+        
+        return matchesFilter(element);
+    }
+    
+    /**
+     * Query whether element matches filter criteria when filtering on node/leaf elements
+     * @param element Any element, children will not be queried.
+     * @return
+     */
+    public boolean matchesFilter(Object element) {
         // EObject Type filter - do this first as the master filter
         if(isObjectFiltered(element)) {
             return false;
@@ -183,7 +198,7 @@ public class SearchFilter extends ViewerFilter {
         return !fObjectFilter.isEmpty() && !fObjectFilter.contains(((EObject)element).eClass());
     }
 
-    private boolean isFiltering() {
+    public boolean isFiltering() {
         return hasSearchText() || !fObjectFilter.isEmpty() || !fPropertiesFilter.isEmpty();
     }
 

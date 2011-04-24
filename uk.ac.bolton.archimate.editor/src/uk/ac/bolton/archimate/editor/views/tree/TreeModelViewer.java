@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -27,6 +28,7 @@ import org.eclipse.swt.widgets.Widget;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.views.tree.search.SearchFilter;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -146,6 +148,19 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
+     * @return The Search Filter or null if not filtering
+     */
+    protected SearchFilter getSearchFilter() {
+        for(ViewerFilter filter : getFilters()) {
+            if(filter instanceof SearchFilter) {
+                return (SearchFilter)filter;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
      *  Content Provider
      */
     private class ModelTreeViewerContentProvider implements ITreeContentProvider {
@@ -200,6 +215,7 @@ public class TreeModelViewer extends TreeViewer {
      */
     private class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider {
         Font fontItalic = JFaceResources.getFontRegistry().getItalic("");
+        Font fontBold = JFaceResources.getFontRegistry().getBold("");
         
         @Override
         public String getText(Object element) {
@@ -235,6 +251,11 @@ public class TreeModelViewer extends TreeViewer {
         }
         
         public Font getFont(Object element) {
+            SearchFilter filter = getSearchFilter();
+            if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
+                return fontBold;
+            }
+            
             if(element instanceof IArchimateElement) {
                 if(!DiagramModelUtils.isElementReferencedInDiagrams((IArchimateElement)element)) {
                     return fontItalic;
