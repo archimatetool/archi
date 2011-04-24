@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -16,7 +17,6 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
@@ -247,16 +247,38 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
     }
     
     /**
+     * Create Composite control to hold a Table control with UpdatingTableColumnLayout
      * @param parent
-     * @return Table
+     * @param style
+     * @return Composite control
      */
-    protected Table createTable(Composite parent, int style) {
-        Table table = getWidgetFactory().createTable(parent, style | SWT.BORDER | SWT.FULL_SELECTION);
-        GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-        // This ensures a minumum and equal size
+    protected Composite createTableComposite(Composite parent, int style) {
+        Composite tableComp = new Composite(parent, style);
+        
+        // This ensures a minumum and equal size and no horizontal size creep
+        GridData gd = new GridData(GridData.FILL_BOTH);
         gd.widthHint = 100;
         gd.heightHint = 50;
-        table.setLayoutData(gd);
-        return table;
+        tableComp.setLayoutData(gd);
+
+        tableComp.setLayout(new UpdatingTableColumnLayout(tableComp));
+        
+        return tableComp;
+    }
+    
+    /**
+     * TableColumnLayout with public method so we can re-layout when the host table adds/removes vertical scroll bar
+     * It's a kludge to stop a bogus horizontal scroll bar being shown.
+     */
+    static class UpdatingTableColumnLayout extends TableColumnLayout {
+        private Composite fParent;
+
+        public UpdatingTableColumnLayout(Composite parent) {
+            fParent = parent;
+        }
+
+        public void doRelayout() {
+            layout(fParent, true);
+        }
     }
 }

@@ -9,6 +9,8 @@ package uk.ac.bolton.archimate.editor.propertysections;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IFilter;
@@ -16,12 +18,12 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
@@ -67,11 +69,18 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
         createCLabel(parent, "Used in Views:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         // Table
-        Table table = createTable(parent, SWT.NONE);
-        fTableViewer = new TableViewer(table);
+        Composite tableComp = createTableComposite(parent, SWT.NONE);
+        fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION);
+        
+        // Column
+        TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
+        ((TableColumnLayout)tableComp.getLayout()).setColumnData(column.getColumn(), new ColumnWeightData(100, false));
+        
+        // On Mac shows alternate table row colours
+        fTableViewer.getTable().setLinesVisible(true);
         
         // Help ID
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(table, HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
 
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {

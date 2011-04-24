@@ -225,26 +225,21 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     }
 
     private void createTableControl(Composite parent) {
-        // Table
-        Composite tableComp = new Composite(parent, SWT.NULL);
-        fTableLayout = new UpdatingTableColumnLayout(tableComp);
-        tableComp.setLayout(fTableLayout);
-        GridData gd = new GridData(GridData.FILL_BOTH);
-        // This ensures a minumum and equal size and no horizontal size creep
-        gd.widthHint = 100;
-        gd.heightHint = 50;
-        tableComp.setLayoutData(gd);
-        Table table = createTable(tableComp, SWT.MULTI);
-        fTableViewer = new TableViewer(table);
+        // Table Composite
+        Composite tableComp = createTableComposite(parent, SWT.NULL);
+        fTableLayout = (UpdatingTableColumnLayout)tableComp.getLayout();
+        
+        // Table Viewer
+        fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 
-        table.setHeaderVisible(true);
-        table.setLinesVisible(true);
+        fTableViewer.getTable().setHeaderVisible(true);
+        fTableViewer.getTable().setLinesVisible(true);
 
         addDragSupport();
         addDropSupport();
 
         // Help ID on table
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(table, HELP_ID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(fTableViewer.getTable(), HELP_ID);
 
         // Columns
         TableViewerColumn columnBlank = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
@@ -819,23 +814,6 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             }
         }
     }
-
-    /**
-     * TableColumnLayout with public method so we can re-layout when the host table adds/removes vertical scroll bar
-     * It's a kludge to stop a bogus horizontal scroll bar being shown.
-     */
-    private static class UpdatingTableColumnLayout extends TableColumnLayout {
-        private Composite fParent;
-
-        public UpdatingTableColumnLayout(Composite parent) {
-            fParent = parent;
-        }
-
-        public void doRelayout() {
-            layout(fParent, true);
-        }
-    }
-
 
     // -----------------------------------------------------------------------------------------------------------------
     //
