@@ -9,7 +9,10 @@ package uk.ac.bolton.archimate.editor.views.properties;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.PropertySheet;
+
+import uk.ac.bolton.archimate.editor.views.IModelView;
 
 
 /**
@@ -50,5 +53,14 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
     @Override
     public boolean isPinned() {
         return false;
+    }
+    
+    @Override
+    protected void partHidden(IWorkbenchPart part) {
+        // Don't lose Properties if it's one of our views
+        if(part instanceof IModelView) {
+            return;
+        }
+        super.partHidden(part);
     }
 }
