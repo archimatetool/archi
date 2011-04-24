@@ -54,11 +54,11 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
             setLabel("Format Painter (primed)");
             String type = (FormatPainterInfo.INSTANCE.getPaintFormat() instanceof ConnectionPaintFormat) ?
                     "a connection" : "an element";
-            setDescription("Click on " + type + " to paste the format.\nDouble-click this tool or the canvas to clear.");
+            setDescription("Click on " + type + " to paste the format.\nDouble-click this tool or the canvas to clear");
         }
         else {
             setLabel("Format Painter (empty)");
-            setDescription("Click on an element or connection to copy its formatting.");
+            setDescription("Click on an element or connection to copy its formatting");
         }
     }
     
