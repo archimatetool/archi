@@ -26,6 +26,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
@@ -36,6 +37,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -123,7 +125,14 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fTitleLabel.setLayoutData(gd);
 
-        fBrowser = new Browser(parent, SWT.NULL);
+        /*
+         * It's possible that the system might not be able to create the Browser
+         */
+        fBrowser = createBrowser(parent);
+        if(fBrowser == null) {
+            return;
+        }
+        
         gd = new GridData(GridData.FILL_BOTH);
         fBrowser.setLayoutData(gd);
         
@@ -164,6 +173,27 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         selectionChanged(part, selection);
     }
     
+    /**
+     * Create the Browser if possible
+     */
+    private Browser createBrowser(Composite parent) {
+        Browser browser = null;
+        try {
+            browser = new Browser(parent, SWT.NONE);
+        }
+        catch(SWTError error) {
+        	error.printStackTrace();
+            // Create a message and show that instead
+            fTitleLabel.setText("Hints View Error");
+            fTitleLabel.setBackground(new Color[]{ColorFactory.COLOR_GROUP, ColorConstants.white}, new int[]{80}, false);
+            Text text = new Text(parent, SWT.MULTI | SWT.WRAP);
+            text.setLayoutData(new GridData(GridData.FILL_BOTH));
+            text.setText("Cannot create Browser component.\nIf you are running on Linux, try installing xulrunner-1.9.2.");
+        }
+        
+        return browser;
+    }
+
     @Override
     public void setFocus() {
         /*
@@ -174,7 +204,12 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
          * 
          * But on Windows this leads to a SWTException if closing this View by shortcut key (Alt-4)
          */
-        fBrowser.setFocus();
+        if(fBrowser != null) {
+            fBrowser.setFocus();
+        }
+        else if(fTitleLabel != null) {
+            fTitleLabel.setFocus();
+        }
     }
     
 
