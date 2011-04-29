@@ -167,6 +167,7 @@
 	<!-- Make Linux zips -->
 	<target name="make_lnx_zips">
 	    <property name="lnx.launcher"           value="${app.name}"/>
+		<property name="lnx.launcher2"          value="Archi-Ubuntu.sh"/>
 		
 	    <antcall target="make_lnx">
 	    	<param name="lnx.tar"               value="${output.dir}/${app.name}-lnx32-${version}.tar"/>
@@ -187,8 +188,10 @@
         <!-- copy extras -->
         <antcall target="copy_extra_files"/>
         
-    	<!-- copy our .ini file over -->
-        <copy file="${src.dir}/branding/linux/Archi.ini" todir="${tmp.dir}" overwrite="true"/>
+    	<!-- copy other files over -->
+        <copy todir="${tmp.dir}" overwrite="true">
+            <fileset dir="${src.dir}/branding/linux"/>
+        </copy>
 
         <!-- copy build -->
 		<copy todir="${tmp.dir}" >
@@ -197,15 +200,17 @@
         
         <!-- tar -->
 		<tar destfile="${lnx.tar}" >
-			<!-- Set the executable permission on the launcher file -->
+			<!-- Set the executable permission on the launcher files -->
 			<tarfileset dir="${output.dir}" mode="755" username="archimate" group="archimate">
 				<include name="${folder.name}/${lnx.launcher}"/>
+				<include name="${folder.name}/${lnx.launcher2}"/>
 			</tarfileset>
 		    
 			<!-- Other files without the executable permission -->
 			<tarfileset dir="${output.dir}" username="archimate" group="archimate">
 				<include name="${folder.name}/"/>
 				<exclude name="${folder.name}/${lnx.launcher}"/>
+				<exclude name="${folder.name}/${lnx.launcher2}"/>
 			</tarfileset>
 		</tar>
 

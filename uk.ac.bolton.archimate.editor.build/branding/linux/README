@@ -1,0 +1,5 @@
+Archi for Linux README
+======================
+
+* If the menu bar bar is not visible on Ubuntu (global menu on Natty Narwhal) launch with "Archi-Ubuntu.sh"
+* If the Hints Window does not display correctly install xulrunner-1.9.2
