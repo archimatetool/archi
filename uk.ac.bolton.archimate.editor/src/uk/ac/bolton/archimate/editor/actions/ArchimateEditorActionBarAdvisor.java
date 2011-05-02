@@ -31,6 +31,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
@@ -92,6 +93,7 @@ extends ActionBarAdvisor {
     private IAction fShowPropertiesView;
     private IAction fShowOutlineView;
     private IAction fShowNavigatorView;
+    private IAction fShowPaletteView;
 
     
     /**
@@ -239,6 +241,17 @@ extends ActionBarAdvisor {
         fShowNavigatorView = new ToggleViewAction("Navigator", INavigatorView.ID,
                 "uk.ac.bolton.archimate.editor.action.showNavigatorView", INavigatorView.IMAGE_DESCRIPTOR);
         register(fShowNavigatorView);
+
+        fShowPaletteView = new ToggleViewAction("Palette", "org.eclipse.gef.ui.palette_view",
+                                    "uk.ac.bolton.archimate.editor.action.showPaletteView",
+                                    AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.gef",
+                                    "$nl$/icons/palette_view.gif")) {
+            @Override
+            public String getToolTipText() {
+                return "Detached Palette";
+            };
+        };
+        register(fShowPaletteView);
     }
     
     @Override
@@ -404,6 +417,7 @@ extends ActionBarAdvisor {
         menu.add(fShowPropertiesView);
         menu.add(fShowOutlineView);
         menu.add(fShowNavigatorView);
+        menu.add(fShowPaletteView);
         menu.add(new GroupMarker("show_view"));
         menu.add(new Separator());
 
@@ -509,6 +523,7 @@ extends ActionBarAdvisor {
         toolBarViews.add(fShowPropertiesView);
         toolBarViews.add(fShowOutlineView);
         toolBarViews.add(fShowNavigatorView);
+        toolBarViews.add(fShowPaletteView);
         toolBarViews.add(new GroupMarker("end")); //$NON-NLS-1$
         toolBarViews.add(new Separator());
     }

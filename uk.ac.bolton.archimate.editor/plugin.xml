@@ -443,6 +443,11 @@
             sequence="M3+4">
       </key>
       <key
+            commandId="uk.ac.bolton.archimate.editor.action.showPaletteView"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="M3+5">
+      </key>
+      <key
             commandId="uk.ac.bolton.archimate.editor.action.exportAsImageToClipboard"
             schemeId="uk.ac.bolton.archimate.editor.keybindings"
             sequence="M1+M2+C">
@@ -485,6 +490,10 @@
       <command
             id="uk.ac.bolton.archimate.editor.action.showNavigatorView"
             name="Show Navigator View">
+      </command>
+      <command
+            id="uk.ac.bolton.archimate.editor.action.showPaletteView"
+            name="Show Palette View">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.exportAsImageToClipboard"

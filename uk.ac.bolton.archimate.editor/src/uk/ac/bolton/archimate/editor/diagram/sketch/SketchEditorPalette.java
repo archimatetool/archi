@@ -16,9 +16,10 @@ import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
-import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
+import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PaletteToolbar;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
@@ -52,8 +53,11 @@ public class SketchEditorPalette extends PaletteRoot {
     
     public SketchEditorPalette() {
         createControlsGroup();
+        add(new PaletteSeparator(""));
         createElementsGroup();
+        add(new PaletteSeparator(""));
         createStickiesGroup();
+        add(new PaletteSeparator(""));
         createConnectionsGroup();
     }
 
@@ -61,13 +65,13 @@ public class SketchEditorPalette extends PaletteRoot {
      * Create a Group of Controls
      */
     private PaletteContainer createControlsGroup() {
-        PaletteToolbar toolbar = new PaletteToolbar("Controls");
-        add(toolbar);
+        PaletteContainer group = new PaletteToolbar("Tools");
+        add(group);
         
         // The selection tool
         ToolEntry tool = new PanningSelectionToolEntry();
         tool.setToolClass(PanningSelectionExtendedTool.class);
-        toolbar.add(tool);
+        group.add(tool);
 
         // Use selection tool as default entry
         setDefaultEntry(tool);
@@ -76,85 +80,79 @@ public class SketchEditorPalette extends PaletteRoot {
         MarqueeToolEntry marquee = new MarqueeToolEntry();
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
                 new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
-        toolbar.add(marquee);
+        group.add(marquee);
         
         // Marquee selection tool to select connections only
         marquee = new MarqueeToolEntry();
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
                 new Integer(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_TOUCHED));
-        toolbar.add(marquee);
+        group.add(marquee);
         
         // Format Painter
         formatPainterEntry = new FormatPainterToolEntry();
-        toolbar.add(formatPainterEntry);
+        group.add(formatPainterEntry);
 
-        return toolbar;
+        return group;
     }
 
     private PaletteContainer createElementsGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Elements");
-        add(drawer);
+        PaletteContainer group = new PaletteGroup("Elements");
+        add(group);
         
-        PaletteToolbar toolBar = new PaletteToolbar("Elements");
-        drawer.add(toolBar);
-        
-        toolBar.add(createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(), "Actor"));
+        group.add(createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(), "Actor", null));
     
-        return drawer;
+        return group;
     }
     
     private PaletteContainer createStickiesGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Stickies");
-        add(drawer);
-        
-        PaletteToolbar toolBar = new PaletteToolbar("Stickies");
-        drawer.add(toolBar);
+        PaletteContainer group = new PaletteToolbar("Stickies");
+        add(group);
         
         // Sticky Notes
-        toolBar.add(createStickyEntry(ColorFactory.COLOR_BUSINESS));
-        toolBar.add(createStickyEntry(ColorFactory.COLOR_APPLICATION));
-        toolBar.add(createStickyEntry(ColorFactory.COLOR_TECHNOLOGY));
-        toolBar.add(createStickyEntry(ColorConstants.orange));
-        toolBar.add(createStickyEntry(ColorConstants.yellow));
-        toolBar.add(createStickyEntry(ColorConstants.lightGreen));
-        toolBar.add(createStickyEntry(ColorConstants.lightBlue));
-        toolBar.add(createStickyEntry(ColorConstants.white));
+        group.add(createStickyEntry(ColorFactory.COLOR_BUSINESS));
+        group.add(createStickyEntry(ColorFactory.COLOR_APPLICATION));
+        group.add(createStickyEntry(ColorFactory.COLOR_TECHNOLOGY));
+        group.add(createStickyEntry(ColorConstants.orange));
+        group.add(createStickyEntry(ColorConstants.yellow));
+        group.add(createStickyEntry(ColorConstants.lightGreen));
+        group.add(createStickyEntry(ColorConstants.lightBlue));
+        group.add(createStickyEntry(ColorConstants.white));
         
-        return drawer;
+        return group;
     }
     
     private PaletteContainer createConnectionsGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Connections");
-        add(drawer);
+        PaletteContainer group = new PaletteGroup("Connections");
+        add(group);
         
-        PaletteToolbar toolBar = new PaletteToolbar("Connections");
-        drawer.add(toolBar);
-
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 DiagramConstants.CONNECTION_LINE,
-                "Line Connection");
-        toolBar.add(entry);
+                "Line Connection",
+                null);
+        group.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 DiagramConstants.CONNECTION_ARROW,
-                "Arrow Connection");
-        toolBar.add(entry);
+                "Arrow Connection",
+                null);
+        group.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 DiagramConstants.CONNECTION_DASHED_ARROW,
-                "Dashed Connection");
-        toolBar.add(entry);
+                "Dashed Connection",
+                null);
+        group.add(entry);
         
-        return drawer;
+        return group;
     }
     
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String type, String name) {
+    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String type, String name, String description) {
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
                 name,
-                null,
+                description,
                 new SketchModelFactory(eClass, type),
                 ImageFactory.getImageDescriptor(eClass, type),
                 ImageFactory.getImageDescriptor(eClass, type));
@@ -164,10 +162,10 @@ public class SketchEditorPalette extends PaletteRoot {
         return entry;
     }
 
-    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String name) {
+    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String name, String description) {
         return new CombinedTemplateCreationEntry(
                 name,
-                null,
+                description,
                 new SketchModelFactory(eClass),
                 ImageFactory.getImageDescriptor(eClass),
                 ImageFactory.getImageDescriptor(eClass));

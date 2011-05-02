@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.perspectives;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IPlaceholderFolderLayout;
 
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
 import uk.ac.bolton.archimate.editor.views.navigator.INavigatorView;
@@ -27,15 +28,11 @@ public class MainPerspective implements IPerspectiveFactory {
     /*
      * Folder Layouts
      */
-    
     private IFolderLayout folderLayoutLeftTop;
     private IFolderLayout folderLayoutLeftBottom;
-
-    //private IPlaceholderFolderLayout folderLayoutRight;
-    //private IFolderLayout folderLayoutRight;
-    
-    //private IPlaceholderFolderLayout folderLayoutBottom;
     private IFolderLayout folderLayoutBottom;
+
+    private IPlaceholderFolderLayout folderLayoutRight;
     
     static String FOLDER_LEFT_TOP = "folderLeftTop"; //$NON-NLS-1$
     static String FOLDER_LEFT_BOTTOM = "folderLeftBottom"; //$NON-NLS-1$
@@ -60,24 +57,21 @@ public class MainPerspective implements IPerspectiveFactory {
         // Navigator View
         folderLayoutLeftBottom.addView(INavigatorView.ID);
         
+        // Palette View
+        folderLayoutRight.addPlaceholder("org.eclipse.gef.ui.palette_view");
+        
         // Placeholder for all other views
         folderLayoutBottom.addPlaceholder("*"); //$NON-NLS-1$
     }
 
     /**
      * Add the main folder layout areas
-     * @param layout
      */
     private void addFolderLayouts(IPageLayout layout) {
+        // The declared order of these matters
         folderLayoutLeftTop = layout.createFolder(FOLDER_LEFT_TOP, IPageLayout.LEFT, .23f, IPageLayout.ID_EDITOR_AREA);
         folderLayoutLeftBottom = layout.createFolder(FOLDER_LEFT_BOTTOM, IPageLayout.BOTTOM, .6f, FOLDER_LEFT_TOP);
-        
-        //folderLayoutRight = layout.createPlaceholderFolder(FOLDER_RIGHT, IPageLayout.RIGHT, .77f, IPageLayout.ID_EDITOR_AREA);
-        //folderLayoutRight = layout.createFolder(FOLDER_RIGHT, IPageLayout.RIGHT, .77f, IPageLayout.ID_EDITOR_AREA);
-        
-        //folderLayoutBottom = layout.createPlaceholderFolder(FOLDER_BOTTOM, IPageLayout.BOTTOM, .6f, IPageLayout.ID_EDITOR_AREA);
+        folderLayoutRight = layout.createPlaceholderFolder(FOLDER_RIGHT, IPageLayout.RIGHT, .85f, IPageLayout.ID_EDITOR_AREA);
         folderLayoutBottom = layout.createFolder(FOLDER_BOTTOM, IPageLayout.BOTTOM, .7f, IPageLayout.ID_EDITOR_AREA);
     }
-    
-    
 }

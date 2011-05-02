@@ -11,9 +11,10 @@ import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
-import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
+import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.palette.PaletteToolbar;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
@@ -43,10 +44,20 @@ public class DiagramEditorPalette extends PaletteRoot {
     
     public DiagramEditorPalette() {
         createControlsGroup();
+        add(new PaletteSeparator(""));
+        
         createRelationsGroup();
+        add(new PaletteSeparator(""));
+
         createExtrasGroup();
+        add(new PaletteSeparator(""));
+        
         createBusinessLayerGroup();
+        add(new PaletteSeparator(""));
+
         createApplicationLayerGroup();
+        add(new PaletteSeparator(""));
+        
         createTechnologyLayerGroup();
     }
 
@@ -54,13 +65,13 @@ public class DiagramEditorPalette extends PaletteRoot {
      * Create a Group of Controls
      */
     private PaletteContainer createControlsGroup() {
-        PaletteToolbar toolBar = new PaletteToolbar("Controls");
-        add(toolBar);
+        PaletteContainer group = new PaletteToolbar("Tools");
+        add(group);
         
         // The selection tool
         ToolEntry tool = new PanningSelectionToolEntry();
         tool.setToolClass(PanningSelectionExtendedTool.class);
-        toolBar.add(tool);
+        group.add(tool);
 
         // Use selection tool as default entry
         setDefaultEntry(tool);
@@ -69,55 +80,52 @@ public class DiagramEditorPalette extends PaletteRoot {
         MarqueeToolEntry marquee = new MarqueeToolEntry();
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
                 new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
-        toolBar.add(marquee);
+        group.add(marquee);
         
         // Marquee selection tool to select connections only
         marquee = new MarqueeToolEntry();
         marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
                 new Integer(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_TOUCHED));
-        toolBar.add(marquee);
+        group.add(marquee);
         
         // Format Painter
         formatPainterEntry = new FormatPainterToolEntry();
-        toolBar.add(formatPainterEntry);
+        group.add(formatPainterEntry);
         
-        return toolBar;
+        return group;
     }
 
     /**
      * Create a Group of Controls
      */
     private PaletteContainer createExtrasGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("View");
-        add(drawer);
-        
-        PaletteToolbar toolBar = new PaletteToolbar("View");
-        drawer.add(toolBar);
+        PaletteContainer group = new PaletteGroup("View");
+        add(group);
         
         // Note
         PaletteEntry noteEntry = new CombinedTemplateCreationEntry(
                 "Note",
-                null,
+                "A Note element",
                 new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16));
-        toolBar.add(noteEntry);
+        group.add(noteEntry);
         
         // Group
         PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
                 "Group",
-                null,
+                "Grouping Element",
                 new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
-        toolBar.add(groupEntry);
+        group.add(groupEntry);
         
         // Note Connection
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 "Note Connection");
-        toolBar.add(entry);
+        group.add(entry);
         
-        return toolBar;
+        return group;
     }
 
     /**
@@ -125,15 +133,15 @@ public class DiagramEditorPalette extends PaletteRoot {
      * @return
      */
     private PaletteContainer createBusinessLayerGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Business");
-        add(drawer);
+        PaletteContainer group = new PaletteGroup("Business");
+        add(group);
         
         for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass);
-            drawer.add(entry);
+            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+            group.add(entry);
         }
         
-        return drawer;
+        return group;
     }
 
     /**
@@ -141,15 +149,15 @@ public class DiagramEditorPalette extends PaletteRoot {
      * @return
      */
     private PaletteContainer createApplicationLayerGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Application");
-        add(drawer);
+        PaletteContainer group = new PaletteGroup("Application");
+        add(group);
         
         for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass);
-            drawer.add(entry);
+            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+            group.add(entry);
         }
         
-        return drawer;
+        return group;
     }
 
     /**
@@ -157,15 +165,15 @@ public class DiagramEditorPalette extends PaletteRoot {
      * @return
      */
     private PaletteContainer createTechnologyLayerGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Technology");
-        add(drawer);
+        PaletteContainer group = new PaletteGroup("Technology");
+        add(group);
         
         for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass);
-            drawer.add(entry);
+            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+            group.add(entry);
         }
         
-        return drawer;
+        return group;
     }
 
     /**
@@ -173,38 +181,35 @@ public class DiagramEditorPalette extends PaletteRoot {
      * @return
      */
     private PaletteContainer createRelationsGroup() {
-        PaletteDrawer drawer = new PaletteDrawer("Relations");
-        add(drawer);
-        
-        PaletteToolbar toolBar = new PaletteToolbar("Relations");
-        drawer.add(toolBar);
+        PaletteContainer group = new PaletteGroup("Relations");
+        add(group);
         
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(
                 "Magic Connector",
-                null,
+                "Create Connections automatically",
                 new MagicConnectionModelFactory(),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MAGIC_CONNECTION_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MAGIC_CONNECTION_16));
         
         magicConnectionEntry.setToolClass(MagicConnectionCreationTool.class);
         magicConnectionEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
-        toolBar.add(magicConnectionEntry);
+        group.add(magicConnectionEntry);
         
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-            ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(eClass);
-            toolBar.add(entry);
+            ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(eClass, null);
+            group.add(entry);
         }
         
         // Junctions
         PaletteStack stack = new PaletteStack("Junctions", "Junctions", null);
-        toolBar.add(stack);
+        group.add(stack);
         
         for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass);
+            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
             stack.add(entry);
         }
         
-        return drawer;
+        return group;
     }
     
     public void dispose() {
@@ -215,23 +220,23 @@ public class DiagramEditorPalette extends PaletteRoot {
     // Convenience methods
     // --------------------------------------------------------------------------------------------
     
-    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass) {
+    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String description) {
         return new CombinedTemplateCreationEntry(
                 ArchimateNames.getDefaultShortName(eClass),
-                null,
+                description,
                 new DiagramModelFactory(eClass),
                 ImageFactory.getImageDescriptor(eClass),
                 ImageFactory.getImageDescriptor(eClass));
     }
     
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass) {
-        return createConnectionCreationToolEntry(eClass, ArchimateNames.getDefaultName(eClass));
+    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
+        return createConnectionCreationToolEntry(eClass, ArchimateNames.getDefaultName(eClass), description);
     }
     
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String name) {
+    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String name, String description) {
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
                 name,
-                null,
+                description,
                 new DiagramModelFactory(eClass),
                 ImageFactory.getImageDescriptor(eClass),
                 ImageFactory.getImageDescriptor(eClass));
