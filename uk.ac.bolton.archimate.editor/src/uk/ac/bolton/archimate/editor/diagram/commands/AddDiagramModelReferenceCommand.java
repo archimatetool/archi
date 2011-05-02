@@ -23,44 +23,30 @@ import uk.ac.bolton.archimate.model.IDiagramModelReference;
 public class AddDiagramModelReferenceCommand extends Command {
     
     private IDiagramModelContainer fParent;
-    private IDiagramModel fDiagramModel;
     private IDiagramModelReference fReference;
-    private int fX, fY;
 
     public AddDiagramModelReferenceCommand(IDiagramModelContainer parent, IDiagramModel diagramModel, int x, int y) {
-        fParent = parent;
-        fDiagramModel = diagramModel;
-        fX = x;
-        fY = y;
         setLabel("Add view reference");
+        
+        fParent = parent;
+        fReference = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+        fReference.setReferencedModel(diagramModel);
+        fReference.setBounds(x, y, -1, -1);
     }
 
     @Override
     public void execute() {
-        fReference = IArchimateFactory.eINSTANCE.createDiagramModelReference();
-        fReference.setReferencedModel(fDiagramModel);
-        fReference.setBounds(fX, fY, -1, -1);
         fParent.getChildren().add(fReference);
     }
 
     @Override
     public void undo() {
-        if(fReference != null) {
-            fParent.getChildren().remove(fReference);
-        }
-    }
-    
-    @Override
-    public void redo() {
-        if(fReference != null) {
-            fParent.getChildren().add(fReference);
-        }
+        fParent.getChildren().remove(fReference);
     }
     
     @Override
     public void dispose() {
         fParent = null;
-        fDiagramModel = null;
         fReference = null;
     }
 }

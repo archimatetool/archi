@@ -16,6 +16,7 @@ package uk.ac.bolton.archimate.model;
  * that affect backwards compatibility.<p>
  * 
  * History:<br>
+ * 
  * 1.0.0 - Archi versions 0.7 - 1.2.0 the version number was not saved to the XMI file<br>
  * 1.1.0 - Archi version 1.3.0 introduced sub-folders which are not backwards-compatible
  * 1.1.1 - Archi version 1.4.0 added sub-folders in the Views folder which are not backwards-compatible
@@ -23,9 +24,10 @@ package uk.ac.bolton.archimate.model;
  * 1.2.1 - Archi version 1.6.0 added IInterfaceElement and lineColor to IDiagramModelConnection
  * 1.3.0 - Archi version 1.7.0 added accessType to IAccessRelationship, diagram shortcuts in Sketch Diagrams,
  *         type in IDiagramModelArchimateObject, plain connections in Diagrams, Properties, and Documentation to Folders
+ * 1.4.0 - Archi version 1.8.0 added multiple occurrences of objects in a View
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "1.3.0";
+    String VERSION = "1.4.0";
 }

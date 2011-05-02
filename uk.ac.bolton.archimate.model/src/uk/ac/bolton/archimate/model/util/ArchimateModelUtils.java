@@ -380,12 +380,12 @@ public class ArchimateModelUtils {
             if(object instanceof IRelationship) {
                 IRelationship relationship = (IRelationship)object;
                 if((type & SOURCE_RELATIONSHIPS) != 0) {
-                    if(relationship.getSource() == element) {
+                    if(relationship.getSource() == element && !relationships.contains(relationship)) {
                         relationships.add(relationship);
                     }
                 }
                 if((type & TARGET_RELATIONSHIPS) != 0) {
-                    if(relationship.getTarget() == element) {
+                    if(relationship.getTarget() == element && !relationships.contains(relationship)) {
                         relationships.add(relationship);
                     }
                 }

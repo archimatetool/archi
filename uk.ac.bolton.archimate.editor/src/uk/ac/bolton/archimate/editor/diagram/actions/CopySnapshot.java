@@ -287,8 +287,7 @@ public final class CopySnapshot {
                 if(originalElement == null || originalElement.eContainer() == null) { // archimate element was deleted
                     return true;
                 }
-                IDiagramModelArchimateObject dmo = DiagramModelUtils.findDiagramModelObjectForElement(targetDiagramModel, originalElement);
-                if(dmo != null) { // already on diagram
+                if(!DiagramModelUtils.findDiagramModelObjectsForElement(targetDiagramModel, originalElement).isEmpty()) { // already on diagram
                     return true;
                 }
             }
@@ -300,8 +299,7 @@ public final class CopySnapshot {
                 if(originalRelationship == null || originalRelationship.eContainer() == null) { // archimate relationship was deleted
                     return true;
                 }
-                IDiagramModelArchimateConnection dmc = DiagramModelUtils.findDiagramModelConnectionForRelation(targetDiagramModel, originalRelationship);
-                if(dmc != null) { // already on diagram
+                if(!DiagramModelUtils.findDiagramModelConnectionsForRelation(targetDiagramModel, originalRelationship).isEmpty()) { // already on diagram
                     return true;
                 }
             }
@@ -341,7 +339,7 @@ public final class CopySnapshot {
             }
         }
 
-        // Then Connections/
+        // Then Connections
         for(IDiagramModelConnection connection : fSnapshotToOriginalConnectionsMapping.keySet()) {
             createPasteConnectionCommand(connection, result, tmpSnapshotToNewObjectMapping);
         }
@@ -364,11 +362,19 @@ public final class CopySnapshot {
             bounds.setY(bounds.getY() + fYOffSet);
         }
         
-        // Re-use original Archimate Element
-        if(!fDoCreateArchimateElementCopies && snapshotObject instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject originalDiagramObject = (IDiagramModelArchimateObject)fSnapshotToOriginalObjectsMapping.get(snapshotObject);
-            IArchimateElement element = originalDiagramObject.getArchimateElement();
-            ((IDiagramModelArchimateObject)newObject).setArchimateElement(element);
+        if(newObject instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)newObject;
+            // Use copy so provid a new name
+            if(fDoCreateArchimateElementCopies) {
+                String name = dmo.getArchimateElement().getName();
+                dmo.getArchimateElement().setName(name + " (copy)");
+            }
+            // Else re-use original ArchiMate element
+            else {
+                IDiagramModelArchimateObject originalDiagramObject = (IDiagramModelArchimateObject)fSnapshotToOriginalObjectsMapping.get(snapshotObject);
+                IArchimateElement element = originalDiagramObject.getArchimateElement();
+                dmo.setArchimateElement(element);
+            }
         }
         
         // Mapping

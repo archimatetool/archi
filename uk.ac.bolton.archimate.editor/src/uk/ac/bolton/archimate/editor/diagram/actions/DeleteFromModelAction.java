@@ -100,9 +100,8 @@ public class DeleteFromModelAction extends SelectionAction {
         // Gather referenced diagram objects
         for(IArchimateElement element : elements) {
             for(IDiagramModel diagramModel : element.getArchimateModel().getDiagramModels()) {
-                IDiagramModelComponent diagramModelComponent = DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, element); // is there one?
-                if(diagramModelComponent != null) {
-                    diagramObjects.add(diagramModelComponent);
+                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, element)) {
+                    diagramObjects.add(dc);
                 }
             }
         }

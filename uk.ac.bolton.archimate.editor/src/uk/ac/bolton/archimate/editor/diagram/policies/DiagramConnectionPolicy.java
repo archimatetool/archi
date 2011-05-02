@@ -6,6 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.policies;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -83,21 +85,27 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             // Compound Command
             CompoundCommand result = new CompoundCommand();
             
-            // Command for this re-connection
-            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
-            cmd.setNewSource(newSource);
-            result.add(cmd);
-
-            // Check for matching connections in other diagrams
+            // Check for matching connections in this and other diagrams
             IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
             IArchimateElement newSourceElement = ((IDiagramModelArchimateObject)newSource).getArchimateElement();
 
             for(IDiagramModel diagramModel : newSourceElement.getArchimateModel().getDiagramModels()) {
-                IDiagramModelArchimateConnection matchingConnection = (IDiagramModelArchimateConnection)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, relationship);
-                if(matchingConnection != null && matchingConnection != connection) { // don't use original one
-                    // Does the new source exist on the diagram?
-                    IDiagramModelArchimateObject matchingSource = (IDiagramModelArchimateObject)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, newSourceElement);
-                    // Yes, reconnect
+                for(IDiagramModelArchimateConnection matchingConnection : DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship)) {
+                    IDiagramModelArchimateObject matchingSource = null;
+
+                    // Same Diagram so use the new source
+                    if(newSource.getDiagramModel() == diagramModel) {
+                        matchingSource = (IDiagramModelArchimateObject)newSource;
+                    }
+                    // Different Diagram so find a match
+                    else {
+                        List<IDiagramModelArchimateObject> list = DiagramModelUtils.findDiagramModelObjectsForElement(diagramModel, newSourceElement);
+                        if(!list.isEmpty()) {
+                            matchingSource = list.get(0);
+                        }                            
+                    }
+
+                    // Does the new source exist on the diagram? Yes, reconnect
                     if(matchingSource != null) {
                         ReconnectConnectionCommand cmd2 = new ReconnectConnectionCommand(matchingConnection);
                         cmd2.setNewSource(matchingSource);
@@ -131,21 +139,27 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             // Compound Command
             CompoundCommand result = new CompoundCommand();
 
-            // Command for this re-connection
-            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
-            cmd.setNewTarget(newTarget);
-            result.add(cmd);
-
-            // Check for matching connections in other diagrams
+            // Check for matching connections in this and other diagrams
             IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
             IArchimateElement newTargetElement = ((IDiagramModelArchimateObject)newTarget).getArchimateElement();
 
             for(IDiagramModel diagramModel : newTargetElement.getArchimateModel().getDiagramModels()) {
-                IDiagramModelArchimateConnection matchingConnection = (IDiagramModelArchimateConnection)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, relationship);
-                if(matchingConnection != null && matchingConnection != connection) { // don't use original one
-                    // Does the new target exist on the diagram?
-                    IDiagramModelArchimateObject matchingTarget = (IDiagramModelArchimateObject)DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, newTargetElement);
-                    // Yes, reconnect
+                for(IDiagramModelArchimateConnection matchingConnection : DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship)) {
+                    IDiagramModelArchimateObject matchingTarget = null;
+                    
+                    // Same Diagram so use the new target
+                    if(newTarget.getDiagramModel() == diagramModel) {
+                        matchingTarget = (IDiagramModelArchimateObject)newTarget;
+                    }
+                    // Different Diagram so find a match
+                    else {
+                        List<IDiagramModelArchimateObject> list = DiagramModelUtils.findDiagramModelObjectsForElement(diagramModel, newTargetElement);
+                        if(!list.isEmpty()) {
+                            matchingTarget = list.get(0);
+                        }                            
+                    }
+                    
+                    // Does the new target exist on the diagram? Yes, reconnect
                     if(matchingTarget != null) {
                         ReconnectConnectionCommand cmd2 = new ReconnectConnectionCommand(matchingConnection);
                         cmd2.setNewTarget(matchingTarget);
@@ -169,8 +183,6 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
     }
 
-    
-    
     
     // ==================================================================================================
     // ============================================= Commands ===========================================
@@ -266,8 +278,6 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     }
 
     
-    
-    
     // ==================================================================================================
     // ========================================= Connection Rules =======================================
     // ==================================================================================================
@@ -311,35 +321,4 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         
         return false;
     }
-    
-    /**
-     * @return True if connection type exists between source and target
-     */
-    @SuppressWarnings("unused")
-    private boolean hasExistingConnectionType(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
-        for(IDiagramModelConnection connection : source.getSourceConnections()) {
-            if(connection instanceof IDiagramModelArchimateConnection && connection.getTarget().equals(target)) {
-                EClass type = ((IDiagramModelArchimateConnection)connection).getRelationship().eClass();
-                return type.equals(relationshipType);
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Check for cycles.  Return true if there is a cycle.
-     */
-    @SuppressWarnings("unused")
-    private boolean hasCycle(IDiagramModelObject source, IDiagramModelObject target) {
-        for(IDiagramModelConnection connection : source.getTargetConnections()) {
-            if(connection.getSource().equals(target)) {
-                return true;
-            }
-            if(hasCycle(connection.getSource(), target)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

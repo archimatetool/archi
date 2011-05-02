@@ -25,7 +25,6 @@ import org.jdom.Namespace;
 import org.jdom.Text;
 import org.jdom.xpath.XPath;
 
-import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
@@ -173,6 +172,7 @@ public class BiZZdesign3Importer implements IModelImporter {
     //private Map<String, IDiagramModelConnection> fDiagramConnections = new HashMap<String, IDiagramModelConnection>();
 
     // Temporary table for adding connections
+    // This is the wrong way to do it, fix this in v3 Importer
     private Map<IRelationship, String> fDiagramConnectionsTempMap;
     
 
@@ -453,16 +453,12 @@ public class BiZZdesign3Importer implements IModelImporter {
             // Element
             if(fElements.containsKey(to)) {
                 IArchimateElement element = fElements.get(to);
-                // No dupes in Diagram
-                IDiagramModelArchimateObject dmo = DiagramModelUtils.findDiagramModelObjectForElement(diagramModelContainer.getDiagramModel(), element);
-                if(dmo == null) {
-                    dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                    dmo.setId(id);
-                    dmo.setArchimateElement(element);
-                    dmo.setBounds(10, 10, -1, -1);
-                    diagramModelContainer.getChildren().add(dmo);
-                    fDiagramObjects.put(id, dmo);
-                }
+                IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+                dmo.setId(id);
+                dmo.setArchimateElement(element);
+                dmo.setBounds(10, 10, -1, -1);
+                diagramModelContainer.getChildren().add(dmo);
+                fDiagramObjects.put(id, dmo);
                 
                 // Child objects
                 for(Object o : eRefObject.getChildren()) {

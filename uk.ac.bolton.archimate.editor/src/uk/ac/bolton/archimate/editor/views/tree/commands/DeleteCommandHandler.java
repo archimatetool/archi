@@ -228,10 +228,9 @@ public class DeleteCommandHandler {
                 IArchimateElement element = (IArchimateElement)object;
                 for(IDiagramModel diagramModel : element.getArchimateModel().getDiagramModels()) {
                     // Check diagram model is not selected to be deleted - no point in deleting any of its children
-                    if(!fElementsToDelete.contains(diagramModel)) { 
-                        IDiagramModelComponent diagramModelComponent = DiagramModelUtils.findDiagramModelComponentForElement(diagramModel, element); // is there one?
-                        if(diagramModelComponent != null) {
-                            addToList(diagramModelComponent, fElementsToDelete);
+                    if(!fElementsToDelete.contains(diagramModel)) {
+                        for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, element)) {
+                            addToList(dc, fElementsToDelete);
                         }
                     }
                 }

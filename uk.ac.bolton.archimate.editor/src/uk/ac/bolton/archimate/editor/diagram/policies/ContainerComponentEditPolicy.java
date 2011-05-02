@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -29,6 +29,7 @@ import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -68,12 +69,12 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     // Create a Command for dropping and dragging elements from Tree to diagram/container
     // --------------------------------------------------------------------------------------
     
-    protected List<IArchimateElement> elementsToAdd;
-    protected List<IRelationship> relationsToAdd;
-    protected List<IDiagramModel> diagramRefsToAdd;
+    protected List<IArchimateElement> fElementsToAdd;
+    protected List<IRelationship> fRelationsToAdd;
+    protected List<IDiagramModel> fDiagramRefsToAdd;
     
-    protected IDiagramModelContainer targetContainer;
-    protected IDiagramModel targetDiagramModel;
+    protected IDiagramModelContainer fTargetContainer;
+    protected IDiagramModel fTargetDiagramModel;
     
     /**
      * @param request
@@ -102,24 +103,35 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
         int x = pt.x;
         int y = pt.y;
 
-        targetContainer = (IDiagramModelContainer)getHost().getModel();
-        targetDiagramModel = targetContainer.getDiagramModel();
+        fTargetContainer = (IDiagramModelContainer)getHost().getModel();
+        fTargetDiagramModel = fTargetContainer.getDiagramModel();
         
-        elementsToAdd = new ArrayList<IArchimateElement>();
-        relationsToAdd = new ArrayList<IRelationship>();
-        diagramRefsToAdd = new ArrayList<IDiagramModel>();
+        fElementsToAdd = new ArrayList<IArchimateElement>();
+        fRelationsToAdd = new ArrayList<IRelationship>();
+        fDiagramRefsToAdd = new ArrayList<IDiagramModel>();
         
         // Gather an actual list of elements dragged onto the container, omitting duplicates and anything already on the diagram
         Object[] objects = ((IStructuredSelection)request.getData()).toArray();
         getElementsToAdd(objects);
+        
+        // Store the Diagram Model Components that will be added
+        List<IDiagramModelArchimateObject> diagramObjects = new ArrayList<IDiagramModelArchimateObject>();
 
         // Compound Command - it has to be Non-Notifying or it's way too slow (tested with Bill's UoB model!)
         CompoundCommand result = new NonNotifyingCompoundCommand("Add Elements");
 
-        // Now add the Commands adding the Elements first
-        for(IArchimateElement element : elementsToAdd) {
+        // Add the Commands adding the Elements first
+        for(IArchimateElement element : fElementsToAdd) {
             // Add Diagram object
-            result.add(new AddDiagramObjectCommand(targetContainer, element, x, y));
+            IDiagramModelArchimateObject object = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+            object.setArchimateElement(element);
+            object.setBounds(x, y, -1, -1);
+            
+            // Store it
+            diagramObjects.add(object);
+            
+            // Add Command
+            result.add(new AddDiagramObjectCommand(fTargetContainer, object));
 
             // Increase x,y
             x += 150;
@@ -130,8 +142,8 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
         }
 
         // Then any Diagram Model Ref Commands
-        for(IDiagramModel diagramModel : diagramRefsToAdd) {
-            result.add(new AddDiagramModelReferenceCommand(targetContainer, diagramModel, x, y));
+        for(IDiagramModel diagramModel : fDiagramRefsToAdd) {
+            result.add(new AddDiagramModelReferenceCommand(fTargetContainer, diagramModel, x, y));
             
             x += 150;
             if(x > origin + 400) {
@@ -140,14 +152,52 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
             }
         }
 
-        // Then the Relationship Commands for adding connections
-        for(IRelationship relation : relationsToAdd) {
-            /*
-             *  If this would result in a nested connection don't add it AND
-             *  Only add connection if *both* src and target elements are either in elementsToAdd or on the Diagram already
-             */
-            if(!wouldBeNestedConnection(relation) && canAddConnection(relation)) {
-                result.add(new AddDiagramArchimateConnectionCommand(targetDiagramModel, relation));   
+        // Add selected Relations to create connections for those elements on the diagram that don't already have them
+        for(IRelationship relation : fRelationsToAdd) {
+            // Existing
+            List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getSource());
+            List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getTarget());
+
+            for(IDiagramModelArchimateObject dcSource : sources) {
+                for(IDiagramModelArchimateObject dcTarget : targets) {
+                    if(dcTarget != dcSource && !DiagramModelUtils.hasDiagramModelArchimateConnection(dcSource, dcTarget, relation)) {
+                        result.add(new AddDiagramArchimateConnectionCommand(dcSource, dcTarget, relation));
+                    }
+                }
+            }
+        }
+        
+        // Newly added objects will need new connections to existing elements and newly added elements
+        for(IDiagramModelArchimateObject dmo : diagramObjects) {
+            IArchimateElement element = dmo.getArchimateElement();
+            
+            for(IRelationship relation : ArchimateModelUtils.getRelationships(element)) {
+                // Find existing objects
+                List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getSource());
+                List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getTarget());
+                
+                // Add new ones too
+                for(IDiagramModelArchimateObject dmo2 : diagramObjects) {
+                    if(dmo != dmo2) {
+                        IArchimateElement element2 = dmo2.getArchimateElement();
+                        if(element2 == relation.getSource()) { // Only need to add sources, not targets
+                            sources.add(dmo2);
+                        }
+                    }
+                }
+                
+                // Make the Commands...
+                for(IDiagramModelArchimateObject dcSource : sources) {
+                    if(element == relation.getTarget()) {
+                        result.add(new AddDiagramArchimateConnectionCommand(dcSource, dmo, relation));
+                    }
+                }
+            
+                for(IDiagramModelArchimateObject dcTarget : targets) {
+                    if(element == relation.getSource()) {
+                        result.add(new AddDiagramArchimateConnectionCommand(dmo, dcTarget, relation));
+                    }
+                }
             }
         }
         
@@ -169,15 +219,15 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
         Command command = null;
         
         if(ConnectionPreferences.createRelationWhenAddingModelTreeElement()) {
-            if(targetContainer instanceof IDiagramModelArchimateObject) {
+            if(fTargetContainer instanceof IDiagramModelArchimateObject) {
                 command = new Command() {
                     private Command fSubCommand;
 
                     @Override
                     public void execute() {
-                        IArchimateElement parentElement = ((IDiagramModelArchimateObject)targetContainer).getArchimateElement();
+                        IArchimateElement parentElement = ((IDiagramModelArchimateObject)fTargetContainer).getArchimateElement();
                         fSubCommand = DiagramCommandFactory.createNewNestedRelationCommandWithDialog(parentElement,
-                                        elementsToAdd.toArray(new IArchimateElement[elementsToAdd.size()]));
+                                fElementsToAdd.toArray(new IArchimateElement[fElementsToAdd.size()]));
                         if(fSubCommand != null) {
                             fSubCommand.execute();
                         }
@@ -204,36 +254,10 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     }
     
     /**
-     * Check to see if a relation can be added as a connection
-     */
-    protected boolean canAddConnection(IRelationship relation) {
-        // Source Element is in the list of elements to be added or already on the diagram
-        boolean srcElementPresent = elementsToAdd.contains(relation.getSource()) || DiagramModelUtils.findDiagramModelComponentForElement(targetDiagramModel, relation.getSource()) != null;
-        // Target Element is in the list of elements to be added or already on the diagram
-        boolean tgtElementPresent = elementsToAdd.contains(relation.getTarget()) || DiagramModelUtils.findDiagramModelComponentForElement(targetDiagramModel, relation.getTarget()) != null;
-        // Both are present
-        return srcElementPresent && tgtElementPresent;
-    }
-    
-    /**
-     * Check to see if a relation would be a nested connection if it was inside of target container
-     */
-    protected boolean wouldBeNestedConnection(IRelationship relation) {
-        // If relation.getTarget() is inside of targetContainer
-        if(ConnectionPreferences.useNestedConnections()) {
-            if(targetContainer instanceof IDiagramModelArchimateObject &&
-                    targetContainer.getChildren().contains(relation.getTarget()) && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
-                return ((IDiagramModelArchimateObject)targetContainer).getArchimateElement() == relation.getSource();
-            }
-        }
-        return false;
-    }
-
-    /**
      * Gather the elements and relationships that will be added to the diagram
      */
     protected void getElementsToAdd(Object[] objects) {
-        IArchimateModel targetArchimateModel = targetDiagramModel.getArchimateModel();
+        IArchimateModel targetArchimateModel = fTargetDiagramModel.getArchimateModel();
         
         for(Object object : objects) {
             // Check
@@ -249,33 +273,58 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
                 }
             }
             
-            // Selected Archimate Elements (and any related Relationships)
+            // Selected Archimate Elements *first*
             if(object instanceof IArchimateElement && !(object instanceof IRelationship)) {
-                addElement((IArchimateElement)object);
+                if(!fElementsToAdd.contains(object)) {
+                    fElementsToAdd.add((IArchimateElement)object);
+                }
             }
         
-            // Selected Relationships (and any connected Elements)
+            // Then Selected Relationships (and any connected Elements)
             else if(object instanceof IRelationship) {
                 IRelationship relationship = (IRelationship)object;
-                // Not already on diagram
-                if(!DiagramModelUtils.isElementReferencedInDiagram(targetDiagramModel, relationship)) {
-                    if(!relationsToAdd.contains(relationship)) { // check it here, not in addElement() (was a bug)
-                        relationsToAdd.add(relationship);
-                    }
+                if(!fRelationsToAdd.contains(relationship)) {
+                    fRelationsToAdd.add(relationship);
+                }
+                
+                // Add relationship's connected elements
+                addRelationshipElements(relationship);
+            }
 
-                    // Connected Source Element
-                    addElement(relationship.getSource());
-
-                    // Connected Target Element
-                    addElement(relationship.getTarget());
+            // Selected Diagram Models (References)
+            else if(object instanceof IDiagramModel && object != fTargetDiagramModel) { // not the same diagram
+                if(!fDiagramRefsToAdd.contains(object)) {
+                    fDiagramRefsToAdd.add((IDiagramModel)object);
                 }
             }
-            
-            // Selected Diagram Models (References)
-            else if(object instanceof IDiagramModel && object != targetDiagramModel) { // not already on diagram
-                if(!diagramRefsToAdd.contains(object)) {
-                    diagramRefsToAdd.add((IDiagramModel)object);
+        }
+    }
+    
+    /**
+     * Add connected elements
+     * @param relationship
+     */
+    protected void addRelationshipElements(IRelationship relationship) {
+        // Connected Source Element if not on Diagram
+        if(DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relationship.getSource()).isEmpty()) {
+            addElement(relationship.getSource());
+        }
+
+        // Connected Target Element if not on Diagram
+        if(DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relationship.getTarget()).isEmpty()) {
+            addElement(relationship.getTarget());
+        }
+        
+        // Recursive case - ensure at least 2 connecting elements
+        if(relationship.getSource() == relationship.getTarget()) {
+            int size = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relationship.getSource()).size();
+            for(IArchimateElement e : fElementsToAdd) {
+                if(e == relationship.getSource()) {
+                    size++;
                 }
+            }
+            if(size < 2) {
+                fElementsToAdd.add(relationship.getSource());
             }
         }
     }
@@ -284,13 +333,14 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
      * Add an element and any of its relationships
      */
     protected void addElement(IArchimateElement element) {
-        // Not already added or already on diagram
-        if(!elementsToAdd.contains(element) && DiagramModelUtils.findDiagramModelComponentForElement(targetDiagramModel, element) == null) {  
-            elementsToAdd.add(element);
+        // Not already added
+        if(!fElementsToAdd.contains(element)) {  
+            fElementsToAdd.add(element);
+            
             // And its relationships
             for(IRelationship relationship : ArchimateModelUtils.getRelationships(element)) {
-                if(!relationsToAdd.contains(relationship) && !DiagramModelUtils.isElementReferencedInDiagram(targetDiagramModel, relationship)) { // not already on diagram
-                    relationsToAdd.add(relationship);
+                if(!fRelationsToAdd.contains(relationship)) {
+                    fRelationsToAdd.add(relationship);
                 }
             }
         }

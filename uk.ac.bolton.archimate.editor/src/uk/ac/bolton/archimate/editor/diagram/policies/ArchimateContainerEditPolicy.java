@@ -17,7 +17,6 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
@@ -36,34 +35,34 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
 	@Override
     public Command getOrphanChildrenCommand(GroupRequest request) {
 	    CompoundCommand result = (CompoundCommand)super.getOrphanChildrenCommand(request);
+	    
+	    // If we use nested connections and the EditPart model is an Archimate type object...
+	    if(ConnectionPreferences.useNestedConnections() && getHost().getModel() instanceof IDiagramModelArchimateObject) {
+	        IDiagramModelArchimateObject parentObject = (IDiagramModelArchimateObject)getHost().getModel();
+	        IArchimateElement parentElement = parentObject.getArchimateElement();
 
-        IDiagramModelContainer parent = (IDiagramModelContainer)getHost().getModel();
+	        // Iterate thru the child EditParts...
+	        for(Object o : request.getEditParts()) {
+	            IDiagramModelObject child = (IDiagramModelObject)((EditPart)o).getModel();
 
-        for(Object o : request.getEditParts()) {
-            EditPart editPart = (EditPart)o;
-            IDiagramModelObject child = (IDiagramModelObject)editPart.getModel();
-            
-            if(parent instanceof IDiagramModelArchimateObject && child instanceof IDiagramModelArchimateObject) {
-                IDiagramModelArchimateObject parentObject = (IDiagramModelArchimateObject)parent;
-                IDiagramModelArchimateObject childObject = (IDiagramModelArchimateObject)child;
-                
-                IArchimateElement parentElement = parentObject.getArchimateElement();
-                IArchimateElement childElement = childObject.getArchimateElement();
+	            // If it's an Archimate type child object...
+	            if(child instanceof IDiagramModelArchimateObject) {
+	                IDiagramModelArchimateObject childObject = (IDiagramModelArchimateObject)child;
+	                IArchimateElement childElement = childObject.getArchimateElement();
 
-                if(ConnectionPreferences.useNestedConnections()) {
-                    for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(parentElement)) {
-                        if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
-                            IDiagramModelArchimateConnection connection = DiagramModelUtils.findDiagramModelConnectionForRelation(parent.getDiagramModel(), relation);
-                            // There's not one already there
-                            if(connection == null) {
-                                result.add(new NewConnectionCommand(parentObject, childObject, relation));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
+	                // See if there are any (nested type) relationships between parent element and child element...
+	                for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(parentElement)) {
+	                    if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
+	                        // And there's not one already there...
+	                        if(!DiagramModelUtils.hasDiagramModelArchimateConnection(parentObject, childObject, relation)) {
+	                            result.add(new NewConnectionCommand(parentObject, childObject, relation));
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
         return result;
     }
 	

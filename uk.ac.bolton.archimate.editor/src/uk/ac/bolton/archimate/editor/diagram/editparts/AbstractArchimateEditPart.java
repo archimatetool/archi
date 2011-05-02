@@ -14,6 +14,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
+import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -106,7 +107,7 @@ implements IArchimateEditPart {
             // and this box contains that box and that box qualifies, remove the connection
             for(IDiagramModelConnection connection : originalList) {
                 if(connection instanceof IDiagramModelArchimateConnection) {
-                    if(ConnectionPreferences.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection)) {
+                    if(DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection)) {
                         newList.remove(connection);
                     }
                 }
@@ -140,7 +141,7 @@ implements IArchimateEditPart {
             // and the parent of this is the source of the connection
             for(IDiagramModelConnection connection : originalList) {
                 if(connection instanceof IDiagramModelArchimateConnection) {
-                    if(ConnectionPreferences.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection)) {
+                    if(DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection)) {
                         newList.remove(connection);
                     }
                 }

@@ -36,6 +36,7 @@ import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionSynchroniser;
 import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IRelationship;
 
@@ -125,13 +126,25 @@ implements IDiagramEditor {
         List<EditPart> editParts = new ArrayList<EditPart>();
         
         for(IArchimateElement element : elements) {
-            boolean result = addEditPartToSelection(element, editParts);
-            // If element is a relationship that has no diagram connection but is expressed as an implicit nested
-            // parent/child container representatation of a connection then select the parent and child elements
-            if(!result && element instanceof IRelationship && ConnectionPreferences.useNestedConnections()) {
-                if(DiagramModelUtils.isRelationReferencedInDiagramAsNestedConnection(getModel(), (IRelationship)element)) {
-                    addEditPartToSelection(((IRelationship)element).getSource(), editParts);
-                    addEditPartToSelection(((IRelationship)element).getTarget(), editParts);
+            // Find Diagram Components
+            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(getModel(), element)) {
+                EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(dc);
+                if(editPart != null && !editParts.contains(editPart)) {
+                    editParts.add(editPart);
+                }
+            }
+            
+            // Find Components from nested connections
+            if(ConnectionPreferences.useNestedConnections() && element instanceof IRelationship) {
+                for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)element)) {
+                    EditPart editPart1 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[0]);
+                    EditPart editPart2 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[1]);
+                    if(editPart1 != null && !editParts.contains(editPart1)) {
+                        editParts.add(editPart1);
+                    }
+                    if(editPart2 != null && !editParts.contains(editPart2)) {
+                        editParts.add(editPart2);
+                    }
                 }
             }
         }
@@ -143,20 +156,6 @@ implements IDiagramEditor {
         else {
             getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
         }
-    }
-    /*
-     * Find an edit part corresponding to element and it to the list of editParts
-     */
-    private boolean addEditPartToSelection(IArchimateElement element, List<EditPart> editParts) {
-        IDiagramModelComponent dc = DiagramModelUtils.findDiagramModelComponentForElement(getModel(), element);
-        if(dc != null) {
-            EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(dc);
-            if(editPart != null && !editParts.contains(editPart)) {
-                editParts.add(editPart);
-                return true;
-            }
-        }
-        return false;
     }
     
     /**

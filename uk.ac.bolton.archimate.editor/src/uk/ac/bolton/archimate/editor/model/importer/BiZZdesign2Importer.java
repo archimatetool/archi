@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.text.rtf.RTFEditorKit;
 
@@ -172,6 +174,7 @@ public class BiZZdesign2Importer implements IModelImporter {
     private Map<String, IDiagramModelConnection> fDiagramConnections = new HashMap<String, IDiagramModelConnection>();
     
     // Temporary table for adding connections
+    // This is the wrong way to do it, fix this in v3 Importer
     private Map<IRelationship, String> fDiagramConnectionsTempMap;
     
     private String AMBER_COMPONENT_ID;
@@ -426,16 +429,12 @@ public class BiZZdesign2Importer implements IModelImporter {
             // Element
             if(fElements.containsKey(to)) {
                 IArchimateElement element = fElements.get(to);
-                // No dupes in Diagram
-                IDiagramModelArchimateObject dmo = DiagramModelUtils.findDiagramModelObjectForElement(diagramModelContainer.getDiagramModel(), element);
-                if(dmo == null) {
-                    dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                    dmo.setId(id);
-                    dmo.setArchimateElement(element);
-                    dmo.setBounds(10, 10, -1, -1);
-                    diagramModelContainer.getChildren().add(dmo);
-                    fDiagramObjects.put(id, dmo);
-                }
+                IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+                dmo.setId(id);
+                dmo.setArchimateElement(element);
+                dmo.setBounds(10, 10, -1, -1);
+                diagramModelContainer.getChildren().add(dmo);
+                fDiagramObjects.put(id, dmo);
                 
                 // Child objects
                 for(Object o : eRefObject.getChildren()) {
@@ -492,21 +491,23 @@ public class BiZZdesign2Importer implements IModelImporter {
     
     /**
      * Add Diagram Connections
+     * This is not the correct way to do this!
      */
     private void addDiagramConnections(IDiagramModel diagramModel) {
-        for(IRelationship relationship : fDiagramConnectionsTempMap.keySet()) {
-            if(DiagramModelUtils.findDiagramModelConnectionForRelation(diagramModel, relationship) == null) {
-                IDiagramModelArchimateObject source = DiagramModelUtils.findDiagramModelObjectForElement(diagramModel, relationship.getSource());
-                IDiagramModelArchimateObject target = DiagramModelUtils.findDiagramModelObjectForElement(diagramModel, relationship.getTarget());
-                if(source != null && target != null) {
-                    IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                    String id = fDiagramConnectionsTempMap.get(relationship);
-                    connection.setId(id);
-                    connection.setRelationship(relationship);
-                    connection.connect(source, target);
-                    addConnectionLabel(connection);
-                    fDiagramConnections.put(id, connection);
-                }
+        for(Entry<IRelationship, String> entry : fDiagramConnectionsTempMap.entrySet()) {
+            IRelationship relationship = entry.getKey();
+            
+            List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(diagramModel, relationship.getSource());
+            List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(diagramModel, relationship.getTarget());
+            
+            if(!sources.isEmpty() && !targets.isEmpty()) {
+                IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+                String id = entry.getValue();
+                connection.setId(id);
+                connection.setRelationship(relationship);
+                connection.connect(sources.get(0), targets.get(0));
+                addConnectionLabel(connection);
+                fDiagramConnections.put(id, connection);
             }
         }
     }

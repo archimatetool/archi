@@ -14,10 +14,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 
-import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 
@@ -88,40 +85,6 @@ public class ConnectionPreferences extends Preferences {
      */
     public static boolean createRelationWhenMovingElement() {
         return useNestedConnections() && STORE.getBoolean(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER);
-    }
-    
-    /**
-     * @param connection
-     * @return true if a connection should be hidden when its source (parent) element contains its target (child) element
-     */
-    public static boolean shouldBeHiddenConnection(IDiagramModelArchimateConnection connection) {
-        if(!useNestedConnections()) {
-            return false;
-        }
-        
-        // Only if source and target elements are ArchiMate elements
-        if(connection.getSource() instanceof IDiagramModelArchimateObject && connection.getTarget() instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)connection.getSource();
-            IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)connection.getTarget();
-            
-            // Junction types are excluded
-            if(!DiagramModelUtils.isNestedConnectionTypeElement(source.getArchimateElement()) || 
-                    !DiagramModelUtils.isNestedConnectionTypeElement(target.getArchimateElement())) {
-                return false;
-            }
-            
-            // If The Source Element contains the Target Element
-            if(source.getChildren().contains(target)) {
-                // And it's a relationship type we have chosen to hide
-                for(EClass eClass : getRelationsClassesForHiding()) {
-                    if(connection.getRelationship().eClass() == eClass) {
-                        return true;
-                    }
-                }
-            }
-        }
-        
-        return false;
     }
     
     /**

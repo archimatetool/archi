@@ -15,7 +15,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
-import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
@@ -71,10 +70,7 @@ public class DiagramTransferDropTargetListener extends AbstractTransferDropTarge
     protected boolean isEnabled(Object element) {
         // Archimate Element
         if(element instanceof IArchimateElement) {
-            // Ensure it is not already on the target diagram
-            if(!DiagramModelUtils.isElementReferencedInDiagram(getTargetDiagramModel(), (IArchimateElement)element)) {
-                return true;
-            }
+            return true;
         }
         // Diagram Model Reference
         else if(element instanceof IDiagramModel) {
