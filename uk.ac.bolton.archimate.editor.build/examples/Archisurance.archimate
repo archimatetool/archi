@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.bolton.ac.uk/archimate" name="Archisurance" id="11f5304f" version="1.2.0">
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.bolton.ac.uk/archimate" name="Archisurance" id="11f5304f" version="1.4.0">
   <folder name="Business" id="8c90fdfa" type="business">
     <folder name="Actors" id="fa63373b">
       <element xsi:type="archimate:BusinessInterface" id="1544" name="mail"/>
@@ -661,7 +661,7 @@
         <bounds x="20" y="210" width="120" height="40"/>
         <sourceConnection xsi:type="archimate:Connection" id="3815" source="3782" target="3779" relationship="655"/>
       </child>
-      <child xsi:type="archimate:DiagramObject" id="3786" targetConnections="3816 3800 3814" fillColor="#0080ff" archimateElement="674">
+      <child xsi:type="archimate:DiagramObject" id="3786" targetConnections="3816 3800" fillColor="#0080ff" archimateElement="674">
         <bounds x="190" y="370" width="120" height="40"/>
       </child>
       <child xsi:type="archimate:DiagramObject" id="3787" targetConnections="3804 3802 3803 3801" fillColor="#0080ff" archimateElement="673">
@@ -696,9 +696,7 @@
         </child>
         <child xsi:type="archimate:DiagramObject" id="3780" targetConnections="3799" archimateElement="588">
           <bounds x="510" y="20" width="120" height="60"/>
-          <sourceConnection xsi:type="archimate:Connection" id="3814" text="update" source="3780" target="3786" relationship="712">
-            <bendpoint startX="-101" startY="116" endX="389" endY="-44"/>
-          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="3814" text="update" source="3780" target="e1dfdab4" relationship="712"/>
         </child>
       </child>
       <child xsi:type="archimate:DiagramObject" id="3791" targetConnections="3810 3807" archimateElement="514">
@@ -743,6 +741,9 @@
         <sourceConnection xsi:type="archimate:Connection" id="3820" source="3790" target="3774" relationship="772"/>
         <sourceConnection xsi:type="archimate:Connection" id="3808" source="3790" target="3792" relationship="760"/>
         <sourceConnection xsi:type="archimate:Connection" id="3807" source="3790" target="3791" relationship="758"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="e1dfdab4" targetConnections="3814" archimateElement="674">
+        <bounds x="680" y="328" width="119" height="40"/>
       </child>
     </element>
     <element xsi:type="archimate:DiagramModel" id="3698" name="Organisation Structure View">
