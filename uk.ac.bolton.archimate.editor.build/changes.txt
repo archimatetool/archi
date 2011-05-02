@@ -1,8 +1,8 @@
 Archi Changes
 -------------
 
-Version 1.7 April 28 2011
--------------------------
+Version 1.7 May 5 2011
+----------------------
 + Can now add User Properties to Elements
 + Search/Filter on Model Tree can search on User Properties
 + HTML Report improved and contains User Properties
