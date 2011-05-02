@@ -1,6 +1,13 @@
 Archi Changes
 -------------
 
+Version 1.8 June XX 2011
+------------------------
++ Support for multiple occurrences of objects and connections in a View
++ Palette is now detachable and improved
+
+
+
 Version 1.7 May 5 2011
 ----------------------
 + Can now add User Properties to Elements
