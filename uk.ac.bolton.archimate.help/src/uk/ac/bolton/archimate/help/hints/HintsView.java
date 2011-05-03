@@ -179,6 +179,10 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     private Browser createBrowser(Composite parent) {
         Browser browser = null;
         try {
+            // On Eclipse 3.6 set this
+            if(PlatformUtils.isGTK()) {
+                System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true");
+            }
             browser = new Browser(parent, SWT.NONE);
         }
         catch(SWTError error) {
@@ -188,7 +192,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             fTitleLabel.setBackground(new Color[]{ColorFactory.COLOR_GROUP, ColorConstants.white}, new int[]{80}, false);
             Text text = new Text(parent, SWT.MULTI | SWT.WRAP);
             text.setLayoutData(new GridData(GridData.FILL_BOTH));
-            text.setText("Cannot create Browser component.\nIf you are running on Linux, try installing xulrunner-1.9.2.");
+            text.setText("Cannot create Browser component.\nIf you are running on Linux, try installing xulrunner-1.9.2 and/or libwebkit-1.0-2.");
         }
         
         return browser;
