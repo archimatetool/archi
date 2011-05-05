@@ -50,7 +50,7 @@ public class TextContentSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Content:", STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, "Content:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         
