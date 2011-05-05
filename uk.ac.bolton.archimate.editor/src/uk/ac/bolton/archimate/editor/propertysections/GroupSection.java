@@ -35,10 +35,14 @@ public class GroupSection extends AbstractArchimatePropertySection {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Element Name event (Undo/Redo and here!)
+            // Element Name event (Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refresh();
+                refreshNameField();
                 fPage.labelProviderChanged(null); // Update Main label
+            }
+            // Element Documentation event (Undo/Redo and here)
+            else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
+                refreshDocumentationField();
             }
         }
     };
@@ -46,10 +50,12 @@ public class GroupSection extends AbstractArchimatePropertySection {
     private IDiagramModelGroup fDiagramModelGroup;
     
     private PropertySectionTextControl fTextName;
+    private PropertySectionTextControl fTextDocumentation;
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "");
+        fTextName = createNameControl(parent, "Add a name for this group here");
+        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this group here");
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -71,9 +77,18 @@ public class GroupSection extends AbstractArchimatePropertySection {
     @Override
     public void refresh() {
         // Populate fields...
+        refreshNameField();
+        refreshDocumentationField();
+    }
+    
+    protected void refreshNameField() {
         fTextName.refresh(fDiagramModelGroup);
     }
     
+    protected void refreshDocumentationField() {
+        fTextDocumentation.refresh(fDiagramModelGroup);
+    }
+
     @Override
     protected Adapter getECoreAdapter() {
         return eAdapter;
@@ -83,4 +98,10 @@ public class GroupSection extends AbstractArchimatePropertySection {
     protected EObject getEObject() {
         return fDiagramModelGroup;
     }
+    
+    @Override
+    public boolean shouldUseExtraSpace() {
+        return true;
+    }
+
 }

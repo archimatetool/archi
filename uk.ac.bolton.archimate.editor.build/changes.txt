@@ -5,6 +5,7 @@ Version 1.8 June XX 2011
 ------------------------
 + Support for multiple occurrences of objects and connections in a View
 + Palette is now detachable and improved
++ Group diagram element now supports "Documentation" field
 
 
 
