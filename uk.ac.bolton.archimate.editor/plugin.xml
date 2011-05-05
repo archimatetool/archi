@@ -361,6 +361,14 @@
             </input>
          </propertySection>
          <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.SketchStickySection"
+               id="sketchStickySection"
+               tab="main.tab">
+            <input
+                  type="uk.ac.bolton.archimate.editor.diagram.sketch.editparts.StickyEditPart">
+            </input>
+         </propertySection>
+         <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.DiagramFigureTypeSection"
                filter="uk.ac.bolton.archimate.editor.propertysections.DiagramFigureTypeSection$Filter"
                id="diagramFigureTypeSection"

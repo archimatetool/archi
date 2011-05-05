@@ -9,6 +9,7 @@ Version 1.8 June XX 2011
 + Group diagram objects now have the "Documentation" field
 + Group diagram objects can be added to Sketch Views
 + Group diagram objects and Sketch View diagram objects now have Properties
++ Added "Name" field to Sketch Stickies
 
 
 
