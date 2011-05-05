@@ -336,7 +336,7 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             throw new IllegalArgumentException("Connection was null");
         }
         if(connection.getSource() == connection.getTarget()) {
-            throw new IllegalArgumentException("Connection source is same as target!");
+            //throw new IllegalArgumentException("Connection source is same as target!");
         }
         
         // This used to be "if/else if". This way it is possible for source == target (recursive) - just in case!

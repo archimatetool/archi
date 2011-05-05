@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -51,11 +51,9 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         
         // Archimate Model Object Source
         else if(source instanceof IDiagramModelArchimateObject) {
-            if(!isValidConnectionSource((IDiagramModelArchimateObject)source, classType)) {
-                return null;
+            if(isValidConnectionSource((IDiagramModelArchimateObject)source, classType)) {
+                cmd = new CreateArchimateConnectionCommand(request);
             }
-            
-            cmd = new CreateArchimateConnectionCommand(request);
         }
         
         if(cmd != null) {
@@ -189,7 +187,7 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     // ==================================================================================================
     
     /*
-     * Command to create a line connection
+     * Command to create a line connection for notes
      */
     private class CreateLineConnectionCommand extends CreateDiagramConnectionCommand {
         public CreateLineConnectionCommand(CreateConnectionRequest request) {
@@ -222,7 +220,7 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             // Now add the relationship to the model
             ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
         }
-        
+
         @Override
         public void redo() {
             super.redo();
@@ -315,6 +313,9 @@ public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
         
         // Connection from/to notes
+        if(source instanceof IDiagramModelNote && target instanceof IDiagramModelNote) {
+            return source != target; // No circular relations on notes
+        }
         if(source instanceof IDiagramModelNote || target instanceof IDiagramModelNote) {
             return relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection();
         }

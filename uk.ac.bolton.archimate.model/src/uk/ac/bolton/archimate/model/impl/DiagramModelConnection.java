@@ -489,7 +489,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             throw new IllegalArgumentException("Source or Target cannot be null");
         }
         if(source == target) {
-            throw new IllegalArgumentException("Source cannot be the same as target!");
+            //throw new IllegalArgumentException("Source cannot be the same as target!");
         }
         
         // Same as before, don't bother

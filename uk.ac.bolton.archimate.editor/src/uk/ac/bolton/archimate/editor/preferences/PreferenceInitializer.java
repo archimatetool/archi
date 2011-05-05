@@ -52,6 +52,8 @@ implements IPreferenceConstants {
 
         store.setDefault(ANIMATE_MAGIC_CONNECTOR, true);
         store.setDefault(MAGIC_CONNECTOR_POLARITY, true);
+        
+        store.setDefault(ALLOW_CIRCULAR_CONNECTIONS, false);
 
         store.setDefault(USE_NESTED_CONNECTIONS, true);
         store.setDefault(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER, true);

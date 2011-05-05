@@ -47,6 +47,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fMagicConnectorPolarity1Button;
     private Button fMagicConnectorPolarity2Button;
     
+    private Button fAllowCircularConnectionsButton;
+    
     private Button fUseNestedConnectionsButton;
     private Button fCreateRelationWhenAddingNewElementButton;
     private Button fCreateRelationWhenAddingModelTreeElementButton;
@@ -70,6 +72,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
         
+        // Magic Connector
         Group magicConnectorGroup = new Group(client, SWT.NULL);
         magicConnectorGroup.setText("Magic Connector");
         magicConnectorGroup.setLayout(new GridLayout());
@@ -89,7 +92,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMagicConnectorPolarity2Button.setText("Show Connections first (Use the Ctrl key to swap)");
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fMagicConnectorPolarity2Button.setLayoutData(gd);
+        
+        // Connections
+        Group connectorGroup = new Group(client, SWT.NULL);
+        connectorGroup.setText("Connections");
+        connectorGroup.setLayout(new GridLayout());
+        connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fAllowCircularConnectionsButton = new Button(connectorGroup, SWT.CHECK);
+        fAllowCircularConnectionsButton.setText("Allow circular connections");
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fAllowCircularConnectionsButton.setLayoutData(gd);
 
+        // Nested Connections (ARM)
         Group nestedConnectionsGroup = new Group(client, SWT.NULL);
         nestedConnectionsGroup.setText("Automatic Relationship Management");
         nestedConnectionsGroup.setLayout(new GridLayout());
@@ -221,8 +236,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         
-        fUseNestedConnectionsButton.setSelection(getPreferenceStore().getBoolean(USE_NESTED_CONNECTIONS));
+        fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getBoolean(ALLOW_CIRCULAR_CONNECTIONS));
         
+        fUseNestedConnectionsButton.setSelection(getPreferenceStore().getBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
         fCreateRelationWhenAddingModelTreeElementButton.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER));
         fCreateRelationWhenMovingElement.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER));
@@ -238,8 +254,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(ANIMATE_MAGIC_CONNECTOR, fDoAnimateMagicConnectorButton.getSelection());
         getPreferenceStore().setValue(MAGIC_CONNECTOR_POLARITY, fMagicConnectorPolarity1Button.getSelection());
         
-        getPreferenceStore().setValue(USE_NESTED_CONNECTIONS, fUseNestedConnectionsButton.getSelection());
+        getPreferenceStore().setValue(ALLOW_CIRCULAR_CONNECTIONS, fAllowCircularConnectionsButton.getSelection());
         
+        getPreferenceStore().setValue(USE_NESTED_CONNECTIONS, fUseNestedConnectionsButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingNewElementButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingModelTreeElementButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER, fCreateRelationWhenMovingElement.getSelection());
@@ -267,6 +284,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fDoAnimateMagicConnectorButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_MAGIC_CONNECTOR));
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
+        
+        fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(ALLOW_CIRCULAR_CONNECTIONS));
         
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));

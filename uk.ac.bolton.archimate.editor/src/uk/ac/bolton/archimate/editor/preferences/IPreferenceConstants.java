@@ -50,6 +50,8 @@ public interface IPreferenceConstants {
     String ANIMATE_MAGIC_CONNECTOR = "animateMagicConnector";
     String MAGIC_CONNECTOR_POLARITY = "polarityMagicConnector";
     
+    String ALLOW_CIRCULAR_CONNECTIONS = "circularConnections";
+    
     String USE_NESTED_CONNECTIONS = "useNestedConnections";
     String CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER = "createRelationWhenAddingNewElementToContainer";
     String CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER = "createRelationWhenAddingModelTreeElementToContainer";

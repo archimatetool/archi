@@ -6,8 +6,12 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.commands;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
@@ -25,6 +29,11 @@ extends Command {
     protected IDiagramModelObject fNewTarget;
     protected IDiagramModelObject fOldSource;
     protected IDiagramModelObject fOldTarget;
+    
+    /**
+     * Extra bendpoints were added as a result of a circular connection
+     */
+    protected Command fBendpointCommand;
 
     public ReconnectDiagramConnectionCommand(IDiagramModelConnection connection) {
         if(connection == null) {
@@ -64,8 +73,10 @@ extends Command {
         if(fOldSource == fNewSource) {
             return false;
         }
-        // Disallow same node connections
-        return fNewSource != fOldTarget;
+
+        // Disallow same node connections if not enabled in Preferences
+        boolean allowCircularConnection = Preferences.STORE.getBoolean(IPreferenceConstants.ALLOW_CIRCULAR_CONNECTIONS);
+        return allowCircularConnection ? true : fNewSource != fOldTarget;
     }
     
     protected boolean checkTargetConnection() {
@@ -74,10 +85,10 @@ extends Command {
             return false;
         }
         
-        // Disallow same node connections
-        return fNewTarget != fOldSource;
+        // Disallow same node connections if not enabled in Preferences
+        boolean allowCircularConnection = Preferences.STORE.getBoolean(IPreferenceConstants.ALLOW_CIRCULAR_CONNECTIONS);
+        return allowCircularConnection ? true : fNewTarget != fOldSource;
     }
-
 
     @Override
     public void execute() {
@@ -90,6 +101,14 @@ extends Command {
         else {
             throw new IllegalStateException("Should not happen");
         }
+        
+        // If it's a circular connection, add some bendpoints if there are none
+        if(fConnection.getSource() == fConnection.getTarget() && fConnection.getBendpoints().size() < 2) {
+            if(fBendpointCommand == null) {
+                fBendpointCommand = createBendPointsCommand();
+            }
+            fBendpointCommand.execute();
+        }
     }
 
     /**
@@ -98,6 +117,46 @@ extends Command {
     @Override
     public void undo() {
         fConnection.connect(fOldSource, fOldTarget);
+        
+        if(fBendpointCommand != null) {
+            fBendpointCommand.undo();
+        }
+    }
+    
+    /**
+     * Adding a circular connection requires some bendpoints
+     */
+    protected Command createBendPointsCommand() {
+        int width = fConnection.getSource().getBounds().getWidth();
+        if(width == -1) {
+            width = 100;
+        }
+        int height = fConnection.getSource().getBounds().getHeight();
+        if(height == -1) {
+            height = 60;
+        }
+        
+        width = (int)Math.max(100, width * 0.6);
+        height = (int)Math.max(60, height * 0.6);
+        
+        CompoundCommand result = new CompoundCommand();
+        
+        CreateBendpointCommand cmd = new CreateBendpointCommand();
+        cmd.setDiagramModelConnection(fConnection);
+        cmd.setRelativeDimensions(new Dimension(width, 0), new Dimension(width, 0));
+        result.add(cmd);
+        
+        cmd = new CreateBendpointCommand();
+        cmd.setDiagramModelConnection(fConnection);
+        cmd.setRelativeDimensions(new Dimension(width, height), new Dimension(width, height));
+        result.add(cmd);
+        
+        cmd = new CreateBendpointCommand();
+        cmd.setDiagramModelConnection(fConnection);
+        cmd.setRelativeDimensions(new Dimension(0, height), new Dimension(0, height));
+        result.add(cmd);
+        
+        return result;
     }
     
     @Override

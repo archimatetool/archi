@@ -6,9 +6,12 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.commands;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
@@ -64,14 +67,21 @@ extends Command {
         if(fTarget == null || fSource == null) {
             return false;
         }
-        // Disallow same node connections
-        return !fSource.equals(fTarget);
+        
+        // Disallow same node connections if not enabled in Preferences
+        boolean allowCircularConnection = Preferences.STORE.getBoolean(IPreferenceConstants.ALLOW_CIRCULAR_CONNECTIONS);
+        return allowCircularConnection ? true : fSource != fTarget;
     }
 
     @Override
     public void execute() {
         fConnection = (IDiagramModelConnection)fRequest.getNewObject();
         fConnection.connect(fSource, fTarget);
+        
+        // If it's a circular connection, add some bendpoints
+        if(fConnection.getSource() == fConnection.getTarget()) {
+            createBendPoints();
+        }
     }
 
     @Override
@@ -82,6 +92,35 @@ extends Command {
     @Override
     public void undo() {
         fConnection.disconnect();
+    }
+    
+    /**
+     * Adding a circular connection requires some bendpoints
+     */
+    protected void createBendPoints() {
+        int width = fConnection.getSource().getBounds().getWidth();
+        if(width == -1) {
+            width = 100;
+        }
+        int height = fConnection.getSource().getBounds().getHeight();
+        if(height == -1) {
+            height = 60;
+        }
+        
+        width = (int)Math.max(100, width * 0.6);
+        height = (int)Math.max(60, height * 0.6);
+        
+        CreateBendpointCommand cmd = new CreateBendpointCommand();
+        cmd.setDiagramModelConnection(fConnection);
+        
+        cmd.setRelativeDimensions(new Dimension(width, 0), new Dimension(width, 0));
+        cmd.execute();
+        
+        cmd.setRelativeDimensions(new Dimension(width, height), new Dimension(width, height));
+        cmd.execute();
+        
+        cmd.setRelativeDimensions(new Dimension(0, height), new Dimension(0, height));
+        cmd.execute();
     }
     
     @Override
