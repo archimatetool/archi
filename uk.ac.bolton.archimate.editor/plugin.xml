@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.5"?>
+<?eclipse version="3.6"?>
 <plugin>
    <extension-point id="exportHandler" name="Export Handler" schema="schema/exportHandler.exsd"/>
    <extension-point id="importHandler" name="Import Handler" schema="schema/importHandler.exsd"/>
@@ -233,16 +233,22 @@
             </input>
          </propertySection>
          <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionNameDocumentationSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionNameDocumentationSection$Filter"
+               id="connectionNameSection"
+               tab="main.tab">
+         </propertySection>
+         <propertySection
                afterSection="archimateElementSection"
                class="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionSection"
-               id="connectionSection"
+               id="connectionAppearanceSection"
                tab="appearance.tab">
             <input
                   type="uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart">
             </input>
          </propertySection>
          <propertySection
-               afterSection="connectionSection"
+               afterSection="connectionAppearanceSection"
                class="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionLineStyleSection"
                id="connectionTypeSection"
                tab="appearance.tab">
@@ -377,7 +383,7 @@
          <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.UserPropertiesSection"
                filter="uk.ac.bolton.archimate.editor.propertysections.UserPropertiesSection$Filter"
-               id="archimatePropertiesSection"
+               id="userPropertiesSection"
                tab="properties.tab">
          </propertySection>
       </propertySections>
