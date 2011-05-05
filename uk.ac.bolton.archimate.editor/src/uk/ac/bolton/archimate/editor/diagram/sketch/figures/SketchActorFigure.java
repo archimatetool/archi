@@ -12,6 +12,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractLabelFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 
@@ -81,4 +84,19 @@ public class SketchActorFigure extends AbstractLabelFigure {
         return bounds;
     }
 
+    @Override
+    protected void setToolTip() {
+        if(!Preferences.doShowViewTooltips()) {
+            setToolTip(null); // clear it in case user changed Prefs
+            return;
+        }
+
+        if(getToolTip() == null) {
+            setToolTip(new ToolTipFigure());
+        }
+
+        String text = StringUtils.safeString(getDiagramModelObject().getName());
+        ((ToolTipFigure)getToolTip()).setText(text);
+        ((ToolTipFigure)getToolTip()).setType("Type: Actor");
+    }
 }

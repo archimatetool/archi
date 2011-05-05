@@ -13,6 +13,7 @@ import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
@@ -60,6 +61,8 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
             setToolTip(new ToolTipFigure());
         }
 
-        ((ToolTipFigure)getToolTip()).setText("Connection");
+        String text = StringUtils.safeString(getModelConnection().getName());
+        ((ToolTipFigure)getToolTip()).setText(text);
+        ((ToolTipFigure)getToolTip()).setType("Type: Connection");
     }
 }

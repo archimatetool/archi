@@ -20,7 +20,9 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
@@ -81,6 +83,9 @@ public class StickyFigure extends AbstractContainerFigure {
     public void refreshVisuals() {
         // Text
         setText();
+        
+        // Tooltip
+        setToolTip();
         
         // Font
         setFont();
@@ -144,4 +149,21 @@ public class StickyFigure extends AbstractContainerFigure {
         graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
         graphics.popState();
     }
+    
+    @Override
+    protected void setToolTip() {
+        if(!Preferences.doShowViewTooltips()) {
+            setToolTip(null); // clear it in case user changed Prefs
+            return;
+        }
+
+        if(getToolTip() == null) {
+            setToolTip(new ToolTipFigure());
+        }
+
+        String text = StringUtils.safeString(getDiagramModelObject().getName());
+        ((ToolTipFigure)getToolTip()).setText(text);
+        ((ToolTipFigure)getToolTip()).setType("Type: Sticky");
+    }
+
 }
