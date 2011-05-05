@@ -17,5 +17,5 @@ package uk.ac.bolton.archimate.model;
  * @model
  * @generated
  */
-public interface ISketchModelActor extends IDiagramModelObject, IDocumentable {
+public interface ISketchModelActor extends IDiagramModelObject, IDocumentable, IProperties {
 } // ISketchModelActor

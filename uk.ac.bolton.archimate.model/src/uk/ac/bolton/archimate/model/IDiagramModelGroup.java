@@ -17,5 +17,5 @@ package uk.ac.bolton.archimate.model;
  * @model
  * @generated
  */
-public interface IDiagramModelGroup extends IDiagramModelObject, IDiagramModelContainer, IDocumentable {
+public interface IDiagramModelGroup extends IDiagramModelObject, IDiagramModelContainer, IDocumentable, IProperties {
 } // IDiagramModelGroup

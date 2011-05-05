@@ -23,6 +23,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +36,7 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getFont <em>Font</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getFontColor <em>Font Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextAlignment <em>Text Alignment</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getProperties <em>Properties</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getText <em>Text</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getSource <em>Source</em>}</li>
@@ -107,6 +110,16 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @ordered
      */
     protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * The default value of the '{@link #getText() <em>Text</em>}' attribute.
@@ -325,6 +338,18 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public String getText() {
         return text;
     }
@@ -535,6 +560,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 return ((InternalEList<?>)getBendpoints()).basicRemove(otherEnd, msgs);
         }
@@ -563,6 +590,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return getFontColor();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 return getTextAlignment();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
+                return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return getText();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
@@ -600,6 +629,10 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 setTextAlignment((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText((String)newValue);
@@ -647,6 +680,9 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
+                getProperties().clear();
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText(TEXT_EDEFAULT);
                 return;
@@ -689,6 +725,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return FONT_COLOR_EDEFAULT == null ? fontColor != null : !FONT_COLOR_EDEFAULT.equals(fontColor);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
+                return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
@@ -724,6 +762,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -739,6 +783,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT;
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR;
                 case IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES;
                 default: return -1;
             }
         }

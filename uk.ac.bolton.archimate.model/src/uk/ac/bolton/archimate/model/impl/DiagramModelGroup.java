@@ -23,6 +23,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDocumentable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,6 +35,7 @@ import uk.ac.bolton.archimate.model.IDocumentable;
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelGroup#getChildren <em>Children</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelGroup#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelGroup#getProperties <em>Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +70,16 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * @ordered
      */
     protected String documentation = DOCUMENTATION_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * <!-- begin-user-doc -->
@@ -132,11 +145,25 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN:
                 return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -153,6 +180,8 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 return getChildren();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
                 return getDocumentation();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
+                return getProperties();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -173,6 +202,10 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
                 setDocumentation((String)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -191,6 +224,9 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
+                getProperties().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -207,6 +243,8 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 return children != null && !children.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES:
+                return properties != null && !properties.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -230,6 +268,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -249,6 +293,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         if (baseClass == IDocumentable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.DIAGRAM_MODEL_GROUP__PROPERTIES;
                 default: return -1;
             }
         }

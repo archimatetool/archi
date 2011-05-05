@@ -4,10 +4,11 @@ Archi Changes
 Version 1.8 June XX 2011
 ------------------------
 + Support for multiple occurrences of objects and connections in a View
-+ Elements can have circular relationships and connections (self-self)
++ Elements can have circular relationships and connections (self <---> self)
 + Palette is now detachable and improved
-+ Group diagram element now supports "Documentation" field
-+ Group diagram elements can be added to Sketch Views
++ Group diagram objects now have the "Documentation" field
++ Group diagram objects can be added to Sketch Views
++ Group diagram objects and Sketch View diagram objects now have Properties
 
 
 

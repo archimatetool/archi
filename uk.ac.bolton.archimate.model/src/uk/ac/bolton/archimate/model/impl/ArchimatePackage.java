@@ -2263,18 +2263,22 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelGroupEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelGroupEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelGroupEClass.getESuperTypes().add(this.getDocumentable());
+        diagramModelGroupEClass.getESuperTypes().add(this.getProperties());
         diagramModelNoteEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelNoteEClass.getESuperTypes().add(this.getTextContent());
         diagramModelConnectionEClass.getESuperTypes().add(this.getDiagramModelComponent());
         diagramModelConnectionEClass.getESuperTypes().add(this.getFontAttribute());
+        diagramModelConnectionEClass.getESuperTypes().add(this.getProperties());
         diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelConnection());
         diagramModelBendpointEClass.getESuperTypes().add(this.getCloneable());
         sketchModelEClass.getESuperTypes().add(this.getDiagramModel());
         sketchModelStickyEClass.getESuperTypes().add(this.getDiagramModelObject());
         sketchModelStickyEClass.getESuperTypes().add(this.getDiagramModelContainer());
         sketchModelStickyEClass.getESuperTypes().add(this.getTextContent());
+        sketchModelStickyEClass.getESuperTypes().add(this.getProperties());
         sketchModelActorEClass.getESuperTypes().add(this.getDiagramModelObject());
         sketchModelActorEClass.getESuperTypes().add(this.getDocumentable());
+        sketchModelActorEClass.getESuperTypes().add(this.getProperties());
 
         // Initialize classes and features; add operations and parameters
         initEClass(adapterEClass, IAdapter.class, "Adapter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$

@@ -17,6 +17,6 @@ package uk.ac.bolton.archimate.model;
  * @model
  * @generated
  */
-public interface ISketchModelSticky extends IDiagramModelObject, IDiagramModelContainer, ITextContent {
+public interface ISketchModelSticky extends IDiagramModelObject, IDiagramModelContainer, ITextContent, IProperties {
 
 } // ISketchModelSticky

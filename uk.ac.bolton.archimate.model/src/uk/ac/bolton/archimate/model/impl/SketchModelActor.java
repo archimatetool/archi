@@ -6,12 +6,20 @@
  */
 package uk.ac.bolton.archimate.model.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDocumentable;
+import uk.ac.bolton.archimate.model.IProperties;
+import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 /**
@@ -22,6 +30,7 @@ import uk.ac.bolton.archimate.model.ISketchModelActor;
  * The following features are implemented:
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.SketchModelActor#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.SketchModelActor#getProperties <em>Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -46,6 +55,16 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
      * @ordered
      */
     protected String documentation = DOCUMENTATION_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getProperties()
+     * @generated
+     * @ordered
+     */
+    protected EList<IProperty> properties;
 
     /**
      * <!-- begin-user-doc -->
@@ -92,11 +111,39 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList<IProperty> getProperties() {
+        if (properties == null) {
+            properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES);
+        }
+        return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES:
+                return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case IArchimatePackage.SKETCH_MODEL_ACTOR__DOCUMENTATION:
                 return getDocumentation();
+            case IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES:
+                return getProperties();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -106,11 +153,16 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
      * <!-- end-user-doc -->
      * @generated
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case IArchimatePackage.SKETCH_MODEL_ACTOR__DOCUMENTATION:
                 setDocumentation((String)newValue);
+                return;
+            case IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES:
+                getProperties().clear();
+                getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -127,6 +179,9 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
             case IArchimatePackage.SKETCH_MODEL_ACTOR__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
                 return;
+            case IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES:
+                getProperties().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -141,6 +196,8 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
         switch (featureID) {
             case IArchimatePackage.SKETCH_MODEL_ACTOR__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+            case IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES:
+                return properties != null && !properties.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -158,6 +215,12 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
                 default: return -1;
             }
         }
+        if (baseClass == IProperties.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -171,6 +234,12 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
         if (baseClass == IDocumentable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.SKETCH_MODEL_ACTOR__DOCUMENTATION;
+                default: return -1;
+            }
+        }
+        if (baseClass == IProperties.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.PROPERTIES__PROPERTIES: return IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES;
                 default: return -1;
             }
         }

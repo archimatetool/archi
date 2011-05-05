@@ -24,7 +24,8 @@ package uk.ac.bolton.archimate.model;
  * 1.2.1 - Archi version 1.6.0 added IInterfaceElement and lineColor to IDiagramModelConnection
  * 1.3.0 - Archi version 1.7.0 added accessType to IAccessRelationship, diagram shortcuts in Sketch Diagrams,
  *         type in IDiagramModelArchimateObject, plain connections in Diagrams, Properties, and Documentation to Folders
- * 1.4.0 - Archi version 1.8.0 added multiple occurrences of objects in a View, Documentation to Groups
+ * 1.4.0 - Archi version 1.8.0 added multiple occurrences of objects in a View, Documentation to Groups, Properties to Sketch
+ *         View objects
  * 
  * @author Phillip Beauvoir
  */
