@@ -45,6 +45,7 @@ import uk.ac.bolton.archimate.editor.ui.ViewManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IProperties;
 
 
 /**
@@ -245,6 +246,9 @@ implements IDiagramConnectionEditPart {
     @Override
     public Object getAdapter(Class adapter) {
         if(adapter == IDiagramModelConnection.class) {
+            return getModel();
+        }
+        if(adapter == IProperties.class && getModel() instanceof IProperties) {
             return getModel();
         }
         return super.getAdapter(adapter);

@@ -39,6 +39,7 @@ import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
+import uk.ac.bolton.archimate.model.IProperties;
 
 
 
@@ -198,7 +199,7 @@ public class DiagramPart extends AbstractGraphicalEditPart {
             return new SnapEditPartAdapter(this).getSnapToHelper();
         }
         
-        if(adapter == IDiagramModel.class) {
+        if(adapter == IDiagramModel.class || adapter == IProperties.class) {
             return getModel();
         }
         

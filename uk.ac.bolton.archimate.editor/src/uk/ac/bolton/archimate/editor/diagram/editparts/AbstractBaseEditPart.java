@@ -18,6 +18,7 @@ import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.IProperties;
 
 
 /**
@@ -137,6 +138,9 @@ public abstract class AbstractBaseEditPart extends AbstractGraphicalEditPart {
     @Override
     public Object getAdapter(Class adapter) {
         if(adapter == IDiagramModelObject.class) {
+            return getModel();
+        }
+        if(adapter == IProperties.class && getModel() instanceof IProperties) {
             return getModel();
         }
         return super.getAdapter(adapter);

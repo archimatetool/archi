@@ -18,6 +18,7 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
+import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils;
 
@@ -138,7 +139,7 @@ implements IArchimateConnectionEditPart {
         if(adapter == IDiagramModelArchimateConnection.class) {
             return getModel();
         }
-        if(adapter == IArchimateElement.class) {
+        if(adapter == IArchimateElement.class || adapter == IProperties.class) {
             return getModel().getRelationship();
         }
         return super.getAdapter(adapter);

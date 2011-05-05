@@ -21,6 +21,7 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IProperties;
 
 /**
  * Abstract Archimate Edit Part with connections
@@ -157,7 +158,7 @@ implements IArchimateEditPart {
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
-        if(adapter == IArchimateElement.class) {
+        if(adapter == IArchimateElement.class || adapter == IProperties.class) {
             return getModel().getArchimateElement();
         }
         return super.getAdapter(adapter);

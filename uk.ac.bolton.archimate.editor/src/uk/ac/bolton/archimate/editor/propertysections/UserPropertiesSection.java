@@ -86,7 +86,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramPart;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectNonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.ui.ExtendedTitleAreaDialog;
@@ -95,12 +94,11 @@ import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.StringComboBoxCellEditor;
 import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
 
@@ -123,11 +121,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             if(object instanceof IProperties) {
                 return true;
             }
-            if(object instanceof DiagramPart) {
-                return true;
-            }
             if(object instanceof IAdaptable) {
-                return ((IAdaptable)object).getAdapter(IArchimateElement.class) != null;
+                return ((IAdaptable)object).getAdapter(IProperties.class) != null;
             }
             return false;
         }
@@ -181,24 +176,14 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        // IProperties element
         if(element instanceof IProperties) {
             fPropertiesElement = (IProperties)element;
         }
-        // Diagram
-        else if(element instanceof DiagramPart) {
-            fPropertiesElement = (IProperties)((IAdaptable)element).getAdapter(IDiagramModel.class);;
-        }
-        // IArchimateElement in a GEF Edit Part
         else if(element instanceof IAdaptable) {
-            fPropertiesElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
+            fPropertiesElement = (IProperties)((IAdaptable)element).getAdapter(IProperties.class);
         }
         else {
             System.err.println(getClass() + " wants to display for " + element);
-        }
-
-        if(!(fPropertiesElement instanceof IArchimateModelElement)) {
-            System.err.println(getClass() + " wants to display for wrong type: " + fPropertiesElement);
         }
     }
 
@@ -217,6 +202,20 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     @Override
     protected EObject getEObject() {
         return fPropertiesElement;
+    }
+    
+    /**
+     * Return the Archimate model bound to the properties element
+     * @return 
+     */
+    protected IArchimateModel getArchimateModel() {
+        if(fPropertiesElement instanceof IArchimateModelElement) {
+            return ((IArchimateModelElement)fPropertiesElement).getArchimateModel();
+        }
+        if(fPropertiesElement instanceof IDiagramModelComponent) {
+            return ((IDiagramModelComponent)fPropertiesElement).getDiagramModel().getArchimateModel();
+        }
+        return null;
     }
 
     @Override
@@ -372,7 +371,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             public void run() {
                 if(isAlive()) {
                     UserPropertiesManagerDialog dialog = new UserPropertiesManagerDialog(fPage.getSite().getShell(),
-                            ((IArchimateModelElement)fPropertiesElement).getArchimateModel());
+                            getArchimateModel());
                     dialog.open();
                 }
             }
@@ -467,7 +466,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
      * @return All unique Property Keys for an entire model (sorted)
      */
     private String[] getAllUniquePropertyKeysForModel() {
-        IArchimateModel model = ((IArchimateModelElement)fPropertiesElement).getArchimateModel();
+        IArchimateModel model = getArchimateModel();
 
         List<String> list = new ArrayList<String>();
 
