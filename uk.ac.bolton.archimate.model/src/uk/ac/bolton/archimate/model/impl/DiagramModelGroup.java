@@ -8,11 +8,13 @@ package uk.ac.bolton.archimate.model.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -20,6 +22,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.IDocumentable;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,6 +32,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * The following features are implemented:
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelGroup#getChildren <em>Children</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelGroup#getDocumentation <em>Documentation</em>}</li>
  * </ul>
  * </p>
  *
@@ -44,6 +48,25 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * @ordered
      */
     protected EList<IDiagramModelObject> children;
+
+    /**
+     * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected static final String DOCUMENTATION_EDEFAULT = ""; //$NON-NLS-1$
+    /**
+     * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected String documentation = DOCUMENTATION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -88,6 +111,27 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
      * <!-- end-user-doc -->
      * @generated
      */
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDocumentation(String newDocumentation) {
+        String oldDocumentation = documentation;
+        documentation = newDocumentation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION, oldDocumentation, documentation));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
@@ -107,6 +151,8 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN:
                 return getChildren();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
+                return getDocumentation();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -124,6 +170,9 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 getChildren().clear();
                 getChildren().addAll((Collection<? extends IDiagramModelObject>)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
+                setDocumentation((String)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -139,6 +188,9 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN:
                 getChildren().clear();
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
+                setDocumentation(DOCUMENTATION_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -153,6 +205,8 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN:
                 return children != null && !children.isEmpty();
+            case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION:
+                return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
         }
         return super.eIsSet(featureID);
     }
@@ -167,6 +221,12 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
         if (baseClass == IDiagramModelContainer.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_GROUP__CHILDREN: return IArchimatePackage.DIAGRAM_MODEL_CONTAINER__CHILDREN;
+                default: return -1;
+            }
+        }
+        if (baseClass == IDocumentable.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION: return IArchimatePackage.DOCUMENTABLE__DOCUMENTATION;
                 default: return -1;
             }
         }
@@ -186,7 +246,29 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
                 default: return -1;
             }
         }
+        if (baseClass == IDocumentable.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String toString() {
+        if (eIsProxy()) return super.toString();
+
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (documentation: "); //$NON-NLS-1$
+        result.append(documentation);
+        result.append(')');
+        return result.toString();
     }
 
 } //DiagramModelGroup

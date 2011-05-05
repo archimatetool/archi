@@ -200,7 +200,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute">
     <eOperations name="connect">

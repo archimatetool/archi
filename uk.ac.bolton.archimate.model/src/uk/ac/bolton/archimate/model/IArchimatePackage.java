@@ -4686,13 +4686,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_GROUP__CHILDREN = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__DOCUMENTATION = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the '<em>Diagram Model Group</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_GROUP_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
+    int DIAGRAM_MODEL_GROUP_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelNote <em>Diagram Model Note</em>}' class.

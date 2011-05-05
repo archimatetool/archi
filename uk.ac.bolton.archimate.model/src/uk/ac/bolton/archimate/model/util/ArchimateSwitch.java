@@ -1092,6 +1092,7 @@ public class ArchimateSwitch<T> {
                 T result = caseDiagramModelGroup(diagramModelGroup);
                 if (result == null) result = caseDiagramModelObject(diagramModelGroup);
                 if (result == null) result = caseDiagramModelContainer(diagramModelGroup);
+                if (result == null) result = caseDocumentable(diagramModelGroup);
                 if (result == null) result = caseDiagramModelComponent(diagramModelGroup);
                 if (result == null) result = caseFontAttribute(diagramModelGroup);
                 if (result == null) result = caseIdentifier(diagramModelGroup);
