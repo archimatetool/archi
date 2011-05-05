@@ -202,7 +202,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable #//Properties"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute #//Properties">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute #//Properties #//Documentable">
     <eOperations name="connect">
       <eParameters name="source" eType="#//DiagramModelObject"/>
       <eParameters name="target" eType="#//DiagramModelObject"/>

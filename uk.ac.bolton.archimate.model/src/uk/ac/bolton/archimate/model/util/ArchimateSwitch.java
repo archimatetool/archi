@@ -1123,6 +1123,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseDiagramModelComponent(diagramModelConnection);
                 if (result == null) result = caseFontAttribute(diagramModelConnection);
                 if (result == null) result = caseProperties(diagramModelConnection);
+                if (result == null) result = caseDocumentable(diagramModelConnection);
                 if (result == null) result = caseIdentifier(diagramModelConnection);
                 if (result == null) result = caseCloneable(diagramModelConnection);
                 if (result == null) result = caseAdapter(diagramModelConnection);
@@ -1137,6 +1138,7 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseDiagramModelComponent(diagramModelArchimateConnection);
                 if (result == null) result = caseFontAttribute(diagramModelArchimateConnection);
                 if (result == null) result = caseProperties(diagramModelArchimateConnection);
+                if (result == null) result = caseDocumentable(diagramModelArchimateConnection);
                 if (result == null) result = caseIdentifier(diagramModelArchimateConnection);
                 if (result == null) result = caseCloneable(diagramModelArchimateConnection);
                 if (result == null) result = caseAdapter(diagramModelArchimateConnection);

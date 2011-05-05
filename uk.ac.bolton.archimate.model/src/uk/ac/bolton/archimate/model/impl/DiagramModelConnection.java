@@ -22,6 +22,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.IFontAttribute;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
@@ -37,6 +38,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getFontColor <em>Font Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getProperties <em>Properties</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getText <em>Text</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getSource <em>Source</em>}</li>
@@ -120,6 +122,26 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @ordered
      */
     protected EList<IProperty> properties;
+
+    /**
+     * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected static final String DOCUMENTATION_EDEFAULT = ""; //$NON-NLS-1$
+
+    /**
+     * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDocumentation()
+     * @generated
+     * @ordered
+     */
+    protected String documentation = DOCUMENTATION_EDEFAULT;
 
     /**
      * The default value of the '{@link #getText() <em>Text</em>}' attribute.
@@ -343,6 +365,27 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES);
         }
         return properties;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDocumentation(String newDocumentation) {
+        String oldDocumentation = documentation;
+        documentation = newDocumentation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION, oldDocumentation, documentation));
     }
 
     /**
@@ -592,6 +635,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 return getProperties();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
+                return getDocumentation();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return getText();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
@@ -633,6 +678,9 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 getProperties().clear();
                 getProperties().addAll((Collection<? extends IProperty>)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
+                setDocumentation((String)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText((String)newValue);
@@ -683,6 +731,9 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 getProperties().clear();
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
+                setDocumentation(DOCUMENTATION_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText(TEXT_EDEFAULT);
                 return;
@@ -727,6 +778,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 return properties != null && !properties.isEmpty();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
+                return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
@@ -768,6 +821,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 default: return -1;
             }
         }
+        if (baseClass == IDocumentable.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION: return IArchimatePackage.DOCUMENTABLE__DOCUMENTATION;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -792,6 +851,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 default: return -1;
             }
         }
+        if (baseClass == IDocumentable.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.DOCUMENTABLE__DOCUMENTATION: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -811,6 +876,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         result.append(fontColor);
         result.append(", textAlignment: "); //$NON-NLS-1$
         result.append(textAlignment);
+        result.append(", documentation: "); //$NON-NLS-1$
+        result.append(documentation);
         result.append(", text: "); //$NON-NLS-1$
         result.append(text);
         result.append(", textPosition: "); //$NON-NLS-1$
