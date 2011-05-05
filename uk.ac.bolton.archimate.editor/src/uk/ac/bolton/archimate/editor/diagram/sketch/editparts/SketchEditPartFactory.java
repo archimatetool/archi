@@ -15,6 +15,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
@@ -52,6 +53,11 @@ implements EditPartFactory {
         // Diagram Model Reference
         else if(model instanceof IDiagramModelReference) {
             child = new DiagramModelReferenceEditPart();
+        }
+        
+        // Group
+        else if(model instanceof IDiagramModelGroup) {
+            child = new SketchGroupEditPart();
         }
         
         // Connections

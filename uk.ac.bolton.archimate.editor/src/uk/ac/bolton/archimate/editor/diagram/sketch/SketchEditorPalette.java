@@ -33,9 +33,11 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
+import uk.ac.bolton.archimate.editor.diagram.DiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
@@ -54,11 +56,15 @@ public class SketchEditorPalette extends PaletteRoot {
     public SketchEditorPalette() {
         createControlsGroup();
         add(new PaletteSeparator(""));
+        
         createElementsGroup();
         add(new PaletteSeparator(""));
+        
         createStickiesGroup();
         add(new PaletteSeparator(""));
+        
         createConnectionsGroup();
+        add(new PaletteSeparator(""));
     }
 
     /**
@@ -100,6 +106,15 @@ public class SketchEditorPalette extends PaletteRoot {
         add(group);
         
         group.add(createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(), "Actor", null));
+        
+        // Group
+        PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
+                "Group",
+                "Grouping Element",
+                new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
+        group.add(groupEntry);
     
         return group;
     }

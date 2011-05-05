@@ -14,6 +14,7 @@ import uk.ac.bolton.archimate.editor.diagram.ICreationFactory;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
@@ -61,6 +62,11 @@ public class SketchModelFactory implements ICreationFactory {
                 String color = ColorFactory.convertRGBToString(((Color)fParam).getRGB());
                 ((ISketchModelSticky)object).setFillColor(color);
             }
+        }
+        
+        // Group
+        else if(object instanceof IDiagramModelGroup) {
+            ((IDiagramModelGroup)object).setName("Group");
         }
         
         // Connection
