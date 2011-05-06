@@ -10,7 +10,6 @@ import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.connections.AbstractDiagramConnectionEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.LineConnectionFigure;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
@@ -22,7 +21,7 @@ public class LineConnectionEditPart extends AbstractDiagramConnectionEditPart {
 
     @Override
     protected IFigure createFigure() {
-        return new LineConnectionFigure((IDiagramModelConnection)getModel());
+        return new LineConnectionFigure(getModel());
     }
 
 }

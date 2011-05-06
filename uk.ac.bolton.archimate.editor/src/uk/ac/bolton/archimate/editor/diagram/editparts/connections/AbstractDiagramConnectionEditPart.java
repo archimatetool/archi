@@ -104,13 +104,22 @@ implements IDiagramConnectionEditPart {
         }
     };
     
+    ///----------------------------------------------------------------------------------------
+    ///----------------------------------------------------------------------------------------
+    ///----------------------------------------------------------------------------------------
+    
+    @Override
+    public IDiagramModelConnection getModel() {
+        return (IDiagramModelConnection)super.getModel();
+    }
+
     @Override
     public void activate() {
         if(!isActive()) {
             super.activate();
             
             // Listen to changes in Diagram Model Object
-            ((IDiagramModelConnection)getModel()).eAdapters().add(fConnectionAdapter);
+            getModel().eAdapters().add(fConnectionAdapter);
             
             // Listen to Prefs changes to set default Font
             Preferences.STORE.addPropertyChangeListener(prefsListener);
@@ -123,7 +132,7 @@ implements IDiagramConnectionEditPart {
             super.deactivate();
             
             // Remove Listener to changes in Diagram Model Object
-            ((IDiagramModelConnection)getModel()).eAdapters().remove(fConnectionAdapter);
+            getModel().eAdapters().remove(fConnectionAdapter);
             
             Preferences.STORE.removePropertyChangeListener(prefsListener);
         }
@@ -186,7 +195,7 @@ implements IDiagramConnectionEditPart {
         installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
             @Override
             protected Command getDeleteCommand(GroupRequest request) {
-                return DiagramCommandFactory.createDeleteDiagramConnectionCommand((IDiagramModelConnection)getModel());
+                return DiagramCommandFactory.createDeleteDiagramConnectionCommand(getModel());
             }
         });
         
@@ -216,7 +225,7 @@ implements IDiagramConnectionEditPart {
         
         List<Bendpoint> figureConstraint = new ArrayList<Bendpoint>();
         
-        EList<IDiagramModelBendpoint> bendpoints = ((IDiagramModelConnection)getModel()).getBendpoints();
+        EList<IDiagramModelBendpoint> bendpoints = getModel().getBendpoints();
         for(int i = 0; i < bendpoints.size(); i++) {
             IDiagramModelBendpoint bendpoint = bendpoints.get(i);
             
@@ -248,7 +257,7 @@ implements IDiagramConnectionEditPart {
         if(adapter == IDiagramModelConnection.class) {
             return getModel();
         }
-        if(adapter == IProperties.class && getModel() instanceof IProperties) {
+        if(adapter == IProperties.class) {
             return getModel();
         }
         return super.getAdapter(adapter);
@@ -262,7 +271,7 @@ implements IDiagramConnectionEditPart {
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String name = (String)request.getCellEditor().getValue();
-            IDiagramModelConnection connection = (IDiagramModelConnection)getModel();
+            IDiagramModelConnection connection = getModel();
             return new EObjectFeatureCommand("Connection text", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT, name);
         }
 

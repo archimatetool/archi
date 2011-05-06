@@ -10,7 +10,6 @@ import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.connections.AbstractDiagramConnectionEditPart;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.DashedArrowConnectionFigure;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
@@ -22,7 +21,7 @@ public class DashedArrowConnectionEditPart extends AbstractDiagramConnectionEdit
 
     @Override
     protected IFigure createFigure() {
-        return new DashedArrowConnectionFigure((IDiagramModelConnection)getModel());
+        return new DashedArrowConnectionFigure(getModel());
     }
 
 }
