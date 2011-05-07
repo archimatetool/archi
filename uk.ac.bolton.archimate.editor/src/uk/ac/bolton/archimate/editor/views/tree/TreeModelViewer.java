@@ -206,7 +206,7 @@ public class TreeModelViewer extends TreeViewer {
         }
 
         public boolean hasChildren(Object element) {
-        	return getChildren(element).length > 0;
+        	return getFilteredChildren(element).length > 0;
         }
     }
     
