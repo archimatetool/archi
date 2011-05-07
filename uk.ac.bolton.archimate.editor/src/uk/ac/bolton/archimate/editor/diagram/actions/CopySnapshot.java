@@ -484,7 +484,7 @@ public final class CopySnapshot {
             for(Enumeration<IDiagramModelObject> enm = tempOriginalToNewMapping.elements(); enm.hasMoreElements();) {
                 IDiagramModelObject object = enm.nextElement();
                 EditPart editPart = (EditPart)fViewer.getEditPartRegistry().get(object);
-                if(editPart != null) {
+                if(editPart != null && editPart.isSelectable()) {
                     selected.add(editPart);
                 }
             }

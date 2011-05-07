@@ -129,7 +129,7 @@ implements IDiagramEditor {
             // Find Diagram Components
             for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(getModel(), element)) {
                 EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(dc);
-                if(editPart != null && !editParts.contains(editPart)) {
+                if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
                     editParts.add(editPart);
                 }
             }
@@ -139,10 +139,10 @@ implements IDiagramEditor {
                 for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)element)) {
                     EditPart editPart1 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[0]);
                     EditPart editPart2 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[1]);
-                    if(editPart1 != null && !editParts.contains(editPart1)) {
+                    if(editPart1 != null && editPart1.isSelectable() && !editParts.contains(editPart1)) {
                         editParts.add(editPart1);
                     }
-                    if(editPart2 != null && !editParts.contains(editPart2)) {
+                    if(editPart2 != null && editPart2.isSelectable() && !editParts.contains(editPart2)) {
                         editParts.add(editPart2);
                     }
                 }

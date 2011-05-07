@@ -61,10 +61,21 @@ public class SelectAllAction extends Action {
         for(Object child : viewer.getContents().getChildren()) {
             if(child instanceof GraphicalEditPart) {
                 GraphicalEditPart childPart = (GraphicalEditPart)child;
-                if(childPart.isSelectable() == true) {
+                if(childPart.isSelectable() && childPart.getFigure().isVisible()) { // TODO GEF 3.7 no need to check isVisible
                     selectableChildren.add(childPart);
-                    selectableChildren.addAll(childPart.getSourceConnections());
-                    selectableChildren.addAll(childPart.getTargetConnections());
+                    // Add connections if selectable
+                    for(Object o : childPart.getSourceConnections()) {
+                        GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
+                        if(connectionEditPart.isSelectable() && connectionEditPart.getFigure().isVisible()) { // TODO GEF 3.7 no need to check isVisible
+                            selectableChildren.add(connectionEditPart);
+                        }
+                    }
+                    for(Object o : childPart.getTargetConnections()) {
+                        GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
+                        if(connectionEditPart.isSelectable() && connectionEditPart.getFigure().isVisible()) { // TODO GEF 3.7 no need to check isVisible
+                            selectableChildren.add(connectionEditPart);
+                        }
+                    }
                 }
             }
         }
