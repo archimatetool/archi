@@ -259,7 +259,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             object = selected;
         }
 
-        HintMapping mapping = getHintMappingFromJavaInterface(object);
+        HintMapping mapping = getHintMappingFromObject(object);
         if(mapping != null) {
             if(fLastURL != mapping.url) {
                 // Title and Color
@@ -303,9 +303,17 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         });
     }
     
-    private HintMapping getHintMappingFromJavaInterface(Object object) {
+    private HintMapping getHintMappingFromObject(Object object) {
         if(object == null) {
             return null;
+        }
+        
+        HintMapping mapping = null;
+        
+        // Is it in the lookup?
+        mapping = fLookupTable.get(object.getClass().getName());
+        if(mapping != null) {
+            return mapping;
         }
         
         // It's a Class
@@ -313,10 +321,10 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             return fLookupTable.get(((Class<?>)object).getName());
         }
         
-        // It's an Object
+        // Look for Java interface
         Class<?> clazzes[] = object.getClass().getInterfaces();
         for(Class<?> interf : clazzes) {
-            HintMapping mapping = fLookupTable.get(interf.getName());
+            mapping = fLookupTable.get(interf.getName());
             if(mapping != null) {
                 return mapping;
             }
