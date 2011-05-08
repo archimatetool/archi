@@ -90,7 +90,12 @@ public class DiagramPart extends AbstractGraphicalEditPart {
     
     @Override
     protected List<?> getModelChildren() {
-        return ((IDiagramModel)getModel()).getChildren();
+        return getModel().getChildren();
+    }
+    
+    @Override
+    public IDiagramModel getModel() {
+        return (IDiagramModel)super.getModel();
     }
 
     @Override
@@ -100,7 +105,7 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         }
         super.activate();
         
-        ((IDiagramModel)getModel()).eAdapters().add(adapter);
+        getModel().eAdapters().add(adapter);
         
         Preferences.STORE.addPropertyChangeListener(prefsListener);
     }
@@ -112,7 +117,7 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         }
         super.deactivate();
         
-        ((IDiagramModel)getModel()).eAdapters().remove(adapter);
+        getModel().eAdapters().remove(adapter);
         
         Preferences.STORE.removePropertyChangeListener(prefsListener);
     }
@@ -162,7 +167,7 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
         
-        switch(((IDiagramModel)getModel()).getConnectionRouterType()) {
+        switch(getModel().getConnectionRouterType()) {
             case IDiagramModel.CONNECTION_ROUTER_BENDPOINT:
                 AutomaticRouter router = new FanRouter();
                 router.setNextRouter(new BendpointConnectionRouter());

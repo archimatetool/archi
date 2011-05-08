@@ -84,13 +84,18 @@ implements NodeEditPart {
     }
     
     @Override
-    protected List<IDiagramModelConnection> getModelSourceConnections() {    	
-    	return ((IDiagramModelObject)getModel()).getSourceConnections();
+    public IDiagramModelObject getModel() {
+        return (IDiagramModelObject)super.getModel();
+    }
+
+    @Override
+    protected List<IDiagramModelConnection> getModelSourceConnections() {
+    	return getModel().getSourceConnections();
     }
 
     @Override
     protected List<IDiagramModelConnection> getModelTargetConnections() {
-    	return ((IDiagramModelObject)getModel()).getTargetConnections();
+    	return getModel().getTargetConnections();
     }
 
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {

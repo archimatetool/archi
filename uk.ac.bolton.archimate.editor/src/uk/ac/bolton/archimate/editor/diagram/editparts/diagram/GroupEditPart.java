@@ -34,7 +34,6 @@ import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEdi
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
@@ -79,7 +78,7 @@ implements IColoredEditPart, ITextEditPart {
 
     @Override
     protected IFigure createFigure() {
-        GroupFigure figure = new GroupFigure((IDiagramModelObject)getModel());
+        GroupFigure figure = new GroupFigure(getModel());
         return figure;
     }
     

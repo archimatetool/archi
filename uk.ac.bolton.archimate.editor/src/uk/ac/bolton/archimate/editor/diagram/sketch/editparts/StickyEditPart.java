@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -131,7 +130,7 @@ implements IColoredEditPart, ITextAlignedEditPart  {
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String content = (String)request.getCellEditor().getValue();
-            return new EObjectFeatureCommand("Content", (EObject)getModel(),
+            return new EObjectFeatureCommand("Content", getModel(),
                     IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, content);
         }
 
