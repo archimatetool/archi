@@ -117,6 +117,38 @@ public class ImageFactory {
         
         return image;
     }
+    
+    /**
+     * Return a composite image consisting of many images
+     * 
+     * @param imageNames
+     * @return
+     */
+    public Image getCompositeImage(String[] imageNames) {
+        // Make a registry name, cached
+        String key_name = "@";
+        for(String name : imageNames) {
+            key_name += name;
+        }
+
+        Image image = getImage(key_name);
+        
+        // Make it and cache it
+        if(image == null) {
+            ImageDescriptor[] desc = new ImageDescriptor[imageNames.length];
+            for(int i = 0; i < imageNames.length; i++) {
+                desc[i] = getImageDescriptor(imageNames[i]);
+            }
+            CompositeMultiImageDescriptor cid = new CompositeMultiImageDescriptor(desc);
+            image = cid.createImage();
+            if(image != null) {
+                ImageRegistry registry = fPlugin.getImageRegistry();
+                registry.put(key_name, image);
+            }
+        }
+
+        return image;
+    }
 
     /**
      * Returns the shared image description represented by the given key.
