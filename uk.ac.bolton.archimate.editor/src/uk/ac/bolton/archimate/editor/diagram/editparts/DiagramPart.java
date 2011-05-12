@@ -77,6 +77,10 @@ implements IEditPartFilterProvider {
                     if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
                         refreshVisuals();
                     }
+                    // Viewpoint changed
+                    else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+                        refreshChildrenFigures();
+                    }
                     break;
 
                 default:
@@ -102,6 +106,17 @@ implements IEditPartFilterProvider {
         if(event.getProperty() == IPreferenceConstants.ANTI_ALIAS) {
             setAntiAlias();
             refresh();
+        }
+    }
+
+    /**
+     * Refresh all child figures
+     */
+    protected void refreshChildrenFigures() {
+        for(Object editPart : getChildren()) {
+            if(editPart instanceof AbstractBaseEditPart) {
+                ((AbstractBaseEditPart)editPart).refreshChildrenFigures();
+            }
         }
     }
 

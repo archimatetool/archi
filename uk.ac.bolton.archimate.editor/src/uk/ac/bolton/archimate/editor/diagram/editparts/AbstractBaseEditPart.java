@@ -136,6 +136,18 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     protected void refreshFigure() {
     }
     
+    /**
+     * Refresh this figure and all child figures
+     */
+    protected void refreshChildrenFigures() {
+        refreshFigure();
+        for(Object editPart : getChildren()) {
+            if(editPart instanceof AbstractBaseEditPart) {
+                ((AbstractBaseEditPart)editPart).refreshChildrenFigures();
+            }
+        }
+    }
+    
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
