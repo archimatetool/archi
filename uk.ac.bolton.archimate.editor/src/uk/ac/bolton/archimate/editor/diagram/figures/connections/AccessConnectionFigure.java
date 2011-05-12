@@ -36,8 +36,6 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     
     @Override
     public void refreshVisuals() {
-        super.refreshVisuals();
-        
         // Access type
         IAccessRelationship relation = (IAccessRelationship)getModelConnection().getRelationship();
         switch(relation.getAccessType()) {
@@ -62,6 +60,9 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
                 setTargetDecoration(fDecoratorTarget);
                 break;
         }
+
+        // This last
+        super.refreshVisuals();
     }
     
     @Override

@@ -31,6 +31,8 @@ public class BusinessEventFigure extends AbstractTextFlowFigure {
     
     @Override
     public void drawFigure(Graphics graphics) {
+        graphics.pushState();
+        
         Rectangle bounds = getBounds().getCopy();
         
         int indent = Math.min(bounds.height / 3, bounds.width / 3);
@@ -38,20 +40,28 @@ public class BusinessEventFigure extends AbstractTextFlowFigure {
         int arc_startx = bounds.x + bounds.width - indent;
         
         // Shadow fill
-        Path path = new Path(null);
-        path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
-        path.lineTo(bounds.x + indent + SHADOW_OFFSET, centre_y + SHADOW_OFFSET);
-        path.lineTo(bounds.x + SHADOW_OFFSET, bounds.y + bounds.height);
-        path.lineTo(arc_startx, bounds.y + bounds.height);
-        path.addArc(arc_startx - indent - SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
-                indent * 2 + 2, bounds.height - SHADOW_OFFSET, -90, 180);
+        if(isEnabled()) {
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
 
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.setAlpha(100);
-        graphics.fillPath(path);
+            Path path = new Path(null);
+            path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
+            path.lineTo(bounds.x + indent + SHADOW_OFFSET, centre_y + SHADOW_OFFSET);
+            path.lineTo(bounds.x + SHADOW_OFFSET, bounds.y + bounds.height);
+            path.lineTo(arc_startx, bounds.y + bounds.height);
+            path.addArc(arc_startx - indent - SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
+                    indent * 2 + 2, bounds.height - SHADOW_OFFSET, -90, 180);
+            graphics.fillPath(path);
+            path.dispose();
+            
+            graphics.setAlpha(255);
+        }
+        else {
+            setDisabledState(graphics);
+        }
         
         // Main Fill
-        path = new Path(null);
+        Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
         path.lineTo(bounds.x + indent, centre_y);
         path.lineTo(bounds.x, bounds.y + bounds.height - SHADOW_OFFSET);
@@ -60,21 +70,14 @@ public class BusinessEventFigure extends AbstractTextFlowFigure {
                 indent * 2 + 1, bounds.height - SHADOW_OFFSET, -90, 180);
         
         graphics.setBackgroundColor(getFillColor());
-        graphics.setAlpha(255);
         graphics.fillPath(path);
         
         // Outline
         graphics.setForegroundColor(ColorConstants.black);
         path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);
-    }
-
-    @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - 2, bounds.height - SHADOW_OFFSET - 1));
+        path.dispose();
+        
         graphics.popState();
     }
 

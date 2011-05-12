@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.swt.SWT;
 
@@ -26,7 +27,14 @@ public class RealisationConnectionFigure extends AbstractArchimateConnectionFigu
 	
     @Override
     protected void setFigureProperties() {
-        PolygonDecoration decoration = new PolygonDecoration();
+        PolygonDecoration decoration = new PolygonDecoration() {
+            @Override
+            protected void fillShape(Graphics g) {
+                // Draw this as white in case it is disabled
+                g.setBackgroundColor(ColorConstants.white);
+                super.fillShape(g);
+            }
+        };
         decoration.setScale(10, 7);
         decoration.setBackgroundColor(ColorConstants.white);
         setTargetDecoration(decoration);

@@ -8,6 +8,8 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 
 /**
@@ -18,6 +20,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class AbstractFigureDelegate implements IFigureDelegate {
     
     private IDiagramModelObjectFigure fOwner;
+    
+    private boolean fIsEnabled;
     
     protected AbstractFigureDelegate(IDiagramModelObjectFigure owner) {
         fOwner = owner;
@@ -40,4 +44,36 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     public void drawTargetFeedback(Graphics graphics) {
     }
 
+    @Override
+    public void setEnabled(boolean value) {
+        fIsEnabled = value;
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return fIsEnabled;
+    }
+    
+    /**
+     * @return A copy of the owner's bounds
+     */
+    protected Rectangle getBounds() {
+        return getOwner().getBounds().getCopy();
+    }
+    
+    /**
+     * @return The owner's fill color
+     */
+    protected Color getFillColor() {
+        return getOwner().getFillColor();
+    }
+    
+    /**
+     * Set the drawing state when disabled
+     * @param graphics
+     */
+    protected void setDisabledState(Graphics graphics) {
+        graphics.setAlpha(100);
+        graphics.setLineStyle(SWT.LINE_DOT);
+    }
 }

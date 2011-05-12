@@ -25,35 +25,59 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 public class BusinessContractFigure
 extends AbstractTextFlowFigure {
     
-    private int flangeFactor = 14;
+    protected int flangeFactor = 14;
+    
+    // Use a Rectangle Figure Delegate to Draw
+    RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
+        @Override
+        public void drawFigure(Graphics graphics) {
+            graphics.pushState();
+            
+            Rectangle bounds = getBounds();
+            
+            if(isEnabled()) {
+                // Shadow
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+                graphics.setAlpha(255);
+            }
+            else {
+                setDisabledState(graphics);
+            }
+            
+            bounds.width -= SHADOW_OFFSET;
+            bounds.height -= SHADOW_OFFSET;
+            
+            // Top bit
+            graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+            graphics.fillRectangle(bounds.x, bounds.y, bounds.width, flangeFactor);
+            
+            // Main Fill
+            graphics.setBackgroundColor(getFillColor());
+            graphics.fillRectangle(bounds.x, bounds.y + flangeFactor - 1, bounds.width, bounds.height - flangeFactor + 1);
+            
+            // Outline
+            bounds.width--;
+            bounds.height--;
+            graphics.drawLine(bounds.x, bounds.y + flangeFactor - 1, bounds.x + bounds.width, bounds.y + flangeFactor - 1);
+            graphics.setForegroundColor(ColorConstants.black);
+            graphics.drawRectangle(bounds);
+            
+            graphics.popState();
+        }
+        
+        @Override
+        public Rectangle calculateTextControlBounds() {
+            Rectangle bounds = super.calculateTextControlBounds();
+            bounds.y += flangeFactor - 4;
+            bounds.height -= 10;
+            return bounds;
+        }
+    };
     
     public BusinessContractFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
-        
-        // Use a Rectangle Figure Delegate to Draw
-        RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
-            @Override
-            public void drawFigure(Graphics graphics) {
-                super.drawFigure(graphics);
-                
-                Rectangle bounds = getBounds().getCopy();
-                
-                graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-                graphics.fillRectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, flangeFactor);
-                
-                graphics.setForegroundColor(ColorConstants.black);
-                graphics.drawRectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET - 1, flangeFactor - 1);
-            }
-
-            @Override
-            public Rectangle calculateTextControlBounds() {
-                Rectangle bounds = super.calculateTextControlBounds();
-                bounds.y += flangeFactor - 4;
-                bounds.height -= 10;
-                return bounds;
-            }
-        };
-        
         setFigureDelegate(figureDelegate);
     }
 }

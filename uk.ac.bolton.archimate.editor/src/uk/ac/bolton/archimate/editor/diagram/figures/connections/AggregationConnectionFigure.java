@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
@@ -43,5 +44,13 @@ public class AggregationConnectionFigure extends AbstractArchimateConnectionFigu
 
             setBackgroundColor(ColorConstants.white);
         }
+
+        @Override
+        protected void fillShape(Graphics g) {
+            // Draw this as white in case it is disabled
+            g.setBackgroundColor(ColorConstants.white);
+            super.fillShape(g);
+        }
+
     }
 }
