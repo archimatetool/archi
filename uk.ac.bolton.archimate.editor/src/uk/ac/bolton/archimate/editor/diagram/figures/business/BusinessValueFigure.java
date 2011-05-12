@@ -31,27 +31,27 @@ extends AbstractTextFlowFigure {
     
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = getBounds();
+        graphics.pushState();
         
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillOval(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height  - SHADOW_OFFSET);
-
-        graphics.setAlpha(255);
+        Rectangle bounds = getBounds().getCopy();
+        
+        if(isEnabled()) {
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            graphics.fillOval(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height  - SHADOW_OFFSET);
+            graphics.setAlpha(255);
+        }
+        else {
+            setDisabledState(graphics);
+        }
+        
         graphics.setBackgroundColor(getFillColor());
         graphics.fillOval(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET);
         
         // Outline
         graphics.setForegroundColor(ColorConstants.black);
         graphics.drawOval(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1);
-    }
-
-    @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        
         graphics.popState();
     }
 

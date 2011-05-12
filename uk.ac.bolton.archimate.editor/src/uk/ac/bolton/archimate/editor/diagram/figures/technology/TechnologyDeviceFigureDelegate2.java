@@ -42,7 +42,7 @@ public class TechnologyDeviceFigureDelegate2 extends TechnologyNodeFigureDelegat
     }
     
     protected Point calculateImageLocation() {
-        Rectangle bounds = getOwner().getBounds().getCopy();
+        Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - FOLD_HEIGHT * 2 - 5, bounds.y + FOLD_HEIGHT + 2);
     }
 

@@ -4225,13 +4225,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
+     * The feature id for the '<em><b>Viewpoint</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL__VIEWPOINT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 7;
+
+    /**
      * The number of structural features of the '<em>Diagram Model</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5413,6 +5422,15 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL__CONNECTION_ROUTER_TYPE = DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE;
 
     /**
+     * The feature id for the '<em><b>Viewpoint</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL__VIEWPOINT = DIAGRAM_MODEL__VIEWPOINT;
+
+    /**
      * The number of structural features of the '<em>Sketch Model</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6553,6 +6571,17 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getDiagramModel_ConnectionRouterType();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModel#getViewpoint <em>Viewpoint</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Viewpoint</em>'.
+     * @see uk.ac.bolton.archimate.model.IDiagramModel#getViewpoint()
+     * @see #getDiagramModel()
+     * @generated
+     */
+    EAttribute getDiagramModel_Viewpoint();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDiagramModelReference <em>Diagram Model Reference</em>}'.
@@ -7868,6 +7897,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = eINSTANCE.getDiagramModel_ConnectionRouterType();
+
+        /**
+         * The meta object literal for the '<em><b>Viewpoint</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIAGRAM_MODEL__VIEWPOINT = eINSTANCE.getDiagramModel_Viewpoint();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.

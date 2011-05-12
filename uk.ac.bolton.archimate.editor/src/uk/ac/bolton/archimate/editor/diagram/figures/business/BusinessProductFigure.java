@@ -34,15 +34,44 @@ extends AbstractTextFlowFigure {
         RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
             @Override
             public void drawFigure(Graphics graphics) {
-                super.drawFigure(graphics);
+                graphics.pushState();
                 
-                Rectangle bounds = getBounds().getCopy();
+                Rectangle bounds = getBounds();
                 
+                if(isEnabled()) {
+                    // Shadow
+                    graphics.setAlpha(100);
+                    graphics.setBackgroundColor(ColorConstants.black);
+                    graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+                    graphics.setAlpha(255);
+                }
+                else {
+                    setDisabledState(graphics);
+                }
+                
+                bounds.width -= SHADOW_OFFSET;
+                bounds.height -= SHADOW_OFFSET;
+                
+                // Top bit
+                int middle = bounds.width / 2;
                 graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-                graphics.fillRectangle(bounds.x, bounds.y, bounds.width / 2 + 1, flangeFactor);
+                graphics.fillRectangle(bounds.x, bounds.y, middle + 1, flangeFactor);
+                graphics.setBackgroundColor(getFillColor());
+                graphics.fillRectangle(bounds.x + middle, bounds.y, middle, flangeFactor);
                 
+                // Main Fill
+                graphics.fillRectangle(bounds.x, bounds.y + flangeFactor - 1, bounds.width, bounds.height - flangeFactor + 1);
+                
+                // Outline
+                graphics.drawLine(bounds.x, bounds.y + flangeFactor - 1, bounds.x + middle, bounds.y + flangeFactor - 1);
+                graphics.drawLine(bounds.x + middle, bounds.y + flangeFactor - 1, bounds.x + middle, bounds.y);
+                        
+                bounds.width--;
+                bounds.height--;
                 graphics.setForegroundColor(ColorConstants.black);
-                graphics.drawRectangle(bounds.x, bounds.y, bounds.width / 2, flangeFactor - 1);
+                graphics.drawRectangle(bounds);
+                
+                graphics.popState();
             }
 
             @Override

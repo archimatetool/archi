@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWT;
 
 
 /**
@@ -27,35 +26,38 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
     
     @Override
     public void drawFigure(Graphics graphics) {
-        graphics.setAntialias(SWT.ON);
-        Rectangle bounds = getOwner().getBounds().getCopy();
+        graphics.pushState();
+        
+        Rectangle bounds = getBounds();
 
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillOval(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
-
-        graphics.setAlpha(255);
-        graphics.setBackgroundColor(getOwner().getFillColor());
-        graphics.fillOval(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+        if(isEnabled()) {
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            graphics.fillOval(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+            graphics.setAlpha(255);
+        }
+        else {
+            setDisabledState(graphics);
+        }
+        
+        bounds.width -= SHADOW_OFFSET;
+        bounds.height -= SHADOW_OFFSET;
+            
+        graphics.setBackgroundColor(getFillColor());
+        graphics.fillOval(bounds);
 
         // Outline
+        bounds.width--;
+        bounds.height--;
         graphics.setForegroundColor(ColorConstants.black);
-        graphics.drawOval(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        graphics.drawOval(bounds);
+        
+        graphics.popState();
     }
     
     @Override
-    public void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = getOwner().getBounds().getCopy();
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawOval(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
-        graphics.popState();
-    }
-
-    @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getOwner().getBounds().getCopy();
+        Rectangle bounds = getBounds();
         bounds.y += 10;
         return bounds;
     }

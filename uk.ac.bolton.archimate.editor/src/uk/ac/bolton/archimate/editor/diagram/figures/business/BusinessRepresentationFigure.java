@@ -31,30 +31,40 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
     
     @Override
     public void drawFigure(Graphics graphics) {
+        graphics.pushState();
+        
         Rectangle bounds = getBounds().getCopy();
         
         int offset = 10;//bounds.height / 5;
         int curve_y = bounds.y + bounds.height - offset;
         
-        // Shadow fill
-        Path path = new Path(null);
-        path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
-        path.lineTo(bounds.x + SHADOW_OFFSET, curve_y);
-        
-        path.quadTo(bounds.x + SHADOW_OFFSET + (bounds.width / 4), bounds.y + bounds.height + offset - 2,
-                bounds.x + bounds.width / 2 + SHADOW_OFFSET, curve_y);
-        
-        path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
-                bounds.x + bounds.width, curve_y);
-        
-        path.lineTo(bounds.x + bounds.width, bounds.y + SHADOW_OFFSET);
+        if(isEnabled()) {
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            
+            // Shadow fill
+            Path path = new Path(null);
+            path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
+            path.lineTo(bounds.x + SHADOW_OFFSET, curve_y);
 
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillPath(path);
+            path.quadTo(bounds.x + SHADOW_OFFSET + (bounds.width / 4), bounds.y + bounds.height + offset - 2,
+                    bounds.x + bounds.width / 2 + SHADOW_OFFSET, curve_y);
+
+            path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
+                    bounds.x + bounds.width, curve_y);
+
+            path.lineTo(bounds.x + bounds.width, bounds.y + SHADOW_OFFSET);
+            graphics.fillPath(path);
+            path.dispose();
+            
+            graphics.setAlpha(255);
+        }
+        else {
+            setDisabledState(graphics);
+        }
         
         // Main Fill
-        path = new Path(null);
+        Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
         path.lineTo(bounds.x, curve_y - SHADOW_OFFSET);
         
@@ -66,7 +76,6 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
         
         path.lineTo(bounds.x + bounds.width - SHADOW_OFFSET, bounds.y);
         
-        graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPath(path);
         
@@ -74,17 +83,11 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
         graphics.setForegroundColor(ColorConstants.black);
         path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);
-    }
-
-    @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        path.dispose();
+        
         graphics.popState();
     }
-    
+
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();

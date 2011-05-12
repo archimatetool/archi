@@ -387,5 +387,93 @@
             title="Sticky">
       </hint>
    </extension>
+   <extension
+         point="uk.ac.bolton.archimate.help.hints">
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ActorCooperationViewpoint"
+            file="hints/viewpoint_actorcooperation.html"
+            title="Actor Co-operation Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationBehaviourViewpoint"
+            file="hints/viewpoint_applicationbehaviour.html"
+            title="Application Behaviour Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationCooperationViewpoint"
+            file="hints/viewpoint_applicationcooperation.html"
+            title="Application Co-operation Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationStructureViewpoint"
+            file="hints/viewpoint_applicationstructure.html"
+            title="Application Structure Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationUsageViewpoint"
+            file="hints/viewpoint_applicationusage.html"
+            title="Application Usage Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessFunctionViewpoint"
+            file="hints/viewpoint_businessfunction.html"
+            title="Business Function Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessProcessViewpoint"
+            file="hints/viewpoint_businessprocess.html"
+            title="Business Process Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessProcessCooperationViewpoint"
+            file="hints/viewpoint_businessprocesscoop.html"
+            title="Business Process Co-operation Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessProductViewpoint"
+            file="hints/viewpoint_businessproduct.html"
+            title="Business Product Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ImplementationAndDeploymentViewpoint"
+            file="hints/viewpoint_impldeploy.html"
+            title="Implementation and Deployment Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.InformationStructureViewpoint"
+            file="hints/viewpoint_infostructure.html"
+            title="Information Structure Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.InfrastructureViewpoint"
+            file="hints/viewpoint_infra.html"
+            title="Infrastructure Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.InfrastructureUsageViewpoint"
+            file="hints/viewpoint_infrausage.html"
+            title="Infrastructure Usage Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.LayeredViewpoint"
+            file="hints/viewpoint_layered.html"
+            title="Layered Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.OrganisationViewpoint"
+            file="hints/viewpoint_organisation.html"
+            title="Organisation Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ServiceRealisationViewpoint"
+            file="hints/viewpoint_servicereal.html"
+            title="Service Realisation Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.TotalViewpoint"
+            file="hints/viewpoint_total.html"
+            title="Total Viewpoint">
+      </hint>
+   </extension>
 
 </plugin>

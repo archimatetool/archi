@@ -6,6 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -91,13 +92,23 @@ implements IContainerFigure {
     }
     
     /**
-     * Draw any hover over hiliting
+     * Draw hover-over highlighting
      * @param graphics
      */
     protected void drawTargetFeedback(Graphics graphics) {
-        if(getFigureDelegate() != null) {
-            getFigureDelegate().drawTargetFeedback(graphics);
+        graphics.pushState();
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
         }
+
+        Rectangle bounds = getBounds().getCopy();
+        bounds.shrink(1, 1);
+        graphics.setForegroundColor(ColorConstants.blue);
+        graphics.setLineWidth(2);
+        graphics.drawRectangle(bounds);
+        
+        graphics.popState();
     }
     
     public void eraseTargetFeedback() {

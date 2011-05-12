@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -68,6 +69,15 @@ implements IDiagramModelObjectFigure {
         }
     }
     
+    /**
+     * Set the drawing state when disabled
+     * @param graphics
+     */
+    protected void setDisabledState(Graphics graphics) {
+        graphics.setAlpha(100);
+        graphics.setLineStyle(SWT.LINE_DOT);
+    }
+
     /**
      * Set the UI
      */

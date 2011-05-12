@@ -31,24 +31,40 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
     @Override
     public void drawFigure(Graphics graphics) {
-        Rectangle bounds = getOwner().getBounds().getCopy();
-        
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+        graphics.pushState();
 
-        graphics.setAlpha(255);
-        graphics.setBackgroundColor(getOwner().getFillColor());
-        graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+        Rectangle bounds = getBounds();
+        
+        if(isEnabled()) {
+            // Shadow
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+            graphics.setAlpha(255);
+        }
+        else {
+            setDisabledState(graphics);
+        }
+
+        bounds.width -= SHADOW_OFFSET;
+        bounds.height -= SHADOW_OFFSET;
+        
+        // Fill
+        graphics.setBackgroundColor(getFillColor());
+        graphics.fillRectangle(bounds);
         
         // Outline
+        bounds.width--;
+        bounds.height--;
         graphics.setForegroundColor(ColorConstants.black);
-        graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        graphics.drawRectangle(bounds);
         
         // Image icon
         if(getImage() != null) {
             graphics.drawImage(getImage(), calculateImageLocation());
         }
+        
+        graphics.popState();
     }
     
     public void setImage(Image image) {
@@ -60,27 +76,17 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     }
 
     protected Point calculateImageLocation() {
-        Rectangle bounds = getOwner().getBounds();
+        Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
     }
     
     @Override
     public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getOwner().getBounds().getCopy();
+        Rectangle bounds = getBounds();
         bounds.x += TEXT_INDENT;
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;
         return bounds;
-    }
-    
-    @Override
-    public void drawTargetFeedback(Graphics graphics) {
-        Rectangle bounds = getOwner().getBounds().getCopy();
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
-        graphics.popState();
     }
 }

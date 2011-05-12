@@ -151,20 +151,28 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      */
     protected IPropertyChangeListener appPreferencesListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
-            if(IPreferenceConstants.GRID_SIZE == event.getProperty()) {
-                applyUserGridPreferences();
-            }
-            else if(IPreferenceConstants.GRID_VISIBLE == event.getProperty()) {
-                applyUserGridPreferences();
-            }
-            else if(IPreferenceConstants.GRID_SNAP == event.getProperty()) {
-                applyUserGridPreferences();
-            }
-            else if(IPreferenceConstants.GRID_SHOW_GUIDELINES == event.getProperty()) {
-                applyUserGridPreferences();
-            }
+            applicationPreferencesChanged(event);
         }
     };
+    
+    /**
+     * Application Preference changed
+     * @param event
+     */
+    protected void applicationPreferencesChanged(PropertyChangeEvent event) {
+        if(IPreferenceConstants.GRID_SIZE == event.getProperty()) {
+            applyUserGridPreferences();
+        }
+        else if(IPreferenceConstants.GRID_VISIBLE == event.getProperty()) {
+            applyUserGridPreferences();
+        }
+        else if(IPreferenceConstants.GRID_SNAP == event.getProperty()) {
+            applyUserGridPreferences();
+        }
+        else if(IPreferenceConstants.GRID_SHOW_GUIDELINES == event.getProperty()) {
+            applyUserGridPreferences();
+        }
+    }
     
     /**
      * Adapter class to respond to Archimate Model notifications.

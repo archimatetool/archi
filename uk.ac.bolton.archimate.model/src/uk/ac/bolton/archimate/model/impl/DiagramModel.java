@@ -54,6 +54,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getProperties <em>Properties</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getConnectionRouterType <em>Connection Router Type</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModel#getViewpoint <em>Viewpoint</em>}</li>
  * </ul>
  * </p>
  *
@@ -159,6 +160,26 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
      * @ordered
      */
     protected int connectionRouterType = CONNECTION_ROUTER_TYPE_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getViewpoint() <em>Viewpoint</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getViewpoint()
+     * @generated
+     * @ordered
+     */
+    protected static final int VIEWPOINT_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getViewpoint() <em>Viewpoint</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getViewpoint()
+     * @generated
+     * @ordered
+     */
+    protected int viewpoint = VIEWPOINT_EDEFAULT;
 
     /**
      * Adapter Map for arbitrary objects
@@ -285,6 +306,27 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
      * <!-- end-user-doc -->
      * @generated
      */
+    public int getViewpoint() {
+        return viewpoint;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setViewpoint(int newViewpoint) {
+        int oldViewpoint = viewpoint;
+        viewpoint = newViewpoint;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL__VIEWPOINT, oldViewpoint, viewpoint));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public String getDocumentation() {
         return documentation;
     }
@@ -392,6 +434,8 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
                 return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 return getConnectionRouterType();
+            case IArchimatePackage.DIAGRAM_MODEL__VIEWPOINT:
+                return getViewpoint();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -425,6 +469,9 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 setConnectionRouterType((Integer)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL__VIEWPOINT:
+                setViewpoint((Integer)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -455,6 +502,9 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 setConnectionRouterType(CONNECTION_ROUTER_TYPE_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL__VIEWPOINT:
+                setViewpoint(VIEWPOINT_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -483,6 +533,8 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE:
                 return connectionRouterType != CONNECTION_ROUTER_TYPE_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL__VIEWPOINT:
+                return viewpoint != VIEWPOINT_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -607,6 +659,8 @@ public class DiagramModel extends EObjectImpl implements IDiagramModel {
         result.append(documentation);
         result.append(", connectionRouterType: "); //$NON-NLS-1$
         result.append(connectionRouterType);
+        result.append(", viewpoint: "); //$NON-NLS-1$
+        result.append(viewpoint);
         result.append(')');
         return result.toString();
     }

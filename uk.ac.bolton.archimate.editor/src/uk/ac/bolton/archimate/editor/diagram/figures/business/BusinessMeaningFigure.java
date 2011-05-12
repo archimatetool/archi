@@ -31,19 +31,26 @@ extends AbstractTextFlowFigure {
     
     @Override
     public void drawFigure(Graphics graphics) {
+        graphics.pushState();
+        
         Rectangle bounds = getBounds().getCopy();
         
         // The following is the most awful code to draw a cloud...
         
-        // Shadow fill
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillOval(bounds.x + bounds.width / 3 + 1, bounds.y + 1, bounds.width / 3 * 2, bounds.height / 3 * 2);
-        graphics.fillOval(bounds.x, bounds.y + bounds.height / 3, bounds.width / 5 * 3, bounds.height / 3 * 2);
-        graphics.fillOval(bounds.x + bounds.width / 3, bounds.y + bounds.height / 4, bounds.width / 5 * 3, bounds.height / 3 * 2);
-    
+        if(isEnabled()) {
+            // Shadow fill
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            graphics.fillOval(bounds.x + bounds.width / 3 + 1, bounds.y + 1, bounds.width / 3 * 2, bounds.height / 3 * 2);
+            graphics.fillOval(bounds.x, bounds.y + bounds.height / 3, bounds.width / 5 * 3, bounds.height / 3 * 2);
+            graphics.fillOval(bounds.x + bounds.width / 3, bounds.y + bounds.height / 4, bounds.width / 5 * 3, bounds.height / 3 * 2);
+            graphics.setAlpha(255);
+        }
+        else {
+            setDisabledState(graphics);
+        }
+
         // Main fill
-        graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
         graphics.fillOval(bounds.x, bounds.y, bounds.width / 3 * 2, bounds.height / 3 * 2);
         graphics.fillOval(bounds.x + bounds.width / 3 - 1, bounds.y, bounds.width / 3 * 2, bounds.height / 3 * 2);
@@ -56,17 +63,10 @@ extends AbstractTextFlowFigure {
         graphics.drawArc(bounds.x + bounds.width / 3 - 1, bounds.y, bounds.width / 3 * 2 - 1, bounds.height / 3 * 2, -40, 159);
         graphics.drawArc(bounds.x, bounds.y + bounds.height / 3, bounds.width / 5 * 3 - 1, bounds.height / 3 * 2 - SHADOW_OFFSET - 1, -43, -167);
         graphics.drawArc(bounds.x + bounds.width / 3, bounds.y + bounds.height / 4, bounds.width / 5 * 3 - SHADOW_OFFSET - 1, bounds.height / 3 * 2 - SHADOW_OFFSET - 1, 0, -110);
-    }
-    
-    @Override
-    protected void drawTargetFeedback(Graphics graphics) {
-        graphics.pushState();
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - 2, bounds.height - SHADOW_OFFSET - 1));
+        
         graphics.popState();
     }
-
+    
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();

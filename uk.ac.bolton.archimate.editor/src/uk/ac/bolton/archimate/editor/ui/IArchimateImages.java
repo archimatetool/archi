@@ -148,6 +148,10 @@ public interface IArchimateImages {
     String ICON_SMALL_X = IMGPATH + "smallx.png"; //$NON-NLS-1$
     String ICON_SORT_16 = IMGPATH + "alphab_sort_co.gif"; //$NON-NLS-1$
     String ICON_STICKY_16 = IMGPATH + "sticky-16.png"; //$NON-NLS-1$
+    String ICON_VIEWPOINTS_16 = IMGPATH + "viewpoints-16.png"; //$NON-NLS-1$
+    String ICON_VIEWPOINT_BUSINESS_16 = IMGPATH + "vp-business-16.png"; //$NON-NLS-1$
+    String ICON_VIEWPOINT_APPLICATION_16 = IMGPATH + "vp-application-16.png"; //$NON-NLS-1$
+    String ICON_VIEWPOINT_TECHNOLOGY_16 = IMGPATH + "vp-technology-16.png"; //$NON-NLS-1$
 
     String CURSOR_IMG_FORMAT_PAINTER = IMGPATH + "formatpainter-cursor.gif"; //$NON-NLS-1$
     String CURSOR_IMG_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey-cursor.gif"; //$NON-NLS-1$

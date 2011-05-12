@@ -17,6 +17,7 @@ import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IFontAttribute;
@@ -97,6 +98,19 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
             alignment = IFontAttribute.TEXT_ALIGNMENT_CENTER;
         }
         ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
+        
+        // Set Enabled according to current Viewpoint
+        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getDiagramModelObject());
+        setEnabled(enabled);
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().setEnabled(enabled);
+        }
+    }
+    
+    @Override
+    public void setEnabled(boolean value) {
+        super.setEnabled(value);
+        getTextControl().setEnabled(value);
     }
     
     protected void setText() {

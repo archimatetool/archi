@@ -34,4 +34,15 @@ public interface IFigureDelegate {
      * @param graphics
      */
     void drawTargetFeedback(Graphics graphics);
+    
+    /**
+     * Set whether to draw the figure in an enabled state
+     * @param value
+     */
+    void setEnabled(boolean value);
+    
+    /**
+     * @return The enabled state
+     */
+    boolean isEnabled();
 }

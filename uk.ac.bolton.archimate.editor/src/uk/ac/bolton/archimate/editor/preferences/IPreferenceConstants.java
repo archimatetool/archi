@@ -60,4 +60,7 @@ public interface IPreferenceConstants {
     String NEW_RELATIONS_TYPES = "newRelationsTypes";
     String HIDDEN_RELATIONS_TYPES = "hiddenRelationsTypes";
     
+    String VIEWPOINTS_FILTER_MODEL_TREE = "viewpointsFilterModelTree";
+    String VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS = "viewpointsHideDiagramElements";
+    String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements";
 }

@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
@@ -32,7 +33,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 public abstract class AbstractDiagramConnectionFigure
 extends PolylineConnection implements IDiagramConnectionFigure {
 
-    protected Label fConnectionLabel;
+    private Label fConnectionLabel;
     
     protected int fTextPosition = -1;
     
@@ -76,6 +77,16 @@ extends PolylineConnection implements IDiagramConnectionFigure {
         setLineWidth();
         
         setToolTip();
+        
+        // Set Enabled according to current Viewpoint
+        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getModelConnection());
+        setEnabled(enabled);
+        if(getSourceDecoration() != null) {
+            getSourceDecoration().setEnabled(enabled);
+        }
+        if(getTargetDecoration() != null) {
+            getTargetDecoration().setEnabled(enabled);
+        }
     }
 
     /**
@@ -130,7 +141,7 @@ extends PolylineConnection implements IDiagramConnectionFigure {
             font = FontFactory.getAdjustedWindowsFont(font);
         }
 
-        fConnectionLabel.setFont(font);
+        getConnectionLabel().setFont(font);
     }
 
     /**
@@ -144,7 +155,7 @@ extends PolylineConnection implements IDiagramConnectionFigure {
         }
         if(c != fFontColor) {
             fFontColor = c;
-            fConnectionLabel.setForegroundColor(c);
+            getConnectionLabel().setForegroundColor(c);
         }
     }
     

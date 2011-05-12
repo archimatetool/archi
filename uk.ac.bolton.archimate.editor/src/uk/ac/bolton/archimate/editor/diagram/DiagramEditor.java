@@ -10,17 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.AutoexposeHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
-import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -33,9 +34,13 @@ import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramTransferDropTargetListen
 import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionSynchroniser;
 import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IRelationship;
@@ -53,8 +58,37 @@ implements IDiagramEditor {
      * Palette
      */
     private DiagramEditorPalette fPalette;
-
-
+    
+    @Override
+    protected void applicationPreferencesChanged(PropertyChangeEvent event) {
+        // Hide Palette elements on Viewpoint
+        if(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS == event.getProperty()) {
+            if(Boolean.TRUE == event.getNewValue()) {
+                setPaletteViewpoint();
+            }
+            else {
+                getPaletteRoot().setViewpoint(null);
+            }
+        }
+        else {
+            super.applicationPreferencesChanged(event);
+        }
+    }
+    
+    /**
+     * Set Viewpoint to current Viewpoint in model
+     */
+    public void setViewpoint() {
+        setPaletteViewpoint();
+        getGraphicalViewer().setContents(getModel()); // refresh the model contents
+    }
+    
+    protected void setPaletteViewpoint() {
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+            getPaletteRoot().setViewpoint(ViewpointsManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
+        }
+    }
+    
     @Override
     public void doCreatePartControl(Composite parent) {
         // Register Help Context
@@ -62,9 +96,10 @@ implements IDiagramEditor {
     }
     
     @Override
-    public PaletteRoot getPaletteRoot() {
+    public DiagramEditorPalette getPaletteRoot() {
         if(fPalette == null) {
             fPalette = new DiagramEditorPalette();
+            setPaletteViewpoint();
         }
         return fPalette;
     }
@@ -187,6 +222,18 @@ implements IDiagramEditor {
         action = new DeleteFromModelAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+    }
+    
+    @Override
+    protected void eCoreModelChanged(Notification msg) {
+        super.eCoreModelChanged(msg);
+        
+        if(msg.getEventType() == Notification.SET) {
+            // Diagram Model Viewpoint changed
+            if(msg.getNotifier() == getModel() && msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+                setViewpoint();
+            }
+        }
     }
     
     @Override
