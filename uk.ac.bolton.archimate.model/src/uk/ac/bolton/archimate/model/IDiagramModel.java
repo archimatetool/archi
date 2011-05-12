@@ -16,6 +16,7 @@ package uk.ac.bolton.archimate.model;
  * The following features are supported:
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModel#getConnectionRouterType <em>Connection Router Type</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModel#getViewpoint <em>Viewpoint</em>}</li>
  * </ul>
  * </p>
  *
@@ -59,5 +60,31 @@ public interface IDiagramModel extends IArchimateModelElement, IDiagramModelCont
      * @generated
      */
     void setConnectionRouterType(int value);
+
+    /**
+     * Returns the value of the '<em><b>Viewpoint</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Viewpoint</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Viewpoint</em>' attribute.
+     * @see #setViewpoint(int)
+     * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModel_Viewpoint()
+     * @model
+     * @generated
+     */
+    int getViewpoint();
+
+    /**
+     * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModel#getViewpoint <em>Viewpoint</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Viewpoint</em>' attribute.
+     * @see #getViewpoint()
+     * @generated
+     */
+    void setViewpoint(int value);
 
 } // IDiagramModel
