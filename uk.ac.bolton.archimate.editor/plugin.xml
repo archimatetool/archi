@@ -386,6 +386,12 @@
                id="userPropertiesSection"
                tab="properties.tab">
          </propertySection>
+         <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.ViewpointSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.ViewpointSection$Filter"
+               id="viewpointSection"
+               tab="main.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension
