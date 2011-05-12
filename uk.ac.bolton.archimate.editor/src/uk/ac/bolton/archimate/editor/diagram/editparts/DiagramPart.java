@@ -6,6 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.Animation;
@@ -25,7 +27,6 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToHelper;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -48,7 +49,13 @@ import uk.ac.bolton.archimate.model.IProperties;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramPart extends AbstractGraphicalEditPart {
+public class DiagramPart extends AbstractFilteredEditPart
+implements IEditPartFilterProvider {
+    
+    /**
+     * EditPart Filters
+     */
+    private List<IEditPartFilter> fEditPartFilters;
     
     private Adapter adapter = new AdapterImpl() {
         @Override
@@ -78,21 +85,26 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         }
     };
     
+    /**
+     * Application Preferences Listener
+     */
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(event.getProperty() == IPreferenceConstants.ANTI_ALIAS) {
-                setAntiAlias();
-                refresh();
-            }
+            applicationPreferencesChanged(event);
         }
     };
     
-    @Override
-    protected List<?> getModelChildren() {
-        return getModel().getChildren();
+    /**
+     * Application User Preferences were changed
+     */
+    protected void applicationPreferencesChanged(PropertyChangeEvent event) {
+        if(event.getProperty() == IPreferenceConstants.ANTI_ALIAS) {
+            setAntiAlias();
+            refresh();
+        }
     }
-    
+
     @Override
     public IDiagramModel getModel() {
         return (IDiagramModel)super.getModel();
@@ -103,10 +115,13 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         if(isActive()) {
             return;
         }
+        
         super.activate();
         
+        // Listen to Model
         getModel().eAdapters().add(adapter);
         
+        // Listen to Prefs changes
         Preferences.STORE.addPropertyChangeListener(prefsListener);
     }
 
@@ -115,11 +130,20 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         if(!isActive()) {
             return;
         }
+        
         super.deactivate();
         
+        // Remove Model listener
         getModel().eAdapters().remove(adapter);
         
+        // Remove Prefs listener
         Preferences.STORE.removePropertyChangeListener(prefsListener);
+        
+        // Clear Filters
+        if(fEditPartFilters != null) {
+            fEditPartFilters.clear();
+            fEditPartFilters = null;
+        }
     }
 
     @Override
@@ -211,4 +235,56 @@ public class DiagramPart extends AbstractGraphicalEditPart {
         return super.getAdapter(adapter);
     }
     
+    // -------------------------------- Filters -----------------------------------------
+    
+    @Override
+    public void addEditPartFilter(IEditPartFilter filter) {
+        if(fEditPartFilters == null) {
+            fEditPartFilters = new ArrayList<IEditPartFilter>();
+        }
+        fEditPartFilters.add(filter);
+    }
+    
+    @Override
+    public void removeEditPartFilter(IEditPartFilter filter) {
+        if(fEditPartFilters != null && filter != null) {
+            fEditPartFilters.remove(filter);
+            if(fEditPartFilters.isEmpty()) {
+                fEditPartFilters = null;
+            }
+        }
+    }
+    
+    @Override
+    public IEditPartFilter[] getEditPartFilters() {
+        if(fEditPartFilters == null) {
+            return null;
+        }
+        IEditPartFilter[] result = new IEditPartFilter[fEditPartFilters.size()];
+        fEditPartFilters.toArray(result);
+        return result;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T[] getEditPartFilters(Class<T> T) {
+        if(fEditPartFilters == null) {
+            return null;
+        }
+        
+        List<T> filteredList = new ArrayList<T>();
+        
+        for(Object filter : fEditPartFilters) {
+            if(T.isInstance(filter)) {
+                filteredList.add((T)filter);
+            }
+        }
+        
+        if(filteredList.isEmpty()) {
+            return null;
+        }
+        
+        T[] result = (T[])Array.newInstance(T, filteredList.size());
+        return filteredList.toArray(result);
+    }
 }

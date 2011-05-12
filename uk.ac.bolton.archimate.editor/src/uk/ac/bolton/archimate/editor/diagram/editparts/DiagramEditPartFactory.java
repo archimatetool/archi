@@ -85,6 +85,9 @@ implements EditPartFactory {
         // Main Diagram Edit Part
         if(model instanceof IDiagramModel) {
             child = new DiagramPart();
+            
+            // Add a Nested Connection Filter to this
+            ((DiagramPart)child).addEditPartFilter(new NestedConnectionEditPartFilter());
         }
         
         // Note

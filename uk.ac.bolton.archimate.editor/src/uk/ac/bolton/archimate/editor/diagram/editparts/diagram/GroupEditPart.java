@@ -6,8 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
-import java.util.List;
-
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -33,7 +31,6 @@ import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 
 
 /**
@@ -46,11 +43,6 @@ implements IColoredEditPart, ITextEditPart {
     
     private ConnectionAnchor fAnchor;
     private DirectEditManager fDirectEditManager;
-
-    @Override
-    protected List<?> getModelChildren() {
-        return ((IDiagramModelContainer)getModel()).getChildren();
-    }
 
     @Override
     protected void createEditPolicies() {

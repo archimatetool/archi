@@ -6,8 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.editparts;
 
-import java.util.List;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -40,11 +38,6 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
     @Override
     protected void refreshFigure() {
         getFigure().refreshVisuals();
-    }
-    
-    @Override
-    protected List<?> getModelChildren() {
-        return getModel().getChildren();
     }
     
     @Override

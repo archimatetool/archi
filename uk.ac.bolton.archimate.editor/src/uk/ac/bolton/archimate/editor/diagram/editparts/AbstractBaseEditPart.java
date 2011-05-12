@@ -10,7 +10,6 @@ import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
@@ -26,8 +25,11 @@ import uk.ac.bolton.archimate.model.IProperties;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractBaseEditPart extends AbstractGraphicalEditPart {
+public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     
+    /**
+     * Application Preferences Listener
+     */
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
@@ -53,12 +55,11 @@ public abstract class AbstractBaseEditPart extends AbstractGraphicalEditPart {
             // Listen to changes in Diagram Model Object
             addECoreAdapter();
             
-            // Listen to Prefs changes to set default Font
+            // Listen to Prefs changes
             Preferences.STORE.addPropertyChangeListener(prefsListener);
         }
     }
 
-    // override deactivate to deregister with the model
     @Override
     public void deactivate() {
         if(isActive()) {
@@ -67,6 +68,7 @@ public abstract class AbstractBaseEditPart extends AbstractGraphicalEditPart {
             // Remove Listener to changes in Diagram Model Object
             removeECoreAdapter();
             
+            // Remove Prefs listener
             Preferences.STORE.removePropertyChangeListener(prefsListener);
 
             // Dispose of figure
