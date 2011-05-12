@@ -105,7 +105,9 @@ public class SketchEditorPalette extends PaletteRoot {
         PaletteContainer group = new PaletteGroup("Elements");
         add(group);
         
-        group.add(createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(), "Actor", null));
+        group.add(createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(),
+                "Actor",
+                "Actor Element"));
         
         // Group
         PaletteEntry groupEntry = new CombinedTemplateCreationEntry(

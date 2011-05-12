@@ -161,8 +161,10 @@ public class DiagramEditorPalette extends PaletteRoot {
         group.add(groupEntry);
         
         // Note Connection
-        ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                "Note Connection");
+        ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
+                IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
+                "Connection",
+                "Connect to Notes");
         group.add(entry);
         
         return group;
