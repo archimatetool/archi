@@ -1,17 +1,22 @@
 Archi Changes
 -------------
 
-Version 1.8 June XX 2011
+Version 2.0 July XX 2011
 ------------------------
-+ Support for multiple occurrences of objects and connections in a View
++ Dynamic Viewpoints
++ Can now add multiple occurrences of objects and connections in a View
 + Elements can have circular relationships and connections (self <---> self)
 + Palette is now detachable and improved
-+ Group diagram objects now have the "Documentation" field
-+ Group diagram objects can be added to Sketch Views
-+ Group diagram objects and all Sketch View diagram objects now have Properties
-+ Added "Name" field to Sketch Stickies
-+ Added "Name" and "Documentation" fields to Note and Sketch View connections
++ Group objects now have the "Documentation" field
++ Group objects can also be added to Sketch Views
++ Group objects and all Sketch View diagram objects can now have Properties
++ Added a "Name" field to Sketch Stickies
++ Added "Name" and "Documentation" fields to Note and all Connections
++ On Linux default to use Webkit Browser component in the Hints window
++ Added tooltips for all Sketch View elements
++ "Archisurance" example updated to include Viewpoints and re-organised folders
 * Optimisations to Property sections in Properties Window
+* Many internal optimisations
 
 
 
