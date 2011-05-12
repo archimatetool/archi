@@ -43,6 +43,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.ComponentSelectionManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
@@ -58,6 +59,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ISketchModel;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 
 
@@ -257,6 +259,12 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         // Default
         else {
             object = selected;
+        }
+        
+        // Convert Archimate Diagram Model object to Viewpoint object
+        if(object instanceof IDiagramModel && !(object instanceof ISketchModel)) {
+            int index = ((IDiagramModel)object).getViewpoint();
+            object = ViewpointsManager.INSTANCE.getViewpoint(index);
         }
 
         HintMapping mapping = getHintMappingFromObject(object);
