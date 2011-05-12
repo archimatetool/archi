@@ -47,7 +47,7 @@ public class FontColorSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -116,15 +116,11 @@ public class FontColorSection extends AbstractArchimatePropertySection {
         else {
             throw new RuntimeException("Should have been an EditPart");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fFontObject == null) {
-            return;
-        }
-        
-        // Populate fields...
+    protected void refreshControls() {
         String colorValue = fFontObject.getFontColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb != null) {

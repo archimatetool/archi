@@ -72,20 +72,26 @@ public class GroupSection extends AbstractArchimatePropertySection {
         else {
             throw new RuntimeException("Should have been a Group Edit Part");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
         refreshDocumentationField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.refresh(fDiagramModelGroup);
     }
     
     protected void refreshDocumentationField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextDocumentation.refresh(fDiagramModelGroup);
     }
 

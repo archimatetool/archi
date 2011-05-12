@@ -56,8 +56,8 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Element Interface event (Undo/Redo and here!)
             if(feature == IArchimatePackage.Literals.INTERFACE_ELEMENT__INTERFACE_TYPE) {
-                refresh();
-                fPage.labelProviderChanged(null); // Update Main label
+                refreshControls();
+                fPage.labelProviderChanged(null); // Update icon on Main label
             }
         }
     };
@@ -65,7 +65,6 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
     private IInterfaceElement fInterfaceElement;
 
     private Combo fComboInterfaceType;
-    private boolean fIsUpdating;
     
     private static final String[] fComboInterfaceItems = {
         "Provided",
@@ -82,11 +81,11 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    if(!fIsUpdating) {
-                        getCommandStack().execute(new EObjectFeatureCommand("Interface Type",
-                                fInterfaceElement, IArchimatePackage.Literals.INTERFACE_ELEMENT__INTERFACE_TYPE,
-                                fComboInterfaceType.getSelectionIndex()));
-                    }
+                    fIsExecutingCommand = true;
+                    getCommandStack().execute(new EObjectFeatureCommand("Interface Type",
+                            fInterfaceElement, IArchimatePackage.Literals.INTERFACE_ELEMENT__INTERFACE_TYPE,
+                            fComboInterfaceType.getSelectionIndex()));
+                    fIsExecutingCommand = false;
                 }
             }
         });
@@ -108,15 +107,17 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
         else {
             System.err.println("InterfaceElementSection wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
-        fIsUpdating = true;
+    protected void refreshControls() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
+        
         int type = fInterfaceElement.getInterfaceType();
         fComboInterfaceType.select(type);
-        fIsUpdating = false;
     }
 
     @Override

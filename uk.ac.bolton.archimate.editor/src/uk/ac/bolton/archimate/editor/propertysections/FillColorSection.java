@@ -48,7 +48,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -117,15 +117,11 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         else {
             throw new RuntimeException("Should have been an IColoredEditPart");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fDiagramModelObject == null) {
-            return;
-        }
-        
-        // Populate fields...
+    protected void refreshControls() {
         String colorValue = fDiagramModelObject.getFillColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb != null) {

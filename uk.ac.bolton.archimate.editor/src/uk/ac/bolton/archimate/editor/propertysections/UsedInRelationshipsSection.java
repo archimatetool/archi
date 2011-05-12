@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.propertysections;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -59,6 +58,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     private IArchimateElement fArchimateElement;
     
     private TableViewer fTableViewer;
+    private UpdatingTableColumnLayout fTableLayout;
     
     @Override
     protected void createControls(Composite parent) {
@@ -70,11 +70,12 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);
+        fTableLayout = (UpdatingTableColumnLayout)tableComp.getLayout();
         fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION);
         
         // Column
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
-        ((TableColumnLayout)tableComp.getLayout()).setColumnData(column.getColumn(), new ColumnWeightData(100, false));
+        fTableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         
         // On Mac shows alternate table row colours
         fTableViewer.getTable().setLinesVisible(true);
@@ -141,11 +142,13 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         else {
             System.err.println("UsedInRelationshipsSection wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
+    protected void refreshControls() {
         fTableViewer.setInput(fArchimateElement);
+        fTableLayout.doRelayout();
     }
     
     @Override

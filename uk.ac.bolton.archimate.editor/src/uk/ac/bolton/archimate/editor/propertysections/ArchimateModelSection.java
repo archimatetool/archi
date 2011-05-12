@@ -91,8 +91,10 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
+                    fIsExecutingCommand = true;
                     getCommandStack().execute(new EObjectFeatureCommand("Change text", fModel,
-                                                IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText));
+                                                    IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText));
+                    fIsExecutingCommand = false;
                 }
             }
         };
@@ -107,21 +109,20 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
         else {
             System.err.println("Section wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fModel == null) {
-            return;
-        }
-        
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
         refreshFileField();
         refreshPurposeField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.refresh(fModel);
     }
     
@@ -136,6 +137,9 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     }
     
     protected void refreshPurposeField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextPurpose.refresh(fModel);
     }
 

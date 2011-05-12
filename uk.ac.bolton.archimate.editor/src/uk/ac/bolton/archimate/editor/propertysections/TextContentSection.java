@@ -39,7 +39,7 @@ public class TextContentSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Model Name event (Undo/Redo and here!)
             if(feature == IArchimatePackage.Literals.TEXT_CONTENT__CONTENT) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -58,8 +58,10 @@ public class TextContentSection extends AbstractArchimatePropertySection {
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
+                    fIsExecutingCommand = true;
                     getCommandStack().execute(new EObjectFeatureCommand("Content", fTextContent,
                                                 IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, newText));
+                    fIsExecutingCommand = false;
                 }
             }
         };
@@ -81,11 +83,14 @@ public class TextContentSection extends AbstractArchimatePropertySection {
         if(fTextContent == null) {
             throw new RuntimeException("Text Content was null");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextContentControl.refresh(fTextContent);
     }
     

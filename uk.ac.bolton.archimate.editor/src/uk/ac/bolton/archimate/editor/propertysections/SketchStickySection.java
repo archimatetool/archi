@@ -62,15 +62,18 @@ public class SketchStickySection extends AbstractArchimatePropertySection {
         if(fEObject == null) {
             throw new RuntimeException("Object was null");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.refresh(fEObject);
     }
     

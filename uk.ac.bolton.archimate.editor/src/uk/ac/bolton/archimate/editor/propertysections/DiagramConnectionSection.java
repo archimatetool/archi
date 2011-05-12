@@ -62,8 +62,6 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     private Combo fComboTextPosition;
     private Combo fComboLineWidth;
     
-    private boolean fIsUpdating;
-
     public static final String[] comboTextPositionItems = {
             "Source",
             "Middle",
@@ -97,8 +95,10 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
+                    fIsExecutingCommand = true;
                     getCommandStack().execute(new EObjectFeatureCommand("Connection text", fConnection,
                                             IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT, newText));
+                    fIsExecutingCommand = false;
                 }
             }
         };
@@ -115,9 +115,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    if(!fIsUpdating) {
-                        getCommandStack().execute(new ConnectionTextPositionCommand(fConnection, fComboTextPosition.getSelectionIndex()));
-                    }
+                    fIsExecutingCommand = true;
+                    getCommandStack().execute(new ConnectionTextPositionCommand(fConnection, fComboTextPosition.getSelectionIndex()));
+                    fIsExecutingCommand = false;
                 }
             }
         });
@@ -133,9 +133,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    if(!fIsUpdating) {
-                        getCommandStack().execute(new ConnectionLineWidthCommand(fConnection, fComboLineWidth.getSelectionIndex() + 1));
-                    }
+                    fIsExecutingCommand = true;
+                    getCommandStack().execute(new ConnectionLineWidthCommand(fConnection, fComboLineWidth.getSelectionIndex() + 1));
+                    fIsExecutingCommand = false;
                 }
             }
         });
@@ -149,35 +149,36 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         else {
             throw new RuntimeException("Should have been an Edit Part");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshTextPositionCombo();
         refreshLineWidthCombo();
         refreshTextField();
     }
     
     protected void refreshTextPositionCombo() {
-        if(fConnection != null) {
-            fIsUpdating = true;
-            int pos = fConnection.getTextPosition();
-            fComboTextPosition.select(pos);
-            fIsUpdating = false;
+        if(fIsExecutingCommand) {
+            return; 
         }
+        int pos = fConnection.getTextPosition();
+        fComboTextPosition.select(pos);
     }
     
     protected void refreshLineWidthCombo() {
-        if(fConnection != null) {
-            fIsUpdating = true;
-            int lineWidth = fConnection.getLineWidth();
-            fComboLineWidth.select(lineWidth - 1);
-            fIsUpdating = false;
+        if(fIsExecutingCommand) {
+            return; 
         }
+        int lineWidth = fConnection.getLineWidth();
+        fComboLineWidth.select(lineWidth - 1);
     }
     
     protected void refreshTextField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextConnection.refresh(fConnection);
     }
     

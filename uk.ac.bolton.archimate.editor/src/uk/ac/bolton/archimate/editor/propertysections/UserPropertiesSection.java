@@ -185,11 +185,11 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         else {
             System.err.println(getClass() + " wants to display for " + element);
         }
+        
+        refreshControls();
     }
 
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         fTableViewer.setInput(fPropertiesElement);
         fTableLayout.doRelayout();
     }

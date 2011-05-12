@@ -76,7 +76,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Model event (Undo/Redo and here!)
             if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -94,12 +94,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         figure2 = new ImageFigure(parent);
     }
     
-    @Override
-    public void refresh() {
-        if(fDiagramObject == null) {
-            return;
-        }
-        
+    protected void refreshControls() {
         IArchimateElement element = fDiagramObject.getArchimateElement();
         
         String imageName1 = null, imageName2 = null;
@@ -154,6 +149,8 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         if(fDiagramObject == null) {
             System.err.println("Diagram Object was null in " + getClass());
         }
+        
+        refreshControls();
     }
     
     private class ImageFigure extends Composite {

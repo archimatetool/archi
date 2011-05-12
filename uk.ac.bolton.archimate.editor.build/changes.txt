@@ -11,6 +11,7 @@ Version 1.8 June XX 2011
 + Group diagram objects and all Sketch View diagram objects now have Properties
 + Added "Name" field to Sketch Stickies
 + Added "Name" and "Documentation" fields to Note and Sketch View connections
+* Optimisations to Property sections in Properties Window
 
 
 

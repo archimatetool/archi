@@ -82,20 +82,26 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
         else {
             throw new RuntimeException("Should have been an Edit Part");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
         refreshDocumentationField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.refresh(fConnection);
     }
     
     protected void refreshDocumentationField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextDocumentation.refresh(fConnection);
     }
     

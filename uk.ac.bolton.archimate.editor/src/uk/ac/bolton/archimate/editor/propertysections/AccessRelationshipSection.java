@@ -54,10 +54,9 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Element Access type event (Undo/Redo and here!)
+            // Element Access type event (Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE) {
-                refresh();
-                fPage.labelProviderChanged(null); // Update Main label
+                refreshControls();
             }
         }
     };
@@ -65,7 +64,6 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     private IAccessRelationship fAccessRelationship;
 
     private Combo fComboType;
-    private boolean fIsUpdating;
     
     private static final String[] fComboTypeItems = {
         "Access",
@@ -92,12 +90,12 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    if(!fIsUpdating) {
-                        getCommandStack().execute(new EObjectFeatureCommand("Access Type",
-                                                fAccessRelationship,
-                                                IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE,
-                                                fTypeValues[fComboType.getSelectionIndex()]));
-                    }
+                    fIsExecutingCommand = true;
+                    getCommandStack().execute(new EObjectFeatureCommand("Access Type",
+                                                        fAccessRelationship,
+                                                        IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE,
+                                                        fTypeValues[fComboType.getSelectionIndex()]));
+                    fIsExecutingCommand = false;
                 }
             }
         });
@@ -119,12 +117,14 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
         else {
             System.err.println("AccessRelationshipSection wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
-        fIsUpdating = true;
+    protected void refreshControls() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         
         int type = fAccessRelationship.getAccessType();
         if(type < IAccessRelationship.WRITE_ACCESS || type > IAccessRelationship.READ_WRITE_ACCESS) {
@@ -132,8 +132,6 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
         }
         type = fTypeValues[type]; // map theirs to ours
         fComboType.select(type);
-        
-        fIsUpdating = false;
     }
 
     @Override

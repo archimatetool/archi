@@ -49,7 +49,7 @@ public class FontSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -147,16 +147,11 @@ public class FontSection extends AbstractArchimatePropertySection {
         else {
             throw new RuntimeException("Should have been an IFontAttribute");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fFontObject == null) {
-            return;
-        }
-        
-        // Populate fields...
-        
+    protected void refreshControls() {
         FontData defaultFontData = FontFactory.getDefaultUserViewFontData();
         
         String fontValue = fFontObject.getFont();

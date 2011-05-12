@@ -43,6 +43,12 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
     
     private static int V_SPACING = 10;
     
+    /**
+     * Set this to true when executing command to stop unnecessary refreshing of controls
+     */
+    protected boolean fIsExecutingCommand;
+    
+    
     @Override
     public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
         super.createControls(parent, tabbedPropertySheetPage);
@@ -151,8 +157,10 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
+                    fIsExecutingCommand = true;
                     getCommandStack().execute(new EObjectFeatureCommand("Rename" + " " + oldText, getEObject(),
                             IArchimatePackage.Literals.NAMEABLE__NAME, newText));
+                    fIsExecutingCommand = false;
                 }
             }
         };
@@ -175,8 +183,10 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
+                    fIsExecutingCommand = true;
                     getCommandStack().execute(new EObjectFeatureCommand("Change Documentation", getEObject(),
                             IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, newText));
+                    fIsExecutingCommand = false;
                 }
             }
         };

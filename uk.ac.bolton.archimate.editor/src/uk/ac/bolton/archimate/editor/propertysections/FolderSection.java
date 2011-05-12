@@ -69,21 +69,27 @@ public class FolderSection extends AbstractArchimatePropertySection {
         else {
             System.err.println("Section wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
         refreshDocumentationField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.getTextControl().setEnabled(fFolder != null && fFolder.getType() == FolderType.USER);
         fTextName.refresh(fFolder);
     }
     
     protected void refreshDocumentationField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextDocumentation.refresh(fFolder);
     }
 

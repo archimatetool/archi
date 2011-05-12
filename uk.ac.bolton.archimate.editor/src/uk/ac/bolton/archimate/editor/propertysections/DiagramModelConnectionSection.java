@@ -43,13 +43,12 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
             Object feature = msg.getFeature();
             // Change made from Menu Action
             if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE) {
-                refresh();
+                refreshControls();
             }
         }
     };
     
     private Combo fComboRouterType;
-    private boolean fIsUpdating;
     
     private String[] comboItems = {
             ConnectionRouterAction.CONNECTION_ROUTER_BENDPONT,
@@ -78,9 +77,9 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    if(!fIsUpdating) {
-                        getCommandStack().execute(new ConnectionRouterTypeCommand(fDiagramModel, fComboRouterType.getSelectionIndex()));
-                    }
+                    fIsExecutingCommand = true;
+                    getCommandStack().execute(new ConnectionRouterTypeCommand(fDiagramModel, fComboRouterType.getSelectionIndex()));
+                    fIsExecutingCommand = false;
                 }
             }
         });
@@ -99,17 +98,16 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
         else {
             System.err.println("Section wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fDiagramModel == null) {
-            return;
+    protected void refreshControls() {
+        if(fIsExecutingCommand) {
+            return; 
         }
         
-        fIsUpdating = true;
         fComboRouterType.select(fDiagramModel.getConnectionRouterType());
-        fIsUpdating = false;
     }
 
     @Override

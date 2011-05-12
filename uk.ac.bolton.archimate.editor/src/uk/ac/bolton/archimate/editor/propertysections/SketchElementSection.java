@@ -68,20 +68,26 @@ public class SketchElementSection extends AbstractArchimatePropertySection {
         if(fEObject == null) {
             throw new RuntimeException("Object was null");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
         refreshDocumentationField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.refresh(fEObject);
     }
     
     protected void refreshDocumentationField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextDocumentation.refresh(fEObject);
     }
 

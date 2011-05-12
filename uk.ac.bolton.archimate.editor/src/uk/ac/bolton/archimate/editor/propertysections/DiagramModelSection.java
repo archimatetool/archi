@@ -36,12 +36,12 @@ public class DiagramModelSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Diagram Name event (Undo/Redo and here!)
             if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                refresh();
+                refreshNameField();
                 fPage.labelProviderChanged(null); // Update Main label
             }
             // Documentation
             else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
-                refresh();
+                refreshDocumentationField();
             }
         }
     };
@@ -71,16 +71,26 @@ public class DiagramModelSection extends AbstractArchimatePropertySection {
         else {
             System.err.println("Section wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fDiagramModel == null) {
-            return;
+    protected void refreshControls() {
+        refreshNameField();
+        refreshDocumentationField();
+    }
+
+    protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
         }
-        
-        // Populate fields...
         fTextName.refresh(fDiagramModel);
+    }
+    
+    protected void refreshDocumentationField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextDocumentation.refresh(fDiagramModel);
     }
 

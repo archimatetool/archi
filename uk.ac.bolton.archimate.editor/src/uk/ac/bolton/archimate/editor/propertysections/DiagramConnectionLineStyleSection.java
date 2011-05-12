@@ -43,7 +43,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             Object feature = msg.getFeature();
             // Model event (Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -52,8 +52,6 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
     
     private Combo fComboLineType;
     
-    private boolean fIsUpdating;
-
     public static final String[] comboLineWidthItems = {
             "Plain",
             "Dashed",
@@ -78,10 +76,10 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    if(!fIsUpdating) {
-                        getCommandStack().execute(new ConnectionLineTypeCommand(fConnection, 
-                                    getStringValueOfCombo(fComboLineType.getSelectionIndex())));
-                    }
+                    fIsExecutingCommand = true;
+                    getCommandStack().execute(new ConnectionLineTypeCommand(fConnection, 
+                                                getStringValueOfCombo(fComboLineType.getSelectionIndex())));
+                    fIsExecutingCommand = false;
                 }
             }
         });
@@ -125,18 +123,16 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         else {
             throw new RuntimeException("Should have been an Edit Part");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fConnection == null) {
-            return;
+    protected void refreshControls() {
+        if(fIsExecutingCommand) {
+            return; 
         }
         
-        // Populate fields...
-        fIsUpdating = true;
         fComboLineType.select(getComboValueOfConnection(fConnection.getType()));
-        fIsUpdating = false;
     }
     
     @Override

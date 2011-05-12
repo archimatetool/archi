@@ -44,7 +44,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
             Object feature = msg.getFeature();
             // Alignment event (From Undo/Redo and here)
             if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT) {
-                refresh();
+                refreshControls();
             }
         }
     };
@@ -70,7 +70,9 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
                         }
                         if(fFontObject.getTextAlignment() != alignment) {
                             if(isAlive()) {
+                                fIsExecutingCommand = true;
                                 getCommandStack().execute(new TextAlignmentCommand(fFontObject, alignment));
+                                fIsExecutingCommand = false;
                             }
                         }
                     }
@@ -115,15 +117,15 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         else {
             throw new RuntimeException("Should have been an IFontAttribute");
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        if(fFontObject == null) {
-            return;
+    protected void refreshControls() {
+        if(fIsExecutingCommand) {
+            return; 
         }
         
-        // Select button
         for(int i = 0; i < fAlignmentButtons.length; i++) {
             fAlignmentButtons[i].setSelection(fAlignmentButtons[i] == getAlignmentButton());
         }

@@ -87,20 +87,26 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
         else {
             System.err.println("ArchimateElementSection wants to display for " + element);
         }
+        
+        refreshControls();
     }
     
-    @Override
-    public void refresh() {
-        // Populate fields...
+    protected void refreshControls() {
         refreshNameField();
         refreshDocumentationField();
     }
     
     protected void refreshNameField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextName.refresh(fArchimateElement);
     }
     
     protected void refreshDocumentationField() {
+        if(fIsExecutingCommand) {
+            return; 
+        }
         fTextDocumentation.refresh(fArchimateElement);
     }
 
