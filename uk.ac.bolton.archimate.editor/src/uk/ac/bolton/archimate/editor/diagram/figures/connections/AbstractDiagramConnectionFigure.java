@@ -87,6 +87,7 @@ extends PolylineConnection implements IDiagramConnectionFigure {
         if(getTargetDecoration() != null) {
             getTargetDecoration().setEnabled(enabled);
         }
+        getConnectionLabel().setEnabled(enabled);
     }
 
     /**
