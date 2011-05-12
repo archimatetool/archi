@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -19,6 +20,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -46,6 +48,11 @@ import uk.ac.bolton.archimate.model.IRelationship;
 public class TreeModelViewer extends TreeViewer {
     
     private TreeCellEditor fCellEditor;
+    
+    /**
+     * Show elements as grey if not in Viewpoint
+     */
+    private TreeViewpointFilterProvider fViewpointFilterProvider;
     
     public static String getElementText(Object element) {
         String name = element.toString();
@@ -108,6 +115,9 @@ public class TreeModelViewer extends TreeViewer {
         
         // Cell Editor
         fCellEditor = new TreeCellEditor(getTree());
+        
+        // Filter
+        fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
     }
     
     /**
@@ -213,7 +223,7 @@ public class TreeModelViewer extends TreeViewer {
     /**
      * Label Provider
      */
-    private class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider {
+    private class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
         Font fontItalic = JFaceResources.getFontRegistry().getItalic("");
         Font fontBold = JFaceResources.getFontRegistry().getBold("");
         
@@ -250,6 +260,7 @@ public class TreeModelViewer extends TreeViewer {
             return null;
         }
         
+        @Override
         public Font getFont(Object element) {
             SearchFilter filter = getSearchFilter();
             if(filter != null && filter.isFiltering() && filter.matchesFilter(element)) {
@@ -264,6 +275,15 @@ public class TreeModelViewer extends TreeViewer {
             
             return null;
         }
+
+        @Override
+        public Color getForeground(Object element) {
+            return fViewpointFilterProvider.getTextColor(element);
+        }
+
+        @Override
+        public Color getBackground(Object element) {
+            return null;
+        }
     }
-    
 }

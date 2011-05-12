@@ -45,6 +45,8 @@ import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
 import uk.ac.bolton.archimate.editor.actions.NewArchimateModelAction;
 import uk.ac.bolton.archimate.editor.actions.OpenModelAction;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.EditorManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ViewManager;
@@ -225,7 +227,7 @@ implements ITreeModelView {
             fSearchWidget = null;
             fParentComposite.layout();
             fTreeViewer.getTree().setRedraw(false);
-            fTreeViewer.resetFilters();
+            fTreeViewer.removeFilter(fSearchFilter);
             fSearchFilter.clear();
             fTreeViewer.getTree().setRedraw(true);
         }
@@ -501,6 +503,14 @@ implements ITreeModelView {
                                         feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
                 getViewer().update(notifier, null);
             }
+            
+            // Viewpoint changed
+            else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+                if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
+                    getViewer().refresh();
+                }
+            }
+            
             else {
                 super.eCoreChanged(msg);
             }
