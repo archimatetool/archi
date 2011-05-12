@@ -26,6 +26,7 @@ import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.MagicConnectionCreationTool;
 import uk.ac.bolton.archimate.editor.diagram.tools.MagicConnectionModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
+import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
@@ -42,31 +43,71 @@ public class DiagramEditorPalette extends PaletteRoot {
     
     private FormatPainterToolEntry formatPainterEntry;
     
+    private IViewpoint fViewpoint;
+    
+    private PaletteContainer fArchimateGroup;
+
     public DiagramEditorPalette() {
-        createControlsGroup();
+        add(createControlsGroup());
         add(new PaletteSeparator(""));
         
-        createRelationsGroup();
+        add(createRelationsGroup());
         add(new PaletteSeparator(""));
 
-        createExtrasGroup();
+        add(createExtrasGroup());
         add(new PaletteSeparator(""));
         
-        createBusinessLayerGroup();
-        add(new PaletteSeparator(""));
-
-        createApplicationLayerGroup();
-        add(new PaletteSeparator(""));
-        
-        createTechnologyLayerGroup();
+        fArchimateGroup = createArchimateGroup();
+        add(fArchimateGroup);
     }
 
+    /**
+     * Update the Palette depending on the Viewpoint
+     * @param viewpoint
+     */
+    public void setViewpoint(IViewpoint viewpoint) {
+        if(fViewpoint != viewpoint) {
+            fViewpoint = viewpoint;
+            
+            remove(fArchimateGroup);
+            
+            fArchimateGroup = createArchimateGroup();
+            add(fArchimateGroup);
+        }
+    }
+    
+    /**
+     * Create the Archimate groups
+     */
+    private PaletteContainer createArchimateGroup() {
+        PaletteContainer group = new PaletteGroup("archimate");
+        
+        PaletteContainer businessGroup = createBusinessLayerGroup();
+        PaletteContainer applicationGroup = createApplicationLayerGroup();
+        PaletteContainer technologyGroup = createTechnologyLayerGroup();
+        
+        if(!businessGroup.getChildren().isEmpty()) {
+            group.add(businessGroup);
+        }
+        
+        if(!applicationGroup.getChildren().isEmpty()) {
+            group.add(new PaletteSeparator(""));
+            group.add(applicationGroup);
+        }
+        
+        if(!technologyGroup.getChildren().isEmpty()) {
+            group.add(new PaletteSeparator(""));
+            group.add(technologyGroup);
+        }
+        
+        return group;
+    }
+    
     /**
      * Create a Group of Controls
      */
     private PaletteContainer createControlsGroup() {
         PaletteContainer group = new PaletteToolbar("Tools");
-        add(group);
         
         // The selection tool
         ToolEntry tool = new PanningSelectionToolEntry();
@@ -100,7 +141,6 @@ public class DiagramEditorPalette extends PaletteRoot {
      */
     private PaletteContainer createExtrasGroup() {
         PaletteContainer group = new PaletteGroup("View");
-        add(group);
         
         // Note
         PaletteEntry noteEntry = new CombinedTemplateCreationEntry(
@@ -134,11 +174,12 @@ public class DiagramEditorPalette extends PaletteRoot {
      */
     private PaletteContainer createBusinessLayerGroup() {
         PaletteContainer group = new PaletteGroup("Business");
-        add(group);
         
         for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-            group.add(entry);
+            if(fViewpoint == null || (fViewpoint != null && fViewpoint.isAllowedType(eClass))) {
+                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+                group.add(entry);
+            }
         }
         
         return group;
@@ -150,11 +191,12 @@ public class DiagramEditorPalette extends PaletteRoot {
      */
     private PaletteContainer createApplicationLayerGroup() {
         PaletteContainer group = new PaletteGroup("Application");
-        add(group);
         
         for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-            group.add(entry);
+            if(fViewpoint == null || (fViewpoint != null && fViewpoint.isAllowedType(eClass))) {
+                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+                group.add(entry);
+            }
         }
         
         return group;
@@ -166,11 +208,12 @@ public class DiagramEditorPalette extends PaletteRoot {
      */
     private PaletteContainer createTechnologyLayerGroup() {
         PaletteContainer group = new PaletteGroup("Technology");
-        add(group);
         
         for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-            PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-            group.add(entry);
+            if(fViewpoint == null || (fViewpoint != null && fViewpoint.isAllowedType(eClass))) {
+                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+                group.add(entry);
+            }
         }
         
         return group;
@@ -182,7 +225,6 @@ public class DiagramEditorPalette extends PaletteRoot {
      */
     private PaletteContainer createRelationsGroup() {
         PaletteContainer group = new PaletteGroup("Relations");
-        add(group);
         
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(
                 "Magic Connector",
