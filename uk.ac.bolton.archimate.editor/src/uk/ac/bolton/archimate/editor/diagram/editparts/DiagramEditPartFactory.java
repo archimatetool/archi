@@ -58,6 +58,8 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.technology.TechnologyInfr
 import uk.ac.bolton.archimate.editor.diagram.editparts.technology.TechnologyNetworkEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.technology.TechnologyNodeEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.technology.TechnologySystemSoftwareEditPart;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -88,6 +90,11 @@ implements EditPartFactory {
             
             // Add a Nested Connection Filter to this
             ((DiagramPart)child).addEditPartFilter(new NestedConnectionEditPartFilter());
+            
+            // Add a Viewpoint Child EditPart Filter to this if set in Preferences (hides rather than ghosts)
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS)) {
+                ((DiagramPart)child).addEditPartFilter(new ViewpointEditPartFilter());
+            }
         }
         
         // Note
