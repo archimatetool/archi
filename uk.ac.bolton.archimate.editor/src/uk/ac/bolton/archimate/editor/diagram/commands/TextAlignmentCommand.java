@@ -21,10 +21,4 @@ public class TextAlignmentCommand extends EObjectFeatureCommand {
     public TextAlignmentCommand(IFontAttribute object, int value) {
         super("Change text alignmnent", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT, value);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return fNewValue != fOldValue;
-    }
-
 }

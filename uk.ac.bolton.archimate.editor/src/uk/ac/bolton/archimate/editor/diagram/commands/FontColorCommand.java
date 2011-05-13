@@ -21,12 +21,4 @@ public class FontColorCommand extends EObjectFeatureCommand {
     public FontColorCommand(IFontAttribute object, String rgb) {
         super("Change font", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR, rgb);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                : false;
-    }
-
 }

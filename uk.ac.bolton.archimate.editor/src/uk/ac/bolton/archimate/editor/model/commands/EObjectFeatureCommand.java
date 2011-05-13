@@ -42,6 +42,13 @@ public class EObjectFeatureCommand extends Command {
     }
     
     @Override
+    public boolean canExecute() {
+        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
+                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
+                : false;
+    }
+    
+    @Override
     public void dispose() {
         fEObject = null;
     }

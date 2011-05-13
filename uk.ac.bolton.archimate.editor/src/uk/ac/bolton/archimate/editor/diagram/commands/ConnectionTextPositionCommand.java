@@ -21,10 +21,4 @@ public class ConnectionTextPositionCommand extends EObjectFeatureCommand {
     public ConnectionTextPositionCommand(IDiagramModelConnection connection, int position) {
         super("Connection text position", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION, position);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return fNewValue != fOldValue;
-    }
-    
 }

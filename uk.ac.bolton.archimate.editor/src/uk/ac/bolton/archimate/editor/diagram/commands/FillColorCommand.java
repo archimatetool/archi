@@ -21,11 +21,4 @@ public class FillColorCommand extends EObjectFeatureCommand {
     public FillColorCommand(IDiagramModelObject object, String rgb) {
         super("Change fill colour", object, IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR, rgb);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                : false;
-    }
 }

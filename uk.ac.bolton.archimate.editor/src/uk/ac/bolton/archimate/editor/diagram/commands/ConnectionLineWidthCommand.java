@@ -21,10 +21,4 @@ public class ConnectionLineWidthCommand extends EObjectFeatureCommand {
     public ConnectionLineWidthCommand(IDiagramModelConnection connection, int lineWidth) {
         super("Connection line width", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH, lineWidth);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return fNewValue != fOldValue;
-    }
-    
 }

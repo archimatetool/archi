@@ -21,10 +21,4 @@ public class ConnectionLineTypeCommand extends EObjectFeatureCommand {
     public ConnectionLineTypeCommand(IDiagramModelConnection connection, String lineType) {
         super("Connection line type", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE, lineType);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return fNewValue != fOldValue;
-    }
-    
 }

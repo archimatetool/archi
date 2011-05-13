@@ -760,14 +760,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         protected void setValue(Object element, Object value) {
             if(isAlive()) {
                 getCommandStack().execute(new EObjectFeatureCommand("Set Property Name", (IProperty)element,
-                        IArchimatePackage.Literals.PROPERTY__KEY, value) {
-                    @Override
-                    public boolean canExecute() {
-                        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                                        : false;
-                    }
-                });
+                                            IArchimatePackage.Literals.PROPERTY__KEY, value));
             }
         }
     }
@@ -802,14 +795,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         protected void setValue(Object element, Object value) {
             if(isAlive()) {
                 getCommandStack().execute(new EObjectFeatureCommand("Set Property Value", (IProperty)element,
-                        IArchimatePackage.Literals.PROPERTY__VALUE, value) {
-                    @Override
-                    public boolean canExecute() {
-                        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                                        : false;
-                    }
-                });
+                                        IArchimatePackage.Literals.PROPERTY__VALUE, value));
             }
         }
     }

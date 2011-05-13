@@ -21,10 +21,4 @@ public class ConnectionRouterTypeCommand extends EObjectFeatureCommand {
     public ConnectionRouterTypeCommand(IDiagramModel diagramModel, int type) {
         super("Connection router", diagramModel, IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE, type);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return fNewValue != fOldValue;
-    }
-    
 }

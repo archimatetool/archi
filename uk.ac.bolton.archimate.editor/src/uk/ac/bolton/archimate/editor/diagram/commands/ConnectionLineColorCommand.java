@@ -21,11 +21,4 @@ public class ConnectionLineColorCommand extends EObjectFeatureCommand {
     public ConnectionLineColorCommand(IDiagramModelConnection connection, String rgb) {
         super("Change line colour", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_COLOR, rgb);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                : false;
-    }
 }

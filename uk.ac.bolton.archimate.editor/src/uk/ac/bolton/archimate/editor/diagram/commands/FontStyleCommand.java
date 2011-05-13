@@ -21,11 +21,4 @@ public class FontStyleCommand extends EObjectFeatureCommand {
     public FontStyleCommand(IFontAttribute object, String fontData) {
         super("Change font", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT, fontData);
     }
-    
-    @Override
-    public boolean canExecute() {
-        return (fNewValue != null) ? !fNewValue.equals(fOldValue)
-                : (fOldValue != null) ? !fOldValue.equals(fNewValue)
-                : false;
-    }
 }
