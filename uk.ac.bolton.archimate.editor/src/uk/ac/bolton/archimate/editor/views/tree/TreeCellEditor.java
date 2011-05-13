@@ -210,7 +210,7 @@ public class TreeCellEditor {
         }
     }
     
-    private boolean isEditing() {
+    public boolean isEditing() {
         return fText != null && !fText.isDisposed();
     }
 

@@ -133,7 +133,7 @@ public class TreeModelViewer extends TreeViewer {
     
     @Override
     public void refresh(Object element) {
-        if(fCellEditor != null) {
+        if(fCellEditor != null && fCellEditor.isEditing()) {
             fCellEditor.cancelEditing();
         }
         super.refresh(element);
@@ -141,7 +141,7 @@ public class TreeModelViewer extends TreeViewer {
     
     @Override
     public void refresh(Object element, boolean updateLabels) {
-        if(fCellEditor != null) {
+        if(fCellEditor != null && fCellEditor.isEditing()) {
             fCellEditor.cancelEditing();
         }
         super.refresh(element, updateLabels);
