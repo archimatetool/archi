@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
+import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -81,12 +81,29 @@ public class TreeViewpointFilterProvider implements IPartListener {
     
     @Override
     public void partActivated(IWorkbenchPart part) {
-        if(part instanceof IDiagramModelEditor) { //also check sketch view
-            fActiveDiagramModel = ((IDiagramModelEditor)part).getModel();
+        /*
+         * Refresh Tree only if an IEditorPart is activated.
+         * 
+         * If we call refresh() when a ViewPart is activated then a problem occurs when:
+         * 1. User adds a new Diagram View to the Tree
+         * 2. Element is added to model - refresh() is called on Tree
+         * 3. Diagram Editor is opened and activated
+         * 4. This is notified of Diagram Editor Part activation and calls refresh() on Tree
+         * 5. NewDiagramCommand.execute() calls TreeModelViewer.editElement() to edit the cell name
+         * 6. The Tree is then activated and This is notified of Diagram Editor Part activation and calls refresh() on Tree
+         * 7. TreeModelViewer.refresh(element) then cancels editing
+         */
+        if(part instanceof IEditorPart) {
+            if(part instanceof IDiagramEditor) {
+                fActiveDiagramModel = ((IDiagramEditor)part).getModel();
+            }
+            else {
+                fActiveDiagramModel = null;
+            }
+            if(isActive()) {
+                fViewer.refresh(); // refresh tree
+            }
         }
-        if(isActive()) {
-            fViewer.refresh(); // refresh in all cases
-        } 
     }
 
     @Override
