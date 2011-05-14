@@ -15,6 +15,7 @@ Version 2.0 July XX 2011
 + On Linux default to use Webkit Browser component in the Hints window
 + Added tooltips for all Sketch View elements
 + "Archisurance" example updated to include Viewpoints and re-organised folders
+* When closing a model close any of its open Views more gracefully
 * Optimisations to Property sections in Properties Window
 * Many internal optimisations
 

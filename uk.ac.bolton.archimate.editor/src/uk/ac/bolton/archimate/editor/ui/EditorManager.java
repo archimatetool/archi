@@ -6,6 +6,9 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -103,17 +106,24 @@ public class EditorManager {
             return;
         }
         
+        List<IEditorReference> list = new ArrayList<IEditorReference>();
+        
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         for(IEditorReference ref : page.getEditorReferences()) {
             try {
                 IEditorInput input = ref.getEditorInput();
                 if(input instanceof DiagramEditorInput && ((DiagramEditorInput)input).getDiagramModel().getArchimateModel() == model) {
-                    page.closeEditors(new IEditorReference[] {ref}, false);
+                    list.add(ref);
                 }
             }
             catch(PartInitException ex) {
                 ex.printStackTrace();
             }
+        }
+        
+        if(!list.isEmpty()) {
+            IEditorReference[] refs = list.toArray(new IEditorReference[list.size()]);
+            page.closeEditors(refs, false);
         }
     }
 }
