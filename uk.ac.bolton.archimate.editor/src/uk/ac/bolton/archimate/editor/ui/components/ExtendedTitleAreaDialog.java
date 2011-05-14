@@ -4,11 +4,10 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.ui;
+package uk.ac.bolton.archimate.editor.ui.components;
 
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 
@@ -16,16 +15,16 @@ import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 
 
 /**
- * Wizard Dialog with added goodness
+ * Title Area Dilaog with added goodness
  * 
  * @author Phillip Beauvoir
  */
-public class ExtendedWizardDialog extends WizardDialog {
+public class ExtendedTitleAreaDialog extends TitleAreaDialog {
     
     private String fId;
 
-    public ExtendedWizardDialog(Shell parentShell, IWizard newWizard, String id) {
-        super(parentShell, newWizard);
+    public ExtendedTitleAreaDialog(Shell parentShell, String id) {
+        super(parentShell);
         fId = id;
     }
 
@@ -42,12 +41,6 @@ public class ExtendedWizardDialog extends WizardDialog {
             }
         }
         return section;
-    }
-    
-    // Make this public
-    @Override
-    public void finishPressed() {
-        super.finishPressed();
     }
     
     /**

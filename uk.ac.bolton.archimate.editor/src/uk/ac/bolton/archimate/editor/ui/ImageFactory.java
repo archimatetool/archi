@@ -23,6 +23,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
+import uk.ac.bolton.archimate.editor.ui.components.CompositeMultiImageDescriptor;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 

@@ -10,7 +10,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 
 /**

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.ui.StyledTextControl;
+import uk.ac.bolton.archimate.editor.ui.components.StyledTextControl;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 

@@ -29,8 +29,8 @@ import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IArchimateEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IArchimateConnectionEditPart;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 

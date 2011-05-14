@@ -47,9 +47,12 @@ import uk.ac.bolton.archimate.editor.actions.OpenModelAction;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.IUIRequestListener;
+import uk.ac.bolton.archimate.editor.ui.services.UIRequest;
+import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.views.AbstractModelView;
 import uk.ac.bolton.archimate.editor.views.tree.actions.CloseModelAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.DeleteAction;
@@ -79,12 +82,7 @@ import uk.ac.bolton.archimate.model.IFolder;
  */
 public class TreeModelView
 extends AbstractModelView
-implements ITreeModelView {
-    
-    /**
-     * Only one instance at a time. This may be null if the Tree is closed
-     */
-    public static TreeModelView INSTANCE;
+implements ITreeModelView, IUIRequestListener {
     
     private TreeModelViewer fTreeViewer;
     
@@ -108,7 +106,6 @@ implements ITreeModelView {
     private IViewerAction fActionDuplicate;
     
     public TreeModelView() {
-        INSTANCE = this;
     }
     
     @Override
@@ -148,6 +145,9 @@ implements ITreeModelView {
         
         // Add Selection Sync
         TreeSelectionSynchroniser.INSTANCE.setTreeModelView(this);
+        
+        // Register us as a UIRequest Listener
+        UIRequestManager.INSTANCE.addListener(this);
         
         // Search Filter
         fSearchFilter = new SearchFilter(fTreeViewer);
@@ -263,7 +263,7 @@ implements ITreeModelView {
         fActionCloseModel = new CloseModelAction(getSelectionProvider());
         fActionSaveModel = new SaveModelAction(this);
         
-        fActionDelete = new DeleteAction(getSelectionProvider());
+        fActionDelete = new DeleteAction(getViewer());
         
         fActionRename = new RenameAction(getViewer());
         
@@ -418,6 +418,9 @@ implements ITreeModelView {
         // Remove Selection Sync
         TreeSelectionSynchroniser.INSTANCE.removeTreeModelView();
         
+        // Remove UI Request Listener
+        UIRequestManager.INSTANCE.removeListener(this);
+        
         // Save Editor Model List
         try {
             IEditorModelManager.INSTANCE.saveState();
@@ -425,9 +428,6 @@ implements ITreeModelView {
         catch(IOException ex) {
             ex.printStackTrace();
         }
-        
-        // No more instance
-        INSTANCE = null;
     }
     
     // ======================================================================
@@ -482,6 +482,25 @@ implements ITreeModelView {
         
         else {
             super.propertyChange(evt);
+        }
+    }
+    
+    // ======================================================================
+    // Listen to UI Requests
+    // ======================================================================
+    
+    @Override
+    public void requestAction(UIRequest request) {
+        // Request to select elements
+        if(request instanceof TreeSelectionRequest) {
+            TreeSelectionRequest req = (TreeSelectionRequest)request;
+            if(req.shouldSelect(getViewer())) {
+                getViewer().setSelection(req.getSelection(), req.doReveal());
+            }
+        }
+        // Request element name in-place
+        else if(request instanceof TreeEditElementRequest) {
+            getViewer().editElement(request.getTarget());
         }
     }
     

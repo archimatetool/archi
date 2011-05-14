@@ -23,7 +23,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.ui.StyledTextControl;
+import uk.ac.bolton.archimate.editor.ui.components.StyledTextControl;
 import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;

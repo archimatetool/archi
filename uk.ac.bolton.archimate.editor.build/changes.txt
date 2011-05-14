@@ -14,6 +14,7 @@ Version 2.0 July XX 2011
 + Added "Name" and "Documentation" fields to Note and all Connections
 + On Linux default to use Webkit Browser component in the Hints window
 + Added tooltips for all Sketch View elements
++ When adding a new model in the Model Tree the focus is put on in-place editing so you can edit its name
 + "Archisurance" example updated to include Viewpoints and re-organised folders
 * When closing a model close any of its open Views more gracefully
 * Optimisations to Property sections in Properties Window

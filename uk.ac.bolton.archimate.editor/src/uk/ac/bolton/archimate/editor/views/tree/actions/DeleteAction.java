@@ -7,12 +7,12 @@
 package uk.ac.bolton.archimate.editor.views.tree.actions;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import uk.ac.bolton.archimate.editor.views.tree.TreeModelViewer;
 import uk.ac.bolton.archimate.editor.views.tree.commands.DeleteCommandHandler;
 
 
@@ -23,7 +23,7 @@ import uk.ac.bolton.archimate.editor.views.tree.commands.DeleteCommandHandler;
  */
 public class DeleteAction extends ViewerAction {
     
-    public DeleteAction(ISelectionProvider selectionProvider) {
+    public DeleteAction(TreeModelViewer selectionProvider) {
         super(selectionProvider);
         setText("&Delete");
         
@@ -41,7 +41,8 @@ public class DeleteAction extends ViewerAction {
             return;
         }
         
-        DeleteCommandHandler cmdHandler = new DeleteCommandHandler(getSelectionProvider(), selection.toArray());
+        DeleteCommandHandler cmdHandler = new DeleteCommandHandler((TreeModelViewer)getSelectionProvider(),
+                selection.toArray());
 
         /*
          * If the objects are referenced in a diagram warn user

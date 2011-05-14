@@ -16,8 +16,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;

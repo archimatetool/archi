@@ -20,7 +20,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.DiagramModelReferenceFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;

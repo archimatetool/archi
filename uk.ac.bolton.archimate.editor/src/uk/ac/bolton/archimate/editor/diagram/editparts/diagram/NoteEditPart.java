@@ -24,7 +24,7 @@ import uk.ac.bolton.archimate.editor.diagram.figures.diagram.NoteFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 

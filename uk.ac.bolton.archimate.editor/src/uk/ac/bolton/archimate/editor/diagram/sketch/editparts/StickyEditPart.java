@@ -33,7 +33,7 @@ import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEdi
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.StickyFigure;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;

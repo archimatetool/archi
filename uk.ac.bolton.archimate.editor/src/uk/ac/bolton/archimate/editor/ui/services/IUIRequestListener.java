@@ -4,20 +4,20 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.ui;
+package uk.ac.bolton.archimate.editor.ui.services;
 
 
 
 /**
- * Listener Interface for component selections such as menu items, palettes, tools etc.
+ * Listener Interface for UI Requests
  * 
  * @author Phillip Beauvoir
  */
-public interface IComponentSelectionListener {
+public interface IUIRequestListener {
 
     /**
-     * @param component The source component that gave rise to the Selection
-     * @param selection The actual Selection
+     * Request an Action
+     * @param request
      */
-    public void componentSelectionChanged(Object component, Object selection);
+    void requestAction(UIRequest request);
 }

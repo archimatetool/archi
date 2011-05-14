@@ -37,9 +37,9 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
-import uk.ac.bolton.archimate.editor.ui.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 

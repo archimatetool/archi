@@ -22,7 +22,7 @@ import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.SketchActorFigure;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 

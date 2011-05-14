@@ -23,7 +23,7 @@ import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerLayoutPo
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 /**
  * Edit Part with connections and editable text flow control

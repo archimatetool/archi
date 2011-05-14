@@ -9,7 +9,7 @@ package uk.ac.bolton.archimate.editor.views.tree.actions;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 

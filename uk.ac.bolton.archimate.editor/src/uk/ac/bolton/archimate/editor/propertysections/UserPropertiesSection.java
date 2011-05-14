@@ -88,10 +88,10 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectNonNotifyingCompoundCommand;
-import uk.ac.bolton.archimate.editor.ui.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
-import uk.ac.bolton.archimate.editor.ui.StringComboBoxCellEditor;
+import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
+import uk.ac.bolton.archimate.editor.ui.components.StringComboBoxCellEditor;
 import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateFactory;

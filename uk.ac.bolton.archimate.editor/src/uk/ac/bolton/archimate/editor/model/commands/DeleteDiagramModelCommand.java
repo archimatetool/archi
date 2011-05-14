@@ -8,7 +8,7 @@ package uk.ac.bolton.archimate.editor.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
 

@@ -12,8 +12,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
 import uk.ac.bolton.archimate.editor.templates.wizard.NewArchimateModelFromTemplateWizard;
-import uk.ac.bolton.archimate.editor.ui.ExtendedWizardDialog;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 
 /**
  * New ArchiMate Model From Template Action

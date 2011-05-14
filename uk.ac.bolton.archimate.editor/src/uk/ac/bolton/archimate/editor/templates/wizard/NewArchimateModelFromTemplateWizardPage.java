@@ -51,9 +51,9 @@ import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
 import uk.ac.bolton.archimate.editor.templates.ModelTemplate;
 import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.templates.dialog.TemplateManagerDialog;
-import uk.ac.bolton.archimate.editor.ui.ExtendedWizardDialog;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 
