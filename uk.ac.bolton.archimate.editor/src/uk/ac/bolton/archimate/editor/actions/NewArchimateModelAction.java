@@ -12,6 +12,8 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
+import uk.ac.bolton.archimate.editor.views.tree.TreeEditElementRequest;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
@@ -39,6 +41,9 @@ implements IWorkbenchAction
         
         // Open Diagram Editor
         EditorManager.openDiagramEditor(model.getDefaultDiagramModel());
+        
+        // Edit in-place in Tree
+        UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
     }
 
     public void dispose() {

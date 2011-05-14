@@ -17,7 +17,9 @@ import org.eclipse.swt.widgets.Display;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.templates.ITemplate;
 import uk.ac.bolton.archimate.editor.templates.TemplateManager;
+import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
+import uk.ac.bolton.archimate.editor.views.tree.TreeEditElementRequest;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
@@ -65,7 +67,10 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                         if(file != null && file.exists()) {
                             IArchimateModel model = IEditorModelManager.INSTANCE.openModel(file);
                             if(model != null) {
+                                // New name
                                 model.setName("(new) " + model.getName());
+                                // Edit in-place in Tree
+                                UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
                             }
                             else {
                                 fErrorMessage = "Unknown format";
