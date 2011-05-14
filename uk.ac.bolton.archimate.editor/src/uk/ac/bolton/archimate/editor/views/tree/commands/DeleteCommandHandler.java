@@ -15,14 +15,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.DeleteDiagramModelCommand;
 import uk.ac.bolton.archimate.editor.model.commands.DeleteElementCommand;
 import uk.ac.bolton.archimate.editor.model.commands.DeleteFolderCommand;
+import uk.ac.bolton.archimate.editor.views.tree.TreeModelViewer;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -50,7 +51,7 @@ public class DeleteCommandHandler {
      */
     private Hashtable<CommandStack, CompoundCommand> fCommandMap = new Hashtable<CommandStack, CompoundCommand>();
     
-    private ISelectionProvider fSelectionProvider;
+    private TreeModelViewer fViewer;
     
     // Selected objects in Tree
     private Object[] fSelectedObjects;
@@ -61,6 +62,8 @@ public class DeleteCommandHandler {
     // Elements to check including children of top elements to delete
     private List<Object> fElementsToCheck;
     
+    // The object to select in the tree after the deletion
+    private Object fObjectToSelectAfterDeletion;
     
     /**
      * @param element
@@ -83,8 +86,8 @@ public class DeleteCommandHandler {
         return false;
     }
 
-    public DeleteCommandHandler(ISelectionProvider selectionProvider, Object[] objects) {
-        fSelectionProvider = selectionProvider;
+    public DeleteCommandHandler(TreeModelViewer viewer, Object[] objects) {
+        fViewer = viewer;
         fSelectedObjects = objects;
     }
     
@@ -133,6 +136,9 @@ public class DeleteCommandHandler {
      * Once this occurs this DeleteCommandHandler is disposed.
      */
     public void delete() {
+        // Find the object to select after the deletion
+        fObjectToSelectAfterDeletion = findObjectToSelectAfterDeletion();
+        
         // Gather the elements to delete
         getElementsToDelete();
         
@@ -319,19 +325,56 @@ public class DeleteCommandHandler {
         // Now get or create a Compound Command
         CompoundCommand compoundCommand = fCommandMap.get(stack);
         if(compoundCommand == null) {
-            List<?> selected = ((IStructuredSelection)fSelectionProvider.getSelection()).toList();
-            compoundCommand = new DeleteElementsCompoundCommand(selected);
+            compoundCommand = new DeleteElementsCompoundCommand(fObjectToSelectAfterDeletion);
             fCommandMap.put(stack, compoundCommand);
         }
         
         return compoundCommand;
     }
     
+    /**
+     * Find the best object to select after the deletion
+     */
+    private Object findObjectToSelectAfterDeletion() {
+        Object firstObject = fSelectedObjects[0];
+        
+        TreeItem item = fViewer.findTreeItem(firstObject);
+        if(item == null) {
+            return null;
+        }
+        
+        TreeItem parentTreeItem = item.getParentItem();
+        
+        // Parent Item not found so must be at top level
+        if(parentTreeItem == null) {
+            Tree tree = item.getParent();
+            int index = tree.indexOf(item);
+            if(index < 1) { // At root or not found
+                return null;
+            }
+            return tree.getItem(index - 1).getData();
+        }
+
+        Object selected = null;
+        
+        // Item index is greater than 1 so select previous sibling item
+        int index = parentTreeItem.indexOf(item);
+        if(index > 1) {
+            selected = parentTreeItem.getItem(index - 1).getData();
+        }
+        
+        // Was null so select parent of first object
+        if(selected == null && firstObject instanceof EObject) {
+            selected = ((EObject)firstObject).eContainer();
+        }
+        
+        return selected;
+    }
+    
     private void dispose() {
         fSelectedObjects = null;
         fElementsToDelete = null;
-        fSelectionProvider = null;
+        fViewer = null;
         fCommandMap = null;
     }
-
 }

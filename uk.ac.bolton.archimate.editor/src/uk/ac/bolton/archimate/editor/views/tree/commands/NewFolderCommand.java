@@ -8,8 +8,11 @@ package uk.ac.bolton.archimate.editor.views.tree.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
 
-import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
+import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
+import uk.ac.bolton.archimate.editor.views.tree.TreeEditElementRequest;
+import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionRequest;
 import uk.ac.bolton.archimate.model.IFolder;
 
 
@@ -34,29 +37,28 @@ public class NewFolderCommand extends Command {
         redo();
         
         // Edit in-place
-        if(TreeModelView.INSTANCE != null) {
-            TreeModelView.INSTANCE.getViewer().editElement(fFolder);
-        }
+        UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, fFolder));
     }
     
     @Override
     public void undo() {
         fParent.getFolders().remove(fFolder);
         
-        // Select the parent node if none selected
-        if(TreeModelView.INSTANCE != null && TreeModelView.INSTANCE.getViewer().getSelection().isEmpty()) {
-            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fParent), true);
-        }
+        // Select the parent node if no node is selected (this happens when the node is deleted)
+        TreeSelectionRequest request = new TreeSelectionRequest(this, new StructuredSelection(fParent), true) {
+            @Override
+            public boolean shouldSelect(Viewer viewer) {
+                return viewer.getSelection().isEmpty();
+            }
+        };
+        UIRequestManager.INSTANCE.fireRequest(request);
     }
     
     @Override
     public void redo() {
         fParent.getFolders().add(fFolder);
         
-        // Expand and select
-        if(TreeModelView.INSTANCE != null) {
-            TreeModelView.INSTANCE.getViewer().expandToLevel(fParent, 1);
-            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fFolder), true);
-        }
+        // Select
+        UIRequestManager.INSTANCE.fireRequest(new TreeSelectionRequest(this, new StructuredSelection(fFolder), true));
     }
 }

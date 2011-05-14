@@ -19,7 +19,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
-import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
+import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
+import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionRequest;
 import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -105,9 +106,7 @@ public class DuplicateCommandHandler {
         }
         
         // Select new objects in Tree
-        if(TreeModelView.INSTANCE != null) {
-            TreeModelView.INSTANCE.getViewer().setSelection(new StructuredSelection(fNewObjects), true);
-        }
+        UIRequestManager.INSTANCE.fireRequest(new TreeSelectionRequest(this, new StructuredSelection(fNewObjects), true));
         
         dispose();
     }
