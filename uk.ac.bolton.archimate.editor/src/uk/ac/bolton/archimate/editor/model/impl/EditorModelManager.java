@@ -40,7 +40,7 @@ import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.Incompatible
 import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.LaterModelVersionException;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.templates.TemplateManager;
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
 import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
 import uk.ac.bolton.archimate.model.FolderType;

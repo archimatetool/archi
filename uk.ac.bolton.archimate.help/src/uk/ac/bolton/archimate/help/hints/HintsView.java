@@ -45,9 +45,9 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.editor.ui.ComponentSelectionManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.IComponentSelectionListener;
+import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
+import uk.ac.bolton.archimate.editor.ui.services.IComponentSelectionListener;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.help.ArchimateEditorHelpPlugin;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;

@@ -32,7 +32,7 @@ import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchDiagramPart;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
-import uk.ac.bolton.archimate.editor.ui.ComponentSelectionManager;
+import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.ISketchModel;

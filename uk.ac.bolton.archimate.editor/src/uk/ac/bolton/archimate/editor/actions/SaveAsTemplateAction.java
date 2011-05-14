@@ -10,7 +10,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import uk.ac.bolton.archimate.editor.templates.wizard.SaveModelAsTemplateWizard;
-import uk.ac.bolton.archimate.editor.ui.ExtendedWizardDialog;
+import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**

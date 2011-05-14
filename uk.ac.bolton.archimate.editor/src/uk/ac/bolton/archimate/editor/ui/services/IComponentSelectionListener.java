@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.ui;
+package uk.ac.bolton.archimate.editor.ui.services;
 
 
 
@@ -19,5 +19,5 @@ public interface IComponentSelectionListener {
      * @param component The source component that gave rise to the Selection
      * @param selection The actual Selection
      */
-    public void componentSelectionChanged(Object component, Object selection);
+    void componentSelectionChanged(Object component, Object selection);
 }

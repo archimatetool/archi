@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
-import uk.ac.bolton.archimate.editor.ui.EditorManager;
+import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.editor.views.tree.TreeModelView;
 import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateElement;

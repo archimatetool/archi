@@ -18,7 +18,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.INonResizableEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.junctions.JunctionFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.ui.ViewManager;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 /**
  * Junction Edit Part
