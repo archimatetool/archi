@@ -13,6 +13,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
 import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
@@ -37,7 +38,7 @@ extends AbstractDiagramEditorActionBarContributor {
         super.buildActions();
         
         // Show Structural Chains
-        RetargetAction retargetAction = new RetargetAction(ShowStructuralChainsAction.ID, ShowStructuralChainsAction.TEXT, IAction.AS_CHECK_BOX);
+        RetargetAction retargetAction = new LabelRetargetAction(ShowStructuralChainsAction.ID, null);
         retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
         addRetargetAction(retargetAction);
         
@@ -54,6 +55,7 @@ extends AbstractDiagramEditorActionBarContributor {
         // Viewpoints
         for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
             retargetAction = new RetargetAction(viewPoint.getClass().toString(), viewPoint.getName(), IAction.AS_RADIO_BUTTON);
+            // Looks better as a checkbox
             //retargetAction.setImageDescriptor(ViewpointsManager.INSTANCE.getImageDescriptor(viewPoint));
             addRetargetAction(retargetAction);
         }

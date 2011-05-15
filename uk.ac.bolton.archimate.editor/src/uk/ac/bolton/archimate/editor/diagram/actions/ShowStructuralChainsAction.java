@@ -8,7 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.actions;
 
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
@@ -23,23 +22,20 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 public class ShowStructuralChainsAction extends WorkbenchPartAction {
     
     public static final String ID = "ShowStructuralChainsAction";
-    public static final String TEXT = "Show Structural Chains";
 
     public ShowStructuralChainsAction(IWorkbenchPart part) {
-        super(part, AS_CHECK_BOX);
+        super(part);
         setId(ID);
-        setText(TEXT);
+        setText("Show Structural Chains");
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
-        setChecked(isChecked());
     }
-
+    
     @Override
     protected boolean calculateEnabled() {
         return true;
     }
     
-    @Override
-    public boolean isChecked() {
+    private boolean isShowingChains() {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
         Boolean val = (Boolean)viewer.getProperty(IDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN);
         if (val != null)
@@ -50,12 +46,8 @@ public class ShowStructuralChainsAction extends WorkbenchPartAction {
     @Override
     public void run() {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
-        boolean val = !isChecked();
+        boolean val = !isShowingChains();
         viewer.setProperty(IDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN, new Boolean(val));
-    }
-    
-    @Override
-    public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16);
+        setText(isShowingChains() ? "Hide Structural Chains" : "Show Structural Chains");
     }
 }
