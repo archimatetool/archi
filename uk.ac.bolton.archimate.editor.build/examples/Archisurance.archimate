@@ -538,7 +538,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:DiagramModel" id="3893" name="Technical Infrastructure View" viewpoint="12">
+    <element xsi:type="archimate:DiagramModel" id="3893" name="Technical Infrastructure View" viewpoint="13">
       <child xsi:type="archimate:DiagramObject" id="3903" targetConnections="3940" fillColor="#008040" archimateElement="1110">
         <bounds x="180" y="20" width="120" height="40"/>
       </child>
