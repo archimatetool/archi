@@ -652,7 +652,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="4048" source="4036" target="4034" relationship="1293"/>
       </child>
     </element>
-    <element xsi:type="archimate:DiagramModel" id="3761" name="Business Process View" viewpoint="7">
+    <element xsi:type="archimate:DiagramModel" id="3761" name="Business Process View" viewpoint="8">
       <child xsi:type="archimate:DiagramObject" id="3788" targetConnections="3806 3811" archimateElement="521">
         <bounds x="110" y="700" width="120" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="3812" source="3788" target="3783" relationship="770"/>
@@ -1155,7 +1155,7 @@
         <bounds x="250" y="70" width="20" height="27"/>
       </child>
     </element>
-    <element xsi:type="archimate:DiagramModel" id="4224" name="Business Cooperation View" viewpoint="8">
+    <element xsi:type="archimate:DiagramModel" id="4224" name="Business Cooperation View" viewpoint="7">
       <child xsi:type="archimate:DiagramObject" id="4253" archimateElement="1407">
         <bounds x="410" y="570" width="130" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="4271" source="4253" target="4242" relationship="1729"/>
