@@ -7,9 +7,7 @@
 package uk.ac.bolton.archimate.editor.model.viewpoints;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
@@ -18,6 +16,8 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  * @author Phillip Beauvoir
  */
 public class BusinessProcessViewpoint extends AbstractViewpoint {
+    
+    public static final int INDEX = 8;
     
     EClass[] allowed = new EClass[] {
             IArchimatePackage.eINSTANCE.getRepresentation(),
@@ -41,15 +41,14 @@ public class BusinessProcessViewpoint extends AbstractViewpoint {
     public String getName() {
         return "Business Process";
     }
+    
+    @Override
+    public int getIndex() {
+        return INDEX;
+    }
 
     @Override
     public EClass[] getAllowedTypes() {
         return allowed;
-    }
-    
-    @Override
-    public Image getImage() {
-        String[] imageNames = { IArchimateImages.ICON_VIEWPOINT_BUSINESS_16 };
-        return IArchimateImages.ImageFactory.getCompositeImage(imageNames);
     }
 }

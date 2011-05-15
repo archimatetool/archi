@@ -8,7 +8,6 @@ package uk.ac.bolton.archimate.editor.model.viewpoints;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * IViewpoint
@@ -17,6 +16,11 @@ import org.eclipse.swt.graphics.Image;
  */
 public interface IViewpoint {
     
+    /**
+     * @return The index number used when persisting the Viewpoint
+     */
+    int getIndex();
+
     /**
      * @param object
      * @return Whether the object is visible
@@ -37,9 +41,4 @@ public interface IViewpoint {
      * @return The name of the Viewpoint
      */
     String getName();
-    
-    /**
-     * @return The image of the Viewpoint
-     */
-    Image getImage();
 }

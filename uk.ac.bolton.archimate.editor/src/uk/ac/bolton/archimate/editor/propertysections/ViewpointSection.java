@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -98,7 +97,6 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
         fComboViewer = new ComboViewer(new Combo(parent, SWT.READ_ONLY | SWT.BORDER));
         fComboViewer.getCombo().setVisibleItemCount(12);
         fComboViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fComboViewer.setSorter(new ViewerSorter());
         getWidgetFactory().adapt(fComboViewer.getControl(), true, true);
         
         fComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -114,7 +112,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
                         fIsExecutingCommand = true;
                         getCommandStack().execute(new EObjectFeatureCommand("Viewpoint",
                                 fDiagramModel, IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT,
-                                ViewpointsManager.INSTANCE.getViewpointIndex(viewPoint)));
+                                viewPoint.getIndex()));
                         fIsExecutingCommand = false;
                         // update hints view
                         updateComponentSelection(viewPoint); 

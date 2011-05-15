@@ -17,6 +17,8 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class InformationStructureViewpoint extends AbstractViewpoint {
     
+    public static final int INDEX = 11;
+    
     EClass[] allowed = new EClass[] {
             IArchimatePackage.eINSTANCE.getMeaning(),
             IArchimatePackage.eINSTANCE.getRepresentation(),
@@ -34,6 +36,11 @@ public class InformationStructureViewpoint extends AbstractViewpoint {
     @Override
     public String getName() {
         return "Information Structure";
+    }
+
+    @Override
+    public int getIndex() {
+        return INDEX;
     }
 
     @Override

@@ -15,11 +15,18 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class LayeredViewpoint extends AbstractViewpoint {
     
+    public static final int INDEX = 14;
+    
     @Override
     public String getName() {
         return "Layered";
     }
 
+    @Override
+    public int getIndex() {
+        return INDEX;
+    }
+    
     @Override
     public EClass[] getAllowedTypes() {
         return null;

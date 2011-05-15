@@ -11,9 +11,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -60,11 +58,6 @@ public abstract class AbstractViewpoint implements IViewpoint {
         return getAllowedList() == null ? true : getAllowedList().contains(type);
     };
     
-    @Override
-    public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_VIEWPOINTS_16);
-    }
-
     /**
      * @return A list of allowed types or null
      */
