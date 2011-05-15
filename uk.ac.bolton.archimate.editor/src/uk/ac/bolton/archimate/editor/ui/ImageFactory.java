@@ -10,6 +10,7 @@ import java.net.URL;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
@@ -21,7 +22,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.ui.components.CompositeMultiImageDescriptor;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -68,19 +68,10 @@ public class ImageFactory {
         ImageRegistry registry = fPlugin.getImageRegistry();
 
         Image image = registry.get(imageName);
-        
-        // Make it and cache it
         if(image == null) {
-            ImageDescriptor descriptor = getImageDescriptor(imageName);
-            if(descriptor != null) {
-                image = descriptor.createImage();
-                if(image != null) {
-                    registry.put(imageName, image);
-                }
-                else {
-                    Logger.logError("ImageFactory: Error creating image for " + imageName); //$NON-NLS-1$
-                }
-            }
+            // Image will be created in registry.get(imageName) after image descriptor is put into registry
+            getImageDescriptor(imageName);
+            image = registry.get(imageName);
         }
         
         return image;
@@ -132,23 +123,46 @@ public class ImageFactory {
             key_name += name;
         }
 
-        Image image = getImage(key_name);
+        ImageRegistry registry = fPlugin.getImageRegistry();
+        Image image = registry.get(key_name);
+        
+        if(image == null) {
+            // Image will be created in registry.get(imageName) after image descriptor is put into registry
+            getCompositeImageDescriptor(imageNames);
+            image = registry.get(key_name);
+        }
+
+        return image;
+    }
+    
+    /**
+     * Return a composite image consisting of many images
+     * 
+     * @param imageNames
+     * @return
+     */
+    public CompositeImageDescriptor getCompositeImageDescriptor(String[] imageNames) {
+        // Make a registry name, cached
+        String key_name = "@";
+        for(String name : imageNames) {
+            key_name += name;
+        }
+        
+        ImageRegistry registry = fPlugin.getImageRegistry();
+        
+        CompositeImageDescriptor cid = (CompositeImageDescriptor)registry.getDescriptor(key_name);
         
         // Make it and cache it
-        if(image == null) {
+        if(cid == null) {
             ImageDescriptor[] desc = new ImageDescriptor[imageNames.length];
             for(int i = 0; i < imageNames.length; i++) {
                 desc[i] = getImageDescriptor(imageNames[i]);
             }
-            CompositeMultiImageDescriptor cid = new CompositeMultiImageDescriptor(desc);
-            image = cid.createImage();
-            if(image != null) {
-                ImageRegistry registry = fPlugin.getImageRegistry();
-                registry.put(key_name, image);
-            }
+            cid = new CompositeMultiImageDescriptor(desc);
+            registry.put(key_name, cid);
         }
-
-        return image;
+        
+        return cid;
     }
 
     /**
@@ -184,8 +198,15 @@ public class ImageFactory {
             return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/importpref_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        // User
-        return AbstractUIPlugin.imageDescriptorFromPlugin(fPlugin.getBundle().getSymbolicName(), imageName);
+        // User image, cache it
+        ImageRegistry registry = fPlugin.getImageRegistry();
+        ImageDescriptor id = registry.getDescriptor(imageName);
+        if(id == null) {
+            id = AbstractUIPlugin.imageDescriptorFromPlugin(fPlugin.getBundle().getSymbolicName(), imageName);
+            registry.put(imageName, id); // The image will be created next when registry.get(imageName) is called
+        }
+        
+        return id;
     }
 
     /**
