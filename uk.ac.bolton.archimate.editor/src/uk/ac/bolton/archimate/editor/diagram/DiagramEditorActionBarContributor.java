@@ -75,13 +75,6 @@ extends AbstractDiagramEditorActionBarContributor {
     protected IMenuManager createViewMenu(IMenuManager menuManager) {
         IMenuManager viewMenu = super.createViewMenu(menuManager);
         
-        // Derived Relations
-        IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
-        viewMenu.add(derivedRelationsMenu);
-        derivedRelationsMenu.add(getAction(ShowStructuralChainsAction.ID));
-        derivedRelationsMenu.add(getAction(CreateDerivedRelationAction.ID));
-        viewMenu.add(new Separator());
-        
         // Viewpoints
         IMenuManager viewPointMenu = new MenuManager("Viewpoint");
         viewMenu.add(viewPointMenu);
@@ -89,6 +82,15 @@ extends AbstractDiagramEditorActionBarContributor {
             viewPointMenu.add(getAction(viewPoint.getClass().toString()));
         }
 
+        viewMenu.add(new Separator());
+        
+        // Derived Relations
+        IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
+        viewMenu.add(derivedRelationsMenu);
+        derivedRelationsMenu.add(getAction(ShowStructuralChainsAction.ID));
+        derivedRelationsMenu.add(getAction(CreateDerivedRelationAction.ID));
+        
+        
         return viewMenu;
     }
     

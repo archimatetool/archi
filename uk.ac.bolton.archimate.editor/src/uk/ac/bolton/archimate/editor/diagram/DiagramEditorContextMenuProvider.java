@@ -54,20 +54,20 @@ public class DiagramEditorContextMenuProvider extends AbstractDiagramEditorConte
         menu.appendToGroup(GROUP_EDIT, new Separator());
         menu.appendToGroup(GROUP_EDIT, actionRegistry.getAction(DeleteFromModelAction.ID));
 
-        // Derived Relations
-        menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_DERIVED));
-        IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
-        menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
-        derivedRelationsMenu.add(actionRegistry.getAction(ShowStructuralChainsAction.ID));
-        derivedRelationsMenu.add(actionRegistry.getAction(CreateDerivedRelationAction.ID));
-        
         // Viewpoints
-        menu.appendToGroup(GROUP_DERIVED, new Separator(GROUP_VIEWPOINTS));
+        menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_VIEWPOINTS));
         IMenuManager viewPointMenu = new MenuManager("Viewpoint");
         menu.appendToGroup(GROUP_VIEWPOINTS, viewPointMenu);
         for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
             viewPointMenu.add(actionRegistry.getAction(viewPoint.getClass().toString()));
         }
+        
+        // Derived Relations
+        menu.appendToGroup(GROUP_VIEWPOINTS, new Separator(GROUP_DERIVED));
+        IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
+        menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
+        derivedRelationsMenu.add(actionRegistry.getAction(ShowStructuralChainsAction.ID));
+        derivedRelationsMenu.add(actionRegistry.getAction(CreateDerivedRelationAction.ID));
         
         // Select Element in Tree
         menu.appendToGroup(GROUP_RENAME, new Separator());
