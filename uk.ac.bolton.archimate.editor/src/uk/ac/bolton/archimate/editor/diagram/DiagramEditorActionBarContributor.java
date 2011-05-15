@@ -19,6 +19,8 @@ import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
 import uk.ac.bolton.archimate.editor.diagram.actions.CreateDerivedRelationAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.DeleteFromModelAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
+import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
@@ -48,6 +50,13 @@ extends AbstractDiagramEditorActionBarContributor {
         // Delete From Model
         retargetAction = new RetargetAction(DeleteFromModelAction.ID, DeleteFromModelAction.TEXT);
         addRetargetAction(retargetAction);
+        
+        // Viewpoints
+        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+            retargetAction = new RetargetAction(viewPoint.getClass().toString(), viewPoint.getName(), IAction.AS_RADIO_BUTTON);
+            //retargetAction.setImageDescriptor(ViewpointsManager.INSTANCE.getImageDescriptor(viewPoint));
+            addRetargetAction(retargetAction);
+        }
     }
     
     @Override
@@ -70,6 +79,13 @@ extends AbstractDiagramEditorActionBarContributor {
         derivedRelationsMenu.add(getAction(ShowStructuralChainsAction.ID));
         derivedRelationsMenu.add(getAction(CreateDerivedRelationAction.ID));
         viewMenu.add(new Separator());
+        
+        // Viewpoints
+        IMenuManager viewPointMenu = new MenuManager("Viewpoint");
+        viewMenu.add(viewPointMenu);
+        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+            viewPointMenu.add(getAction(viewPoint.getClass().toString()));
+        }
 
         return viewMenu;
     }

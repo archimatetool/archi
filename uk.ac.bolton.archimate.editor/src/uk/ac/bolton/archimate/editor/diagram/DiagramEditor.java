@@ -30,10 +30,12 @@ import uk.ac.bolton.archimate.editor.diagram.actions.CreateDerivedRelationAction
 import uk.ac.bolton.archimate.editor.diagram.actions.DeleteFromModelAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.ViewpointAction;
 import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramTransferDropTargetListener;
 import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
+import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -222,6 +224,12 @@ implements IDiagramEditor {
         action = new DeleteFromModelAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        
+        // Viewpoints
+        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+            action = new ViewpointAction(this, viewPoint);
+            registry.registerAction(action);
+        }
     }
     
     @Override

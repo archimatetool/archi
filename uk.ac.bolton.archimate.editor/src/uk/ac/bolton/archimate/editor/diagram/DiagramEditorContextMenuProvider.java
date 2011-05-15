@@ -17,6 +17,8 @@ import uk.ac.bolton.archimate.editor.diagram.actions.CreateDerivedRelationAction
 import uk.ac.bolton.archimate.editor.diagram.actions.DeleteFromModelAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
+import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 
 /**
  * Provides a context menu.
@@ -28,6 +30,7 @@ public class DiagramEditorContextMenuProvider extends AbstractDiagramEditorConte
     public static final String ID = "DiagramEditorContextMenuProvider"; //$NON-NLS-1$
     
     public static final String GROUP_DERIVED = "group_derived";
+    public static final String GROUP_VIEWPOINTS = "group_viewpoints";
     
     /**
      * Creates a new ContextMenuProvider assoicated with the given viewer
@@ -54,12 +57,20 @@ public class DiagramEditorContextMenuProvider extends AbstractDiagramEditorConte
         // Derived Relations
         menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_DERIVED));
         IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
+        menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
         derivedRelationsMenu.add(actionRegistry.getAction(ShowStructuralChainsAction.ID));
         derivedRelationsMenu.add(actionRegistry.getAction(CreateDerivedRelationAction.ID));
-        menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
+        
+        // Viewpoints
+        menu.appendToGroup(GROUP_DERIVED, new Separator(GROUP_VIEWPOINTS));
+        IMenuManager viewPointMenu = new MenuManager("Viewpoint");
+        menu.appendToGroup(GROUP_VIEWPOINTS, viewPointMenu);
+        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+            viewPointMenu.add(actionRegistry.getAction(viewPoint.getClass().toString()));
+        }
         
         // Select Element in Tree
-        menu.appendToGroup(GROUP_DERIVED, new Separator());
-        menu.appendToGroup(GROUP_DERIVED, actionRegistry.getAction(SelectElementInTreeAction.ID));
+        menu.appendToGroup(GROUP_RENAME, new Separator());
+        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
     }
 }
