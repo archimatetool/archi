@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
@@ -36,6 +37,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fOpenDiagramsOnLoadButton;
     
     private Spinner fMRUSizeSpinner;
+    
+    private Button fUseCurvedTabsButton;
     
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -69,6 +72,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMRUSizeSpinner.setMinimum(3);
         fMRUSizeSpinner.setMaximum(15);
         
+        Group appearanceGroup = new Group(client, SWT.NULL);
+        appearanceGroup.setText("Appearance");
+        appearanceGroup.setLayout(new GridLayout(2, false));
+        appearanceGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fUseCurvedTabsButton = new Button(appearanceGroup, SWT.CHECK);
+        fUseCurvedTabsButton.setText("Use curved tabs");
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fUseCurvedTabsButton.setLayoutData(gd);
+        
         setValues();
         
         return client;
@@ -88,6 +102,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
 
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
+        fUseCurvedTabsButton.setSelection(!PlatformUI.getPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS));
     }
     
     private void setSpinnerValues() {
@@ -98,6 +113,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public boolean performOk() {
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
+        PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, !fUseCurvedTabsButton.getSelection());
         return true;
     }
     
@@ -105,9 +121,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected void performDefaults() {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
+        fUseCurvedTabsButton.setSelection(!PlatformUI.getPreferenceStore().getDefaultBoolean(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS));
         super.performDefaults();
     }
-
+    
     public void init(IWorkbench workbench) {
     }
 }

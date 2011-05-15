@@ -39,8 +39,8 @@ extends WorkbenchAdvisor
         // Save and restore stuff
         configurer.setSaveAndRestore(true);
         
-        // Rounded tabs
-        PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
+        // Rounded tabs are set on by default
+        PlatformUI.getPreferenceStore().setDefault(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
         
         // Progress
         // PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_PROGRESS_ON_STARTUP, true);
