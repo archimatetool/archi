@@ -72,6 +72,10 @@ implements IDiagramEditor {
                 getPaletteRoot().setViewpoint(null);
             }
         }
+        // Hide Diagram Elements on Viewpoint
+        else if(IPreferenceConstants.VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS == event.getProperty()) {
+            getGraphicalViewer().setContents(getModel()); // refresh the model contents
+        }
         else {
             super.applicationPreferencesChanged(event);
         }
@@ -80,11 +84,14 @@ implements IDiagramEditor {
     /**
      * Set Viewpoint to current Viewpoint in model
      */
-    public void setViewpoint() {
+    protected void setViewpoint() {
         setPaletteViewpoint();
         getGraphicalViewer().setContents(getModel()); // refresh the model contents
     }
     
+    /**
+     * Set Palette to current Viewpoint in model if Preference set
+     */
     protected void setPaletteViewpoint() {
         if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
             getPaletteRoot().setViewpoint(ViewpointsManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
