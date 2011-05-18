@@ -21,14 +21,28 @@ public class BrowserEditorInput implements IBrowserEditorInput {
     Browser browser;
     
     private String url;
+    
+    private String title;
 
     /**
      * Whether to save the Browser's current URL or the initial one provided
      */
     private boolean fPersistBrowserURL;
     
+    /**
+     * @param url The Url to display
+     */
     public BrowserEditorInput(String url) {
+        this(url, null);
+    }
+    
+    /**
+     * @param url The Url to display
+     * @param title The title to display in the title bar
+     */
+    public BrowserEditorInput(String url, String title) {
         this.url = url;
+        this.title = title;
     }
     
     @Override
@@ -53,6 +67,10 @@ public class BrowserEditorInput implements IBrowserEditorInput {
 
     @Override
     public String getName() {
+        if(title != null) {
+            return title;
+        }
+        
         return getURL() == null ? "(unknown)" : getURL();
     }
 
