@@ -157,4 +157,18 @@ public class ColorFactory {
         return get(convertRGBToString(rgb));
     }
 
+    public static Color getLighterColor(Color color) {
+        if(color == null) {
+            return null;
+        }
+        
+        float factor = 0.9f;
+        
+        RGB rgb = new RGB(Math.max(2,
+                Math.min((int) (color.getRed() / factor), 255)), Math.max(2,
+                Math.min((int) (color.getGreen() / factor), 255)), Math.max(2,
+                Math.min((int) (color.getBlue() / factor), 255)));
+        
+        return get(convertRGBToString(rgb));
+    }
 }
