@@ -27,8 +27,8 @@ public final class FigureUtils {
 
     /**
      * TODO Remove this when GEF 3.7 and Eclipse 3.7 are released as it's not needed
-     * Create a drag feedback figure suitable for Mac OS X Cocoa.
-     * The one for Cocoa shows as a black figure because Cocoa doesn't use XOR mode.
+     * Create a drag feedback figure suitable for Mac OS X Cocoa on Eclipse/GEF 3.6
+     * The one for Cocoa 3.6 shows as a black figure because Cocoa doesn't use XOR mode.
      */
     public static RectangleFigure createMacCocoaDragSourceFeedbackFigure() {
         RectangleFigure figure = new RectangleFigure() {

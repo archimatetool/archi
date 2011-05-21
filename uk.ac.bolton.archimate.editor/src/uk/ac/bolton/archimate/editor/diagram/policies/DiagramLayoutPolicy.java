@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.policies;
 
 import java.lang.reflect.Field;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
@@ -42,16 +43,18 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public class DiagramLayoutPolicy
 extends XYLayoutEditPolicy {
     
+    private static boolean ECLIPSE36 = Platform.getBundle("org.eclipse.ui").getVersion().toString().startsWith("3.6");
+    
     /*
-     * Edit Policies sub-classed to accomodate Mac OS X drawing problems
+     * Edit Policies sub-classed to accomodate Mac OS X drawing problems on Eclipse/GEF 3.6
      * TODO Remove this when GEF 3.7 is released as it's not needed
      */
     static class DiagramResizableEditPolicy extends ResizableEditPolicy {
         
         @Override
         protected IFigure createDragSourceFeedbackFigure() {
-            // If on Mac OS X Cocoa
-            if(PlatformUtils.isMacCocoa()) {
+            // If on Mac OS X Cocoa Eclipse/GEF 3.6
+            if(PlatformUtils.isMacCocoa() && ECLIPSE36) {
                 RectangleFigure figure = FigureUtils.createMacCocoaDragSourceFeedbackFigure();
                 figure.setLineStyle(Graphics.LINE_DOT);
                 figure.setBounds(getInitialFeedbackBounds());
@@ -65,14 +68,14 @@ extends XYLayoutEditPolicy {
     }
     
     /*
-     * Edit Policies sub-classed to accomodate Mac OS X drawing problems
+     * Edit Policies sub-classed to accomodate Mac OS X drawing problems on Eclipse/GEF 3.6
      * TODO Remove this when GEF 3.7 is released as it's not needed
      */
     static class DiagramNonResizableEditPolicy extends NonResizableEditPolicy {
         @Override
         protected IFigure createDragSourceFeedbackFigure() {
-            // If on Mac OS X Cocoa
-            if(PlatformUtils.isMacCocoa()) {
+            // If on Mac OS X Cocoa Eclipse/GEF 3.6
+            if(PlatformUtils.isMacCocoa() && ECLIPSE36) {
                 RectangleFigure figure = FigureUtils.createMacCocoaDragSourceFeedbackFigure();
                 figure.setLineStyle(Graphics.LINE_DOT);
                 figure.setBounds(getInitialFeedbackBounds());
@@ -86,13 +89,13 @@ extends XYLayoutEditPolicy {
     }
     
     /*
-     * Feedback sub-classed to accomodate Mac OS X drawing problems
+     * Feedback sub-classed to accomodate Mac OS X drawing problems on Eclipse/GEF 3.6
      * TODO Remove this when GEF 3.7 is released as it's not needed
      */
     @Override
     protected IFigure getSizeOnDropFeedback() {
-        // If on Mac OS X Cocoa
-        if(PlatformUtils.isMacCocoa()) {
+        // If on Mac OS X Cocoa Eclipse/GEF 3.6
+        if(PlatformUtils.isMacCocoa() && ECLIPSE36) {
             // Access private field in LayoutEditPolicy - sneaky!
             try {
                 Field f = LayoutEditPolicy.class.getDeclaredField("sizeOnDropFeedback");
