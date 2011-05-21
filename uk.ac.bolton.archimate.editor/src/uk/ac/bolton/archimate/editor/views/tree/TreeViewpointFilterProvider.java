@@ -18,15 +18,15 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IRelationship;
 
 
@@ -45,7 +45,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
     /**
      * Active Diagram Model
      */
-    private IDiagramModel fActiveDiagramModel;
+    private IArchimateDiagramModel fActiveDiagramModel;
     
     /**
      * Tree Viewer
@@ -94,8 +94,8 @@ public class TreeViewpointFilterProvider implements IPartListener {
          * 7. TreeModelViewer.refresh(element) then cancels editing
          */
         if(part instanceof IEditorPart) {
-            if(part instanceof IDiagramEditor) {
-                fActiveDiagramModel = ((IDiagramEditor)part).getModel();
+            if(part instanceof IArchimateDiagramEditor) {
+                fActiveDiagramModel = (IArchimateDiagramModel)((IArchimateDiagramEditor)part).getModel();
             }
             else {
                 fActiveDiagramModel = null;

@@ -4085,7 +4085,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelObject()
      * @generated
      */
-    int DIAGRAM_MODEL_OBJECT = 67;
+    int DIAGRAM_MODEL_OBJECT = 68;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}' class.
@@ -4095,7 +4095,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 68;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 69;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4225,13 +4225,104 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
+     * The number of structural features of the '<em>Diagram Model</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 7;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.ArchimateDiagramModel <em>Diagram Model</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.ArchimateDiagramModel
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
+     * @generated
+     */
+    int ARCHIMATE_DIAGRAM_MODEL = 66;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__ARCHIMATE_MODEL = DIAGRAM_MODEL__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__ID = DIAGRAM_MODEL__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__NAME = DIAGRAM_MODEL__NAME;
+
+    /**
+     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__DIAGRAM_MODEL = DIAGRAM_MODEL__DIAGRAM_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Children</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__CHILDREN = DIAGRAM_MODEL__CHILDREN;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__DOCUMENTATION = DIAGRAM_MODEL__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__PROPERTIES = DIAGRAM_MODEL__PROPERTIES;
+
+    /**
+     * The feature id for the '<em><b>Connection Router Type</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ARCHIMATE_DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE;
+
+    /**
      * The feature id for the '<em><b>Viewpoint</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL__VIEWPOINT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 7;
+    int ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT = DIAGRAM_MODEL_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Diagram Model</em>' class.
@@ -4240,7 +4331,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 8;
+    int ARCHIMATE_DIAGRAM_MODEL_FEATURE_COUNT = DIAGRAM_MODEL_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4349,7 +4440,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelReference()
      * @generated
      */
-    int DIAGRAM_MODEL_REFERENCE = 66;
+    int DIAGRAM_MODEL_REFERENCE = 67;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4593,7 +4684,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelGroup()
      * @generated
      */
-    int DIAGRAM_MODEL_GROUP = 69;
+    int DIAGRAM_MODEL_GROUP = 70;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4729,7 +4820,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelNote()
      * @generated
      */
-    int DIAGRAM_MODEL_NOTE = 70;
+    int DIAGRAM_MODEL_NOTE = 71;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4847,7 +4938,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_CONNECTION = 71;
+    int DIAGRAM_MODEL_CONNECTION = 72;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5010,7 +5101,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 72;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 73;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5182,7 +5273,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelBendpoint()
      * @generated
      */
-    int DIAGRAM_MODEL_BENDPOINT = 73;
+    int DIAGRAM_MODEL_BENDPOINT = 74;
 
     /**
      * The feature id for the '<em><b>Weight</b></em>' attribute.
@@ -5246,7 +5337,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 74;
+    int FONT_ATTRIBUTE = 75;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5292,7 +5383,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 75;
+    int BOUNDS = 76;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -5347,7 +5438,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 76;
+    int SKETCH_MODEL = 77;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5422,15 +5513,6 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL__CONNECTION_ROUTER_TYPE = DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE;
 
     /**
-     * The feature id for the '<em><b>Viewpoint</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL__VIEWPOINT = DIAGRAM_MODEL__VIEWPOINT;
-
-    /**
      * The number of structural features of the '<em>Sketch Model</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5447,7 +5529,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 77;
+    int SKETCH_MODEL_STICKY = 78;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5583,7 +5665,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 78;
+    int SKETCH_MODEL_ACTOR = 79;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5710,7 +5792,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 79;
+    int FOLDER_TYPE = 80;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -5720,7 +5802,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 80;
+    int FILE = 81;
 
 
     /**
@@ -6573,15 +6655,25 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getDiagramModel_ConnectionRouterType();
 
     /**
-     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModel#getViewpoint <em>Viewpoint</em>}'.
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IArchimateDiagramModel <em>Diagram Model</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Diagram Model</em>'.
+     * @see uk.ac.bolton.archimate.model.IArchimateDiagramModel
+     * @generated
+     */
+    EClass getArchimateDiagramModel();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IArchimateDiagramModel#getViewpoint <em>Viewpoint</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Viewpoint</em>'.
-     * @see uk.ac.bolton.archimate.model.IDiagramModel#getViewpoint()
-     * @see #getDiagramModel()
+     * @see uk.ac.bolton.archimate.model.IArchimateDiagramModel#getViewpoint()
+     * @see #getArchimateDiagramModel()
      * @generated
      */
-    EAttribute getDiagramModel_Viewpoint();
+    EAttribute getArchimateDiagramModel_Viewpoint();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDiagramModelReference <em>Diagram Model Reference</em>}'.
@@ -7899,12 +7991,22 @@ public interface IArchimatePackage extends EPackage {
         EAttribute DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE = eINSTANCE.getDiagramModel_ConnectionRouterType();
 
         /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.ArchimateDiagramModel <em>Diagram Model</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.ArchimateDiagramModel
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
+         * @generated
+         */
+        EClass ARCHIMATE_DIAGRAM_MODEL = eINSTANCE.getArchimateDiagramModel();
+
+        /**
          * The meta object literal for the '<em><b>Viewpoint</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute DIAGRAM_MODEL__VIEWPOINT = eINSTANCE.getDiagramModel_Viewpoint();
+        EAttribute ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT = eINSTANCE.getArchimateDiagramModel_Viewpoint();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.

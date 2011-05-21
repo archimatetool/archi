@@ -22,6 +22,7 @@ import uk.ac.bolton.archimate.model.IApplicationInteraction;
 import uk.ac.bolton.archimate.model.IApplicationInterface;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;
 import uk.ac.bolton.archimate.model.IApplicationService;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
@@ -1048,6 +1049,22 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: {
+                IArchimateDiagramModel archimateDiagramModel = (IArchimateDiagramModel)theEObject;
+                T result = caseArchimateDiagramModel(archimateDiagramModel);
+                if (result == null) result = caseDiagramModel(archimateDiagramModel);
+                if (result == null) result = caseArchimateModelElement(archimateDiagramModel);
+                if (result == null) result = caseDiagramModelContainer(archimateDiagramModel);
+                if (result == null) result = caseDocumentable(archimateDiagramModel);
+                if (result == null) result = caseProperties(archimateDiagramModel);
+                if (result == null) result = caseDiagramModelComponent(archimateDiagramModel);
+                if (result == null) result = caseAdapter(archimateDiagramModel);
+                if (result == null) result = caseIdentifier(archimateDiagramModel);
+                if (result == null) result = caseCloneable(archimateDiagramModel);
+                if (result == null) result = caseNameable(archimateDiagramModel);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: {
                 IDiagramModelReference diagramModelReference = (IDiagramModelReference)theEObject;
                 T result = caseDiagramModelReference(diagramModelReference);
@@ -1603,6 +1620,21 @@ public class ArchimateSwitch<T> {
      * @generated
      */
     public T caseDiagramModel(IDiagramModel object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Diagram Model</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Diagram Model</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseArchimateDiagramModel(IArchimateDiagramModel object) {
         return null;
     }
 

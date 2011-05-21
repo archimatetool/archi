@@ -4,38 +4,51 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
+package uk.ac.bolton.archimate.editor.diagram.editparts;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractDiagramPart;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.ContainerComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
-import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchContainerComponentEditPolicy;
-import uk.ac.bolton.archimate.model.ISketchModel;
-
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
+import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**
- * Sketch Diagram Part
+ * Archimate Diagram Part
  * 
  * @author Phillip Beauvoir
  */
-public class SketchDiagramPart extends AbstractDiagramPart {
-    
+public class ArchimateDiagramPart extends AbstractDiagramPart {
+
     @Override
-    public ISketchModel getModel() {
-        return (ISketchModel)super.getModel();
+    public IArchimateDiagramModel getModel() {
+        return (IArchimateDiagramModel)super.getModel();
     }
 
+    @Override
+    protected void eCoreChanged(Notification msg) {
+        Object feature = msg.getFeature();
+        
+        // Viewpoint changed
+        if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
+            refreshChildrenFigures();
+        }
+        else {
+            super.eCoreChanged(msg);
+        }
+    }
+    
     @Override
     protected void createEditPolicies() {
         // Install a custom layout policy that handles dragging things around
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());
         
         // Install a policy for DND support and other things
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new SketchContainerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ContainerComponentEditPolicy());
         
         // And we need to install this Group Container Policy here as well as in the GroupEditpart
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new BasicContainerEditPolicy());
@@ -43,4 +56,5 @@ public class SketchDiagramPart extends AbstractDiagramPart {
         // Snap to Geometry feedback
         installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
     }
+
 }

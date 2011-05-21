@@ -33,7 +33,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
-import uk.ac.bolton.archimate.editor.diagram.DiagramModelFactory;
+import uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
@@ -113,7 +113,7 @@ public class SketchEditorPalette extends PaletteRoot {
         PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
                 "Group",
                 "Grouping Element",
-                new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
+                new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
         group.add(groupEntry);

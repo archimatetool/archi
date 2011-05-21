@@ -524,7 +524,7 @@ implements ITreeModelView, IUIRequestListener {
             }
             
             // Viewpoint changed
-            else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+            else if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
                     getViewer().refresh();
                 }

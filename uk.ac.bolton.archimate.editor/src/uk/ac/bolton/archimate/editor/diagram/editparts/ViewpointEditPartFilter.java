@@ -11,7 +11,7 @@ import org.eclipse.gef.EditPart;
 
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
@@ -30,7 +30,7 @@ public class ViewpointEditPartFilter implements IChildEditPartFilter, IConnectio
         IViewpoint viewPoint = null;
         
         if(childObject instanceof IDiagramModelObject) {
-            IDiagramModel dm = ((IDiagramModelObject)childObject).getDiagramModel();
+            IArchimateDiagramModel dm = (IArchimateDiagramModel)((IDiagramModelObject)childObject).getDiagramModel();
             if(dm != null) {
                 int index = dm.getViewpoint();
                 viewPoint = ViewpointsManager.INSTANCE.getViewpoint(index);

@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import uk.ac.bolton.archimate.editor.diagram.DiagramModelFactory;
+import uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractBaseEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IArchimateEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.GroupEditPart;
@@ -464,7 +464,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             fTemplate = type;
 
             // Create this now
-            fChild = (IDiagramModelArchimateObject)new DiagramModelFactory(fTemplate).getNewObject();
+            fChild = (IDiagramModelArchimateObject)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
             fChild.setBounds(location.x, location.y, -1, -1);
         }
         
@@ -514,7 +514,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         
         @Override
         public void execute() {
-            fConnection = (IDiagramModelArchimateConnection)new DiagramModelFactory(fTemplate).getNewObject();
+            fConnection = (IDiagramModelArchimateConnection)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
             fConnection.connect(fSource, fTarget);
             fConnection.addRelationshipToModel(null);
         }

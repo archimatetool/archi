@@ -6,7 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -26,15 +25,14 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramPart;
-import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchDiagramPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.ArchimateDiagramPart;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**
@@ -52,11 +50,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
-            if(object instanceof IDiagramModel) {
-                return !(object instanceof ISketchModel);
-            }
-            
-            return object instanceof DiagramPart && !(object instanceof SketchDiagramPart);
+            return object instanceof IArchimateDiagramModel || object instanceof ArchimateDiagramPart;
         }
     }
 
@@ -68,7 +62,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Viewpoint event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 if(!fIsExecutingCommand) {
                     refreshControls();
                 }
@@ -76,7 +70,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
         }
     };
     
-    private IDiagramModel fDiagramModel;
+    private IArchimateDiagramModel fDiagramModel;
 
     private ComboViewer fComboViewer;
     
@@ -111,7 +105,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
                     if(viewPoint != null) {
                         fIsExecutingCommand = true;
                         getCommandStack().execute(new EObjectFeatureCommand("Viewpoint",
-                                fDiagramModel, IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT,
+                                fDiagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
                                 viewPoint.getIndex()));
                         fIsExecutingCommand = false;
                         // update hints view
@@ -152,12 +146,12 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     @Override
     protected void setElement(Object element) {
         // IDiagramModel
-        if(element instanceof IDiagramModel) {
-            fDiagramModel = (IDiagramModel)element;
+        if(element instanceof IArchimateDiagramModel) {
+            fDiagramModel = (IArchimateDiagramModel)element;
         }
         // IDiagramModel in Diagram Part
-        else if(element instanceof IAdaptable) {
-            fDiagramModel = (IDiagramModel)((IAdaptable)element).getAdapter(IDiagramModel.class);
+        else if(element instanceof ArchimateDiagramPart) {
+            fDiagramModel = (IArchimateDiagramModel)((ArchimateDiagramPart)element).getAdapter(IDiagramModel.class);
         }
         else {
             System.err.println(getClass() + " wants to display for " + element);

@@ -25,9 +25,9 @@ import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramEditorContextMenuProvider extends AbstractDiagramEditorContextMenuProvider {
+public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEditorContextMenuProvider {
 
-    public static final String ID = "DiagramEditorContextMenuProvider"; //$NON-NLS-1$
+    public static final String ID = "ArchimateDiagramEditorContextMenuProvider"; //$NON-NLS-1$
     
     public static final String GROUP_DERIVED = "group_derived";
     public static final String GROUP_VIEWPOINTS = "group_viewpoints";
@@ -39,7 +39,7 @@ public class DiagramEditorContextMenuProvider extends AbstractDiagramEditorConte
      * @param viewer the viewer
      * @param registry the action registry
      */
-    public DiagramEditorContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
+    public ArchimateDiagramEditorContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
         super(viewer, registry);
     }
 

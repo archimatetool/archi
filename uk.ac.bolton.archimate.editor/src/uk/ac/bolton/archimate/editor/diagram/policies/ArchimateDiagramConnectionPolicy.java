@@ -31,11 +31,11 @@ import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 /**
- * Diagram Connection Policy
+ * Archimate Diagram Connection Policy
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramConnectionPolicy extends GraphicalNodeEditPolicy {
+public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     
     @Override
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {

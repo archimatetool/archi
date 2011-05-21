@@ -25,10 +25,10 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import uk.ac.bolton.archimate.editor.model.IModelExporter;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IRelationship;
 
@@ -151,8 +151,8 @@ public class BiZZdesignExporter implements IModelExporter {
                 }
             }
             
-            if(object instanceof IDiagramModel) {
-                IDiagramModel diagram = (IDiagramModel)object;
+            if(object instanceof IArchimateDiagramModel) {
+                IArchimateDiagramModel diagram = (IArchimateDiagramModel)object;
                 Element e = new Element("AllView");
                 content.addContent(e);
                 e.setAttribute("name", diagram.getName());

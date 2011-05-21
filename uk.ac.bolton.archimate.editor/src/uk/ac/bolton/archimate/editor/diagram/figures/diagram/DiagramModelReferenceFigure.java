@@ -11,7 +11,9 @@ import org.eclipse.swt.graphics.Image;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.RectangleFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 
@@ -30,7 +32,8 @@ extends AbstractTextFlowFigure {
         RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
             @Override
             public Image getImage() {
-                return ImageFactory.getImage(((IDiagramModelReference)getDiagramModelObject()).getReferencedModel().eClass());
+                IDiagramModel dm = ((IDiagramModelReference)getDiagramModelObject()).getReferencedModel();
+                return dm == null ? IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16) : ImageFactory.getImage(dm.eClass());
             }
         };
         

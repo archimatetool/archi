@@ -51,6 +51,7 @@ import uk.ac.bolton.archimate.editor.ui.services.IComponentSelectionListener;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.help.ArchimateEditorHelpPlugin;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IBusinessLayerElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -59,7 +60,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ISketchModel;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 
 
@@ -262,8 +262,8 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         
         // Convert Archimate Diagram Model object to Viewpoint object
-        if(object instanceof IDiagramModel && !(object instanceof ISketchModel)) {
-            int index = ((IDiagramModel)object).getViewpoint();
+        if(object instanceof IArchimateDiagramModel) {
+            int index = ((IArchimateDiagramModel)object).getViewpoint();
             object = ViewpointsManager.INSTANCE.getViewpoint(index);
         }
 

@@ -23,6 +23,7 @@ import uk.ac.bolton.archimate.model.IApplicationFunction;
 import uk.ac.bolton.archimate.model.IApplicationInteraction;
 import uk.ac.bolton.archimate.model.IApplicationInterface;
 import uk.ac.bolton.archimate.model.IApplicationService;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -46,7 +47,6 @@ import uk.ac.bolton.archimate.model.ICompositionRelationship;
 import uk.ac.bolton.archimate.model.IContract;
 import uk.ac.bolton.archimate.model.IDataObject;
 import uk.ac.bolton.archimate.model.IDevice;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
@@ -167,7 +167,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.NODE: return createNode();
             case IArchimatePackage.SYSTEM_SOFTWARE: return createSystemSoftware();
             case IArchimatePackage.DEVICE: return createDevice();
-            case IArchimatePackage.DIAGRAM_MODEL: return createDiagramModel();
+            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: return createArchimateDiagramModel();
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: return createDiagramModelReference();
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: return createDiagramModelArchimateObject();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: return createDiagramModelGroup();
@@ -549,9 +549,9 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public IDiagramModel createDiagramModel() {
-        DiagramModel diagramModel = new DiagramModel();
-        return diagramModel;
+    public IArchimateDiagramModel createArchimateDiagramModel() {
+        ArchimateDiagramModel archimateDiagramModel = new ArchimateDiagramModel();
+        return archimateDiagramModel;
     }
 
     /**

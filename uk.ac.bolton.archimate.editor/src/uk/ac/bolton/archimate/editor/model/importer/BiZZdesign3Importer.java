@@ -382,7 +382,7 @@ public class BiZZdesign3Importer implements IModelImporter {
                 String id = eElement.getAttributeValue(ATT_ID);
                 if(StringUtils.isSet(id)) {
                     // Create Empty View
-                    IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createDiagramModel();
+                    IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
                     diagramModel.setId(id);
                     setName(diagramModel, eElement);
                     model.getFolder(FolderType.DIAGRAMS).getElements().add(diagramModel);

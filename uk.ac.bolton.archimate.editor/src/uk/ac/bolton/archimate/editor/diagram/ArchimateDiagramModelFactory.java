@@ -22,11 +22,11 @@ import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**
- * Diagram Model Factory for creating objects from the Palette in the Diagram Editor
+ * Diagram Model Factory for creating objects from the Palette in the Archimate Diagram Editor
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelFactory implements ICreationFactory {
+public class ArchimateDiagramModelFactory implements ICreationFactory {
     
     private EClass fTemplate;
     
@@ -34,12 +34,12 @@ public class DiagramModelFactory implements ICreationFactory {
      * Constructor for creating a new Ecore type model
      * @param eClass
      */
-    public DiagramModelFactory(EClass template) {
+    public ArchimateDiagramModelFactory(EClass template) {
         fTemplate = template;
     }
     
     public boolean isUsedFor(IEditorPart editor) {
-        return editor instanceof IDiagramEditor;
+        return editor instanceof IArchimateDiagramEditor;
     }
     
     public Object getNewObject() {

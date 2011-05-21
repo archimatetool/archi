@@ -433,7 +433,7 @@ public class ImageFactory {
             // Other
             case IArchimatePackage.ARCHIMATE_MODEL:
                 return IArchimateImages.ICON_MODELS_16;
-            case IArchimatePackage.DIAGRAM_MODEL:
+            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL:
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE:
                 return IArchimateImages.ICON_DIAGRAM_16;
             case IArchimatePackage.DIAGRAM_MODEL_GROUP:

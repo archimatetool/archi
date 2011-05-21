@@ -22,6 +22,7 @@ import uk.ac.bolton.archimate.model.IApplicationInteraction;
 import uk.ac.bolton.archimate.model.IApplicationInterface;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;
 import uk.ac.bolton.archimate.model.IApplicationService;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
@@ -411,6 +412,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDiagramModel(IDiagramModel object) {
                 return createDiagramModelAdapter();
+            }
+            @Override
+            public Adapter caseArchimateDiagramModel(IArchimateDiagramModel object) {
+                return createArchimateDiagramModelAdapter();
             }
             @Override
             public Adapter caseDiagramModelReference(IDiagramModelReference object) {
@@ -845,6 +850,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDiagramModelAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IArchimateDiagramModel <em>Diagram Model</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IArchimateDiagramModel
+     * @generated
+     */
+    public Adapter createArchimateDiagramModelAdapter() {
         return null;
     }
 

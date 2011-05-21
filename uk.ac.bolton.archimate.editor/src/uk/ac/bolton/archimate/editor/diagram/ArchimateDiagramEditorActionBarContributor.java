@@ -26,11 +26,11 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
 /**
- * Action Bar contributor for Diagram Editor
+ * Action Bar contributor for Archimate Diagram Editor
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramEditorActionBarContributor
+public class ArchimateDiagramEditorActionBarContributor
 extends AbstractDiagramEditorActionBarContributor {
 
     @Override

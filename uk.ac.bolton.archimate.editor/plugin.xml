@@ -93,8 +93,8 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="uk.ac.bolton.archimate.editor.diagram.DiagramEditor"
-            contributorClass="uk.ac.bolton.archimate.editor.diagram.DiagramEditorActionBarContributor"
+            class="uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramEditor"
+            contributorClass="uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramEditorActionBarContributor"
             default="false"
             icon="img/diagram-16.png"
             id="uk.ac.bolton.archimate.editor.diagramEditor"
@@ -218,7 +218,7 @@
                   type="uk.ac.bolton.archimate.model.IDiagramModel">
             </input>
             <input
-                  type="uk.ac.bolton.archimate.editor.diagram.editparts.DiagramPart">
+                  type="uk.ac.bolton.archimate.editor.diagram.editparts.AbstractDiagramPart">
             </input>
          </propertySection>
          <propertySection
@@ -229,7 +229,7 @@
                   type="uk.ac.bolton.archimate.model.IDiagramModel">
             </input>
             <input
-                  type="uk.ac.bolton.archimate.editor.diagram.editparts.DiagramPart">
+                  type="uk.ac.bolton.archimate.editor.diagram.editparts.AbstractDiagramPart">
             </input>
          </propertySection>
          <propertySection

@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -35,13 +35,13 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
     public static TreeSelectionSynchroniser INSTANCE = new TreeSelectionSynchroniser();
     
     private ITreeModelView fTreeView;
-    private List<IDiagramEditor> fDiagramEditors = new ArrayList<IDiagramEditor>();
+    private List<IArchimateDiagramEditor> fDiagramEditors = new ArrayList<IArchimateDiagramEditor>();
     
     private boolean isDispatching = false;
     
     private SelectionChangedEvent cachedEvent;
     
-    public void addDiagramEditor(IDiagramEditor diagramEditor) {
+    public void addDiagramEditor(IArchimateDiagramEditor diagramEditor) {
         GraphicalViewer viewer = (GraphicalViewer)diagramEditor.getAdapter(GraphicalViewer.class);
         if(viewer != null) {
             viewer.addSelectionChangedListener(this);
@@ -49,7 +49,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         }
     }
     
-    public void removeDiagramEditor(IDiagramEditor diagramEditor) {
+    public void removeDiagramEditor(IArchimateDiagramEditor diagramEditor) {
         if(diagramEditor != null && fDiagramEditors.contains(diagramEditor)) {
             GraphicalViewer viewer = (GraphicalViewer)diagramEditor.getAdapter(GraphicalViewer.class);
             viewer.removeSelectionChangedListener(this);
@@ -119,7 +119,7 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
                     list.add((IArchimateElement)o);
                 }
             }
-            for(IDiagramEditor diagramEditor : fDiagramEditors) {
+            for(IArchimateDiagramEditor diagramEditor : fDiagramEditors) {
                 diagramEditor.selectElements(list.toArray(new IArchimateElement[list.size()]));
             }
         }

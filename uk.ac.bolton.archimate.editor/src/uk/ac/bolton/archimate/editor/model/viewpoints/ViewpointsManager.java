@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
@@ -137,9 +137,9 @@ public class ViewpointsManager {
      * @return True if dmo is an allowed component for this Viewpoint
      */
     public boolean isAllowedType(IDiagramModelComponent dmo) {
-        if(dmo instanceof IDiagramModelArchimateObject) {
+        if(dmo instanceof IDiagramModelArchimateObject && dmo.getDiagramModel() instanceof IArchimateDiagramModel) {
             EClass eClass = ((IDiagramModelArchimateObject)dmo).getArchimateElement().eClass();
-            return isAllowedType(dmo.getDiagramModel(), eClass);
+            return isAllowedType((IArchimateDiagramModel)dmo.getDiagramModel(), eClass);
         }
         if(dmo instanceof IDiagramModelConnection) {
             return isAllowedType(((IDiagramModelConnection)dmo).getSource()) && 
@@ -153,7 +153,7 @@ public class ViewpointsManager {
      * @param eClass
      * @return True if eClass is an allowed component for this Viewpoint
      */
-    public boolean isAllowedType(IDiagramModel dm, EClass eClass) {
+    public boolean isAllowedType(IArchimateDiagramModel dm, EClass eClass) {
         if(dm != null) {
             IViewpoint viewPoint = getViewpoint(dm.getViewpoint());
             return viewPoint.isAllowedType(eClass);

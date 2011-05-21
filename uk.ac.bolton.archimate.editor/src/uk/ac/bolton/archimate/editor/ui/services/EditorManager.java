@@ -18,9 +18,10 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.DiagramEditorInput;
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
 import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
 import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.ISketchModel;
@@ -61,11 +62,14 @@ public class EditorManager {
         }
         
         String id;
-        if(model instanceof ISketchModel) {
+        if(model instanceof IArchimateDiagramModel) {
+            id = IArchimateDiagramEditor.ID;
+        }
+        else if(model instanceof ISketchModel) {
             id = ISketchEditor.ID;
         }
         else {
-            id = IDiagramEditor.ID;
+            throw new RuntimeException("Unsupported model type");
         }
         
         IEditorPart part = openEditor(new DiagramEditorInput(model), id);

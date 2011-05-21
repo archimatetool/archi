@@ -13,7 +13,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -55,7 +55,7 @@ implements IArchimateConnectionEditPart {
     private PropertyChangeListener propertyListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if(evt.getPropertyName() == IDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN) {
+            if(evt.getPropertyName() == IArchimateDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN) {
                 registerStructural();
             }
         }
@@ -120,7 +120,7 @@ implements IArchimateConnectionEditPart {
     }
     
     protected boolean isShowStructural() {
-        return Boolean.TRUE.equals(getViewer().getProperty(IDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN));
+        return Boolean.TRUE.equals(getViewer().getProperty(IArchimateDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN));
     }
     
     protected void showStructural() {

@@ -136,7 +136,7 @@ public class ArchimateModelTests {
         assertNotNull(folder);
         assertEquals(FolderType.RELATIONS, folder.getType());
         
-        element = IArchimateFactory.eINSTANCE.createDiagramModel();
+        element = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         folder = model.getDefaultFolderForElement(element);
         assertNotNull(folder);
         assertEquals(FolderType.DIAGRAMS, folder.getType());
@@ -176,9 +176,9 @@ public class ArchimateModelTests {
         IDiagramModel dm = model.getDefaultDiagramModel();
         assertNull(dm);
         
-        IDiagramModel newDiagramModel1 = IArchimateFactory.eINSTANCE.createDiagramModel();
+        IDiagramModel newDiagramModel1 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         model.getDefaultFolderForElement(newDiagramModel1).getElements().add(newDiagramModel1);
-        IDiagramModel newDiagramModel2 = IArchimateFactory.eINSTANCE.createDiagramModel();
+        IDiagramModel newDiagramModel2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         model.getDefaultFolderForElement(newDiagramModel2).getElements().add(newDiagramModel2);
         
         dm = model.getDefaultDiagramModel();
@@ -197,9 +197,9 @@ public class ArchimateModelTests {
         assertNotNull(list);
         assertTrue(list.isEmpty());
         
-        IDiagramModel newDiagramModel1 = IArchimateFactory.eINSTANCE.createDiagramModel();
+        IDiagramModel newDiagramModel1 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         model.getDefaultFolderForElement(newDiagramModel1).getElements().add(newDiagramModel1);
-        IDiagramModel newDiagramModel2 = IArchimateFactory.eINSTANCE.createDiagramModel();
+        IDiagramModel newDiagramModel2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         model.getDefaultFolderForElement(newDiagramModel2).getElements().add(newDiagramModel2);
         
         list = model.getDiagramModels();

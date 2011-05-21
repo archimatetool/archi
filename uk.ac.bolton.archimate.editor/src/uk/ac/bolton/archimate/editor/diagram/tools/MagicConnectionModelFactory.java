@@ -9,9 +9,9 @@ package uk.ac.bolton.archimate.editor.diagram.tools;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.IEditorPart;
 
-import uk.ac.bolton.archimate.editor.diagram.DiagramModelFactory;
+import uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.ICreationFactory;
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
 
 
 /**
@@ -25,7 +25,7 @@ public class MagicConnectionModelFactory implements ICreationFactory {
     private EClass fElementTemplate;
     
     public boolean isUsedFor(IEditorPart editor) {
-        return editor instanceof IDiagramEditor;
+        return editor instanceof IArchimateDiagramEditor;
     }
     
     public void setRelationshipType(EClass type) {
@@ -45,7 +45,7 @@ public class MagicConnectionModelFactory implements ICreationFactory {
     }
     
     public Object getNewObject() {
-        return new DiagramModelFactory(fRelationshipTemplate).getNewObject();
+        return new ArchimateDiagramModelFactory(fRelationshipTemplate).getNewObject();
     }
 
     public Object getObjectType() {

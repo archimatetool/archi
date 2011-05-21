@@ -32,7 +32,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ViewpointAction;
 import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramTransferDropTargetListener;
-import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramEditPartFactory;
+import uk.ac.bolton.archimate.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
@@ -41,6 +41,7 @@ import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionSynchroniser;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -49,17 +50,17 @@ import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**
- * Diagram Editor
+ * Archimate Diagram Editor
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramEditor extends AbstractDiagramEditor
-implements IDiagramEditor {
+public class ArchimateDiagramEditor extends AbstractDiagramEditor
+implements IArchimateDiagramEditor {
     
     /**
      * Palette
      */
-    private DiagramEditorPalette fPalette;
+    private ArchimateDiagramEditorPalette fPalette;
     
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
@@ -105,14 +106,19 @@ implements IDiagramEditor {
     }
     
     @Override
-    public DiagramEditorPalette getPaletteRoot() {
+    public ArchimateDiagramEditorPalette getPaletteRoot() {
         if(fPalette == null) {
-            fPalette = new DiagramEditorPalette();
+            fPalette = new ArchimateDiagramEditorPalette();
             setPaletteViewpoint();
         }
         return fPalette;
     }
 
+    @Override
+    public IArchimateDiagramModel getModel() {
+        return (IArchimateDiagramModel)super.getModel();
+    }
+    
     @Override
     protected void configureGraphicalViewer() {
         super.configureGraphicalViewer();
@@ -120,7 +126,7 @@ implements IDiagramEditor {
         GraphicalViewer viewer = getGraphicalViewer();
 
         // Register the Edit Part Factory before setting model contents
-        viewer.setEditPartFactory(new DiagramEditPartFactory());
+        viewer.setEditPartFactory(new ArchimateDiagramEditPartFactory());
         
         // Set Model
         viewer.setContents(getModel());
@@ -160,9 +166,9 @@ implements IDiagramEditor {
      */
     @Override
     protected void registerContextMenu(GraphicalViewer viewer) {
-        MenuManager provider = new DiagramEditorContextMenuProvider(viewer, getActionRegistry());
+        MenuManager provider = new ArchimateDiagramEditorContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
-        getSite().registerContextMenu(DiagramEditorContextMenuProvider.ID, provider, viewer);
+        getSite().registerContextMenu(ArchimateDiagramEditorContextMenuProvider.ID, provider, viewer);
     }
     
     @Override
@@ -245,7 +251,7 @@ implements IDiagramEditor {
         
         if(msg.getEventType() == Notification.SET) {
             // Diagram Model Viewpoint changed
-            if(msg.getNotifier() == getModel() && msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+            if(msg.getNotifier() == getModel() && msg.getFeature() == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 setViewpoint();
             }
         }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -83,17 +84,31 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
     
     /**
      * Add customisation to serialsiation
+     * See Chapter 15.3.5 of the EMF book, 2nd edition
      * @return
      */
     private Map<Object, Object> getOptions() {
         if(options == null) {
             options = new HashMap<Object, Object>();
+            
+            // UTF-8
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");
-
-            // Now add some extended Metadata to customise the save settings...
-            // See Chapter 15.3.5 of the EMF book
+            
+            // A Map to map Ecore features and classes to elememt names and types
             ExtendedMetaData ext = new BasicExtendedMetaData(ExtendedMetaData.ANNOTATION_URI, 
-                    EPackage.Registry.INSTANCE, new HashMap<EModelElement, EAnnotation>()); 
+                    EPackage.Registry.INSTANCE, new HashMap<EModelElement, EAnnotation>()) {
+                
+                @Override
+                public EClassifier getType(EPackage ePackage, String name) {
+                    /*
+                     * Backwards compatibility for the old "DiagramModel" type
+                     */
+                    if("DiagramModel".equals(name)) {
+                        return IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL;
+                    }
+                    return super.getType(ePackage, name);
+                }
+            };
 
             // Prevents the root-level element from being namespace qualified. 
             //ext.setQualified(IArchimatePackage.eINSTANCE, false);
@@ -149,7 +164,16 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
             // The DiagramModelReference "referencedModel" becomes "model"
             ext.setFeatureKind(IArchimatePackage.Literals.DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL, ExtendedMetaData.ATTRIBUTE_FEATURE); // have to do this explicitly
             ext.setName(IArchimatePackage.Literals.DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL, "model");
-
+            
+            /*
+             * Alternative method, but no good for saving as the element will also be saved as "DiagramModel"
+             * DiagramModel is now abstract so:
+             * DiagramModel becomes "AbstractDiagramModel" and
+             * ArchimateDiagramModel is now "DiagramModel" for backwards compatibility
+             */
+            //ext.setName(IArchimatePackage.Literals.DIAGRAM_MODEL, "AbstractDiagramModel");
+            //ext.setName(IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL, "DiagramModel");
+            
             options.put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
         }
 

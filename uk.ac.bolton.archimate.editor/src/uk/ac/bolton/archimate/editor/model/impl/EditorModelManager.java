@@ -134,7 +134,7 @@ implements IEditorModelManager {
         model.setDefaults();
         
         // Add one default diagram
-        IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createDiagramModel();
+        IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         diagramModel.setName("Default View");
         model.getFolder(FolderType.DIAGRAMS).getElements().add(diagramModel);
         

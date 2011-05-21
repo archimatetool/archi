@@ -25,8 +25,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.DiagramEditPartFactory;
+import uk.ac.bolton.archimate.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFactory;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.ISketchModel;
 
@@ -51,16 +52,19 @@ public final class DiagramUtils {
         RootEditPart rootPart = new FreeformGraphicalRootEditPart();
         viewer.setRootEditPart(rootPart);
         
-        if(model instanceof ISketchModel) {
+        if(model instanceof IArchimateDiagramModel) {
+            viewer.setEditPartFactory(new ArchimateDiagramEditPartFactory());
+        }
+        else if(model instanceof ISketchModel) {
             viewer.setEditPartFactory(new SketchEditPartFactory());
         }
         else {
-            viewer.setEditPartFactory(new DiagramEditPartFactory());
+            throw new RuntimeException("Unsupported model type");
         }
         
         viewer.setContents(model);
         viewer.flush();
-
+        
         return viewer;
     }
     

@@ -46,7 +46,7 @@ extends XYLayoutEditPolicy {
      * Edit Policies sub-classed to accomodate Mac OS X drawing problems
      * TODO Remove this when GEF 3.7 is released as it's not needed
      */
-    static class ArchimateDiagramResizableEditPolicy extends ResizableEditPolicy {
+    static class DiagramResizableEditPolicy extends ResizableEditPolicy {
         
         @Override
         protected IFigure createDragSourceFeedbackFigure() {
@@ -68,7 +68,7 @@ extends XYLayoutEditPolicy {
      * Edit Policies sub-classed to accomodate Mac OS X drawing problems
      * TODO Remove this when GEF 3.7 is released as it's not needed
      */
-    static class ArchimateDiagramNonResizableEditPolicy extends NonResizableEditPolicy {
+    static class DiagramNonResizableEditPolicy extends NonResizableEditPolicy {
         @Override
         protected IFigure createDragSourceFeedbackFigure() {
             // If on Mac OS X Cocoa
@@ -164,7 +164,7 @@ extends XYLayoutEditPolicy {
     
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
-        return (child instanceof INonResizableEditPart) ? new ArchimateDiagramNonResizableEditPolicy() : new ArchimateDiagramResizableEditPolicy();
+        return (child instanceof INonResizableEditPart) ? new DiagramNonResizableEditPolicy() : new DiagramResizableEditPolicy();
     }
     
     @Override

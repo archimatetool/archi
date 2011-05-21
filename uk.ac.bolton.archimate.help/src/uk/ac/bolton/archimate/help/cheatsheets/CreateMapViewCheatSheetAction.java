@@ -19,6 +19,7 @@ import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -59,7 +60,7 @@ implements ICheatSheetAction {
         
         CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
         if(stack != null) {
-            IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createDiagramModel();
+            IArchimateDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
             diagramModel.setName("Map View");
             
             int y = 20; 

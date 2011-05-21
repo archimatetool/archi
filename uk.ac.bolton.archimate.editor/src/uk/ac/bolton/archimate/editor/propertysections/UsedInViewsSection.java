@@ -25,7 +25,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IArchimateEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IArchimateConnectionEditPart;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
@@ -115,9 +116,9 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
                 Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(o instanceof IDiagramModel) {
                     IDiagramModel diagramModel = (IDiagramModel)o;
-                    IDiagramEditor editor = (IDiagramEditor)EditorManager.openDiagramEditor(diagramModel);
-                    if(editor != null) {
-                        editor.selectElements(new IArchimateElement[] { fArchimateElement });
+                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel);
+                    if(editor instanceof IArchimateDiagramEditor) {
+                        ((IArchimateDiagramEditor)editor).selectElements(new IArchimateElement[] { fArchimateElement });
                     }
                 }
             }

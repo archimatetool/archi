@@ -60,8 +60,8 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.technology.TechnologyNode
 import uk.ac.bolton.archimate.editor.diagram.editparts.technology.TechnologySystemSoftwareEditPart;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
@@ -74,7 +74,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramEditPartFactory
+public class ArchimateDiagramEditPartFactory
 implements EditPartFactory {
 
     public EditPart createEditPart(EditPart context, Object model) {
@@ -85,15 +85,15 @@ implements EditPartFactory {
         }
         
         // Main Diagram Edit Part
-        if(model instanceof IDiagramModel) {
-            child = new DiagramPart();
+        if(model instanceof IArchimateDiagramModel) {
+            child = new ArchimateDiagramPart();
             
             // Add a Nested Connection Filter to this
-            ((DiagramPart)child).addEditPartFilter(new NestedConnectionEditPartFilter());
+            ((ArchimateDiagramPart)child).addEditPartFilter(new NestedConnectionEditPartFilter());
             
             // Add a Viewpoint Child EditPart Filter to this if set in Preferences (hides rather than ghosts)
             if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS)) {
-                ((DiagramPart)child).addEditPartFilter(new ViewpointEditPartFilter());
+                ((ArchimateDiagramPart)child).addEditPartFilter(new ViewpointEditPartFilter());
             }
         }
         

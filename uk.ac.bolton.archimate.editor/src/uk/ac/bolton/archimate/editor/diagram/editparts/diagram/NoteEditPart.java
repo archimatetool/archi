@@ -21,7 +21,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.NoteFigure;
-import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
@@ -42,7 +42,7 @@ implements IColoredEditPart, ITextAlignedEditPart {
     @Override
     protected void createEditPolicies() {
         // Allow parts to be connected
-        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramConnectionPolicy());
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
         
         // Add a policy to handle editing the Parts (for example, deleting a part)
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());

@@ -330,7 +330,7 @@ public interface IArchimateFactory extends EFactory {
      * @return a new object of class '<em>Diagram Model</em>'.
      * @generated
      */
-    IDiagramModel createDiagramModel();
+    IArchimateDiagramModel createArchimateDiagramModel();
 
     /**
      * Returns a new object of class '<em>Diagram Model Reference</em>'.

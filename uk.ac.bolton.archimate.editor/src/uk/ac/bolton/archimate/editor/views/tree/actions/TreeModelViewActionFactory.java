@@ -100,7 +100,7 @@ public class TreeModelViewActionFactory {
                 break;
                 
             case DIAGRAMS:
-                IAction action = createNewDiagramAction(folder);
+                IAction action = createNewArchimateDiagramAction(folder);
                 list.add(action);
                 action = createNewSketchAction(folder);
                 list.add(action);
@@ -131,12 +131,12 @@ public class TreeModelViewActionFactory {
         return action;
     }
     
-    private IAction createNewDiagramAction(final IFolder folder) {
+    private IAction createNewArchimateDiagramAction(final IFolder folder) {
         IAction action = new Action("&View") {
             @Override
             public void run() {
                 // Create a new Diagram Model, set its name
-                IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createDiagramModel();
+                IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
                 diagramModel.setName("New View");
                 
                 // Execute Command

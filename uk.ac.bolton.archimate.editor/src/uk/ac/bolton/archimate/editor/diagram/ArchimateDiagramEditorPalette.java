@@ -35,11 +35,11 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
 /**
- * PaletteRoot for Diagram
+ * PaletteRoot for Archimate Diagram
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramEditorPalette extends PaletteRoot {
+public class ArchimateDiagramEditorPalette extends PaletteRoot {
     
     private FormatPainterToolEntry formatPainterEntry;
     
@@ -47,7 +47,7 @@ public class DiagramEditorPalette extends PaletteRoot {
     
     private PaletteContainer fArchimateGroup;
 
-    public DiagramEditorPalette() {
+    public ArchimateDiagramEditorPalette() {
         add(createControlsGroup());
         add(new PaletteSeparator(""));
         
@@ -146,7 +146,7 @@ public class DiagramEditorPalette extends PaletteRoot {
         PaletteEntry noteEntry = new CombinedTemplateCreationEntry(
                 "Note",
                 "A Note element",
-                new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
+                new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16));
         group.add(noteEntry);
@@ -155,7 +155,7 @@ public class DiagramEditorPalette extends PaletteRoot {
         PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
                 "Group",
                 "Grouping Element",
-                new DiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
+                new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
         group.add(groupEntry);
@@ -268,7 +268,7 @@ public class DiagramEditorPalette extends PaletteRoot {
         return new CombinedTemplateCreationEntry(
                 ArchimateNames.getDefaultShortName(eClass),
                 description,
-                new DiagramModelFactory(eClass),
+                new ArchimateDiagramModelFactory(eClass),
                 ImageFactory.getImageDescriptor(eClass),
                 ImageFactory.getImageDescriptor(eClass));
     }
@@ -281,7 +281,7 @@ public class DiagramEditorPalette extends PaletteRoot {
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
                 name,
                 description,
-                new DiagramModelFactory(eClass),
+                new ArchimateDiagramModelFactory(eClass),
                 ImageFactory.getImageDescriptor(eClass),
                 ImageFactory.getImageDescriptor(eClass));
         

@@ -26,7 +26,7 @@ import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.GroupFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
@@ -47,7 +47,7 @@ implements IColoredEditPart, ITextEditPart {
     @Override
     protected void createEditPolicies() {
         // Allow parts to be connected
-        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramConnectionPolicy());
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
 
         // Add a policy to handle directly editing the Parts (for example, directly renaming a part)
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new PartDirectEditTitlePolicy());

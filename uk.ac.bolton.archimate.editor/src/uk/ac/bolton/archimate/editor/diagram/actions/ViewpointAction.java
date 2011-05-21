@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
+import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
@@ -28,7 +29,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
 public class ViewpointAction extends Action implements Disposable {
     
     private IWorkbenchPart part;
-    private IDiagramModel diagramModel;
+    private IArchimateDiagramModel diagramModel;
     private IViewpoint viewPoint;
     
     /*
@@ -38,7 +39,7 @@ public class ViewpointAction extends Action implements Disposable {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT) {
+            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 update();
             }
         }
@@ -54,7 +55,7 @@ public class ViewpointAction extends Action implements Disposable {
         this.part = part;
         this.viewPoint = viewPoint;
         
-        diagramModel = (IDiagramModel)part.getAdapter(IDiagramModel.class);
+        diagramModel = (IArchimateDiagramModel)part.getAdapter(IDiagramModel.class);
         diagramModel.eAdapters().add(eAdapter);
         update();
     }
@@ -64,7 +65,7 @@ public class ViewpointAction extends Action implements Disposable {
         if(isChecked()) {
             CommandStack stack = (CommandStack)part.getAdapter(CommandStack.class);
             stack.execute(new EObjectFeatureCommand("Viewpoint",
-                                diagramModel, IArchimatePackage.Literals.DIAGRAM_MODEL__VIEWPOINT,
+                                diagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
                                 viewPoint.getIndex()));
         }
     }

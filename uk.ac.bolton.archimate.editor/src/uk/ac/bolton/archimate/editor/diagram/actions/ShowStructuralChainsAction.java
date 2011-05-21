@@ -10,7 +10,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
@@ -37,7 +37,7 @@ public class ShowStructuralChainsAction extends WorkbenchPartAction {
     
     private boolean isShowingChains() {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
-        Boolean val = (Boolean)viewer.getProperty(IDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN);
+        Boolean val = (Boolean)viewer.getProperty(IArchimateDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN);
         if (val != null)
             return val.booleanValue();
         return false;
@@ -47,7 +47,7 @@ public class ShowStructuralChainsAction extends WorkbenchPartAction {
     public void run() {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
         boolean val = !isShowingChains();
-        viewer.setProperty(IDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN, new Boolean(val));
+        viewer.setProperty(IArchimateDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN, new Boolean(val));
         setText(isShowingChains() ? "Hide Structural Chains" : "Show Structural Chains");
     }
 }

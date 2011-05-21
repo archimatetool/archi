@@ -10,7 +10,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
-import uk.ac.bolton.archimate.editor.diagram.policies.DiagramConnectionPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -79,7 +79,7 @@ implements IArchimateEditPart {
     @Override
     protected void createEditPolicies() {
         // Allow parts to be joined together
-        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramConnectionPolicy());
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
     }
     
     @SuppressWarnings("rawtypes")

@@ -27,6 +27,7 @@ import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFact
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**
@@ -70,7 +71,12 @@ implements ISketchEditor {
         }
         return fPalette;
     }
-
+    
+    @Override
+    public ISketchModel getModel() {
+        return (ISketchModel)super.getModel();
+    }
+    
     @Override
     protected void configureGraphicalViewer() {
         super.configureGraphicalViewer();
