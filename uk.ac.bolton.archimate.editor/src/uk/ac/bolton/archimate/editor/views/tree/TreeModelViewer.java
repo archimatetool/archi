@@ -70,6 +70,8 @@ public class TreeModelViewer extends TreeViewer {
         setContentProvider(new ModelTreeViewerContentProvider());
         setLabelProvider(new ModelTreeViewerLabelProvider());
         
+        setUseHashlookup(true);
+        
         // Sort
         setSorter(new ViewerSorter() {
             @SuppressWarnings("unchecked")
