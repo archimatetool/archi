@@ -7,6 +7,7 @@ Version 2.0 July XX 2011
 + Can now add multiple occurrences of objects and connections in a View
 + Elements can have circular relationships and connections (self <---> self)
 + Palette is now detachable and improved
++ A View can be maximised to Full Screen
 + Group objects now have the "Documentation" field
 + Group objects can also be added to Sketch Views
 + Group objects and all Sketch View diagram objects can now have Properties

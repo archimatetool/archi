@@ -96,6 +96,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.ExportAsImageToClipboardAct
 import uk.ac.bolton.archimate.editor.diagram.actions.FillColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontColorAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.FullScreenAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PasteAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PrintDiagramAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PropertiesAction;
@@ -703,6 +704,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new TextAlignmentAction(this, IFontAttribute.TEXT_ALIGNMENT_RIGHT);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        
+        // Full Screen
+        action = new FullScreenAction(this);
+        registry.registerAction(action);
     }
     
     @Override

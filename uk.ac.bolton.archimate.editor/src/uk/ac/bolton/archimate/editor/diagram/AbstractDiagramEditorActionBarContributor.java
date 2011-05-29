@@ -37,6 +37,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.ExportAsImageToClipboardAct
 import uk.ac.bolton.archimate.editor.diagram.actions.FillColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontColorAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.FullScreenAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
@@ -129,6 +130,11 @@ extends ActionBarContributor {
                 ConnectionRouterAction.CONNECTION_ROUTER_SHORTEST_PATH, IAction.AS_RADIO_BUTTON));
         addRetargetAction(new RetargetAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_MANHATTAN, IAction.AS_RADIO_BUTTON));
+        
+        // Full Screen
+        retargetAction = new RetargetAction(FullScreenAction.ID, FullScreenAction.TEXT);
+        retargetAction.setActionDefinitionId(FullScreenAction.ID);
+        addRetargetAction(retargetAction);
     }
 
     @Override
@@ -148,6 +154,9 @@ extends ActionBarContributor {
     @Override
     public void contributeToMenu(IMenuManager menuManager) {
         createViewMenu(menuManager);
+        
+        IMenuManager windowMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_WINDOW);
+        windowMenu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, getAction(FullScreenAction.ID));
     }
     
     /**

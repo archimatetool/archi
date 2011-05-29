@@ -472,6 +472,24 @@
             schemeId="uk.ac.bolton.archimate.editor.keybindings"
             sequence="M1+M2+C">
       </key>
+      <key
+            commandId="uk.ac.bolton.archimate.editor.action.fullScreen"
+            platform="win32"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="F11">
+      </key>
+      <key
+            commandId="uk.ac.bolton.archimate.editor.action.fullScreen"
+            platform="gtk"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="F11">
+      </key>
+      <key
+            commandId="uk.ac.bolton.archimate.editor.action.fullScreen"
+            platform="cocoa"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="M1+M2+F">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -518,6 +536,10 @@
       <command
             id="uk.ac.bolton.archimate.editor.action.exportAsImageToClipboard"
             name="Export As Image to Clipboard">
+      </command>
+      <command
+            id="uk.ac.bolton.archimate.editor.action.fullScreen"
+            name="Full Screen">
       </command>
    </extension>
    <extension
