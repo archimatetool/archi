@@ -45,7 +45,7 @@ public class ArchimateDiagramEditorPalette extends PaletteRoot {
     
     private IViewpoint fViewpoint;
     
-    private PaletteContainer fArchimateGroup;
+    private PaletteContainer fBusinessGroup, fApplicationGroup, fTechnologyGroup;
 
     public ArchimateDiagramEditorPalette() {
         add(createControlsGroup());
@@ -57,8 +57,7 @@ public class ArchimateDiagramEditorPalette extends PaletteRoot {
         add(createExtrasGroup());
         add(new PaletteSeparator(""));
         
-        fArchimateGroup = createArchimateGroup();
-        add(fArchimateGroup);
+        createArchimateGroup();
     }
 
     /**
@@ -69,38 +68,35 @@ public class ArchimateDiagramEditorPalette extends PaletteRoot {
         if(fViewpoint != viewpoint) {
             fViewpoint = viewpoint;
             
-            remove(fArchimateGroup);
+            remove(fBusinessGroup);
+            remove(fApplicationGroup);
+            remove(fTechnologyGroup);
             
-            fArchimateGroup = createArchimateGroup();
-            add(fArchimateGroup);
+            createArchimateGroup();
         }
     }
     
     /**
      * Create the Archimate groups
      */
-    private PaletteContainer createArchimateGroup() {
-        PaletteContainer group = new PaletteGroup("archimate");
+    private void createArchimateGroup() {
+        fBusinessGroup = createBusinessLayerGroup();
+        fApplicationGroup = createApplicationLayerGroup();
+        fTechnologyGroup = createTechnologyLayerGroup();
         
-        PaletteContainer businessGroup = createBusinessLayerGroup();
-        PaletteContainer applicationGroup = createApplicationLayerGroup();
-        PaletteContainer technologyGroup = createTechnologyLayerGroup();
-        
-        if(!businessGroup.getChildren().isEmpty()) {
-            group.add(businessGroup);
+        if(!fBusinessGroup.getChildren().isEmpty()) {
+            add(fBusinessGroup);
         }
         
-        if(!applicationGroup.getChildren().isEmpty()) {
-            group.add(new PaletteSeparator(""));
-            group.add(applicationGroup);
+        if(!fApplicationGroup.getChildren().isEmpty()) {
+            add(new PaletteSeparator(""));
+            add(fApplicationGroup);
         }
         
-        if(!technologyGroup.getChildren().isEmpty()) {
-            group.add(new PaletteSeparator(""));
-            group.add(technologyGroup);
+        if(!fTechnologyGroup.getChildren().isEmpty()) {
+            add(new PaletteSeparator(""));
+            add(fTechnologyGroup);
         }
-        
-        return group;
     }
     
     /**
