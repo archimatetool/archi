@@ -13,6 +13,7 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -64,13 +65,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         public void keyPressed(KeyEvent e) {
             // Escape pressed, close this Shell
             if(e.keyCode == SWT.ESC) {
-                fGraphicalViewer.getContextMenu().removeMenuListener(contextMenuListener);
-                fGraphicalViewer.getControl().removeKeyListener(this);
-                fGraphicalViewer.getControl().setParent(fOldParent);
-                fOldParent.layout();
-                fNewShell.dispose();
-                fOldParent.getShell().setVisible(true);
-                fGraphicalViewer.getControl().setFocus();
+                close();
             }
             
             // Other key, find the action
@@ -94,12 +89,25 @@ public class FullScreenAction extends WorkbenchPartAction {
         }
     };
     
-    private static IMenuListener contextMenuListener = new IMenuListener() {
+    private IMenuListener contextMenuListener = new IMenuListener() {
         @Override
         public void menuAboutToShow(IMenuManager manager) {
             // Remove Actions that lead to loss of Shell focus
             manager.remove(SelectElementInTreeAction.ID);
             manager.remove(ActionFactory.PROPERTIES.getId());
+            
+            // Add this action
+            manager.add(new Action("Close Full Screen") {
+                @Override
+                public void run() {
+                    close();
+                };
+                
+                @Override
+                public int getAccelerator() {
+                    return SWT.ESC;
+                };
+            });
         }
     };
     
@@ -135,6 +143,16 @@ public class FullScreenAction extends WorkbenchPartAction {
         
         // Hide the old Shell
         fOldParent.getShell().setVisible(false);
+    }
+    
+    private void close() {
+        fGraphicalViewer.getContextMenu().removeMenuListener(contextMenuListener);
+        fGraphicalViewer.getControl().removeKeyListener(keyListener);
+        fGraphicalViewer.getControl().setParent(fOldParent);
+        fOldParent.layout();
+        fNewShell.dispose();
+        fOldParent.getShell().setVisible(true);
+        fGraphicalViewer.getControl().setFocus();
     }
 
     /**
