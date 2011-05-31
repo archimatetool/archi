@@ -131,7 +131,8 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().addKeyListener(keyListener);
 
         // Create new Shell
-        fNewShell = new Shell(SWT.RESIZE | SWT.APPLICATION_MODAL); // <-- Best options for all platforms, GTK is fussy
+        // SWT.SHELL_TRIM is best option for all platforms. GTK needs it for full-size shell and OS X Lion has bug with SWT.RESIZE
+        fNewShell = new Shell(SWT.SHELL_TRIM | SWT.APPLICATION_MODAL); 
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
         fNewShell.setLayout(new FillLayout());
