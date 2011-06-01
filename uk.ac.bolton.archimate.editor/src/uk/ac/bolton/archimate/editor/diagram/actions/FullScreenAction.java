@@ -13,6 +13,7 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
+import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -31,6 +32,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.keys.IBindingService;
 
+import uk.ac.bolton.archimate.editor.diagram.FloatingPalette;
+import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
+
 
 /**
  * Full Screen Action
@@ -45,6 +49,9 @@ public class FullScreenAction extends WorkbenchPartAction {
     private GraphicalViewer fGraphicalViewer;
     private Shell fNewShell;
     private Composite fOldParent;
+    private PaletteViewer fOldPaletteViewer;
+
+    private FloatingPalette fFloatingPalette;
     
     private class KeyBinding {
         public KeyBinding(int modKeys, int key, IAction action) {
@@ -96,7 +103,15 @@ public class FullScreenAction extends WorkbenchPartAction {
             manager.remove(SelectElementInTreeAction.ID);
             manager.remove(ActionFactory.PROPERTIES.getId());
             
-            // Add this action
+            if(!fFloatingPalette.isOpen()) {
+                manager.add(new Action("Show Palette") {
+                    @Override
+                    public void run() {
+                        fFloatingPalette.open();
+                    };
+                });
+            }
+            
             manager.add(new Action("Close Full Screen") {
                 @Override
                 public void run() {
@@ -118,11 +133,12 @@ public class FullScreenAction extends WorkbenchPartAction {
         setId(ID);
         setActionDefinitionId(getId()); // register key binding
     }
-
+    
     @Override
     public void run() {
         fGraphicalViewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
         fOldParent = fGraphicalViewer.getControl().getParent();
+        fOldPaletteViewer = fGraphicalViewer.getEditDomain().getPaletteViewer();
         
         addKeyBindings();
         
@@ -142,16 +158,27 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell.layout();
         fNewShell.open();
         
+        fFloatingPalette = new FloatingPalette((IDiagramModelEditor)((DefaultEditDomain)fGraphicalViewer.getEditDomain()).getEditorPart());
+        if(fFloatingPalette.getPaletteState().isOpen) {
+            fFloatingPalette.open();
+        }
+        
         // Hide the old Shell
         fOldParent.getShell().setVisible(false);
     }
     
     private void close() {
+        fFloatingPalette.close();
+        
         fGraphicalViewer.getContextMenu().removeMenuListener(contextMenuListener);
         fGraphicalViewer.getControl().removeKeyListener(keyListener);
+        
+        fGraphicalViewer.getEditDomain().setPaletteViewer(fOldPaletteViewer);
         fGraphicalViewer.getControl().setParent(fOldParent);
         fOldParent.layout();
+        
         fNewShell.dispose();
+        
         fOldParent.getShell().setVisible(true);
         fGraphicalViewer.getControl().setFocus();
     }

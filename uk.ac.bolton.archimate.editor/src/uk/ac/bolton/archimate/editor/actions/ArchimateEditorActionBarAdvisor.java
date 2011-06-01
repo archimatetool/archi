@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
@@ -242,7 +243,7 @@ extends ActionBarAdvisor {
                 "uk.ac.bolton.archimate.editor.action.showNavigatorView", INavigatorView.IMAGE_DESCRIPTOR);
         register(fShowNavigatorView);
 
-        fShowPaletteView = new ToggleViewAction("Palette", "org.eclipse.gef.ui.palette_view",
+        fShowPaletteView = new ToggleViewAction("Palette", PaletteView.ID,
                                     "uk.ac.bolton.archimate.editor.action.showPaletteView",
                                     AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.gef",
                                     "$nl$/icons/palette_view.gif")) {
