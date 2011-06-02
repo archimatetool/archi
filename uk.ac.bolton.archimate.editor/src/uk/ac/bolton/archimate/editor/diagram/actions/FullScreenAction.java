@@ -26,6 +26,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
@@ -34,6 +35,7 @@ import org.eclipse.ui.keys.IBindingService;
 
 import uk.ac.bolton.archimate.editor.diagram.FloatingPalette;
 import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 /**
@@ -147,8 +149,12 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().addKeyListener(keyListener);
 
         // Create new Shell
-        // SWT.SHELL_TRIM is best option for all platforms. GTK needs it for full-size shell and OS X Lion has bug with SWT.RESIZE
-        fNewShell = new Shell(SWT.SHELL_TRIM | SWT.APPLICATION_MODAL); 
+        // SWT.SHELL_TRIM is best option for all platforms. GTK needs it for full-size shell and OS X Lion has a bug with SWT.RESIZE
+        int style = SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
+        if(PlatformUtils.isMac()) {
+            style |= SWT.ON_TOP; // SWT.ON_TOP is needed on Mac to ensure Focus click-through
+        }
+        fNewShell = new Shell(Display.getCurrent(), style); 
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
         fNewShell.setLayout(new FillLayout());
@@ -158,7 +164,8 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell.layout();
         fNewShell.open();
         
-        fFloatingPalette = new FloatingPalette((IDiagramModelEditor)((DefaultEditDomain)fGraphicalViewer.getEditDomain()).getEditorPart());
+        fFloatingPalette = new FloatingPalette((IDiagramModelEditor)((DefaultEditDomain)fGraphicalViewer.getEditDomain()).getEditorPart(),
+                fNewShell);
         if(fFloatingPalette.getPaletteState().isOpen) {
             fFloatingPalette.open();
         }

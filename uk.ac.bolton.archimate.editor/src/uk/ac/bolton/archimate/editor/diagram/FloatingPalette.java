@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -32,6 +31,7 @@ import uk.ac.bolton.archimate.editor.utils.StringUtils;
 public class FloatingPalette {
 
     private IDiagramModelEditor fEditor;
+    private Shell fParentShell;
     private Shell fShell;
     private Composite fClient;
     private PalettePage fPalettePage;
@@ -47,8 +47,9 @@ public class FloatingPalette {
     
     private PaletteState fPaletteState = new PaletteState();
     
-    public FloatingPalette(IDiagramModelEditor editor) {
+    public FloatingPalette(IDiagramModelEditor editor, Shell parentShell) {
         fEditor = editor;
+        fParentShell = parentShell;
         loadState(); // Need to do this now in order to get state
     }
     
@@ -75,15 +76,14 @@ public class FloatingPalette {
     }
     
     private void createShell() {
-        Shell parentShell = Display.getCurrent().getActiveShell();
-        
-        fShell = new Shell(parentShell, SWT.TOOL | SWT.RESIZE | SWT.CLOSE);
+        // SWT.ON_TOP is needed on Mac to ensure Focus click-through
+        fShell = new Shell(fParentShell, SWT.TOOL | SWT.ON_TOP | SWT.RESIZE | SWT.CLOSE);
         
         if(fPaletteState.isTranslucent) {
             fShell.setAlpha(210);
         }
         
-        checkSafeBounds(parentShell);
+        checkSafeBounds(fParentShell);
         fShell.setBounds(fPaletteState.bounds);
         
         fShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_16));
