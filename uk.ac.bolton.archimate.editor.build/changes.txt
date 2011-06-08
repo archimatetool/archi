@@ -1,8 +1,8 @@
 Archi Changes
 -------------
 
-Version 2.0 July XX 2011
-------------------------
+Version 2.0 August XX 2011
+--------------------------
 + Dynamic Viewpoints
 + Can now add multiple occurrences of objects and connections in a View
 + Elements can have circular relationships and connections (self <---> self)
@@ -18,6 +18,7 @@ Version 2.0 July XX 2011
 + When adding a new model in the Model Tree the focus is put on in-place editing so you can edit its name
 + Added a preference to use curved or square tab style
 + "Archisurance" example updated to include Viewpoints and re-organised folders
++ Built on Eclipse 3.7 RCP
 * When closing a model close any of its open Views more gracefully
 * Optimisations to Property sections in Properties Window
 * Many internal optimisations
