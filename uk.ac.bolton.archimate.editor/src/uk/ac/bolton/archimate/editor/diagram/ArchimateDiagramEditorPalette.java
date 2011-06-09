@@ -9,18 +9,15 @@ package uk.ac.bolton.archimate.editor.diagram;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
-import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
-import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.palette.PaletteToolbar;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
-import org.eclipse.gef.tools.MarqueeSelectionTool;
 
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.MagicConnectionCreationTool;
@@ -39,7 +36,7 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateDiagramEditorPalette extends PaletteRoot {
+public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private FormatPainterToolEntry formatPainterEntry;
     
@@ -112,18 +109,9 @@ public class ArchimateDiagramEditorPalette extends PaletteRoot {
 
         // Use selection tool as default entry
         setDefaultEntry(tool);
-
-        // Marquee selection tool to select nodes and connections
-        MarqueeToolEntry marquee = new MarqueeToolEntry();
-        marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
-        group.add(marquee);
         
-        // Marquee selection tool to select connections only
-        marquee = new MarqueeToolEntry();
-        marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR, 
-                new Integer(MarqueeSelectionTool.BEHAVIOR_CONNECTIONS_TOUCHED));
-        group.add(marquee);
+        PaletteStack stack = createMarqueeSelectionStack();
+        group.add(stack);
         
         // Format Painter
         formatPainterEntry = new FormatPainterToolEntry();
