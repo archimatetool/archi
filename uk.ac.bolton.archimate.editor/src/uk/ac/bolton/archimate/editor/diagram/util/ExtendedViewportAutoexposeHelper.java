@@ -42,7 +42,7 @@ public class ExtendedViewportAutoexposeHelper extends ViewportAutoexposeHelper {
 		port.getClientArea(rect);
 		port.translateToParent(rect);
 		port.translateToAbsolute(rect);
-		if (!(continueIfOutside || rect.contains(where) ) || rect.crop(threshold).contains(where))
+		if (!(continueIfOutside || rect.contains(where) ) || rect.shrink(threshold).contains(where))
 			return false;
 		
 		// set scroll offset (speed factor)
@@ -62,7 +62,7 @@ public class ExtendedViewportAutoexposeHelper extends ViewportAutoexposeHelper {
         if (scrollOffset == 0)
             return true;
 
-        rect.crop(threshold);
+        rect.shrink(threshold);
 
         int region = rect.getPosition(where);
         Point loc = port.getViewLocation();
