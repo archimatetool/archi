@@ -31,6 +31,6 @@ Export-Package: .,
  org.w3c.dom,
  uk.ac.bolton.jdom
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .,
- jaxen-1.1.3.jar,
- jdom.jar
+Bundle-ClassPath: jaxen-1.1.3.jar,
+ jdom.jar,
+ uk.ac.bolton.jdom.jar
