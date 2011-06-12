@@ -7,12 +7,12 @@ Bundle-Activator: uk.ac.bolton.archimate.help.ArchimateEditorHelpPlugin
 Bundle-Vendor: Bolton University
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.runtime.compatibility;bundle-version="3.2.0",
+ org.eclipse.core.runtime.compatibility,
  org.eclipse.ui,
- org.eclipse.equinox.http.jetty;bundle-version="2.0.0",
- org.eclipse.help.ui;bundle-version="3.4.1",
- org.eclipse.help.webapp;bundle-version="3.4.1",
- org.eclipse.ui.cheatsheets;bundle-version="3.3.200",
+ org.eclipse.equinox.http.jetty,
+ org.eclipse.help.ui,
+ org.eclipse.help.webapp,
+ org.eclipse.ui.cheatsheets,
  uk.ac.bolton.archimate.editor
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: uk.ac.bolton.archimate.help.jar
