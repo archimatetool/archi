@@ -23,9 +23,9 @@ import org.jdom.Element;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
-import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
+import uk.ac.bolton.jdom.JDOMUtils;
 
 
 

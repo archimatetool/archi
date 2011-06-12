@@ -16,8 +16,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
-import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
+import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**

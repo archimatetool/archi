@@ -34,11 +34,11 @@ import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
 import uk.ac.bolton.archimate.editor.templates.ITemplateXMLTags;
 import uk.ac.bolton.archimate.editor.templates.ModelTemplate;
 import uk.ac.bolton.archimate.editor.templates.TemplateManager;
-import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
+import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**

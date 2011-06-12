@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JDOM and Jaxen Utils
+Bundle-SymbolicName: uk.ac.bolton.jdom
+Bundle-Version: 1.1.1.qualifier
+Bundle-Vendor: Bolton University
+Export-Package: .,
+ org.jaxen,
+ org.jaxen.dom,
+ org.jaxen.dom4j,
+ org.jaxen.expr,
+ org.jaxen.expr.iter,
+ org.jaxen.function,
+ org.jaxen.function.ext,
+ org.jaxen.function.xslt,
+ org.jaxen.javabean,
+ org.jaxen.jdom,
+ org.jaxen.pattern,
+ org.jaxen.saxpath,
+ org.jaxen.saxpath.base,
+ org.jaxen.saxpath.helpers,
+ org.jaxen.util,
+ org.jaxen.xom,
+ org.jdom,
+ org.jdom.adapters,
+ org.jdom.filter,
+ org.jdom.input,
+ org.jdom.output,
+ org.jdom.transform,
+ org.jdom.xpath,
+ org.w3c.dom,
+ uk.ac.bolton.jdom
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ jaxen-1.1.3.jar,
+ jdom.jar

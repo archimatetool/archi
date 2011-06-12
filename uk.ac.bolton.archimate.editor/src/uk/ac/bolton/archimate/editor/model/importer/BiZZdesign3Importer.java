@@ -28,7 +28,6 @@ import org.jdom.xpath.XPath;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
-import uk.ac.bolton.archimate.editor.utils.JDOMUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IAccessRelationship;
@@ -44,6 +43,7 @@ import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.IRelationship;
+import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**

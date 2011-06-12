@@ -6,19 +6,18 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: uk.ac.bolton.archimate.editor.ArchimateEditorPlugin
 Bundle-Vendor: Bolton University
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.core.runtime;bundle-version="3.5.0",
- org.eclipse.core.runtime.compatibility;bundle-version="3.2.0",
- org.eclipse.ui;bundle-version="3.5.1",
- org.eclipse.ui.forms;bundle-version="3.4.1",
- org.eclipse.ui.views;bundle-version="3.4.1",
- org.eclipse.ui.views.properties.tabbed;bundle-version="3.5.0",
- org.eclipse.help.ui;bundle-version="3.4.1",
- org.eclipse.gef;bundle-version="3.5.0";visibility:=reexport,
- uk.ac.bolton.archimate.model;visibility:=reexport
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.runtime.compatibility,
+ org.eclipse.gef;visibility:=reexport,
+ org.eclipse.help.ui,
+ org.eclipse.ui,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.views,
+ org.eclipse.ui.views.properties.tabbed,
+ uk.ac.bolton.archimate.model;visibility:=reexport,
+ uk.ac.bolton.jdom
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: uk.ac.bolton.archimate.editor.jar,
- lib/jdom.jar,
- lib/jaxen-1.1.3.jar,
  lib/org.eclipse.nebula.widgets.gallery_0.5.3.201011181341.jar
 Export-Package: .,
  uk.ac.bolton.archimate.editor,
