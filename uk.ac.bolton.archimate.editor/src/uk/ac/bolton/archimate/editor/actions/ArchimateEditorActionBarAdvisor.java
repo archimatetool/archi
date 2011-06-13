@@ -73,7 +73,6 @@ extends ActionBarAdvisor {
     
     private IWorkbenchAction fActionExportBiZZ;
     private IWorkbenchAction fActionExportCSV;
-    private IWorkbenchAction fActionExportHTML;
     
     private IWorkbenchAction fActionCut;
     private IWorkbenchAction fActionCopy;
@@ -161,10 +160,6 @@ extends ActionBarAdvisor {
         // Export to CSV
         fActionExportCSV = new ExportToCSVAction(window);
         register(fActionExportCSV);
-        
-        // Export to HTML Report
-        fActionExportHTML = new ExportAsHTMLReportAction(window);
-        register(fActionExportHTML);
         
         // Properties
         fActionProperties = ActionFactory.PROPERTIES.create(window);
@@ -328,7 +323,7 @@ extends ActionBarAdvisor {
         
         MenuManager reportMenu = new MenuManager("&Report", "report_menu");
         menu.add(reportMenu);
-        reportMenu.add(fActionExportHTML);
+        reportMenu.add(new GroupMarker("report_ext"));
         
         menu.add(new Separator());
         

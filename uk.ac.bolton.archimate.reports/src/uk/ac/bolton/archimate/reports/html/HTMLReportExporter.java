@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.model.export;
+package uk.ac.bolton.archimate.reports.html;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +34,6 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
-import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
@@ -56,7 +55,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  * 
  * @author Phillip Beauvoir
  */
-public class HTMLReportExporter implements IModelExporter {
+public class HTMLReportExporter {
     
     private IArchimateModel fModel;
     
@@ -64,7 +63,6 @@ public class HTMLReportExporter implements IModelExporter {
     
     private OutputStreamWriter writer;
     
-    @Override
     public void export(IArchimateModel model) throws IOException {
         fMainFolder = askSaveFolder();
         if(fMainFolder == null) {

@@ -1,38 +1,32 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.actions;
+package uk.ac.bolton.archimate.reports.html;
 
 import java.io.IOException;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.IWorkbenchWindow;
 
-import uk.ac.bolton.archimate.editor.model.IModelExporter;
-import uk.ac.bolton.archimate.editor.model.export.HTMLReportExporter;
 import uk.ac.bolton.archimate.model.IArchimateModel;
+import uk.ac.bolton.archimate.reports.AbstractModelSelectionReportAction;
+
 
 /**
- * Export to HTML Report Action
+ * HTML Report Action
  * 
  * @author Phillip Beauvoir
  */
-public class ExportAsHTMLReportAction extends AbstractModelSelectionAction {
-    
-    public ExportAsHTMLReportAction(IWorkbenchWindow window) {
-        super("HTML...", window);
-        setId("uk.ac.bolton.archimate.editor.action.exportHTML");
-    }
+public class HTMLReportAction extends AbstractModelSelectionReportAction {
     
     @Override
     public void run() {
         IArchimateModel model = getActiveArchimateModel();
         if(model != null) {
             try {
-                IModelExporter exporter = new HTMLReportExporter();
+                HTMLReportExporter exporter = new HTMLReportExporter();
                 exporter.export(model);
             }
             catch(IOException ex) {
@@ -42,8 +36,4 @@ public class ExportAsHTMLReportAction extends AbstractModelSelectionAction {
         }
     }
     
-    @Override
-    protected void updateState() {
-        setEnabled(getActiveArchimateModel() != null);
-    }
 }

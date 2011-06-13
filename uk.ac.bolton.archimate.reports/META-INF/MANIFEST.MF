@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Archi Reports
+Bundle-SymbolicName: uk.ac.bolton.archimate.reports;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bolton University
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ uk.ac.bolton.archimate.editor
+Bundle-ClassPath: uk.ac.bolton.archimate.reports.jar
+Bundle-Activator: uk.ac.bolton.archimate.reports.ArchimateEditorReportsPlugin
+Bundle-ActivationPolicy: lazy

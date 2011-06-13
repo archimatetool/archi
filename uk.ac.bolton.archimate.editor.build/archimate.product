@@ -105,6 +105,7 @@
       <plugin id="uk.ac.bolton.archimate.editor.launch.win32" fragment="true"/>
       <plugin id="uk.ac.bolton.archimate.help"/>
       <plugin id="uk.ac.bolton.archimate.model"/>
+      <plugin id="uk.ac.bolton.archimate.reports"/>
       <plugin id="uk.ac.bolton.jdom"/>
    </plugins>
 
