@@ -49,25 +49,33 @@ public abstract class AbstractModelSelectionAction extends Action implements IWo
             updateState();
         }
     };
+    
+    protected AbstractModelSelectionAction() {
+        setEnabled(false);
+    }
 
     protected AbstractModelSelectionAction(String text, IWorkbenchWindow window) {
         super(text);
+        setWorkbenchWindow(window);
+        setEnabled(false);
+    }
+    
+    /**
+     * Set the WorkbenchWindow and register this Action with the Part Service Part Listener
+     * @param window
+     */
+    public void setWorkbenchWindow(IWorkbenchWindow window) {
         workbenchWindow = window;
         workbenchWindow.getPartService().addPartListener(this);
-        setEnabled(false);
     }
     
     // ------------------ Part Listener --------------------------
 
     public void partOpened(IWorkbenchPart part) {
-        if(part instanceof IModelSelectionView) {
-            ((IModelSelectionView)part).getSelectionProvider().addSelectionChangedListener(selectionListener);
-        }
     }
 
     public void partClosed(IWorkbenchPart part) {
         if(part instanceof IModelSelectionView) {
-            ((IModelSelectionView)part).getSelectionProvider().removeSelectionChangedListener(selectionListener);
             activeModelView = null;
             updateState();
         }
@@ -83,6 +91,7 @@ public abstract class AbstractModelSelectionAction extends Action implements IWo
         if(part instanceof IModelSelectionView) {
             activeModelView = (IModelSelectionView)part;
             activeEditor = null;
+            ((IModelSelectionView)part).getSelectionProvider().addSelectionChangedListener(selectionListener);
         }
         else if(part instanceof IDiagramModelEditor) {
             activeEditor = (IEditorPart)part;
@@ -91,6 +100,9 @@ public abstract class AbstractModelSelectionAction extends Action implements IWo
     }
     
     public void partDeactivated(IWorkbenchPart part) {
+        if(part instanceof IModelSelectionView) {
+            ((IModelSelectionView)part).getSelectionProvider().removeSelectionChangedListener(selectionListener);
+        }
     }
     
     public void partBroughtToTop(IWorkbenchPart part) {
