@@ -27,12 +27,13 @@ public class HTMLUtils {
     // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?"             // Original
     // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%~&=]*)?"            // Added ~
     // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=]*)?"             // Removed space
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~#!&=\\(\\)]*)?";    // Added \\( and \\)
+    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=\\(\\)]*)?"       // Added \\( and \\)
+    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~#!&=\\(\\)]*)?";    // Added # and !
     
     /**
      * The reg expression for HTML links
      */
-    public static final String HTML_LINK_REGEX = "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~#!&=\\(\\)]*)?";  // Added # and !
+    public static final String HTML_LINK_REGEX = "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!:&=\\(\\)]*)?";  // Removed leading / and added :
     
     /**
      * The compiled pattern to match HTML links
