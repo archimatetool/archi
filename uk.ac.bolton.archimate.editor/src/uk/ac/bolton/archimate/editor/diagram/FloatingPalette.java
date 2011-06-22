@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 
@@ -76,8 +77,11 @@ public class FloatingPalette {
     }
     
     private void createShell() {
-        // SWT.ON_TOP is needed on Mac to ensure Focus click-through
-        fShell = new Shell(fParentShell, SWT.TOOL | SWT.ON_TOP | SWT.RESIZE | SWT.CLOSE);
+        int style = SWT.TOOL | SWT.RESIZE | SWT.CLOSE;
+        if(PlatformUtils.isMac()) {
+            style |= SWT.ON_TOP; // SWT.ON_TOP is needed on Mac to ensure Focus click-through, but doesn't work on GTK
+        }
+        fShell = new Shell(fParentShell, style);
         
         if(fPaletteState.isTranslucent) {
             fShell.setAlpha(210);
