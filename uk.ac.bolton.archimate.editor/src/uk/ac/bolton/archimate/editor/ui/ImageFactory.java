@@ -37,6 +37,9 @@ public class ImageFactory {
     
     public static final String ECLIPSE_IMAGE_NEW_WIZARD = "new_wizard"; //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_IMPORT_PREF_WIZARD = "import_pref_wizard";  //$NON-NLS-1$
+    public static final String ECLIPSE_IMAGE_EXPORT_PREF_WIZARD = "export_pref_wizard"; //$NON-NLS-1$
+    public static final String ECLIPSE_IMAGE_IMPORT_DIR_WIZARD = "import_dir_wizard"; //$NON-NLS-1$
+    public static final String ECLIPSE_IMAGE_EXPORT_DIR_WIZARD = "export_dir_wizard"; //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON = "properties_view"; //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_OUTLINE_VIEW_ICON = "outline_view"; //$NON-NLS-1$
     public static final String ECLIPSE_IMAGE_FILE = "file"; //$NON-NLS-1$
@@ -196,6 +199,18 @@ public class ImageFactory {
         // Import Prefs Wizard
         if(ECLIPSE_IMAGE_IMPORT_PREF_WIZARD.equals(imageName)) {
             return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/importpref_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        // Export Prefs Wizard
+        if(ECLIPSE_IMAGE_EXPORT_PREF_WIZARD.equals(imageName)) {
+            return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/exportpref_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        // Import Dir Wizard
+        if(ECLIPSE_IMAGE_IMPORT_DIR_WIZARD.equals(imageName)) {
+            return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/importdir_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        // Export Dir Wizard
+        if(ECLIPSE_IMAGE_EXPORT_DIR_WIZARD.equals(imageName)) {
+            return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/exportdir_wiz.png"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // User image, cache it
