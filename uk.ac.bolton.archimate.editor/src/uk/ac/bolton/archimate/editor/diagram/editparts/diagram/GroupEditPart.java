@@ -24,13 +24,12 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.GroupFigure;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 
 /**
@@ -105,7 +104,7 @@ implements IColoredEditPart, ITextEditPart {
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
-                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                    showPropertiesView();
                 }
             }
             else {

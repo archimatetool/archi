@@ -169,7 +169,7 @@ implements IDiagramConnectionEditPart {
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
-                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                    showPropertiesView();
                 }
             }
             else {
@@ -251,6 +251,23 @@ implements IDiagramConnectionEditPart {
         }
     }
         
+    /**
+     * @return True if this EditPart's Viewer is in Full Screen Mode
+     */
+    protected boolean isInFullScreenMode() {
+        return getViewer() != null && getViewer().getProperty("full_screen") != null;
+    }
+    
+    /**
+     * Show the Properties View.
+     * This will have no effect if the Viewer is in Full Screen Mode.
+     */
+    protected void showPropertiesView() {
+        if(!isInFullScreenMode()) {
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+        }
+    }
+
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {

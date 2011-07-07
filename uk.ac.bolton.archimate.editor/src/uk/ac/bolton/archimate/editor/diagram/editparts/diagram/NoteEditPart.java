@@ -24,7 +24,6 @@ import uk.ac.bolton.archimate.editor.diagram.figures.diagram.NoteFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 
@@ -68,7 +67,7 @@ implements IColoredEditPart, ITextAlignedEditPart {
         }
         else if(req.getType() == RequestConstants.REQ_OPEN) {
             // Show Properties view
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            showPropertiesView();
         }
     }
 

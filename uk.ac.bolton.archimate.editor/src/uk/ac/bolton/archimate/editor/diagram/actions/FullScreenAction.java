@@ -142,6 +142,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         fOldParent = fGraphicalViewer.getControl().getParent();
         fOldPaletteViewer = fGraphicalViewer.getEditDomain().getPaletteViewer();
         
+        // Set Property so clients know this is in full screen mode
+        fGraphicalViewer.setProperty("full_screen", true);
+        
         addKeyBindings();
         
         // Add key and menu listeners
@@ -188,6 +191,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         
         fOldParent.getShell().setVisible(true);
         fGraphicalViewer.getControl().setFocus();
+        
+        // Reset Property
+        fGraphicalViewer.setProperty("full_screen", null);
     }
 
     /**

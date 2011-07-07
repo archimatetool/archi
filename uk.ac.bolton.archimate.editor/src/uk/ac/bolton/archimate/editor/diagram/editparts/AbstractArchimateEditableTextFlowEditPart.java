@@ -23,7 +23,6 @@ import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateContainerLayoutPo
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 /**
  * Edit Part with connections and editable text flow control
@@ -85,7 +84,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
-                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                    showPropertiesView();
                 }
             }
             else {

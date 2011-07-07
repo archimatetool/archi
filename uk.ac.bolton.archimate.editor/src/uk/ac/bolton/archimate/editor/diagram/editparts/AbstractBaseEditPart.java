@@ -16,6 +16,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IProperties;
 
@@ -145,6 +146,23 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
             if(editPart instanceof AbstractBaseEditPart) {
                 ((AbstractBaseEditPart)editPart).refreshChildrenFigures();
             }
+        }
+    }
+    
+    /**
+     * @return True if this EditPart's Viewer is in Full Screen Mode
+     */
+    protected boolean isInFullScreenMode() {
+        return getViewer() != null && getViewer().getProperty("full_screen") != null;
+    }
+    
+    /**
+     * Show the Properties View.
+     * This will have no effect if the Viewer is in Full Screen Mode.
+     */
+    protected void showPropertiesView() {
+        if(!isInFullScreenMode()) {
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
     }
     

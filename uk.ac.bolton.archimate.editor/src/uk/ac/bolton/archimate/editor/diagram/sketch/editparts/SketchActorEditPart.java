@@ -22,7 +22,6 @@ import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.SketchActorFigure;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 
@@ -77,7 +76,7 @@ implements IColoredEditPart, ITextEditPart  {
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
-                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                    showPropertiesView();
                 }
             }
             else {

@@ -101,8 +101,10 @@ implements IColoredEditPart, ITextAlignedEditPart {
     @Override
     public void performRequest(Request req) {
         if(req.getType() == RequestConstants.REQ_OPEN) {
-            // Open Diagram
-            EditorManager.openDiagramEditor(((IDiagramModelReference)getModel()).getReferencedModel());
+            // Open Diagram if not in Full Screen Mode
+            if(!isInFullScreenMode()) {
+                EditorManager.openDiagramEditor(((IDiagramModelReference)getModel()).getReferencedModel());
+            }
         }
     }
 }

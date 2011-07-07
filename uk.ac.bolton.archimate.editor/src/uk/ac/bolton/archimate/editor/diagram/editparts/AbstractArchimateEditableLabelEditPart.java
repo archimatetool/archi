@@ -16,7 +16,6 @@ import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 /**
  * Edit Part with connections and editable label
@@ -59,7 +58,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
-                    ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                    showPropertiesView();
                 }
             }
             else {

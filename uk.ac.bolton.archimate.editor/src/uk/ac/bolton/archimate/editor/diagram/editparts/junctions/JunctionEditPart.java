@@ -18,7 +18,6 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.INonResizableEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.junctions.JunctionFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 /**
  * Junction Edit Part
@@ -56,7 +55,7 @@ implements INonResizableEditPart {
     public void performRequest(Request request) {
         if(request.getType() == RequestConstants.REQ_OPEN) {
             // Show Properties View
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            showPropertiesView();
         }
     }
     
