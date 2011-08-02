@@ -9,8 +9,10 @@ package uk.ac.bolton.archimate.editor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -67,10 +69,10 @@ extends WorkbenchWindowAdvisor {
         }
         
         // It translates to this...
-        //getWindowConfigurer().getWindow().getShell().view.window().setCollectionBehavior(1 << 7);
+        // PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().view.window().setCollectionBehavior(1 << 7);
 
         try {
-            Shell shell = getWindowConfigurer().getWindow().getShell();
+            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
             
             Field fieldView = Control.class.getDeclaredField("view");
             Object nsView = fieldView.get(shell);
@@ -78,7 +80,9 @@ extends WorkbenchWindowAdvisor {
             Method methodWindow = fieldView.getType().getDeclaredMethod("window", new Class[] {});
             Object nsWindow = methodWindow.invoke(nsView, new Object[] {});
             
-            Method methodSetCollectionBehavior = nsWindow.getClass().getDeclaredMethod("setCollectionBehavior", long.class);
+            // 32-bit OS X uses int as parameter, 64-bit uses long
+            boolean is64bit = System.getProperty("os.arch").equals(Platform.ARCH_X86_64);
+            Method methodSetCollectionBehavior = nsWindow.getClass().getDeclaredMethod("setCollectionBehavior", is64bit ? long.class : int.class);
             methodSetCollectionBehavior.invoke(nsWindow, 1 << 7);
         }
         catch(Exception ex) {
