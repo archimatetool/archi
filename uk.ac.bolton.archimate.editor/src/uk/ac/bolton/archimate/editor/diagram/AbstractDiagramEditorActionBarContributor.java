@@ -154,9 +154,6 @@ extends ActionBarContributor {
     @Override
     public void contributeToMenu(IMenuManager menuManager) {
         createViewMenu(menuManager);
-        
-        IMenuManager windowMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_WINDOW);
-        windowMenu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, getAction(FullScreenAction.ID));
     }
     
     /**
@@ -168,6 +165,9 @@ extends ActionBarContributor {
         
         viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
         viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
+        viewMenu.add(new Separator());
+        
+        viewMenu.add(getAction(FullScreenAction.ID));
         viewMenu.add(new Separator());
         
         viewMenu.add(getAction(SnapToGrid.PROPERTY_GRID_ENABLED));
