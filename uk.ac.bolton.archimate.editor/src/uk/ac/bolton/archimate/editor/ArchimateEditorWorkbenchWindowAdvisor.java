@@ -27,6 +27,9 @@ extends WorkbenchWindowAdvisor {
      */
     public ArchimateEditorWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         super(configurer);
+        
+        // Don't want wasted space in status bar
+        configurer.setShowStatusLine(false);
     }
 
     /* (non-Javadoc)
