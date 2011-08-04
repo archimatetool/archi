@@ -67,9 +67,6 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionProperties;
     private IWorkbenchAction fActionPrint;
     
-    private IWorkbenchAction fActionImportBiZZ;
-    
-    private IWorkbenchAction fActionExportBiZZ;
     private IWorkbenchAction fActionExportCSV;
     
     private IWorkbenchAction fActionCut;
@@ -138,14 +135,6 @@ extends ActionBarAdvisor {
         // Save As
         fActionSaveAs = ArchimateEditorActionFactory.SAVE_AS.create(window);
         register(fActionSaveAs);
-        
-        // Import from BiZZdesign Architect
-        fActionImportBiZZ = new ImportFromBiZZAction(window);
-        register(fActionImportBiZZ);
-        
-        // Export to BiZZdesign Architect
-        fActionExportBiZZ = new ExportToBiZZAction(window);
-        register(fActionExportBiZZ);
         
         // Export to CSV
         fActionExportCSV = new ExportToCSVAction(window);
@@ -297,14 +286,12 @@ extends ActionBarAdvisor {
         
         MenuManager importMenu = new MenuManager("&Import", "import_menu");
         menu.add(importMenu);
-        importMenu.add(fActionImportBiZZ);
         addImportModelExtensionMenuItems(window, importMenu);
         importMenu.add(new GroupMarker("import_ext"));
         importMenu.add(new Separator());
         
         MenuManager exportMenu = new MenuManager("&Export", "export_menu");
         menu.add(exportMenu);
-        exportMenu.add(fActionExportBiZZ);
         exportMenu.add(fActionExportCSV);
         addExportModelExtensionMenuItems(window, exportMenu);
         exportMenu.add(new GroupMarker("export_ext"));

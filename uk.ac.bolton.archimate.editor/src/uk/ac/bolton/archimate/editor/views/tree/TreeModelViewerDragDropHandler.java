@@ -7,7 +7,6 @@
 package uk.ac.bolton.archimate.editor.views.tree;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
@@ -28,9 +27,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TreeItem;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
-import uk.ac.bolton.archimate.editor.model.importer.ImportManager;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.tree.commands.MoveFolderCommand;
 import uk.ac.bolton.archimate.editor.views.tree.commands.MoveObjectCommand;
@@ -204,18 +201,6 @@ public class TreeModelViewerDragDropHandler {
                     if(file.getName().toLowerCase().endsWith(IEditorModelManager.ARCHIMATE_FILE_EXTENSION)
                             && !IEditorModelManager.INSTANCE.isModelLoaded(file)) {
                         IEditorModelManager.INSTANCE.openModel(file);
-                    }
-                    // Other type
-                    else {
-                        try {
-                            IModelImporter importer = ImportManager.getImporter(file);
-                            if(importer != null) {
-                                importer.doImport();
-                            }
-                        }
-                        catch(IOException ex) {
-                            ex.printStackTrace();
-                        }
                     }
                 }
             }
