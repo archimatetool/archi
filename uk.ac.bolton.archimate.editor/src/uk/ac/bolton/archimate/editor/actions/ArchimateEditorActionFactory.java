@@ -155,23 +155,6 @@ public final class ArchimateEditorActionFactory {
     };
     
     /**
-     * A Retargetable Action to Save As Template
-     */
-    public static final ActionFactory SAVE_AS_TEMPLATE = new ActionFactory("save_as_template", //$NON-NLS-1$
-                                "uk.ac.bolton.archimate.editor.action.saveAsTemplate") {
-        
-        @Override
-        public IWorkbenchAction create(IWorkbenchWindow window) {
-            if (window == null) {
-                throw new IllegalArgumentException();
-            }
-            IWorkbenchAction action = new SaveAsTemplateAction(window);
-            action.setId(getId());
-            return action;
-        }
-    };
-    
-    /**
      * A Retargetable Action to Duplicate
      */
     public static final ActionFactory DUPLICATE = new ActionFactory("duplicate", //$NON-NLS-1$

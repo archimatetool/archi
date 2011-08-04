@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates;
+package uk.ac.bolton.archimate.templates.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import org.jdom.Element;
 
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
+import uk.ac.bolton.archimate.templates.ArchimateEditorTemplatesPlugin;
 import uk.ac.bolton.jdom.JDOMUtils;
 
 
@@ -102,7 +103,7 @@ public class TemplateManager implements ITemplateXMLTags {
     
     private ITemplateGroup loadInbuiltTemplates() {
         ITemplateGroup group = new TemplateGroup("Installed Templates");
-        File folder = ArchimateEditorPlugin.INSTANCE.getTemplatesFolder();
+        File folder = ArchimateEditorTemplatesPlugin.INSTANCE.getTemplatesFolder();
         if(folder.exists()) {
             for(File file : folder.listFiles()) {
                 if(file.getName().toLowerCase().endsWith(ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {

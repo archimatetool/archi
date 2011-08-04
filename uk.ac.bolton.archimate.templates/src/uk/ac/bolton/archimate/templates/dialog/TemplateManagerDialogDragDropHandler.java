@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.dialog;
+package uk.ac.bolton.archimate.templates.dialog;
 
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -18,8 +18,8 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
 
-import uk.ac.bolton.archimate.editor.templates.ITemplate;
-import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
+import uk.ac.bolton.archimate.templates.model.ITemplate;
+import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 
 
 

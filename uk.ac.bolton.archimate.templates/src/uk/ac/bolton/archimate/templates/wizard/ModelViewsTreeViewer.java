@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.wizard;
+package uk.ac.bolton.archimate.templates.wizard;
 
 import java.util.ArrayList;
 import java.util.List;

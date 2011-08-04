@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.wizard;
+package uk.ac.bolton.archimate.templates.wizard;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -29,15 +29,15 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
-import uk.ac.bolton.archimate.editor.templates.ITemplate;
-import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
-import uk.ac.bolton.archimate.editor.templates.ITemplateXMLTags;
-import uk.ac.bolton.archimate.editor.templates.ModelTemplate;
-import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
+import uk.ac.bolton.archimate.templates.model.ITemplate;
+import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
+import uk.ac.bolton.archimate.templates.model.ITemplateXMLTags;
+import uk.ac.bolton.archimate.templates.model.ModelTemplate;
+import uk.ac.bolton.archimate.templates.model.TemplateManager;
 import uk.ac.bolton.jdom.JDOMUtils;
 
 

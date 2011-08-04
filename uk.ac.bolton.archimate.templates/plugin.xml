@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="uk.ac.bolton.archimate.templates.actionSet"
+            label="Templates"
+            visible="true">
+         <action
+               class="uk.ac.bolton.archimate.templates.NewArchimateModelFromTemplateAction"
+               icon="img/newfile.gif"
+               id="uk.ac.bolton.archimate.templates.newArchimateModelFromTemplate"
+               label="Model From &amp;Template..."
+               menubarPath="file/new_menu/new_menu.ext">
+         </action>
+         <action
+               class="uk.ac.bolton.archimate.templates.SaveAsTemplateAction"
+               id="uk.ac.bolton.archimate.templates.saveAsTemplate"
+               label="Save As &amp;Template..."
+               menubarPath="file/save.ext">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup>
+      </startup>
+   </extension>
+
+</plugin>

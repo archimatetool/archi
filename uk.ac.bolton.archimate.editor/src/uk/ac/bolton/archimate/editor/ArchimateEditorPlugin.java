@@ -95,13 +95,6 @@ public class ArchimateEditorPlugin extends AbstractUIPlugin {
     }
     
     /**
-     * @return The templates folder
-     */
-    public File getTemplatesFolder() {
-        return new File(getPluginFolder(), "templates"); //$NON-NLS-1$
-    }
-    
-    /**
      * @return The Workspace folder
      */
     public File getWorkspaceFolder() {

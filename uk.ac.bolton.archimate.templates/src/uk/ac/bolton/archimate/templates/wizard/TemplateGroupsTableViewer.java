@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.wizard;
+package uk.ac.bolton.archimate.templates.wizard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
-import uk.ac.bolton.archimate.editor.templates.TemplateManager;
+import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
+import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
 /**
  * Templates Groups Table Viewer

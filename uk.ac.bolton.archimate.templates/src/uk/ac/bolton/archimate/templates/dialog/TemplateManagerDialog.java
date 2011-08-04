@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.dialog;
+package uk.ac.bolton.archimate.templates.dialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,15 +41,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.templates.ITemplate;
-import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
-import uk.ac.bolton.archimate.editor.templates.ModelTemplate;
-import uk.ac.bolton.archimate.editor.templates.TemplateGroup;
-import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.templates.model.ITemplate;
+import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
+import uk.ac.bolton.archimate.templates.model.ModelTemplate;
+import uk.ac.bolton.archimate.templates.model.TemplateGroup;
+import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
 
 /**

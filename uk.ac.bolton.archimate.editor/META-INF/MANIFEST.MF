@@ -17,8 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.bolton.archimate.model;visibility:=reexport,
  uk.ac.bolton.jdom
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: uk.ac.bolton.archimate.editor.jar,
- lib/org.eclipse.nebula.widgets.gallery_0.5.3.201011181341.jar
+Bundle-ClassPath: uk.ac.bolton.archimate.editor.jar
 Export-Package: .,
  uk.ac.bolton.archimate.editor,
  uk.ac.bolton.archimate.editor.actions,
@@ -56,9 +55,6 @@ Export-Package: .,
  uk.ac.bolton.archimate.editor.model.viewpoints,
  uk.ac.bolton.archimate.editor.perspectives,
  uk.ac.bolton.archimate.editor.propertysections,
- uk.ac.bolton.archimate.editor.templates,
- uk.ac.bolton.archimate.editor.templates.dialog,
- uk.ac.bolton.archimate.editor.templates.wizard,
  uk.ac.bolton.archimate.editor.ui,
  uk.ac.bolton.archimate.editor.ui.components,
  uk.ac.bolton.archimate.editor.ui.services,

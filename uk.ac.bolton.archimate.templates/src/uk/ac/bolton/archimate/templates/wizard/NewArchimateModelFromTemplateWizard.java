@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.wizard;
+package uk.ac.bolton.archimate.templates.wizard;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +15,12 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.templates.ITemplate;
-import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.editor.views.tree.TreeEditElementRequest;
 import uk.ac.bolton.archimate.model.IArchimateModel;
+import uk.ac.bolton.archimate.templates.model.ITemplate;
+import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
 
 /**

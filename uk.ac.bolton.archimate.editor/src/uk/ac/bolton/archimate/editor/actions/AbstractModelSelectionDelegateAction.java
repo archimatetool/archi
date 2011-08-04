@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.reports;
+package uk.ac.bolton.archimate.editor.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -17,14 +17,16 @@ import uk.ac.bolton.archimate.editor.actions.AbstractModelSelectionAction;
 
 
 /**
- * Abstract Report Action that updates depending on the currently selected Model
+ * Abstract Delegate Action that updates depending on the currently selected Model.
+ * 
+ * Use this for plugins.
  * 
  * We have to implement IActionDelegate2 so that we get an init(IAction action) which is called
- * because our plugin implements IStartup
+ * because plugins implements IStartup
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractModelSelectionReportAction extends AbstractModelSelectionAction
+public abstract class AbstractModelSelectionDelegateAction extends AbstractModelSelectionAction
 implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
     
     /**

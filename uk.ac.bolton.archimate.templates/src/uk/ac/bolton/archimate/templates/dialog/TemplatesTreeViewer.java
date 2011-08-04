@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.dialog;
+package uk.ac.bolton.archimate.templates.dialog;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.bolton.archimate.editor.templates.ITemplate;
-import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.templates.model.ITemplate;
+import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 
 
 /**

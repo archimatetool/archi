@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.templates.wizard;
+package uk.ac.bolton.archimate.templates.wizard;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -25,12 +25,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.templates.ITemplateGroup;
-import uk.ac.bolton.archimate.editor.templates.TemplateGroup;
-import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
+import uk.ac.bolton.archimate.templates.model.TemplateGroup;
+import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
 
 /**

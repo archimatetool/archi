@@ -55,7 +55,6 @@ public class ArchimateEditorActionBarAdvisor
 extends ActionBarAdvisor {
     
     private IWorkbenchAction fActionNewArchimateModel;
-    private IWorkbenchAction fActionNewArchimateModelFromTemplate;
     private IWorkbenchAction fActionOpenModel;
     private IWorkbenchAction fActionOpenDiagram;
     private IWorkbenchAction fActionCloseModel;
@@ -63,7 +62,6 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionCloseAllEditors;
     private IWorkbenchAction fActionSave;
     private IWorkbenchAction fActionSaveAs;
-    private IWorkbenchAction fActionSaveAsTemplate;
     private IWorkbenchAction fActionQuit;
     private IWorkbenchAction fActionAbout;
     private IWorkbenchAction fActionProperties;
@@ -115,10 +113,6 @@ extends ActionBarAdvisor {
         fActionNewArchimateModel = new NewArchimateModelAction();
         register(fActionNewArchimateModel);
         
-        // New Archimate model from Template
-        fActionNewArchimateModelFromTemplate = new NewArchimateModelFromTemplateAction(window);
-        register(fActionNewArchimateModelFromTemplate);
-        
         // Open Diagram
         fActionOpenDiagram = ArchimateEditorActionFactory.OPEN_DIAGRAM.create(window);
         register(fActionOpenDiagram);
@@ -144,10 +138,6 @@ extends ActionBarAdvisor {
         // Save As
         fActionSaveAs = ArchimateEditorActionFactory.SAVE_AS.create(window);
         register(fActionSaveAs);
-        
-        // Save As Template
-        fActionSaveAsTemplate = ArchimateEditorActionFactory.SAVE_AS_TEMPLATE.create(window);
-        register(fActionSaveAsTemplate);
         
         // Import from BiZZdesign Architect
         fActionImportBiZZ = new ImportFromBiZZAction(window);
@@ -279,7 +269,7 @@ extends ActionBarAdvisor {
         MenuManager newMenu = new MenuManager("&New", "new_menu");
         menu.add(newMenu);
         newMenu.add(fActionNewArchimateModel);
-        newMenu.add(fActionNewArchimateModelFromTemplate);
+        newMenu.add(new GroupMarker("new_menu.ext"));
         menu.add(new GroupMarker(IWorkbenchActionConstants.NEW_EXT));
         
         menu.add(fActionOpenModel);
@@ -299,7 +289,6 @@ extends ActionBarAdvisor {
 
         menu.add(fActionSave);
         menu.add(fActionSaveAs);
-        menu.add(fActionSaveAsTemplate);
         menu.add(new GroupMarker(IWorkbenchActionConstants.SAVE_EXT));
         menu.add(new Separator());
         
@@ -489,11 +478,12 @@ extends ActionBarAdvisor {
         coolBarManager.add(new ToolBarContributionItem(toolBarFile, "toolbar_file")); //$NON-NLS-1$
         
         toolBarFile.add(new GroupMarker("start")); //$NON-NLS-1$
+        
         // New
         NewDropDownAction newDropDown = new NewDropDownAction();
         newDropDown.add(fActionNewArchimateModel);
-        newDropDown.add(fActionNewArchimateModelFromTemplate);
         toolBarFile.add(newDropDown);
+        
         toolBarFile.add(fActionOpenModel);
         toolBarFile.add(fActionSave);
         toolBarFile.add(new GroupMarker("end")); //$NON-NLS-1$

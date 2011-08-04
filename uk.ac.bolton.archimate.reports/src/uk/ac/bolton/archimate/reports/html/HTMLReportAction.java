@@ -10,8 +10,8 @@ import java.io.IOException;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import uk.ac.bolton.archimate.editor.actions.AbstractModelSelectionDelegateAction;
 import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.reports.AbstractModelSelectionReportAction;
 
 
 /**
@@ -19,7 +19,7 @@ import uk.ac.bolton.archimate.reports.AbstractModelSelectionReportAction;
  * 
  * @author Phillip Beauvoir
  */
-public class HTMLReportAction extends AbstractModelSelectionReportAction {
+public class HTMLReportAction extends AbstractModelSelectionDelegateAction {
     
     @Override
     public void run() {
