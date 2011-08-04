@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="uk.ac.bolton.archimate.editor.exportHandler">
+      <exportHandler
+            class="uk.ac.bolton.archimate.csv.CSVExporter"
+            id="uk.ac.bolton.archimate.csv.exportHandler"
+            label="Model To CSV...">
+      </exportHandler>
+   </extension>
+
+</plugin>

@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.editor.model.export;
+package uk.ac.bolton.archimate.csv;
 
 import java.io.File;
 import java.io.FileOutputStream;

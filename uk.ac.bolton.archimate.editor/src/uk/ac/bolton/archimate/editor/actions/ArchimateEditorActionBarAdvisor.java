@@ -67,8 +67,6 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionProperties;
     private IWorkbenchAction fActionPrint;
     
-    private IWorkbenchAction fActionExportCSV;
-    
     private IWorkbenchAction fActionCut;
     private IWorkbenchAction fActionCopy;
     private IWorkbenchAction fActionPaste;
@@ -135,10 +133,6 @@ extends ActionBarAdvisor {
         // Save As
         fActionSaveAs = ArchimateEditorActionFactory.SAVE_AS.create(window);
         register(fActionSaveAs);
-        
-        // Export to CSV
-        fActionExportCSV = new ExportToCSVAction(window);
-        register(fActionExportCSV);
         
         // Properties
         fActionProperties = ActionFactory.PROPERTIES.create(window);
@@ -292,7 +286,6 @@ extends ActionBarAdvisor {
         
         MenuManager exportMenu = new MenuManager("&Export", "export_menu");
         menu.add(exportMenu);
-        exportMenu.add(fActionExportCSV);
         addExportModelExtensionMenuItems(window, exportMenu);
         exportMenu.add(new GroupMarker("export_ext"));
         exportMenu.add(new Separator());
