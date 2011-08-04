@@ -73,11 +73,18 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
                                         IEditorModelManager.PROPERTY_MODEL_SAVED == evt.getPropertyName()) {
             
             IArchimateModel model = (IArchimateModel)evt.getNewValue();
-            if(model != null && model.getFile() != null && model.getFile().exists()) {
+            if(model != null && model.getFile() != null && !isTempFile(model.getFile()) && model.getFile().exists()) {
                 addToList(model.getFile());
                 createMenuItems();
             }
         }
+    }
+    
+    /**
+     * Don't show temp files
+     */
+    private boolean isTempFile(File file) {
+        return file != null && file.getName().startsWith("~");
     }
     
     private void addToList(File file) {

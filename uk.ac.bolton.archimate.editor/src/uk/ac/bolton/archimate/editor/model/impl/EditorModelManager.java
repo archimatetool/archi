@@ -39,7 +39,6 @@ import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.IncompatibleModelVersionException;
 import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.LaterModelVersionException;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.templates.TemplateManager;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
 import uk.ac.bolton.archimate.model.FolderType;
@@ -164,11 +163,6 @@ implements IEditorModelManager {
                 }
             }
             
-            // Temporary file created from Template Manager, so set file to null
-            if(file.getName().startsWith(TemplateManager.ARCHIMATE_TEMPLATE_FILE_TMP_PREFIX)) {
-                model.setFile(null);
-            }
-
             firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
         }
         

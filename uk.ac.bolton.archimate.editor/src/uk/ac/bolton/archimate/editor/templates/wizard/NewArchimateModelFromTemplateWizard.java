@@ -69,6 +69,10 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                             if(model != null) {
                                 // New name
                                 model.setName("(new) " + model.getName());
+                                
+                                // No file
+                                model.setFile(null);
+                                
                                 // Edit in-place in Tree
                                 UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
                             }
