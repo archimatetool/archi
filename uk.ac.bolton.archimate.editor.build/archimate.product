@@ -21,7 +21,7 @@
 
    <launcher name="Archi">
       <linux icon="/uk.ac.bolton.archimate.editor.build/branding/linux/icon.xpm"/>
-      <macosx icon="/uk.ac.bolton.archimate.editor.build/branding/mac/icon.icns"/>
+      <macosx icon="/uk.ac.bolton.archimate.editor.build/branding/mac/app/Contents/Resources/icon.icns"/>
       <solaris/>
       <win useIco="true">
          <ico path="/uk.ac.bolton.archimate.editor.build/branding/windows/icon.ico"/>
@@ -105,6 +105,7 @@
       <plugin id="uk.ac.bolton.archimate.csv"/>
       <plugin id="uk.ac.bolton.archimate.editor"/>
       <plugin id="uk.ac.bolton.archimate.editor.fullscreen.macos" fragment="true"/>
+      <plugin id="uk.ac.bolton.archimate.editor.launch.macos" fragment="true"/>
       <plugin id="uk.ac.bolton.archimate.editor.launch.win32" fragment="true"/>
       <plugin id="uk.ac.bolton.archimate.help"/>
       <plugin id="uk.ac.bolton.archimate.model"/>

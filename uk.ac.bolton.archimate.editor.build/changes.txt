@@ -9,6 +9,7 @@ Version 2.0 September XX 2011
 + Palette is now detachable and improved
 + A diagram View can be maximised to Full Screen
 + Support for Mac OS X Lion Full Screen
++ Can now launch Archi from archimate files from the Desktop on Mac OS X
 + Group objects now have the "Documentation" field
 + Group objects can also be added to Sketch Views
 + Group objects and all Sketch View diagram objects can now have Properties
