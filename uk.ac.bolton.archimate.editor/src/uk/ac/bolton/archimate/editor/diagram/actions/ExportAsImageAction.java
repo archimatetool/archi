@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 
 import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 /**
@@ -85,14 +84,7 @@ public class ExportAsImageAction extends Action {
     private String askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
         dialog.setText("Export View As Image");
-        
-        // BMP on Mac comes out yellow!
-        if(PlatformUtils.isMac()) {
-            dialog.setFilterExtensions(new String[] { "*.png", "*.jpg,*.jpeg" } );
-        }
-        else {
-            dialog.setFilterExtensions(new String[] { "*.png", "*.jpg,*.jpeg", "*.bmp" } );
-        }
+        dialog.setFilterExtensions(new String[] { "*.png", "*.jpg,*.jpeg", "*.bmp" } );
         
         String path = dialog.open();
         if(path == null) {
