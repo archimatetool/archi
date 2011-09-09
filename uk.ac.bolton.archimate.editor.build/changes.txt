@@ -6,6 +6,7 @@ Version 2.0 September XX 2011
 + Dynamic Viewpoints
 + Can now add multiple occurrences of objects and connections in a View
 + Elements can have circular relationships and connections (self <---> self)
++ Support for exporting with Jasper Reports
 + Palette is now detachable and improved
 + A diagram View can be maximised to Full Screen
 + Support for Mac OS X Lion Full Screen
