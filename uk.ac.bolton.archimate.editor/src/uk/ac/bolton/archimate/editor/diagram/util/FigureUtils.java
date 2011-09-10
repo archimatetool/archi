@@ -6,11 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.util;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.RectangleFigure;
-import org.eclipse.swt.graphics.Color;
-
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IFontAttribute;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
@@ -22,33 +17,6 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
  * @author Phillip Beauvoir
  */
 public final class FigureUtils {
-
-    private static Color ghostFillColor = new Color(null, 31, 31, 31);
-
-    /**
-     * TODO Remove this when GEF 3.7 and Eclipse 3.7 are released as it's not needed
-     * Create a drag feedback figure suitable for Mac OS X Cocoa on Eclipse/GEF 3.6
-     * The one for Cocoa 3.6 shows as a black figure because Cocoa doesn't use XOR mode.
-     */
-    public static RectangleFigure createMacCocoaDragSourceFeedbackFigure() {
-        RectangleFigure figure = new RectangleFigure() {
-            @Override
-            public void fillShape(Graphics graphics) {
-                graphics.setAlpha(40);
-                graphics.setBackgroundColor(ghostFillColor);
-                graphics.fillRectangle(getBounds());
-            }
-            
-            @Override
-            protected void outlineShape(Graphics graphics) {
-                graphics.setAlpha(200);
-                graphics.setForegroundColor(ColorConstants.black);
-                super.outlineShape(graphics);
-            }
-        };
-        
-        return figure;
-    }
 
     /**
      * @param fontObject
@@ -62,4 +30,5 @@ public final class FigureUtils {
             return IFontAttribute.TEXT_ALIGNMENT_LEFT;
         }
         return IFontAttribute.TEXT_ALIGNMENT_CENTER;
-    }}
+    }
+}

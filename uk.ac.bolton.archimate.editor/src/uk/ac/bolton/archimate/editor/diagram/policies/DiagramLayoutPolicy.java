@@ -6,19 +6,13 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.policies;
 
-import java.lang.reflect.Field;
-
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
@@ -28,8 +22,6 @@ import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramArchimateObje
 import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.SetConstraintObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.INonResizableEditPart;
-import uk.ac.bolton.archimate.editor.diagram.util.FigureUtils;
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -42,80 +34,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  */
 public class DiagramLayoutPolicy
 extends XYLayoutEditPolicy {
-    
-    private static boolean ECLIPSE36 = Platform.getBundle("org.eclipse.ui").getVersion().toString().startsWith("3.6");
-    
-    /*
-     * Edit Policies sub-classed to accomodate Mac OS X drawing problems on Eclipse/GEF 3.6
-     * TODO Remove this when GEF 3.7 is released as it's not needed
-     */
-    static class DiagramResizableEditPolicy extends ResizableEditPolicy {
-        
-        @Override
-        protected IFigure createDragSourceFeedbackFigure() {
-            // If on Mac OS X Cocoa Eclipse/GEF 3.6
-            if(PlatformUtils.isMacCocoa() && ECLIPSE36) {
-                RectangleFigure figure = FigureUtils.createMacCocoaDragSourceFeedbackFigure();
-                figure.setLineStyle(Graphics.LINE_DOT);
-                figure.setBounds(getInitialFeedbackBounds());
-                addFeedback(figure);
-                return figure;
-            }
-            else {
-                return super.createDragSourceFeedbackFigure();
-            }
-        }
-    }
-    
-    /*
-     * Edit Policies sub-classed to accomodate Mac OS X drawing problems on Eclipse/GEF 3.6
-     * TODO Remove this when GEF 3.7 is released as it's not needed
-     */
-    static class DiagramNonResizableEditPolicy extends NonResizableEditPolicy {
-        @Override
-        protected IFigure createDragSourceFeedbackFigure() {
-            // If on Mac OS X Cocoa Eclipse/GEF 3.6
-            if(PlatformUtils.isMacCocoa() && ECLIPSE36) {
-                RectangleFigure figure = FigureUtils.createMacCocoaDragSourceFeedbackFigure();
-                figure.setLineStyle(Graphics.LINE_DOT);
-                figure.setBounds(getInitialFeedbackBounds());
-                addFeedback(figure);
-                return figure;
-            }
-            else {
-                return super.createDragSourceFeedbackFigure();
-            }
-        }
-    }
-    
-    /*
-     * Feedback sub-classed to accomodate Mac OS X drawing problems on Eclipse/GEF 3.6
-     * TODO Remove this when GEF 3.7 is released as it's not needed
-     */
-    @Override
-    protected IFigure getSizeOnDropFeedback() {
-        // If on Mac OS X Cocoa Eclipse/GEF 3.6
-        if(PlatformUtils.isMacCocoa() && ECLIPSE36) {
-            // Access private field in LayoutEditPolicy - sneaky!
-            try {
-                Field f = LayoutEditPolicy.class.getDeclaredField("sizeOnDropFeedback");
-                f.setAccessible(true);
-                Object val = f.get(this); // is null?
-                if(val == null) {
-                    RectangleFigure figure = FigureUtils.createMacCocoaDragSourceFeedbackFigure();
-                    figure.setLineStyle(Graphics.LINE_DASHDOT);
-                    addFeedback(figure);
-                    f.set(this, figure);
-                }
-            }
-            catch(Exception ex) {
-                // Shouldn't happen
-                //ex.printStackTrace();
-            }
-        }
-        
-        return super.getSizeOnDropFeedback();
-    }
     
     @Override
     protected Command getCreateCommand(CreateRequest request) {
@@ -167,7 +85,7 @@ extends XYLayoutEditPolicy {
     
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
-        return (child instanceof INonResizableEditPart) ? new DiagramNonResizableEditPolicy() : new DiagramResizableEditPolicy();
+        return (child instanceof INonResizableEditPart) ? new NonResizableEditPolicy() : new ResizableEditPolicy();
     }
     
     @Override
