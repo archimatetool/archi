@@ -29,8 +29,6 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.internal.ui.palette.editparts.ToolEntryEditPart;
-import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteListener;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
@@ -45,7 +43,6 @@ import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
-import org.eclipse.gef.ui.palette.PaletteEditPartFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
@@ -131,7 +128,6 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("restriction") // TODO Remove this when Bug 349124 is fixed
 public abstract class AbstractDiagramEditor extends GraphicalEditorWithFlyoutPalette
 implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContributor {
 
@@ -385,9 +381,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return new PaletteViewerProvider(getEditDomain()) {
             @Override
             protected void hookPaletteViewer(PaletteViewer viewer) {
-                // TODO - Remove this Patch when Bug 349124 is fixed
-                viewer.setEditPartFactory(new Bug349124PaletteEditPartFactory());
-                
                 super.hookPaletteViewer(viewer);
                 AbstractDiagramEditor.this.configurePaletteViewer(viewer);
             }
@@ -878,24 +871,5 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     private Listener[] getListeners(Widget w, int eventType) throws Exception {
         Method method = w.getClass().getMethod("getListeners", int.class);
         return (Listener[])method.invoke(w, eventType);
-    }
-    
-    
-    // -----------------------------------------------------------------------------------------------------------
-    // Patch for Bug 349124
-    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=349124
-    // TODO Remove this patch when fixed
-    // -----------------------------------------------------------------------------------------------------------
-    
-    public class Bug349124PaletteEditPartFactory extends PaletteEditPartFactory {
-        @Override
-        protected EditPart createEntryEditPart(EditPart parentEditPart, Object model) {
-            return new ToolEntryEditPart((PaletteEntry) model) {
-                @Override
-                public boolean isSelectable() {
-                    return getFigure() != null;
-                }
-            };
-        }
     }
 }

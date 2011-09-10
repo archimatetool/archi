@@ -23,7 +23,7 @@ Version 2.0 September XX 2011
 + Added a preference to use curved or square tab style
 + "Archisurance" example updated to include Viewpoints and re-organised folders
 + The Java version shipped with the Windows installer is now version 1.6.0_26
-+ Built on Eclipse 3.7 RCP
++ Built on Eclipse 3.7.1 RCP
 * When closing a model close any of its open Views more gracefully
 * Optimisations to Property sections in Properties Window
 * Many internal optimisations
