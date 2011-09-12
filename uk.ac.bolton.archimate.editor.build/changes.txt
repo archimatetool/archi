@@ -1,22 +1,22 @@
 Archi Changes
 -------------
 
-Version 2.0 September XX 2011
+Version 2.0 September 15 2011
 -----------------------------
 + Dynamic Viewpoints
 + Can now add multiple occurrences of objects and connections in a View
 + Elements can have circular relationships and connections (self <---> self)
 + Support for exporting with Jasper Reports
 + Palette is now detachable and improved
-+ A diagram View can be maximised to Full Screen
-+ Support for Mac OS X Lion Full Screen
-+ Can now launch Archi from archimate files from the Desktop on Mac OS X
++ A View can be maximised to Full Screen
++ Support for Mac OS X Lion Application Full Screen
++ Can now launch Archi from *.archimate files from the Desktop on Mac OS X
 + Export View to Bitmap (*.bmp) format now supported on Mac OS X
-+ Group objects now have the "Documentation" field
++ Group objects now have a "Documentation" field
 + Group objects can also be added to Sketch Views
-+ Group objects and all Sketch View diagram objects can now have Properties
++ Group objects and all Sketch View diagram objects now have Properties
 + Added a "Name" field to Sketch Stickies
-+ Added "Name" and "Documentation" fields to Note and all Connections
++ Added "Name" and "Documentation" fields to Sketch Connections
 + On Linux default to use Webkit Browser component in the Hints window
 + Added tooltips for all Sketch View elements
 + When adding a new model in the Model Tree the focus is put on in-place editing so you can edit its name

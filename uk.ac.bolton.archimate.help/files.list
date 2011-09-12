@@ -1,6 +1,6 @@
 # List of HTML files to be concatenated together to create one big HTML file
 # and then imported into MS Word, formatted and then exported to PDF.
-# Use HTMLMerger.java to do this
+# Use merge-html.xml Ant script or HTMLMerger.java to do this
 
 front.html
 intro.html
@@ -36,6 +36,9 @@ view_container_nested.html
 view_z_order.html
 view_copy_paste_delete.html
 view_align_grid.html
+view_fullscreen.html
+
+viewpoints.html
 
 sketch_view.html
 
@@ -75,4 +78,3 @@ prefs_diagram.html
 prefs_figures.html
 prefs_general.html
 prefs_help.html
-        

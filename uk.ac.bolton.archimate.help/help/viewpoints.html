@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Viewpoints</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Viewpoints</h1>
+<p>The ArchiMate Specification states that &quot;...architects and other stakeholders can define their own views on the enterprise architecture. Viewpoints define abstractions on the set of models representing the enterprise architecture, each aimed at a particular type of stakeholder and addressing a particular set of concerns. Viewpoints can both be used to view certain aspects in isolation, and for relating two or more aspects.&quot;</p>
+<p>In practice, a Viewpoint is a sub-set of elements and relationships. Archi allows you to specify the following Viewpoints:</p>
+<ul>
+  <li>Actor Co-operation</li>
+  <li>Application Behaviour</li>
+  <li>Application Co-operation</li>
+  <li>Application Structure</li>
+  <li>Application Usage</li>
+  <li>Business Process</li>
+  <li>Business Process Co-operation</li>
+  <li>Implementation and Deployment</li>
+  <li>Information Structure</li>
+  <li>Infrastructure</li>
+  <li>Infrastructure Usage</li>
+  <li>Organization</li>
+  <li>Layered</li>
+  <li>Product</li>
+  <li>Service Realization</li>
+  <li>Total</li>
+</ul>
+<p>When creating a new View in Archi, the default  Viewpoint is set to &quot;Total&quot;, meaning that all elements from all layers can be added to the View. Setting a Viewpoint on a View means that a sub-set of elements is available to place on the View. Some other ArchiMate authoring tools require you to specify the Viewpoint in advance when creating the View. Unfortunately, this means that you cannot change your mind should you wish to later change the Viewpoint in the View. Archi, however, implements <strong>Dynamic Viewpoints</strong> so that you can change the Viewpoint at any time and those elements that are not permitted for that Viewpoint are either &quot;ghosted&quot; out or hidden. Dynamic Viewpoints allow you to change your mind. You don't have to decide up-front what the Viewpoint will be. You can experiment with different Viewpoints for the same View. And if you decide to keep the Viewpoint, you can simply remove any disallowed elements from the View. You could even set up one master View and apply different Viewpoints in a &quot;what if&quot; scenario.</p>
+<p>&nbsp;</p>
+<h2>Setting the Viewpoint</h2>
+<p>To set the Viewpoint for a View, open the View in the View editor and select the required Viewpoint from the main &quot;View-&gt;Viewpoint&quot; menu, or by right-clicking on the View's drawing area and selecting it from the context menu. You can also change the Viewpoint from the View's <a href="properties_view.html">Properties</a> window.</p>
+<p>In the following example we start with a View that has the default &quot;Total&quot; Viewpoint:</p>
+<p><span class="caption"><img src="img/viewpoint_total.png" alt="" width="700" height="528"><br>
+A View with the &quot;Total&quot; Viewpoint</span></p>
+<p>Notice that all elements from all the ArchiMate layers (Business, Application, and Technology) are displayed. Also, the Palette has all elements available.</p>
+<p>If we now change the Viewpoint to &quot;Infrastructure&quot; then  any elements that do not belong in this Viewpoint are &quot;ghosted&quot; out in the View. Notice, also, that only the elements permitted for the current Viewpoint are available in the Palette, whilst the others are not available:</p>
+<p><span class="caption"><img src="img/viewpoint_infrastructure.png" alt="" width="700" height="528"><br>
+The same View with the &quot;Infrastructure&quot; Viewpoint</span></p>
+<p>If we look at the  elements in the Models Tree we can see that non-permitted elements for the Viewpoint are greyed out:</p>
+<p><span class="caption"><img src="img/viewpoint_tree.png" alt="" width="291" height="618"><br> 
+  Elements not permitted for the Viewpoint are greyed out
+</span></p>
+<p>If we choose to, we can drag and drop any element from the Models Tree to the View but the resulting element in the View will be greyed out. This means that we can work with the Viewpoint any way we want to but  we are reminded at all times of what should and shouldn't be added to the Viewpoint.</p>
+<p>If you are unsure of the constraints  for a Viewpoint select it then open the <a href="hints.html">Hints Window</a>. A full explanation is available for the Viewpoint:</p>
+<p><span class="caption"><img src="img/viewpoint_hint.png" alt="" width="551" height="612"><br> 
+  A Hint for a Viewpoint
+</span></p>
+<h3>&nbsp;</h3>
+<h3>Preferences</h3>
+<p>If instead of &quot;ghosting&quot; the non-permitted elements we wish to completely hide them we can do so in <a href="prefs_diagram.html">Preferences</a>.</p>
+<p>&nbsp;</p>
+</body>
+</html>
