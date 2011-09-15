@@ -12,6 +12,8 @@ import java.io.InputStream;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -126,6 +128,13 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         });
         
         loadImages();
+        
+        parent.addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent e) {
+                disposeImages();
+            }
+        });
         
         Group exportTypesGroup = new Group(container, SWT.NULL);
         exportTypesGroup.setText("Formats to generate:");
@@ -308,6 +317,27 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fImageRTF = loadImage("img/rtf.png");
     }
     
+    private void disposeImages() {
+        if(fImageDOCX != null) {
+            fImageDOCX.dispose();
+        }
+        if(fImageHTML != null) {
+            fImageHTML.dispose();
+        }
+        if(fImageODT != null) {
+            fImageODT.dispose();
+        }
+        if(fImagePDF != null) {
+            fImagePDF.dispose();
+        }
+        if(fImagePPTX != null) {
+            fImagePPTX.dispose();
+        }
+        if(fImageRTF != null) {
+            fImageRTF.dispose();
+        }
+    }
+    
     private Image loadImage(String name) {
         Image image = null;
         InputStream is = getClass().getResourceAsStream(name);
@@ -333,27 +363,4 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         IS_ODT = isExportODT();
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        
-        if(fImageDOCX != null) {
-            fImageDOCX.dispose();
-        }
-        if(fImageHTML != null) {
-            fImageHTML.dispose();
-        }
-        if(fImageODT != null) {
-            fImageODT.dispose();
-        }
-        if(fImagePDF != null) {
-            fImagePDF.dispose();
-        }
-        if(fImagePPTX != null) {
-            fImagePPTX.dispose();
-        }
-        if(fImageRTF != null) {
-            fImageRTF.dispose();
-        }
-    }
 }
