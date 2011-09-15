@@ -27,7 +27,7 @@ public class Startup implements IStartup {
 
     @Override
     public void earlyStartup() {
-        if(System.getProperty("os.version").startsWith("10.6")) {
+        if(System.getProperty("os.version").startsWith("10.5") || System.getProperty("os.version").startsWith("10.6")) {
             return;
         }
         
