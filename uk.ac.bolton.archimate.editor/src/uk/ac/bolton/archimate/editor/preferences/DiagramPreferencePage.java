@@ -62,6 +62,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewpointsHidePaletteElementsButton;
     private Button fViewpointsGhostDiagramElementsButton;
     private Button fViewpointsHideDiagramElementsButton;
+    private Button fViewpointsHideMagicConnectorElementsButton;
     
     private Button fShowSketchBackgroundButton;
     
@@ -168,29 +169,35 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.widthHint = 400;
         fFontPreviewLabel.setLayoutData(gd);
         
-        Group treeGroup = new Group(client, SWT.NULL);
-        treeGroup.setText("Viewpoints");
-        treeGroup.setLayout(new GridLayout(2, false));
-        treeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        Group viewpointsGroup = new Group(client, SWT.NULL);
+        viewpointsGroup.setText("Viewpoints");
+        viewpointsGroup.setLayout(new GridLayout(2, false));
+        viewpointsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fViewpointsFilterModelTreeButton = new Button(treeGroup, SWT.CHECK);
+        fViewpointsFilterModelTreeButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsFilterModelTreeButton.setText("Grey out disallowed elements in the Model Tree");
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewpointsFilterModelTreeButton.setLayoutData(gd);
         
-        fViewpointsHidePaletteElementsButton = new Button(treeGroup, SWT.CHECK);
+        fViewpointsHidePaletteElementsButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsHidePaletteElementsButton.setText("Hide disallowed elements from the Palette");
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewpointsHidePaletteElementsButton.setLayoutData(gd);
         
-        fViewpointsGhostDiagramElementsButton = new Button(treeGroup, SWT.RADIO);
+        fViewpointsHideMagicConnectorElementsButton = new Button(viewpointsGroup, SWT.CHECK);
+        fViewpointsHideMagicConnectorElementsButton.setText("Hide disallowed elements from the Magic Connector");
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fViewpointsHideMagicConnectorElementsButton.setLayoutData(gd);
+
+        fViewpointsGhostDiagramElementsButton = new Button(viewpointsGroup, SWT.RADIO);
         fViewpointsGhostDiagramElementsButton.setText("Ghost disallowed elements in a View");
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsGhostDiagramElementsButton.setLayoutData(gd);
         
-        fViewpointsHideDiagramElementsButton = new Button(treeGroup, SWT.RADIO);
+        fViewpointsHideDiagramElementsButton = new Button(viewpointsGroup, SWT.RADIO);
         fViewpointsHideDiagramElementsButton.setText("Hide disallowed elements in a View");
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsHideDiagramElementsButton.setLayoutData(gd);
@@ -234,6 +241,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
+        fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
         
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
@@ -276,6 +284,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         getPreferenceStore().setValue(VIEWPOINTS_FILTER_MODEL_TREE, fViewpointsFilterModelTreeButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
+        getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
         
         getPreferenceStore().setValue(SKETCH_SHOW_BACKGROUND, fShowSketchBackgroundButton.getSelection());
@@ -299,6 +308,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
+        fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
         
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));

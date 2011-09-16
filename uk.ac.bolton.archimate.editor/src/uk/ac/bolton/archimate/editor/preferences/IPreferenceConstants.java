@@ -63,4 +63,5 @@ public interface IPreferenceConstants {
     String VIEWPOINTS_FILTER_MODEL_TREE = "viewpointsFilterModelTree";
     String VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS = "viewpointsHideDiagramElements";
     String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements";
+    String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements";
 }

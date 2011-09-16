@@ -66,5 +66,6 @@ implements IPreferenceConstants {
         store.setDefault(VIEWPOINTS_FILTER_MODEL_TREE, true);
         store.setDefault(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, false);
         store.setDefault(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, true);
+        store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);
     }
 }
