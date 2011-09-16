@@ -38,11 +38,6 @@ import uk.ac.bolton.archimate.model.IRelationship;
 public class TreeViewpointFilterProvider implements IPartListener {
 
     /**
-     * Active Viewpoint
-     */
-    private IViewpoint fViewpoint;
-    
-    /**
      * Active Diagram Model
      */
     private IArchimateDiagramModel fActiveDiagramModel;
@@ -138,23 +133,22 @@ public class TreeViewpointFilterProvider implements IPartListener {
      * @return Color or null
      */
     public Color getTextColor(Object element) {
-        if(isActive() && fActiveDiagramModel != null) {
+        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateElement) {
             int index = fActiveDiagramModel.getViewpoint();
-            fViewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
-            
-            if(fViewpoint != null && element instanceof IArchimateElement) {
+            IViewpoint viewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
+            if(viewpoint != null) {
                 // From same model as active diagram
                 IArchimateModel model = ((IArchimateElement)element).getArchimateModel();
                 if(model == fActiveDiagramModel.getArchimateModel()) {
                     if(element instanceof IRelationship) {
                         IArchimateElement source = ((IRelationship)element).getSource();
                         IArchimateElement target = ((IRelationship)element).getTarget();
-                        if(!fViewpoint.isAllowedType(source.eClass()) || !fViewpoint.isAllowedType(target.eClass())) {
+                        if(!viewpoint.isAllowedType(source.eClass()) || !viewpoint.isAllowedType(target.eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }
                     }
                     else {
-                        if(!fViewpoint.isAllowedType(((IArchimateElement)element).eClass())) {
+                        if(!viewpoint.isAllowedType(((IArchimateElement)element).eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }
                     }
