@@ -14,12 +14,10 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
 
-import uk.ac.bolton.archimate.editor.diagram.util.FigureUtils;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IFontAttribute;
 
 
 /**
@@ -59,9 +57,6 @@ public class FormatPainterInfo {
             font = object.getFont();
             fontColor = object.getFontColor();
             textAlignment = object.getTextAlignment();
-            if(textAlignment == IFontAttribute.TEXT_ALIGNMENT_NONE) { // default
-                textAlignment = FigureUtils.getDefaultTextAlignment(object);
-            }
         }
         
         @Override

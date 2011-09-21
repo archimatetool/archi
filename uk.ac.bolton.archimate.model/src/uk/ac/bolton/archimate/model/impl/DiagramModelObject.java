@@ -308,9 +308,13 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     public int getTextAlignment() {
+        // Check for backward compatibility where default is 0 and not persisted
+        if(textAlignment == TEXT_ALIGNMENT_NONE) {
+            textAlignment = getDefaultTextAlignment();
+        }
         return textAlignment;
     }
 
@@ -376,6 +380,15 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     public void setBounds(int x, int y, int width, int height) {
         IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(x, y, width, height);
         setBounds(bounds);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public int getDefaultTextAlignment() {
+        return TEXT_ALIGNMENT_CENTER;
     }
 
     @Override

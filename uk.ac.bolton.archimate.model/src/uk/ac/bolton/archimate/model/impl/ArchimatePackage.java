@@ -2112,9 +2112,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelEClass = createEClass(DIAGRAM_MODEL);
         createEAttribute(diagramModelEClass, DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE);
 
-        archimateDiagramModelEClass = createEClass(ARCHIMATE_DIAGRAM_MODEL);
-        createEAttribute(archimateDiagramModelEClass, ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT);
-
         diagramModelReferenceEClass = createEClass(DIAGRAM_MODEL_REFERENCE);
         createEReference(diagramModelReferenceEClass, DIAGRAM_MODEL_REFERENCE__REFERENCED_MODEL);
 
@@ -2123,10 +2120,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS);
         createEReference(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS);
         createEAttribute(diagramModelObjectEClass, DIAGRAM_MODEL_OBJECT__FILL_COLOR);
-
-        diagramModelArchimateObjectEClass = createEClass(DIAGRAM_MODEL_ARCHIMATE_OBJECT);
-        createEReference(diagramModelArchimateObjectEClass, DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT);
-        createEAttribute(diagramModelArchimateObjectEClass, DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE);
 
         diagramModelGroupEClass = createEClass(DIAGRAM_MODEL_GROUP);
 
@@ -2141,9 +2134,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__LINE_WIDTH);
         createEAttribute(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__LINE_COLOR);
         createEAttribute(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__TYPE);
-
-        diagramModelArchimateConnectionEClass = createEClass(DIAGRAM_MODEL_ARCHIMATE_CONNECTION);
-        createEReference(diagramModelArchimateConnectionEClass, DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP);
 
         diagramModelBendpointEClass = createEClass(DIAGRAM_MODEL_BENDPOINT);
         createEAttribute(diagramModelBendpointEClass, DIAGRAM_MODEL_BENDPOINT__WEIGHT);
@@ -2162,6 +2152,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(boundsEClass, BOUNDS__Y);
         createEAttribute(boundsEClass, BOUNDS__WIDTH);
         createEAttribute(boundsEClass, BOUNDS__HEIGHT);
+
+        archimateDiagramModelEClass = createEClass(ARCHIMATE_DIAGRAM_MODEL);
+        createEAttribute(archimateDiagramModelEClass, ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT);
+
+        diagramModelArchimateObjectEClass = createEClass(DIAGRAM_MODEL_ARCHIMATE_OBJECT);
+        createEReference(diagramModelArchimateObjectEClass, DIAGRAM_MODEL_ARCHIMATE_OBJECT__ARCHIMATE_ELEMENT);
+        createEAttribute(diagramModelArchimateObjectEClass, DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE);
+
+        diagramModelArchimateConnectionEClass = createEClass(DIAGRAM_MODEL_ARCHIMATE_CONNECTION);
+        createEReference(diagramModelArchimateConnectionEClass, DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP);
 
         sketchModelEClass = createEClass(SKETCH_MODEL);
 
@@ -2284,12 +2284,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelEClass.getESuperTypes().add(this.getDocumentable());
         diagramModelEClass.getESuperTypes().add(this.getProperties());
-        archimateDiagramModelEClass.getESuperTypes().add(this.getDiagramModel());
         diagramModelReferenceEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelObjectEClass.getESuperTypes().add(this.getDiagramModelComponent());
         diagramModelObjectEClass.getESuperTypes().add(this.getFontAttribute());
-        diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelObject());
-        diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelGroupEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelGroupEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelGroupEClass.getESuperTypes().add(this.getDocumentable());
@@ -2300,8 +2297,11 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelConnectionEClass.getESuperTypes().add(this.getFontAttribute());
         diagramModelConnectionEClass.getESuperTypes().add(this.getProperties());
         diagramModelConnectionEClass.getESuperTypes().add(this.getDocumentable());
-        diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelConnection());
         diagramModelBendpointEClass.getESuperTypes().add(this.getCloneable());
+        archimateDiagramModelEClass.getESuperTypes().add(this.getDiagramModel());
+        diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelObject());
+        diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelContainer());
+        diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelConnection());
         sketchModelEClass.getESuperTypes().add(this.getDiagramModel());
         sketchModelStickyEClass.getESuperTypes().add(this.getDiagramModelObject());
         sketchModelStickyEClass.getESuperTypes().add(this.getDiagramModelContainer());
@@ -2490,9 +2490,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(diagramModelEClass, IDiagramModel.class, "DiagramModel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getDiagramModel_ConnectionRouterType(), ecorePackage.getEInt(), "connectionRouterType", null, 0, 1, IDiagramModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(archimateDiagramModelEClass, IArchimateDiagramModel.class, "ArchimateDiagramModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getArchimateDiagramModel_Viewpoint(), ecorePackage.getEInt(), "viewpoint", null, 0, 1, IArchimateDiagramModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-
         initEClass(diagramModelReferenceEClass, IDiagramModelReference.class, "DiagramModelReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getDiagramModelReference_ReferencedModel(), this.getDiagramModel(), null, "referencedModel", null, 0, 1, IDiagramModelReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
@@ -2513,15 +2510,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         addEParameter(op, ecorePackage.getEInt(), "y", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
         addEParameter(op, ecorePackage.getEInt(), "width", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
         addEParameter(op, ecorePackage.getEInt(), "height", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
-        initEClass(diagramModelArchimateObjectEClass, IDiagramModelArchimateObject.class, "DiagramModelArchimateObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEReference(getDiagramModelArchimateObject_ArchimateElement(), this.getArchimateElement(), null, "archimateElement", null, 0, 1, IDiagramModelArchimateObject.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-        initEAttribute(getDiagramModelArchimateObject_Type(), ecorePackage.getEInt(), "type", "0", 0, 1, IDiagramModelArchimateObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-
-        op = addEOperation(diagramModelArchimateObjectEClass, null, "addArchimateElementToModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-        addEParameter(op, this.getFolder(), "parent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
-        addEOperation(diagramModelArchimateObjectEClass, null, "removeArchimateElementFromModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelGroupEClass, IDiagramModelGroup.class, "DiagramModelGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
@@ -2545,14 +2533,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         addEOperation(diagramModelConnectionEClass, null, "reconnect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(diagramModelArchimateConnectionEClass, IDiagramModelArchimateConnection.class, "DiagramModelArchimateConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEReference(getDiagramModelArchimateConnection_Relationship(), this.getRelationship(), null, "relationship", null, 0, 1, IDiagramModelArchimateConnection.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-
-        op = addEOperation(diagramModelArchimateConnectionEClass, null, "addRelationshipToModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-        addEParameter(op, this.getFolder(), "parent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
-        addEOperation(diagramModelArchimateConnectionEClass, null, "removeRelationshipFromModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
         initEClass(diagramModelBendpointEClass, IDiagramModelBendpoint.class, "DiagramModelBendpoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getDiagramModelBendpoint_Weight(), ecorePackage.getEFloat(), "weight", null, 0, 1, IDiagramModelBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelBendpoint_StartX(), ecorePackage.getEInt(), "startX", null, 0, 1, IDiagramModelBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -2565,6 +2545,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEAttribute(getFontAttribute_FontColor(), ecorePackage.getEString(), "fontColor", null, 0, 1, IFontAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getFontAttribute_TextAlignment(), ecorePackage.getEInt(), "textAlignment", null, 0, 1, IFontAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
+        addEOperation(fontAttributeEClass, ecorePackage.getEInt(), "getDefaultTextAlignment", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
         initEClass(boundsEClass, IBounds.class, "Bounds", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getBounds_X(), ecorePackage.getEInt(), "x", null, 0, 1, IBounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getBounds_Y(), ecorePackage.getEInt(), "y", null, 0, 1, IBounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -2572,6 +2554,26 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEAttribute(getBounds_Height(), ecorePackage.getEInt(), "height", "-1", 0, 1, IBounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         addEOperation(boundsEClass, this.getBounds(), "getCopy", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(archimateDiagramModelEClass, IArchimateDiagramModel.class, "ArchimateDiagramModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getArchimateDiagramModel_Viewpoint(), ecorePackage.getEInt(), "viewpoint", null, 0, 1, IArchimateDiagramModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(diagramModelArchimateObjectEClass, IDiagramModelArchimateObject.class, "DiagramModelArchimateObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEReference(getDiagramModelArchimateObject_ArchimateElement(), this.getArchimateElement(), null, "archimateElement", null, 0, 1, IDiagramModelArchimateObject.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEAttribute(getDiagramModelArchimateObject_Type(), ecorePackage.getEInt(), "type", "0", 0, 1, IDiagramModelArchimateObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+        op = addEOperation(diagramModelArchimateObjectEClass, null, "addArchimateElementToModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEParameter(op, this.getFolder(), "parent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+        addEOperation(diagramModelArchimateObjectEClass, null, "removeArchimateElementFromModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(diagramModelArchimateConnectionEClass, IDiagramModelArchimateConnection.class, "DiagramModelArchimateConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEReference(getDiagramModelArchimateConnection_Relationship(), this.getRelationship(), null, "relationship", null, 0, 1, IDiagramModelArchimateConnection.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        op = addEOperation(diagramModelArchimateConnectionEClass, null, "addRelationshipToModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEParameter(op, this.getFolder(), "parent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+        addEOperation(diagramModelArchimateConnectionEClass, null, "removeRelationshipFromModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(sketchModelEClass, ISketchModel.class, "SketchModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

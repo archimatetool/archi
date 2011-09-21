@@ -414,20 +414,12 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createDiagramModelAdapter();
             }
             @Override
-            public Adapter caseArchimateDiagramModel(IArchimateDiagramModel object) {
-                return createArchimateDiagramModelAdapter();
-            }
-            @Override
             public Adapter caseDiagramModelReference(IDiagramModelReference object) {
                 return createDiagramModelReferenceAdapter();
             }
             @Override
             public Adapter caseDiagramModelObject(IDiagramModelObject object) {
                 return createDiagramModelObjectAdapter();
-            }
-            @Override
-            public Adapter caseDiagramModelArchimateObject(IDiagramModelArchimateObject object) {
-                return createDiagramModelArchimateObjectAdapter();
             }
             @Override
             public Adapter caseDiagramModelGroup(IDiagramModelGroup object) {
@@ -442,10 +434,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createDiagramModelConnectionAdapter();
             }
             @Override
-            public Adapter caseDiagramModelArchimateConnection(IDiagramModelArchimateConnection object) {
-                return createDiagramModelArchimateConnectionAdapter();
-            }
-            @Override
             public Adapter caseDiagramModelBendpoint(IDiagramModelBendpoint object) {
                 return createDiagramModelBendpointAdapter();
             }
@@ -456,6 +444,18 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseBounds(IBounds object) {
                 return createBoundsAdapter();
+            }
+            @Override
+            public Adapter caseArchimateDiagramModel(IArchimateDiagramModel object) {
+                return createArchimateDiagramModelAdapter();
+            }
+            @Override
+            public Adapter caseDiagramModelArchimateObject(IDiagramModelArchimateObject object) {
+                return createDiagramModelArchimateObjectAdapter();
+            }
+            @Override
+            public Adapter caseDiagramModelArchimateConnection(IDiagramModelArchimateConnection object) {
+                return createDiagramModelArchimateConnectionAdapter();
             }
             @Override
             public Adapter caseSketchModel(ISketchModel object) {

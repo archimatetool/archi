@@ -88,6 +88,14 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT, oldContent, content));
     }
     
+    /** 
+     * Left Justified
+     */
+    @Override
+    public int getDefaultTextAlignment() {
+        return TEXT_ALIGNMENT_LEFT;
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.TextAlignmentCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.util.FigureUtils;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IFontAttribute;
@@ -65,9 +64,6 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
                     // Command
                     if(fAlignmentButtons[i] == e.widget) {
                         int alignment = (Integer)fAlignmentButtons[i].getData();
-                        if(alignment == FigureUtils.getDefaultTextAlignment(fFontObject)) {
-                            alignment = IFontAttribute.TEXT_ALIGNMENT_NONE; // Don't write default value
-                        }
                         if(fFontObject.getTextAlignment() != alignment) {
                             if(isAlive()) {
                                 fIsExecutingCommand = true;
@@ -133,11 +129,6 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
     private Button getAlignmentButton() {
         int alignment = fFontObject.getTextAlignment();
-        
-        // Default
-        if(alignment == IFontAttribute.TEXT_ALIGNMENT_NONE) {
-            alignment = FigureUtils.getDefaultTextAlignment(fFontObject);
-        }
         
         switch(alignment) {
             case IFontAttribute.TEXT_ALIGNMENT_LEFT:

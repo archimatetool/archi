@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface IFontAttribute extends EObject {
     
-    int TEXT_ALIGNMENT_NONE = 0;
+    int TEXT_ALIGNMENT_NONE = 0; // Legacy support
     int TEXT_ALIGNMENT_LEFT = 1;
     int TEXT_ALIGNMENT_CENTER = 2;
     int TEXT_ALIGNMENT_RIGHT = 4;
@@ -110,5 +110,13 @@ public interface IFontAttribute extends EObject {
      * @generated
      */
     void setTextAlignment(int value);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model kind="operation"
+     * @generated
+     */
+    int getDefaultTextAlignment();
 
 } // IFontAttribute

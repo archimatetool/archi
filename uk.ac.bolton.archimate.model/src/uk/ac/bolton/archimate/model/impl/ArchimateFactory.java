@@ -167,15 +167,15 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.NODE: return createNode();
             case IArchimatePackage.SYSTEM_SOFTWARE: return createSystemSoftware();
             case IArchimatePackage.DEVICE: return createDevice();
-            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: return createArchimateDiagramModel();
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: return createDiagramModelReference();
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: return createDiagramModelArchimateObject();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: return createDiagramModelGroup();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE: return createDiagramModelNote();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION: return createDiagramModelConnection();
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION: return createDiagramModelArchimateConnection();
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT: return createDiagramModelBendpoint();
             case IArchimatePackage.BOUNDS: return createBounds();
+            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: return createArchimateDiagramModel();
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: return createDiagramModelArchimateObject();
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION: return createDiagramModelArchimateConnection();
             case IArchimatePackage.SKETCH_MODEL: return createSketchModel();
             case IArchimatePackage.SKETCH_MODEL_STICKY: return createSketchModelSticky();
             case IArchimatePackage.SKETCH_MODEL_ACTOR: return createSketchModelActor();

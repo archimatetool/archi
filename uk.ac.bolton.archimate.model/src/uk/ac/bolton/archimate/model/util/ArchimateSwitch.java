@@ -6,10 +6,9 @@
  */
 package uk.ac.bolton.archimate.model.util;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 
 import uk.ac.bolton.archimate.model.IAccessRelationship;
 import uk.ac.bolton.archimate.model.IAdapter;
@@ -106,7 +105,7 @@ import uk.ac.bolton.archimate.model.IValue;
  * @see uk.ac.bolton.archimate.model.IArchimatePackage
  * @generated
  */
-public class ArchimateSwitch<T> {
+public class ArchimateSwitch<T> extends Switch<T> {
     /**
      * The cached model package
      * <!-- begin-user-doc -->
@@ -128,14 +127,16 @@ public class ArchimateSwitch<T> {
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+     * Checks whether this is a switch for the given package.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
+     * @parameter ePackage the package in question.
+     * @return whether this is a switch for the given package.
      * @generated
      */
-    public T doSwitch(EObject theEObject) {
-        return doSwitch(theEObject.eClass(), theEObject);
+    @Override
+    protected boolean isSwitchFor(EPackage ePackage) {
+        return ePackage == modelPackage;
     }
 
     /**
@@ -145,26 +146,7 @@ public class ArchimateSwitch<T> {
      * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
-    protected T doSwitch(EClass theEClass, EObject theEObject) {
-        if (theEClass.eContainer() == modelPackage) {
-            return doSwitch(theEClass.getClassifierID(), theEObject);
-        }
-        else {
-            List<EClass> eSuperTypes = theEClass.getESuperTypes();
-            return
-                eSuperTypes.isEmpty() ?
-                    defaultCase(theEObject) :
-                    doSwitch(eSuperTypes.get(0), theEObject);
-        }
-    }
-
-    /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+    @Override
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
             case IArchimatePackage.ADAPTER: {
@@ -1049,22 +1031,6 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: {
-                IArchimateDiagramModel archimateDiagramModel = (IArchimateDiagramModel)theEObject;
-                T result = caseArchimateDiagramModel(archimateDiagramModel);
-                if (result == null) result = caseDiagramModel(archimateDiagramModel);
-                if (result == null) result = caseArchimateModelElement(archimateDiagramModel);
-                if (result == null) result = caseDiagramModelContainer(archimateDiagramModel);
-                if (result == null) result = caseDocumentable(archimateDiagramModel);
-                if (result == null) result = caseProperties(archimateDiagramModel);
-                if (result == null) result = caseDiagramModelComponent(archimateDiagramModel);
-                if (result == null) result = caseAdapter(archimateDiagramModel);
-                if (result == null) result = caseIdentifier(archimateDiagramModel);
-                if (result == null) result = caseCloneable(archimateDiagramModel);
-                if (result == null) result = caseNameable(archimateDiagramModel);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: {
                 IDiagramModelReference diagramModelReference = (IDiagramModelReference)theEObject;
                 T result = caseDiagramModelReference(diagramModelReference);
@@ -1087,20 +1053,6 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = caseCloneable(diagramModelObject);
                 if (result == null) result = caseAdapter(diagramModelObject);
                 if (result == null) result = caseNameable(diagramModelObject);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: {
-                IDiagramModelArchimateObject diagramModelArchimateObject = (IDiagramModelArchimateObject)theEObject;
-                T result = caseDiagramModelArchimateObject(diagramModelArchimateObject);
-                if (result == null) result = caseDiagramModelObject(diagramModelArchimateObject);
-                if (result == null) result = caseDiagramModelContainer(diagramModelArchimateObject);
-                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateObject);
-                if (result == null) result = caseFontAttribute(diagramModelArchimateObject);
-                if (result == null) result = caseIdentifier(diagramModelArchimateObject);
-                if (result == null) result = caseCloneable(diagramModelArchimateObject);
-                if (result == null) result = caseAdapter(diagramModelArchimateObject);
-                if (result == null) result = caseNameable(diagramModelArchimateObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1148,21 +1100,6 @@ public class ArchimateSwitch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION: {
-                IDiagramModelArchimateConnection diagramModelArchimateConnection = (IDiagramModelArchimateConnection)theEObject;
-                T result = caseDiagramModelArchimateConnection(diagramModelArchimateConnection);
-                if (result == null) result = caseDiagramModelConnection(diagramModelArchimateConnection);
-                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateConnection);
-                if (result == null) result = caseFontAttribute(diagramModelArchimateConnection);
-                if (result == null) result = caseProperties(diagramModelArchimateConnection);
-                if (result == null) result = caseDocumentable(diagramModelArchimateConnection);
-                if (result == null) result = caseIdentifier(diagramModelArchimateConnection);
-                if (result == null) result = caseCloneable(diagramModelArchimateConnection);
-                if (result == null) result = caseAdapter(diagramModelArchimateConnection);
-                if (result == null) result = caseNameable(diagramModelArchimateConnection);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT: {
                 IDiagramModelBendpoint diagramModelBendpoint = (IDiagramModelBendpoint)theEObject;
                 T result = caseDiagramModelBendpoint(diagramModelBendpoint);
@@ -1179,6 +1116,51 @@ public class ArchimateSwitch<T> {
             case IArchimatePackage.BOUNDS: {
                 IBounds bounds = (IBounds)theEObject;
                 T result = caseBounds(bounds);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: {
+                IArchimateDiagramModel archimateDiagramModel = (IArchimateDiagramModel)theEObject;
+                T result = caseArchimateDiagramModel(archimateDiagramModel);
+                if (result == null) result = caseDiagramModel(archimateDiagramModel);
+                if (result == null) result = caseArchimateModelElement(archimateDiagramModel);
+                if (result == null) result = caseDiagramModelContainer(archimateDiagramModel);
+                if (result == null) result = caseDocumentable(archimateDiagramModel);
+                if (result == null) result = caseProperties(archimateDiagramModel);
+                if (result == null) result = caseDiagramModelComponent(archimateDiagramModel);
+                if (result == null) result = caseAdapter(archimateDiagramModel);
+                if (result == null) result = caseIdentifier(archimateDiagramModel);
+                if (result == null) result = caseCloneable(archimateDiagramModel);
+                if (result == null) result = caseNameable(archimateDiagramModel);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: {
+                IDiagramModelArchimateObject diagramModelArchimateObject = (IDiagramModelArchimateObject)theEObject;
+                T result = caseDiagramModelArchimateObject(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelObject(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelContainer(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateObject);
+                if (result == null) result = caseFontAttribute(diagramModelArchimateObject);
+                if (result == null) result = caseIdentifier(diagramModelArchimateObject);
+                if (result == null) result = caseCloneable(diagramModelArchimateObject);
+                if (result == null) result = caseAdapter(diagramModelArchimateObject);
+                if (result == null) result = caseNameable(diagramModelArchimateObject);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION: {
+                IDiagramModelArchimateConnection diagramModelArchimateConnection = (IDiagramModelArchimateConnection)theEObject;
+                T result = caseDiagramModelArchimateConnection(diagramModelArchimateConnection);
+                if (result == null) result = caseDiagramModelConnection(diagramModelArchimateConnection);
+                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateConnection);
+                if (result == null) result = caseFontAttribute(diagramModelArchimateConnection);
+                if (result == null) result = caseProperties(diagramModelArchimateConnection);
+                if (result == null) result = caseDocumentable(diagramModelArchimateConnection);
+                if (result == null) result = caseIdentifier(diagramModelArchimateConnection);
+                if (result == null) result = caseCloneable(diagramModelArchimateConnection);
+                if (result == null) result = caseAdapter(diagramModelArchimateConnection);
+                if (result == null) result = caseNameable(diagramModelArchimateConnection);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -2444,6 +2426,7 @@ public class ArchimateSwitch<T> {
      * @see #doSwitch(org.eclipse.emf.ecore.EObject)
      * @generated
      */
+    @Override
     public T defaultCase(EObject object) {
         return null;
     }

@@ -146,6 +146,14 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
         return properties;
     }
 
+    /** 
+     * Left Justified
+     */
+    @Override
+    public int getDefaultTextAlignment() {
+        return TEXT_ALIGNMENT_LEFT;
+    }
+
     @Override
     public EObject getCopy() {
         ISketchModelSticky newObject = (ISketchModelSticky)super.getCopy();
