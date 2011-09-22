@@ -25,6 +25,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.PlatformUI;
@@ -375,10 +376,14 @@ implements IEditorModelManager {
 
     /**
      * Ask user for file name to save model
-     * @return
+     * @return the file or null
      */
     private File askSaveModel() {
-        FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+        // On Mac if the app is minimised in the dock Display.getCurrent().getActiveShell() will return null
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        shell.setActive(); // Get focus on Mac
+        
+        FileDialog dialog = new FileDialog(shell, SWT.SAVE);
         dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } );
         String path = dialog.open();
         if(path == null) {
@@ -398,7 +403,7 @@ implements IEditorModelManager {
         // Make sure we don't already have it open
         for(IArchimateModel m : getModels()) {
             if(file.equals(m.getFile())) {
-                MessageDialog.openWarning(Display.getCurrent().getActiveShell(), "Save Model", "' " + file +
+                MessageDialog.openWarning(shell, "Save Model", "' " + file +
                         "' is already already open. Please choose another file name.");
                 return null;
             }
@@ -406,7 +411,7 @@ implements IEditorModelManager {
         
         // Make sure the file does not already exist
         if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), "Save Model", "'" + file +
+            boolean result = MessageDialog.openQuestion(shell, "Save Model", "'" + file +
                     "' already exists. Are you sure you want to overwrite it?");
             if(!result) {
                 return null;
