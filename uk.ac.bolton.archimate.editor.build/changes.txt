@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.0 September 15 2011
+Version 2.0 September 23 2011
 -----------------------------
 + Dynamic Viewpoints
 + Can now add multiple occurrences of objects and connections in a View
@@ -26,6 +26,7 @@ Version 2.0 September 15 2011
 + Built on Eclipse 3.7.1 RCP
 * When closing a model close any of its open Views more gracefully
 * Optimisations to Property sections in Properties Window
+* Fix possible error on Mac in Save dialog if app is minimised
 * Many internal optimisations
 
 
