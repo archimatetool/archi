@@ -23,7 +23,7 @@ import uk.ac.bolton.archimate.model.INameable;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateModelDataSource implements JRDataSource {
+public class ArchimateModelDataSource implements JRDataSource, IPropertiesDataSource {
     
     private IArchimateModel fModel;
     private boolean done;
@@ -49,6 +49,11 @@ public class ArchimateModelDataSource implements JRDataSource {
     }
 
     @Override
+    public Object getElement() {
+        return fModel;
+    }
+
+    @Override
     public boolean next() throws JRException {
         if(!done) {
             done = true;
@@ -59,16 +64,7 @@ public class ArchimateModelDataSource implements JRDataSource {
 
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {
-        String fieldName = jrField.getName();
-        
-        if("name".equals(fieldName)) {
-            return fModel.getName();
-        }
-        if("purpose".equals(fieldName)) {
-            String s = fModel.getPurpose();
-            return StringUtils.isSet(s) ? s : null;
-        }
-        return null;
+        return FieldDataFactory.getFieldValue(fModel, jrField.getName());
     }
 
     
@@ -88,5 +84,4 @@ public class ArchimateModelDataSource implements JRDataSource {
             }
         });
     }
-
 }

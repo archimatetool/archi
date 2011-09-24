@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Sub-report to display fields of an ArchiMate Element -->
+<!-- The Data Source is of type uk.ac.bolton.archimate.jasperreports.data.ElementsDataSource -->
+<!-- The Element is of type uk.ac.bolton.archimate.model.IArchimateElement accessed by field "this" -->
+<!-- Example to get documentation value - $F{this}.getDocumentation() -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
@@ -14,6 +18,7 @@
     
     <parameter name="TITLE" class="java.lang.String"/>
     
+    <field name="this" class="uk.ac.bolton.archimate.model.IArchimateElement"/>
     <field name="name" class="java.lang.String"/>
     <field name="type" class="java.lang.String"/>
     <field name="documentation" class="java.lang.String"/>
@@ -52,7 +57,7 @@
             </textField>
         </band>
 
-        <!-- Relationship source and target -->
+        <!-- Relationship source and target (if this is a relation) -->
         <band height="34">
             <printWhenExpression>$F{relation_source} != null</printWhenExpression>
             <textField isStretchWithOverflow="true">

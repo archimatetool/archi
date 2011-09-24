@@ -21,7 +21,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  * 
  * @author Phillip Beauvoir
  */
-public class PropertiesModelDataSource implements JRRewindableDataSource {
+public class PropertiesModelDataSource implements JRRewindableDataSource, IDataSource {
     
     private EList<IProperty> fProperties;
     private IProperty fCurrentProperty;
@@ -59,5 +59,10 @@ public class PropertiesModelDataSource implements JRRewindableDataSource {
     @Override
     public void moveFirst() throws JRException {
         currentIndex = -1;
+    }
+
+    @Override
+    public Object getElement() {
+        return fCurrentProperty;
     }
 }

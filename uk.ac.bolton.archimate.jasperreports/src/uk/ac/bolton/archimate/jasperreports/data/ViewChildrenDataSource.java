@@ -12,7 +12,6 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -21,11 +20,11 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
- * ViewChildrenDataSource
+ * ViewChildrenDataSource - child objects of a View
  * 
  * @author Phillip Beauvoir
  */
-public class ViewChildrenDataSource implements JRRewindableDataSource {
+public class ViewChildrenDataSource implements JRRewindableDataSource, IDataSource {
     
     private List<IArchimateElement> fChildren = new ArrayList<IArchimateElement>();
     private IArchimateElement fCurrentElement;
@@ -65,20 +64,17 @@ public class ViewChildrenDataSource implements JRRewindableDataSource {
 
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {
-        String fieldName = jrField.getName();
-        
-        if("name".equals(fieldName)) {
-            return fCurrentElement.getName();
-        }
-        if("type".equals(fieldName)) {
-            return ArchimateNames.getDefaultName(fCurrentElement.eClass());
-        }
-        return null;
+        return FieldDataFactory.getFieldValue(fCurrentElement, jrField.getName());
     }
 
     @Override
     public void moveFirst() throws JRException {
         currentIndex = -1;
+    }
+
+    @Override
+    public Object getElement() {
+        return fCurrentElement;
     }
 
 }

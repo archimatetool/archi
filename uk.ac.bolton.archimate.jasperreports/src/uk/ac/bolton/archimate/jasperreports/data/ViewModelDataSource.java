@@ -16,7 +16,6 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -27,7 +26,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-public class ViewModelDataSource implements JRRewindableDataSource {
+public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
     private List<IDiagramModel> fViews;
     private IDiagramModel fCurrentView;
@@ -79,20 +78,14 @@ public class ViewModelDataSource implements JRRewindableDataSource {
     public Object getFieldValue(JRField jrField) throws JRException {
         String fieldName = jrField.getName();
         
-        if("name".equals(fieldName)) {
-            return fCurrentView.getName();
-        }
         if("imagePath".equals(fieldName)) {
             return getImagePath();
         }
         if("viewpoint".equals(fieldName) && fCurrentView instanceof IArchimateDiagramModel) {
             return getViewpointName();
         }
-        if("documentation".equals(fieldName)) {
-            String s = fCurrentView.getDocumentation();
-            return StringUtils.isSet(s) ? s : null;
-        }
-        return null;
+
+        return FieldDataFactory.getFieldValue(fCurrentView, fieldName);
     }
 
     @Override
@@ -106,5 +99,10 @@ public class ViewModelDataSource implements JRRewindableDataSource {
     private String getImagePath() {
         String diagramName = fCurrentView.getId() + ".png";
         return System.getProperty("JASPER_IMAGE_PATH") + "/" + diagramName;
+    }
+
+    @Override
+    public Object getElement() {
+        return fCurrentView;
     }
 }

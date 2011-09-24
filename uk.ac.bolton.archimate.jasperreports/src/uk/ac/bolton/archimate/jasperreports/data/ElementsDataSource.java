@@ -9,20 +9,18 @@ package uk.ac.bolton.archimate.jasperreports.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**
@@ -30,7 +28,7 @@ import uk.ac.bolton.archimate.model.IRelationship;
  * 
  * @author Phillip Beauvoir
  */
-public class ElementsDataSource implements JRRewindableDataSource {
+public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
     private List<IArchimateElement> fElements = new ArrayList<IArchimateElement>();
     private IArchimateElement fCurrentElement;
@@ -105,6 +103,11 @@ public class ElementsDataSource implements JRRewindableDataSource {
     }
     
     @Override
+    public Object getElement() {
+        return fCurrentElement;
+    }
+
+    @Override
     public boolean next() throws JRException {
         if(currentIndex < fElements.size() - 1) {
             fCurrentElement = fElements.get(++currentIndex);
@@ -118,32 +121,7 @@ public class ElementsDataSource implements JRRewindableDataSource {
 
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {
-        String fieldName = jrField.getName();
-        
-        if("name".equals(fieldName)) {
-            return fCurrentElement.getName();
-        }
-        if("type".equals(fieldName)) {
-            return ArchimateNames.getDefaultName(fCurrentElement.eClass());
-        }
-        if("documentation".equals(fieldName)) {
-            String s = fCurrentElement.getDocumentation();
-            return StringUtils.isSet(s) ? s : null;
-        }
-        if("relation_source".equals(fieldName) && fCurrentElement instanceof IRelationship) {
-            IRelationship relation = (IRelationship)fCurrentElement;
-            IArchimateElement source = relation.getSource();
-            String s = source.getName();
-            return StringUtils.isSet(s) ? s : null;
-        }
-        if("relation_target".equals(fieldName) && fCurrentElement instanceof IRelationship) {
-            IRelationship relation = (IRelationship)fCurrentElement;
-            IArchimateElement target = relation.getTarget();
-            String s = target.getName();
-            return StringUtils.isSet(s) ? s : null;
-        }
-        
-        return null;
+        return FieldDataFactory.getFieldValue(fCurrentElement, jrField.getName());
     }
 
     @Override
@@ -164,4 +142,5 @@ public class ElementsDataSource implements JRRewindableDataSource {
             getElements(f, type);
         }
     }
+
 }
