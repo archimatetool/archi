@@ -24,7 +24,7 @@
 	<key>CFBundleExecutable</key>
 	<string>applet</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.0.0</string>
+	<string>2.1.0</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
