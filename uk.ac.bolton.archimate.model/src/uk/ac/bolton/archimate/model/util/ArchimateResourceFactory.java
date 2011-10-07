@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -95,9 +93,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
             options.put(XMLResource.OPTION_ENCODING, "UTF-8");
             
             // A Map to map Ecore features and classes to elememt names and types
-            ExtendedMetaData ext = new BasicExtendedMetaData(ExtendedMetaData.ANNOTATION_URI, 
-                    EPackage.Registry.INSTANCE, new HashMap<EModelElement, EAnnotation>()) {
-                
+            ExtendedMetaData ext = new BasicExtendedMetaData() {
                 @Override
                 public EClassifier getType(EPackage ePackage, String name) {
                     /*
