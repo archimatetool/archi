@@ -132,13 +132,12 @@ extends XYLayoutEditPolicy {
         public AddObjectCommand(IDiagramModelContainer parent, IDiagramModelObject child, Rectangle bounds) {
             fParent = parent;
             fChild = child;
-            fBounds = bounds;
+            fBounds = bounds.getCopy();
         }
         
         @Override
         public void execute() {
-            // Set new x,y but keep original width and height
-            fChild.setBounds(fBounds.x, fBounds.y, fChild.getBounds().getWidth(), fChild.getBounds().getHeight());
+            fChild.setBounds(fBounds.x, fBounds.y, fBounds.width, fBounds.height);
             fParent.getChildren().add(fChild);
         }
 
