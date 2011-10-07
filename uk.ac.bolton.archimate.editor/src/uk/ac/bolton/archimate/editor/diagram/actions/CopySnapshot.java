@@ -23,7 +23,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -109,8 +108,9 @@ public final class CopySnapshot {
         IDiagramModel diagramModel = modelObjectsSelected.get(0).getDiagramModel();
         
         // Clone Snapshot based on source diagram model type
-        SNAPSHOT = (IDiagramModel)IArchimateFactory.eINSTANCE.create(diagramModel.eClass());
-        
+        // Create the instance from the registered factory in case of extensions
+        SNAPSHOT = (IDiagramModel)diagramModel.eClass().getEPackage().getEFactoryInstance().create(diagramModel.eClass());
+
         // Sanity check...
         for(IDiagramModelObject object : modelObjectsSelected) {
             if(object.getDiagramModel() != diagramModel) {

@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -342,7 +341,8 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * @generated NOT
      */
     public EObject getCopy() {
-        IDiagramModel newDiagramModel = (IDiagramModel)IArchimateFactory.eINSTANCE.create(eClass());
+        // Create the instance from the registered factory in case of extensions
+        IDiagramModel newDiagramModel = (IDiagramModel)eClass().getEPackage().getEFactoryInstance().create(eClass());
         
         newDiagramModel.setName(getName());
         newDiagramModel.setConnectionRouterType(getConnectionRouterType());
