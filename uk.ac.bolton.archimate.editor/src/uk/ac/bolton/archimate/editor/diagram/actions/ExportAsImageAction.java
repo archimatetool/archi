@@ -84,7 +84,7 @@ public class ExportAsImageAction extends Action {
     private String askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
         dialog.setText("Export View As Image");
-        dialog.setFilterExtensions(new String[] { "*.png", "*.jpg,*.jpeg", "*.bmp" } );
+        dialog.setFilterExtensions(new String[] { "*.png", "*.jpg;*.jpeg", "*.bmp" } );
         
         String path = dialog.open();
         if(path == null) {
