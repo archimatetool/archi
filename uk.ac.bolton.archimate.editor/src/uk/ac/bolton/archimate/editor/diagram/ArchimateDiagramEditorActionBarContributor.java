@@ -12,7 +12,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
@@ -32,6 +31,8 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
  */
 public class ArchimateDiagramEditorActionBarContributor
 extends AbstractDiagramEditorActionBarContributor {
+    
+    protected String editDeleteMenuGroup = "editDeleteMenuGroup";
 
     @Override
     protected void buildActions() {
@@ -62,15 +63,15 @@ extends AbstractDiagramEditorActionBarContributor {
     }
     
     @Override
-    public void contributeToMenu(IMenuManager menuManager) {
-    	super.contributeToMenu(menuManager);
-    	
-        IMenuManager editMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_EDIT);
-        String groupName = "group_del";
-        editMenu.insertAfter(ArchimateEditorActionFactory.DELETE.getId(), new Separator(groupName));
-        editMenu.appendToGroup(groupName, getAction(DeleteFromModelAction.ID));
+    protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
+        IMenuManager editMenu = super.contributeToEditMenu(menuManager);
+        
+        editMenu.insertAfter(ArchimateEditorActionFactory.DELETE.getId(), new Separator(editDeleteMenuGroup));
+        editMenu.appendToGroup(editDeleteMenuGroup, getAction(DeleteFromModelAction.ID));
+        
+        return editMenu;
     }
-
+    
     @Override
     protected IMenuManager createViewMenu(IMenuManager menuManager) {
         IMenuManager viewMenu = super.createViewMenu(menuManager);
@@ -90,8 +91,6 @@ extends AbstractDiagramEditorActionBarContributor {
         derivedRelationsMenu.add(getAction(ShowStructuralChainsAction.ID));
         derivedRelationsMenu.add(getAction(CreateDerivedRelationAction.ID));
         
-        
         return viewMenu;
     }
-    
 }

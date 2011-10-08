@@ -54,6 +54,8 @@ extends ActionBarContributor {
 
     protected ZoomComboContributionItem fZoomCombo;
     
+    protected String editMenuGroup = "editMenuGroup";
+    
     @Override
     protected void buildActions() {
         // Zoom in and out
@@ -154,11 +156,11 @@ extends ActionBarContributor {
     @Override
     public void contributeToMenu(IMenuManager menuManager) {
         createViewMenu(menuManager);
+        contributeToEditMenu(menuManager);
     }
     
     /**
      * Create the "View" Menu
-     * @param menuManager
      */
     protected IMenuManager createViewMenu(IMenuManager menuManager) {
         IMenuManager viewMenu = new MenuManager("&View");
@@ -217,29 +219,32 @@ extends ActionBarContributor {
         exportMenu.add(getAction(ExportAsImageAction.ID));
         exportMenu.add(getAction(ExportAsImageToClipboardAction.ID));
         
+        return viewMenu;
+    }
+    
+    protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_EDIT);
-        String groupName = "group1_start";
-        editMenu.insertAfter(ArchimateEditorActionFactory.RENAME.getId(), new Separator(groupName));
+        editMenu.insertAfter(ArchimateEditorActionFactory.RENAME.getId(), new Separator(editMenuGroup));
         
         // Fill Color Action
-        editMenu.appendToGroup(groupName, getAction(FillColorAction.ID));
+        editMenu.appendToGroup(editMenuGroup, getAction(FillColorAction.ID));
         
         // Connection Line Width and Color
-        editMenu.appendToGroup(groupName, getAction(ConnectionLineWidthAction.ID));
-        editMenu.appendToGroup(groupName, getAction(ConnectionLineColorAction.ID));
+        editMenu.appendToGroup(editMenuGroup, getAction(ConnectionLineWidthAction.ID));
+        editMenu.appendToGroup(editMenuGroup, getAction(ConnectionLineColorAction.ID));
 
         // Font
-        editMenu.appendToGroup(groupName, getAction(FontAction.ID));
-        editMenu.appendToGroup(groupName, getAction(FontColorAction.ID));
+        editMenu.appendToGroup(editMenuGroup, getAction(FontAction.ID));
+        editMenu.appendToGroup(editMenuGroup, getAction(FontColorAction.ID));
         
         // Text Alignment
         IMenuManager textAlignmentMenu = new MenuManager("Text alignment");
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_LEFT_ID));
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_CENTER_ID));
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_RIGHT_ID));
-        editMenu.appendToGroup(groupName, textAlignmentMenu);
-        
-        return viewMenu;
+        editMenu.appendToGroup(editMenuGroup, textAlignmentMenu);
+
+        return editMenu;
     }
     
     @Override
