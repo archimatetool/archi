@@ -8,8 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -25,6 +23,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 /**
  * Bring Forward Action
+ * Simply brings the child forward in order by one position
  * 
  * @author Phillip Beauvoir
  */
@@ -78,11 +77,6 @@ public class BringForwardAction extends SelectionAction {
         
         CompoundCommand result = new CompoundCommand("Bring Forward");
         
-        /*
-         * We have to work with the bounds of the actual Figures not the IDiagramModelObject
-         * because the IDiagramModelObject can have -1 as a width and height 
-         */
-        
         for(Object object : selection) {
             if(object instanceof GraphicalEditPart) {
                 GraphicalEditPart editPart = (GraphicalEditPart)object;
@@ -105,45 +99,11 @@ public class BringForwardAction extends SelectionAction {
                         continue;
                     }
                     
-                    // Get siblings
-                    EList<IDiagramModelObject> modelChildren = parent.getChildren();
-
-                    Rectangle bounds = editPart.getFigure().getBounds();
-
+                    List<IDiagramModelObject> modelChildren = parent.getChildren();
                     int originalPos = modelChildren.indexOf(diagramObject);
 
-                    // If at top don't bother
-                    if(originalPos == modelChildren.size() - 1) {
-                        continue;
-                    }
-
-                    int newPos = originalPos;
-
-                    for(IDiagramModelObject child : modelChildren) {
-                        if(child == diagramObject) {
-                            continue; // same one
-                        }
-
-                        // Check for intersections with other sibling editparts
-                        GraphicalEditPart editPartSibling = (GraphicalEditPart)viewer.getEditPartRegistry().get(child);
-                        if(editPartSibling != null) { // this can happen
-                            Rectangle boundsSibling = editPartSibling.getFigure().getBounds();
-                            if(bounds.touches(boundsSibling)) {
-                                int pos = modelChildren.indexOf(child);
-                                if(pos > newPos) {
-                                    newPos = pos;
-                                }
-                            }
-                        }
-                    }
-
-                    // If we didn't intersect with any other objects bring it forward 1 position
-                    if(newPos == originalPos && newPos < modelChildren.size()) {
-                        newPos++;
-                    }
-
-                    if(newPos > originalPos) {
-                        result.add(new BringForwardCommand(parent, newPos, originalPos));
+                    if(originalPos < modelChildren.size() - 1) {
+                        result.add(new BringForwardCommand(parent, originalPos));
                     }
                 }
             }
@@ -154,28 +114,27 @@ public class BringForwardAction extends SelectionAction {
     
     private static class BringForwardCommand extends Command {
         private IDiagramModelContainer fParent;
-        private int fNewPos, fOldPos;
+        private int fOldPos;
         
-        public BringForwardCommand(IDiagramModelContainer parent, int newPos, int oldPos) {
+        public BringForwardCommand(IDiagramModelContainer parent, int oldPos) {
             fParent = parent;
-            fNewPos = newPos;
             fOldPos = oldPos;
             setLabel("Bring Forward");
         }
 
         @Override
         public boolean canExecute() {
-            return fParent != null && fNewPos < fParent.getChildren().size();
+            return fParent != null && fOldPos < fParent.getChildren().size() - 1;
         }
         
         @Override
         public void execute() {
-            fParent.getChildren().move(fNewPos, fOldPos);
+            fParent.getChildren().move(fOldPos + 1, fOldPos);
         }
         
         @Override
         public void undo() {
-            fParent.getChildren().move(fOldPos, fNewPos);
+            fParent.getChildren().move(fOldPos, fOldPos + 1);
         }
         
         @Override

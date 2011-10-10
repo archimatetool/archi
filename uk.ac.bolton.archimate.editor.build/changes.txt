@@ -1,6 +1,12 @@
 Archi Changes
 -------------
 
+Version 2.1 November XX 2011
+-----------------------------
+* Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
+
+
+
 Version 2.0 September 30 2011
 -----------------------------
 + Dynamic Viewpoints
