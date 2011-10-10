@@ -14,6 +14,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -201,6 +203,15 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected Text createSingleTextControl(Composite parent, int style) {
         Text textControl = getWidgetFactory().createText(parent, null, style | SWT.SINGLE);
+        
+        // On Mac CRLFs get added if you copy & paste a block of text
+        textControl.addVerifyListener(new VerifyListener() {
+            @Override
+            public void verifyText(VerifyEvent e) {
+                e.text = e.text.replaceAll("(\\r\\n|\\r|\\n)", " ");
+            }
+        });
+        
         GridData gd = new GridData(SWT.FILL, SWT.NULL, true, false);
         // This stops excess size if the control contains a lot of text
         gd.widthHint = 100;
