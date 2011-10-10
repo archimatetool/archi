@@ -18,8 +18,6 @@ import uk.ac.bolton.archimate.editor.diagram.commands.FillColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FontColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FontStyleCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.TextAlignmentCommand;
-import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.ConnectionPaintFormat;
-import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.ElementPaintFormat;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -83,47 +81,47 @@ public class FormatPainterTool extends AbstractTool {
         return false;
     }
     
-    private Command createCommand(PaintFormat pf, Object object) {
+    protected CompoundCommand createCommand(PaintFormat pf, Object targetObject) {
         CompoundCommand result = new CompoundCommand("Format Painter");
         
-        if(pf instanceof ElementPaintFormat && object instanceof IDiagramModelObject) {
-            ElementPaintFormat epf = (ElementPaintFormat)pf;
-            IDiagramModelObject dmo = (IDiagramModelObject)object;
+        if(pf.sourceComponent instanceof IDiagramModelObject && targetObject instanceof IDiagramModelObject) {
+            IDiagramModelObject source = (IDiagramModelObject)pf.sourceComponent;
+            IDiagramModelObject target = (IDiagramModelObject)targetObject;
             
-            Command cmd = new FillColorCommand(dmo, epf.fillColor);
+            Command cmd = new FillColorCommand(target, pf.fillColor);
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new FontStyleCommand(dmo, epf.font);
+            cmd = new FontStyleCommand(target, source.getFont());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new FontColorCommand(dmo, epf.fontColor);
+            cmd = new FontColorCommand(target, source.getFontColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new TextAlignmentCommand(dmo, epf.textAlignment);
+            cmd = new TextAlignmentCommand(target, source.getTextAlignment());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
         }
-        else if(pf instanceof ConnectionPaintFormat && object instanceof IDiagramModelConnection) {
-            ConnectionPaintFormat cpf = (ConnectionPaintFormat)pf;
-            IDiagramModelConnection connection = (IDiagramModelConnection)object;
+        else if(pf.sourceComponent instanceof IDiagramModelConnection && targetObject instanceof IDiagramModelConnection) {
+            IDiagramModelConnection source = (IDiagramModelConnection)pf.sourceComponent;
+            IDiagramModelConnection target = (IDiagramModelConnection)targetObject;
             
-            Command cmd = new ConnectionLineColorCommand(connection, cpf.lineColor);
+            Command cmd = new ConnectionLineColorCommand(target, source.getLineColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new FontStyleCommand(connection, cpf.font);
+            cmd = new FontStyleCommand(target, source.getFont());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new FontColorCommand(connection, cpf.fontColor);
+            cmd = new FontColorCommand(target, source.getFontColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new ConnectionLineWidthCommand(connection, cpf.lineWidth);
+            cmd = new ConnectionLineWidthCommand(target, source.getLineWidth());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
@@ -132,7 +130,7 @@ public class FormatPainterTool extends AbstractTool {
         return result;
     }
 
-    private boolean isPaintableObject(Object object) {
+    protected boolean isPaintableObject(Object object) {
         // Junctions are a no-no
         if(object instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)object).getArchimateElement();
@@ -146,4 +144,5 @@ public class FormatPainterTool extends AbstractTool {
     protected String getCommandName() {
         return "FormatPaint";
     }
+
 }

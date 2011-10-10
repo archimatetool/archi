@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.RGB;
 
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
@@ -27,63 +28,40 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  */
 public class FormatPainterInfo {
     
-    private static ImageData cursorImageData = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.CURSOR_IMG_FORMAT_PAINTER).getImageData();
+    protected static ImageData cursorImageData = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.CURSOR_IMG_FORMAT_PAINTER).getImageData();
     
-    private static Cursor defaultCursor = new Cursor(
+    protected static Cursor defaultCursor = new Cursor(
             null,
             IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.CURSOR_IMG_FORMAT_PAINTER_GREY).getImageData(),
             0,
             cursorImageData.height - 1);
     
-    private static Cursor coloredCursor;
+    protected static Cursor coloredCursor;
     
-    static interface PaintFormat {
-        RGB getCursorColor();
-    };
-    
-    static class ElementPaintFormat implements PaintFormat {
-        String fillColor;
-        String font;
-        String fontColor;
-        int textAlignment;
+    public static class PaintFormat {
+        public IDiagramModelComponent sourceComponent;
+        public String fillColor;
         
-        ElementPaintFormat(IDiagramModelObject object) {
+        public PaintFormat(IDiagramModelConnection connection) {
+            sourceComponent = connection;
+            fillColor = connection.getLineColor();
+        }
+        
+        PaintFormat(IDiagramModelObject object) {
+            sourceComponent = object;
+            
             fillColor = object.getFillColor();
             if(fillColor == null) { // If null it's a default color for a IDiagramModelObject
                 Color c = ColorFactory.getDefaultColor(object);
                 fillColor = ColorFactory.convertRGBToString(c.getRGB());
             }
-            
-            font = object.getFont();
-            fontColor = object.getFontColor();
-            textAlignment = object.getTextAlignment();
         }
         
-        @Override
         public RGB getCursorColor() {
-            return ColorFactory.convertStringToRGB(fillColor);
-        }
-    }
-    
-    static class ConnectionPaintFormat implements PaintFormat {
-        String lineColor;
-        int lineWidth;
-        String font;
-        String fontColor;
-        
-        ConnectionPaintFormat(IDiagramModelConnection connection) {
-            lineColor = connection.getLineColor();
-            lineWidth = connection.getLineWidth();
-            font = connection.getFont();
-            fontColor = connection.getFontColor();
-        }
-        
-        @Override
-        public RGB getCursorColor() {
-            if(lineColor == null) {
+            if(fillColor == null) {
                 return new RGB(255, 255, 255);
             }
-            return ColorFactory.convertStringToRGB(lineColor);
+            return ColorFactory.convertStringToRGB(fillColor);
         }
     }
     
@@ -94,7 +72,7 @@ public class FormatPainterInfo {
      */
     private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-    private PaintFormat pf;
+    protected PaintFormat pf;
     
     public PaintFormat getPaintFormat() {
         return pf;
@@ -102,10 +80,10 @@ public class FormatPainterInfo {
     
     public void updatePaintFormat(Object object) {
         if(object instanceof IDiagramModelObject) {
-            pf = new ElementPaintFormat((IDiagramModelObject)object);
+            pf = new PaintFormat((IDiagramModelObject)object);
         }
         else if(object instanceof IDiagramModelConnection) {
-            pf = new ConnectionPaintFormat((IDiagramModelConnection)object);
+            pf = new PaintFormat((IDiagramModelConnection)object);
         }
         else {
             pf = null;
@@ -133,7 +111,7 @@ public class FormatPainterInfo {
     /**
      * Update colored cursor to selected fill color
      */
-    private void updateColoredCursor() {
+    protected void updateColoredCursor() {
         if(coloredCursor != null && !coloredCursor.isDisposed()) {
             coloredCursor.dispose();
         }
