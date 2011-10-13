@@ -167,6 +167,7 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * @return the value of the '<em>Bendpoints</em>' containment reference list.
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelConnection_Bendpoints()
      * @model containment="true"
+     *        extendedMetaData="name='bendpoint' kind='element'"
      * @generated
      */
     EList<IDiagramModelBendpoint> getBendpoints();

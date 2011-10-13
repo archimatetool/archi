@@ -14,7 +14,7 @@ package uk.ac.bolton.archimate.model;
  *
  *
  * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelGroup()
- * @model
+ * @model extendedMetaData="name='Group'"
  * @generated
  */
 public interface IDiagramModelGroup extends IDiagramModelObject, IDiagramModelContainer, IDocumentable, IProperties {

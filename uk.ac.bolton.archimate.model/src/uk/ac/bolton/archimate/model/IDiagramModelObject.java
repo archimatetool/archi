@@ -66,6 +66,7 @@ public interface IDiagramModelObject extends IDiagramModelComponent, IFontAttrib
      * @return the value of the '<em>Source Connections</em>' containment reference list.
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelObject_SourceConnections()
      * @model containment="true"
+     *        extendedMetaData="name='sourceConnection' kind='element'"
      * @generated
      */
     EList<IDiagramModelConnection> getSourceConnections();

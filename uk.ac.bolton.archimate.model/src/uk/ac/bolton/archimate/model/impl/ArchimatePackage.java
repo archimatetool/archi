@@ -2597,6 +2597,117 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         // Create resource
         createResource(eNS_URI);
+
+        // Create annotations
+        // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
+        createExtendedMetaDataAnnotations();
+    }
+
+    /**
+     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void createExtendedMetaDataAnnotations() {
+        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+        addAnnotation
+          (getProperties_Properties(), 
+           source, 
+           new String[] {
+             "name", "property", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getTextContent_Content(), 
+           source, 
+           new String[] {
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getDocumentable_Documentation(), 
+           source, 
+           new String[] {
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getFolderContainer_Folders(), 
+           source, 
+           new String[] {
+             "name", "folder", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (archimateModelEClass, 
+           source, 
+           new String[] {
+             "name", "model" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getArchimateModel_Purpose(), 
+           source, 
+           new String[] {
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getFolder_Elements(), 
+           source, 
+           new String[] {
+             "name", "element", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getDiagramModelContainer_Children(), 
+           source, 
+           new String[] {
+             "name", "child", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getDiagramModelReference_ReferencedModel(), 
+           source, 
+           new String[] {
+             "name", "model", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "attribute" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getDiagramModelObject_SourceConnections(), 
+           source, 
+           new String[] {
+             "name", "sourceConnection", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (diagramModelGroupEClass, 
+           source, 
+           new String[] {
+             "name", "Group" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (diagramModelNoteEClass, 
+           source, 
+           new String[] {
+             "name", "Note" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getDiagramModelConnection_Bendpoints(), 
+           source, 
+           new String[] {
+             "name", "bendpoint", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (diagramModelArchimateObjectEClass, 
+           source, 
+           new String[] {
+             "name", "DiagramObject" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (diagramModelArchimateConnectionEClass, 
+           source, 
+           new String[] {
+             "name", "Connection" //$NON-NLS-1$ //$NON-NLS-2$
+           });
     }
 
 } //ArchimatePackage

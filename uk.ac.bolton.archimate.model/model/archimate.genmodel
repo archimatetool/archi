@@ -195,6 +195,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/font"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/fontColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/textAlignment"/>
+      <genOperations ecoreOperation="archimate.ecore#//FontAttribute/getDefaultTextAlignment"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//Bounds">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Bounds/x"/>

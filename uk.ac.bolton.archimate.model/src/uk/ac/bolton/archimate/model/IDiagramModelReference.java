@@ -37,6 +37,7 @@ public interface IDiagramModelReference extends IDiagramModelObject {
      * @see #setReferencedModel(IDiagramModel)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelReference_ReferencedModel()
      * @model resolveProxies="false"
+     *        extendedMetaData="name='model' kind='attribute'"
      * @generated
      */
     IDiagramModel getReferencedModel();

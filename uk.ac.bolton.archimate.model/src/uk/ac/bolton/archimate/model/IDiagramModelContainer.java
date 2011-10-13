@@ -37,6 +37,7 @@ public interface IDiagramModelContainer extends IDiagramModelComponent {
      * @return the value of the '<em>Children</em>' containment reference list.
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelContainer_Children()
      * @model containment="true"
+     *        extendedMetaData="name='child' kind='element'"
      * @generated
      */
     EList<IDiagramModelObject> getChildren();

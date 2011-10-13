@@ -38,6 +38,7 @@ public interface IDocumentable extends EObject {
      * @see #setDocumentation(String)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDocumentable_Documentation()
      * @model default=""
+     *        extendedMetaData="kind='element'"
      * @generated
      */
     String getDocumentation();

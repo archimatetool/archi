@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see uk.ac.bolton.archimate.model.IArchimatePackage#getArchimateModel()
- * @model
+ * @model extendedMetaData="name='model'"
  * @generated
  */
 public interface IArchimateModel extends IFolderContainer, INameable, IIdentifier, IArchimateModelElement, IProperties {
@@ -42,7 +42,7 @@ public interface IArchimateModel extends IFolderContainer, INameable, IIdentifie
      * @return the value of the '<em>Purpose</em>' attribute.
      * @see #setPurpose(String)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getArchimateModel_Purpose()
-     * @model
+     * @model extendedMetaData="kind='element'"
      * @generated
      */
     String getPurpose();

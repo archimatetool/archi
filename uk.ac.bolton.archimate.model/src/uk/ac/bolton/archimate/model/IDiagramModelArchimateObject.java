@@ -21,7 +21,7 @@ package uk.ac.bolton.archimate.model;
  * </p>
  *
  * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelArchimateObject()
- * @model
+ * @model extendedMetaData="name='DiagramObject'"
  * @generated
  */
 public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer {

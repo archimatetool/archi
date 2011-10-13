@@ -38,6 +38,7 @@ public interface IProperties extends EObject {
      * @return the value of the '<em>Properties</em>' containment reference list.
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getProperties_Properties()
      * @model containment="true"
+     *        extendedMetaData="name='property' kind='element'"
      * @generated
      */
     EList<IProperty> getProperties();

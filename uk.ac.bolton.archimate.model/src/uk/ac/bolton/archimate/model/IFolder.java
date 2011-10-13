@@ -40,6 +40,7 @@ public interface IFolder extends IArchimateModelElement, IFolderContainer, IName
      * @return the value of the '<em>Elements</em>' containment reference list.
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getFolder_Elements()
      * @model containment="true"
+     *        extendedMetaData="name='element' kind='element'"
      * @generated
      */
     EList<EObject> getElements();

@@ -38,6 +38,7 @@ public interface ITextContent extends EObject {
      * @see #setContent(String)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getTextContent_Content()
      * @model default=""
+     *        extendedMetaData="kind='element'"
      * @generated
      */
     String getContent();
