@@ -100,6 +100,7 @@
         
         <!-- Business Actors Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_actors") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -111,17 +112,15 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_actors")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-        
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
         </band>
-
+        
         <!-- Business Functions Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_functions") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -133,18 +132,15 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_functions")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
         </band>
-        
-        
+
         <!-- Business Information Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_information") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -156,10 +152,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_information")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
@@ -167,6 +160,7 @@
 
         <!-- Business Processes Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_processes") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -178,10 +172,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_processes")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
@@ -189,6 +180,7 @@
 
         <!-- Business Products Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_products") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -200,10 +192,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_products")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
@@ -211,6 +200,7 @@
 
         <!-- Applications Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("applications") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -222,10 +212,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("applications")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
@@ -233,6 +220,7 @@
 
         <!-- Application Data Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("application_data") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -244,10 +232,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("application_data")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
@@ -255,6 +240,7 @@
 
         <!-- Infrastructures Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("infrastructures") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -266,10 +252,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("infrastructures")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
@@ -277,6 +260,7 @@
 
         <!-- Connectors Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("connectors") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -288,17 +272,15 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("connectors")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
-        </band>
-        
-        <!-- Page Break -->
-        <band height="1">
+            <!-- Page Break -->
             <break>
                 <reportElement x="0" y="0" width="1" height="1"></reportElement>
             </break>
         </band>
-
+        
         <!-- Relations Sub-Report -->
         <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("relations") == true</printWhenExpression>
             <subreport>
                 <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
                 <subreportParameter name="properties_report">
@@ -310,6 +292,7 @@
                 <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("relations")</dataSourceExpression>
                 <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
             </subreport>
+            <!-- Page Break -->
         </band>
         
     </detail>

@@ -47,6 +47,14 @@ public class ArchimateModelDataSource implements JRDataSource, IPropertiesDataSo
     public ElementsDataSource getElementsDataSource(String type) {
         return new ElementsDataSource(fModel, type);
     }
+    
+    /**
+     * @param type
+     * @return true if there are elements of type to print
+     */
+    public boolean hasElements(String type) {
+        return !new ElementsDataSource(fModel, type).fElements.isEmpty(); 
+    }
 
     @Override
     public Object getElement() {

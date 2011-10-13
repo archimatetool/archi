@@ -30,7 +30,7 @@ import uk.ac.bolton.archimate.model.IFolder;
  */
 public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
-    private List<IArchimateElement> fElements = new ArrayList<IArchimateElement>();
+    List<IArchimateElement> fElements = new ArrayList<IArchimateElement>();
     private IArchimateElement fCurrentElement;
     private int currentIndex = -1;
 
