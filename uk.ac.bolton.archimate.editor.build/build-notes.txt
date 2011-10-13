@@ -6,12 +6,13 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 1.  Edit the "plugin.xml" files for each plug-in to set the correct Version (format is X.X.X.qualifier)
 2.  Edit the "plugin.properties" file to set the correct Version (format is X.X.X)
 3.  Edit the "branding/mac/Info.plist" file to set the correct CFBundleShortVersionString and CFBundleVersion (format is X.X.X)
-4.  Edit the "archimate-makeinstallers.xml" Ant Script file in order to set the app version number and the location of the
+4.  Edit the "branding/mac/app/Contents/Info.plist" file to set the correct CFBundleGetInfoString (format is X.X.X)
+5.  Edit the "archimate-makeinstallers.xml" Ant Script file in order to set the app version number and the location of the
 	Windows JRE of the build machine.  (There will be two Windows versions, one with shipped JRE and one without.)
-5.  Edit and update the "changes.txt" file.
-6.  Ensure all Help PDFs are up to date.
-7.  Ensure all changes are committed to the git repo.
-8.  Open the "archimate.product" file and click on the "Eclipse Product export wizard" link and set the following settings:
+6.  Edit and update the "changes.txt" file.
+7.  Ensure all Help PDFs are up to date.
+8.  Ensure all changes are committed to the git repo.
+9.  Open the "archimate.product" file and click on the "Eclipse Product export wizard" link and set the following settings:
 	
 	Configuration:						              /uk.ac.bolton.archimate.editor.build/archimate.product
 	Root directory:						              (leave blank)
@@ -22,8 +23,7 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	Export for multiple platforms:		              ticked
 	Allow for binary cycles in target platform:       ticked
 	
-	----> NOT SURE ABOUT THIS NOW, TURN IT OFF! <----
-	----> On the "Dependencies" tab ensure "Include optional dependencies when computing..." is ticked. <----
+	On the "Dependencies" tab ensure "Include optional dependencies when computing..." is unticked.
 	
 	Click "Next" and select the following OS platforms:
 	
@@ -42,9 +42,8 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	macosx.cocoa.x86_64
 	win32.win32.x86
 
-9.  Run the "archimate-makeinstallers.xml" Ant script from Eclipse.
-10.  Run the NSIS installer for Windows version (windows_installer.nsi).
-11.  Check that the builds run on each platform
-12.  If all is OK, tag all files in the git repo as version "release_X.X.X"
-13.  Upload all files to the public download website
-
+10.  Run the "archimate-makeinstallers.xml" Ant script from Eclipse.
+11.  Run the NSIS installer for Windows version (windows_installer.nsi).
+12.  Check that the builds run on each platform
+13.  If all is OK, tag all files in the git repo as version "release_X.X.X"
+14.  Upload all files to the public download website
