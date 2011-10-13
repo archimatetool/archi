@@ -23,7 +23,6 @@ import uk.ac.bolton.archimate.editor.views.tree.commands.NewDiagramCommand;
 import uk.ac.bolton.archimate.editor.views.tree.commands.NewElementCommand;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.ISketchModel;
@@ -66,7 +65,7 @@ public class TreeModelViewActionFactory {
         
         // Find topmost folder type
         IFolder f = folder;
-        while(!(f.eContainer() instanceof IArchimateModel)) {
+        while(f.eContainer() instanceof IFolder) {
             f = (IFolder)f.eContainer();
         }
 
@@ -100,10 +99,8 @@ public class TreeModelViewActionFactory {
                 break;
                 
             case DIAGRAMS:
-                IAction action = createNewArchimateDiagramAction(folder);
-                list.add(action);
-                action = createNewSketchAction(folder);
-                list.add(action);
+                list.add(createNewArchimateDiagramAction(folder));
+                list.add(createNewSketchAction(folder));
                 break;
 
             default:
@@ -132,15 +129,15 @@ public class TreeModelViewActionFactory {
     }
     
     private IAction createNewArchimateDiagramAction(final IFolder folder) {
-        IAction action = new Action("&View") {
+        IAction action = new Action("&ArchiMate View") {
             @Override
             public void run() {
                 // Create a new Diagram Model, set its name
                 IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-                diagramModel.setName("New View");
+                diagramModel.setName("New ArchiMate View");
                 
                 // Execute Command
-                Command cmd = new NewDiagramCommand(folder, diagramModel, "New View");
+                Command cmd = new NewDiagramCommand(folder, diagramModel, "New ArchiMate View");
                 CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
