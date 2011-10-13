@@ -339,7 +339,7 @@ implements ITreeModelView, IUIRequestListener {
             return;
         }
         
-        IMenuManager newMenu = new MenuManager("New"); //$NON-NLS-1$
+        MenuManager newMenu = new MenuManager("New"); //$NON-NLS-1$
         manager.add(newMenu);
 
         manager.add(new Separator());
@@ -370,6 +370,9 @@ implements ITreeModelView, IUIRequestListener {
             }
         }
         
+        newMenu.add(new Separator("new_menu_additions"));
+        getSite().registerContextMenu(newMenu, getViewer());
+       
         if(!isEmpty) {
             manager.add(fActionDelete);
             manager.add(fActionRename);
