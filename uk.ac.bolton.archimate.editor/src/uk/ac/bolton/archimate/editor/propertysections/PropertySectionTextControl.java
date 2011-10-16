@@ -67,11 +67,12 @@ public abstract class PropertySectionTextControl implements FocusListener {
     public void refresh(EObject dataElement) {
         fDataElement = dataElement;
         
-        if(fDataElement == null) {
-            return;
+        String text = null;
+        
+        if(fDataElement != null) {
+            text = (String)fDataElement.eGet(fFeature);
         }
         
-        String text = (String)fDataElement.eGet(fFeature);
         if(!StringUtils.isSet(text) && !fTextControl.isFocusControl()) { // Don't do this if text control has focus
             showHintText();
         }
@@ -98,12 +99,13 @@ public abstract class PropertySectionTextControl implements FocusListener {
     }
     
     private void updateText() {
-        if(fDataElement == null) {
-            return;
+        String oldText = ""; // Text control has default of ""
+        String newText = getText();
+        
+        if(fDataElement != null) {
+            oldText = StringUtils.safeString((String)fDataElement.eGet(fFeature)); // compare like for like
         }
         
-        String newText = getText();
-        String oldText = StringUtils.safeString((String)fDataElement.eGet(fFeature)); // compare like for like
         if(!newText.equals(oldText)) {
             textChanged(oldText, newText);
         }
