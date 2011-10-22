@@ -354,7 +354,7 @@ implements ITreeModelView, IUIRequestListener {
         // Selected Diagram
         if(selected instanceof IDiagramModel) {
             manager.add(fActionOpenDiagram);
-            manager.add(new Separator());
+            manager.add(new Separator("open"));
         }
         
         if(selected instanceof IFolder) {
@@ -370,10 +370,11 @@ implements ITreeModelView, IUIRequestListener {
             }
         }
         
-        newMenu.add(new Separator("new_menu_additions"));
-        getSite().registerContextMenu(newMenu, getViewer());
+        newMenu.add(new Separator());
+        getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer());
        
         if(!isEmpty) {
+            manager.add(new Separator());
             manager.add(fActionDelete);
             manager.add(fActionRename);
             manager.add(new Separator());
