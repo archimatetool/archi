@@ -341,14 +341,9 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * @generated NOT
      */
     public EObject getCopy() {
-        // Create the instance from the registered factory in case of extensions
-        IDiagramModel newDiagramModel = (IDiagramModel)eClass().getEPackage().getEFactoryInstance().create(eClass());
-        
-        newDiagramModel.setName(getName());
-        newDiagramModel.setConnectionRouterType(getConnectionRouterType());
-        newDiagramModel.setDocumentation(getDocumentation());
-        newDiagramModel.getProperties().addAll(EcoreUtil.copyAll(getProperties()));
-        
+        IDiagramModel newDiagramModel = EcoreUtil.copy(this);
+        newDiagramModel.setId(null); // need a new ID
+        newDiagramModel.getChildren().clear(); // need to do this!
         return newDiagramModel;
     }
 
