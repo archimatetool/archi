@@ -22,11 +22,12 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 public class ShowStructuralChainsAction extends WorkbenchPartAction {
     
     public static final String ID = "ShowStructuralChainsAction";
+    public static final String DEFAULT_TEXT = "Show Structural Chains";
 
     public ShowStructuralChainsAction(IWorkbenchPart part) {
         super(part);
         setId(ID);
-        setText("Show Structural Chains");
+        setText(DEFAULT_TEXT);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
     }
     
@@ -48,6 +49,6 @@ public class ShowStructuralChainsAction extends WorkbenchPartAction {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
         boolean val = !isShowingChains();
         viewer.setProperty(IArchimateDiagramEditor.PROPERTY_SHOW_STRUCTURAL_CHAIN, new Boolean(val));
-        setText(isShowingChains() ? "Hide Structural Chains" : "Show Structural Chains");
+        setText(isShowingChains() ? "Hide Structural Chains" : DEFAULT_TEXT);
     }
 }

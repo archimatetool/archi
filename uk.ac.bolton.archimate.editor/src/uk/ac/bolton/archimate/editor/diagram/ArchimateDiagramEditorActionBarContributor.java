@@ -39,7 +39,7 @@ extends AbstractDiagramEditorActionBarContributor {
         super.buildActions();
         
         // Show Structural Chains
-        RetargetAction retargetAction = new LabelRetargetAction(ShowStructuralChainsAction.ID, null);
+        RetargetAction retargetAction = new LabelRetargetAction(ShowStructuralChainsAction.ID, ShowStructuralChainsAction.DEFAULT_TEXT);
         retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
         addRetargetAction(retargetAction);
         
