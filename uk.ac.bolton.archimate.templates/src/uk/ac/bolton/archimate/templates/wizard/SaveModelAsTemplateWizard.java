@@ -56,9 +56,10 @@ public class SaveModelAsTemplateWizard extends Wizard {
     private File fZipFile;
     private String fTemplateName;
     private String fTemplateDescription;
-    private boolean fIncludeThumnails;
+    private boolean fIncludeThumbnails;
     private IDiagramModel fSelectedDiagramModel;
     private ITemplateGroup fSelectedTemplateGroup;
+    private boolean fDoStoreInCollection;
     
     private TemplateManager fTemplateManager;
     
@@ -88,8 +89,9 @@ public class SaveModelAsTemplateWizard extends Wizard {
         // This before the thread starts
         fTemplateName = fPage1.getTemplateName();
         fTemplateDescription = fPage1.getTemplateDescription();
-        fIncludeThumnails = fPage1.includeThumbnails();
+        fIncludeThumbnails = fPage1.includeThumbnails();
         fSelectedDiagramModel = fPage1.getSelectedDiagramModel();
+        fDoStoreInCollection = fPage2.doStoreInCollection();
         fSelectedTemplateGroup = fPage2.getTemplateGroup();
         
         BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
@@ -142,11 +144,14 @@ public class SaveModelAsTemplateWizard extends Wizard {
     
     private void addToTemplateManager(File zipFile) throws IOException {
         // Add to Template Manager if selected
-        if(fSelectedTemplateGroup != null) {
+        if(fDoStoreInCollection) {
             ITemplate template = new ModelTemplate(null);
             template.setFile(zipFile);
             fTemplateManager.addUserTemplate(template);
-            fSelectedTemplateGroup.addTemplate(template);
+            // Add to user group
+            if(fSelectedTemplateGroup != null) {
+                fSelectedTemplateGroup.addTemplate(template);
+            }
             fTemplateManager.saveUserTemplatesManifest();
         }
     }
@@ -174,7 +179,7 @@ public class SaveModelAsTemplateWizard extends Wizard {
             ZipUtils.addStringToZip(manifest, TemplateManager.ZIP_ENTRY_MANIFEST, zOut);
             
             // Thumbnails
-            if(fIncludeThumnails) {
+            if(fIncludeThumbnails) {
                 int i = 1;
                 for(IDiagramModel dm : fModel.getDiagramModels()) {
                     Image image = createThumbnailImage(dm);
@@ -208,7 +213,7 @@ public class SaveModelAsTemplateWizard extends Wizard {
         elementDescription.setText(fTemplateDescription);
         root.addContent(elementDescription);
         
-        if(fIncludeThumnails) {
+        if(fIncludeThumbnails) {
             if(fSelectedDiagramModel != null) {
                 int i = 1;
                 for(IDiagramModel dm : fModel.getDiagramModels()) {

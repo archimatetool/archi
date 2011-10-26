@@ -5,6 +5,7 @@ Version 2.1 November XX 2011
 -----------------------------
 * Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
 * Fixed unnecessary page breaks in Jasper Reports
+* "Save Model As Template" wizard: Fixed template could not be added to template collection if no user category selected
 
 
 

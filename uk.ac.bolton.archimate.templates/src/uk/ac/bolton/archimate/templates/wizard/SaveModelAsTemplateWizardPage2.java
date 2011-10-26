@@ -42,7 +42,7 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
 
     public static String HELPID = "uk.ac.bolton.archimate.help.SaveModelAsTemplateWizardPage2"; //$NON-NLS-1$
 
-    private Button fDoStoreAsTemplateButton;
+    private Button fDoStoreInCollectionButton;
     private TemplateGroupsTableViewer fCategoriesTableViewer;
     private Button fNewGroupButton;
     
@@ -69,14 +69,14 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
         
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
         
-        fDoStoreAsTemplateButton = new Button(container, SWT.CHECK);
-        fDoStoreAsTemplateButton.setText("Add to my template collection");
-        fDoStoreAsTemplateButton.setSelection(true);
+        fDoStoreInCollectionButton = new Button(container, SWT.CHECK);
+        fDoStoreInCollectionButton.setText("Add to my template collection");
+        fDoStoreInCollectionButton.setSelection(false);
         
-        fDoStoreAsTemplateButton.addSelectionListener(new SelectionAdapter() {
+        fDoStoreInCollectionButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                boolean enabled = fDoStoreAsTemplateButton.getSelection();
+                boolean enabled = fDoStoreInCollectionButton.getSelection();
                 fCategoriesTableViewer.getControl().setEnabled(enabled);
                 fNewGroupButton.setEnabled(enabled);
                 // Select first group, or none
@@ -91,7 +91,6 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
                 }
             }
         });
-        fDoStoreAsTemplateButton.setSelection(false);
         
         label = new Label(container, SWT.NULL);
         label.setText("Category:");
@@ -107,8 +106,8 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         tableComp.setLayoutData(gd);
-        fCategoriesTableViewer = new TemplateGroupsTableViewer(tableComp, SWT.BORDER);
-        fCategoriesTableViewer.getControl().setEnabled(fDoStoreAsTemplateButton.getSelection());
+        fCategoriesTableViewer = new TemplateGroupsTableViewer(tableComp, SWT.BORDER | SWT.MULTI);
+        fCategoriesTableViewer.getControl().setEnabled(false);
         
         fCategoriesTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             public void selectionChanged(SelectionChangedEvent event) {
@@ -122,7 +121,7 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
         fNewGroupButton.setText("New...");
         gd = new GridData(SWT.TOP, SWT.TOP, false, false);
         fNewGroupButton.setLayoutData(gd);
-        fNewGroupButton.setEnabled(fDoStoreAsTemplateButton.getSelection());
+        fNewGroupButton.setEnabled(false);
         
         fNewGroupButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -164,10 +163,14 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
         setPageComplete(true);
     }
     
+    public boolean doStoreInCollection() {
+        return fDoStoreInCollectionButton.getSelection();
+    }
+    
     /**
-     * @return The Group for the template or null
+     * @return The Group for the template or null if no group selected
      */
     public ITemplateGroup getTemplateGroup() {
-        return fDoStoreAsTemplateButton.getSelection() ? fSelectedTemplateGroup : null;
+        return fSelectedTemplateGroup;
     }
 }
