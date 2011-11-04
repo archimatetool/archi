@@ -4,7 +4,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
-import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
@@ -16,7 +15,12 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 import uk.ac.bolton.archimate.model.ITextContent;
 
 
-public class MultiLineTextDirectEditManager extends DirectEditManager {
+/**
+ * Multiline Text Direct Edit Manager
+ * 
+ * @author Phillip Beauvoir
+ */
+public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
     
     public MultiLineTextDirectEditManager(GraphicalEditPart source) {
         super(source, MultiLineCellEditor.class, null);
@@ -47,6 +51,8 @@ public class MultiLineTextDirectEditManager extends DirectEditManager {
 
     @Override
     protected void initCellEditor() {
+        super.initCellEditor();
+        
         IFigure figure = getEditPart().getFigure();
         Object model = getEditPart().getModel();
         

@@ -12,7 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
-import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
@@ -25,8 +24,10 @@ import org.eclipse.swt.widgets.Text;
 /**
  * A DirectEdit manager to be used for labels that grow in size as you type in them.
  * The Text control is a single-line Text control.
+ * 
+ * @author Phillip Beauvoir
  */
-public class LabelDirectEditManager extends DirectEditManager {
+public class LabelDirectEditManager extends AbstractDirectEditManager {
 
     // If true use original font
     private boolean USE_ORIGINAL_FONT = false;
@@ -45,6 +46,8 @@ public class LabelDirectEditManager extends DirectEditManager {
      */
     @Override
     protected void initCellEditor() {
+        super.initCellEditor();
+        
         Text text = (Text)getCellEditor().getControl();
 
         /**

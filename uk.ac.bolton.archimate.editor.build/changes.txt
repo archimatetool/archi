@@ -3,6 +3,7 @@ Archi Changes
 
 Version 2.1 November XX 2011
 -----------------------------
++ Cut/Copy/Paste/Select All shortcut keys now work in elements' label editors
 * Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
 * Fixed unnecessary page breaks in Jasper Reports
 * "Save Model As Template" wizard: Fixed template could not be added to template collection if no user category selected
