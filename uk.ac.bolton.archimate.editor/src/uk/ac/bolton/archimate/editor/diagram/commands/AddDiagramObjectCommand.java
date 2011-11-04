@@ -8,22 +8,21 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
- * Add Object Command
- * Use when dragging and dropping an ArchimateElement from the tree to the diagram.
+ * Add Diagram Object Command
  * 
  * @author Phillip Beauvoir
  */
 public class AddDiagramObjectCommand extends Command {
     
     private IDiagramModelContainer fParent;
-    private IDiagramModelArchimateObject fChild;
+    private IDiagramModelObject fChild;
 
-    public AddDiagramObjectCommand(IDiagramModelContainer parent, IDiagramModelArchimateObject object) {
+    public AddDiagramObjectCommand(IDiagramModelContainer parent, IDiagramModelObject object) {
         fParent = parent;
         fChild = object;
         setLabel("Add" + " " + object.getName());
