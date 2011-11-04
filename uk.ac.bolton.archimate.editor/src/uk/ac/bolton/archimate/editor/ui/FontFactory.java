@@ -39,6 +39,8 @@ public final class FontFactory {
     
     public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold("");
     
+    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic("");
+    
     /**
      * @param fontName
      * @return A FOnt for the fontName or the default user font if null or exception occurs
