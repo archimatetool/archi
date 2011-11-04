@@ -12,7 +12,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 
-import uk.ac.bolton.archimate.editor.diagram.dnd.NativeDropRequest;
+import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 
 /**
@@ -46,7 +46,7 @@ public class ContainerHighlightEditPolicy extends GraphicalEditPolicy {
                 || request.getType().equals(RequestConstants.REQ_CONNECTION_START)
                 || request.getType().equals(RequestConstants.REQ_CONNECTION_END)
                 || request.getType().equals(RequestConstants.REQ_CREATE)
-                || request.getType().equals(NativeDropRequest.ID)
+                || request.getType().equals(DiagramDropRequest.REQ_DIAGRAM_DROP)
                 ) {
             
             getContainerFigure().showTargetFeedback();

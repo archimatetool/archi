@@ -8,28 +8,30 @@ package uk.ac.bolton.archimate.editor.diagram.dnd;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.Request;
+import org.eclipse.swt.dnd.Transfer;
 
 /**
- * Native Drop Request
+ * DDN Diagram Drop Request
  * 
  * @author Phillip Beauvoir
  */
-public class NativeDropRequest extends Request {
+public class DiagramDropRequest extends Request {
 
     private Object fData;
-
     private Point fPoint;
+    private Transfer fTransferType;
 
-    public static final String ID = "$Native Drop Request";//$NON-NLS-1$
+    public static final String REQ_DIAGRAM_DROP = "$DiagramDropRequest";//$NON-NLS-1$
 
-    public NativeDropRequest() {
-        super(ID);
+    public DiagramDropRequest(Transfer transferType) {
+        super(REQ_DIAGRAM_DROP);
+        fTransferType = transferType;
     }
 
-    public NativeDropRequest(Object type) {
-        super(type);
+    public Transfer getTransferType() {
+        return fTransferType;
     }
-
+    
     public Object getData() {
         return fData;
     }

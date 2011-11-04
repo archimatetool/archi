@@ -39,11 +39,11 @@ public class DiagramTransferDropTargetListener extends AbstractTransferDropTarge
     
     @Override
     protected Request createTargetRequest() {
-        return new NativeDropRequest();
+        return new DiagramDropRequest(LocalSelectionTransfer.getTransfer());
     }
 
-    protected NativeDropRequest getNativeDropRequest() {
-        return (NativeDropRequest)getTargetRequest();
+    protected DiagramDropRequest getNativeDropRequest() {
+        return (DiagramDropRequest)getTargetRequest();
     }
     
     @Override

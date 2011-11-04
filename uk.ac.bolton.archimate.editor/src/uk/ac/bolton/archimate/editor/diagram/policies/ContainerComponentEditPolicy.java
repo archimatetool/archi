@@ -23,7 +23,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramArchimateConnect
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramModelReferenceCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
-import uk.ac.bolton.archimate.editor.diagram.dnd.NativeDropRequest;
+import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
@@ -49,7 +49,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     @Override
     public EditPart getTargetEditPart(Request request) {
         // We support Native DND
-        if(NativeDropRequest.ID.equals(request.getType())) {
+        if(request.getType() == DiagramDropRequest.REQ_DIAGRAM_DROP) {
             return getHost();
         }
         return super.getTargetEditPart(request);
@@ -58,8 +58,8 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
     @Override
     public Command getCommand(Request request) {
         // We support Native DND
-        if(NativeDropRequest.ID.equals(request.getType())) {
-            return getDropCommand((NativeDropRequest)request);
+        if(request.getType() == DiagramDropRequest.REQ_DIAGRAM_DROP) {
+            return getDropCommand((DiagramDropRequest)request);
         }
         
         return super.getCommand(request);
@@ -80,7 +80,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
      * @param request
      * @return A command for when a native drop event occurs on the Diagram Container
      */
-    protected Command getDropCommand(NativeDropRequest request) {
+    protected Command getDropCommand(DiagramDropRequest request) {
         if(!(request.getData() instanceof IStructuredSelection)) {
             return null;
         }
