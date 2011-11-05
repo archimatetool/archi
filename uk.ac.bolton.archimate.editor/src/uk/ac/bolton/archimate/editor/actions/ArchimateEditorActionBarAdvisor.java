@@ -8,8 +8,6 @@ package uk.ac.bolton.archimate.editor.actions;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.ui.views.palette.PaletteView;
@@ -499,26 +497,19 @@ extends ActionBarAdvisor {
      */
     private void addExportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager exportMenu) {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        IExtensionPoint extensionPoint = registry.getExtensionPoint("uk.ac.bolton.archimate.editor.exportHandler");
-        if(extensionPoint != null) {
-            IExtension[] extensions = extensionPoint.getExtensions();
-            for(IExtension extension : extensions) {
-                IConfigurationElement[] elements = extension.getConfigurationElements();
-                for(IConfigurationElement configurationElement : elements) {
-                    try {
-                        String id = configurationElement.getAttribute("id");
-                        String label = configurationElement.getAttribute("label");
-                        IModelExporter exporter = (IModelExporter)configurationElement.createExecutableExtension("class");
-                        if(id != null && label != null && exporter != null) {
-                            ExportModelAction action = new ExportModelAction(window, id, label, exporter);
-                            exportMenu.add(action);
-                        }
-                    } 
-                    catch(CoreException ex) {
-                        ex.printStackTrace();
-                    } 
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.editor.exportHandler")) {
+            try {
+                String id = configurationElement.getAttribute("id");
+                String label = configurationElement.getAttribute("label");
+                IModelExporter exporter = (IModelExporter)configurationElement.createExecutableExtension("class");
+                if(id != null && label != null && exporter != null) {
+                    ExportModelAction action = new ExportModelAction(window, id, label, exporter);
+                    exportMenu.add(action);
                 }
-            }
+            } 
+            catch(CoreException ex) {
+                ex.printStackTrace();
+            } 
         }
     }
     
@@ -527,26 +518,19 @@ extends ActionBarAdvisor {
      */
     private void addImportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager importMenu) {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        IExtensionPoint extensionPoint = registry.getExtensionPoint("uk.ac.bolton.archimate.editor.importHandler");
-        if(extensionPoint != null) {
-            IExtension[] extensions = extensionPoint.getExtensions();
-            for(IExtension extension : extensions) {
-                IConfigurationElement[] elements = extension.getConfigurationElements();
-                for(IConfigurationElement configurationElement : elements) {
-                    try {
-                        String id = configurationElement.getAttribute("id");
-                        String label = configurationElement.getAttribute("label");
-                        IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class");
-                        if(id != null && label != null && importer != null) {
-                            ImportModelAction action = new ImportModelAction(window, id, label, importer);
-                            importMenu.add(action);
-                        }
-                    } 
-                    catch(CoreException ex) {
-                        ex.printStackTrace();
-                    } 
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.editor.importHandler")) {
+            try {
+                String id = configurationElement.getAttribute("id");
+                String label = configurationElement.getAttribute("label");
+                IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class");
+                if(id != null && label != null && importer != null) {
+                    ImportModelAction action = new ImportModelAction(window, id, label, importer);
+                    importMenu.add(action);
                 }
-            }
+            } 
+            catch(CoreException ex) {
+                ex.printStackTrace();
+            } 
         }
     }
 }
