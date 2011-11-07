@@ -149,20 +149,25 @@ public class ColorFactory {
     }
 
     public static Color getDarkerColor(Color color) {
+        return getDarkerColor(color, 0.9f);
+    }
+    
+    public static Color getDarkerColor(Color color, float factor) {
         if(color == null) {
             return null;
         }
-        float factor = 0.9f;
         RGB rgb = new RGB((int)(color.getRed() * factor), (int)(color.getGreen() * factor), (int)(color.getBlue() * factor));
         return get(convertRGBToString(rgb));
     }
 
     public static Color getLighterColor(Color color) {
+        return getLighterColor(color, 0.9f);
+    }
+    
+    public static Color getLighterColor(Color color, float factor) {
         if(color == null) {
             return null;
         }
-        
-        float factor = 0.9f;
         
         RGB rgb = new RGB(Math.max(2,
                 Math.min((int) (color.getRed() / factor), 255)), Math.max(2,
