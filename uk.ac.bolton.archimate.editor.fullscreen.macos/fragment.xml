@@ -6,5 +6,44 @@
       <startup
             class="uk.ac.bolton.archimate.editor.Startup"></startup>
    </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="uk.ac.bolton.archimate.editor.fullscreen.macos.commandFullScreen"
+            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            sequence="M1+M4+F">
+      </key>
+      <key
+            commandId="uk.ac.bolton.archimate.editor.fullscreen.macos.commandEscape"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Esc">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.bolton.archimate.editor.FullScreenCommandHandler"
+            id="uk.ac.bolton.archimate.editor.fullscreen.macos.commandFullScreen"
+            name="Full Screen">
+      </command>
+      <command
+            defaultHandler="uk.ac.bolton.archimate.editor.FullScreenCommandHandler"
+            id="uk.ac.bolton.archimate.editor.fullscreen.macos.commandEscape"
+            name="Exit Full ScreenScreen">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?before=nav">
+         <command
+               commandId="uk.ac.bolton.archimate.editor.fullscreen.macos.commandFullScreen"
+               label="Mac Full Screen"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>on>
 
 </fragment>

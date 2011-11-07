@@ -74,6 +74,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         public void keyPressed(KeyEvent e) {
             // Escape pressed, close this Shell
             if(e.keyCode == SWT.ESC) {
+                e.doit = false; // Stop OS X Lion receiving this for its Full Screen
                 close();
             }
             

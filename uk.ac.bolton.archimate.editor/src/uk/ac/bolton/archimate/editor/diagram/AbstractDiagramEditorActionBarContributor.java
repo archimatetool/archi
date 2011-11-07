@@ -169,9 +169,6 @@ extends ActionBarContributor {
         viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
         viewMenu.add(new Separator());
         
-        viewMenu.add(getAction(FullScreenAction.ID));
-        viewMenu.add(new Separator());
-        
         viewMenu.add(getAction(SnapToGrid.PROPERTY_GRID_ENABLED));
         viewMenu.add(getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
         viewMenu.add(getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
@@ -208,6 +205,9 @@ extends ActionBarContributor {
         connectionMenu.add(getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
         connectionMenu.add(getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
         connectionMenu.add(getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
+        viewMenu.add(new Separator());
+
+        viewMenu.add(getAction(FullScreenAction.ID));
         viewMenu.add(new Separator());
         
         menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);

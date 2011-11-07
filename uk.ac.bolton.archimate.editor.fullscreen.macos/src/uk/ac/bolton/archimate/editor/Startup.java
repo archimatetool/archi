@@ -6,11 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
@@ -48,15 +45,9 @@ public class Startup implements IStartup {
             // NSWindow nswindow = shell.view.window();
             // nswindow.setCollectionBehavior(1 << 7);
             
-            Field fieldView = Control.class.getDeclaredField("view");
-            Object nsView = fieldView.get(shell);
+            Object nsWindow = MacOSReflect.getNSWindow(shell);
             
-            Method methodWindow = fieldView.getType().getDeclaredMethod("window");
-            Object nsWindow = methodWindow.invoke(nsView, new Object[] {});
-            
-            // 32-bit OS X uses int as parameter, 64-bit uses long
-            boolean is64bit = System.getProperty("os.arch").equals(Platform.ARCH_X86_64);
-            Method methodSetCollectionBehavior = nsWindow.getClass().getDeclaredMethod("setCollectionBehavior", is64bit ? long.class : int.class);
+            Method methodSetCollectionBehavior = nsWindow.getClass().getDeclaredMethod("setCollectionBehavior", MacOSReflect.NSUInteger);
             methodSetCollectionBehavior.invoke(nsWindow, 1 << 7);
             
             // Get rid of the dummy toolbar created in CocoaUIEnhancer. The equivalent of:
@@ -73,6 +64,7 @@ public class Startup implements IStartup {
                 }
             }
           
+            // Set it to null
             Class<?> classNSToolbar = Class.forName("org.eclipse.swt.internal.cocoa.NSToolbar");
             Method methodSetToolbar = nsWindow.getClass().getDeclaredMethod("setToolbar", classNSToolbar);
             methodSetToolbar.invoke(nsWindow, new Object[] { null });
