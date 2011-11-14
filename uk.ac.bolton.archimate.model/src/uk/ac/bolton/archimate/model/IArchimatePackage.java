@@ -4898,22 +4898,13 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_BENDPOINT = 71;
 
     /**
-     * The feature id for the '<em><b>Weight</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_BENDPOINT__WEIGHT = CLONEABLE_FEATURE_COUNT + 0;
-
-    /**
      * The feature id for the '<em><b>Start X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_BENDPOINT__START_X = CLONEABLE_FEATURE_COUNT + 1;
+    int DIAGRAM_MODEL_BENDPOINT__START_X = CLONEABLE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Start Y</b></em>' attribute.
@@ -4922,7 +4913,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_BENDPOINT__START_Y = CLONEABLE_FEATURE_COUNT + 2;
+    int DIAGRAM_MODEL_BENDPOINT__START_Y = CLONEABLE_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>End X</b></em>' attribute.
@@ -4931,7 +4922,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_BENDPOINT__END_X = CLONEABLE_FEATURE_COUNT + 3;
+    int DIAGRAM_MODEL_BENDPOINT__END_X = CLONEABLE_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>End Y</b></em>' attribute.
@@ -4940,7 +4931,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_BENDPOINT__END_Y = CLONEABLE_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_BENDPOINT__END_Y = CLONEABLE_FEATURE_COUNT + 3;
 
     /**
      * The number of structural features of the '<em>Diagram Model Bendpoint</em>' class.
@@ -4949,7 +4940,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_BENDPOINT_FEATURE_COUNT = CLONEABLE_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_BENDPOINT_FEATURE_COUNT = CLONEABLE_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IFontAttribute <em>Font Attribute</em>}' class.
@@ -6974,17 +6965,6 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelBendpoint();
 
     /**
-     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getWeight <em>Weight</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Weight</em>'.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getWeight()
-     * @see #getDiagramModelBendpoint()
-     * @generated
-     */
-    EAttribute getDiagramModelBendpoint_Weight();
-
-    /**
      * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getStartX <em>Start X</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8251,14 +8231,6 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass DIAGRAM_MODEL_BENDPOINT = eINSTANCE.getDiagramModelBendpoint();
-
-        /**
-         * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute DIAGRAM_MODEL_BENDPOINT__WEIGHT = eINSTANCE.getDiagramModelBendpoint_Weight();
 
         /**
          * The meta object literal for the '<em><b>Start X</b></em>' attribute feature.

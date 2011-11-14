@@ -23,7 +23,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint#getWeight <em>Weight</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint#getStartX <em>Start X</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint#getStartY <em>Start Y</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint#getEndX <em>End X</em>}</li>
@@ -34,26 +33,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
  * @generated
  */
 public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelBendpoint {
-    /**
-     * The default value of the '{@link #getWeight() <em>Weight</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getWeight()
-     * @generated
-     * @ordered
-     */
-    protected static final float WEIGHT_EDEFAULT = 0.0F;
-
-    /**
-     * The cached value of the '{@link #getWeight() <em>Weight</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getWeight()
-     * @generated
-     * @ordered
-     */
-    protected float weight = WEIGHT_EDEFAULT;
-
     /**
      * The default value of the '{@link #getStartX() <em>Start X</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -158,27 +137,6 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
      * <!-- end-user-doc -->
      * @generated
      */
-    public float getWeight() {
-        return weight;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setWeight(float newWeight) {
-        float oldWeight = weight;
-        weight = newWeight;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__WEIGHT, oldWeight, weight));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public int getStartX() {
         return startX;
     }
@@ -275,8 +233,6 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__WEIGHT:
-                return getWeight();
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__START_X:
                 return getStartX();
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__START_Y:
@@ -297,9 +253,6 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__WEIGHT:
-                setWeight((Float)newValue);
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__START_X:
                 setStartX((Integer)newValue);
                 return;
@@ -324,9 +277,6 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__WEIGHT:
-                setWeight(WEIGHT_EDEFAULT);
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__START_X:
                 setStartX(START_X_EDEFAULT);
                 return;
@@ -351,8 +301,6 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__WEIGHT:
-                return weight != WEIGHT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__START_X:
                 return startX != START_X_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT__START_Y:
@@ -375,9 +323,7 @@ public class DiagramModelBendpoint extends EObjectImpl implements IDiagramModelB
         if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (weight: "); //$NON-NLS-1$
-        result.append(weight);
-        result.append(", startX: "); //$NON-NLS-1$
+        result.append(" (startX: "); //$NON-NLS-1$
         result.append(startX);
         result.append(", startY: "); //$NON-NLS-1$
         result.append(startY);

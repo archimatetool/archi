@@ -15,7 +15,6 @@ package uk.ac.bolton.archimate.model;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getWeight <em>Weight</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getStartX <em>Start X</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getStartY <em>Start Y</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getEndX <em>End X</em>}</li>
@@ -28,32 +27,6 @@ package uk.ac.bolton.archimate.model;
  * @generated
  */
 public interface IDiagramModelBendpoint extends ICloneable {
-    /**
-     * Returns the value of the '<em><b>Weight</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Weight</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Weight</em>' attribute.
-     * @see #setWeight(float)
-     * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelBendpoint_Weight()
-     * @model
-     * @generated
-     */
-    float getWeight();
-
-    /**
-     * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelBendpoint#getWeight <em>Weight</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Weight</em>' attribute.
-     * @see #getWeight()
-     * @generated
-     */
-    void setWeight(float value);
-
     /**
      * Returns the value of the '<em><b>Start X</b></em>' attribute.
      * <!-- begin-user-doc -->

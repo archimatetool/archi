@@ -1387,7 +1387,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDiagramModelBendpoint_Weight() {
+    public EAttribute getDiagramModelBendpoint_StartX() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(0);
     }
 
@@ -1396,7 +1396,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDiagramModelBendpoint_StartX() {
+    public EAttribute getDiagramModelBendpoint_StartY() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(1);
     }
 
@@ -1405,7 +1405,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDiagramModelBendpoint_StartY() {
+    public EAttribute getDiagramModelBendpoint_EndX() {
         return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(2);
     }
 
@@ -1414,17 +1414,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDiagramModelBendpoint_EndX() {
-        return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(3);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EAttribute getDiagramModelBendpoint_EndY() {
-        return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(4);
+        return (EAttribute)diagramModelBendpointEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -2136,7 +2127,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(diagramModelConnectionEClass, DIAGRAM_MODEL_CONNECTION__TYPE);
 
         diagramModelBendpointEClass = createEClass(DIAGRAM_MODEL_BENDPOINT);
-        createEAttribute(diagramModelBendpointEClass, DIAGRAM_MODEL_BENDPOINT__WEIGHT);
         createEAttribute(diagramModelBendpointEClass, DIAGRAM_MODEL_BENDPOINT__START_X);
         createEAttribute(diagramModelBendpointEClass, DIAGRAM_MODEL_BENDPOINT__START_Y);
         createEAttribute(diagramModelBendpointEClass, DIAGRAM_MODEL_BENDPOINT__END_X);
@@ -2534,7 +2524,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         addEOperation(diagramModelConnectionEClass, null, "reconnect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelBendpointEClass, IDiagramModelBendpoint.class, "DiagramModelBendpoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getDiagramModelBendpoint_Weight(), ecorePackage.getEFloat(), "weight", null, 0, 1, IDiagramModelBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelBendpoint_StartX(), ecorePackage.getEInt(), "startX", null, 0, 1, IDiagramModelBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelBendpoint_StartY(), ecorePackage.getEInt(), "startY", null, 0, 1, IDiagramModelBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelBendpoint_EndX(), ecorePackage.getEInt(), "endX", null, 0, 1, IDiagramModelBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
