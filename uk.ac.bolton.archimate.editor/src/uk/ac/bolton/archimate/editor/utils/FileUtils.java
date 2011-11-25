@@ -12,8 +12,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
-import java.util.Vector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -288,36 +289,31 @@ public final class FileUtils  {
 	
     /**
 	 * Sort a list of files into Folders first, files second
-	 * @param files
-	 * @return
+	 * @param files The array of files
+	 * @return The sorted files as an array
 	 */
 	public static File[] sortFiles(File[] files) {
 	    if(files == null || files.length == 0) {
 	        return files;
 	    }
 	    
-		Vector<File> v = new Vector<File>();
-		
-		// Folders
-		for(int i = 0; i < files.length; i++) {
-			File file = files[i];
-			if(file.isDirectory()) {
-				v.add(file);
-			}
-		}
-		
-		// Files
-		for(int i = 0; i < files.length; i++) {
-			File file = files[i];
-			if(!file.isDirectory()){
-				v.add(file);
-			}
-		}
-		
-		File[] f = new File[v.size()];
-		v.copyInto(f);
-		v = null;
-		return f;
+	    Arrays.sort(files, new Comparator<File>() {
+            @Override
+            public int compare(File f1, File f2) {
+                if(f1 == null || f2 == null) {
+                    return 0;
+                }
+                if(f1.isDirectory() && f2.isFile()) {
+                    return -1;
+                }
+                if(f1.isFile() && f2.isDirectory()) {
+                    return 1;
+                }
+                return f1.compareTo(f2);
+            }
+        });
+	    
+	    return files;
 	}
 	
 	/**

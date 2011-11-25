@@ -322,16 +322,27 @@ public class FileUtilsTests {
     public void testSortFiles() throws Exception {
         File folder = Testing.getTempFolder("sort_folder");
         
-        File f0 = new File(folder, "a.txt"); f0.createNewFile();
-        File f1 = new File(folder, "b.txt"); f1.createNewFile();
-        File f2 = new File(folder, "/a"); f2.mkdir();
-        File f3 = new File(folder,"/b"); f3.mkdir();
+        File file1 = new File(folder, "d.txt"); file1.createNewFile();
+        File file2 = new File(folder, "a.txt"); file2.createNewFile();
+        File file3 = new File(folder, "b.txt"); file3.createNewFile();
+        File file4 = new File(folder, "c.txt"); file4.createNewFile();
+        
+        File folder1 = new File(folder, "/d"); folder1.mkdir();
+        File folder2 = new File(folder, "/a"); folder2.mkdir();
+        File folder3 = new File(folder, "/b"); folder3.mkdir();
+        File folder4 = new File(folder, "/c"); folder4.mkdir();
         
         File[] sorted = FileUtils.sortFiles(folder.listFiles());
-        assertEquals("File not in right position", sorted[0], f2);
-        assertEquals("File not in right position", sorted[1], f3);
-        assertEquals("File not in right position", sorted[2], f0);
-        assertEquals("File not in right position", sorted[3], f1);
+        
+        assertEquals("Folder not in correct position", folder2, sorted[0]);
+        assertEquals("Folder not in correct position", folder3, sorted[1]);
+        assertEquals("Folder not in correct position", folder4, sorted[2]);
+        assertEquals("Folder not in correct position", folder1, sorted[3]);
+        
+        assertEquals("File not in correct position", file2, sorted[4]);
+        assertEquals("File not in correct position", file3, sorted[5]);
+        assertEquals("File not in correct position", file4, sorted[6]);
+        assertEquals("File not in correct position", file1, sorted[7]);
     }
     
     // ---------------------------------------------------------------------------------------------
