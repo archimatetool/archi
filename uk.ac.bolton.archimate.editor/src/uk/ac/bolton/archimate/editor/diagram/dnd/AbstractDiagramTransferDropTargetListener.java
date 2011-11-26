@@ -12,10 +12,8 @@ import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -25,14 +23,14 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramTransferDropTargetListener extends AbstractTransferDropTargetListener {
+public abstract class AbstractDiagramTransferDropTargetListener extends AbstractTransferDropTargetListener {
 
-    public DiagramTransferDropTargetListener(EditPartViewer viewer) {
+    public AbstractDiagramTransferDropTargetListener(EditPartViewer viewer) {
         super(viewer, LocalSelectionTransfer.getTransfer());
     }
 
     @Override
-    protected void updateTargetRequest(){
+    protected void updateTargetRequest() {
         getNativeDropRequest().setData(getCurrentEvent().data);
         getNativeDropRequest().setDropLocation(getDropLocation());
     }
@@ -67,20 +65,13 @@ public class DiagramTransferDropTargetListener extends AbstractTransferDropTarge
         return false;
     }
     
+    /**
+     * Whether the DND operation is enabled if element is part of the drag operation
+     * @param element
+     * @return true if is enabled
+     */
     protected boolean isEnabled(Object element) {
-        // Archimate Element
-        if(element instanceof IArchimateElement) {
-            return true;
-        }
-        // Diagram Model Reference
-        else if(element instanceof IDiagramModel) {
-            // Allowed, but not on the target diagram model
-            if(element != getTargetDiagramModel()) {
-                return true;
-            }
-        }
-        
-        return false;
+        return true;
     }
     
     /**
@@ -107,11 +98,4 @@ public class DiagramTransferDropTargetListener extends AbstractTransferDropTarge
         
         return true;
     }
-    
-    @Override
-    protected void handleDragOver() {
-        getCurrentEvent().detail = DND.DROP_COPY;
-        super.handleDragOver();
-    }
-    
 }

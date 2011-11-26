@@ -9,22 +9,18 @@ package uk.ac.bolton.archimate.editor.diagram.policies;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramArchimateConnectionCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramModelReferenceCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
+import uk.ac.bolton.archimate.editor.diagram.dnd.AbstractDNDEditPolicy;
+import uk.ac.bolton.archimate.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
-import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
@@ -34,78 +30,35 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
 /**
- * A policy to handle a Container's Delete and DND commands
+ * A policy to handle an Archimate Diagram's and Diagram's Container object's Native DND commands
+ * Create a Command for dropping and dragging elements from Tree to diagram/container
  * 
  * @author Phillip Beauvoir
  */
-public class ContainerComponentEditPolicy extends ComponentEditPolicy {
+public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
 
-    @Override
-    public EditPart getTargetEditPart(Request request) {
-        // We support Native DND
-        if(request.getType() == DiagramDropRequest.REQ_DIAGRAM_DROP) {
-            return getHost();
-        }
-        return super.getTargetEditPart(request);
-    }
-    
-    @Override
-    public Command getCommand(Request request) {
-        // We support Native DND
-        if(request.getType() == DiagramDropRequest.REQ_DIAGRAM_DROP) {
-            return getDropCommand((DiagramDropRequest)request);
-        }
-        
-        return super.getCommand(request);
-    }
-    
-    // --------------------------------------------------------------------------------------
-    // Create a Command for dropping and dragging elements from Tree to diagram/container
-    // --------------------------------------------------------------------------------------
-    
     protected List<IArchimateElement> fElementsToAdd;
     protected List<IRelationship> fRelationsToAdd;
     protected List<IDiagramModel> fDiagramRefsToAdd;
     
-    protected IDiagramModelContainer fTargetContainer;
-    protected IDiagramModel fTargetDiagramModel;
-    
-    /**
-     * @param request
-     * @return A command for when a native drop event occurs on the Diagram Container
-     */
+    @Override
     protected Command getDropCommand(DiagramDropRequest request) {
         if(!(request.getData() instanceof IStructuredSelection)) {
             return null;
         }
         
         // XY drop point
-        Point pt = request.getDropLocation();
-
-        // Translate drop point
-        IFigure figure = ((GraphicalEditPart)getHost()).getFigure();
-        if(figure instanceof IContainerFigure) {
-            ((IContainerFigure)figure).translateMousePointToRelative(pt);
-        }
-        // Translate to relative content pane
-        else {
-            IFigure contentPane = ((GraphicalEditPart)getHost()).getContentPane();
-            contentPane.translateToRelative(pt);
-        }
+        Point pt = getDropLocation(request);
 
         int origin = pt.x;
         int x = pt.x;
         int y = pt.y;
 
-        fTargetContainer = (IDiagramModelContainer)getHost().getModel();
-        fTargetDiagramModel = fTargetContainer.getDiagramModel();
-        
         fElementsToAdd = new ArrayList<IArchimateElement>();
         fRelationsToAdd = new ArrayList<IRelationship>();
         fDiagramRefsToAdd = new ArrayList<IDiagramModel>();
@@ -131,7 +84,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
             diagramObjects.add(object);
             
             // Add Command
-            result.add(new AddDiagramObjectCommand(fTargetContainer, object));
+            result.add(new AddDiagramObjectCommand(getTargetContainer(), object));
 
             // Increase x,y
             x += 150;
@@ -143,7 +96,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
 
         // Then any Diagram Model Ref Commands
         for(IDiagramModel diagramModel : fDiagramRefsToAdd) {
-            result.add(new AddDiagramModelReferenceCommand(fTargetContainer, diagramModel, x, y));
+            result.add(new AddDiagramModelReferenceCommand(getTargetContainer(), diagramModel, x, y));
             
             x += 150;
             if(x > origin + 400) {
@@ -155,8 +108,8 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
         // Add selected Relations to create connections for those elements on the diagram that don't already have them
         for(IRelationship relation : fRelationsToAdd) {
             // Existing
-            List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getSource());
-            List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getTarget());
+            List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relation.getSource());
+            List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relation.getTarget());
 
             for(IDiagramModelArchimateObject dcSource : sources) {
                 for(IDiagramModelArchimateObject dcTarget : targets) {
@@ -167,15 +120,26 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
             }
         }
         
+        // Whether to add connections to elements
+        Boolean addConnectionsToElements = (Boolean)request.getExtendedData().get(ArchimateDiagramTransferDropTargetListener.ADD_ELEMENT_CONNECTIONS);
+        
         // Newly added objects will need new connections to existing elements and newly added elements
         for(IDiagramModelArchimateObject dmo : diagramObjects) {
             IArchimateElement element = dmo.getArchimateElement();
-            
+
             for(IRelationship relation : ArchimateModelUtils.getRelationships(element)) {
+                /*
+                 * If the user holds down the Copy key (Ctrl on win/lnx, Alt on Mac) then linked connections
+                 * are not added on drag and drop. However, any selected relations' linked objects are added.
+                 */
+                if(!addConnectionsToElements && !fRelationsToAdd.contains(relation)) {
+                    continue;
+                }
+
                 // Find existing objects
-                List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getSource());
-                List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relation.getTarget());
-                
+                List<IDiagramModelArchimateObject> sources = DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relation.getSource());
+                List<IDiagramModelArchimateObject> targets = DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relation.getTarget());
+
                 // Add new ones too
                 for(IDiagramModelArchimateObject dmo2 : diagramObjects) {
                     if(dmo != dmo2) {
@@ -185,14 +149,14 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
                         }
                     }
                 }
-                
+
                 // Make the Commands...
                 for(IDiagramModelArchimateObject dcSource : sources) {
                     if(element == relation.getTarget()) {
                         result.add(new AddDiagramArchimateConnectionCommand(dcSource, dmo, relation));
                     }
                 }
-            
+
                 for(IDiagramModelArchimateObject dcTarget : targets) {
                     if(element == relation.getSource()) {
                         result.add(new AddDiagramArchimateConnectionCommand(dmo, dcTarget, relation));
@@ -219,13 +183,13 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
         Command command = null;
         
         if(ConnectionPreferences.createRelationWhenAddingModelTreeElement()) {
-            if(fTargetContainer instanceof IDiagramModelArchimateObject) {
+            if(getTargetContainer() instanceof IDiagramModelArchimateObject) {
                 command = new Command() {
                     private Command fSubCommand;
 
                     @Override
                     public void execute() {
-                        IArchimateElement parentElement = ((IDiagramModelArchimateObject)fTargetContainer).getArchimateElement();
+                        IArchimateElement parentElement = ((IDiagramModelArchimateObject)getTargetContainer()).getArchimateElement();
                         fSubCommand = DiagramCommandFactory.createNewNestedRelationCommandWithDialog(parentElement,
                                 fElementsToAdd.toArray(new IArchimateElement[fElementsToAdd.size()]));
                         if(fSubCommand != null) {
@@ -257,7 +221,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
      * Gather the elements and relationships that will be added to the diagram
      */
     protected void getElementsToAdd(Object[] objects) {
-        IArchimateModel targetArchimateModel = fTargetDiagramModel.getArchimateModel();
+        IArchimateModel targetArchimateModel = getTargetDiagramModel().getArchimateModel();
         
         for(Object object : objects) {
             // Check
@@ -292,7 +256,7 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
             }
 
             // Selected Diagram Models (References)
-            else if(object instanceof IDiagramModel && object != fTargetDiagramModel) { // not the same diagram
+            else if(object instanceof IDiagramModel && object != getTargetDiagramModel()) { // not the same diagram
                 if(!fDiagramRefsToAdd.contains(object)) {
                     fDiagramRefsToAdd.add((IDiagramModel)object);
                 }
@@ -306,18 +270,18 @@ public class ContainerComponentEditPolicy extends ComponentEditPolicy {
      */
     protected void addRelationshipElements(IRelationship relationship) {
         // Connected Source Element if not on Diagram
-        if(DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relationship.getSource()).isEmpty()) {
+        if(DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relationship.getSource()).isEmpty()) {
             addElement(relationship.getSource());
         }
 
         // Connected Target Element if not on Diagram
-        if(DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relationship.getTarget()).isEmpty()) {
+        if(DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relationship.getTarget()).isEmpty()) {
             addElement(relationship.getTarget());
         }
         
         // Recursive case - ensure at least 2 connecting elements
         if(relationship.getSource() == relationship.getTarget()) {
-            int size = DiagramModelUtils.findDiagramModelObjectsForElement(fTargetDiagramModel, relationship.getSource()).size();
+            int size = DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), relationship.getSource()).size();
             for(IArchimateElement e : fElementsToAdd) {
                 if(e == relationship.getSource()) {
                     size++;

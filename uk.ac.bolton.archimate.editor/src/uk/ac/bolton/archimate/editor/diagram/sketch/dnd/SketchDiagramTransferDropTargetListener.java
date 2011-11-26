@@ -7,8 +7,9 @@
 package uk.ac.bolton.archimate.editor.diagram.sketch.dnd;
 
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.swt.dnd.DND;
 
-import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramTransferDropTargetListener;
+import uk.ac.bolton.archimate.editor.diagram.dnd.AbstractDiagramTransferDropTargetListener;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**
@@ -16,19 +17,21 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchDiagramTransferDropTargetListener extends DiagramTransferDropTargetListener {
+public class SketchDiagramTransferDropTargetListener extends AbstractDiagramTransferDropTargetListener {
 
     public SketchDiagramTransferDropTargetListener(EditPartViewer viewer) {
         super(viewer);
     }
+    
+    @Override
+    protected void updateTargetRequest() {
+        super.updateTargetRequest();
+        getCurrentEvent().detail = DND.DROP_LINK; // Show link cursor
+    }
 
     @Override
     protected boolean isEnabled(Object element) {
-        // Only allow Diagram Model Reference
-        if(element instanceof IDiagramModel) {
-            return super.isEnabled(element);
-        }
-        
-        return false;
+        // Only allow (other) Diagram Model References
+        return (element instanceof IDiagramModel) && (element != getTargetDiagramModel());
     }
 }

@@ -29,9 +29,10 @@ import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.figures.StickyFigure;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
+import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchDNDEditPolicy;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
@@ -67,8 +68,11 @@ implements IColoredEditPart, ITextAlignedEditPart  {
         // Add a policy to handle directly editing the Part
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new StickyDirectEditTitlePolicy());
 
-        // Add a policy to handle editing the Parts (for example, deleting a part)
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new GroupContainerComponentEditPolicy());
+        // Add a policy to handle deletion and orphaning
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
+        
+        // Add a DND Policy
+        installEditPolicy("DND", new SketchDNDEditPolicy());
         
         // Install a custom layout policy that handles dragging things around and creating new objects
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());

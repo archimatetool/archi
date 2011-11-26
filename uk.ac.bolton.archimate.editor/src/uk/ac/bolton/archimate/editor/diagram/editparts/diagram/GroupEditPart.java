@@ -24,11 +24,12 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.GroupFigure;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDNDEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.GroupContainerComponentEditPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 
 
@@ -51,8 +52,11 @@ implements IColoredEditPart, ITextEditPart {
         // Add a policy to handle directly editing the Parts (for example, directly renaming a part)
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new PartDirectEditTitlePolicy());
 
-        // Add a policy to handle editing the Parts (for example, deleting a part)
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new GroupContainerComponentEditPolicy());
+        // Add a policy to handle editing the Parts (Deleting and Orphaning)
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
+        
+        // Add a policy for Native DND
+        installEditPolicy("DND", new ArchimateDNDEditPolicy());
         
         // Install a custom layout policy that handles dragging things around and creating new objects
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());

@@ -12,7 +12,7 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractDiagramPart;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
-import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchContainerComponentEditPolicy;
+import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchDNDEditPolicy;
 import uk.ac.bolton.archimate.model.ISketchModel;
 
 
@@ -34,8 +34,8 @@ public class SketchDiagramPart extends AbstractDiagramPart {
         // Install a custom layout policy that handles dragging things around
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());
         
-        // Install a policy for DND support and other things
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new SketchContainerComponentEditPolicy());
+        // Install a policy for DND support
+        installEditPolicy("DND", new SketchDNDEditPolicy());
         
         // And we need to install this Group Container Policy here as well as in the GroupEditpart
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new BasicContainerEditPolicy());

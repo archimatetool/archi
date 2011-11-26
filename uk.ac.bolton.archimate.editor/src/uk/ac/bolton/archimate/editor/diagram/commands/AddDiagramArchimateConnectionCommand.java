@@ -17,7 +17,7 @@ import uk.ac.bolton.archimate.model.IRelationship;
 /**
  * Add Connection Command
  * Used when dragging and dropping an Archimate Relationship from the tree to the diagram.
- * Called from {@link uk.ac.bolton.archimate.editor.diagram.policies.ContainerComponentEditPolicy}
+ * Called from {@link uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDNDEditPolicy}
  * 
  * @author Phillip Beauvoir
  */

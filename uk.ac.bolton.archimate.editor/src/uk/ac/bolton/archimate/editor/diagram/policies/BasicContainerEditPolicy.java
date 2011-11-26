@@ -20,7 +20,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
- * Group Container EditPolicy
+ * Basic Container EditPolicy
  * 
  * @author Phillip Beauvoir
  */

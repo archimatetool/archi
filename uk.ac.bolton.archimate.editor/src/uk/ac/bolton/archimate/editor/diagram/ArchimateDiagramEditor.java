@@ -31,7 +31,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.DeleteFromModelAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ViewpointAction;
-import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramTransferDropTargetListener;
+import uk.ac.bolton.archimate.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
@@ -135,7 +135,7 @@ implements IArchimateDiagramEditor {
         TreeSelectionSynchroniser.INSTANCE.addDiagramEditor(this);
         
         // Native DnD
-        viewer.addDropTargetListener(new DiagramTransferDropTargetListener(viewer));
+        viewer.addDropTargetListener(new ArchimateDiagramTransferDropTargetListener(viewer));
     }
     
     @Override

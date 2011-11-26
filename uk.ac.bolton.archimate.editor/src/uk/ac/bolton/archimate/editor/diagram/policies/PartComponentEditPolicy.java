@@ -14,7 +14,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 /**
- * Policy for Editing Parts
+ * Policy for Deleting and Orphaning Parts
  * 
  * @author Phillip Beauvoir
  */
