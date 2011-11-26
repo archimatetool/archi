@@ -534,40 +534,40 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         int operations = DND.DROP_MOVE;
         Transfer[] transferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer() };
         fTableViewer.addDropSupport(operations, transferTypes, new DropTargetListener() {
-            int operations = DND.DROP_NONE;
-
             public void dragEnter(DropTargetEvent event) {
-                operations = fDragSourceValid ? event.detail : DND.DROP_NONE;
             }
 
             public void dragLeave(DropTargetEvent event) {
             }
 
             public void dragOperationChanged(DropTargetEvent event) {
-                operations = fDragSourceValid ? event.detail : DND.DROP_NONE;
+                event.detail = getEventDetail(event);
             }
 
             public void dragOver(DropTargetEvent event) {
-                event.detail = fDragSourceValid ? operations : DND.DROP_NONE;
+                event.detail = getEventDetail(event);
 
-                if(operations == DND.DROP_NONE) {
+                if(event.detail == DND.DROP_NONE) {
                     event.feedback = DND.FEEDBACK_NONE;
                 }
                 else {
                     event.feedback = getDragFeedbackType(event);
-                    event.feedback |= DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
                 }
+
+                event.feedback |= DND.FEEDBACK_SCROLL;
             }
 
             public void drop(DropTargetEvent event) {
-                if(event.detail == DND.DROP_COPY || event.detail == DND.DROP_MOVE) {
-                    doDropOperation(event);
-                }
+                doDropOperation(event);
             }
 
             public void dropAccept(DropTargetEvent event) {
             }
 
+            private int getEventDetail(DropTargetEvent event) {
+                return fDragSourceValid ? DND.DROP_MOVE : DND.DROP_NONE;
+            }
+            
         });
     }
 

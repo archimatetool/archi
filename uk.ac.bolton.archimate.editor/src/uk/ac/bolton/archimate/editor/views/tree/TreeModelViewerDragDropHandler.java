@@ -48,8 +48,19 @@ public class TreeModelViewerDragDropHandler {
 
     private StructuredViewer fViewer;
     
-    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE; 
+    /**
+     * Drag operations we support
+     */
+    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK; 
 
+    /**
+     * Drop operations we support on the tree
+     */
+    private int fDropOperations = DND.DROP_MOVE; 
+
+    /**
+     * Flag to mark valid tree selection
+     */
     private boolean fIsValidTreeSelection;
     
     // Can only drag local type
@@ -94,42 +105,36 @@ public class TreeModelViewerDragDropHandler {
     }
     
     private void registerDropSupport() {
-        fViewer.addDropSupport(fDragOperations, targetTransferTypes, new DropTargetListener() {
-            int operations = DND.DROP_NONE;
-            
+        fViewer.addDropSupport(fDropOperations, targetTransferTypes, new DropTargetListener() {
             public void dragEnter(DropTargetEvent event) {
-                operations = isValidSelection(event) ? event.detail : DND.DROP_NONE;
             }
 
             public void dragLeave(DropTargetEvent event) {
             }
 
             public void dragOperationChanged(DropTargetEvent event) {
-                operations = isValidSelection(event) ? event.detail : DND.DROP_NONE;
+                event.detail = getEventDetail(event);
             }
 
             public void dragOver(DropTargetEvent event) {
-                event.detail = isValidSelection(event) && isValidDropTarget(event) ? operations : DND.DROP_NONE;
+                event.detail = getEventDetail(event);
                 
-                if(operations == DND.DROP_NONE) {
+                if(event.detail == DND.DROP_NONE) {
                     event.feedback = DND.FEEDBACK_NONE;
                 }
-                else {
-                    event.feedback = getFeedbackType(event);
-                    event.feedback |= DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
-                }
+                
+                event.feedback |= DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
             }
 
             public void drop(DropTargetEvent event) {
-                if((event.detail == DND.DROP_COPY)) {
-                    doDropOperation(event);
-                }
-                else if((event.detail == DND.DROP_MOVE)) {
-                    doDropOperation(event);
-                }
+                doDropOperation(event);
             }
 
             public void dropAccept(DropTargetEvent event) {
+            }
+            
+            private int getEventDetail(DropTargetEvent event) {
+                return isValidSelection(event) && isValidDropTarget(event) ? DND.DROP_MOVE : DND.DROP_NONE;
             }
             
         });
@@ -152,7 +157,7 @@ public class TreeModelViewerDragDropHandler {
             }
             // Can only drag user folders
             if(object instanceof IFolder && ((IFolder)object).getType() != FolderType.USER) {
-            	fIsValidTreeSelection = false;
+                fIsValidTreeSelection = false;
                 break;
             }
             // Don't allow mixed parent models
@@ -245,20 +250,6 @@ public class TreeModelViewerDragDropHandler {
         else {
             stack.execute(compoundCommand);
         }
-    }
-    
-    /**
-     * Determine the feedback type for dropping
-     * 
-     * @param event
-     * @return
-     */
-    private int getFeedbackType(DropTargetEvent event) {
-        if(event.item == null) {
-            return DND.FEEDBACK_NONE;
-        }
-        
-        return DND.FEEDBACK_SELECT;
     }
     
     /**

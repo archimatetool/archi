@@ -24,7 +24,10 @@ public class NavigatorViewerDragHandler {
 
     private StructuredViewer fViewer;
     
-    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE; 
+    /**
+     * Drag operations we support
+     */
+    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK; 
 
     // Can only drag local type
     Transfer[] sourceTransferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer() };

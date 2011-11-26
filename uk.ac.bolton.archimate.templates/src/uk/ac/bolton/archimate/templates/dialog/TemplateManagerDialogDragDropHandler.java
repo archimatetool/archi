@@ -32,7 +32,7 @@ public class TemplateManagerDialogDragDropHandler {
 
     private TreeViewer fTreeViewer;
     
-    private int fDragOperations = DND.DROP_COPY | DND.DROP_MOVE; 
+    private int fDragOperations = DND.DROP_COPY; 
 
     // Can only drag local type
     Transfer[] sourceTransferTypes = new Transfer[] { LocalSelectionTransfer.getTransfer() };
@@ -68,41 +68,30 @@ public class TemplateManagerDialogDragDropHandler {
      */
     private void registerDropSupport(final StructuredViewer viewer) {
         viewer.addDropSupport(fDragOperations, sourceTransferTypes, new DropTargetListener() {
-            int operations = DND.DROP_NONE;
-            
             public void dragEnter(DropTargetEvent event) {
-                operations = isValidSelection() ? event.detail : DND.DROP_NONE;
             }
 
             public void dragLeave(DropTargetEvent event) {
             }
 
             public void dragOperationChanged(DropTargetEvent event) {
-                operations = isValidSelection() ? event.detail : DND.DROP_NONE;
+                event.detail = getEventDetail(event);
             }
 
             public void dragOver(DropTargetEvent event) {
-                event.detail = isValidDropTarget(event) ? operations : DND.DROP_NONE;
-                
-                if(operations == DND.DROP_NONE) {
-                    event.feedback = DND.FEEDBACK_NONE;
-                }
-                else {
-                    event.feedback = getFeedbackType(event);
-                    event.feedback |= DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
-                }
+                event.detail = getEventDetail(event);
+                event.feedback |= DND.FEEDBACK_SCROLL | DND.FEEDBACK_EXPAND;
             }
 
             public void drop(DropTargetEvent event) {
-                if((event.detail == DND.DROP_COPY)) {
-                    doDropOperation(event);
-                }
-                else if((event.detail == DND.DROP_MOVE)) {
-                    doDropOperation(event);
-                }
+                doDropOperation(event);
             }
 
             public void dropAccept(DropTargetEvent event) {
+            }
+            
+            private int getEventDetail(DropTargetEvent event) {
+                return isValidSelection() && isValidDropTarget(event) ? DND.DROP_COPY : DND.DROP_NONE;
             }
             
         });
@@ -133,17 +122,6 @@ public class TemplateManagerDialogDragDropHandler {
 
     private boolean isValidSelection() {
         return true;
-    }
-    
-    /**
-     * Determine the feedback type for dropping
-     */
-    private int getFeedbackType(DropTargetEvent event) {
-        if(event.item == null) {
-            return DND.FEEDBACK_NONE;
-        }
-        
-        return DND.FEEDBACK_SELECT;
     }
     
     /**
