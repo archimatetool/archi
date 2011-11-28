@@ -10,8 +10,6 @@ import java.io.IOException;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
@@ -41,19 +39,15 @@ public class SaveModelAction extends ViewerAction {
     @Override
     public void run() {
         // Get selected Model and save it and any Diagrams via EditorModel Manager
-        final IArchimateModel model = getModel();
+        IArchimateModel model = getModel();
         if(model != null) {
-            BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
-                public void run() {
-                    try {
-                        IEditorModelManager.INSTANCE.saveModel(model);
-                    }
-                    catch(IOException ex) {
-                        MessageDialog.openError(fView.getSite().getShell(), "Error saving file", ex.getMessage());
-                        ex.printStackTrace();
-                    }
-                }
-            });
+            try {
+                IEditorModelManager.INSTANCE.saveModel(model);
+            }
+            catch(IOException ex) {
+                MessageDialog.openError(fView.getSite().getShell(), "Error saving file", ex.getMessage());
+                ex.printStackTrace();
+            }
         }
     }
 
