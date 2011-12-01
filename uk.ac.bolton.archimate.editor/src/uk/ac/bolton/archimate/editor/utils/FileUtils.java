@@ -224,7 +224,7 @@ public final class FileUtils  {
 	        }
 	    }
 	    
-	    int bufSize = 1024;
+	    int bufSize = 1024 * 64;
 	    byte[] buf = new byte[bufSize];
 	    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(srcFile), bufSize);
 	    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(destFile), bufSize);
