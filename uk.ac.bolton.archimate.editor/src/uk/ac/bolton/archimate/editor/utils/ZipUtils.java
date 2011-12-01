@@ -49,7 +49,6 @@ public final class ZipUtils {
             try {
                 is = new FileInputStream(file);
                 is.read(buf);
-                is.close();
             }
             finally {
                 if(is != null) {
@@ -146,7 +145,7 @@ public final class ZipUtils {
         } 
         
         int bytesRead;
-        final int bufSize = 1024;
+        final int bufSize = 8192;
         byte buf[] = new byte[bufSize];
         
         ZipEntry zipEntry = new ZipEntry(entryName);
@@ -343,7 +342,7 @@ public final class ZipUtils {
 		ZipInputStream zIn;
 		ZipEntry zipEntry;
 		int bytesRead;
-		final int bufSize = 4096;
+		final int bufSize = 8192;
 		byte buf[] = new byte[bufSize];
 		
 		// Ensure that the parent Folder exists
@@ -400,10 +399,9 @@ public final class ZipUtils {
         
         ZipInputStream zIn = null;
 		ZipEntry zipEntry;
-		final int bufSize = 1024;
+		final int bufSize = 1024 * 16;
 		
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(zipFile), bufSize);
-		
 		zIn = new ZipInputStream(in);
 		
 		try {
@@ -457,7 +455,7 @@ public final class ZipUtils {
 		ZipInputStream zIn = null;
 		ZipEntry zipEntry;
 		int bytesRead;
-		final int bufSize = 512;
+		final int bufSize = 1024;
 		byte buf[] = new byte[bufSize];
 		
 		in = new BufferedInputStream(new FileInputStream(zipFile), bufSize);
