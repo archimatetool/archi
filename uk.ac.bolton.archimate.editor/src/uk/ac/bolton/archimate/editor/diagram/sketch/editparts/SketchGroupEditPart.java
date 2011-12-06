@@ -6,7 +6,10 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 
+import org.eclipse.gef.EditPolicy;
+
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.GroupEditPart;
+import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchDNDEditPolicy;
 
 
@@ -21,6 +24,9 @@ public class SketchGroupEditPart extends GroupEditPart {
     protected void createEditPolicies() {
         super.createEditPolicies();
         
+        // Install our own connection policy
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new SketchConnectionPolicy());
+
         // Install our own DND policy
         installEditPolicy("DND", new SketchDNDEditPolicy());
     }
