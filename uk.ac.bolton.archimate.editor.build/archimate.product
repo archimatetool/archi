@@ -111,6 +111,7 @@
       <plugin id="uk.ac.bolton.archimate.model"/>
       <plugin id="uk.ac.bolton.archimate.reports"/>
       <plugin id="uk.ac.bolton.archimate.templates"/>
+      <plugin id="uk.ac.bolton.archimate.widgets"/>
       <plugin id="uk.ac.bolton.jdom"/>
    </plugins>
 

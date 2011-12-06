@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Archi Widgets
+Bundle-SymbolicName: uk.ac.bolton.archimate.widgets;singleton:=true
+Bundle-Version: 2.1.0.qualifier
+Bundle-Vendor: Bolton University
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: uk.ac.bolton.archimate.widgets.jar,
+ lib/org.eclipse.nebula.widgets.gallery_0.5.3.201111151116.jar
+Export-Package: org.eclipse.nebula.animation,
+ org.eclipse.nebula.animation.effects,
+ org.eclipse.nebula.animation.movement,
+ org.eclipse.nebula.jface.galleryviewer,
+ org.eclipse.nebula.widgets.gallery
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui
+Bundle-Activator: uk.ac.bolton.archimate.widgets.ArchimateWidgetsPlugin
