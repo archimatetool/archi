@@ -9,7 +9,10 @@ package uk.ac.bolton.archimate.editor.diagram.editparts;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
@@ -18,6 +21,7 @@ import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IProperties;
 
 
@@ -109,6 +113,12 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     }
     
     /**
+     * Update any Edit Parts that may need changing as a result of for example locking an Edit Part
+     */
+    public void updateEditPolicies() {
+    }
+    
+    /**
      * Refresh the Bounds
      */
     protected void refreshBounds() {
@@ -152,8 +162,15 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     /**
      * @return True if this EditPart's Viewer is in Full Screen Mode
      */
-    protected boolean isInFullScreenMode() {
+    public boolean isInFullScreenMode() {
         return getViewer() != null && getViewer().getProperty("full_screen") != null;
+    }
+    
+    /**
+     * @return True if this EditPart is locked
+     */
+    public boolean isLocked() {
+        return getModel() instanceof ILockable && ((ILockable)getModel()).isLocked();
     }
     
     /**
@@ -164,6 +181,14 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         if(!isInFullScreenMode()) {
             ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
         }
+    }
+    
+    /** 
+     * If the model object is locked don't display a drag tracker
+     */
+    @Override
+    public DragTracker getDragTracker(Request request) {
+        return isLocked() ? new SelectEditPartTracker(this) : super.getDragTracker(request);
     }
     
     @SuppressWarnings("rawtypes")

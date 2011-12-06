@@ -31,6 +31,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEdi
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -60,7 +61,8 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Model event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE) {
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -116,6 +118,11 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
         fLineStyleSelector.update();
         fSourceArrowSelector.update();
         fTargetArrowSelector.update();
+        
+        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
+        fLineStyleSelector.setEnabled(enabled);
+        fSourceArrowSelector.setEnabled(enabled);
+        fTargetArrowSelector.setEnabled(enabled);
     }
     
     @Override

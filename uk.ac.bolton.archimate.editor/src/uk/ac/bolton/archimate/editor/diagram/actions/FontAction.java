@@ -18,11 +18,10 @@ import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.FontCompoundCommand;
-import uk.ac.bolton.archimate.editor.diagram.editparts.ITextEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -57,7 +56,15 @@ public class FontAction extends SelectionAction {
     }
     
     private boolean isValidEditPart(Object object) {
-        return object instanceof ITextEditPart || object instanceof IDiagramConnectionEditPart;
+        if(object instanceof EditPart && ((EditPart)object).getModel() instanceof IFontAttribute) {
+            Object model = ((EditPart)object).getModel();
+            if(model instanceof ILockable) {
+                return !((ILockable)model).isLocked();
+            }
+            return true;
+        }
+        
+        return false;
     }
     
     @Override
@@ -70,17 +77,15 @@ public class FontAction extends SelectionAction {
         
         EditPart firstPart = getFirstSelectedFontEditPart(selection);
         if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(model instanceof IFontAttribute) {
-                rgbValue = ((IFontAttribute)model).getFontColor();
-                String fontValue = ((IFontAttribute)model).getFont();
-                if(fontValue != null) {
-                    try {
-                        fontData = new FontData(fontValue);
-                    }
-                    catch(Exception ex) {
-                        //ex.printStackTrace();
-                    }
+            IFontAttribute model = (IFontAttribute)firstPart.getModel();
+            rgbValue = model.getFontColor();
+            String fontValue = model.getFont();
+            if(fontValue != null) {
+                try {
+                    fontData = new FontData(fontValue);
+                }
+                catch(Exception ex) {
+                    //ex.printStackTrace();
                 }
             }
         }

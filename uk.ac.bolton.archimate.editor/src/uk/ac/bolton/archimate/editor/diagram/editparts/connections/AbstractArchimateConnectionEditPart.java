@@ -77,7 +77,7 @@ implements IArchimateConnectionEditPart {
 			// Store this
             fArchimateModel = getModel().getDiagramModel().getArchimateModel();
 			// Listen to Archimate Relationship changes
-			getModel().getRelationship().eAdapters().add(fConnectionAdapter);
+			getModel().getRelationship().eAdapters().add(getECoreAdapter());
 			// Register to listen to overall model changes that affect the structural relationship chains
 			if(isShowStructural()) {
 	            fArchimateModel.eAdapters().add(fModelAdapter);
@@ -91,7 +91,7 @@ implements IArchimateConnectionEditPart {
     public void deactivate() {
         if(isActive()) {
             super.deactivate();
-            getModel().getRelationship().eAdapters().remove(fConnectionAdapter);
+            getModel().getRelationship().eAdapters().remove(getECoreAdapter());
             fArchimateModel.eAdapters().remove(fModelAdapter);
             getViewer().removePropertyChangeListener(propertyListener);
         }

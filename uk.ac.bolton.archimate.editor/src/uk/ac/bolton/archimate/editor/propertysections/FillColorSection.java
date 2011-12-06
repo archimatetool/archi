@@ -28,6 +28,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -47,7 +48,8 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR) {
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -133,7 +135,9 @@ public class FillColorSection extends AbstractArchimatePropertySection {
             fColorSelector.setColorValue(c.getRGB());
         }
         
-        fDefaultColorButton.setEnabled(colorValue != null);
+        boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
+        fColorSelector.setEnabled(enabled);
+        fDefaultColorButton.setEnabled(colorValue != null && enabled);
     }
     
     @Override

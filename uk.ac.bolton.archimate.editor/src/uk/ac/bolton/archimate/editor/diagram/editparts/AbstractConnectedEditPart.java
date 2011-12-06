@@ -66,8 +66,19 @@ implements NodeEditPart {
                 break;
 
             case Notification.SET:
+                // Bounds
                 if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__BOUNDS) {
                     refreshBounds();
+                }
+                // Locked
+                else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                    updateEditPolicies(); // Update Edit Policies of this and parent
+                    if(getParent() instanceof AbstractDiagramPart) {
+                        ((AbstractDiagramPart)getParent()).updateEditPolicies();
+                    }
+                    else if(getParent() instanceof AbstractBaseEditPart) {
+                        ((AbstractBaseEditPart)getParent()).updateEditPolicies();
+                    }
                 }
                 else {
                     refreshFigure();

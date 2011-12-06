@@ -97,6 +97,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.FillColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FullScreenAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PasteAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PrintDiagramAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PropertiesAction;
@@ -547,11 +548,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action.setId(ActionFactory.RENAME.getId()); // Set this for Global Handler
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Change the Delete Action label
         action = registry.getAction(ActionFactory.DELETE.getId());
         action.setText("&Delete from View");
         action.setToolTipText(action.getText());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Paste
         PasteAction pasteAction = new PasteAction(this, viewer);
@@ -562,11 +565,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new CutAction(this, pasteAction);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Copy
         action = new CopyAction(this, pasteAction);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Use Grid Action
         action = new ToggleGridEnabledAction();
@@ -616,6 +621,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         
+        // Default Size
         action = new DefaultEditPartSizeAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
@@ -630,26 +636,31 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new FillColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Connection Line Width
         action = new ConnectionLineWidthAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Connection Line Color
         action = new ConnectionLineColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
 
         // Font
         action = new FontAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
 
         // Font Colour
         action = new FontColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
 
         // Export As Image
         action = new ExportAsImageAction(viewer);
@@ -697,6 +708,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             getSelectionActions().add(a.getId());
             getUpdateCommandStackActions().add(a);
         }
+        
+        // Lock Object
+        action = new LockObjectAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Full Screen
         action = new FullScreenAction(this);

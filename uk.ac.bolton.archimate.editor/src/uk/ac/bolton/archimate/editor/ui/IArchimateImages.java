@@ -129,6 +129,7 @@ public interface IArchimateImages {
     String ICON_FORMAT_PAINTER_GREY_16 = IMGPATH + "formatpainter-grey-16.png"; //$NON-NLS-1$
     String ICON_GROUP_16 = IMGPATH + "group-16.png"; //$NON-NLS-1$
     String ICON_LINKED_16 = IMGPATH + "linked.gif"; //$NON-NLS-1$
+    String ICON_LOCK_16 = IMGPATH + "lock-16.png"; //$NON-NLS-1$
     String ICON_MAGIC_CONNECTION_16 = IMGPATH + "magic_connection.gif"; //$NON-NLS-1$
     String ICON_MINUS = IMGPATH + "minus.png"; //$NON-NLS-1$
     String ICON_MODELS_16 = IMGPATH + "models.gif"; //$NON-NLS-1$
@@ -149,6 +150,7 @@ public interface IArchimateImages {
     String ICON_SORT_16 = IMGPATH + "alphab_sort_co.gif"; //$NON-NLS-1$
     String ICON_STICKY_16 = IMGPATH + "sticky-16.png"; //$NON-NLS-1$
     String ICON_TRASH_16 = IMGPATH + "trash.gif"; //$NON-NLS-1$
+    String ICON_UNLOCK_16 = IMGPATH + "unlock-16.png"; //$NON-NLS-1$
     String ICON_VIEWPOINTS_16 = IMGPATH + "viewpoints-16.png"; //$NON-NLS-1$
     String ICON_VIEWPOINT_BUSINESS_16 = IMGPATH + "vp-business-16.png"; //$NON-NLS-1$
     String ICON_VIEWPOINT_APPLICATION_16 = IMGPATH + "vp-application-16.png"; //$NON-NLS-1$

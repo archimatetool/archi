@@ -23,6 +23,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -42,7 +43,8 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Alignment event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT) {
+            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -124,6 +126,8 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         
         for(int i = 0; i < fAlignmentButtons.length; i++) {
             fAlignmentButtons[i].setSelection(fAlignmentButtons[i] == getAlignmentButton());
+            boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
+            fAlignmentButtons[i].setEnabled(enabled);
         }
     }
     

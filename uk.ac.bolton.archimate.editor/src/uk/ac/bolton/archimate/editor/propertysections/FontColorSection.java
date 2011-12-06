@@ -27,6 +27,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.FontColorCommand;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -46,7 +47,8 @@ public class FontColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR) {
+            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -131,7 +133,9 @@ public class FontColorSection extends AbstractArchimatePropertySection {
             fColorSelector.setColorValue(new RGB(0, 0, 0));
         }
         
-        fDefaultColorButton.setEnabled(colorValue != null);
+        boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
+        fColorSelector.setEnabled(enabled);
+        fDefaultColorButton.setEnabled(colorValue != null && enabled);
     }
     
     @Override

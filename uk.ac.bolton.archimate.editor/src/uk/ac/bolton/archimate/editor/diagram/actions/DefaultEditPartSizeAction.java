@@ -18,6 +18,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.SetConstraintObjectCommand
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 /**
  * Action to set the size of an Edit Part to default.
@@ -75,6 +76,10 @@ public class DefaultEditPartSizeAction extends SelectionAction {
                 if(part.getModel() instanceof IDiagramModelObject) {
                     IDiagramModelObject model = (IDiagramModelObject)part.getModel();
 
+                    if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                        continue;
+                    }
+                    
                     IBounds bounds = model.getBounds().getCopy();
 
                     if(bounds.getWidth() != -1 || bounds.getHeight() != -1) {

@@ -11,6 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -18,6 +19,7 @@ import org.eclipse.ui.PlatformUI;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.ui.components.StyledTextControl;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.ITextContent;
 
 
@@ -30,6 +32,17 @@ public class TextContentSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
 
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter implements IFilter {
+        @Override
+        public boolean select(Object object) {
+            return (object instanceof ITextContent) ||
+                    ((object instanceof EditPart) && ((EditPart)object).getModel() instanceof ITextContent);
+        }
+    }
+
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
      */
@@ -38,7 +51,8 @@ public class TextContentSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Model Name event (Undo/Redo and here!)
-            if(feature == IArchimatePackage.Literals.TEXT_CONTENT__CONTENT) {
+            if(feature == IArchimatePackage.Literals.TEXT_CONTENT__CONTENT ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -92,6 +106,9 @@ public class TextContentSection extends AbstractArchimatePropertySection {
             return; 
         }
         fTextContentControl.refresh(fTextContent);
+        
+        boolean enabled = fTextContent instanceof ILockable ? !((ILockable)fTextContent).isLocked() : true;
+        fTextContentControl.getTextControl().setEnabled(enabled);
     }
     
     @Override

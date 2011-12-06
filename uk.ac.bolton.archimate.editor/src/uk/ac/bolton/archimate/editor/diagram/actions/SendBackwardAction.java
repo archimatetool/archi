@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -87,6 +88,11 @@ public class SendBackwardAction extends SelectionAction {
                     System.err.println("Wrong selection for Viewer in " + getClass());
                 }
 
+                // Locked
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
                 if(model instanceof IDiagramModelObject) {
                     IDiagramModelObject diagramObject = (IDiagramModelObject)model;
                     IDiagramModelContainer parent = (IDiagramModelContainer)diagramObject.eContainer();

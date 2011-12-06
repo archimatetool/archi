@@ -26,10 +26,10 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * @author Phillip Beauvoir
  */
 public class ArchimateContainerLayoutPolicy
-extends DiagramLayoutPolicy {
+extends ArchimateDiagramLayoutPolicy {
     
     /*
-     * Subsititute Command for hooking our own sub-commands
+     * Substitute Command for hooking our own sub-commands
      */
     private static class SubstituteCommand extends CompoundCommand {
         private Command fSubCommand = null;

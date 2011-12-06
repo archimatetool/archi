@@ -23,6 +23,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionRouterAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.DefaultEditPartSizeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ExportAsImageAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ExportAsImageToClipboardAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 
@@ -84,6 +85,12 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         action = actionRegistry.getAction(ActionFactory.DELETE.getId());
         menu.appendToGroup(GROUP_EDIT, action);
+        
+        action = actionRegistry.getAction(LockObjectAction.ID);
+        if(action.isEnabled()) {
+            menu.appendToGroup(GROUP_EDIT, new Separator());
+            menu.appendToGroup(GROUP_EDIT, action);
+        }
         
         menu.add(new Separator(GROUP_RENAME));
         

@@ -19,6 +19,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IArchimateCon
 import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -56,6 +57,9 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
             // Documentation event (Undo/Redo and here)
             else if(feature == IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
                 refreshDocumentationField();
+            }
+            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                refreshControls();
             }
         }
     };
@@ -96,6 +100,9 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
             return; 
         }
         fTextName.refresh(fConnection);
+        
+        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
+        fTextName.getTextControl().setEnabled(enabled);
     }
     
     protected void refreshDocumentationField() {
@@ -103,6 +110,9 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
             return; 
         }
         fTextDocumentation.refresh(fConnection);
+
+        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
+        fTextDocumentation.getTextControl().setEnabled(enabled);
     }
     
     @Override

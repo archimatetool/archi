@@ -17,10 +17,9 @@ import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.FontColorCommand;
-import uk.ac.bolton.archimate.editor.diagram.editparts.ITextEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -55,7 +54,15 @@ public class FontColorAction extends SelectionAction {
     }
     
     private boolean isValidEditPart(Object object) {
-        return object instanceof ITextEditPart || object instanceof IDiagramConnectionEditPart;
+        if(object instanceof EditPart && ((EditPart)object).getModel() instanceof IFontAttribute) {
+            Object model = ((EditPart)object).getModel();
+            if(model instanceof ILockable) {
+                return !((ILockable)model).isLocked();
+            }
+            return true;
+        }
+        
+        return false;
     }
     
     @Override
@@ -68,12 +75,10 @@ public class FontColorAction extends SelectionAction {
         RGB defaultRGB = null;
         EditPart firstPart = getFirstSelectedFontEditPart(selection);
         if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(model instanceof IFontAttribute) {
-                String s = ((IFontAttribute)model).getFontColor();
-                if(s != null) {
-                    defaultRGB = ColorFactory.convertStringToRGB(s);
-                }
+            IFontAttribute model = (IFontAttribute)firstPart.getModel();
+            String s = model.getFontColor();
+            if(s != null) {
+                defaultRGB = ColorFactory.convertStringToRGB(s);
             }
         }
         
@@ -94,15 +99,11 @@ public class FontColorAction extends SelectionAction {
         CompoundCommand result = new CompoundCommand("Change font colour");
         
         for(Object object : selection) {
-            if(object instanceof EditPart) {
+            if(isValidEditPart(object)) {
                 EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                if(model instanceof IFontAttribute) {
-                    IFontAttribute fontObject = (IFontAttribute)model;
-                    Command cmd = new FontColorCommand(fontObject, ColorFactory.convertRGBToString(newColor));
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
-                    }
+                Command cmd = new FontColorCommand((IFontAttribute)editPart.getModel(), ColorFactory.convertRGBToString(newColor));
+                if(cmd.canExecute()) {
+                    result.add(cmd);
                 }
             }
         }

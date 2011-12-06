@@ -164,6 +164,12 @@ implements IEditPartFilterProvider {
         }
     }
 
+    /**
+     * Update any Edit Parts that may need changing as a result of for example locking an Edit Part
+     */
+    public void updateEditPolicies() {
+    }
+
     @Override
     protected IFigure createFigure() {
         FreeformLayer figure = new FreeformLayer();

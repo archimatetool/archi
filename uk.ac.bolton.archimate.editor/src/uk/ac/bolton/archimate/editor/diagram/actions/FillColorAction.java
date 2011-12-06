@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.actions;
 
 import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -19,6 +20,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.FillColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -45,6 +47,11 @@ public class FillColorAction extends SelectionAction {
     private IColoredEditPart getFirstSelectedColoredEditPart(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof IColoredEditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
                 return (IColoredEditPart)object;
             }
         }
@@ -91,6 +98,11 @@ public class FillColorAction extends SelectionAction {
             if(object instanceof IColoredEditPart) {
                 IColoredEditPart editPart = (IColoredEditPart)object;
                 Object model = editPart.getModel();
+                
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
                 if(model instanceof IDiagramModelObject) {
                     IDiagramModelObject diagramObject = (IDiagramModelObject)model;
                     Command cmd = new FillColorCommand(diagramObject, ColorFactory.convertRGBToString(newColor));

@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -67,6 +68,10 @@ public class SendToBackAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
+                
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
 
                 if(model instanceof IDiagramModelObject) {
                     result.add(new SendToBackCommand((IDiagramModelObject)model));

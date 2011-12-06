@@ -266,14 +266,9 @@
          </propertySection>
          <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.TextContentSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.TextContentSection$Filter"
                id="textContentSection"
                tab="main.tab">
-            <input
-                  type="uk.ac.bolton.archimate.editor.diagram.editparts.diagram.NoteEditPart">
-            </input>
-            <input
-                  type="uk.ac.bolton.archimate.editor.diagram.sketch.editparts.StickyEditPart">
-            </input>
          </propertySection>
          <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.UsedInViewsSection"
@@ -367,8 +362,8 @@
             </input>
          </propertySection>
          <propertySection
-               class="uk.ac.bolton.archimate.editor.propertysections.SketchStickySection"
-               id="sketchStickySection"
+               class="uk.ac.bolton.archimate.editor.propertysections.NameSection"
+               id="nameSection"
                tab="main.tab">
             <input
                   type="uk.ac.bolton.archimate.editor.diagram.sketch.editparts.StickyEditPart">
@@ -390,6 +385,12 @@
                class="uk.ac.bolton.archimate.editor.propertysections.ViewpointSection"
                filter="uk.ac.bolton.archimate.editor.propertysections.ViewpointSection$Filter"
                id="viewpointSection"
+               tab="main.tab">
+         </propertySection>
+         <propertySection
+               class="uk.ac.bolton.archimate.editor.propertysections.LockedSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.LockedSection$Filter"
+               id="lockedSection"
                tab="main.tab">
          </propertySection>
       </propertySections>

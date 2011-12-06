@@ -45,6 +45,7 @@ import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IProperties;
 
 
@@ -56,22 +57,10 @@ import uk.ac.bolton.archimate.model.IProperties;
 public abstract class AbstractDiagramConnectionEditPart extends AbstractConnectionEditPart
 implements IDiagramConnectionEditPart {
 
-    protected Adapter fConnectionAdapter = new AdapterImpl() {
+    private Adapter adapter = new AdapterImpl() {
         @Override
         public void notifyChanged(Notification msg) {
-            switch(msg.getEventType()) {
-                case Notification.ADD:
-                case Notification.ADD_MANY:
-                case Notification.REMOVE:
-                case Notification.REMOVE_MANY:
-                case Notification.MOVE:
-                case Notification.SET:
-                    refreshVisuals();
-                    break;
-
-                default:
-                    break;
-            }
+            eCoreChanged(msg);
         }
     };
     
@@ -106,6 +95,51 @@ implements IDiagramConnectionEditPart {
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
     
+    protected void eCoreChanged(Notification msg) {
+        Object feature = msg.getFeature();
+        
+        switch(msg.getEventType()) {
+            case Notification.ADD:
+            case Notification.ADD_MANY:
+            case Notification.REMOVE:
+            case Notification.REMOVE_MANY:
+            case Notification.MOVE:
+            case Notification.SET:
+                if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                    createEditPolicies();
+                }
+                else {
+                    refreshVisuals();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+    
+    protected Adapter getECoreAdapter() {
+        return adapter;
+    }
+    
+    /**
+     * Add any Ecore Adapters
+     */
+    protected void addECoreAdapter() {
+        if(getECoreAdapter() != null) {
+            getModel().eAdapters().add(getECoreAdapter());
+        }
+    }
+    
+    /**
+     * Remove any Ecore Adapters
+     */
+    protected void removeECoreAdapter() {
+        if(getECoreAdapter() != null) {
+            getModel().eAdapters().remove(getECoreAdapter());
+        }
+    }
+    
     @Override
     public IDiagramModelConnection getModel() {
         return (IDiagramModelConnection)super.getModel();
@@ -117,7 +151,7 @@ implements IDiagramConnectionEditPart {
             super.activate();
             
             // Listen to changes in Diagram Model Object
-            getModel().eAdapters().add(fConnectionAdapter);
+            addECoreAdapter();
             
             // Listen to Prefs changes to set default Font
             Preferences.STORE.addPropertyChangeListener(prefsListener);
@@ -130,7 +164,7 @@ implements IDiagramConnectionEditPart {
             super.deactivate();
             
             // Remove Listener to changes in Diagram Model Object
-            getModel().eAdapters().remove(fConnectionAdapter);
+            removeECoreAdapter();
             
             Preferences.STORE.removePropertyChangeListener(prefsListener);
         }
@@ -162,7 +196,8 @@ implements IDiagramConnectionEditPart {
         if(request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
             if(request instanceof LocationRequest) {
                 // Edit the text control if we clicked on it
-                if(getFigure().didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
+                if(!(getModel() instanceof ILockable && ((ILockable)getModel()).isLocked())
+                            && getFigure().didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
                     createDirectEditManager().show();
                 }
                 // Else open Properties View on double-click
@@ -184,18 +219,18 @@ implements IDiagramConnectionEditPart {
     protected void createEditPolicies() {
         // Selection handle edit policy. 
         // Makes the connection show a feedback, when selected by the user.
-        installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+        installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, isLocked() ? null : new ConnectionEndpointEditPolicy());
+        
+        // Add a policy to handle directly editing the connection label
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, isLocked() ? null : new ConnectionDirectEditTextPolicy());
         
         // Allows the removal of the connection model element
-        installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
+        installEditPolicy(EditPolicy.CONNECTION_ROLE, isLocked() ? null : new ConnectionEditPolicy() {
             @Override
             protected Command getDeleteCommand(GroupRequest request) {
                 return DiagramCommandFactory.createDeleteDiagramConnectionCommand(getModel());
             }
         });
-        
-        // Add a policy to handle directly editing the connection label
-        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new ConnectionDirectEditTextPolicy());
         
         // Add a policy for manual bendpoints
         refreshBendpointEditPolicy();
@@ -208,6 +243,10 @@ implements IDiagramConnectionEditPart {
         getFigure().refreshVisuals();
         
         refreshBendpoints();
+    }
+    
+    protected boolean isLocked() {
+        return getModel() instanceof ILockable && ((ILockable)getModel()).isLocked();
     }
     
     /**
@@ -236,9 +275,12 @@ implements IDiagramConnectionEditPart {
         getConnectionFigure().setRoutingConstraint(figureConstraint);
     }
     
-    protected void refreshBendpointEditPolicy(){
+    protected void refreshBendpointEditPolicy() {
+        if(isLocked()) {
+            installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, null);
+        }
         // Doesn't work for Manhattan Router
-        if(getConnectionFigure().getConnectionRouter() instanceof ManhattanConnectionRouter) {
+        else if(getConnectionFigure().getConnectionRouter() instanceof ManhattanConnectionRouter) {
             installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, null);
         }
         else {
@@ -278,7 +320,10 @@ implements IDiagramConnectionEditPart {
     /**
      * Direct Edit Policy
      */
-    private class ConnectionDirectEditTextPolicy extends DirectEditPolicy {
+    protected class ConnectionDirectEditTextPolicy extends DirectEditPolicy {
+
+        public ConnectionDirectEditTextPolicy() {
+        }
 
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {

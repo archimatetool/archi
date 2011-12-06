@@ -24,6 +24,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IJunction;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -49,7 +50,7 @@ public class FormatPainterTool extends AbstractTool {
                     if(pf == null) {
                         FormatPainterInfo.INSTANCE.updatePaintFormat(object);
                     }
-                    else {
+                    else if(!isObjectLocked(object)) {
                         Command cmd = createCommand(pf, object);
                         if(cmd.canExecute()) {
                             executeCommand(cmd);
@@ -128,6 +129,10 @@ public class FormatPainterTool extends AbstractTool {
         }
         
         return result;
+    }
+    
+    protected boolean isObjectLocked(Object object) {
+        return object instanceof ILockable && ((ILockable)object).isLocked();
     }
 
     protected boolean isPaintableObject(Object object) {

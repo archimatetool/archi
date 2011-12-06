@@ -23,6 +23,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineWidthCommand
 import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionTextPositionCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -47,6 +48,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             }
             else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH) {
                 refreshLineWidthCombo();
+            }
+            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+                refreshControls();
             }
         }
     };
@@ -136,6 +140,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         }
         int pos = fConnection.getTextPosition();
         fComboTextPosition.select(pos);
+        
+        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
+        fComboTextPosition.setEnabled(enabled);
     }
     
     protected void refreshLineWidthCombo() {
@@ -144,6 +151,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         }
         int lineWidth = fConnection.getLineWidth();
         fComboLineWidth.select(lineWidth - 1);
+        
+        boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
+        fComboLineWidth.setEnabled(enabled);
     }
     
     @Override

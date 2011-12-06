@@ -23,6 +23,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
 import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
@@ -38,6 +39,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.FillColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FullScreenAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
@@ -129,6 +131,9 @@ extends ActionBarContributor {
         retargetAction = new RetargetAction(FullScreenAction.ID, FullScreenAction.TEXT);
         retargetAction.setActionDefinitionId(FullScreenAction.ID);
         addRetargetAction(retargetAction);
+        
+        // Lock
+        addRetargetAction(new LabelRetargetAction(LockObjectAction.ID, "Lock"));
     }
 
     @Override

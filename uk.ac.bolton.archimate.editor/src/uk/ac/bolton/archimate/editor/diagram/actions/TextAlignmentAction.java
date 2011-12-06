@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -22,6 +23,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -103,6 +105,10 @@ public class TextAlignmentAction extends SelectionAction {
     private ITextAlignedEditPart getFirstSelectedValidEditPart(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof ITextAlignedEditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
                 return (ITextAlignedEditPart)object;
             }
         }

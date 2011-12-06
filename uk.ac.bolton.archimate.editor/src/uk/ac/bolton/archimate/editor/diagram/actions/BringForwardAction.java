@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -85,6 +86,11 @@ public class BringForwardAction extends SelectionAction {
                 // This can happen if we do things wrong
                 if(viewer != editPart.getViewer()) {
                     System.err.println("Wrong selection for viewer in " + getClass());
+                }
+                
+                // Locked
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
                 }
                 
                 if(model instanceof IDiagramModelObject) {

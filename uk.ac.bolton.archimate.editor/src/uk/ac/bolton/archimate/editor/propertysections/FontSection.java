@@ -29,6 +29,7 @@ import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -48,7 +49,8 @@ public class FontSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT) {
+            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -169,7 +171,9 @@ public class FontSection extends AbstractArchimatePropertySection {
                 ((defaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? "Bold" : "") + " " +
                 ((defaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? "Italic" : ""));
         
-        fDefaultFontButton.setEnabled(fFontObject.getFont() != null);
+        boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
+        fFontSelectionButton.setEnabled(enabled);
+        fDefaultFontButton.setEnabled(fFontObject.getFont() != null && enabled);
     }
     
     @Override

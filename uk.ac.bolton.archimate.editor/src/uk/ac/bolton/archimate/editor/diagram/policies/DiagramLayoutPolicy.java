@@ -1,34 +1,35 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.policies;
 
+import java.util.List;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
-import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramArchimateObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.SetConstraintObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.INonResizableEditPart;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
- * Policy for General Diagram
+ * Policy for General Diagrams
  * 
  * @author Phillip Beauvoir
  */
@@ -38,21 +39,7 @@ extends XYLayoutEditPolicy {
     @Override
     protected Command getCreateCommand(CreateRequest request) {
         Rectangle bounds = getConstraintFor(request);
-        
-        if(request.getNewObjectType() instanceof EClass) {
-            EClass eClass = (EClass)request.getNewObjectType();
-            
-            // Archimate type object
-            if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
-                return new CreateDiagramArchimateObjectCommand((IDiagramModelContainer)getHost().getModel(), request, bounds);
-            }
-            // Other non-Archimate object (note, group, sticky)
-            else {
-                return new CreateDiagramObjectCommand((IDiagramModelContainer)getHost().getModel(), request, bounds);
-            }
-        }
-        
-        return null;
+        return new CreateDiagramObjectCommand((IDiagramModelContainer)getHost().getModel(), request, bounds);
     }
     
     /*
@@ -62,40 +49,61 @@ extends XYLayoutEditPolicy {
     protected Rectangle getConstraintFor(CreateRequest request) {
         Rectangle bounds = (Rectangle)super.getConstraintFor(request);
         
-        if(request.getNewObjectType() instanceof EClass) {
-            Dimension d = getMaximumSizeFor((EClass)request.getNewObjectType());
-            bounds.width = Math.min(d.width, bounds.width);
-            bounds.height = Math.min(d.height, bounds.height);
-        }
+        Dimension d = getMaximumSizeFor(request.getNewObjectType());
+        bounds.width = Math.min(d.width, bounds.width);
+        bounds.height = Math.min(d.height, bounds.height);
         
         return bounds;
     }
     
     /**
-     * @param eClass
+     * @param object
      * @return The Maximum size constraint for an object
      */
-    protected Dimension getMaximumSizeFor(EClass eClass) {
-        // Junctions should not be bigger than default size
-        if(IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf(eClass)) {
-            return new Dimension(-1, -1);
-        }
+    protected Dimension getMaximumSizeFor(Object object) {
         return IFigure.MAX_DIMENSION;
     }
     
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
+        // If child part is locked, limit dragging
+        if(isChildEditPartLocked(child)) {
+            return new NonResizableEditPolicy() {
+                @Override
+                protected void createDragHandle(@SuppressWarnings("rawtypes") List handles, int direction) {
+                }
+                
+                @Override
+                public boolean isDragAllowed() {
+                    return false;
+                }
+            };
+        }
+
         return (child instanceof INonResizableEditPart) ? new NonResizableEditPolicy() : new ResizableEditPolicy();
     }
     
     @Override
-    protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
-        // Return a command that can move and/or resize a Shape
+    protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
+        // If child part is locked, limit movement
+        if(isChildEditPartLocked(child)) {
+            return null;
+        }
+
+        // Return a command that can move and/or resize a child
         if(constraint instanceof Rectangle) {
             return new SetConstraintObjectCommand((IDiagramModelObject)child.getModel(), (Rectangle)constraint);
         }
 
         return null;
+    }
+    
+    /**
+     * @param child
+     * @return True id child EditPart is locked
+     */
+    protected boolean isChildEditPartLocked(EditPart child) {
+        return child.getModel() instanceof ILockable && ((ILockable)child.getModel()).isLocked();
     }
     
     /*
@@ -105,7 +113,7 @@ extends XYLayoutEditPolicy {
      * If you don't want a part to be added, return null here.
      */
     @Override
-    protected Command createAddCommand(EditPart childEditPart, Object constraint) {
+    protected Command createAddCommand(ChangeBoundsRequest request, EditPart childEditPart, Object constraint) {
         IDiagramModelContainer parent = (IDiagramModelContainer)getHost().getModel();
         IDiagramModelObject child = (IDiagramModelObject)childEditPart.getModel();
         
@@ -124,7 +132,7 @@ extends XYLayoutEditPolicy {
     /**
      * AddObjectCommand
      */
-    static class AddObjectCommand extends Command {
+    public static class AddObjectCommand extends Command {
         IDiagramModelContainer fParent;
         IDiagramModelObject fChild;
         Rectangle fBounds;

@@ -18,6 +18,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -57,6 +58,9 @@ public class CopyAction extends SelectionAction {
         for(Object object : selected) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
                 if(model instanceof IDiagramModelObject) {
                     return true;
                 }
@@ -73,6 +77,9 @@ public class CopyAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
                 if(model instanceof IDiagramModelObject) {
                     modelObjectsSelected.add((IDiagramModelObject)model);
                 }

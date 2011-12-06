@@ -10,9 +10,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 
-import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDNDEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramLayoutPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
@@ -45,7 +45,7 @@ public class ArchimateDiagramPart extends AbstractDiagramPart {
     @Override
     protected void createEditPolicies() {
         // Install a custom layout policy that handles dragging things around
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new ArchimateDiagramLayoutPolicy());
         
         // Install a policy for DND support
         installEditPolicy("DND", new ArchimateDNDEditPolicy());

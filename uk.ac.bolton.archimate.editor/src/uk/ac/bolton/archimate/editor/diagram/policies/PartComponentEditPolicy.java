@@ -12,6 +12,7 @@ import org.eclipse.gef.requests.GroupRequest;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILockable;
 
 /**
  * Policy for Deleting and Orphaning Parts
@@ -23,6 +24,7 @@ public class PartComponentEditPolicy extends ComponentEditPolicy {
     @Override
     protected Command createDeleteCommand(GroupRequest request) {
         IDiagramModelObject object = (IDiagramModelObject)getHost().getModel();
-        return DiagramCommandFactory.createDeleteDiagramObjectCommand(object);
+        boolean isLocked = object instanceof ILockable && ((ILockable)object).isLocked();
+        return isLocked ? null : DiagramCommandFactory.createDeleteDiagramObjectCommand(object);
     }
 }

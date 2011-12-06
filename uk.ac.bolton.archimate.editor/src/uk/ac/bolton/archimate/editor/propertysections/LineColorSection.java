@@ -27,6 +27,7 @@ import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConne
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
@@ -46,7 +47,8 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_COLOR) {
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_COLOR ||
+                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -135,7 +137,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
             fColorSelector.setColorValue(new RGB(0, 0, 0));
         }
         
-        fDefaultColorButton.setEnabled(colorValue != null);
+        boolean enabled = fDiagramModelConnection instanceof ILockable ? !((ILockable)fDiagramModelConnection).isLocked() : true;
+        fColorSelector.setEnabled(enabled);
+        fDefaultColorButton.setEnabled(colorValue != null && enabled);
     }
     
     @Override
