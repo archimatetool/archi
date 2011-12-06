@@ -36,6 +36,7 @@ import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.components.HeapStatusWidget;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.navigator.INavigatorView;
@@ -452,7 +453,7 @@ extends ActionBarAdvisor {
 
     @Override
     protected void fillCoolBar(ICoolBarManager coolBarManager) {
-        IToolBarManager toolBarFile = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
+        IToolBarManager toolBarFile = new ToolBarManager(SWT.FLAT);
         coolBarManager.add(new ToolBarContributionItem(toolBarFile, "toolbar_file")); //$NON-NLS-1$
         
         toolBarFile.add(new GroupMarker("start")); //$NON-NLS-1$
@@ -466,7 +467,7 @@ extends ActionBarAdvisor {
         toolBarFile.add(fActionSave);
         toolBarFile.add(new GroupMarker("end")); //$NON-NLS-1$
 
-        IToolBarManager toolBarEdit = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
+        IToolBarManager toolBarEdit = new ToolBarManager(SWT.FLAT);
         coolBarManager.add(new ToolBarContributionItem(toolBarEdit, "toolbar_edit")); //$NON-NLS-1$
         
         toolBarEdit.add(new GroupMarker("start")); //$NON-NLS-1$
@@ -479,7 +480,7 @@ extends ActionBarAdvisor {
         toolBarEdit.add(fActionDelete);
         toolBarEdit.add(new GroupMarker("end")); //$NON-NLS-1$
         
-        IToolBarManager toolBarViews = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
+        IToolBarManager toolBarViews = new ToolBarManager(SWT.FLAT);
         coolBarManager.add(new ToolBarContributionItem(toolBarViews, "toolbar_views")); //$NON-NLS-1$
         
         toolBarViews.add(new GroupMarker("start")); //$NON-NLS-1$
@@ -490,6 +491,13 @@ extends ActionBarAdvisor {
         toolBarViews.add(fShowPaletteView);
         toolBarViews.add(new GroupMarker("end")); //$NON-NLS-1$
         toolBarViews.add(new Separator());
+        
+        // If System Property to VM arguments is "-Dshowheap=true" then Show Heap Widget
+        if("true".equals(System.getProperty("showheap"))) {
+            IToolBarManager toolBarTools = new ToolBarManager(SWT.FLAT);
+            toolBarTools.add(HeapStatusWidget.ToolBarContributionItem);
+            coolBarManager.add(new ToolBarContributionItem(toolBarTools, "toolbar_tools")); //$NON-NLS-1$
+        }
     }
 
     /**
