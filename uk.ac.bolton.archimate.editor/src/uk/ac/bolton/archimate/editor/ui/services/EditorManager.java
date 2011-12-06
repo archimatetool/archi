@@ -18,7 +18,9 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.DiagramEditorInput;
+import uk.ac.bolton.archimate.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import uk.ac.bolton.archimate.editor.diagram.IArchimateDiagramEditor;
+import uk.ac.bolton.archimate.editor.diagram.IDiagramEditorFactory;
 import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
 import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
@@ -61,18 +63,30 @@ public class EditorManager {
             return null;
         }
         
-        String id;
+        String id = null;
+        IEditorInput editorInput = null;
+        
         if(model instanceof IArchimateDiagramModel) {
             id = IArchimateDiagramEditor.ID;
+            editorInput = new DiagramEditorInput(model);
         }
         else if(model instanceof ISketchModel) {
             id = ISketchEditor.ID;
+            editorInput = new DiagramEditorInput(model);
         }
         else {
+            IDiagramEditorFactory factory = DiagramEditorFactoryExtensionHandler.INSTANCE.getFactory(model);
+            if(factory != null) {
+                id = factory.getEditorID();
+                editorInput = factory.createEditorInput(model);
+            }
+        }
+
+        if(id == null || editorInput == null) {
             throw new RuntimeException("Unsupported model type");
         }
         
-        IEditorPart part = openEditor(new DiagramEditorInput(model), id);
+        IEditorPart part = openEditor(editorInput, id);
         
         // Check it actually is IDiagramModelEditor, it could be an org.eclipse.ui.internal.ErrorEditorPart if an error occurs
         return part instanceof IDiagramModelEditor ? (IDiagramModelEditor)part : null;

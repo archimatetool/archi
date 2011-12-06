@@ -13,6 +13,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
@@ -25,6 +26,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import uk.ac.bolton.archimate.editor.diagram.DiagramEditorFactoryExtensionHandler;
+import uk.ac.bolton.archimate.editor.diagram.IDiagramEditorFactory;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
@@ -46,21 +49,33 @@ public final class DiagramUtils {
      * @return A Graphical Viewer
      */
     public static GraphicalViewerImpl createViewer(IDiagramModel model, Composite parent) {
+        EditPartFactory editPartFactory = null;
+        
+        if(model instanceof IArchimateDiagramModel) {
+            editPartFactory = new ArchimateDiagramEditPartFactory();
+        }
+        else if(model instanceof ISketchModel) {
+            editPartFactory = new SketchEditPartFactory();
+        }
+        else {
+            // Extensions
+            IDiagramEditorFactory factory = DiagramEditorFactoryExtensionHandler.INSTANCE.getFactory(model);
+            if(factory != null) {
+                editPartFactory = factory.createEditPartFactory();
+            }
+        }
+        
+        if(editPartFactory == null) {
+            throw new RuntimeException("Unsupported model type");
+        }
+        
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
         viewer.createControl(parent);
         
+        viewer.setEditPartFactory(editPartFactory);
+        
         RootEditPart rootPart = new FreeformGraphicalRootEditPart();
         viewer.setRootEditPart(rootPart);
-        
-        if(model instanceof IArchimateDiagramModel) {
-            viewer.setEditPartFactory(new ArchimateDiagramEditPartFactory());
-        }
-        else if(model instanceof ISketchModel) {
-            viewer.setEditPartFactory(new SketchEditPartFactory());
-        }
-        else {
-            throw new RuntimeException("Unsupported model type");
-        }
         
         viewer.setContents(model);
         viewer.flush();
