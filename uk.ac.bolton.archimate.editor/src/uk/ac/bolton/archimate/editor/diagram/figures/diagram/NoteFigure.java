@@ -24,6 +24,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 
@@ -88,9 +89,6 @@ extends AbstractDiagramModelObjectFigure {
         // Text
         setText(((IDiagramModelNote)getDiagramModelObject()).getContent());
         
-        // Tooltip
-        setToolTip();
-        
         // Font
         setFont();
 
@@ -150,5 +148,16 @@ extends AbstractDiagramModelObjectFigure {
         graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPolygon(list);
+    }
+    
+    @Override
+    public IFigure getToolTip() {
+        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
+        
+        if(toolTipFigure != null) {
+            toolTipFigure.setText("Note");
+        }
+        
+        return toolTipFigure;
     }
 }

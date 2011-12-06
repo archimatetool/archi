@@ -8,14 +8,14 @@ package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
@@ -150,20 +150,19 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
         poly.setScale(8, 5);
         return poly;
     }
-
+    
     @Override
-    protected void setToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
-            setToolTip(null); // clear it in case user changed Prefs
-            return;
+    public IFigure getToolTip() {
+        ToolTipFigure tooltip = (ToolTipFigure)super.getToolTip();
+        
+        if(tooltip == null) {
+            return null;
         }
-
-        if(getToolTip() == null) {
-            setToolTip(new ToolTipFigure());
-        }
-
-        String text = StringUtils.safeString(getModelConnection().getName());
-        ((ToolTipFigure)getToolTip()).setText(text);
-        ((ToolTipFigure)getToolTip()).setType("Type: Connection");
+        
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(getModelConnection());
+        tooltip.setText(text);
+        tooltip.setType("Type: Connection");
+        
+        return tooltip;
     }
 }

@@ -50,9 +50,6 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
         // Text
         setText();
         
-        // Tooltip
-        setToolTip();
-        
         // Font
         setFont();
         

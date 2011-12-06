@@ -6,6 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.swt.SWT;
 
@@ -66,8 +67,12 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     }
     
     @Override
-    protected void setToolTip() {
-        super.setToolTip();
+    public IFigure getToolTip() {
+        ToolTipFigure tooltip = (ToolTipFigure)super.getToolTip();
+        
+        if(tooltip == null) {
+            return null;
+        }
         
         // Show access type in tooltip
         
@@ -95,6 +100,8 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
                 break;
         }
         
-        ((ToolTipFigure)getToolTip()).setType("Type: " + type);
+        tooltip.setType("Type: " + type);
+
+        return tooltip;
     }
 }

@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
@@ -141,26 +142,32 @@ implements IDiagramModelObjectFigure {
         }
     }
     
-    protected void setToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
-            setToolTip(null); // clear it in case user changed Prefs
-            return;
-        }
-        
-        String text = StringUtils.safeString(fDiagramModelObject.getName());
-        
-        if(getToolTip() == null) {
+    @Override
+    public IFigure getToolTip() {
+        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
+        if(toolTipFigure == null && Preferences.doShowViewTooltips()) {
             setToolTip(new ToolTipFigure());
         }
         
-        ((ToolTipFigure)getToolTip()).setText(text);
+        if(toolTipFigure == null || !Preferences.doShowViewTooltips()) {
+            return null;
+        }
+
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
+        toolTipFigure.setText(text);
+        
         if(fDiagramModelObject instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
             String type = ArchimateNames.getDefaultName(element.eClass());
-            ((ToolTipFigure)getToolTip()).setType("Type: " + type);
+            if(!StringUtils.isSet(text)) { // Name was blank
+                toolTipFigure.setText(type);
+            }
+            toolTipFigure.setType("Type: " + type);
         }
+
+        return toolTipFigure;
     }
-    
+
     public boolean didClickTextControl(Point requestLoc) {
         IFigure figure = getTextControl();
         if(figure != null) {

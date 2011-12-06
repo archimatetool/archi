@@ -7,11 +7,11 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IRelationship;
 
@@ -47,22 +47,25 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
     }
 
     @Override
-    protected void setToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
-            setToolTip(null); // clear it in case user changed Prefs
-            return;
+    public IFigure getToolTip() {
+        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
+        
+        if(toolTipFigure == null) {
+            return null;
         }
-
-        if(getToolTip() == null) {
-            setToolTip(new ToolTipFigure());
-        }
-
+        
         IRelationship relation = getModelConnection().getRelationship();
-        String text = StringUtils.safeString(relation.getName());
-        ((ToolTipFigure)getToolTip()).setText(text);
+        
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(relation);
+        toolTipFigure.setText(text);
 
         String type = ArchimateNames.getDefaultName(relation.eClass());
-        ((ToolTipFigure)getToolTip()).setType("Type: " + type);
-    }
+        toolTipFigure.setType("Type: " + type);
 
+        String rubric = ArchimateNames.getRelationshipSentence(relation);
+        toolTipFigure.setRubric(rubric);
+
+        return toolTipFigure;
+    }
+    
 }

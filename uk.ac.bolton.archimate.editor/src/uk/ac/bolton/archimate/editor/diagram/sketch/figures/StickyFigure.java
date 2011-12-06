@@ -22,7 +22,7 @@ import org.eclipse.swt.SWT;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
@@ -83,9 +83,6 @@ public class StickyFigure extends AbstractContainerFigure {
     public void refreshVisuals() {
         // Text
         setText();
-        
-        // Tooltip
-        setToolTip();
         
         // Font
         setFont();
@@ -151,19 +148,17 @@ public class StickyFigure extends AbstractContainerFigure {
     }
     
     @Override
-    protected void setToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
-            setToolTip(null); // clear it in case user changed Prefs
-            return;
+    public IFigure getToolTip() {
+        ToolTipFigure tooltip = (ToolTipFigure)super.getToolTip();
+        
+        if(tooltip == null) {
+            return null;
         }
-
-        if(getToolTip() == null) {
-            setToolTip(new ToolTipFigure());
-        }
-
-        String text = StringUtils.safeString(getDiagramModelObject().getName());
-        ((ToolTipFigure)getToolTip()).setText(text);
-        ((ToolTipFigure)getToolTip()).setType("Type: Sticky");
+        
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
+        tooltip.setText(text);
+        tooltip.setType("Type: Sticky");
+       
+        return tooltip;
     }
-
 }

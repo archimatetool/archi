@@ -6,6 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
@@ -39,12 +40,17 @@ extends AbstractTextFlowFigure {
         
         setFigureDelegate(figureDelegate);
     }
-
+    
     @Override
-    protected void setToolTip() {
-        super.setToolTip();
-        if(getToolTip() != null) {
-            ((ToolTipFigure)getToolTip()).setType("Type: View Reference");
+    public IFigure getToolTip() {
+        ToolTipFigure tooltip = (ToolTipFigure)super.getToolTip();
+        
+        if(tooltip == null) {
+            return null;
         }
+        
+        tooltip.setType("Type: View Reference");
+        
+        return tooltip;
     }
 }

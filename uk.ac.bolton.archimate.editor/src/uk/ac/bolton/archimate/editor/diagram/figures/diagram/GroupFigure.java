@@ -91,11 +91,16 @@ extends AbstractLabelContainerFigure {
     }
     
     @Override
-    protected void setToolTip() {
-        super.setToolTip();
-        if(getToolTip() != null) {
-            ((ToolTipFigure)getToolTip()).setType("Type: Group");
+    public IFigure getToolTip() {
+        ToolTipFigure tooltip = (ToolTipFigure)super.getToolTip();
+        
+        if(tooltip == null) {
+            return null;
         }
+        
+        tooltip.setType("Type: Group");
+        
+        return tooltip;
     }
     
     @Override

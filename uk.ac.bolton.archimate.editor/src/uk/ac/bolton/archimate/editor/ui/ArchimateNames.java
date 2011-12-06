@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.ui;
 import org.eclipse.emf.ecore.EClass;
 
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.IRelationship;
 
 
 
@@ -140,5 +141,65 @@ public final class ArchimateNames {
 
         }
         return "";
+    }
+    
+    public static final String getRelationshipSentence(IRelationship relation) {
+        String action = "";
+        
+        if(relation != null) {
+            if(relation.getSource() != null && relation.getTarget() != null) {
+                String nameSource = ArchimateLabelProvider.INSTANCE.getLabel(relation.getSource());
+                String nameTarget = ArchimateLabelProvider.INSTANCE.getLabel(relation.getTarget());
+                
+                switch(relation.eClass().getClassifierID()) {
+                    case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
+                        action = "is a specialisation of";
+                        break;
+
+                    case IArchimatePackage.COMPOSITION_RELATIONSHIP:
+                        action = "is composed of";
+                        break;
+
+                    case IArchimatePackage.AGGREGATION_RELATIONSHIP:
+                        action = "aggregates";
+                        break;
+
+                    case IArchimatePackage.TRIGGERING_RELATIONSHIP:
+                        action = "triggers";
+                        break;
+
+                    case IArchimatePackage.FLOW_RELATIONSHIP:
+                        action = "flows to";
+                        break;
+
+                    case IArchimatePackage.ACCESS_RELATIONSHIP:
+                        action = "accesses";
+                        break;
+
+                    case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
+                        action = "is associated with";
+                        break;
+
+                    case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
+                        action = "is assigned to";
+                        break;
+
+                    case IArchimatePackage.REALISATION_RELATIONSHIP:
+                        action = "realises";
+                        break;
+
+                    case IArchimatePackage.USED_BY_RELATIONSHIP:
+                        action = "is used by";
+                        break;
+
+                    default:
+                        break;
+                }
+                
+                action = nameSource + " " + action + " " + nameTarget;
+            }
+        }
+        
+        return action;
     }
 }

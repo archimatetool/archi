@@ -50,9 +50,6 @@ public abstract class AbstractLabelContainerFigure extends AbstractContainerFigu
         // Text
         setText();
         
-        // Tooltip
-        setToolTip();
-        
         // Font
         setFont();
         

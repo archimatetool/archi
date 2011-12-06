@@ -80,9 +80,6 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
         // Text
         setText();
         
-        // Tooltip
-        setToolTip();
-        
         // Font
         setFont();
         
