@@ -6,12 +6,14 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.help.hints;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Hashtable;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.ColorConstants;
@@ -42,6 +44,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
@@ -49,6 +52,7 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
 import uk.ac.bolton.archimate.editor.ui.services.IComponentSelectionListener;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
+import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.help.ArchimateEditorHelpPlugin;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
@@ -72,13 +76,15 @@ public class HintsView
 extends ViewPart
 implements IContextProvider, IHintsView, ISelectionListener, IComponentSelectionListener {
     
+    static File cssFile = new File(ArchimateEditorHelpPlugin.INSTANCE.getHintsFolder(), "style.css");
+
     private Browser fBrowser;
     
     private IAction fActionPinContent;
     
-    private Hashtable<String, HintMapping> fLookupTable = new Hashtable<String, HintMapping>();
+    private Hashtable<String, Hint> fLookupTable = new Hashtable<String, Hint>();
     
-    private String fLastURL;
+    private String fLastPath;
     
     private CLabel fTitleLabel;
     
@@ -93,15 +99,15 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     }
     
     /*
-     * Hints Mapping Class
+     * Hint Class
      */
-    private static class HintMapping {
+    private static class Hint {
         String title;
-        String url;
+        String path;
         
-        HintMapping(String title, String url) {
+        Hint(String title, String path) {
             this.title = title;
-            this.url = url;
+            this.path = path;
         }
     }
 
@@ -261,24 +267,39 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             object = selected;
         }
         
+        // Hint Provider, if set
+        if(object instanceof IHelpHintProvider) {
+            String title = ((IHelpHintProvider)object).getHelpHintTitle();
+            String text = ((IHelpHintProvider)object).getHelpHintContent();
+            if(StringUtils.isSet(title) || StringUtils.isSet(text)) {
+                fTitleLabel.setText(title);
+                Color color = getTitleColor(object);
+                fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
+                text = makeHTMLEntry(text);
+                fBrowser.setText(text);
+                fLastPath = "";
+                return;
+            }
+        }
+
         // Convert Archimate Diagram Model object to Viewpoint object
         if(object instanceof IArchimateDiagramModel) {
             int index = ((IArchimateDiagramModel)object).getViewpoint();
             object = ViewpointsManager.INSTANCE.getViewpoint(index);
         }
-
-        HintMapping mapping = getHintMappingFromObject(object);
-        if(mapping != null) {
-            if(fLastURL != mapping.url) {
+        
+        Hint hint = getHintFromObject(object);
+        if(hint != null) {
+            if(fLastPath != hint.path) {
                 // Title and Color
                 Color color = getTitleColor(object);
                 fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
-                fTitleLabel.setText(mapping.title);
+                fTitleLabel.setText(hint.title);
 
                 // Load page
                 fPageLoaded = false;
-                fBrowser.setUrl(mapping.url);
-                fLastURL = mapping.url;
+                fBrowser.setUrl(hint.path);
+                fLastPath = hint.path;
 
                 // Kludge for Mac/Safari when displaying hint on mouse rollover menu item in MagicConnectionCreationTool
                 if(PlatformUtils.isMac() && source instanceof MenuItem) {
@@ -288,10 +309,35 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         else {
             fBrowser.setText("");
-            fLastURL = "";
+            fLastPath = "";
             fTitleLabel.setText("");
             fTitleLabel.setBackground(ColorConstants.white);
         }
+    }
+    
+    /**
+     * HTML-ify some text
+     */
+    private String makeHTMLEntry(String text) {
+        if(text == null) {
+            return "";
+        }
+        
+        StringBuffer html = new StringBuffer();
+        html.append("<html><head>");
+        
+        html.append("<link rel=\"stylesheet\" href=\"");
+        html.append(cssFile.getPath());
+        html.append("\" type=\"text/css\">");
+        
+        html.append("</head>");
+        
+        html.append("<body>");
+        html.append(text);
+        html.append("</body>");
+        
+        html.append("</html>");
+        return html.toString();
     }
     
     /**
@@ -311,17 +357,17 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         });
     }
     
-    private HintMapping getHintMappingFromObject(Object object) {
+    private Hint getHintFromObject(Object object) {
         if(object == null) {
             return null;
         }
         
-        HintMapping mapping = null;
+        Hint hint = null;
         
         // Is it in the lookup?
-        mapping = fLookupTable.get(object.getClass().getName());
-        if(mapping != null) {
-            return mapping;
+        hint = fLookupTable.get(object.getClass().getName());
+        if(hint != null) {
+            return hint;
         }
         
         // It's a Class
@@ -332,9 +378,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         // Look for Java interface
         Class<?> clazzes[] = object.getClass().getInterfaces();
         for(Class<?> interf : clazzes) {
-            mapping = fLookupTable.get(interf.getName());
-            if(mapping != null) {
-                return mapping;
+            hint = fLookupTable.get(interf.getName());
+            if(hint != null) {
+                return hint;
             }
         }
         
@@ -343,18 +389,24 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     
     private void createFileMap() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        IExtensionPoint extensionPoint = registry.getExtensionPoint(EXTENSION_POINT_ID);
-        IExtension[] extensions = extensionPoint.getExtensions();
-        for(IExtension extension : extensions) {
-            IConfigurationElement[] elements = extension.getConfigurationElements();
-            for(IConfigurationElement configurationElement : elements) {
-                String className = configurationElement.getAttribute("class");
-                String fileName = configurationElement.getAttribute("file");
-                String title = configurationElement.getAttribute("title");
-                String filePath = "file:///" + ArchimateEditorHelpPlugin.INSTANCE.getPluginFolder() + "/" + fileName;
-                HintMapping mapping = new HintMapping(title, filePath);
-                fLookupTable.put(className, mapping);
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
+            String className = configurationElement.getAttribute("class");
+            String fileName = configurationElement.getAttribute("file");
+            String title = configurationElement.getAttribute("title");
+            
+            String id = configurationElement.getNamespaceIdentifier();
+            Bundle bundle = Platform.getBundle(id);
+            URL url = bundle.getEntry(fileName);
+            try {
+                url = FileLocator.resolve(url);
             }
+            catch(IOException ex) {
+                ex.printStackTrace();
+            }
+            File f = new File(url.getPath());
+            
+            Hint hint = new Hint(title, f.getPath());
+            fLookupTable.put(className, hint);
         }
     }
     

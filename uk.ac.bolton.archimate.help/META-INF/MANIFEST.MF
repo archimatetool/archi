@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: uk.ac.bolton.archimate.help.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: uk.ac.bolton.archimate.help.hints
