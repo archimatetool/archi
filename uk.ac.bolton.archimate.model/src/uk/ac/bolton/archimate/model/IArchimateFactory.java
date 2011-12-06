@@ -369,6 +369,15 @@ public interface IArchimateFactory extends EFactory {
     IDiagramModelNote createDiagramModelNote();
 
     /**
+     * Returns a new object of class '<em>Diagram Model Image</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Diagram Model Image</em>'.
+     * @generated
+     */
+    IDiagramModelImage createDiagramModelImage();
+
+    /**
      * Returns a new object of class '<em>Diagram Model Connection</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

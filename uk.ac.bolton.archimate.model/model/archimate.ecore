@@ -246,6 +246,7 @@
       <details key="name" value="Note"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute #//Properties #//Documentable">
     <eOperations name="connect">
       <eParameters name="source" eType="#//DiagramModelObject"/>
@@ -286,6 +287,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BorderObject" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImageProvider" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imagePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Bounds">
     <eOperations name="getCopy" eType="#//Bounds"/>

@@ -4095,7 +4095,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 77;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 79;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4241,7 +4241,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 76;
+    int ARCHIMATE_DIAGRAM_MODEL = 78;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4751,6 +4751,142 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelImage <em>Diagram Model Image</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.DiagramModelImage
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImage()
+     * @generated
+     */
+    int DIAGRAM_MODEL_IMAGE = 70;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__ID = DIAGRAM_MODEL_OBJECT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__DIAGRAM_MODEL = DIAGRAM_MODEL_OBJECT__DIAGRAM_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Font</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__FONT = DIAGRAM_MODEL_OBJECT__FONT;
+
+    /**
+     * The feature id for the '<em><b>Font Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
+
+    /**
+     * The feature id for the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+
+    /**
+     * The feature id for the '<em><b>Bounds</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Fill Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__FILL_COLOR = DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Border Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__BORDER_COLOR = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__IMAGE_PATH = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Diagram Model Image</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection <em>Diagram Model Connection</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4758,7 +4894,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_CONNECTION = 70;
+    int DIAGRAM_MODEL_CONNECTION = 71;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4921,7 +5057,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 78;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 80;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -4931,7 +5067,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelBendpoint()
      * @generated
      */
-    int DIAGRAM_MODEL_BENDPOINT = 71;
+    int DIAGRAM_MODEL_BENDPOINT = 72;
 
     /**
      * The feature id for the '<em><b>Start X</b></em>' attribute.
@@ -4986,7 +5122,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 72;
+    int FONT_ATTRIBUTE = 73;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5041,7 +5177,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
-    int BORDER_OBJECT = 73;
+    int BORDER_OBJECT = 74;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -5062,6 +5198,34 @@ public interface IArchimatePackage extends EPackage {
     int BORDER_OBJECT_FEATURE_COUNT = 1;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.IDiagramModelImageProvider
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImageProvider()
+     * @generated
+     */
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 75;
+
+    /**
+     * The feature id for the '<em><b>Image Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH = 0;
+
+    /**
+     * The number of structural features of the '<em>Diagram Model Image Provider</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE_PROVIDER_FEATURE_COUNT = 1;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Bounds <em>Bounds</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5069,7 +5233,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 74;
+    int BOUNDS = 76;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -5124,7 +5288,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 75;
+    int LOCKABLE = 77;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -5539,7 +5703,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 79;
+    int SKETCH_MODEL = 81;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5630,7 +5794,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 80;
+    int SKETCH_MODEL_STICKY = 82;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5775,7 +5939,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 81;
+    int SKETCH_MODEL_ACTOR = 83;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5911,7 +6075,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 82;
+    int FOLDER_TYPE = 84;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -5921,7 +6085,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 83;
+    int FILE = 85;
 
 
     /**
@@ -6964,6 +7128,16 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelNote();
 
     /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDiagramModelImage <em>Diagram Model Image</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Diagram Model Image</em>'.
+     * @see uk.ac.bolton.archimate.model.IDiagramModelImage
+     * @generated
+     */
+    EClass getDiagramModelImage();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection <em>Diagram Model Connection</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7199,6 +7373,27 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getBorderObject_BorderColor();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Diagram Model Image Provider</em>'.
+     * @see uk.ac.bolton.archimate.model.IDiagramModelImageProvider
+     * @generated
+     */
+    EClass getDiagramModelImageProvider();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModelImageProvider#getImagePath <em>Image Path</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Image Path</em>'.
+     * @see uk.ac.bolton.archimate.model.IDiagramModelImageProvider#getImagePath()
+     * @see #getDiagramModelImageProvider()
+     * @generated
+     */
+    EAttribute getDiagramModelImageProvider_ImagePath();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IBounds <em>Bounds</em>}'.
@@ -8301,6 +8496,16 @@ public interface IArchimatePackage extends EPackage {
         EClass DIAGRAM_MODEL_NOTE = eINSTANCE.getDiagramModelNote();
 
         /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelImage <em>Diagram Model Image</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.DiagramModelImage
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImage()
+         * @generated
+         */
+        EClass DIAGRAM_MODEL_IMAGE = eINSTANCE.getDiagramModelImage();
+
+        /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection <em>Diagram Model Connection</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -8485,6 +8690,24 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute BORDER_OBJECT__BORDER_COLOR = eINSTANCE.getBorderObject_BorderColor();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.IDiagramModelImageProvider
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImageProvider()
+         * @generated
+         */
+        EClass DIAGRAM_MODEL_IMAGE_PROVIDER = eINSTANCE.getDiagramModelImageProvider();
+
+        /**
+         * The meta object literal for the '<em><b>Image Path</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH = eINSTANCE.getDiagramModelImageProvider_ImagePath();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Bounds <em>Bounds</em>}' class.

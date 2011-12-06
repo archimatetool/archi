@@ -52,6 +52,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
+import uk.ac.bolton.archimate.model.IDiagramModelImage;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.IFlowRelationship;
@@ -170,6 +171,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: return createDiagramModelReference();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: return createDiagramModelGroup();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE: return createDiagramModelNote();
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE: return createDiagramModelImage();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION: return createDiagramModelConnection();
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT: return createDiagramModelBendpoint();
             case IArchimatePackage.BOUNDS: return createBounds();
@@ -592,6 +594,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IDiagramModelNote createDiagramModelNote() {
         DiagramModelNote diagramModelNote = new DiagramModelNote();
         return diagramModelNote;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IDiagramModelImage createDiagramModelImage() {
+        DiagramModelImage diagramModelImage = new DiagramModelImage();
+        return diagramModelImage;
     }
 
     /**
