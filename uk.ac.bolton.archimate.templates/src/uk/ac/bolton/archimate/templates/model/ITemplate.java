@@ -50,6 +50,11 @@ public interface ITemplate {
      * @param description
      */
     void setDescription(String description);
+    
+    /**
+     * @return An image to represent this template
+     */
+    Image getImage();
 
     /**
      * @return The Key Thumbnail Image to use

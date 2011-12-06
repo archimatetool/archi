@@ -53,49 +53,46 @@ import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.templates.dialog.TemplateManagerDialog;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
-import uk.ac.bolton.archimate.templates.model.ModelTemplate;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
 
 /**
- * New Archimate Model From Template Wizard Page
+ * New Model From Template Wizard Page
  * 
  * @author Phillip Beauvoir
  */
-public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
+public abstract class NewModelFromTemplateWizardPage extends WizardPage {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.NewArchimateModelFromTemplateWizardPage"; //$NON-NLS-1$
-
-    private Gallery fGallery;
-    private GalleryItem fGalleryRoot;
-    private StyledText fDescriptionText;
+    protected Gallery fGallery;
+    protected GalleryItem fGalleryRoot;
+    protected StyledText fDescriptionText;
     
-    private TemplateManager fTemplateManager;
+    protected TemplateManager fTemplateManager;
     
-    private TableViewer fInbuiltTableViewer;
-    private TableViewer fUserTableViewer;
+    protected TableViewer fInbuiltTableViewer;
+    protected TableViewer fUserTableViewer;
     
-    private ITemplate fSelectedTemplate;
+    protected ITemplate fSelectedTemplate;
 
     /*
      * Track and de-select Viewers so that only one has focus at a time
      */
-    private TableViewer fLastViewerFocus;
+    protected TableViewer fLastViewerFocus;
     
-    int DEFAULT_GALLERY_ITEM_SIZE = 120;
+    protected int DEFAULT_GALLERY_ITEM_SIZE = 120;
     
-    private static final String OPEN = "Open...";
-    private static final String MANAGE = "Manage...";
+    protected static final String OPEN = "Open...";
+    protected static final String MANAGE = "Manage...";
     
-    public NewArchimateModelFromTemplateWizardPage() {
-        super("NewArchimateModelFromTemplateWizardPage");
-        setTitle("New ArchiMate Model");
-        setDescription("Choose a Template for your Model");
+    public NewModelFromTemplateWizardPage(String pageName, TemplateManager templateManager) {
+        super(pageName);
+        fTemplateManager = templateManager;
+        init();
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
-
-        fTemplateManager = new TemplateManager();
     }
 
+    protected abstract void init();
+    
     @Override
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
@@ -103,7 +100,7 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
         setControl(container);
         
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, getHelpID());
 
         GridData gd;
         
@@ -255,10 +252,10 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
     /**
      * Create a table
      */
-    private TemplateGroupsTableViewer createGroupsTableViewer(Composite parent, String labelText, GridData gd) {
+    protected TemplateGroupsTableViewer createGroupsTableViewer(Composite parent, String labelText, GridData gd) {
         CLabel label = new CLabel(parent, SWT.NULL);
         label.setText(labelText);
-        label.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16));
+        label.setImage(fTemplateManager.getMainImage());
         
         Composite tableComp = new Composite(parent, SWT.NULL);
         tableComp.setLayout(new TableColumnLayout());
@@ -285,7 +282,7 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
         fLastViewerFocus = viewer;
     }
     
-    private void handleTableItemSelected(Object item) {
+    protected void handleTableItemSelected(Object item) {
         // Template Group
         if(item instanceof ITemplateGroup) {
             clearGallery();
@@ -296,12 +293,12 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
     /**
      * User wants to open Template from file
      */
-    private void handleOpenAction() {
+    protected void handleOpenAction() {
         getContainer().getShell().setVisible(false);
         
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText("Open Template");
-        dialog.setFilterExtensions(new String[] { TemplateManager.ARCHIMATE_TEMPLATE_FILE_WILDCARD, "*.*" } );
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
         String path = dialog.open();
         if(path == null) {
             selectFirstTableItem();
@@ -315,15 +312,15 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
             @Override
             public void run() {
                 try {
-                    if(!TemplateManager.isValidTemplateFile(file)) { // This could take a while
-                        throw new IOException("Unknown format");
-                    }
-                    else {
-                        // Create dummy template and Finish
-                        ITemplate template = new ModelTemplate();
+                    // Create template and Finish
+                    ITemplate template = fTemplateManager.createTemplate(file);
+                    if(template != null) {
                         template.setFile(file);
                         fSelectedTemplate = template;
                         ((ExtendedWizardDialog)getContainer()).finishPressed();
+                    }
+                    else {
+                        throw new IOException("Wrong format");
                     }
                 }
                 catch(IOException ex) {
@@ -337,10 +334,10 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
     /**
      * User wants to manage Templates
      */
-    private void handleManageTemplatesAction() {
+    protected void handleManageTemplatesAction() {
         getContainer().getShell().setVisible(false);
         
-        TemplateManagerDialog dialog = new TemplateManagerDialog(getShell());
+        TemplateManagerDialog dialog = createTemplateManagerDialog();
         if(dialog.open() == Window.OK) {
             fTemplateManager.reset();
             fUserTableViewer.refresh();
@@ -348,6 +345,10 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
         
         selectFirstTableItem();
         getContainer().getShell().setVisible(true);
+    }
+    
+    protected TemplateManagerDialog createTemplateManagerDialog() {
+        return new TemplateManagerDialog(getShell(), fTemplateManager);
     }
     
     private void selectFirstTableItem() {
@@ -422,7 +423,7 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
     /**
      * Clear old root group
      */
-    private void clearGallery() {
+    protected void clearGallery() {
         if(fGalleryRoot != null && !fGallery.isDisposed() && fGallery.getItemCount() > 0) {
             while(fGalleryRoot.getItemCount() > 0) {
                 GalleryItem item = fGalleryRoot.getItem(0);
@@ -435,7 +436,7 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
      * Update the Gallery
      * @param group
      */
-    private void updateGallery(ITemplateGroup group) {
+    protected void updateGallery(ITemplateGroup group) {
         for(ITemplate template : group.getSortedTemplates()) {
             GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
             item.setText(StringUtils.safeString(template.getName()));
@@ -456,7 +457,7 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
      * Update the wizard to show selected description text
      * @param template
      */
-    private void updateWizard(ITemplate template) {
+    protected void updateWizard(ITemplate template) {
         fSelectedTemplate = template;
 
         if(template == null) {
@@ -476,4 +477,7 @@ public class NewArchimateModelFromTemplateWizardPage extends WizardPage {
             setPageComplete(true);
         }
     }
+    
+    protected abstract String getHelpID();
+
 }

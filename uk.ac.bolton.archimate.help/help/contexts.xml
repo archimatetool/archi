@@ -105,11 +105,11 @@
        <description>Create a new Model based on an existing template.</description>
        <topic href="help/templates_new_model.html" label="Creating a New Model from a Template"/>
     </context>
-    <context id="SaveModelAsTemplateWizardPage1" title="Creating a New Template">
+    <context id="SaveArchimateModelAsTemplateWizardPage" title="Creating a New Template">
        <description>Provide the Template's name, description and key thumbnail.</description>
        <topic href="help/templates_new.html" label="Creating a New Template"/>
     </context>
-    <context id="SaveModelAsTemplateWizardPage2" title="Creating a New Template">
+    <context id="SaveArchimateModelAsTemplateToCollectionWizardPage" title="Creating a New Template">
        <description>Choose whether to include the template in your collection.</description>
        <topic href="help/templates_new.html" label="Creating a New Template"/>
     </context>

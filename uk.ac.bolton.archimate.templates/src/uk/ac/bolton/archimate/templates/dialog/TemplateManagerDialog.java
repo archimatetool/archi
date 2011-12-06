@@ -47,7 +47,6 @@ import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
-import uk.ac.bolton.archimate.templates.model.ModelTemplate;
 import uk.ac.bolton.archimate.templates.model.TemplateGroup;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
@@ -59,38 +58,38 @@ import uk.ac.bolton.archimate.templates.model.TemplateManager;
  */
 public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.TemplateManagerDialog"; //$NON-NLS-1$
+    private static String HELPID = "uk.ac.bolton.archimate.help.TemplateManagerDialog"; //$NON-NLS-1$
 
-    private TemplatesTableViewer fTableViewer;
-    private TemplatesTreeViewer fTreeViewer;
+    protected TemplatesTableViewer fTableViewer;
+    protected TemplatesTreeViewer fTreeViewer;
 
-    private Button fButtonAddTemplate;
-    private Button fButtonNewGroup;
-    private Button fButtonRemove;
+    protected Button fButtonAddTemplate;
+    protected Button fButtonNewGroup;
+    protected Button fButtonRemove;
     
-    private Label fFileLabel;
-    private Label fNameLabel;
-    private Label fDescriptionLabel;
-    private Text fFileTextField;
-    private Text fNameTextField;
-    private Text fDescriptionTextField;
+    protected Label fFileLabel;
+    protected Label fNameLabel;
+    protected Label fDescriptionLabel;
+    protected Text fFileTextField;
+    protected Text fNameTextField;
+    protected Text fDescriptionTextField;
     
-    private Object fSelectedControl;
-    private ITemplate fSelectedTemplate;
-    private ITemplateGroup fSelectedTemplateGroup;
+    protected Object fSelectedControl;
+    protected ITemplate fSelectedTemplate;
+    protected ITemplateGroup fSelectedTemplateGroup;
     
-    private List<ITemplate> fModifiedTemplates = new ArrayList<ITemplate>();
+    protected List<ITemplate> fModifiedTemplates = new ArrayList<ITemplate>();
 
-    private TemplateManager fTemplateManager;
+    protected TemplateManager fTemplateManager;
     
-    private boolean fIsSettingFields;
+    protected boolean fIsSettingFields;
     
-    public TemplateManagerDialog(Shell parentShell) {
+    public TemplateManagerDialog(Shell parentShell, TemplateManager templateManager) {
         super(parentShell, "TemplateManagerDialog");
         setTitleImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
-        fTemplateManager = new TemplateManager();
+        fTemplateManager = templateManager;
     }
 
     @Override
@@ -102,7 +101,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected Control createDialogArea(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, getHelpID());
 
         setTitle("Manage Templates");
         setMessage("Drag and drop Templates into Categories.");
@@ -129,7 +128,6 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         
         CLabel label = new CLabel(tableComp, SWT.NULL);
         label.setText("Templates");
-        //label.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16));
         
         Composite tableComp2 = new Composite(tableComp, SWT.NULL);
         tableComp2.setLayout(new TableColumnLayout());
@@ -322,10 +320,10 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     /**
      * Add a Template file
      */
-    private void openTemplate() {
+    protected void openTemplate() {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText("Open Template");
-        dialog.setFilterExtensions(new String[] { TemplateManager.ARCHIMATE_TEMPLATE_FILE_WILDCARD, "*.*" } );
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
         String path = dialog.open();
         if(path == null) {
             return;
@@ -342,14 +340,14 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
             @Override
             public void run() {
                 try {
-                    if(!TemplateManager.isValidTemplateFile(file)) { // This could take a while
-                        throw new IOException("Unknown format");
-                    }
-                    else {
-                        ITemplate template = new ModelTemplate(null);
+                    ITemplate template = fTemplateManager.createTemplate(file);
+                    if(template != null) {
                         template.setFile(file);
                         fTemplateManager.addUserTemplate(template);
                         fTableViewer.refresh();
+                    }
+                    else {
+                        throw new IOException("Wrong format");
                     }
                 }
                 catch(IOException ex) {
@@ -362,7 +360,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     /**
      * Add a new group
      */
-    private void newGroup() {
+    protected void newGroup() {
         IInputValidator validator = new IInputValidator() {
             @Override
             public String isValid(String newText) {
@@ -399,7 +397,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     /**
      * Remove selected object
      */
-    private void deleteSelectedObjects() {
+    protected void deleteSelectedObjects() {
         // Table
         if(fSelectedControl == fTableViewer) {
             for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toArray()) {
@@ -432,7 +430,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         }
     }
     
-    private void updateControls(Object o) {
+    protected void updateControls(Object o) {
         fIsSettingFields = true;
         
         // Labels
@@ -470,7 +468,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     /**
      * @return true if there is already a user template with file
      */
-    private boolean hasUserTemplate(File file) {
+    protected boolean hasUserTemplate(File file) {
         if(file == null) {
             return false;
         }
@@ -482,5 +480,9 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         }
         
         return false;
+    }
+    
+    protected String getHelpID() {
+        return HELPID;
     }
 }

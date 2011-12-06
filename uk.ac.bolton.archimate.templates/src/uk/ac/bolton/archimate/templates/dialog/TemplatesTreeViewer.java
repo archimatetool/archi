@@ -99,7 +99,7 @@ public class TemplatesTreeViewer extends TreeViewer {
                 return IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_FOLDER);
             }
             if(element instanceof ITemplate) {
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16);
+                return ((ITemplate)element).getImage();
             }
             
             return null;

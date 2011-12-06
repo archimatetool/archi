@@ -34,29 +34,27 @@ import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
 
 /**
- * Save Model As Template Wizard Page 2
+ * Save Model As Template Wizard Page for adding to Templates Collection
  * 
  * @author Phillip Beauvoir
  */
-public class SaveModelAsTemplateWizardPage2 extends WizardPage {
+public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPage {
 
-    public static String HELPID = "uk.ac.bolton.archimate.help.SaveModelAsTemplateWizardPage2"; //$NON-NLS-1$
-
-    private Button fDoStoreInCollectionButton;
-    private TemplateGroupsTableViewer fCategoriesTableViewer;
-    private Button fNewGroupButton;
+    protected Button fDoStoreInCollectionButton;
+    protected TemplateGroupsTableViewer fCategoriesTableViewer;
+    protected Button fNewGroupButton;
     
-    private TemplateManager fTemplateManager;
-    private ITemplateGroup fSelectedTemplateGroup;
+    protected TemplateManager fTemplateManager;
+    protected ITemplateGroup fSelectedTemplateGroup;
     
-    public SaveModelAsTemplateWizardPage2(TemplateManager templateManager) {
-        super("SaveModelAsTemplateWizardPage2");
-        setTitle("Save Model As Template");
-        setDescription("Choose whether to include the template in your collection.");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
-        
+    public SaveModelAsTemplateToCollectionWizardPage(String pageName, TemplateManager templateManager) {
+        super(pageName);
         fTemplateManager = templateManager;
+        init();
+        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
     }
+    
+    protected abstract void init();
 
     @Override
     public void createControl(Composite parent) {
@@ -67,7 +65,7 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
         container.setLayout(new GridLayout());
         setControl(container);
         
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, getHelpID());
         
         fDoStoreInCollectionButton = new Button(container, SWT.CHECK);
         fDoStoreInCollectionButton.setText("Add to my template collection");
@@ -173,4 +171,6 @@ public class SaveModelAsTemplateWizardPage2 extends WizardPage {
     public ITemplateGroup getTemplateGroup() {
         return fSelectedTemplateGroup;
     }
+    
+    protected abstract String getHelpID();
 }

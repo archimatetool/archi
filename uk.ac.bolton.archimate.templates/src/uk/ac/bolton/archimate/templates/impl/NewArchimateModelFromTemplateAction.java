@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.templates;
+package uk.ac.bolton.archimate.templates.impl;
 
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import uk.ac.bolton.archimate.editor.actions.NewDropDownAction;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
-import uk.ac.bolton.archimate.templates.wizard.NewArchimateModelFromTemplateWizard;
+import uk.ac.bolton.archimate.templates.impl.wizard.NewArchimateModelFromTemplateWizard;
 
 
 /**

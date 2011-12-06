@@ -4,10 +4,10 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.templates.wizard;
+package uk.ac.bolton.archimate.templates.impl.wizard;
 
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.GraphicalViewer;
+import java.io.File;
+
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -20,51 +20,59 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
+import uk.ac.bolton.archimate.templates.impl.model.ArchimateTemplateManager;
+import uk.ac.bolton.archimate.templates.model.TemplateManager;
+import uk.ac.bolton.archimate.templates.wizard.ModelViewsTreeViewer;
+import uk.ac.bolton.archimate.templates.wizard.TemplateUtils;
 
 
 /**
- * Save Model As Template Wizard Page 1
+ * Save Archimate Model As Template Wizard Page
  * 
  * @author Phillip Beauvoir
  */
-public class SaveModelAsTemplateWizardPage1 extends WizardPage {
+public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
 
-    public static String HELPID = "uk.ac.bolton.archimate.help.SaveModelAsTemplateWizardPage1"; //$NON-NLS-1$
+    public static String HELPID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateWizardPage"; //$NON-NLS-1$
 
     private IArchimateModel fModel;
 
+    private Text fFileTextField;
     private Text fNameTextField;
     private Text fDescriptionTextField;
     private ModelViewsTreeViewer fModelViewsTreeViewer;
-    private Image fPreviewImage;
     private Label fPreviewLabel;
     private Button fButtonIncludeThumbs;
+
+    private TemplateManager fTemplateManager;
     
-    public SaveModelAsTemplateWizardPage1(IArchimateModel model) {
-        super("SaveModelAsTemplateWizardPage1");
+    static File CURRENT_FOLDER = new File(System.getProperty("user.home"));
+    
+    public SaveArchimateModelAsTemplateWizardPage(IArchimateModel model, TemplateManager templateManager) {
+        super("SaveModelAsTemplateWizardPage");
         setTitle("Save Model As Template");
-        setDescription("Provide the Template's name, description and key thumbnail.");
+        setDescription("Provide the Template's file location, name, description and key thumbnail.");
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
         fModel = model;
+        fTemplateManager = templateManager;
     }
 
     @Override
@@ -78,16 +86,46 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
         
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
         
-        Composite fieldContainer = new Composite(container, SWT.NULL);
-        fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        GridLayout layout = new GridLayout(2, false);
-        layout.marginWidth = 0;
-        fieldContainer.setLayout(layout);
+        Group fileComposite = new Group(container, SWT.NULL);
+        fileComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridLayout layout = new GridLayout(3, false);
+        fileComposite.setLayout(layout);
         
-        label = new Label(fieldContainer, SWT.NULL);
+        label = new Label(fileComposite, SWT.NULL);
+        label.setText("File:");
+        
+        fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
+        fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        File newFile = new File(CURRENT_FOLDER, "New Template" + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION);
+        fFileTextField.setText(newFile.getPath());
+        fFileTextField.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                validateFields();
+            }
+        });
+        
+        Button fileButton = new Button(fileComposite, SWT.PUSH);
+        fileButton.setText("Choose...");
+        fileButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                File file = chooseFile();
+                if(file != null) {
+                    fFileTextField.setText(file.getPath());
+                    CURRENT_FOLDER = file.getParentFile();
+                }
+            }
+        });
+        
+        Group fieldGroup = new Group(container, SWT.NULL);
+        fieldGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        layout = new GridLayout(2, false);
+        fieldGroup.setLayout(layout);
+        
+        label = new Label(fieldGroup, SWT.NULL);
         label.setText("Name:");
 
-        fNameTextField = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
+        fNameTextField = new Text(fieldGroup, SWT.BORDER | SWT.SINGLE);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         if(StringUtils.isSet(fModel.getName())) {
             fNameTextField.setText(fModel.getName());
@@ -98,10 +136,12 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
             }
         });
         
-        label = new Label(container, SWT.NULL);
+        label = new Label(fieldGroup, SWT.NULL);
         label.setText("Description:");
+        gd = new GridData(SWT.NULL, SWT.TOP, false, false);
+        label.setLayoutData(gd);
         
-        fDescriptionTextField = new Text(container, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+        fDescriptionTextField = new Text(fieldGroup, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         fDescriptionTextField.setLayoutData(gd);
@@ -112,7 +152,12 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
         // Thumbnails
         boolean thumbsEnabled = !fModel.getDiagramModels().isEmpty();
         
-        fButtonIncludeThumbs = new Button(container, SWT.CHECK);
+        Group thumbsGroup = new Group(container, SWT.NULL);
+        thumbsGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
+        layout = new GridLayout();
+        thumbsGroup.setLayout(layout);
+        
+        fButtonIncludeThumbs = new Button(thumbsGroup, SWT.CHECK);
         fButtonIncludeThumbs.setText("Include thumbnails");
         fButtonIncludeThumbs.setSelection(thumbsEnabled);
         fButtonIncludeThumbs.setEnabled(thumbsEnabled);
@@ -124,11 +169,11 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
             }
         });
         
-        label = new Label(container, SWT.NULL);
+        label = new Label(thumbsGroup, SWT.NULL);
         label.setText("Key thumbnail:");
         label.setEnabled(thumbsEnabled);
 
-        Composite thumbContainer = new Composite(container, SWT.NULL);
+        Composite thumbContainer = new Composite(thumbsGroup, SWT.NULL);
         thumbContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
         layout = new GridLayout(2, false);
         layout.marginWidth = 0;
@@ -153,30 +198,18 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
         fPreviewLabel.addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
-                if(fPreviewImage != null && !fPreviewImage.isDisposed()) {
-                    fPreviewImage.dispose();
-                }
+                disposePreviewImage();
             }
         });
         
         fModelViewsTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
+                disposePreviewImage();
+
                 Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(o instanceof IDiagramModel) {
-                    if(fPreviewImage != null && !fPreviewImage.isDisposed()) {
-                        fPreviewImage.dispose();
-                    }
-                    
-                    // Generate Preview
-                    Shell shell = new Shell();
-                    GraphicalViewer diagramViewer = DiagramUtils.createViewer((IDiagramModel)o, shell);
-                    Rectangle bounds = DiagramUtils.getDiagramExtents(diagramViewer);
-                    double ratio = Math.min(1, Math.min((double)fPreviewLabel.getBounds().width / bounds.width,
-                            (double)fPreviewLabel.getBounds().height / bounds.height));
-                    fPreviewImage = DiagramUtils.createScaledImage(diagramViewer, ratio);
-                    fPreviewLabel.setImage(fPreviewImage);
-                    shell.dispose();
+                    TemplateUtils.createThumbnailPreviewImage((IDiagramModel)o, fPreviewLabel);
                 }
                 else {
                     fPreviewLabel.setImage(null);
@@ -202,6 +235,13 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
         validateFields();
     }
     
+    /**
+     * @return The File for the template
+     */
+    public String getFileName() {
+        return fFileTextField.getText();
+    }
+
     /**
      * @return The Name for the template
      */
@@ -230,11 +270,32 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
         }
         return null;
     }
-
+    
+    private File chooseFile() {
+        FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+        dialog.setText("Choose a file name");
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
+        String path = dialog.open();
+        if(path != null) {
+            // Only Windows adds the extension by default
+            if(dialog.getFilterIndex() == 0 && !path.endsWith(ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
+                path += ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION;
+            }
+            return new File(path);
+        }
+        return null;
+    }
+    
     private void validateFields() {
+        String fileName = getFileName();
+        if(!StringUtils.isSetAfterTrim(fileName)) {
+            updateStatus("Provide a file name");
+            return;
+        }
+        
         String name = getTemplateName();
         if(!StringUtils.isSetAfterTrim(name)) {
-            updateStatus("Provide a name");
+            updateStatus("Provide a template name");
             return;
         }
         
@@ -247,5 +308,11 @@ public class SaveModelAsTemplateWizardPage1 extends WizardPage {
     private void updateStatus(String message) {
         setErrorMessage(message);
         setPageComplete(message == null);
+    }
+    
+    private void disposePreviewImage() {
+        if(fPreviewLabel != null && fPreviewLabel.getImage() != null && !fPreviewLabel.getImage().isDisposed()) {
+            fPreviewLabel.getImage().dispose();
+        }
     }
 }

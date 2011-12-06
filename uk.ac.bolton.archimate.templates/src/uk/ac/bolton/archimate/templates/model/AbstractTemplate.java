@@ -30,11 +30,12 @@ import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**
- * Model Template
+ * Abstract Template
  * 
  * @author Phillip Beauvoir
  */
-public class ModelTemplate implements ITemplate, ITemplateXMLTags {
+public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
+    
     private String fID;
     private String fName;
     private String fDescription;
@@ -46,13 +47,13 @@ public class ModelTemplate implements ITemplate, ITemplateXMLTags {
     private Image fKeyThumbnailImage;
     private Image[] fThumbnails;
     
-    public ModelTemplate() {
+    public AbstractTemplate() {
     }
 
     /**
      * @param id If this is null a new id will be generated
      */
-    public ModelTemplate(String id) {
+    public AbstractTemplate(String id) {
         if(id == null) {
             id = UUID.randomUUID().toString().split("-")[0];
         }
@@ -130,11 +131,6 @@ public class ModelTemplate implements ITemplate, ITemplateXMLTags {
     @Override
     public void setFile(File file) {
         fFile = file;
-    }
-
-    @Override
-    public String getType() {
-        return XML_TEMPLATE_ATTRIBUTE_TYPE_MODEL;
     }
 
     @Override

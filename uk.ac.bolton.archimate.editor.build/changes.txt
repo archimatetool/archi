@@ -15,6 +15,7 @@ Version 2.1 December XX 2011
 * Fixed unnecessary page breaks in Jasper Reports
 * "Save Model As Template" wizard: Fixed template could not be added to template collection if no user category selected
 * Fixed error when tooltips disabled in Preferences and View contained Access Relationship
+* "Save Model As Template" wizard: File location is set in wizard, not in separate dialog
 
 
 

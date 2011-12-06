@@ -13,3 +13,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ClassPath: uk.ac.bolton.archimate.templates.jar
 Bundle-Activator: uk.ac.bolton.archimate.templates.ArchimateEditorTemplatesPlugin
 Bundle-ActivationPolicy: lazy
+Export-Package: uk.ac.bolton.archimate.templates.dialog,
+ uk.ac.bolton.archimate.templates.model,
+ uk.ac.bolton.archimate.templates.wizard

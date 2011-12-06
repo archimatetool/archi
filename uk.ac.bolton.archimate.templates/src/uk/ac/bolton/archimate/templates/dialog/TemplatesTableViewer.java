@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 
 /**
@@ -85,7 +84,10 @@ public class TemplatesTableViewer extends TableViewer {
         
         @Override
         public Image getImage(Object element) {
-            return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16);
+            if(element instanceof ITemplate) {
+                return ((ITemplate)element).getImage();
+            }
+            return null;
         }
      }
 }

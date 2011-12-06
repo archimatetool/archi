@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
-package uk.ac.bolton.archimate.templates.wizard;
+package uk.ac.bolton.archimate.templates.impl.wizard;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +19,8 @@ import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.editor.views.tree.TreeEditElementRequest;
 import uk.ac.bolton.archimate.model.IArchimateModel;
+import uk.ac.bolton.archimate.model.ModelVersion;
+import uk.ac.bolton.archimate.templates.impl.model.ArchimateTemplateManager;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
 
@@ -33,14 +35,17 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
     private NewArchimateModelFromTemplateWizardPage fMainPage;
     
     private String fErrorMessage;
+
+    private TemplateManager fTemplateManager;
     
     public NewArchimateModelFromTemplateWizard() {
         setWindowTitle("New ArchiMate Model");
+        fTemplateManager = new ArchimateTemplateManager();
     }
     
     @Override
     public void addPages() {
-        fMainPage = new NewArchimateModelFromTemplateWizardPage();
+        fMainPage = new NewArchimateModelFromTemplateWizardPage(fTemplateManager);
         addPage(fMainPage);
     }
 
@@ -61,7 +66,7 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                 @Override
                 public void run() {
                     try {
-                        File tmp = File.createTempFile(TemplateManager.ARCHIMATE_TEMPLATE_FILE_TMP_PREFIX, null);
+                        File tmp = File.createTempFile("~architemplate", null);
                         tmp.deleteOnExit();
                         File file = ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmp);
                         if(file != null && file.exists()) {
@@ -70,7 +75,10 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                                 // New name
                                 model.setName("(new) " + model.getName());
                                 
-                                // No file
+                                // Set latest model version (need to do this in case we immediately save as Template)
+                                model.setVersion(ModelVersion.VERSION);
+                                
+                                // Set file to null
                                 model.setFile(null);
                                 
                                 // Edit in-place in Tree
@@ -101,4 +109,9 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
         return fErrorMessage == null;
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        fTemplateManager.dispose();
+    }
 }
