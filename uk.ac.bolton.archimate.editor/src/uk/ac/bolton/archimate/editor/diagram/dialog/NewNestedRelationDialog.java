@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
@@ -190,7 +191,7 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
             
             @Override
             public Image getImage(Object element) {
-                return ImageFactory.getImage((EClass)element);
+                return ArchimateLabelProvider.INSTANCE.getImage(element);
             }
          }
     }

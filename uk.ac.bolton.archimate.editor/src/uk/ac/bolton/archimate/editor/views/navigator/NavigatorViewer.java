@@ -16,9 +16,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
@@ -125,20 +124,12 @@ public class NavigatorViewer extends TreeViewer {
         
         @Override
         public String getText(Object element) {
-            if(element instanceof INameable) {
-                return ((INameable)element).getName();
-            }
-            
-            return "";
+            return ArchimateLabelProvider.INSTANCE.getLabel(element);
         }
         
         @Override
         public Image getImage(Object element) {
-            if(element instanceof EObject) {
-                return ImageFactory.getImage((EObject)element);
-            }
-            
-            return null;
+            return ArchimateLabelProvider.INSTANCE.getImage(element);
         }
     }
     

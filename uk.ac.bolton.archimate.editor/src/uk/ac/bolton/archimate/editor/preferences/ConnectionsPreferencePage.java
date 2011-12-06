@@ -28,8 +28,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 
 
 /**
@@ -181,7 +181,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             
             @Override
             public Image getImage(Object element) {
-                return ImageFactory.getImage((EClass)element);
+                return ArchimateLabelProvider.INSTANCE.getImage(element);
             }
         });
         

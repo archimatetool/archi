@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="exportHandler" name="Export Handler" schema="schema/exportHandler.exsd"/>
    <extension-point id="importHandler" name="Import Handler" schema="schema/importHandler.exsd"/>
+   <extension-point id="labelProvider" name="Label Provider" schema="schema/labelProvider.exsd"/>
    <extension
          id="app"
          name="%appName"

@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Text;
 
 import uk.ac.bolton.archimate.editor.actions.AbstractDropDownAction;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
@@ -222,6 +223,11 @@ public class SearchWidget extends Composite {
                 else {
                     fSearchFilter.removeObjectFilter(eClass);
                 }
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass);
             }
         };
         

@@ -19,10 +19,20 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public final class ArchimateNames {
     
+    /**
+     * Get a default human-readable name for an EClass
+     * @param eClass
+     * @return A name or null
+     */
     public static final String getDefaultName(EClass eClass) {
         return getDefaultName(eClass, false);
     }
     
+    /**
+     * Get a default human-readable short name for an EClass
+     * @param eClass
+     * @return A name or null
+     */
     public static final String getDefaultShortName(EClass eClass) {
         return getDefaultName(eClass, true);
     }

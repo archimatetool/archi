@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
@@ -275,9 +276,9 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         class RelationsTableViewerLabelCellProvider extends LabelProvider implements ITableLabelProvider {
             public Image getColumnImage(Object element, int columnIndex) {
                 if(columnIndex == 0) {
-                    return ImageFactory.getImage(((Mapping)element).getElement());
+                    return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getElement());
                 }
-                return null;
+                return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getSelectedType());
             }
 
             @Override

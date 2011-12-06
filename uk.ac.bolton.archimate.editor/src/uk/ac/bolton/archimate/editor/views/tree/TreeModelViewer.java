@@ -29,13 +29,12 @@ import org.eclipse.swt.widgets.Widget;
 
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.views.tree.search.SearchFilter;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.IRelationship;
 
 
@@ -54,16 +53,6 @@ public class TreeModelViewer extends TreeViewer {
      */
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
-    public static String getElementText(Object element) {
-        String name = element.toString();
-        
-        if(element instanceof INameable) {
-            name = ((INameable)element).getName();
-        }
-        
-        return name;
-    }
-
     public TreeModelViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
@@ -90,8 +79,8 @@ public class TreeModelViewer extends TreeViewer {
                     return 0;
                 }
                 
-                String name1 = getElementText(e1);
-                String name2 = getElementText(e2);
+                String name1 = ArchimateLabelProvider.INSTANCE.getLabel(e1);
+                String name2 = ArchimateLabelProvider.INSTANCE.getLabel(e2);
                 
                 if(name1 == null) {
                     name1 = "";//$NON-NLS-1$
@@ -231,7 +220,7 @@ public class TreeModelViewer extends TreeViewer {
         
         @Override
         public String getText(Object element) {
-            String name = getElementText(element);
+            String name = ArchimateLabelProvider.INSTANCE.getLabel(element);
             
             // If a dirty model show asterisk
             if(element instanceof IArchimateModel) {
@@ -244,9 +233,9 @@ public class TreeModelViewer extends TreeViewer {
             if(element instanceof IRelationship) {
                 IRelationship relationship = (IRelationship)element;
                 name += " (";
-                name += relationship.getSource().getName();
+                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
                 name += " - ";
-                name += relationship.getTarget().getName();
+                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
                 name += ")";
             }
             
@@ -255,11 +244,7 @@ public class TreeModelViewer extends TreeViewer {
         
         @Override
         public Image getImage(Object element) {
-            if(element instanceof EObject) {
-                return ImageFactory.getImage((EObject)element);
-            }
-            
-            return null;
+            return ArchimateLabelProvider.INSTANCE.getImage(element);
         }
         
         @Override

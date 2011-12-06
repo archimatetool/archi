@@ -38,9 +38,9 @@ import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -368,7 +368,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     private MenuItem addElementAction(Menu menu, final EClass type) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
         item.setText(ArchimateNames.getDefaultName(type));
-        item.setImage(ImageFactory.getImage(type));
+        item.setImage(ArchimateLabelProvider.INSTANCE.getImage(type));
         
         // Add hover listener to notify Hints View and also set element if elements first
         item.addArmListener(new ArmListener() {
@@ -400,7 +400,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     private MenuItem addConnectionAction(Menu menu, final EClass relationshipType) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
         item.setText(ArchimateNames.getDefaultName(relationshipType));
-        item.setImage(ImageFactory.getImage(relationshipType));
+        item.setImage(ArchimateLabelProvider.INSTANCE.getImage(relationshipType));
         
         // Add hover listener to notify Hints View
         item.addArmListener(new ArmListener() {

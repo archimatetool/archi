@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.IArchimateEditPart;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -99,17 +99,17 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             @Override
             public String getText(Object element) {
                 IRelationship relationship = (IRelationship)element;
-                String name = relationship.getName() + " (";
-                name += relationship.getSource().getName();
+                String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " (";
+                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
                 name += " - ";
-                name += relationship.getTarget().getName();
+                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
                 name += ")";
                 return name;
             }
             
             @Override
             public Image getImage(Object element) {
-                return ImageFactory.getImage((IRelationship)element);
+                return ArchimateLabelProvider.INSTANCE.getImage(element);
             }
         });
         

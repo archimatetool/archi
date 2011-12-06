@@ -24,9 +24,9 @@ import uk.ac.bolton.archimate.editor.diagram.tools.MagicConnectionCreationTool;
 import uk.ac.bolton.archimate.editor.diagram.tools.MagicConnectionModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
@@ -253,8 +253,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 ArchimateNames.getDefaultShortName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
-                ImageFactory.getImageDescriptor(eClass),
-                ImageFactory.getImageDescriptor(eClass));
+                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass));
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
@@ -266,8 +266,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 name,
                 description,
                 new ArchimateDiagramModelFactory(eClass),
-                ImageFactory.getImageDescriptor(eClass),
-                ImageFactory.getImageDescriptor(eClass));
+                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass));
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);

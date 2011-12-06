@@ -12,7 +12,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPersistableElement;
 
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
@@ -42,7 +42,7 @@ implements IEditorInput, IPersistableElement {
     }
 
     public ImageDescriptor getImageDescriptor() {
-        return ImageFactory.getImageDescriptor(fModel);
+        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DIAGRAM_16);
     }
 
     public String getName() {

@@ -31,13 +31,12 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.diagram.AbstractPaletteRoot;
-import uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
@@ -95,17 +94,16 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         PaletteContainer group = new PaletteGroup("Elements");
         add(group);
         
-        group.add(createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(),
+        // Actor
+        PaletteEntry groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(),
                 "Actor",
-                "Actor Element"));
+                "Actor Element");
+        group.add(groupEntry);
         
         // Group
-        PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
+        groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getDiagramModelGroup(),
                 "Group",
-                "Grouping Element",
-                new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
+                "Grouping Element");
         group.add(groupEntry);
     
         return group;
@@ -136,33 +134,37 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 DiagramConstants.CONNECTION_LINE,
                 "Line Connection",
-                null);
+                null,
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASSOCIATION_CONNECTION_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 DiagramConstants.CONNECTION_ARROW,
                 "Arrow Connection",
-                null);
+                null,
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_TRIGGERING_CONNECTION_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 DiagramConstants.CONNECTION_DASHED_ARROW,
                 "Dashed Connection",
-                null);
+                null,
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FLOW_CONNECTION_16));
         group.add(entry);
         
         return group;
     }
     
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String type, String name, String description) {
+    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String type, String name, String description,
+                                                                          ImageDescriptor icon) {
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
                 name,
                 description,
                 new SketchModelFactory(eClass, type),
-                ImageFactory.getImageDescriptor(eClass, type),
-                ImageFactory.getImageDescriptor(eClass, type));
+                icon,
+                icon);
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
@@ -174,8 +176,8 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 name,
                 description,
                 new SketchModelFactory(eClass),
-                ImageFactory.getImageDescriptor(eClass),
-                ImageFactory.getImageDescriptor(eClass));
+                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass));
     }
 
     private PaletteEntry createStickyEntry(Color color) {
