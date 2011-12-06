@@ -185,7 +185,6 @@
       <genOperations ecoreOperation="archimate.ecore#//DiagramModelConnection/reconnect"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelBendpoint">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/weight"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/startX"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/startY"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/endX"/>
@@ -196,6 +195,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/fontColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/textAlignment"/>
       <genOperations ecoreOperation="archimate.ecore#//FontAttribute/getDefaultTextAlignment"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//BorderObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//BorderObject/borderColor"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//Bounds">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Bounds/x"/>

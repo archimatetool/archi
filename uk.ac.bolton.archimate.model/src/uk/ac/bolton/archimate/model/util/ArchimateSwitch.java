@@ -29,6 +29,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
+import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IBusinessActivity;
 import uk.ac.bolton.archimate.model.IBusinessActor;
@@ -1114,6 +1115,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.BORDER_OBJECT: {
+                IBorderObject borderObject = (IBorderObject)theEObject;
+                T result = caseBorderObject(borderObject);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.BOUNDS: {
                 IBounds bounds = (IBounds)theEObject;
                 T result = caseBounds(bounds);
@@ -1789,6 +1796,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseFontAttribute(IFontAttribute object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Border Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Border Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseBorderObject(IBorderObject object) {
         return null;
     }
 

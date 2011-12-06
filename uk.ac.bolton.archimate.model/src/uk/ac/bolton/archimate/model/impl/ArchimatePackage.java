@@ -38,6 +38,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
+import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IBusinessActivity;
 import uk.ac.bolton.archimate.model.IBusinessActor;
@@ -374,6 +375,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass fontAttributeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass borderObjectEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1467,6 +1475,24 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getBorderObject() {
+        return borderObjectEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getBorderObject_BorderColor() {
+        return (EAttribute)borderObjectEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getBounds() {
         return boundsEClass;
     }
@@ -2163,6 +2189,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(fontAttributeEClass, FONT_ATTRIBUTE__FONT_COLOR);
         createEAttribute(fontAttributeEClass, FONT_ATTRIBUTE__TEXT_ALIGNMENT);
 
+        borderObjectEClass = createEClass(BORDER_OBJECT);
+        createEAttribute(borderObjectEClass, BORDER_OBJECT__BORDER_COLOR);
+
         boundsEClass = createEClass(BOUNDS);
         createEAttribute(boundsEClass, BOUNDS__X);
         createEAttribute(boundsEClass, BOUNDS__Y);
@@ -2564,6 +2593,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEAttribute(getFontAttribute_TextAlignment(), ecorePackage.getEInt(), "textAlignment", null, 0, 1, IFontAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         addEOperation(fontAttributeEClass, ecorePackage.getEInt(), "getDefaultTextAlignment", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(borderObjectEClass, IBorderObject.class, "BorderObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getBorderObject_BorderColor(), ecorePackage.getEString(), "borderColor", null, 0, 1, IBorderObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(boundsEClass, IBounds.class, "Bounds", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getBounds_X(), ecorePackage.getEInt(), "x", null, 0, 1, IBounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

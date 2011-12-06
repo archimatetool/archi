@@ -26,8 +26,8 @@ package uk.ac.bolton.archimate.model;
  *         type in IDiagramModelArchimateObject, plain connections in Diagrams, Properties, and Documentation to Folders
  * 2.0.0 - Archi version 2.0.0 added multiple occurrences of objects in a View, Documentation to Groups, Properties to Sketch
  *         View objects, Viewpoints, and refactoring of DiagramModel and ArchimateDiagramModel
- * 2.1.0 - The "text" attribute of IDiagramModelConnection is deprecated
-		   Added Lockable support
+ * 2.1.0 - The "text" attribute of IDiagramModelConnection is deprecated.
+ *		   Added Lockable support. Added Borders
  * 
  * @author Phillip Beauvoir
  */

@@ -30,6 +30,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
+import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IBusinessActivity;
 import uk.ac.bolton.archimate.model.IBusinessActor;
@@ -441,6 +442,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseFontAttribute(IFontAttribute object) {
                 return createFontAttributeAdapter();
+            }
+            @Override
+            public Adapter caseBorderObject(IBorderObject object) {
+                return createBorderObjectAdapter();
             }
             @Override
             public Adapter caseBounds(IBounds object) {
@@ -1023,6 +1028,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createFontAttributeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IBorderObject <em>Border Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IBorderObject
+     * @generated
+     */
+    public Adapter createBorderObjectAdapter() {
         return null;
     }
 

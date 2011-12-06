@@ -4095,7 +4095,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 76;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 77;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4241,7 +4241,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 75;
+    int ARCHIMATE_DIAGRAM_MODEL = 76;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4885,7 +4885,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 77;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 78;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -4989,6 +4989,34 @@ public interface IArchimatePackage extends EPackage {
     int FONT_ATTRIBUTE_FEATURE_COUNT = 3;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.BorderObject <em>Border Object</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.BorderObject
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
+     * @generated
+     */
+    int BORDER_OBJECT = 73;
+
+    /**
+     * The feature id for the '<em><b>Border Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BORDER_OBJECT__BORDER_COLOR = 0;
+
+    /**
+     * The number of structural features of the '<em>Border Object</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BORDER_OBJECT_FEATURE_COUNT = 1;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Bounds <em>Bounds</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4996,7 +5024,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 73;
+    int BOUNDS = 74;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -5051,7 +5079,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 74;
+    int LOCKABLE = 75;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -5457,7 +5485,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 78;
+    int SKETCH_MODEL = 79;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5548,7 +5576,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 79;
+    int SKETCH_MODEL_STICKY = 80;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5684,7 +5712,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 80;
+    int SKETCH_MODEL_ACTOR = 81;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5811,7 +5839,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 81;
+    int FOLDER_TYPE = 82;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -5821,7 +5849,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 82;
+    int FILE = 83;
 
 
     /**
@@ -7078,6 +7106,27 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getFontAttribute_TextAlignment();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IBorderObject <em>Border Object</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Border Object</em>'.
+     * @see uk.ac.bolton.archimate.model.IBorderObject
+     * @generated
+     */
+    EClass getBorderObject();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IBorderObject#getBorderColor <em>Border Color</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Border Color</em>'.
+     * @see uk.ac.bolton.archimate.model.IBorderObject#getBorderColor()
+     * @see #getBorderObject()
+     * @generated
+     */
+    EAttribute getBorderObject_BorderColor();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IBounds <em>Bounds</em>}'.
@@ -8346,6 +8395,24 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute FONT_ATTRIBUTE__TEXT_ALIGNMENT = eINSTANCE.getFontAttribute_TextAlignment();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.BorderObject <em>Border Object</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.BorderObject
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
+         * @generated
+         */
+        EClass BORDER_OBJECT = eINSTANCE.getBorderObject();
+
+        /**
+         * The meta object literal for the '<em><b>Border Color</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute BORDER_OBJECT__BORDER_COLOR = eINSTANCE.getBorderObject_BorderColor();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Bounds <em>Bounds</em>}' class.
