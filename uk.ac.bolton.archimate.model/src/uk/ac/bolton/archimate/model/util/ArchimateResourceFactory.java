@@ -72,6 +72,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
     public Resource createResource(URI uri) {
         XMLResource result = new ArchimateResource(uri);
         
+        // Ensure we have ExtendedMetaData for both Saving and Loading
         ExtendedMetaData ext = new BasicExtendedMetaData() {
             /*
              * Backwards compatibility for the old "DiagramModel" type
@@ -84,13 +85,13 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
                 return super.getType(ePackage, name);
             }
         };
-        
+
+        result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
+        result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
+
         result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
         result.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
         
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
-
         // Not sure about this
         // result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 

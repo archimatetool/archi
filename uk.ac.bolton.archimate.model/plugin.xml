@@ -10,6 +10,11 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
+            class="uk.ac.bolton.archimate.model.IArchimatePackage"
+            genModel="model/archimate.genmodel"
+            uri="http://www.bolton.ac.uk/archimate">
+      </package>
+      <package
             uri="http://www.bolton.ac.uk/archimate/1.0"
             class="uk.ac.bolton.archimate.model.IArchimatePackage"
             genModel="model/archimate.genmodel"/>

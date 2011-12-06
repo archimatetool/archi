@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.model.impl;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 
 import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
@@ -54,12 +55,9 @@ public class ModelVersionChecker {
             Logger.logError(diagnostic.getMessage());
         }
 
-        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
-        String version = model.getVersion();
-        
         // Is it catastrophic? If it is, throw an exception
         for(Diagnostic diagnostic : resource.getErrors()) {
-            if(isCatastrophic(diagnostic, version)) {
+            if(isCatastrophic(diagnostic)) {
                 throw new IncompatibleModelVersionException(diagnostic);
             }
         }
@@ -75,10 +73,10 @@ public class ModelVersionChecker {
         }
     }
 
-    private static boolean isCatastrophic(Diagnostic diagnostic, String version) {
-        // TODO Do some logic to check the integrity of the model
-//        if(diagnostic instanceof FeatureNotFoundException) {
-//        }
+    private static boolean isCatastrophic(Diagnostic diagnostic) {
+        if(diagnostic instanceof PackageNotFoundException) {
+            return true;
+        }
 //        else if(diagnostic instanceof ClassNotFoundException) {
 //        }
         return false;

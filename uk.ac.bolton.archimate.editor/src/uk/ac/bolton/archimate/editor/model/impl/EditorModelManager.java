@@ -204,7 +204,8 @@ implements IEditorModelManager {
                 Logger.logError("Error opening model", exception);
                 MessageDialog.openError(Display.getCurrent().getActiveShell(),
                         "Error opening model",
-                        "Cannot open '" + file +  "'. This version is incompatible. Please update to the latest version of Archi.");
+                        "Cannot open '" + file +  "'." + "This version is incompatible."
+                        + "\n" + exception.getDiagnostic().getMessage());
                 return null;
             }
             // Wrong file type
