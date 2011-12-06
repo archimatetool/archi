@@ -107,18 +107,10 @@ extends ActionBarContributor {
         addRetargetAction(new RetargetAction(FontColorAction.ID, FontColorAction.TEXT));
         
         // Text Alignments
-        retargetAction = new RetargetAction(TextAlignmentAction.ACTION_LEFT_ID, TextAlignmentAction.ACTION_LEFT_TEXT);
-        retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_LEFT));
-        addRetargetAction(retargetAction);
-   
-        retargetAction = new RetargetAction(TextAlignmentAction.ACTION_CENTER_ID, TextAlignmentAction.ACTION_CENTER_TEXT);
-        retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_CENTER));
-        addRetargetAction(retargetAction);
-
-        retargetAction = new RetargetAction(TextAlignmentAction.ACTION_RIGHT_ID, TextAlignmentAction.ACTION_RIGHT_TEXT);
-        retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_RIGHT));
-        addRetargetAction(retargetAction);
-
+        for(RetargetAction action : TextAlignmentAction.createRetargetActions()) {
+            addRetargetAction(action);
+        }
+        
         // Order Actions
         addRetargetAction(new RetargetAction(BringToFrontAction.ID, BringToFrontAction.TEXT));
         addRetargetAction(new RetargetAction(BringForwardAction.ID, BringForwardAction.TEXT));

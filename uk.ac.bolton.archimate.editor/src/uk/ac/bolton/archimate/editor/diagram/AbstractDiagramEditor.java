@@ -117,7 +117,6 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IFontAttribute;
 
 
 /**
@@ -693,17 +692,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Text Alignment Actions
-        action = new TextAlignmentAction(this, IFontAttribute.TEXT_ALIGNMENT_LEFT);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-
-        action = new TextAlignmentAction(this, IFontAttribute.TEXT_ALIGNMENT_CENTER);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-
-        action = new TextAlignmentAction(this, IFontAttribute.TEXT_ALIGNMENT_RIGHT);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
+        for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {
+            registry.registerAction(a);
+            getSelectionActions().add(a.getId());
+            getUpdateCommandStackActions().add(a);
+        }
         
         // Full Screen
         action = new FullScreenAction(this);
