@@ -50,6 +50,24 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
     int TEXT_POSITION_TARGET = 2;
     
     /**
+     * Line Styles
+     */
+    // Since Archi version 1.7
+    int LINE_SOLID = 0;             // default
+    int ARROW_FILL_TARGET = 1;      // 1 << 0
+    int LINE_DASHED = 2;            // 1 << 1
+    int LINE_DOTTED = 4;            // 1 << 2
+    
+    // Since Archi version 2.1
+    int ARROW_NONE = 0;
+    int ARROW_FILL_SOURCE = 8;        // 1 << 3
+    int ARROW_HOLLOW_TARGET = 16;     // 1 << 4
+    int ARROW_HOLLOW_SOURCE = 32;     // 1 << 5
+    int ARROW_LINE_TARGET = 64;       // 1 << 6
+    int ARROW_LINE_SOURCE = 128;      // 1 << 7
+
+    
+    /**
      * Returns the value of the '<em><b>Text</b></em>' attribute.
      * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
@@ -234,12 +252,12 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Type</em>' attribute.
-     * @see #setType(String)
+     * @see #setType(int)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelConnection_Type()
      * @model
      * @generated
      */
-    String getType();
+    int getType();
 
     /**
      * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getType <em>Type</em>}' attribute.
@@ -249,7 +267,7 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * @see #getType()
      * @generated
      */
-    void setType(String value);
+    void setType(int value);
 
     /**
      * <!-- begin-user-doc -->

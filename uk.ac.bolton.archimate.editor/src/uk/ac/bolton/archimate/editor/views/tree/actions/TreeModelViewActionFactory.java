@@ -137,7 +137,7 @@ public class TreeModelViewActionFactory {
                 diagramModel.setName("New ArchiMate View");
                 
                 // Execute Command
-                Command cmd = new NewDiagramCommand(folder, diagramModel, "New ArchiMate View");
+                Command cmd = new NewDiagramCommand(folder, diagramModel, "New &ArchiMate View");
                 CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
@@ -148,7 +148,7 @@ public class TreeModelViewActionFactory {
     }
     
     private IAction createNewSketchAction(final IFolder folder) {
-        IAction action = new Action("&Sketch") {
+        IAction action = new Action("&Sketch View") {
             @Override
             public void run() {
                 // Create a new Diagram Model, set its name

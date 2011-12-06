@@ -8,6 +8,7 @@ Version 2.1 December XX 2011
 + Shortcut keys implemented for Mac OS X Lion full screen. Also menu item added to main "Window" menu
 + The Backspace key is now bound to the Delete command on Mac OS X
 + The F1 key now invokes dynamic help on Mac OS X
++ Improve Diagram Connection Line Styles
 * BiZZdesign Architect Import/Export is no longer supported
 * Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
 * Fixed unnecessary page breaks in Jasper Reports

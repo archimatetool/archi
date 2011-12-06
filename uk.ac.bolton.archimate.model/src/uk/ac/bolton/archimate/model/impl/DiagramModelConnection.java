@@ -261,7 +261,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @generated
      * @ordered
      */
-    protected static final String TYPE_EDEFAULT = null;
+    protected static final int TYPE_EDEFAULT = 0;
 
     /**
      * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -271,7 +271,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @generated
      * @ordered
      */
-    protected String type = TYPE_EDEFAULT;
+    protected int type = TYPE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -531,7 +531,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getType() {
+    public int getType() {
         return type;
     }
 
@@ -540,8 +540,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setType(String newType) {
-        String oldType = type;
+    public void setType(int newType) {
+        int oldType = type;
         type = newType;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE, oldType, type));
@@ -598,12 +598,10 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
     public int getDefaultTextAlignment() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
+        return TEXT_ALIGNMENT_CENTER;
     }
 
     /**
@@ -716,7 +714,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 setLineColor((String)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE:
-                setType((String)newValue);
+                setType((Integer)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -806,7 +804,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE:
-                return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+                return type != TYPE_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-11 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -31,13 +31,13 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.diagram.AbstractPaletteRoot;
-import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
@@ -132,32 +132,40 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                DiagramConstants.CONNECTION_LINE,
+                IDiagramModelConnection.LINE_SOLID,
                 "Line Connection",
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASSOCIATION_CONNECTION_16));
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_PLAIN_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                DiagramConstants.CONNECTION_ARROW,
+                IDiagramModelConnection.ARROW_FILL_TARGET,
                 "Arrow Connection",
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_TRIGGERING_CONNECTION_16));
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_ARROW_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                DiagramConstants.CONNECTION_DASHED_ARROW,
+                IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 "Dashed Connection",
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FLOW_CONNECTION_16));
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DASHED_ARROW_16));
         group.add(entry);
         
+        entry = createConnectionCreationToolEntry(
+                IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
+                IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
+                "Dotted Connection",
+                null,
+                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DOTTED_ARROW_16));
+        group.add(entry);
+
         return group;
     }
     
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String type, String name, String description,
+    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, int type, String name, String description,
                                                                           ImageDescriptor icon) {
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
                 name,

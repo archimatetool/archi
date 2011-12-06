@@ -18,7 +18,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  */
 public class ConnectionLineTypeCommand extends EObjectFeatureCommand {
     
-    public ConnectionLineTypeCommand(IDiagramModelConnection connection, String lineType) {
+    public ConnectionLineTypeCommand(IDiagramModelConnection connection, int lineType) {
         super("Connection line type", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TYPE, lineType);
     }
 }

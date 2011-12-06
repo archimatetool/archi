@@ -251,11 +251,9 @@
          <propertySection
                afterSection="connectionAppearanceSection"
                class="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionLineStyleSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionLineStyleSection$Filter"
                id="connectionTypeSection"
                tab="appearance.tab">
-            <input
-                  type="uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart">
-            </input>
          </propertySection>
          <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.GroupSection"

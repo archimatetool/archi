@@ -153,6 +153,22 @@ public interface IArchimateImages {
     String ICON_VIEWPOINT_BUSINESS_16 = IMGPATH + "vp-business-16.png"; //$NON-NLS-1$
     String ICON_VIEWPOINT_APPLICATION_16 = IMGPATH + "vp-application-16.png"; //$NON-NLS-1$
     String ICON_VIEWPOINT_TECHNOLOGY_16 = IMGPATH + "vp-technology-16.png"; //$NON-NLS-1$
+    
+    String ICON_CONNECTION_PLAIN_16 = IMGPATH + "connection-plain-16.png"; //$NON-NLS-1$
+    String ICON_CONNECTION_ARROW_16 = IMGPATH + "connection-arrow-16.png"; //$NON-NLS-1$
+    String ICON_CONNECTION_DASHED_ARROW_16 = IMGPATH + "connection-dashed-arrow-16.png"; //$NON-NLS-1$
+    String ICON_CONNECTION_DOTTED_ARROW_16 = IMGPATH + "connection-dotted-arrow-16.png"; //$NON-NLS-1$
+    
+    String LINE_SOLID = IMGPATH + "line-solid.png"; //$NON-NLS-1$
+    String LINE_DASHED = IMGPATH + "line-dashed.png"; //$NON-NLS-1$
+    String LINE_DOTTED = IMGPATH + "line-dotted.png"; //$NON-NLS-1$
+    
+    String ARROW_SOURCE_FILL = IMGPATH + "arrow-source-fill.png"; //$NON-NLS-1$
+    String ARROW_TARGET_FILL = IMGPATH + "arrow-target-fill.png"; //$NON-NLS-1$
+    String ARROW_SOURCE_HOLLOW = IMGPATH + "arrow-source-hollow.png"; //$NON-NLS-1$
+    String ARROW_TARGET_HOLLOW = IMGPATH + "arrow-target-hollow.png"; //$NON-NLS-1$
+    String ARROW_SOURCE_LINE = IMGPATH + "arrow-source-line.png"; //$NON-NLS-1$
+    String ARROW_TARGET_LINE = IMGPATH + "arrow-target-line.png"; //$NON-NLS-1$
 
     String CURSOR_IMG_FORMAT_PAINTER = IMGPATH + "formatpainter-cursor.gif"; //$NON-NLS-1$
     String CURSOR_IMG_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey-cursor.gif"; //$NON-NLS-1$

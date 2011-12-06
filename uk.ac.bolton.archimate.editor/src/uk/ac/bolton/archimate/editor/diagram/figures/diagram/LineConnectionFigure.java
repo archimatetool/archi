@@ -6,10 +6,12 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.diagram;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.editor.diagram.DiagramConstants;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
@@ -23,6 +25,14 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * @author Phillip Beauvoir
  */
 public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
+    
+    private PolygonDecoration fArrowheadSourceFilled;
+    private PolylineDecoration fArrowheadSourceLine;
+    private PolygonDecoration fArrowheadSourceHollow;
+    
+    private PolygonDecoration fArrowheadTargetFilled;
+    private PolylineDecoration fArrowheadTargetLine;
+    private PolygonDecoration fArrowheadTargetHollow;
 
     public LineConnectionFigure(IDiagramModelConnection connection) {
         super(connection);
@@ -36,20 +46,111 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     public void refreshVisuals() {
         super.refreshVisuals();
 
-        String type = getModelConnection().getType();
-        if(DiagramConstants.CONNECTION_DASHED.equals(type)) {
+        int connectionType = getModelConnection().getType();
+        
+        // Line Style
+        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
             setLineDash(new float[] { 4 });
         }
-        else if(DiagramConstants.CONNECTION_DOTTED.equals(type)) {
+        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 1.5f, 3 });
+            setLineDash(new float[] { 1, 4 });
         }
         else {
             setLineStyle(Graphics.LINE_SOLID);
         }
+        
+        // Source Arrow head
+        if((connectionType & IDiagramModelConnection.ARROW_FILL_SOURCE) != 0) {
+            setSourceDecoration(getArrowheadSourceFilled());
+        }
+        else if((connectionType & IDiagramModelConnection.ARROW_LINE_SOURCE) != 0) {
+            setSourceDecoration(getArrowheadSourceLine());
+        }
+        else if((connectionType & IDiagramModelConnection.ARROW_HOLLOW_SOURCE) != 0) {
+            setSourceDecoration(getArrowheadSourceHollow());
+        }
+        else {
+            setSourceDecoration(null);
+        }
+
+        // Target Arrow head
+        if((connectionType & IDiagramModelConnection.ARROW_FILL_TARGET) != 0) {
+            setTargetDecoration(getArrowheadTargetFilled());
+        }
+        else if((connectionType & IDiagramModelConnection.ARROW_LINE_TARGET) != 0) {
+            setTargetDecoration(getArrowheadTargetLine());
+        }
+        else if((connectionType & IDiagramModelConnection.ARROW_HOLLOW_TARGET) != 0) {
+            setTargetDecoration(getArrowheadTargetHollow());
+        }
+        else {
+            setTargetDecoration(null);
+        }
     }
     
+    protected PolygonDecoration getArrowheadSourceFilled() {
+        if(fArrowheadSourceFilled == null) {
+            fArrowheadSourceFilled = createArrowheadFilled();
+        }
+        return fArrowheadSourceFilled;
+    }
+    
+    protected PolylineDecoration getArrowheadSourceLine() {
+        if(fArrowheadSourceLine == null) {
+            fArrowheadSourceLine = createArrowheadLine();
+        }
+        return fArrowheadSourceLine;
+    }
+    
+    protected PolygonDecoration getArrowheadSourceHollow() {
+        if(fArrowheadSourceHollow == null) {
+            fArrowheadSourceHollow = createArrowheadHollow();
+        }
+        return fArrowheadSourceHollow;
+    }
+
+    protected PolygonDecoration getArrowheadTargetFilled() {
+        if(fArrowheadTargetFilled == null) {
+            fArrowheadTargetFilled = createArrowheadFilled();
+        }
+        return fArrowheadTargetFilled;
+    }
+    
+    protected PolylineDecoration getArrowheadTargetLine() {
+        if(fArrowheadTargetLine == null) {
+            fArrowheadTargetLine = createArrowheadLine();
+        }
+        return fArrowheadTargetLine;
+    }
+    
+    protected PolygonDecoration getArrowheadTargetHollow() {
+        if(fArrowheadTargetHollow == null) {
+            fArrowheadTargetHollow = createArrowheadHollow();
+        }
+        return fArrowheadTargetHollow;
+    }
+    
+    protected PolygonDecoration createArrowheadFilled() {
+        PolygonDecoration poly = new PolygonDecoration();
+        poly.setScale(10, 6);
+        return poly;
+    }
+
+    protected PolygonDecoration createArrowheadHollow() {
+        PolygonDecoration poly = new PolygonDecoration();
+        poly.setScale(10, 7);
+        poly.setBackgroundColor(ColorConstants.white);
+        return poly;
+    }
+    
+    protected PolylineDecoration createArrowheadLine() {
+        PolylineDecoration poly = new PolylineDecoration();
+        poly.setScale(8, 5);
+        return poly;
+    }
+
     @Override
     protected void setToolTip() {
         if(!Preferences.doShowViewTooltips()) {
