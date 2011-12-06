@@ -73,11 +73,12 @@ public class FontSection extends AbstractArchimatePropertySection {
         fFontSelectionButton.setText("Edit...");
         getWidgetFactory().adapt(fFontSelectionButton, true, true); // Need to do it this way for Mac
         GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = 75;
+        gd.widthHint = ITabbedLayoutConstants.BUTTON_WIDTH;
         fFontSelectionButton.setLayoutData(gd);
 
         // Default
         fDefaultFontButton = new Button(client, SWT.PUSH);
+        fDefaultFontButton.setLayoutData(gd);
         fDefaultFontButton.setText("Default");
         getWidgetFactory().adapt(fDefaultFontButton, true, true); // Need to do it this way for Mac
         

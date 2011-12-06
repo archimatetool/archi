@@ -83,6 +83,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
+import uk.ac.bolton.archimate.editor.diagram.actions.BorderColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringForwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringToFrontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionLineColorAction;
@@ -715,6 +716,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
+        // Border Color
+        action = new BorderColorAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
+
         // Full Screen
         action = new FullScreenAction(this);
         registry.registerAction(action);

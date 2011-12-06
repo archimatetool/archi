@@ -393,6 +393,13 @@
                id="lockedSection"
                tab="main.tab">
          </propertySection>
+         <propertySection
+               afterSection="fontColorSection1"
+               class="uk.ac.bolton.archimate.editor.propertysections.BorderColorSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.BorderColorSection$Filter"
+               id="borderColorSection"
+               tab="appearance.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension

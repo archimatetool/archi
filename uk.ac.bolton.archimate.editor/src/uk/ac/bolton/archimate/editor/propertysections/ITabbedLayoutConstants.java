@@ -20,4 +20,5 @@ public interface ITabbedLayoutConstants {
      */
     int STANDARD_LABEL_WIDTH = 115;
     int BIG_LABEL_WIDTH = 135;
+    int BUTTON_WIDTH = 75;
 }

@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
+import uk.ac.bolton.archimate.editor.diagram.commands.BorderColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineWidthCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FillColorCommand;
@@ -20,6 +21,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.FontStyleCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.TextAlignmentCommand;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -104,6 +106,14 @@ public class FormatPainterTool extends AbstractTool {
             cmd = new TextAlignmentCommand(target, source.getTextAlignment());
             if(cmd.canExecute()) {
                 result.add(cmd);
+            }
+            
+            // Optional Border
+            if(source instanceof IBorderObject && target instanceof IBorderObject) {
+                cmd = new BorderColorCommand((IBorderObject)target, ((IBorderObject)source).getBorderColor());
+                if(cmd.canExecute()) {
+                    result.add(cmd);
+                }
             }
         }
         else if(pf.sourceComponent instanceof IDiagramModelConnection && targetObject instanceof IDiagramModelConnection) {

@@ -98,13 +98,13 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         menu.appendToGroup(GROUP_RENAME, action);
 
         menu.add(new Separator(GROUP_EXPORT));
-        IMenuManager exportMenu = new MenuManager("Export");
+        IMenuManager exportMenu = new MenuManager("Export", "menu_export");
         menu.add(exportMenu);
         exportMenu.add(actionRegistry.getAction(ExportAsImageAction.ID));
         exportMenu.add(actionRegistry.getAction(ExportAsImageToClipboardAction.ID));
         
         menu.add(new Separator(GROUP_ORDER));
-        IMenuManager orderMenu = new MenuManager("Order");
+        IMenuManager orderMenu = new MenuManager("Order", "menu_order");
         menu.add(orderMenu);
         orderMenu.add(actionRegistry.getAction(BringToFrontAction.ID));
         orderMenu.add(actionRegistry.getAction(BringForwardAction.ID));
@@ -112,7 +112,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         orderMenu.add(actionRegistry.getAction(SendBackwardAction.ID));
         
         menu.add(new GroupMarker(GROUP_POSITION));
-        IMenuManager alignmentMenu = new MenuManager("Position");
+        IMenuManager alignmentMenu = new MenuManager("Position", "menu_position");
         menu.add(alignmentMenu);
         
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_LEFT));
@@ -134,7 +134,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         alignmentMenu.add(actionRegistry.getAction(DefaultEditPartSizeAction.ID));
         
         menu.add(new Separator(GROUP_CONNECTIONS));
-        IMenuManager connectionMenu = new MenuManager("Connection Router");
+        IMenuManager connectionMenu = new MenuManager("Connection Router", "menu_connection_router");
         menu.appendToGroup(GROUP_CONNECTIONS, connectionMenu);
         connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
         connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));

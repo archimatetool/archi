@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -10,36 +10,46 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.commands.FillColorCommand;
-import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
+import uk.ac.bolton.archimate.editor.diagram.commands.BorderColorCommand;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**
- * Property Section for a Fill Color
+ * Property Section for a Border Color
  * 
  * @author Phillip Beauvoir
  */
-public class FillColorSection extends AbstractArchimatePropertySection {
+public class BorderColorSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
     
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter implements IFilter {
+        @Override
+        public boolean select(Object object) {
+            return (object instanceof EditPart) && ((EditPart)object).getModel() instanceof IBorderObject;
+        }
+    }
+
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
      */
@@ -48,7 +58,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR ||
+            if(feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR ||
                     feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
@@ -63,17 +73,17 @@ public class FillColorSection extends AbstractArchimatePropertySection {
             if(isAlive()) {
                 RGB rgb = fColorSelector.getColorValue();
                 String newColor = ColorFactory.convertRGBToString(rgb);
-                if(!newColor.equals(fDiagramModelObject.getFillColor())) {
-                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, newColor));
+                if(!newColor.equals(fBorderObject.getBorderColor())) {
+                    getCommandStack().execute(new BorderColorCommand(fBorderObject, newColor));
                 }
             }
         }
     };
     
-    private IDiagramModelObject fDiagramModelObject;
+    private IBorderObject fBorderObject;
 
     private ColorSelector fColorSelector;
-    private Button fDefaultColorButton;
+    private Button fNoBorderButton;
     
     @Override
     protected void createControls(Composite parent) {
@@ -84,7 +94,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     }
     
     private void createColorControl(Composite parent) {
-        createCLabel(parent, "Fill colour:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, "Border colour:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 2);
 
@@ -95,15 +105,15 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
         fColorSelector.addListener(colorListener);
 
-        fDefaultColorButton = new Button(client, SWT.PUSH);
-        getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
-        fDefaultColorButton.setText("Default");
-        fDefaultColorButton.setLayoutData(gd);
-        fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
+        fNoBorderButton = new Button(client, SWT.PUSH);
+        fNoBorderButton.setLayoutData(gd);
+        getWidgetFactory().adapt(fNoBorderButton, true, true); // Need to do it this way for Mac
+        fNoBorderButton.setText("None");
+        fNoBorderButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, null));
+                    getCommandStack().execute(new BorderColorCommand(fBorderObject, null));
                 }
             }
         });
@@ -111,34 +121,31 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IColoredEditPart) {
-            fDiagramModelObject = (IDiagramModelObject)((IColoredEditPart)element).getModel();
-            if(fDiagramModelObject == null) {
-                throw new RuntimeException("Diagram Model Object was null");
-            }
+        if(element instanceof EditPart && ((EditPart)element).getModel() instanceof IBorderObject) {
+            fBorderObject = (IBorderObject)((EditPart)element).getModel();
         }
-        else {
-            throw new RuntimeException("Should have been an IColoredEditPart");
+
+        if(fBorderObject == null) {
+            throw new RuntimeException("Object was null");
         }
         
         refreshControls();
     }
     
     protected void refreshControls() {
-        String colorValue = fDiagramModelObject.getFillColor();
-        RGB rgb = ColorFactory.convertStringToRGB(colorValue);
-        if(rgb != null) {
+        String colorValue = fBorderObject.getBorderColor();
+        if(colorValue != null) {
+            RGB rgb = ColorFactory.convertStringToRGB(colorValue);
             fColorSelector.setColorValue(rgb);
         }
         else {
-            // Default color
-            Color c = ColorFactory.getDefaultColor(fDiagramModelObject);
-            fColorSelector.setColorValue(c.getRGB());
+            // No color
+            fColorSelector.setColorValue(new RGB(255, 255, 255));
         }
         
-        boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
+        boolean enabled = fBorderObject instanceof ILockable ? !((ILockable)fBorderObject).isLocked() : true;
         fColorSelector.setEnabled(enabled);
-        fDefaultColorButton.setEnabled(colorValue != null && enabled);
+        fNoBorderButton.setEnabled(colorValue != null && enabled);
     }
     
     @Override
@@ -157,6 +164,6 @@ public class FillColorSection extends AbstractArchimatePropertySection {
 
     @Override
     protected EObject getEObject() {
-        return fDiagramModelObject;
+        return fBorderObject;
     }
 }
