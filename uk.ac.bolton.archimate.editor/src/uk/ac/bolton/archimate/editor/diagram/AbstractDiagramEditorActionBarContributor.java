@@ -264,6 +264,7 @@ extends ActionBarContributor {
         toolBarManager.add(new Separator());   
         toolBarManager.add(getAction(GEFActionConstants.MATCH_WIDTH));
         toolBarManager.add(getAction(GEFActionConstants.MATCH_HEIGHT));
+        toolBarManager.add(new Separator());
         toolBarManager.add(getAction(DefaultEditPartSizeAction.ID));
     }
 
