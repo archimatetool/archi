@@ -101,7 +101,6 @@
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.mortbay.jetty.server"/>
       <plugin id="org.mortbay.jetty.util"/>
-      <plugin id="uk.ac.bolton.archimate.bizzdesign"/>
       <plugin id="uk.ac.bolton.archimate.csv"/>
       <plugin id="uk.ac.bolton.archimate.editor"/>
       <plugin id="uk.ac.bolton.archimate.editor.fullscreen.macos" fragment="true"/>
