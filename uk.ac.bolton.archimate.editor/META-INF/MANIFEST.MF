@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views,
  org.eclipse.ui.views.properties.tabbed,
  uk.ac.bolton.archimate.model;visibility:=reexport,
- uk.ac.bolton.jdom
+ uk.ac.bolton.jdom,
+ uk.ac.bolton.archimate.compatibility
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: uk.ac.bolton.archimate.editor.jar
 Export-Package: .,

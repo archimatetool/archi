@@ -33,12 +33,13 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
+import uk.ac.bolton.archimate.compatibility.CompatibilityHandlerException;
+import uk.ac.bolton.archimate.compatibility.IncompatibleModelException;
+import uk.ac.bolton.archimate.compatibility.LaterModelVersionException;
+import uk.ac.bolton.archimate.compatibility.ModelCompatibility;
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
-import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.IncompatibleModelVersionException;
-import uk.ac.bolton.archimate.editor.model.impl.ModelVersionChecker.LaterModelVersionException;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
@@ -189,45 +190,47 @@ implements IEditorModelManager {
             return null;
         }
         
+        // Create Resource
         Resource resource = ArchimateResourceFactory.createResource(file);
         
+        // Load Resource
         try {
             resource.load(null);
         }
         catch(IOException ex) {
             // Error occured loading model. Was it a disaster?
             try {
-                ModelVersionChecker.checkErrors(resource);
+                ModelCompatibility.checkErrors(resource);
             }
-            // Incompatible
-            catch(IncompatibleModelVersionException exception) {
-                Logger.logError("Error opening model", exception);
+            // Incompatible, don't load it
+            catch(IncompatibleModelException ex1) {
                 MessageDialog.openError(Display.getCurrent().getActiveShell(),
                         "Error opening model",
-                        "Cannot open '" + file +  "'." + "This version is incompatible."
-                        + "\n" + exception.getDiagnostic().getMessage());
-                return null;
-            }
-            // Wrong file type
-            catch(Exception ex2) {
-                MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                        "Error opening model",
-                        "Cannot open '" + file +  "'.");
+                        "Cannot open '" + file +  "'. " + "This model is incompatible."
+                        + "\n" + ex1.getMessage());
                 return null;
             }
         }
         
-        // Once loaded - Check version compatibility
+        // Once loaded - Check version number compatibility with user
         try {
-            ModelVersionChecker.checkVersion(resource);
+            ModelCompatibility.checkVersion(resource);
         }
-        catch(LaterModelVersionException exception) {
+        catch(LaterModelVersionException ex) {
             boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
                     "Opening model",
-                    "'" + file +  "' is a later version model. Are you sure you want to continue opening it?");
+                    "'" + file +  "' is a later version model " + "(" + ex.getVersion() + ")." +
+                    " Are you sure you want to continue opening it?");
             if(!answer) {
                 return null;
             }
+        }
+        
+        // And then fix any backward compatibility issues
+        try {
+            ModelCompatibility.fixCompatibility(resource);
+        }
+        catch(CompatibilityHandlerException ex) {
         }
 
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
