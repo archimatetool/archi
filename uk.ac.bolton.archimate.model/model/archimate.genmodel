@@ -170,7 +170,6 @@
     <genClasses ecoreClass="archimate.ecore#//DiagramModelNote"/>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelConnection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/text"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/textPosition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/target"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/bendpoints"/>
@@ -194,6 +193,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/font"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/fontColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/textAlignment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/textPosition"/>
       <genOperations ecoreOperation="archimate.ecore#//FontAttribute/getDefaultTextAlignment"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//BorderObject">

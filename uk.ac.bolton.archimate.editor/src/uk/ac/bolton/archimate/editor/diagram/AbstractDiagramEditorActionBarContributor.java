@@ -45,6 +45,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.TextPositionAction;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
@@ -118,6 +119,11 @@ extends ActionBarContributor {
             addRetargetAction(action);
         }
         
+        // Text Positions
+        for(RetargetAction action : TextPositionAction.createRetargetActions()) {
+            addRetargetAction(action);
+        }
+
         // Order Actions
         addRetargetAction(new RetargetAction(BringToFrontAction.ID, BringToFrontAction.TEXT));
         addRetargetAction(new RetargetAction(BringForwardAction.ID, BringForwardAction.TEXT));

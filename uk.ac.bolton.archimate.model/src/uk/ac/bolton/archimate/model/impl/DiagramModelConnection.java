@@ -37,10 +37,10 @@ import uk.ac.bolton.archimate.model.IProperty;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getFont <em>Font</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getFontColor <em>Font Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextAlignment <em>Text Alignment</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getProperties <em>Properties</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getText <em>Text</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getSource <em>Source</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTarget <em>Target</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
@@ -114,6 +114,26 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
 
     /**
+     * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated NOT
+     * @ordered
+     */
+    protected static final int TEXT_POSITION_EDEFAULT = CONNECTION_TEXT_POSITION_MIDDLE;
+
+    /**
+     * The cached value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected int textPosition = TEXT_POSITION_EDEFAULT;
+
+    /**
      * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -162,26 +182,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @ordered
      */
     protected String text = TEXT_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTextPosition()
-     * @generated
-     * @ordered
-     */
-    protected static final int TEXT_POSITION_EDEFAULT = 1;
-
-    /**
-     * The cached value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTextPosition()
-     * @generated
-     * @ordered
-     */
-    protected int textPosition = TEXT_POSITION_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
@@ -644,14 +644,14 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return getFontColor();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 return getTextAlignment();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
+                return getTextPosition();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
                 return getDocumentation();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return getText();
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
-                return getTextPosition();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
                 return getSource();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TARGET:
@@ -686,6 +686,9 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 setTextAlignment((Integer)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
+                setTextPosition((Integer)newValue);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 getProperties().clear();
                 getProperties().addAll((Collection<? extends IProperty>)newValue);
@@ -695,9 +698,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText((String)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
-                setTextPosition((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
                 setSource((IDiagramModelObject)newValue);
@@ -739,6 +739,9 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
+                setTextPosition(TEXT_POSITION_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 getProperties().clear();
                 return;
@@ -747,9 +750,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText(TEXT_EDEFAULT);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
-                setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
                 setSource((IDiagramModelObject)null);
@@ -787,14 +787,14 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return FONT_COLOR_EDEFAULT == null ? fontColor != null : !FONT_COLOR_EDEFAULT.equals(fontColor);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
+                return textPosition != TEXT_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION:
-                return textPosition != TEXT_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
                 return source != null;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TARGET:
@@ -823,6 +823,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT: return IArchimatePackage.FONT_ATTRIBUTE__FONT;
                 case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR: return IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR;
                 case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT: return IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT;
+                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION: return IArchimatePackage.FONT_ATTRIBUTE__TEXT_POSITION;
                 default: return -1;
             }
         }
@@ -853,6 +854,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT;
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR;
                 case IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
+                case IArchimatePackage.FONT_ATTRIBUTE__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION;
                 default: return -1;
             }
         }
@@ -887,12 +889,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         result.append(fontColor);
         result.append(", textAlignment: "); //$NON-NLS-1$
         result.append(textAlignment);
+        result.append(", textPosition: "); //$NON-NLS-1$
+        result.append(textPosition);
         result.append(", documentation: "); //$NON-NLS-1$
         result.append(documentation);
         result.append(", text: "); //$NON-NLS-1$
         result.append(text);
-        result.append(", textPosition: "); //$NON-NLS-1$
-        result.append(textPosition);
         result.append(", lineWidth: "); //$NON-NLS-1$
         result.append(lineWidth);
         result.append(", lineColor: "); //$NON-NLS-1$

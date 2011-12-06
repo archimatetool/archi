@@ -36,6 +36,7 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getFont <em>Font</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getFontColor <em>Font Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getTextAlignment <em>Text Alignment</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
@@ -105,6 +106,26 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
      * @ordered
      */
     protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int TEXT_POSITION_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected int textPosition = TEXT_POSITION_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getBounds() <em>Bounds</em>}' containment reference.
@@ -333,6 +354,27 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
+     */
+    public int getTextPosition() {
+        return textPosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setTextPosition(int newTextPosition) {
+        int oldTextPosition = textPosition;
+        textPosition = newTextPosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION, oldTextPosition, textPosition));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated NOT
      */
     public void addConnection(IDiagramModelConnection connection) {
@@ -431,6 +473,8 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return getFontColor();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
                 return getTextAlignment();
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
+                return getTextPosition();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return getBounds();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
@@ -460,6 +504,9 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
                 setTextAlignment((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
+                setTextPosition((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)newValue);
@@ -496,6 +543,9 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
                 setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
+                setTextPosition(TEXT_POSITION_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)null);
                 return;
@@ -526,6 +576,8 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return FONT_COLOR_EDEFAULT == null ? fontColor != null : !FONT_COLOR_EDEFAULT.equals(fontColor);
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
+                return textPosition != TEXT_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return bounds != null;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
@@ -550,6 +602,7 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT: return IArchimatePackage.FONT_ATTRIBUTE__FONT;
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR: return IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR;
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT: return IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT;
+                case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION: return IArchimatePackage.FONT_ATTRIBUTE__TEXT_POSITION;
                 default: return -1;
             }
         }
@@ -568,6 +621,7 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT;
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR;
                 case IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
+                case IArchimatePackage.FONT_ATTRIBUTE__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
                 default: return -1;
             }
         }
@@ -590,6 +644,8 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         result.append(fontColor);
         result.append(", textAlignment: "); //$NON-NLS-1$
         result.append(textAlignment);
+        result.append(", textPosition: "); //$NON-NLS-1$
+        result.append(textPosition);
         result.append(", fillColor: "); //$NON-NLS-1$
         result.append(fillColor);
         result.append(')');

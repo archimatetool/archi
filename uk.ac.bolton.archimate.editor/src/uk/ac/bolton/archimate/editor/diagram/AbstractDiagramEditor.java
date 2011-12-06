@@ -106,6 +106,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.SelectAllAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.TextPositionAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ToggleGridEnabledAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ToggleGridVisibleAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ToggleSnapToAlignmentGuidesAction;
@@ -705,6 +706,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Text Alignment Actions
         for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {
+            registry.registerAction(a);
+            getSelectionActions().add(a.getId());
+            getUpdateCommandStackActions().add(a);
+        }
+        
+        // Text Position Actions
+        for(TextPositionAction a : TextPositionAction.createActions(this)) {
             registry.registerAction(a);
             getSelectionActions().add(a.getId());
             getUpdateCommandStackActions().add(a);

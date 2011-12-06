@@ -255,8 +255,6 @@
     <eOperations name="reconnect"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         transient="true" defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="1"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//DiagramModelObject"
         resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//DiagramModelObject"
@@ -284,6 +282,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="font" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlignment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BorderObject" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

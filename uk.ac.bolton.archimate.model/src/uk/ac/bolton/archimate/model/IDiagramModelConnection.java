@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getText <em>Text</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getSource <em>Source</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getTarget <em>Target</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
@@ -37,17 +36,17 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
     /**
      * Text Position at source
      */
-    int TEXT_POSITION_SOURCE = 0;
+    int CONNECTION_TEXT_POSITION_SOURCE = 0;
 
     /**
      * Text Position at middle
      */
-    int TEXT_POSITION_MID = 1;
+    int CONNECTION_TEXT_POSITION_MIDDLE = 1;
     
     /**
      * Text Position at target
      */
-    int TEXT_POSITION_TARGET = 2;
+    int CONNECTION_TEXT_POSITION_TARGET = 2;
     
     /**
      * Line Styles
@@ -91,33 +90,6 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * @generated
      */
     void setText(String value);
-
-    /**
-     * Returns the value of the '<em><b>Text Position</b></em>' attribute.
-     * The default value is <code>"1"</code>.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Text Position</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Text Position</em>' attribute.
-     * @see #setTextPosition(int)
-     * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelConnection_TextPosition()
-     * @model default="1"
-     * @generated
-     */
-    int getTextPosition();
-
-    /**
-     * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Text Position</em>' attribute.
-     * @see #getTextPosition()
-     * @generated
-     */
-    void setTextPosition(int value);
 
     /**
      * Returns the value of the '<em><b>Source</b></em>' reference.

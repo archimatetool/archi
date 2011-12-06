@@ -346,6 +346,13 @@
             </input>
          </propertySection>
          <propertySection
+               afterSection="textAlignmentSection"
+               class="uk.ac.bolton.archimate.editor.propertysections.TextPositionSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.TextPositionSection$Filter"
+               id="textPositionSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.FolderSection"
                id="folderSection"
                tab="main.tab">

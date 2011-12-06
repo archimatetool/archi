@@ -19,6 +19,7 @@ import uk.ac.bolton.archimate.editor.diagram.commands.FillColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FontColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FontStyleCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.TextAlignmentCommand;
+import uk.ac.bolton.archimate.editor.diagram.commands.TextPositionCommand;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IBorderObject;
@@ -104,6 +105,10 @@ public class FormatPainterTool extends AbstractTool {
                 result.add(cmd);
             }
             cmd = new TextAlignmentCommand(target, source.getTextAlignment());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+            cmd = new TextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }

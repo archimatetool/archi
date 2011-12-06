@@ -113,13 +113,13 @@ extends PolylineConnection implements IDiagramConnectionFigure {
         Locator locator = null;
 
         switch(position) {
-            case IDiagramModelConnection.TEXT_POSITION_SOURCE:
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE:
                 locator = new ConnectionEndpointLocator(this, false);
                 break;
-            case IDiagramModelConnection.TEXT_POSITION_MID:
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE:
                 locator = new ConnectionLocator(this, ConnectionLocator.MIDDLE);
                 break;
-            case IDiagramModelConnection.TEXT_POSITION_TARGET:
+            case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET:
                 locator = new ConnectionEndpointLocator(this, true);
                 break;
         }

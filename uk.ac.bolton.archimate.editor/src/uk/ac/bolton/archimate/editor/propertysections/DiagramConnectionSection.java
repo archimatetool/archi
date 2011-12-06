@@ -43,7 +43,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Model event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
+            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) {
                 refreshTextPositionCombo();
             }
             else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH) {
