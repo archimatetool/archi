@@ -4095,7 +4095,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 75;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 76;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4241,7 +4241,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 74;
+    int ARCHIMATE_DIAGRAM_MODEL = 75;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4885,7 +4885,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 76;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 77;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -5042,6 +5042,34 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int BOUNDS_FEATURE_COUNT = 4;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.ILockable <em>Lockable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.ILockable
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLockable()
+     * @generated
+     */
+    int LOCKABLE = 74;
+
+    /**
+     * The feature id for the '<em><b>Locked</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCKABLE__LOCKED = 0;
+
+    /**
+     * The number of structural features of the '<em>Lockable</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCKABLE_FEATURE_COUNT = 1;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5429,7 +5457,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 77;
+    int SKETCH_MODEL = 78;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5520,7 +5548,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 78;
+    int SKETCH_MODEL_STICKY = 79;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5656,7 +5684,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 79;
+    int SKETCH_MODEL_ACTOR = 80;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5783,7 +5811,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 80;
+    int FOLDER_TYPE = 81;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -5793,7 +5821,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 81;
+    int FILE = 82;
 
 
     /**
@@ -7106,6 +7134,27 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getBounds_Height();
 
     /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.ILockable <em>Lockable</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Lockable</em>'.
+     * @see uk.ac.bolton.archimate.model.ILockable
+     * @generated
+     */
+    EClass getLockable();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.ILockable#isLocked <em>Locked</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Locked</em>'.
+     * @see uk.ac.bolton.archimate.model.ILockable#isLocked()
+     * @see #getLockable()
+     * @generated
+     */
+    EAttribute getLockable_Locked();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.ISketchModel <em>Sketch Model</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8339,6 +8388,24 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute BOUNDS__HEIGHT = eINSTANCE.getBounds_Height();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.ILockable <em>Lockable</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.ILockable
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLockable()
+         * @generated
+         */
+        EClass LOCKABLE = eINSTANCE.getLockable();
+
+        /**
+         * The meta object literal for the '<em><b>Locked</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute LOCKABLE__LOCKED = eINSTANCE.getLockable_Locked();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.SketchModel <em>Sketch Model</em>}' class.

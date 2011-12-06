@@ -70,6 +70,7 @@ import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.IJunction;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IMeaning;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.INetwork;
@@ -1119,6 +1120,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.LOCKABLE: {
+                ILockable lockable = (ILockable)theEObject;
+                T result = caseLockable(lockable);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: {
                 IArchimateDiagramModel archimateDiagramModel = (IArchimateDiagramModel)theEObject;
                 T result = caseArchimateDiagramModel(archimateDiagramModel);
@@ -1797,6 +1804,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseBounds(IBounds object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Lockable</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Lockable</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseLockable(ILockable object) {
         return null;
     }
 

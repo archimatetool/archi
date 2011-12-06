@@ -204,6 +204,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Bounds/height"/>
       <genOperations ecoreOperation="archimate.ecore#//Bounds/getCopy"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//Lockable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Lockable/locked"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//ArchimateDiagramModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateDiagramModel/viewpoint"/>
     </genClasses>
