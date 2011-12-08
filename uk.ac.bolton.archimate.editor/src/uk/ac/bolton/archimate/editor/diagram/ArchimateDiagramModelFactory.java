@@ -15,9 +15,7 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
-import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IRelationship;
 
 
@@ -51,7 +49,6 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Connection created from Relationship Template
         if(object instanceof IRelationship) {
-            ((IRelationship)object).setName(ArchimateNames.getDefaultName(fTemplate));
             IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
             connection.setRelationship((IRelationship)object);
             return connection;
@@ -66,19 +63,9 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             return dmo;
         }
         
-        // Note
-        else if(object instanceof IDiagramModelNote) {
-            ((IDiagramModelNote)object).setName("Note");
-        }
-        
         // Group
         else if(object instanceof IDiagramModelGroup) {
             ((IDiagramModelGroup)object).setName("Group");
-        }
-        
-        // Object
-        else if(object instanceof IDiagramModelConnection) {
-            ((IDiagramModelConnection)object).setName("Connection");
         }
         
         return object;

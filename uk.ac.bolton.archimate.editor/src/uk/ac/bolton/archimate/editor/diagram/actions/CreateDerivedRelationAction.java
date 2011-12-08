@@ -46,7 +46,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -459,7 +458,6 @@ public class CreateDerivedRelationAction extends SelectionAction {
         @Override
         public void execute() {
             fConnection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-            fRelation.setName(ArchimateNames.getDefaultName(fRelation.eClass()));
             fConnection.setRelationship(fRelation);
             fConnection.connect(fSource, fTarget);
             addToModel();

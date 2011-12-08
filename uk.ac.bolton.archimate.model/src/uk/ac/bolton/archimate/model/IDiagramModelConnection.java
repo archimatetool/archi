@@ -71,15 +71,12 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * Returns the value of the '<em><b>Text</b></em>' attribute.
      * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Text</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
+     * @deprecated As of version 2.1.0 the connection text is now the "name" attribute
      * <!-- end-user-doc -->
      * @return the value of the '<em>Text</em>' attribute.
      * @see #setText(String)
      * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelConnection_Text()
-     * @model default=""
+     * @model default="" transient="true"
      * @generated
      */
     String getText();
@@ -87,6 +84,7 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
     /**
      * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getText <em>Text</em>}' attribute.
      * <!-- begin-user-doc -->
+     * @deprecated As of version 2.1.0 the connection text is now the "name" attribute
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Text</em>' attribute.
      * @see #getText()

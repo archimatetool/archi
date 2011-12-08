@@ -17,12 +17,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineWidthCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionTextPositionCommand;
-import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
@@ -44,10 +42,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Model event (Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT) {
-                refreshTextField();
-            }
-            else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
+            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION) {
                 refreshTextPositionCombo();
             }
             else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH) {
@@ -58,7 +53,6 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     
     private IDiagramModelConnection fConnection;
     
-    private PropertySectionTextControl fTextConnection;
     private Combo fComboTextPosition;
     private Combo fComboLineWidth;
     
@@ -76,7 +70,6 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createTextRelationshipControl(parent);
         createTextPositionComboControl(parent);
         createLineWidthComboControl(parent);
         
@@ -84,27 +77,6 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
     
-    private void createTextRelationshipControl(Composite parent) {
-        // Label
-        createCLabel(parent, "Line Text:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
-        
-        // Text
-        Text textControl = createSingleTextControl(parent, SWT.NONE);
-        
-        fTextConnection = new PropertySectionTextControl(textControl, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Connection text", fConnection,
-                                            IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT, newText));
-                    fIsExecutingCommand = false;
-                }
-            }
-        };
-        fTextConnection.setHint("Add text to appear on connection");
-    }
-
     private void createTextPositionComboControl(Composite parent) {
         createCLabel(parent, "Text Position:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
@@ -156,7 +128,6 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     protected void refreshControls() {
         refreshTextPositionCombo();
         refreshLineWidthCombo();
-        refreshTextField();
     }
     
     protected void refreshTextPositionCombo() {
@@ -173,13 +144,6 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         }
         int lineWidth = fConnection.getLineWidth();
         fComboLineWidth.select(lineWidth - 1);
-    }
-    
-    protected void refreshTextField() {
-        if(fIsExecutingCommand) {
-            return; 
-        }
-        fTextConnection.refresh(fConnection);
     }
     
     @Override

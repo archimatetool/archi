@@ -10,6 +10,7 @@ Version 2.1 December XX 2011
 + The Backspace key is now bound to the Delete command on Mac OS X
 + The F1 key now invokes dynamic help on Mac OS X
 + Improve Diagram Connection Line Styles
++ A Relationship's name is now used as the text on a connection
 * BiZZdesign Architect Import/Export is no longer supported
 * Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
 * Fixed unnecessary page breaks in Jasper Reports

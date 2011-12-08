@@ -289,7 +289,7 @@ implements IDiagramConnectionEditPart {
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String name = (String)request.getCellEditor().getValue();
             IDiagramModelConnection connection = getModel();
-            return new EObjectFeatureCommand("Connection text", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__TEXT, name);
+            return new EObjectFeatureCommand("Rename " + connection.getName(), connection, IArchimatePackage.Literals.NAMEABLE__NAME, name);
         }
 
         @Override

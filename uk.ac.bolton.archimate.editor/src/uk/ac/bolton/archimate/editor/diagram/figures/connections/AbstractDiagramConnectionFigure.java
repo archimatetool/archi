@@ -128,7 +128,7 @@ extends PolylineConnection implements IDiagramConnectionFigure {
     }
     
     protected void setConnectionText() {
-        getConnectionLabel().setText(fDiagramModelConnection.getText());
+        getConnectionLabel().setText(fDiagramModelConnection.getName());
     }
 
     /**

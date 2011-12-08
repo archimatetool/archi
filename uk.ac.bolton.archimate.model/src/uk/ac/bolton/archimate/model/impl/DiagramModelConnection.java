@@ -390,6 +390,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
 
     /**
      * <!-- begin-user-doc -->
+     * @deprecated As of version 2.1.0 the connection text is now the "name" attribute
      * <!-- end-user-doc -->
      * @generated
      */
@@ -399,6 +400,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
 
     /**
      * <!-- begin-user-doc -->
+     * @deprecated As of version 2.1.0 the connection text is now the "name" attribute
      * <!-- end-user-doc -->
      * @generated
      */

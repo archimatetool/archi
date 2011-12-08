@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IFolder;
@@ -39,7 +38,6 @@ public class CreateRelationCommand extends Command {
     @Override
     public void execute() {
         fRelation = (IRelationship)IArchimateFactory.eINSTANCE.create(fType);
-        fRelation.setName(ArchimateNames.getDefaultName(fRelation.eClass()));
         fRelation.setSource(fParent);
         fRelation.setTarget(fChild);
         fFolder = fChild.getArchimateModel().getDefaultFolderForElement(fRelation);

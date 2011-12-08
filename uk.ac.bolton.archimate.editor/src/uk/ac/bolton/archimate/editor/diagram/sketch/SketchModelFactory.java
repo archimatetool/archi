@@ -71,7 +71,6 @@ public class SketchModelFactory implements ICreationFactory {
         
         // Connection
         else if(object instanceof IDiagramModelConnection) {
-            ((IDiagramModelConnection)object).setName("Connection");
             if(fParam instanceof Integer) {
                 ((IDiagramModelConnection)object).setType((Integer)fParam);
             }
