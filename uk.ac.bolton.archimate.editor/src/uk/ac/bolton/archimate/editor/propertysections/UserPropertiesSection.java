@@ -84,12 +84,15 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectNonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.ui.components.StringComboBoxCellEditor;
 import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
@@ -732,6 +735,9 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         public KeyEditingSupport(ColumnViewer viewer) {
             super(viewer);
             cellEditor = new StringComboBoxCellEditor((Composite)viewer.getControl(), new String[0], true);
+            
+            // Nullify some global Action Handlers so that this cell editor can handle them
+            hookCellEditorGlobalActionHandler(cellEditor);
         }
 
         @Override
@@ -774,6 +780,9 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         public ValueEditingSupport(ColumnViewer viewer) {
             super(viewer);
             cellEditor = new TextCellEditor((Composite)viewer.getControl());
+            
+            // Nullify some global Action Handlers so that this cell editor can handle them
+            hookCellEditorGlobalActionHandler(cellEditor);
         }
 
         @Override
@@ -798,6 +807,39 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
                                         IArchimatePackage.Literals.PROPERTY__VALUE, value));
             }
         }
+    }
+    
+    /**
+     * Set some editing global Action Handlers to null when the cell editor is activated
+     * And restore them when the cell editor is deactivated.
+     */
+    private void hookCellEditorGlobalActionHandler(CellEditor cellEditor) {
+        Listener listener = new Listener() {
+            CellEditorGlobalActionHandler globalActionHandler;
+            
+            @Override
+            public void handleEvent(Event event) {
+                switch(event.type) {
+                    case SWT.Activate:
+                        IActionBars actionBars = ((IViewSite)PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                .getActivePage().getActivePart().getSite()).getActionBars();
+                        globalActionHandler = new CellEditorGlobalActionHandler(actionBars);
+                        break;
+
+                    case SWT.Deactivate:
+                        if(globalActionHandler != null) {
+                            globalActionHandler.dispose();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        };
+        
+        cellEditor.getControl().addListener(SWT.Activate, listener);
+        cellEditor.getControl().addListener(SWT.Deactivate, listener);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

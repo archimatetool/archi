@@ -18,7 +18,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.PlatformUI;
 
+import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 import uk.ac.bolton.archimate.editor.views.tree.commands.RenameCommandHandler;
 import uk.ac.bolton.archimate.model.INameable;
 
@@ -46,6 +50,9 @@ public class TreeCellEditor {
     private INameable fElement;
     
     private String fOldText;
+    
+    private CellEditorGlobalActionHandler fGlobalActionHandler;
+    private IActionBars fActionBars;
     
     private boolean EDIT_ON_CLICK = false;
     
@@ -184,6 +191,15 @@ public class TreeCellEditor {
         
         // Store last item even if null
         fLastItem = item;
+        
+        // Null out the edit global action handlers...
+        // Active Part Site will always be the TreeView
+        fActionBars = ((IViewSite)PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                       .getActivePage()
+                       .getActivePart()
+                       .getSite()).getActionBars();
+        
+        fGlobalActionHandler = new CellEditorGlobalActionHandler(fActionBars);
     }
     
     private void finaliseEdit() {
@@ -213,6 +229,11 @@ public class TreeCellEditor {
     }
     
     private void disposeEditor() {
+        // Restore global action handlers
+        if(fGlobalActionHandler != null) {
+            fGlobalActionHandler.dispose();
+        }
+        
         if(fComposite != null && !fComposite.isDisposed()) {
             fComposite.dispose();
             fComposite = null;

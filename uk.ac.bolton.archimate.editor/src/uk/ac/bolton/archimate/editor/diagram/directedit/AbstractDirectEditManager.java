@@ -1,19 +1,18 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2011 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.directedit;
 
-import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorActionBarContributor;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.part.CellEditorActionHandler;
+import org.eclipse.ui.PlatformUI;
+
+import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 
 
 /**
@@ -23,9 +22,7 @@ import org.eclipse.ui.part.CellEditorActionHandler;
  */
 public abstract class AbstractDirectEditManager extends DirectEditManager {
     
-    private CellEditorActionHandler fCellEditorActionHandler;
-    private IEditorPart fEditor;
-    private IActionBars fActionBars;
+    private CellEditorGlobalActionHandler fGlobalActionHandler;
 
     public AbstractDirectEditManager(GraphicalEditPart source, @SuppressWarnings("rawtypes") Class editorType, CellEditorLocator locator) {
         super(source, editorType, locator);
@@ -33,24 +30,18 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
 
     @Override
     protected void initCellEditor() {
-        // Hook into the Global Action Handlers
-        // Note toolbar items don't work - https://bugs.eclipse.org/bugs/show_bug.cgi?id=321045
-        fEditor =  ((DefaultEditDomain)getEditPart().getRoot().getViewer().getEditDomain()).getEditorPart();
-        fActionBars = fEditor.getEditorSite().getActionBars();
-        fCellEditorActionHandler = new CellEditorActionHandler(fActionBars);
-        fCellEditorActionHandler.addCellEditor(getCellEditor());
-        fActionBars.updateActionBars();
+        // Hook into the global Action Handlers and null them
+        IActionBars actionBars = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                .getActivePage().getActiveEditor().getEditorSite().getActionBars();
+
+        fGlobalActionHandler = new CellEditorGlobalActionHandler(actionBars);
     }
     
     @Override
-    protected void unhookListeners() {
-        // Unhook and reset the Global Action Handlers
-        fCellEditorActionHandler.dispose();
-        IEditorActionBarContributor contributor = fEditor.getEditorSite().getActionBarContributor();
-        contributor.setActiveEditor(fEditor);
-        fActionBars.updateActionBars();
+    protected void bringDown() {
+        // Restore the global Action Handlers
+        fGlobalActionHandler.dispose();
         
-        super.unhookListeners();
+        super.bringDown();
     }
-
 }
