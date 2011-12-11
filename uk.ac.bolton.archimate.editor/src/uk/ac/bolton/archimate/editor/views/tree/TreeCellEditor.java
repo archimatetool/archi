@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.tree.commands.RenameCommandHandler;
 import uk.ac.bolton.archimate.model.INameable;
 
@@ -53,16 +52,6 @@ public class TreeCellEditor {
     public TreeCellEditor(Tree tree) {
         fTree = tree;
         fEditor = new TreeEditor(fTree);
-       
-        // Mac Cocoa Context Menu doesn't send FocusOut
-        if(PlatformUtils.isMacCocoa()) {
-            fTree.addListener(SWT.MenuDetect, new Listener() {
-                @Override
-                public void handleEvent(Event event) {
-                    finaliseEdit();
-                }
-            });
-        }
         
         // There's just too many problems with this
         if(EDIT_ON_CLICK) {
@@ -140,7 +129,7 @@ public class TreeCellEditor {
                 @Override
                 public void handleEvent(Event event) {
                     switch(event.type) {
-                        case SWT.FocusOut:
+                        case SWT.Deactivate:
                             finaliseEdit();
                             break;
 
@@ -179,7 +168,7 @@ public class TreeCellEditor {
                 }
             };
             
-            fText.addListener(SWT.FocusOut, textListener);
+            fText.addListener(SWT.Deactivate, textListener);
             fText.addListener(SWT.Traverse, textListener);
             fText.addListener(SWT.Verify, textListener);
             
