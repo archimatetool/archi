@@ -7,7 +7,6 @@ Version 2.1 December XX 2011
 + Cut/Copy/Paste/Select All shortcut keys now work in elements' label editors
 + Holding down a key (Ctrl on Windows and Linux, Alt on Mac) when dragging elements from the Models Tree to a View ensures connections are not added
 + Shortcut keys implemented for Mac OS X Lion full screen. Also menu item added to main "Window" menu
-+ The Backspace key is now bound to the Delete command on Mac OS X
 + The F1 key now invokes dynamic help on Mac OS X
 + Improve Diagram Connection Line Styles
 + A Relationship's name is now used as the text on a connection

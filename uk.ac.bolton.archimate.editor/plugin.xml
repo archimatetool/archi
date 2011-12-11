@@ -490,12 +490,6 @@
             sequence="M1+M2+F">
       </key>
       <key
-            commandId="org.eclipse.ui.edit.delete"
-            platform="cocoa"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="BS">
-      </key>
-      <key
             commandId="org.eclipse.ui.help.dynamicHelp"
             platform="cocoa"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
