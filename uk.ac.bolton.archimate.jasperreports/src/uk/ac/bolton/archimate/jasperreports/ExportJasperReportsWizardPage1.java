@@ -31,6 +31,7 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
@@ -86,6 +87,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fTextOutputFolder = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
         fTextOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fTextOutputFolder.setText(SAVE_DIR);
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fTextOutputFolder);
         fTextOutputFolder.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 validateFields();
@@ -108,6 +111,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         gd.horizontalSpan = 2;
         fTextFilename.setLayoutData(gd);
         fTextFilename.setText(REPORT_FILENAME);
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fTextFilename);
         fTextFilename.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 validateFields();
@@ -121,6 +126,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         gd.horizontalSpan = 2;
         fTextReportTitle.setLayoutData(gd);
         fTextReportTitle.setText(fModel.getName());
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fTextReportTitle);
         fTextReportTitle.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 validateFields();

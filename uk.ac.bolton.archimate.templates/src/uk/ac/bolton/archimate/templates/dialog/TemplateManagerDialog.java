@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
@@ -225,6 +226,9 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         fNameTextField = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fNameTextField.setEnabled(false);
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fNameTextField);
+
         fNameTextField.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 String text = fNameTextField.getText();

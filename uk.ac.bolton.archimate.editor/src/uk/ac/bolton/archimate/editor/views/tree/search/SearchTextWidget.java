@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 
@@ -80,6 +81,9 @@ public class SearchTextWidget extends Composite {
         gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         fTextControl.setLayoutData(gd);
         fTextControl.addModifyListener(fModifyListener);
+        
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fTextControl);
         
         label.setBackground(fTextControl.getBackground());
         setBackground(fTextControl.getBackground());

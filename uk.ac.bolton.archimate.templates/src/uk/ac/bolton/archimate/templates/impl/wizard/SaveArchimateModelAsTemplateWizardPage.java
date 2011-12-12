@@ -34,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -98,6 +99,8 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         File newFile = new File(CURRENT_FOLDER, "New Template" + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION);
         fFileTextField.setText(newFile.getPath());
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fFileTextField);
         fFileTextField.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 validateFields();
@@ -130,6 +133,8 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         if(StringUtils.isSet(fModel.getName())) {
             fNameTextField.setText(fModel.getName());
         }
+        // Single text control so strip CRLFs
+        UIUtils.conformSingleTextControl(fNameTextField);
         fNameTextField.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 validateFields();

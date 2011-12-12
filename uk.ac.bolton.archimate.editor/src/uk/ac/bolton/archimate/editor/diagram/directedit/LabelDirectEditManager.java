@@ -21,6 +21,9 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 
+import uk.ac.bolton.archimate.editor.ui.UIUtils;
+
+
 /**
  * A DirectEdit manager to be used for labels that grow in size as you type in them.
  * The Text control is a single-line Text control.
@@ -48,28 +51,23 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
     protected void initCellEditor() {
         super.initCellEditor();
         
-        Text text = (Text)getCellEditor().getControl();
+        final Text text = (Text)getCellEditor().getControl();
+        // Single text control strips CRLFs
+        UIUtils.conformSingleTextControl(text);
 
         /**
          * Changes the size of the editor control to reflect the changed text
          */
         fVerifyListener = new VerifyListener() {
             public void verifyText(VerifyEvent event) {
-                Text text = (Text)getCellEditor().getControl();
                 String oldText = text.getText();
                 String leftText = oldText.substring(0, event.start);
                 String rightText = oldText.substring(event.end, oldText.length());
+                
                 GC gc = new GC(text);
-                if(leftText == null) {
-                    leftText = ""; //$NON-NLS-1$
-                }
-                if(rightText == null) {
-                    rightText = ""; //$NON-NLS-1$
-                }
-
                 Point size = gc.textExtent(leftText + event.text + rightText);
-
                 gc.dispose();
+                
                 if(size.x != 0) {
                     size = text.computeSize(size.x, SWT.DEFAULT);
                 }
@@ -77,10 +75,12 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
                     // just make it square
                     size.x = size.y;
                 }
+                
                 getCellEditor().getControl().setSize(size.x, size.y);
             }
 
         };
+        
         text.addVerifyListener(fVerifyListener);
 
         // set the initial value of the text
