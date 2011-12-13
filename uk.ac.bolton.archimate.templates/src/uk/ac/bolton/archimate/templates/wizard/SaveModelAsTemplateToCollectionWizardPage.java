@@ -69,7 +69,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         
         fDoStoreInCollectionButton = new Button(container, SWT.CHECK);
         fDoStoreInCollectionButton.setText("Add to my template collection");
-        fDoStoreInCollectionButton.setSelection(false);
+        fDoStoreInCollectionButton.setSelection(true);
         
         fDoStoreInCollectionButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -105,7 +105,6 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         gd.heightHint = 120;
         tableComp.setLayoutData(gd);
         fCategoriesTableViewer = new TemplateGroupsTableViewer(tableComp, SWT.BORDER | SWT.MULTI);
-        fCategoriesTableViewer.getControl().setEnabled(false);
         
         fCategoriesTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             public void selectionChanged(SelectionChangedEvent event) {
@@ -119,7 +118,6 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         fNewGroupButton.setText("New...");
         gd = new GridData(SWT.TOP, SWT.TOP, false, false);
         fNewGroupButton.setLayoutData(gd);
-        fNewGroupButton.setEnabled(false);
         
         fNewGroupButton.addSelectionListener(new SelectionAdapter() {
             @Override

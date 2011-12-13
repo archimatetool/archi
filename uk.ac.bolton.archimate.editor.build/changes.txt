@@ -10,9 +10,11 @@ Version 2.1 December XX 2011
 + The F1 key now invokes dynamic help on Mac OS X
 + Improve Diagram Connection Line Styles
 + A Relationship's name is now used as the text on a connection
++ The "Add to my template collection" option is now enabled by default in the "Save As Template" wizard
 * BiZZdesign Architect Import/Export is no longer supported
 * Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
 * Fixed unnecessary page breaks in Jasper Reports
+* Improvements to Template management
 * "Save Model As Template" wizard: Fixed template could not be added to template collection if no user category selected
 * Fixed error when tooltips disabled in Preferences and View contained Access Relationship
 * "Save Model As Template" wizard: File location is set in wizard, not in separate dialog

@@ -10,14 +10,21 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.swt.graphics.Image;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.templates.ArchimateEditorTemplatesPlugin;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
+import uk.ac.bolton.archimate.templates.model.ITemplateXMLTags;
 import uk.ac.bolton.archimate.templates.model.TemplateGroup;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
+import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**
@@ -66,7 +73,9 @@ public class ArchimateTemplateManager extends TemplateManager {
         if(isValidTemplateFile(file)) {
             return new ArchimateModelTemplate(null);
         }
-        return null;
+        else {
+            throw new IOException("Wrong template format.");
+        }
     }
 
     @Override
@@ -80,5 +89,34 @@ public class ArchimateTemplateManager extends TemplateManager {
     @Override
     public Image getMainImage() {
         return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16);
+    }
+    
+    @Override
+    protected boolean isValidTemplateFile(File file) throws IOException {
+        if(file == null || !file.exists()) {
+            return false;
+        }
+        
+        // Ensure the template is of the right kind
+        String xmlString = ZipUtils.extractZipEntry(file, ZIP_ENTRY_MANIFEST);
+        if(xmlString == null) {
+            return false;
+        }
+
+        // If the attribute "type" exists then return true if its value is "model".
+        // If the attribute doesn't exist it was from an older version (before 2.1)
+        try {
+            Document doc = JDOMUtils.readXMLString(xmlString);
+            Element root = doc.getRootElement();
+            Attribute attType = root.getAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TYPE);
+            if(attType != null) {
+                return ArchimateModelTemplate.XML_TEMPLATE_ATTRIBUTE_TYPE_MODEL.equals(attType.getValue());
+            }
+        }
+        catch(JDOMException ex) {
+            return false;
+        }
+         
+        return true;
     }
 }

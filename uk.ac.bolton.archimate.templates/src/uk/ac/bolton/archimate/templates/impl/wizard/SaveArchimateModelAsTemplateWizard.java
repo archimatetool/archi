@@ -26,6 +26,7 @@ import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
+import uk.ac.bolton.archimate.templates.impl.model.ArchimateModelTemplate;
 import uk.ac.bolton.archimate.templates.impl.model.ArchimateTemplateManager;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 import uk.ac.bolton.archimate.templates.model.ITemplateXMLTags;
@@ -167,14 +168,23 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         Element root = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_MANIFEST);
         doc.setRootElement(root);
         
+        // Type
+        root.setAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TYPE, ArchimateModelTemplate.XML_TEMPLATE_ATTRIBUTE_TYPE_MODEL);
+
+        // Timestamp
+        root.setAttribute(ITemplateXMLTags.XML_TEMPLATE_ATTRIBUTE_TIMESTAMP, Long.toString(System.currentTimeMillis()));
+        
+        // Name
         Element elementName = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_NAME);
         elementName.setText(fTemplateName);
         root.addContent(elementName);
         
+        // Description
         Element elementDescription = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_DESCRIPTION);
         elementDescription.setText(fTemplateDescription);
         root.addContent(elementDescription);
         
+        // Thumbnails
         if(fIncludeThumbnails) {
             if(fSelectedDiagramModel != null) {
                 int i = 1;

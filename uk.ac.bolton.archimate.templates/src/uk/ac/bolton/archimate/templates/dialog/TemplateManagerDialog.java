@@ -345,14 +345,9 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
             public void run() {
                 try {
                     ITemplate template = fTemplateManager.createTemplate(file);
-                    if(template != null) {
-                        template.setFile(file);
-                        fTemplateManager.addUserTemplate(template);
-                        fTableViewer.refresh();
-                    }
-                    else {
-                        throw new IOException("Wrong format");
-                    }
+                    template.setFile(file);
+                    fTemplateManager.addUserTemplate(template);
+                    fTableViewer.refresh();
                 }
                 catch(IOException ex) {
                     MessageDialog.openError(getShell(), "Error opening file", ex.getMessage());

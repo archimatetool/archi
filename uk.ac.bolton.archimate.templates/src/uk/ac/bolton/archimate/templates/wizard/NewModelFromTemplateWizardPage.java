@@ -51,6 +51,7 @@ import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.templates.dialog.TemplateManagerDialog;
+import uk.ac.bolton.archimate.templates.impl.model.ArchimateTemplateManager;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
@@ -308,23 +309,19 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         
         final File file = new File(path);
         
+        // Create template and Finish
         BusyIndicator.showWhile(null, new Runnable() { 
             @Override
             public void run() {
                 try {
-                    // Create template and Finish
                     ITemplate template = fTemplateManager.createTemplate(file);
-                    if(template != null) {
-                        template.setFile(file);
-                        fSelectedTemplate = template;
-                        ((ExtendedWizardDialog)getContainer()).finishPressed();
-                    }
-                    else {
-                        throw new IOException("Wrong format");
-                    }
+                    template.setFile(file);
+                    fSelectedTemplate = template;
+                    ((ExtendedWizardDialog)getContainer()).finishPressed();
                 }
                 catch(IOException ex) {
                     MessageDialog.openError(getShell(), "Error opening file", ex.getMessage());
+                    selectFirstTableItem();
                     getContainer().getShell().setVisible(true);
                 }
             }
@@ -348,15 +345,27 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
     }
     
     protected TemplateManagerDialog createTemplateManagerDialog() {
-        return new TemplateManagerDialog(getShell(), fTemplateManager);
+        // Use a new instance of a Template Manager as a clone in case user cancels
+        return new TemplateManagerDialog(getShell(), new ArchimateTemplateManager());
     }
     
+    /**
+     * Select first group on user table if there is one, else first group on inbuilt table
+     */
     private void selectFirstTableItem() {
-        // Select first group on table
-        Object o = fInbuiltTableViewer.getElementAt(0);
+        TableViewer tableViewer;
+        
+        if(!fTemplateManager.getUserTemplates().isEmpty()) {
+            tableViewer = fUserTableViewer;
+        }
+        else {
+            tableViewer = fInbuiltTableViewer;
+        }
+        
+        Object o = tableViewer.getElementAt(0);
         if(o != null) {
-            fInbuiltTableViewer.setSelection(new StructuredSelection(o));
-            fInbuiltTableViewer.getControl().setFocus();
+            tableViewer.setSelection(new StructuredSelection(o));
+            tableViewer.getControl().setFocus();
         }
     }
     

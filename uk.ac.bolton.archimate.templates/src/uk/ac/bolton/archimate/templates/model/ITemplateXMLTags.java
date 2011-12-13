@@ -26,4 +26,5 @@ public interface ITemplateXMLTags {
     String XML_TEMPLATE_ATTRIBUTE_FILE = "file"; //$NON-NLS-1$
     String XML_TEMPLATE_ATTRIBUTE_REF = "ref"; //$NON-NLS-1$
     String XML_TEMPLATE_ATTRIBUTE_TYPE = "type"; //$NON-NLS-1$
+    String XML_TEMPLATE_ATTRIBUTE_TIMESTAMP = "timestamp"; //$NON-NLS-1$
 }

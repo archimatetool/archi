@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.Image;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.jdom.JDOMUtils;
 
 
@@ -53,10 +52,15 @@ public abstract class TemplateManager implements ITemplateXMLTags {
     /**
      * Add an entry referencing a template fle
      * @param templateFile
-     * @param group optional group to add it to, can be null
+     * @param group optional group to add it to, can be null in which case it is added to the "All" group
      * @throws IOException 
      */
     public void addTemplateEntry(File templateFile, ITemplateGroup group) throws IOException {
+        // Duplicate file
+        if(hasTemplateFile(templateFile, group)) {
+            return;
+        }
+        
         ITemplate template = createTemplate(templateFile);
         template.setFile(templateFile);
         addUserTemplate(template);
@@ -109,40 +113,28 @@ public abstract class TemplateManager implements ITemplateXMLTags {
     }
     
     /**
-     * @return Load all plug-ins inbuilt templates
+     * Check if a template already exists in a group
+     * @param templateFile The template file
+     * @param group The group to check. If this is null then all user templates are checked
+     * @return true if it exists.
      */
-    protected abstract ITemplateGroup loadInbuiltTemplates();
-    
-    /**
-     * @return The file extension to use for the template including the dot
-     */
-    public abstract String getTemplateFileExtension();
-    
-    /**
-     * Create a new template entry from template file
-     * @param file The template file
-     * @return The new Template entry or null
-     * @throws IOException
-     */
-    public abstract ITemplate createTemplate(File file) throws IOException;
-
-    /**
-     * @return The File location of the user templates file
-     */
-    public abstract File getUserTemplatesManifestFile();
-    
-    /**
-     * Create a new Template entry of type
-     * @param type
-     * @return a new Template entry of type or null
-     */
-    protected abstract ITemplate createTemplate(String type);
-    
-    /**
-     * @return An image that represents this Template Manager
-     */
-    public abstract Image getMainImage();
-
+    public boolean hasTemplateFile(File templateFile, ITemplateGroup group) {
+        if(templateFile == null) {
+            return false;
+        }
+        
+        if(group == null) {
+            group = AllUserTemplatesGroup;
+        }
+        
+        for(ITemplate template : group.getTemplates()) {
+            if(templateFile.equals(template.getFile())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * Load all user templates as declared in the manifest
@@ -270,21 +262,47 @@ public abstract class TemplateManager implements ITemplateXMLTags {
         }
     }
     
+    
     /**
-     * @param file
-     * @return true if file is a valid template file
-     * @throws IOException 
+     * @return Load all plug-ins inbuilt templates
      */
-    protected boolean isValidTemplateFile(File file) throws IOException {
-        if(file == null || !file.exists()) {
-            return false;
-        }
-        
-        String s = ZipUtils.extractZipEntry(file, ZIP_ENTRY_MANIFEST);
-        if(s == null) {
-            return false;
-        }
-        
-        return true;
-    }
+    protected abstract ITemplateGroup loadInbuiltTemplates();
+    
+    /**
+     * @return The file extension to use for the template including the dot
+     */
+    public abstract String getTemplateFileExtension();
+    
+    /**
+     * Create a new template entry from template file
+     * @param file The template file
+     * @return The new Template entry or will throw an IOException if cannot create it
+     * @throws IOException
+     */
+    public abstract ITemplate createTemplate(File file) throws IOException;
+
+    /**
+     * @return The File location of the user templates file
+     */
+    public abstract File getUserTemplatesManifestFile();
+    
+    /**
+     * Create a new Template entry of type
+     * @param type
+     * @return a new Template entry of type or null
+     */
+    protected abstract ITemplate createTemplate(String type);
+    
+    /**
+     * @return An image that represents this Template Manager
+     */
+    public abstract Image getMainImage();
+
+    /**
+     * Check for valid template file
+     * @param file The file to check
+     * @return true if file is a valid template file
+     * @throws IOException if an error loading occurs or if it is the wrong format
+     */
+    protected abstract boolean isValidTemplateFile(File file) throws IOException;
 }
