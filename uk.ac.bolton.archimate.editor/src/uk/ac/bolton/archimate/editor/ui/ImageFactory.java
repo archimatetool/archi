@@ -11,7 +11,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -232,5 +236,50 @@ public class ImageFactory {
      */
     public static ImageDescriptor getSharedImageDescriptor(String name) {
         return PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(name);
+    }
+    
+    /**
+     * Rescale an image to given width and height
+     * @param source The Image source
+     * @param width New width
+     * @param height New height
+     * @return A new scaled image
+     */
+    public static Image getScaledImage(Image source, int width, int height) {
+        // This method uses far less memory than scaling the Image's ImageData and gives a better result whe anti-aliasing is on
+        Rectangle srcBounds = source.getBounds();
+        Image image = new Image(Display.getCurrent(), width, height);
+        GC gc = new GC(image);
+        gc.setAntialias(SWT.ON); // Slower, but draws without artifacts
+        gc.drawImage(source, 0, 0, srcBounds.width, srcBounds.height, 0, 0, width, height);
+        gc.dispose();
+        return image;
+    }
+    
+    /**
+     * Rescale the Image to max size (width or height)
+     * @param source the Image source
+     * @param maxSize the maximum width or size. Will always be a minimum of 10.
+     * @return A new scaled image
+     */
+    public static Image getScaledImage(Image source, int maxSize) {
+        if(maxSize < 10) {
+            maxSize = 10;
+        }
+        
+        Rectangle srcBounds = source.getBounds();
+        int width = srcBounds.width;
+        int height = srcBounds.height;
+
+        if(height > maxSize) {
+            width *= ((float)maxSize / height);
+            height = maxSize;
+        }
+        if(width > maxSize) {
+            height *= ((float)maxSize / width);
+            width = maxSize;
+        }
+        
+        return getScaledImage(source, width, height);
     }
 }
