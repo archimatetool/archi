@@ -20,22 +20,20 @@ public class FullScreenCommandHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-        if(windows != null && windows.length > 0) {
-            Object nsWindow = MacOSReflect.getNSWindow(windows[0].getShell());
-            // Escape pressed
-            if(event.getCommand().getId().equals("uk.ac.bolton.archimate.editor.fullscreen.macos.commandEscape")) {
-                if(isFullScreen(nsWindow)) {
-                    toggleFullScreen(nsWindow);
-                }
-            }
-            // Otherwise toggle
-            else {
-                toggleFullScreen(nsWindow);
-            }
+        for(Object nsWindow : getNSWindows()) {
+            toggleFullScreen(nsWindow);
         }
         
         return null;
+    }
+    
+    protected Object[] getNSWindows() {
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+        Object[] nsWindows = new Object[windows.length];
+        for(int i = 0; i < windows.length; i++) {
+            nsWindows[i] = MacOSReflect.getNSWindow(windows[i].getShell());
+        }
+        return nsWindows;
     }
     
     public void toggleFullScreen(Object nsWindow) {

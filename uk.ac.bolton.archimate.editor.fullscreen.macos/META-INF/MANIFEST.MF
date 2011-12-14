@@ -6,4 +6,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Bolton University
 Fragment-Host: org.eclipse.ui;bundle-version="3.7.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Eclipse-PlatformFilter: (osgi.ws=cocoa)
+Eclipse-PlatformFilter: (&(osgi.ws=cocoa)(os.version>=10.7))

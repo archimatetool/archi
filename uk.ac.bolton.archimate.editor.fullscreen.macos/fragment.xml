@@ -28,7 +28,7 @@
             name="Full Screen">
       </command>
       <command
-            defaultHandler="uk.ac.bolton.archimate.editor.FullScreenCommandHandler"
+            defaultHandler="uk.ac.bolton.archimate.editor.EscapeFullScreenCommandHandler"
             id="uk.ac.bolton.archimate.editor.fullscreen.macos.commandEscape"
             name="Exit Full ScreenScreen">
       </command>

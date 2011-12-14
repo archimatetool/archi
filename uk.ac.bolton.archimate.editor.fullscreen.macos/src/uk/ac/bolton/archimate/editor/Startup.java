@@ -24,10 +24,6 @@ public class Startup implements IStartup {
 
     @Override
     public void earlyStartup() {
-        if(System.getProperty("os.version").startsWith("10.5") || System.getProperty("os.version").startsWith("10.6")) {
-            return;
-        }
-        
         final IWorkbench workbench = PlatformUI.getWorkbench();
         workbench.getDisplay().asyncExec(new Runnable() {
             public void run() {
