@@ -47,8 +47,6 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
 public class StickyEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart  {
     
-    private DirectEditManager fDirectEditManager;
-
     @Override
     protected List<?> getModelChildren() {
         return ((IDiagramModelContainer)getModel()).getChildren();
@@ -111,7 +109,7 @@ implements IColoredEditPart, ITextAlignedEditPart  {
     @Override
     public void performRequest(Request req) {
         if(req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
-            getDirectEditManager().show();
+            createDirectEditManager().show();
         }
         else if(req.getType() == RequestConstants.REQ_OPEN) {
             // Show Properties view
@@ -119,11 +117,8 @@ implements IColoredEditPart, ITextAlignedEditPart  {
         }
     }
 
-    protected DirectEditManager getDirectEditManager() {
-        if(fDirectEditManager == null) {
-            fDirectEditManager = new MultiLineTextDirectEditManager(this);
-        }
-        return fDirectEditManager;
+    protected DirectEditManager createDirectEditManager() {
+        return new MultiLineTextDirectEditManager(this);
     }
     
     /**

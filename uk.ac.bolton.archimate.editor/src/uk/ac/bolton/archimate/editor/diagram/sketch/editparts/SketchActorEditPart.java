@@ -33,8 +33,6 @@ import uk.ac.bolton.archimate.model.ISketchModelActor;
 public class SketchActorEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextEditPart  {
     
-    private DirectEditManager fDirectEditManager;
-
     @Override
     protected IFigure createFigure() {
         SketchActorFigure figure = new SketchActorFigure((ISketchModelActor)getModel());
@@ -72,7 +70,7 @@ implements IColoredEditPart, ITextEditPart  {
             if(request instanceof LocationRequest) {
                 // Edit the text control if we clicked on it
                 if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
-                    getDirectEditManager().show();
+                    createDirectEditManager().show();
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
@@ -80,15 +78,12 @@ implements IColoredEditPart, ITextEditPart  {
                 }
             }
             else {
-                getDirectEditManager().show();
+                createDirectEditManager().show();
             }
         }
     }
     
-    protected DirectEditManager getDirectEditManager() {
-        if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getTextControl());
-        }
-        return fDirectEditManager;
+    protected DirectEditManager createDirectEditManager() {
+        return new LabelDirectEditManager(this, getFigure().getTextControl());
     }
 }

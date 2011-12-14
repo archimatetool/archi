@@ -33,8 +33,6 @@ import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
 public abstract class AbstractArchimateEditableTextFlowEditPart
 extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditPart {
     
-    private DirectEditManager fDirectEditManager;
-    
     @Override
     protected void refreshFigure() {
         getFigure().refreshVisuals();
@@ -84,7 +82,7 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
             if(request instanceof LocationRequest) {
                 // Edit the text control if we clicked on it
                 if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
-                    getDirectEditManager().show();
+                    createDirectEditManager().show();
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
@@ -92,16 +90,13 @@ extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditP
                 }
             }
             else {
-                getDirectEditManager().show();
+                createDirectEditManager().show();
             }
         }
     }
     
-    protected DirectEditManager getDirectEditManager() {
-        if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getTextControl());
-        }
-        return fDirectEditManager;
+    protected DirectEditManager createDirectEditManager() {
+        return new LabelDirectEditManager(this, getFigure().getTextControl());
     }
     
     @SuppressWarnings("rawtypes")

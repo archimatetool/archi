@@ -56,8 +56,6 @@ import uk.ac.bolton.archimate.model.IProperties;
 public abstract class AbstractDiagramConnectionEditPart extends AbstractConnectionEditPart
 implements IDiagramConnectionEditPart {
 
-    private DirectEditManager fDirectEditManager;
-    
     protected Adapter fConnectionAdapter = new AdapterImpl() {
         @Override
         public void notifyChanged(Notification msg) {
@@ -165,7 +163,7 @@ implements IDiagramConnectionEditPart {
             if(request instanceof LocationRequest) {
                 // Edit the text control if we clicked on it
                 if(getFigure().didClickConnectionLabel(((LocationRequest)request).getLocation().getCopy())) {
-                    getDirectEditManager().show();
+                    createDirectEditManager().show();
                 }
                 // Else open Properties View on double-click
                 else if(request.getType() == RequestConstants.REQ_OPEN){
@@ -173,16 +171,13 @@ implements IDiagramConnectionEditPart {
                 }
             }
             else {
-                getDirectEditManager().show();
+                createDirectEditManager().show();
             }
         }
     }
     
-    protected DirectEditManager getDirectEditManager() {
-        if(fDirectEditManager == null) {
-            fDirectEditManager = new LabelDirectEditManager(this, getFigure().getConnectionLabel());
-        }
-        return fDirectEditManager;
+    protected DirectEditManager createDirectEditManager() {
+        return new LabelDirectEditManager(this, getFigure().getConnectionLabel());
     }
     
     @Override
