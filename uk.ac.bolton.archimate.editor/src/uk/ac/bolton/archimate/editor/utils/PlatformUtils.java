@@ -59,6 +59,13 @@ public class PlatformUtils {
     public static boolean isMacCarbon() {
         return Platform.WS_CARBON.equals(Platform.getWS());
     }
+    
+    /**
+     * @return Trus if the platform support Full Screen mode (Mac 10.7 or greater)
+     */
+    public static boolean supportsMacFullScreen() {
+        return isMac() && System.getProperty("os.version").compareTo("10.7") >= 0;
+    }
 
     /**
      * @return The App Data folder for each platform

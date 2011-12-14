@@ -9,10 +9,14 @@ package uk.ac.bolton.archimate.editor.diagram.directedit;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 /**
@@ -35,6 +39,18 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
                 .getActivePage().getActiveEditor().getEditorSite().getActionBars();
 
         fGlobalActionHandler = new CellEditorGlobalActionHandler(actionBars);
+        
+        // Stop OS X Lion closing Full Screen when Escape pressed
+        if(PlatformUtils.supportsMacFullScreen()) {
+            getCellEditor().getControl().addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if(e.keyCode == SWT.ESC) {
+                        e.doit = false;
+                    }
+                }
+            });
+        }
     }
     
     @Override
