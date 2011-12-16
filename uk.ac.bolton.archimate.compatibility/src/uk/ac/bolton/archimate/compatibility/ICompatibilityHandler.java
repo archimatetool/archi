@@ -14,6 +14,11 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @author Phillip Beauvoir
  */
 public interface ICompatibilityHandler {
+    
+    /**
+     * Extension ID
+     */
+    String EXTENSION_ID = "uk.ac.bolton.archimate.compatibility.compatibilityHandler";
 
     /**
      * Fix the issue
@@ -21,5 +26,4 @@ public interface ICompatibilityHandler {
      * @throws CompatibilityHandlerException
      */
     void fixCompatibility(Resource resource) throws CompatibilityHandlerException;
-
 }

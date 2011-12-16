@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.emf.ecore.xmi.ClassNotFoundException;
 import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.xml.sax.SAXParseException;
@@ -61,10 +62,21 @@ public class ModelCompatibility {
     }
 
     private static boolean isCatastrophicError(Diagnostic diagnostic) {
+        // Package not found - total disaster
         if(diagnostic instanceof PackageNotFoundException) {
             return true;
         }
         
+        // Class not found that matches xml declaration - not good
+        if(diagnostic instanceof ClassNotFoundException) {
+            return true;
+        }
+        
+        // Allow an IllegalValueException because an illegal value will default to a default value
+
+        // Allow a FeatureNotFoundException because a feature might get deprecated
+        
+        // Last case is a Sax parse error
         if(diagnostic instanceof XMIException) {
             XMIException ex = (XMIException)diagnostic;
             if(ex.getCause() instanceof SAXParseException) {
@@ -82,7 +94,7 @@ public class ModelCompatibility {
      */
     public static void fixCompatibility(Resource resource) throws CompatibilityHandlerException {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.compatibility.compatibilityHandler")) {
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(ICompatibilityHandler.EXTENSION_ID)) {
             try {
                 ICompatibilityHandler handler = (ICompatibilityHandler)configurationElement.createExecutableExtension("class");
                 if(handler != null) {
