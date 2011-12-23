@@ -1,8 +1,9 @@
 Archi Changes
 -------------
 
-Version 2.1 December XX 2011
------------------------------
+Version 2.1 January XX 2012
+---------------------------
++ Canvas Modelling Toolkit
 + ArchiMate connection tooltips now display the full meaning of the relationship
 + Cut/Copy/Paste/Select All shortcut keys now work in elements' label editors
 + Holding down a key (Ctrl on Windows and Linux, Alt on Mac) when dragging elements from the Models Tree to a View ensures connections are not added

@@ -101,6 +101,7 @@
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.mortbay.jetty.server"/>
       <plugin id="org.mortbay.jetty.util"/>
+      <plugin id="uk.ac.bolton.archimate.canvas"/>
       <plugin id="uk.ac.bolton.archimate.compatibility"/>
       <plugin id="uk.ac.bolton.archimate.csv"/>
       <plugin id="uk.ac.bolton.archimate.editor"/>

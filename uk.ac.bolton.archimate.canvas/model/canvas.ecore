@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
+    nsURI="http://www.bolton.ac.uk/archimate/canvas" nsPrefix="canvas">
+  <eClassifiers xsi:type="ecore:EClass" name="Iconic" abstract="true" interface="true"
+      eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelObject ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelImageProvider">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imagePosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HintProvider" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hintTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hintContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HelpHintProvider" instanceClassName="uk.ac.bolton.archimate.help.hints.IHelpHintProvider"
+      abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NotesContent" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="notes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModel" eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModel #//HintProvider #//HelpHintProvider"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelSticky" eSuperTypes="#//Iconic ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//TextContent #//NotesContent ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Properties ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//BorderObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelBlock" eSuperTypes="#//Iconic ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelContainer ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Properties ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//BorderObject #//HelpHintProvider #//HintProvider ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//TextContent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelImage" eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelImage ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelConnection" eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelConnection ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable"/>
+</ecore:EPackage>
