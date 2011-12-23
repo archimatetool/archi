@@ -6,12 +6,18 @@ Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Bolton University
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: uk.ac.bolton.archimate.widgets.jar,
- lib/org.eclipse.nebula.widgets.gallery_0.5.3.201111151116.jar
+ lib/org.eclipse.nebula.widgets.gallery_0.5.3.201111151116.jar,
+ lib/org.eclipse.nebula.widgets.grid_1.0.0.201112231516.jar
 Export-Package: org.eclipse.nebula.animation,
  org.eclipse.nebula.animation.effects,
  org.eclipse.nebula.animation.movement,
  org.eclipse.nebula.jface.galleryviewer,
- org.eclipse.nebula.widgets.gallery
+ org.eclipse.nebula.jface.gridviewer,
+ org.eclipse.nebula.jface.gridviewer.internal,
+ org.eclipse.nebula.widgets.gallery,
+ org.eclipse.nebula.widgets.grid,
+ org.eclipse.nebula.widgets.grid.internal,
+ uk.ac.bolton.archimate.widgets
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
