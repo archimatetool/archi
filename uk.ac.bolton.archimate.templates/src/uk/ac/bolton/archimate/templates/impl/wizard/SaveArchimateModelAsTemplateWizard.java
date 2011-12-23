@@ -12,7 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipOutputStream;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
@@ -22,10 +22,10 @@ import org.eclipse.swt.widgets.Display;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import uk.ac.bolton.archimate.editor.model.IArchiveManager;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
 import uk.ac.bolton.archimate.templates.impl.model.ArchimateModelTemplate;
 import uk.ac.bolton.archimate.templates.impl.model.ArchimateTemplateManager;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
@@ -205,13 +205,20 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
     }
 
     private File saveModelToTempFile() throws IOException {
-        File tmp = File.createTempFile("architemplate", null);
-        tmp.deleteOnExit();
-        Resource resource = ArchimateResourceFactory.createResource(tmp);
-        resource.getContents().add(fModel);
-        resource.save(null);
-        resource.getContents().remove(fModel);
-        return tmp;
+        File tmpFile = File.createTempFile("architemplate", null);
+        tmpFile.deleteOnExit();
+        
+        // Copy the model
+        IArchimateModel tempModel = EcoreUtil.copy(fModel);
+        tempModel.eAdapters().clear();
+        tempModel.setFile(tmpFile);
+        
+        // Create a temp Archive Manager to save the temp model
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(tempModel);
+        archiveManager.saveModel();
+        archiveManager.dispose();
+        
+        return tmpFile;
     }
     
     @Override
