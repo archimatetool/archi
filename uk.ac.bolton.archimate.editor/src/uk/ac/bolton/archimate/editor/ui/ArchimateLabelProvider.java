@@ -276,6 +276,8 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
                 return "folder";
             case IArchimatePackage.DIAGRAM_MODEL_NOTE:
                 return IArchimateImages.ICON_NOTE_16;
+            case IArchimatePackage.DIAGRAM_MODEL_IMAGE:
+                return IArchimateImages.ICON_LANDSCAPE_16;
             
             // Sketch
             case IArchimatePackage.SKETCH_MODEL:

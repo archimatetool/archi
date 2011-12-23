@@ -407,6 +407,13 @@
                id="borderColorSection"
                tab="appearance.tab">
          </propertySection>
+         <propertySection
+               afterSection="lockedSection"
+               class="uk.ac.bolton.archimate.editor.propertysections.DiagramModelImageSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.DiagramModelImageSection$Filter"
+               id="imageSection"
+               tab="main.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension

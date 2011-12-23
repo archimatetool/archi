@@ -386,6 +386,11 @@
             file="hints/sketch_sticky.html"
             title="Sticky">
       </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDiagramModelImage"
+            file="hints/diagram_image.html"
+            title="Image">
+      </hint>
    </extension>
    <extension
          point="uk.ac.bolton.archimate.help.hints">

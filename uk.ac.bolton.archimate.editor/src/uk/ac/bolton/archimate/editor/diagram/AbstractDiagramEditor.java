@@ -102,6 +102,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PasteAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PrintDiagramAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PropertiesAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.ResetAspectRatioAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SelectAllAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
@@ -625,6 +626,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Default Size
         action = new DefaultEditPartSizeAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        getUpdateCommandStackActions().add((UpdateAction)action);
+        
+        // Reset Aspect Ratio
+        action = new ResetAspectRatioAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);

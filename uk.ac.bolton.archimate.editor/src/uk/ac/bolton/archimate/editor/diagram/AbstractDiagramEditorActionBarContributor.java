@@ -42,6 +42,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.FontAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FontColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.FullScreenAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.ResetAspectRatioAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
@@ -97,6 +98,11 @@ extends ActionBarContributor {
         // Default Size
         RetargetAction retargetAction = new RetargetAction(DefaultEditPartSizeAction.ID, DefaultEditPartSizeAction.TEXT);
         retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DEFAULT_SIZE));
+        addRetargetAction(retargetAction);
+        
+        // Reset Aspect Ratio
+        retargetAction = new RetargetAction(ResetAspectRatioAction.ID, ResetAspectRatioAction.TEXT);
+        retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASPECT_RATIO));
         addRetargetAction(retargetAction);
         
         // Export as Image

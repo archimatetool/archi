@@ -6,8 +6,6 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.policies;
 
-import java.util.List;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -22,6 +20,7 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.SetConstraintObjectCommand;
+import uk.ac.bolton.archimate.editor.diagram.editparts.IConstrainedSizeEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.INonResizableEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -66,21 +65,16 @@ extends XYLayoutEditPolicy {
     
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
-        // If child part is locked, limit dragging
         if(isChildEditPartLocked(child)) {
-            return new NonResizableEditPolicy() {
-                @Override
-                protected void createDragHandle(@SuppressWarnings("rawtypes") List handles, int direction) {
-                }
-                
-                @Override
-                public boolean isDragAllowed() {
-                    return false;
-                }
-            };
+            return new LockedResizableEditPolicy();
         }
-
-        return (child instanceof INonResizableEditPart) ? new NonResizableEditPolicy() : new ResizableEditPolicy();
+        if(child instanceof INonResizableEditPart) {
+            return new NonResizableEditPolicy();
+        }
+        if(child instanceof IConstrainedSizeEditPart) {
+            return new ConstrainedResizableEditPolicy();
+        }
+        return new ResizableEditPolicy();
     }
     
     @Override

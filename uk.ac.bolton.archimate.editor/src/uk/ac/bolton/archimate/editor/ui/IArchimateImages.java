@@ -118,6 +118,7 @@ public interface IArchimateImages {
     String ICON_ALIGN_TEXT_LEFT = IMGPATH + "alignleft.gif"; //$NON-NLS-1$
     String ICON_ALIGN_TEXT_CENTER = IMGPATH + "aligncenter.gif"; //$NON-NLS-1$
     String ICON_ALIGN_TEXT_RIGHT = IMGPATH + "alignright.gif"; //$NON-NLS-1$
+    String ICON_ASPECT_RATIO = IMGPATH + "aspect-ratio.png"; //$NON-NLS-1$
     String ICON_CANCEL_SEARCH_16 = IMGPATH + "cancelsearch-16.png"; //$NON-NLS-1$
     String ICON_COG = IMGPATH + "cog.png"; //$NON-NLS-1$
     String ICON_DIAGRAM_16 = IMGPATH + "diagram-16.png"; //$NON-NLS-1$
@@ -129,6 +130,7 @@ public interface IArchimateImages {
     String ICON_FORMAT_PAINTER_GREY_16 = IMGPATH + "formatpainter-grey-16.png"; //$NON-NLS-1$
     String ICON_GROUP_16 = IMGPATH + "group-16.png"; //$NON-NLS-1$
     String ICON_LINKED_16 = IMGPATH + "linked.gif"; //$NON-NLS-1$
+    String ICON_LANDSCAPE_16 = IMGPATH + "landscape-16.png"; //$NON-NLS-1$
     String ICON_LOCK_16 = IMGPATH + "lock-16.png"; //$NON-NLS-1$
     String ICON_MAGIC_CONNECTION_16 = IMGPATH + "magic_connection.gif"; //$NON-NLS-1$
     String ICON_MINUS = IMGPATH + "minus.png"; //$NON-NLS-1$
