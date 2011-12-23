@@ -49,7 +49,10 @@ public interface IEditorModelManager {
      */
     String ADAPTER_PROPERTY_MODEL_SAVED = "saved";
     
-    final IEditorModelManager INSTANCE = new EditorModelManager();
+    /**
+     * The singleton instance of the Editor Model Manager
+     */
+    IEditorModelManager INSTANCE = new EditorModelManager();
     
     /**
      * @return Models

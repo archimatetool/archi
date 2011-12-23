@@ -6,6 +6,8 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.actions;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,9 +20,11 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
+import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -51,7 +55,12 @@ import uk.ac.bolton.archimate.model.IRelationship;
  */
 public final class CopySnapshot {
     
-    private IDiagramModel SNAPSHOT;
+    /**
+     * A new Diagram Model container that contains a copy of all copied diagram model objects.
+     * We take a snapshot so that we can maintain the integrity of the copied objects if the user
+     * edits or deleted the originals of if a Cut action is performed (which will delete the originals).
+     */
+    private IDiagramModel fDiagramModelSnapshot;
     
     /**
      * Mapping of original objects to new copied objects in the Snapshot
@@ -72,7 +81,7 @@ public final class CopySnapshot {
      * Mapping of original connections to new copied Snapshot connections
      */
     private Hashtable<IDiagramModelConnection, IDiagramModelConnection> fOriginalToSnapshotConnectionsMapping;
-
+    
     /**
      * x, y mouse click offset for pasting in same diagram
      */
@@ -84,10 +93,36 @@ public final class CopySnapshot {
     private boolean fDoCreateArchimateElementCopies;
     
     /**
-     * The original Archimate Model of the copied objects
+     * The source Archimate Model of the copied objects
      */
-    private IArchimateModel fOriginalArchimateModel;
-
+    private IArchimateModel fSourceArchimateModel;
+    
+    /**
+     * The target Archimate Model of the copied objects
+     */
+    private IArchimateModel fTargetArchimateModel;
+    
+    /**
+     * Clear the system Clipboard of any CopySnapshot object if the CopySnapshot references a model that is closed
+     */
+    static {
+        IEditorModelManager.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName() == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
+                    Object contents = Clipboard.getDefault().getContents();
+                    if(contents instanceof CopySnapshot) {
+                        CopySnapshot copySnapshot = (CopySnapshot)contents;
+                        IArchimateModel model = (IArchimateModel)evt.getNewValue();
+                        if(copySnapshot.fSourceArchimateModel == model) {
+                            Clipboard.getDefault().setContents("");
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
     /**
      * Constructor
      * @param modelObjectsSelected
@@ -107,9 +142,11 @@ public final class CopySnapshot {
         // Assume that all objects belong to the same source diagram model
         IDiagramModel diagramModel = modelObjectsSelected.get(0).getDiagramModel();
         
-        // Clone Snapshot based on source diagram model type
-        // Create the instance from the registered factory in case of extensions
-        SNAPSHOT = (IDiagramModel)diagramModel.eClass().getEPackage().getEFactoryInstance().create(diagramModel.eClass());
+        /*
+         *  Create a new Diagram Model object snapshot based on source diagram model type.
+         *  Create the instance from the registered factory to get the correct type of diagram model.
+         */
+        fDiagramModelSnapshot = (IDiagramModel)diagramModel.eClass().getEPackage().getEFactoryInstance().create(diagramModel.eClass());
 
         // Sanity check...
         for(IDiagramModelObject object : modelObjectsSelected) {
@@ -119,12 +156,12 @@ public final class CopySnapshot {
             }
         }
         
-        fOriginalArchimateModel = diagramModel.getArchimateModel();
+        fSourceArchimateModel = diagramModel.getArchimateModel();
         
         // First copy objects
         List<IDiagramModelObject> objectsToCopy = getTopLevelObjectsToCopy(modelObjectsSelected);
         for(IDiagramModelObject child : objectsToCopy) {
-            createSnapshotObjects(SNAPSHOT, child);
+            createSnapshotObjects(fDiagramModelSnapshot, child);
         }
         
         // Then copy connections
@@ -241,10 +278,8 @@ public final class CopySnapshot {
         }
         
         // Different diagram model types, so no...
-        for(IDiagramModelObject object : fSnapshotToOriginalObjectsMapping.keySet()) {
-            if(targetDiagramModel.eClass() != object.getDiagramModel().eClass()) {
-                return false;
-            }
+        if(targetDiagramModel.eClass() != fDiagramModelSnapshot.eClass()) {
+            return false;
         }
         
         for(IDiagramModelObject object : fSnapshotToOriginalObjectsMapping.keySet()) {
@@ -276,8 +311,8 @@ public final class CopySnapshot {
      * If this is true then we need to paste copies.
      */
     private boolean needsCopiedArchimateElements(IDiagramModel targetDiagramModel) {
-        // If different Archimate Model then yes!
-        if(targetDiagramModel.getArchimateModel() != fOriginalArchimateModel) {
+        // If different Archimate Models then yes!
+        if(fTargetArchimateModel != fSourceArchimateModel) {
             return true;
         }
         
@@ -318,6 +353,8 @@ public final class CopySnapshot {
             return null;
         }
         
+        fTargetArchimateModel = targetDiagramModel.getArchimateModel();
+        
         // Create copies of Archimate Elements or not
         fDoCreateArchimateElementCopies = needsCopiedArchimateElements(targetDiagramModel);
 
@@ -333,7 +370,7 @@ public final class CopySnapshot {
         CompoundCommand result = new PasteCompoundCommand("Paste", tmpSnapshotToNewObjectMapping, viewer);
         
         // Diagram objects first
-        for(IDiagramModelObject object : SNAPSHOT.getChildren()) {
+        for(IDiagramModelObject object : fDiagramModelSnapshot.getChildren()) {
             if(isValidPasteObject(targetDiagramModel, object)) {
                 createPasteObjectCommand(targetDiagramModel, object, result, tmpSnapshotToNewObjectMapping);
             }
@@ -364,7 +401,7 @@ public final class CopySnapshot {
         
         if(newObject instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)newObject;
-            // Use copy so provid a new name
+            // Use a copy so provide a new name
             if(fDoCreateArchimateElementCopies) {
                 String name = dmo.getArchimateElement().getName();
                 dmo.getArchimateElement().setName(name + " (copy)");

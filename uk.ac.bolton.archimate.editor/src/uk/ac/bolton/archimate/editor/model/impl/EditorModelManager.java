@@ -16,7 +16,9 @@ import java.util.EventObject;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
@@ -38,7 +40,9 @@ import uk.ac.bolton.archimate.compatibility.IncompatibleModelException;
 import uk.ac.bolton.archimate.compatibility.LaterModelVersionException;
 import uk.ac.bolton.archimate.compatibility.ModelCompatibility;
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
+import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
+import uk.ac.bolton.archimate.editor.model.IArchiveManager;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
@@ -145,6 +149,9 @@ implements IEditorModelManager {
         // New Command Stack
         createNewCommandStack(model);
         
+        // New Archive Manager
+        createNewArchiveManager(model);
+        
         firePropertyChange(this, PROPERTY_MODEL_CREATED, null, model);
         model.eAdapters().add(new ECoreAdapter());
         return model;
@@ -178,7 +185,10 @@ implements IEditorModelManager {
         
         // New Command Stack
         createNewCommandStack(model);
-
+        
+        // New Archive Manager
+        createNewArchiveManager(model);
+        
         model.eAdapters().add(new ECoreAdapter());
 
         firePropertyChange(this, PROPERTY_MODEL_OPENED, null, model);
@@ -190,10 +200,16 @@ implements IEditorModelManager {
             return null;
         }
         
-        // Create Resource
-        Resource resource = ArchimateResourceFactory.createResource(file);
+        // Ascertain if this is an archive file
+        boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
-        // Load Resource
+        // Create the Resource
+        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
+        Resource resource = resourceSet.createResource(useArchiveFormat ?
+                                                       IArchiveManager.FACTORY.createArchiveModelURI(file) :
+                                                       URI.createFileURI(file.getAbsolutePath()));
+
+        // Load the model file
         try {
             resource.load(null);
         }
@@ -241,7 +257,10 @@ implements IEditorModelManager {
 
         // New Command Stack
         createNewCommandStack(model);
-
+        
+        // New Archive Manager
+        createNewArchiveManager(model);
+        
         // Initiate all diagram models to be marked as "saved" - this is for the editor view persistence
         markDiagramModelsAsSaved(model);
 
@@ -271,13 +290,16 @@ implements IEditorModelManager {
         // Delete the CommandStack *LAST* because GEF Editor(s) will still reference it!
         deleteCommandStack(model);
         
+        // Delete Archive Manager
+        deleteArchiveManager(model);
+
         return true;
     }
     
     /**
      * Show dialog to save modified model
      * @param model
-     * @return
+     * @return true if the user chose to save the model, false otherwise
      * @throws IOException 
      */
     private boolean askSaveModel(IArchimateModel model) throws IOException {
@@ -318,18 +340,19 @@ implements IEditorModelManager {
             model.setFile(file);
         }
         
+        File file = model.getFile();
+        
         // Save backup
-        if(model.getFile().exists()) {
-            FileUtils.copyFile(model.getFile(), new File(model.getFile().getAbsolutePath() + ".bak"), false);
+        if(file.exists()) {
+            FileUtils.copyFile(file, new File(model.getFile().getAbsolutePath() + ".bak"), false);
         }
         
         // Set model version
         model.setVersion(ModelVersion.VERSION);
         
-        Resource resource = ArchimateResourceFactory.createResource(model.getFile());
-        resource.getContents().add(model);
-        resource.save(null);
-        resource.getContents().remove(model);
+        // Use Archive Manager to save contents
+        IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+        archiveManager.saveModel();
         
         // Set CommandStack Save point
         CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
@@ -337,7 +360,7 @@ implements IEditorModelManager {
         // Send notification to Tree
         firePropertyChange(model, COMMAND_STACK_CHANGED, true, false);
         
-        // Set all diagram models to be marked as "saved" - this for the editor view persistence
+        // Set all diagram models to be marked as "saved" - this is for the editor view persistence
         markDiagramModelsAsSaved(model);
         
         firePropertyChange(this, PROPERTY_MODEL_SAVED, null, model);
@@ -351,7 +374,11 @@ implements IEditorModelManager {
         if(file == null) {
             return false;
         }
+        
+        // Set new file
         model.setFile(file);
+        
+        // And save it to new file
         return saveModel(model);
     }
     
@@ -388,7 +415,7 @@ implements IEditorModelManager {
         shell.setActive(); // Get focus on Mac
         
         FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-        dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } );
+        dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.*" } );
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -397,9 +424,6 @@ implements IEditorModelManager {
         // Only Windows adds the extension by default
         if(dialog.getFilterIndex() == 0 && !path.endsWith(ARCHIMATE_FILE_EXTENSION)) {
             path += ARCHIMATE_FILE_EXTENSION;
-        }
-        else if(dialog.getFilterIndex() == 1 && !path.endsWith(".xml")) {
-            path += ".xml";
         }
         
         File file = new File(path);
@@ -466,6 +490,35 @@ implements IEditorModelManager {
         }
     }
     
+    /**
+     * Create a new ArchiveManager for the model
+     */
+    private IArchiveManager createNewArchiveManager(IArchimateModel model) {
+        IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
+        model.setAdapter(IArchiveManager.class, archiveManager);
+        
+        // Load images now
+        try {
+            archiveManager.loadImages();
+        }
+        catch(IOException ex) {
+            Logger.logError("Could not load images", ex);
+            ex.printStackTrace();
+        }
+        
+        return archiveManager;
+    }
+    
+    /**
+     * Remove the model's ArchiveManager
+     */
+    private void deleteArchiveManager(IArchimateModel model) {
+        IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+        if(archiveManager != null) {
+            archiveManager.dispose();
+        }
+    }
+
     //========================== Persist backing file  ==========================
 
     public void saveState() throws IOException {
