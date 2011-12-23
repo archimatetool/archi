@@ -118,25 +118,25 @@ public final class ArchimateNames {
                 
             // Relationships
             case IArchimatePackage.ACCESS_RELATIONSHIP:
-                return "Access relation";
+                return shortName ? "Access": "Access relation";
             case IArchimatePackage.AGGREGATION_RELATIONSHIP:
-                return "Aggregation relation";
+                return shortName ? "Aggregation" : "Aggregation relation";
             case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
-                return "Assignment relation";
+                return shortName ? "Assignment" : "Assignment relation";
             case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
-                return "Association relation";
+                return shortName ? "Association" : "Association relation";
             case IArchimatePackage.COMPOSITION_RELATIONSHIP:
-                return "Composition relation";
+                return shortName ? "Composition" : "Composition relation";
             case IArchimatePackage.FLOW_RELATIONSHIP:
-                return "Flow relation";
+                return shortName ? "Flow" : "Flow relation";
             case IArchimatePackage.REALISATION_RELATIONSHIP:
-                return "Realisation relation";
+                return shortName ? "Realisation" : "Realisation relation";
             case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
-                return "Specialisation relation";
+                return shortName ? "Specialisation" : "Specialisation relation";
             case IArchimatePackage.TRIGGERING_RELATIONSHIP:
-                return "Triggering relation";
+                return shortName ? "Triggering" : "Triggering relation";
             case IArchimatePackage.USED_BY_RELATIONSHIP:
-                return "Used By relation";
+                return shortName ? "Used By" : "Used By relation";
                 
 
         }
