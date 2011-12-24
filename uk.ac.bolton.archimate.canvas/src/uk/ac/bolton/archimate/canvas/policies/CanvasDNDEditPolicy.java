@@ -103,31 +103,21 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
             }
             canvasModelImage.setImagePath(pathName);
 
+            // Get width and height of image
             ICachedImage cachedImage = archiveManager.getImage(pathName);
-            int width = cachedImage.getImage().getBounds().width;
-            int height = cachedImage.getImage().getBounds().height;
+            int image_width = cachedImage.getImage().getBounds().width;
+            int image_height = cachedImage.getImage().getBounds().height;
             cachedImage.release();
 
-            int maxSize = 200;
-            if(height > maxSize) {
-                width *= ((float)maxSize / height);
-                height = maxSize;
-            }
-            if(width > maxSize) {
-                height *= ((float)maxSize / width);
-                width = maxSize;
-            }
-
-            canvasModelImage.setBounds(x, y, width, height);
+            canvasModelImage.setBounds(x, y, -1, -1);
 
             result.add(new AddDiagramObjectCommand(getTargetContainer(), canvasModelImage));
 
-            // Increase x,y
-            x += 20;
-            y += 20;
-            if(x > origin + 800) {
+            // Increase x,y like a Carriage Return
+            x += image_width + 10;
+            if(x > origin + 1000) {
                 x = origin;
-                y += height;
+                y += image_height + 10;
             }
         }
         
