@@ -28,6 +28,7 @@ public class ApplicationUsageViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessInteraction(),
             IArchimatePackage.eINSTANCE.getBusinessActivity(),
             IArchimatePackage.eINSTANCE.getBusinessObject(),
+            IArchimatePackage.eINSTANCE.getBusinessEvent(),
 
             IArchimatePackage.eINSTANCE.getApplicationComponent(),
             IArchimatePackage.eINSTANCE.getApplicationCollaboration(),
