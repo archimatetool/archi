@@ -85,7 +85,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
 
         fIconicDelegate = new IconicDelegate(getDiagramModelObject());
         fIconicDelegate.updateImage();
-        repaint();
     }
     
     public void refreshVisuals() {
