@@ -102,7 +102,7 @@ extends XYLayoutEditPolicy {
     
     /*
      * This allows us to drag parts from a parent container to another.
-     * This is the "add" counterpart to the "remove" Command created in GroupContainerEditPolicy.getOrphanChildrenCommand(GroupRequest);
+     * This is the "add" counterpart to the "remove" Command created in BasicContainerEditPolicy.getOrphanChildrenCommand(GroupRequest);
      * 
      * If you don't want a part to be added, return null here.
      */
