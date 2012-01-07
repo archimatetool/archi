@@ -21,7 +21,7 @@ import org.eclipse.gef.tools.ResizeTracker;
  */
 public class ConstrainedResizableEditPolicy extends ResizableEditPolicy {
     
-    protected final Dimension MIN_DIMENSION = new Dimension(32, 32);
+    protected final Dimension MIN_DIMENSION = new Dimension(1, 1);
     
     @Override
     protected ResizeTracker getResizeTracker(int direction) {
