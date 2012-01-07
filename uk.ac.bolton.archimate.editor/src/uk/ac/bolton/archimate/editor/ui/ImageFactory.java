@@ -12,10 +12,11 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -246,13 +247,37 @@ public class ImageFactory {
      * @return A new scaled image
      */
     public static Image getScaledImage(Image source, int width, int height) {
-        // This method uses far less memory than scaling the Image's ImageData and gives a better result whe anti-aliasing is on
-        Rectangle srcBounds = source.getBounds();
-        Image image = new Image(Display.getCurrent(), width, height);
+        // ImageData#scaledTo does not use interpolation, so resized images look bad.
+        // Here we draw to a GC which is better quality.
+        
+        Image image;
+        
+        // If there is a transparency pixel set copy the source ImageData to preserve it
+        ImageData sourceImageData = source.getImageData();
+        if(sourceImageData.transparentPixel != -1) {
+            ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
+            id.transparentPixel = sourceImageData.transparentPixel;
+            image = new Image(source.getDevice(), id);
+        }
+        // Else use a blank image
+        else {
+            image = new Image(source.getDevice(), width, height);
+        }
+        
         GC gc = new GC(image);
-        gc.setAntialias(SWT.ON); // Slower, but draws without artifacts
-        gc.drawImage(source, 0, 0, srcBounds.width, srcBounds.height, 0, 0, width, height);
+        gc.setAntialias(SWT.ON);
+        gc.setInterpolation(SWT.HIGH);
+        
+        // This is necessary for images that have the transparency pixel set
+        Color transparentColor = source.getBackground();
+        if(transparentColor != null) {
+            gc.setBackground(transparentColor);
+            gc.fillRectangle(0, 0, width, height);
+        }
+        
+        gc.drawImage(source, 0, 0, source.getBounds().width, source.getBounds().height, 0, 0, width, height);
         gc.dispose();
+        
         return image;
     }
     
