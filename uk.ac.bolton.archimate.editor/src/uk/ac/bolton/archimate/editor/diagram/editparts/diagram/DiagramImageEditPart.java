@@ -39,7 +39,7 @@ implements IConstrainedSizeEditPart {
 
         // Reset Image
         if(msg.getEventType() == Notification.SET && (feature == IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH)) {
-            getFigure().setImage();
+            getFigure().updateImage();
         }
         else {
             super.eCoreChanged(msg);

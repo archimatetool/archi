@@ -55,7 +55,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.ICachedImage;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
@@ -313,11 +312,11 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                     GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
                     Image thumbnail = fImageCache.get(path);
                     if(thumbnail == null) {
-                        ICachedImage cachedImage = archiveManager.getImage(path);
-                        if(cachedImage != null) {
-                            thumbnail = ImageFactory.getScaledImage(cachedImage.getImage(), MAX_GALLERY_ITEM_SIZE);
+                        Image image = archiveManager.createImage(path);
+                        if(image != null) {
+                            thumbnail = ImageFactory.getScaledImage(image, MAX_GALLERY_ITEM_SIZE);
+                            image.dispose();
                             fImageCache.put(path, thumbnail);
-                            cachedImage.release();
                         }
                     }
                     

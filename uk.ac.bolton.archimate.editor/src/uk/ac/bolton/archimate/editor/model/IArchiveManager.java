@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.zip.ZipFile;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.model.impl.ArchiveManager;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -89,11 +90,11 @@ public interface IArchiveManager {
     String addImageFromFile(File file) throws IOException;
 
     /**
-     * Get the Image object for this path entry
+     * Create a new Image for this path entry
      * @param path The image path
      * @return the Image object or null
      */
-    ICachedImage getImage(String path);
+    Image createImage(String path);
 
     /**
      * Get a list of Image entry paths as used in the current state of the model.<br>

@@ -13,10 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -32,7 +30,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.ICachedImage;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
@@ -53,11 +50,6 @@ public class ArchiveManager implements IArchiveManager {
      * Raw image bytes loaded for all images in use in this model
      */
     static ByteArrayStorage BYTE_ARRAY_STORAGE = new ByteArrayStorage();
-    
-    /**
-     * Image cache to minimise memory used and improve load times
-     */
-    static Map<String, CachedImage> IMAGE_CACHE = new HashMap<String, CachedImage>();
     
     /**
      * The ArchiMate model
@@ -131,25 +123,12 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     @Override
-    public ICachedImage getImage(String path) {
-        // Is it in the image cache?
-        CachedImage cachedImage = IMAGE_CACHE.get(path);
-        
-        // No...
-        if(cachedImage == null) {
-            // ...it must be in the data byte storage
-            if(BYTE_ARRAY_STORAGE.hasEntry(path)) {
-                Image image = new Image(Display.getCurrent(), BYTE_ARRAY_STORAGE.getInputStream(path));
-                cachedImage = new CachedImage(path, image);
-                IMAGE_CACHE.put(path, cachedImage);
-            }
+    public Image createImage(String path) {
+        if(BYTE_ARRAY_STORAGE.hasEntry(path)) {
+            return new Image(Display.getCurrent(), BYTE_ARRAY_STORAGE.getInputStream(path));
         }
         
-        if(cachedImage != null) {
-            cachedImage.retain();
-        }
-        
-        return cachedImage;
+        return null;
     }
     
     @Override
@@ -343,11 +322,6 @@ public class ArchiveManager implements IArchiveManager {
         for(String imagePath : fLoadedImagePaths) {
             if(!allPathsInUse.contains(imagePath)) {
                 BYTE_ARRAY_STORAGE.removeEntry(imagePath);
-                
-                CachedImage cachedImage = IMAGE_CACHE.get(imagePath);
-                if(cachedImage != null) {
-                    cachedImage.dispose();
-                }
             }
         }
     }

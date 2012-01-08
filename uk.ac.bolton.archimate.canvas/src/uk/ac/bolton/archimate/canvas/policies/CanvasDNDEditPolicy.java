@@ -18,6 +18,7 @@ import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.dnd.FileTransfer;
+import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.canvas.model.ICanvasFactory;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelImage;
@@ -26,7 +27,6 @@ import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramObjectCommand;
 import uk.ac.bolton.archimate.editor.diagram.dnd.AbstractDNDEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.ICachedImage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
@@ -103,11 +103,11 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
             }
             canvasModelImage.setImagePath(pathName);
 
-            // Get width and height of image
-            ICachedImage cachedImage = archiveManager.getImage(pathName);
-            int image_width = cachedImage.getImage().getBounds().width;
-            int image_height = cachedImage.getImage().getBounds().height;
-            cachedImage.release();
+            // Get width and height of the image
+            Image image = archiveManager.createImage(pathName);
+            int image_width = image.getBounds().width;
+            int image_height = image.getBounds().height;
+            image.dispose();
 
             canvasModelImage.setBounds(x, y, -1, -1);
 

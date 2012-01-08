@@ -8,11 +8,11 @@ package uk.ac.bolton.archimate.canvas.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.canvas.model.IIconic;
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.ICachedImage;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 
 /**
@@ -24,30 +24,26 @@ public class IconicDelegate {
     
     private IIconic fIconic;
     private Image fImage;
-    private ICachedImage fCachedImage;
     
     public IconicDelegate(IIconic owner) {
         fIconic = owner;
     }
     
     public void updateImage() {
-        disposeLocalImage();
-        releaseCachedImage();
+        disposeImage();
         
         if(fIconic.getImagePath() != null) {
             IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-            ICachedImage cachedImage = archiveManager.getImage(fIconic.getImagePath());
-            if(cachedImage != null) {
-                // If the cached image bounds is bigger than the maximum displayed image here then create a scaled image
-                if(cachedImage.getImage().getBounds().width > IIconic.MAX_IMAGE_SIZE &&
-                                cachedImage.getImage().getBounds().height > IIconic.MAX_IMAGE_SIZE) {
-                    fImage = ImageFactory.getScaledImage(cachedImage.getImage(), IIconic.MAX_IMAGE_SIZE);
-                    cachedImage.release();
+            Image image = archiveManager.createImage(fIconic.getImagePath());
+            if(image != null) {
+                // If the image bounds is bigger than the maximum displayed image here then create a scaled image
+                if(image.getBounds().width > IIconic.MAX_IMAGE_SIZE || image.getBounds().height > IIconic.MAX_IMAGE_SIZE) {
+                    fImage = ImageFactory.getScaledImage(image, IIconic.MAX_IMAGE_SIZE);
+                    image.dispose();
                 }
-                // Else use the cached image here
+                // Else use original
                 else {
-                    fCachedImage = cachedImage;
-                    fImage = cachedImage.getImage();
+                    fImage = image;
                 }
             }
         }
@@ -105,34 +101,21 @@ public class IconicDelegate {
                     break;
             }
             
+            graphics.setAntialias(SWT.ON);
+            graphics.setInterpolation(SWT.HIGH);
             graphics.drawImage(fImage, x, y);
         }
     }
     
     public void dispose() {
-        disposeLocalImage();
-        releaseCachedImage();
+        disposeImage();
+        fIconic = null;
     }
     
-    /**
-     * Release the cached image
-     */
-    private void releaseCachedImage() {
-        if(fCachedImage != null) {
-            fCachedImage.release();
-            fCachedImage = null;
-        }
-    }
-
-    /**
-     * Dispose the local image if it is not disposed and also not equal to the cached image
-     */
-    private void disposeLocalImage() {
+    private void disposeImage() {
         if(fImage != null && !fImage.isDisposed()) {
-            if(fCachedImage != null && fImage != fCachedImage.getImage()) {
-                fImage.dispose();
-                fImage = null;
-            }
+            fImage.dispose();
+            fImage = null;
         }
     }
 }

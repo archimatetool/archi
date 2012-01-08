@@ -22,22 +22,24 @@ import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.canvas.model.ICanvasPackage;
 import uk.ac.bolton.archimate.canvas.model.IIconic;
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.ICachedImage;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.propertysections.DiagramModelImageSection;
 import uk.ac.bolton.archimate.editor.propertysections.ITabbedLayoutConstants;
@@ -83,7 +85,8 @@ public class IconSection extends DiagramModelImageSection {
     
     private IIconic fIconic;
     
-    private Label fLabel;
+    private Image fImage;
+    private Canvas fCanvas;
     private Combo fComboPosition;
     
     private static final String[] fComboPositionItems = {
@@ -103,29 +106,27 @@ public class IconSection extends DiagramModelImageSection {
     protected void createControls(Composite parent) {
         createCLabel(parent, "Preview:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
-        Composite client = new Composite(parent, SWT.BORDER);
-        getWidgetFactory().adapt(client);
+        final int canvasSize = IIconic.MAX_IMAGE_SIZE;
+        
+        fCanvas = new Canvas(parent, SWT.BORDER);
+        getWidgetFactory().adapt(fCanvas);
         GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = IIconic.MAX_IMAGE_SIZE + 1;
-        gd.heightHint = gd.widthHint;
-        client.setLayoutData(gd);
+        gd.widthHint = canvasSize;
+        gd.heightHint = canvasSize;
+        fCanvas.setLayoutData(gd);
         GridLayout layout = new GridLayout();
         layout.marginWidth = 0;
         layout.marginHeight = 0;
-        client.setLayout(layout);
+        fCanvas.setLayout(layout);
         
-        fLabel = getWidgetFactory().createLabel(client, null, SWT.NULL);
-        gd = new GridData(SWT.CENTER, SWT.CENTER, true, true);
-        fLabel.setLayoutData(gd);
-        
-        fLabel.addDisposeListener(new DisposeListener() {
+        fCanvas.addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
                 disposeImage();
             }
         });
         
-        Listener listener = new Listener() {
+        fCanvas.addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
             public void handleEvent(Event event) {
                 if(fIconic instanceof ILockable && ((ILockable)fIconic).isLocked()) {
@@ -133,16 +134,24 @@ public class IconSection extends DiagramModelImageSection {
                 }
                 chooseImage();
             }
-        };
+        });
         
-        client.addListener(SWT.MouseDoubleClick, listener);
-        fLabel.addListener(SWT.MouseDoubleClick, listener);
+        fCanvas.addPaintListener(new PaintListener() {
+            @Override
+            public void paintControl(PaintEvent e) {
+                if(fImage != null) {
+                    Rectangle bounds = fImage.getBounds();
+                    int x = (canvasSize - bounds.width) / 2;
+                    int y = (canvasSize - bounds.height) / 2;
+                    e.gc.drawImage(fImage, x, y);
+                }
+            }
+        });
         
         String tooltip = "Drag an image onto here or double-click to select";
-        client.setToolTipText(tooltip);
-        fLabel.setToolTipText(tooltip);
+        fCanvas.setToolTipText(tooltip);
         
-        DropTarget target = new DropTarget(client, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_DEFAULT);
+        DropTarget target = new DropTarget(fCanvas, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_DEFAULT);
         target.setTransfer(new Transfer[] { FileTransfer.getInstance() } );
         
         target.addDropListener(new DropTargetAdapter() {
@@ -211,18 +220,21 @@ public class IconSection extends DiagramModelImageSection {
         
         if(fIconic.getImagePath() != null) {
             IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-            ICachedImage cachedImage = archiveManager.getImage(fIconic.getImagePath());
-            if(cachedImage != null) {
-                Image thumbNail = ImageFactory.getScaledImage(cachedImage.getImage(), IIconic.MAX_IMAGE_SIZE);
-                fLabel.setImage(thumbNail);
-                cachedImage.release();
+            Image image = archiveManager.createImage(fIconic.getImagePath());
+            if(image != null) {
+                // If the image is bigger than the maximum allowed image then create a scaled image
+                if(image.getBounds().width > IIconic.MAX_IMAGE_SIZE || image.getBounds().height > IIconic.MAX_IMAGE_SIZE) {
+                    fImage = ImageFactory.getScaledImage(image, IIconic.MAX_IMAGE_SIZE);
+                    image.dispose();
+                }
+                // Else use original
+                else {
+                    fImage = image;
+                }
             }
         }
-        else {
-            fLabel.setImage(null);
-        }
         
-        fLabel.getParent().layout();
+        fCanvas.redraw();
     }
     
     @Override
@@ -253,8 +265,9 @@ public class IconSection extends DiagramModelImageSection {
     }
     
     protected void disposeImage() {
-        if(fLabel != null && fLabel.getImage() != null && !fLabel.getImage().isDisposed()) {
-            fLabel.getImage().dispose();
+        if(fImage != null && !fImage.isDisposed()) {
+            fImage.dispose();
+            fImage = null;
         }
     }
 }
