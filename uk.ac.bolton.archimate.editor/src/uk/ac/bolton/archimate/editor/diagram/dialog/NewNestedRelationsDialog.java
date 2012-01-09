@@ -54,7 +54,7 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements Listener {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.NewNestedRelationsDialog"; //$NON-NLS-1$
+    private String HELP_ID = "uk.ac.bolton.archimate.help.NewNestedRelationsDialog"; //$NON-NLS-1$
 
     private TableViewer fTableViewer;
     
@@ -167,7 +167,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
     @Override
     protected Control createDialogArea(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         setTitle("Nested Elements Relationship");
         setMessage("Select a relationship type if you wish to create new relationships between '" +

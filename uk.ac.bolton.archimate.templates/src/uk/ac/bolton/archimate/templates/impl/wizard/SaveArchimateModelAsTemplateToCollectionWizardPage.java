@@ -17,7 +17,7 @@ import uk.ac.bolton.archimate.templates.wizard.SaveModelAsTemplateToCollectionWi
  */
 public class SaveArchimateModelAsTemplateToCollectionWizardPage extends SaveModelAsTemplateToCollectionWizardPage {
 
-    private static String HELPID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
 
     public SaveArchimateModelAsTemplateToCollectionWizardPage(TemplateManager templateManager) {
         super("SaveModelAsTemplateToCollectionWizardPage", templateManager);
@@ -31,6 +31,6 @@ public class SaveArchimateModelAsTemplateToCollectionWizardPage extends SaveMode
 
     @Override
     protected String getHelpID() {
-        return HELPID;
+        return HELP_ID;
     }
 }

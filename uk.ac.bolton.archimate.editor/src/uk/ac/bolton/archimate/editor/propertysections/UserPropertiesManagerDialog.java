@@ -72,7 +72,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  */
 public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
 
-    public static String HELPID = "uk.ac.bolton.archimate.help.userProperties"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.userProperties"; //$NON-NLS-1$
 
     private static class KeyEntry {
         String newName;
@@ -118,7 +118,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected Control createDialogArea(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         setTitle("Manage Global User Properties");
         setMessage("Delete or Rename User Properties to change all occurences in the Model.");

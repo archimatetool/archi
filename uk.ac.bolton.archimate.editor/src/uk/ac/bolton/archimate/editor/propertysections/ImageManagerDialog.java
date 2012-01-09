@@ -71,7 +71,7 @@ import uk.ac.bolton.archimate.model.INameable;
  */
 public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELPID = "uk.ac.bolton.archimate.help.ImageManagerDialog"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.ImageManagerDialog"; //$NON-NLS-1$
     
     protected static final String OPEN = "Open from File...";
     
@@ -109,7 +109,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected Control createDialogArea(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         setTitle("My Images");
         setMessage("Choose an Image");

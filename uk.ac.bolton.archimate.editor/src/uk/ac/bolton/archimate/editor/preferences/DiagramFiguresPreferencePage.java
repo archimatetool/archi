@@ -41,7 +41,7 @@ public class DiagramFiguresPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants
 {
-    public static String HELPID = "uk.ac.bolton.archimate.help.prefsFigures"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsFigures"; //$NON-NLS-1$
     
     private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
     
@@ -81,7 +81,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     @Override
     protected Control createContents(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
         
         loadFigures();
         

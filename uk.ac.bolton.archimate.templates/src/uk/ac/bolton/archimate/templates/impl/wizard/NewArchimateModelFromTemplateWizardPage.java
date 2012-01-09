@@ -17,7 +17,7 @@ import uk.ac.bolton.archimate.templates.wizard.NewModelFromTemplateWizardPage;
  */
 public class NewArchimateModelFromTemplateWizardPage extends NewModelFromTemplateWizardPage {
     
-    private static String HELPID = "uk.ac.bolton.archimate.help.NewArchimateModelFromTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.NewArchimateModelFromTemplateWizardPage"; //$NON-NLS-1$
 
     public NewArchimateModelFromTemplateWizardPage(TemplateManager templateManager) {
         super("NewArchimateModelFromTemplateWizardPage", templateManager);
@@ -31,7 +31,7 @@ public class NewArchimateModelFromTemplateWizardPage extends NewModelFromTemplat
     
     @Override
     protected String getHelpID() {
-        return HELPID;
+        return HELP_ID;
     }
 
 }

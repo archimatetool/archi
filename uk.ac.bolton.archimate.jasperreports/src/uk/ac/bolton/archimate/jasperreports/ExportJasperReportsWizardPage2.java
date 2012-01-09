@@ -42,7 +42,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     static File INBUILT_REPORTS_FOLDER = JasperReportsPlugin.INSTANCE.getJasperReportsFolder();
     static File INBUILT_STANDARD_REPORT = new File(INBUILT_REPORTS_FOLDER, "standard/main.jrxml");
 
-    public static String HELPID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage2"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage2"; //$NON-NLS-1$
     
     private ComboViewer fComboTemplateViewer;
     
@@ -77,7 +77,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         container.setLayout(new GridLayout());
         setControl(container);
         
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
         Composite fieldContainer = new Composite(container, SWT.NULL);
         fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

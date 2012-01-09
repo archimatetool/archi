@@ -38,7 +38,7 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 public class DiagramPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
-    public static String HELPID = "uk.ac.bolton.archimate.help.prefsDiagram"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsDiagram"; //$NON-NLS-1$
     
     private Spinner fGridSizeSpinner;
     
@@ -79,7 +79,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     protected Control createContents(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         GridData gd;
         Label label;

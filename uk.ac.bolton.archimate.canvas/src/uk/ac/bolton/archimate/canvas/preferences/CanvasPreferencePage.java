@@ -29,7 +29,7 @@ public class CanvasPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.prefsCanvas"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsCanvas"; //$NON-NLS-1$
     
     private Button fCanvasEditorEnabledButton;
     
@@ -40,7 +40,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     protected Control createContents(Composite parent) {
         // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());

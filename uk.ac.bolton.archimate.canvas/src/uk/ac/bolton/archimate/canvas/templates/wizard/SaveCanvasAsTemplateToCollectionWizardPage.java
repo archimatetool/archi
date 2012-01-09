@@ -17,7 +17,7 @@ import uk.ac.bolton.archimate.templates.wizard.SaveModelAsTemplateToCollectionWi
  */
 public class SaveCanvasAsTemplateToCollectionWizardPage extends SaveModelAsTemplateToCollectionWizardPage {
 
-    private static String HELPID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateWizardPage2"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateWizardPage2"; //$NON-NLS-1$
 
     public SaveCanvasAsTemplateToCollectionWizardPage(TemplateManager templateManager) {
         super("SaveCanvasAsTemplateWizardPage2", templateManager);
@@ -31,6 +31,6 @@ public class SaveCanvasAsTemplateToCollectionWizardPage extends SaveModelAsTempl
 
     @Override
     protected String getHelpID() {
-        return HELPID;
+        return HELP_ID;
     }
 }

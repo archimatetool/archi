@@ -52,7 +52,7 @@ import uk.ac.bolton.archimate.templates.wizard.TemplateUtils;
  */
 public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
 
-    public static String HELPID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateWizardPage"; //$NON-NLS-1$
 
     private IArchimateModel fModel;
 
@@ -85,7 +85,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         container.setLayout(new GridLayout());
         setControl(container);
         
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
         Group fileComposite = new Group(container, SWT.NULL);
         fileComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

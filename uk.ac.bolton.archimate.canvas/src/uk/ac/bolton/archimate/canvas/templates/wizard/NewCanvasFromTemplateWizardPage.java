@@ -22,7 +22,7 @@ import uk.ac.bolton.archimate.templates.wizard.NewModelFromTemplateWizardPage;
  */
 public class NewCanvasFromTemplateWizardPage extends NewModelFromTemplateWizardPage {
     
-    private static String HELPID = "uk.ac.bolton.archimate.help.NewCanvasFromTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.NewCanvasFromTemplateWizardPage"; //$NON-NLS-1$
 
     public NewCanvasFromTemplateWizardPage(TemplateManager templateManager) {
         super("NewCanvasFromTemplateWizardPage", templateManager);
@@ -43,6 +43,6 @@ public class NewCanvasFromTemplateWizardPage extends NewModelFromTemplateWizardP
     
     @Override
     protected String getHelpID() {
-        return HELPID;
+        return HELP_ID;
     }
  }

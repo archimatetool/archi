@@ -59,7 +59,7 @@ import uk.ac.bolton.archimate.templates.model.TemplateManager;
  */
 public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELPID = "uk.ac.bolton.archimate.help.TemplateManagerDialog"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.TemplateManagerDialog"; //$NON-NLS-1$
 
     protected TemplatesTableViewer fTableViewer;
     protected TemplatesTreeViewer fTreeViewer;
@@ -482,6 +482,6 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     }
     
     protected String getHelpID() {
-        return HELPID;
+        return HELP_ID;
     }
 }

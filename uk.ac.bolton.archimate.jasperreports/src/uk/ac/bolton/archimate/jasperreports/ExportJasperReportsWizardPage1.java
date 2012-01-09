@@ -42,7 +42,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
  */
 public class ExportJasperReportsWizardPage1 extends WizardPage {
 
-    public static String HELPID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage1"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage1"; //$NON-NLS-1$
     
     static String SAVE_DIR = System.getProperty("user.home");
     static String REPORT_FILENAME = "archi-report";
@@ -75,7 +75,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         container.setLayout(new GridLayout());
         setControl(container);
         
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELPID);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
         Composite fieldContainer = new Composite(container, SWT.NULL);
         fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
