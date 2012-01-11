@@ -68,7 +68,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
     
     public SaveArchimateModelAsTemplateWizardPage(IArchimateModel model, TemplateManager templateManager) {
         super("SaveModelAsTemplateWizardPage");
-        setTitle("Save Model As Template");
+        setTitle("Save ArchiMate Model As Template");
         setDescription("Provide the Template's file location, name, description and key thumbnail.");
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         fModel = model;
