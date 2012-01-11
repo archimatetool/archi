@@ -58,7 +58,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IProperties;
@@ -94,7 +93,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
 
     public UserPropertiesManagerDialog(Shell parentShell, IArchimateModel model) {
         super(parentShell, "UserPropertiesManagerDialog");
-        setTitleImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
+        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
 
         fArchimateModel = model;

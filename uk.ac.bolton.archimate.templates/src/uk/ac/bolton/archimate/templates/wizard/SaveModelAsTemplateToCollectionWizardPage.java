@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 import uk.ac.bolton.archimate.templates.model.TemplateGroup;
@@ -51,7 +50,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         super(pageName);
         fTemplateManager = templateManager;
         init();
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
+        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
     }
     
     protected abstract void init();

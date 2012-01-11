@@ -91,7 +91,6 @@ import org.eclipse.ui.PlatformUI;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectNonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.ui.components.StringComboBoxCellEditor;
@@ -1029,7 +1028,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         public MultipleAddDialog(Shell parentShell) {
             super(parentShell, "ArchimatePropertiesMultipleAddDialog");
-            setTitleImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
+            setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
             setShellStyle(getShellStyle() | SWT.RESIZE);
 
             keys = getAllUniquePropertyKeysForModel();

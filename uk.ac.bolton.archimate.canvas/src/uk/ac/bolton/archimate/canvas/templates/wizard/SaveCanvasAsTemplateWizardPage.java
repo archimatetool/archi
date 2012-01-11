@@ -32,7 +32,6 @@ import org.eclipse.ui.PlatformUI;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModel;
 import uk.ac.bolton.archimate.canvas.templates.model.CanvasTemplateManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
@@ -64,7 +63,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         super("SaveCanvasAsTemplateWizardPage");
         setTitle("Save Canvas As Template");
         setDescription("Provide the Canvas' file location, name, description and key thumbnail.");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
+        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         fCanvasModel = canvasModel;
         fTemplateManager = templateManager;
     }

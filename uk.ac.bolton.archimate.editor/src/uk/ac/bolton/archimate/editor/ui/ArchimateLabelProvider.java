@@ -273,7 +273,7 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION:
                 return IArchimateImages.ICON_CONNECTION_PLAIN_16;
             case IArchimatePackage.FOLDER:
-                return "folder";
+                return IArchimateImages.ECLIPSE_IMAGE_FOLDER;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE:
                 return IArchimateImages.ICON_NOTE_16;
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE:

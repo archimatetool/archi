@@ -93,7 +93,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
 
     public ImageManagerDialog(Shell parentShell, IArchimateModel selectedModel, String selectedImagePath) {
         super(parentShell, "ImageManagerDialog");
-        setTitleImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
+        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
         fSelectedModel = selectedModel;

@@ -17,7 +17,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.templates.model.ITemplate;
 import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 
@@ -96,7 +95,7 @@ public class TemplatesTreeViewer extends TreeViewer {
         @Override
         public Image getImage(Object element) {
             if(element instanceof ITemplateGroup) {
-                return IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_FOLDER);
+                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_FOLDER);
             }
             if(element instanceof ITemplate) {
                 return ((ITemplate)element).getImage();

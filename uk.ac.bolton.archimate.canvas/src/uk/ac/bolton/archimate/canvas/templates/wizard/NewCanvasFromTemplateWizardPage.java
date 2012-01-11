@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.canvas.templates.wizard;
 import uk.ac.bolton.archimate.canvas.templates.dialog.CanvasTemplateManagerDialog;
 import uk.ac.bolton.archimate.canvas.templates.model.CanvasTemplateManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.templates.dialog.TemplateManagerDialog;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
 import uk.ac.bolton.archimate.templates.wizard.NewModelFromTemplateWizardPage;
@@ -32,7 +31,7 @@ public class NewCanvasFromTemplateWizardPage extends NewModelFromTemplateWizardP
     protected void init() {
         setTitle("New Canvas");
         setDescription("Choose a Template for your Canvas");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
+        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
     }
 
     @Override

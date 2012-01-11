@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 
 
 /**
@@ -68,7 +67,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         super("ExportJasperReportsWizardPage2");
         setTitle("Generate Jasper Reports");
         setDescription("Choose the report template to use.");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
     @Override

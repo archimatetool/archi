@@ -12,7 +12,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.views.tree.commands.NewFolderCommand;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
@@ -29,7 +28,7 @@ public class NewFolderAction extends ViewerAction {
     public NewFolderAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
         setText("Folder");
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_FOLDER));
+        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_FOLDER));
     }
     
     @Override

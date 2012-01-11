@@ -31,6 +31,15 @@ public interface IArchimateImages {
     String BROWN_PAPER = IMGPATH + "br_paper.jpg";
     String DEFAULT_MODEL_THUMB = IMGPATH + "default_model_thumb.png";
     
+    // ECLIPSE IMAGES
+    String ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON = IMGPATH + "prop_ps.gif"; //$NON-NLS-1$
+    String ECLIPSE_IMAGE_OUTLINE_VIEW_ICON = IMGPATH + "outline_co.gif"; //$NON-NLS-1$
+    String ECLIPSE_IMAGE_NEW_WIZARD = IMGPATH + "new_wiz.png";
+    String ECLIPSE_IMAGE_IMPORT_PREF_WIZARD = IMGPATH + "importpref_wiz.png";  //$NON-NLS-1$
+    String ECLIPSE_IMAGE_EXPORT_DIR_WIZARD = IMGPATH + "exportdir_wiz.png"; //$NON-NLS-1$
+    String ECLIPSE_IMAGE_FILE = IMGPATH + "file_obj.gif"; //$NON-NLS-1$
+    String ECLIPSE_IMAGE_FOLDER = IMGPATH + "fldr_obj.gif"; //$NON-NLS-1$
+    
     
     // ARCHIMATE IMAGES
     

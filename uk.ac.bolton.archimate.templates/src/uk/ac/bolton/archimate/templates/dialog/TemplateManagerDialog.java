@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
@@ -87,7 +86,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     
     public TemplateManagerDialog(Shell parentShell, TemplateManager templateManager) {
         super(parentShell, "TemplateManagerDialog");
-        setTitleImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_NEW_WIZARD));
+        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
         fTemplateManager = templateManager;

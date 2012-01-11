@@ -35,7 +35,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.editor.ui.components.HeapStatusWidget.HeapStatusWidgetToolBarContributionItem;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
@@ -199,11 +198,11 @@ extends ActionBarAdvisor {
         register(fShowModelsView);
         
         fShowPropertiesView = new ToggleViewAction("Properties", ViewManager.PROPERTIES_VIEW,
-                "uk.ac.bolton.archimate.editor.action.showPropertiesView", IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON));
+                "uk.ac.bolton.archimate.editor.action.showPropertiesView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON));
         register(fShowPropertiesView);
         
         fShowOutlineView = new ToggleViewAction("Outline", ViewManager.OUTLINE_VIEW,
-                "uk.ac.bolton.archimate.editor.action.showOutlineView", IArchimateImages.ImageFactory.getImageDescriptor(ImageFactory.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON));
+                "uk.ac.bolton.archimate.editor.action.showOutlineView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON));
         register(fShowOutlineView);
         
         fShowNavigatorView = new ToggleViewAction("Navigator", INavigatorView.ID,
