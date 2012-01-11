@@ -11,13 +11,13 @@ import uk.ac.bolton.archimate.templates.wizard.SaveModelAsTemplateToCollectionWi
 
 
 /**
- * Save Canvas As Template Wizard Page 2
+ * Save Canvas As Template Wizard Page
  * 
  * @author Phillip Beauvoir
  */
 public class SaveCanvasAsTemplateToCollectionWizardPage extends SaveModelAsTemplateToCollectionWizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateWizardPage2"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
 
     public SaveCanvasAsTemplateToCollectionWizardPage(TemplateManager templateManager) {
         super("SaveCanvasAsTemplateWizardPage2", templateManager);
