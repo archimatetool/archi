@@ -5,12 +5,13 @@ import java.lang.reflect.Method;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -33,14 +34,22 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
  */
 public class HeapStatusWidget extends Composite {
     
-    public static IContributionItem ToolBarContributionItem = new ContributionItem() {
+    public static class HeapStatusWidgetToolBarContributionItem extends ContributionItem {
+        ToolItem toolitem;
+        
         @Override
         public void fill(ToolBar parent, int index) {
-            ToolItem toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
+            toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
             HeapStatusWidget hs = new HeapStatusWidget(parent);
             toolitem.setControl(hs);
             int width = hs.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x;
             toolitem.setWidth(width);
+            hs.addDisposeListener(new DisposeListener() {
+                @Override
+                public void widgetDisposed(DisposeEvent e) {
+                    toolitem.dispose();
+                }
+            });
         }
     };
     

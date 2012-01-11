@@ -36,7 +36,7 @@ import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.ImageFactory;
-import uk.ac.bolton.archimate.editor.ui.components.HeapStatusWidget;
+import uk.ac.bolton.archimate.editor.ui.components.HeapStatusWidget.HeapStatusWidgetToolBarContributionItem;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.navigator.INavigatorView;
@@ -495,7 +495,7 @@ extends ActionBarAdvisor {
         // If System Property to VM arguments is "-Dshowheap=true" then Show Heap Widget
         if("true".equals(System.getProperty("showheap"))) {
             IToolBarManager toolBarTools = new ToolBarManager(SWT.FLAT);
-            toolBarTools.add(HeapStatusWidget.ToolBarContributionItem);
+            toolBarTools.add(new HeapStatusWidgetToolBarContributionItem());
             coolBarManager.add(new ToolBarContributionItem(toolBarTools, "toolbar_tools")); //$NON-NLS-1$
         }
     }
