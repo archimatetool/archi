@@ -121,7 +121,8 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         }
         
         // Whether to add connections to elements
-        Boolean addConnectionsToElements = (Boolean)request.getExtendedData().get(ArchimateDiagramTransferDropTargetListener.ADD_ELEMENT_CONNECTIONS);
+        Boolean value = (Boolean)request.getExtendedData().get(ArchimateDiagramTransferDropTargetListener.ADD_ELEMENT_CONNECTIONS);
+        boolean addConnectionsToElements = value != null && value.booleanValue();
         
         // Newly added objects will need new connections to existing elements and newly added elements
         for(IDiagramModelArchimateObject dmo : diagramObjects) {
