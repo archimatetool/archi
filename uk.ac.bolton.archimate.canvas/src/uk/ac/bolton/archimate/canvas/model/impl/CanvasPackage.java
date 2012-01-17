@@ -386,8 +386,8 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
         initEAttribute(getIconic_ImagePosition(), ecorePackage.getEInt(), "imagePosition", "2", 0, 1, IIconic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(hintProviderEClass, IHintProvider.class, "HintProvider", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEAttribute(getHintProvider_HintTitle(), ecorePackage.getEString(), "hintTitle", null, 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-        initEAttribute(getHintProvider_HintContent(), ecorePackage.getEString(), "hintContent", null, 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEAttribute(getHintProvider_HintTitle(), ecorePackage.getEString(), "hintTitle", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEAttribute(getHintProvider_HintContent(), ecorePackage.getEString(), "hintContent", "", 0, 1, IHintProvider.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(helpHintProviderEClass, IHelpHintProvider.class, "HelpHintProvider", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

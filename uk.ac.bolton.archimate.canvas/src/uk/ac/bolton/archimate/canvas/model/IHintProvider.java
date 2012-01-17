@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface IHintProvider extends EObject {
     /**
      * Returns the value of the '<em><b>Hint Title</b></em>' attribute.
+     * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Hint Title</em>' attribute isn't clear,
@@ -38,7 +39,7 @@ public interface IHintProvider extends EObject {
      * @return the value of the '<em>Hint Title</em>' attribute.
      * @see #setHintTitle(String)
      * @see uk.ac.bolton.archimate.canvas.model.ICanvasPackage#getHintProvider_HintTitle()
-     * @model
+     * @model default=""
      * @generated
      */
     String getHintTitle();
@@ -55,6 +56,7 @@ public interface IHintProvider extends EObject {
 
     /**
      * Returns the value of the '<em><b>Hint Content</b></em>' attribute.
+     * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Hint Content</em>' reference isn't clear,
@@ -64,7 +66,8 @@ public interface IHintProvider extends EObject {
      * @return the value of the '<em>Hint Content</em>' attribute.
      * @see #setHintContent(String)
      * @see uk.ac.bolton.archimate.canvas.model.ICanvasPackage#getHintProvider_HintContent()
-     * @model extendedMetaData="kind='element'"
+     * @model default=""
+     *        extendedMetaData="kind='element'"
      * @generated
      */
     String getHintContent();
