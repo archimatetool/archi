@@ -113,7 +113,7 @@
       </hint>
       <hint
             class="uk.ac.bolton.archimate.canvas.model.ICanvasModelImage"
-            file="help/hints/canvas_diagram.html"
+            file="help/hints/canvas_image.html"
             title="Canvas Image">
       </hint>
       <hint
