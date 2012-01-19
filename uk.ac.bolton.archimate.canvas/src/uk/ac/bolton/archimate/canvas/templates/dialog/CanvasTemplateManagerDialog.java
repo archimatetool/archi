@@ -21,6 +21,8 @@ import uk.ac.bolton.archimate.templates.model.TemplateManager;
  */
 public class CanvasTemplateManagerDialog extends TemplateManagerDialog {
     
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.CanvasTemplateManagerDialog"; //$NON-NLS-1$
+    
     public CanvasTemplateManagerDialog(Shell parentShell, TemplateManager templateManager) {
         super(parentShell, templateManager);
     }
@@ -39,4 +41,8 @@ public class CanvasTemplateManagerDialog extends TemplateManagerDialog {
         return control;
     }
     
+    @Override
+    protected String getHelpID() {
+        return HELP_ID;
+    }
 }
