@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
- * Application Cooperation Viewpoint
+ * Application Co-operation Viewpoint
  * 
  * @author Phillip Beauvoir
  */

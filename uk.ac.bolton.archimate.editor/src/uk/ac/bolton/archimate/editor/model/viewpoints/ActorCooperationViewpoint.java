@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
- * Actor Cooperation Viewpoint
+ * Actor Co-operation Viewpoint
  * 
  * @author Phillip Beauvoir
  */
@@ -37,7 +37,7 @@ public class ActorCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Actor Cooperation";
+        return "Actor Co-operation";
     }
     
     @Override

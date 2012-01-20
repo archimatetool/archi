@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
- * Business Process Cooperation Viewpoint
+ * Business Process Co-operation Viewpoint
  * 
  * @author Phillip Beauvoir
  */
@@ -40,7 +40,7 @@ public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Business Process Cooperation";
+        return "Business Process Co-operation";
     }
     
     @Override
