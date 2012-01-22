@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.1 January XX 2012
+Version 2.1 January 23 2012
 ---------------------------
 + Canvas Modelling Toolkit
 + ArchiMate connection tooltips now display the full meaning of the relationship
@@ -10,16 +10,16 @@ Version 2.1 January XX 2012
 + Shortcut keys implemented for Mac OS X Lion full screen. Also menu item added to main "Window" menu
 + The Backspace key is now bound to the Delete command on Mac OS X
 + The F1 key now invokes dynamic help on Mac OS X
-+ Improve Diagram Connection Line Styles
++ Improved Diagram Connection Line Styles
 + A Relationship's name is now used as the text on a connection
-+ The "Add to my template collection" option is now enabled by default in the "Save As Template" wizard
 * BiZZdesign Architect Import/Export is no longer supported
 * Fixed "Bring Forward" and "Send Backward" commands to move only one position in Z-order
 * Fixed unnecessary page breaks in Jasper Reports
+* The "Add to my template collection" option is now enabled by default in the "Save As Template" wizard
 * Improvements to Template management
 * "Save Model As Template" wizard: Fixed template could not be added to template collection if no user category selected
-* Fixed error when tooltips disabled in Preferences and View contained Access Relationship
 * "Save Model As Template" wizard: File location is set in wizard, not in separate dialog
+* Fixed error when tooltips disabled in Preferences and View contained Access Relationship
 * Business Event type is allowed in Application Usage Viewpoint
 
 
