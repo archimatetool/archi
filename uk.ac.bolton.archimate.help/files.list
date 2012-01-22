@@ -40,8 +40,6 @@ view_fullscreen.html
 
 viewpoints.html
 
-sketch_view.html
-
 properties_window.html
 properties_model.html
 properties_element.html
@@ -61,7 +59,6 @@ hints.html
 outline.html
 
 open_save_print.html
-importing.html
 exporting.html
 reporting.html
 
@@ -72,9 +69,27 @@ templates_managing.html
 
 derived_rels.html
 
+sketch_view.html
+
+canvas.html
+canvas_getting_started.html
+canvas_details.html
+properties_canvas_block.html
+properties_canvas_sticky.html
+properties_canvas_image.html
+properties_canvas_connection.html
+image_chooser.html
+canvas_save_as_template.html
+canvas_new_from_template.html
+canvas_templates_managing.html
+
 preferences.html
+prefs_canvas.html
 prefs_connections.html
 prefs_diagram.html
 prefs_figures.html
 prefs_general.html
 prefs_help.html
+
+appendix.html
+

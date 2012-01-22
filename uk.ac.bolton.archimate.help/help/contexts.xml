@@ -18,6 +18,10 @@
        <description>The Hints window shows a hint for the selected element or palette entry. It can be useful to provide basic information about the purpose of the elements and relationships in a model.</description>
        <topic href="help/hints.html" label="The Hints Window"/>
     </context>
+    <context id="canvasEditorHelp" title="Canvas Editor">
+       <description>Creating Canvasses with the Canvas Modelling Toolkit</description>
+       <topic href="help/canvas.html" label="Canvas Modelling Toolkit"/>
+    </context>
     <context id="diagramEditorHelp" title="Diagram View">
        <description>The elements and relationships that constitute an ArchiMate model as represented in the Model Tree can be arranged into one or more &quot;Views&quot; or visual diagrams.</description>
        <topic href="help/views.html" label="Views"/>
@@ -36,6 +40,10 @@
        <topic href="help/properties_folder.html" label="Folder Properties"/>
        <topic href="help/properties_group.html" label="Group Properties"/>
        <topic href="help/properties_note.html" label="Note Properties"/>
+       <topic href="help/properties_canvas_image.html" label="Image Properties"/>
+       <topic href="help/properties_canvas_block.html" label="Block Properties"/>
+       <topic href="help/properties_canvas_sticky.html" label="Sticky Properties"/>
+       <topic href="help/properties_canvas_connection.html" label="Connection Properties"/>
     </context>
     <context id="folderSection" title="Folder Properties">
        <description>Edit Folder Properties.</description>
@@ -67,6 +75,10 @@
        <topic href="help/view_palette_tools.html" label="Palette Selection Tools"/>
        <topic href="help/view_palette_creation_tools.html" label="Palette Creation Tools"/>
        <topic href="help/view_format_painter.html" label="The Format Painter"/>
+    </context>
+    <context id="prefsCanvas" title="Canvas Preferences">
+       <description>Edit the Canvas Modelling Toolkit Preferences.</description>
+       <topic href="help/prefs_canvas.html" label="Canvas Modelling Toolkit Preferences"/>
     </context>
     <context id="prefsConnections" title="Connections Preferences">
        <description>Edit the Connections Preferences.</description>
@@ -105,11 +117,11 @@
        <description>Create a new Model based on an existing template.</description>
        <topic href="help/templates_new_model.html" label="Creating a New Model from a Template"/>
     </context>
-    <context id="SaveArchimateModelAsTemplateWizardPage" title="Creating a New Template">
+    <context id="SaveArchimateModelAsTemplateWizardPage" title="Save Model As Template">
        <description>Provide the Template's name, description and key thumbnail.</description>
        <topic href="help/templates_new.html" label="Creating a New Template"/>
     </context>
-    <context id="SaveArchimateModelAsTemplateToCollectionWizardPage" title="Creating a New Template">
+    <context id="SaveArchimateModelAsTemplateToCollectionWizardPage" title="Save Model As Template">
        <description>Choose whether to include the template in your collection.</description>
        <topic href="help/templates_new.html" label="Creating a New Template"/>
     </context>
@@ -120,6 +132,26 @@
     <context id="ExportJasperReportsWizardPage2">
        <description>Choose the report template to use.</description>
        <topic href="help/reporting.html" label="Jasper Reports"/>
+    </context>
+    <context id="ImageManagerDialog" title="Select an Image">
+       <description>Select an Image</description>
+       <topic href="help/image_chooser.html" label="Adding Images to Elements"/>
+    </context>
+    <context id="NewCanvasFromTemplateWizardPage" title="Creating a New Canvas from a Template">
+       <description>Create a new Canvas based on an existing template.</description>
+       <topic href="help/canvas_new_from_template.html" label="Creating a New Canvas from a Template"/>
+    </context>
+    <context id="SaveCanvasAsTemplateWizardPage" title="Save Canvas As Template">
+       <description>Provide the Template&apos;s name, description and key thumbnail.</description>
+       <topic href="help/canvas_save_as_template.htmls" label="Save a Canvas as a Template"/>
+    </context>
+    <context id="SaveCanvasAsTemplateToCollectionWizardPage" title="Save Canvas As Template">
+       <description>Choose whether to include the template in your collection.</description>
+       <topic href="help/canvas_save_as_template.html" label="Save a Canvas as a Template"/>
+    </context>
+    <context id="CanvasTemplateManagerDialog" title="Managing your Canvas Templates">
+       <description>Manage your Canvas Templates</description>
+       <topic href="help/canvas_templates_managing.html" label="Managing your Canvas Templates"/>
     </context>
     
 </contexts>

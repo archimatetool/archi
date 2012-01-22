@@ -34,6 +34,8 @@ In MS Word
 7. Save As Word Doc "Archi User Guide.docx" in the "docs" folder
 8. Save As PDF "Archi User Guide.pdf" in the "docs" folder
 
+* Delete the "Archi User Guide.html" file
+
 
 Create the "What's New in Archi Document"
 -----------------------------------------
