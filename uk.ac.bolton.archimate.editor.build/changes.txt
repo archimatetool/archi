@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.1 January 23 2012
+Version 2.1 January 25 2012
 ---------------------------
 + Canvas Modelling Toolkit
 + ArchiMate connection tooltips now display the full meaning of the relationship
@@ -21,6 +21,7 @@ Version 2.1 January 23 2012
 * "Save Model As Template" wizard: File location is set in wizard, not in separate dialog
 * Fixed error when tooltips disabled in Preferences and View contained Access Relationship
 * Business Event type is allowed in Application Usage Viewpoint
+* Fixed crash when editor is in Full Screen mode and "Undo New View" is performed on the same View
 
 
 

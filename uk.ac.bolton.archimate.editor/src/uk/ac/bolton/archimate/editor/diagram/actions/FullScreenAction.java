@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2011-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -28,13 +28,14 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.keys.IBindingService;
 
 import uk.ac.bolton.archimate.editor.diagram.FloatingPalette;
 import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
+import uk.ac.bolton.archimate.editor.ui.components.PartListenerAdapter;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
@@ -129,6 +130,18 @@ public class FullScreenAction extends WorkbenchPartAction {
         }
     };
     
+    /*
+     * If the workbench part that was closed (typically from an "Undo New View" Action) is this part then close full screen.
+     * Important to use partDeactivated event rather than partClosed event so we can regain proper focus so that the Undo stack is reset.
+     */
+    private IPartListener partListener = new PartListenerAdapter() {
+        @Override
+        public void partDeactivated(IWorkbenchPart part) {
+            if(part == getWorkbenchPart()) {
+                close();
+            }
+        }
+    };
     
     public FullScreenAction(IWorkbenchPart part) {
         super(part);
@@ -176,6 +189,12 @@ public class FullScreenAction extends WorkbenchPartAction {
         
         // Hide the old Shell
         fOldParent.getShell().setVisible(false);
+        
+        // Listen to Parts being closed
+        getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
+        
+        // Set Focus on new Shell
+        fNewShell.setFocus();
     }
     
     private void close() {
@@ -183,6 +202,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         
         fGraphicalViewer.getContextMenu().removeMenuListener(contextMenuListener);
         fGraphicalViewer.getControl().removeKeyListener(keyListener);
+
+        // Remove Listen to Parts being closed
+        getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().removePartListener(partListener);
         
         fGraphicalViewer.getEditDomain().setPaletteViewer(fOldPaletteViewer);
         fGraphicalViewer.getControl().setParent(fOldParent);
@@ -190,11 +212,12 @@ public class FullScreenAction extends WorkbenchPartAction {
         
         fNewShell.dispose();
         
-        fOldParent.getShell().setVisible(true);
-        fGraphicalViewer.getControl().setFocus();
-        
         // Reset Property
         fGraphicalViewer.setProperty("full_screen", null);
+
+        // Visible & Focus
+        fOldParent.getShell().setVisible(true);
+        getWorkbenchPart().getSite().getWorkbenchWindow().getShell().setFocus();
     }
 
     /**
@@ -202,9 +225,8 @@ public class FullScreenAction extends WorkbenchPartAction {
      */
     private void addKeyBindings() {
         if(keyBindings.isEmpty()) {
-            IEditorPart editor = ((DefaultEditDomain)fGraphicalViewer.getEditDomain()).getEditorPart();
-            ActionRegistry registry = (ActionRegistry)editor.getAdapter(ActionRegistry.class);
-            IBindingService service = (IBindingService)editor.getEditorSite().getService(IBindingService.class);
+            ActionRegistry registry = (ActionRegistry)getWorkbenchPart().getAdapter(ActionRegistry.class);
+            IBindingService service = (IBindingService)getWorkbenchPart().getSite().getService(IBindingService.class);
             
             addKeyBinding(registry, service, ActionFactory.SELECT_ALL);
             addKeyBinding(registry, service, ActionFactory.UNDO);
