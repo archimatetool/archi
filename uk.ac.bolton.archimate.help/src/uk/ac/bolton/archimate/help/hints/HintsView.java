@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EClass;
@@ -396,13 +397,16 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             
             String id = configurationElement.getNamespaceIdentifier();
             Bundle bundle = Platform.getBundle(id);
-            URL url = bundle.getEntry(fileName);
+            URL url = FileLocator.find(bundle, new Path("$nl$/" + fileName), null);
+            
             try {
                 url = FileLocator.resolve(url);
             }
             catch(IOException ex) {
                 ex.printStackTrace();
+                continue;
             }
+            
             File f = new File(url.getPath());
             
             Hint hint = new Hint(title, f.getPath());
