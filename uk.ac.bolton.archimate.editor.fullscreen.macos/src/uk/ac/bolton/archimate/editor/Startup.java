@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor;
 
 import java.lang.reflect.Method;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
@@ -22,8 +23,19 @@ import org.eclipse.ui.PlatformUI;
  */
 public class Startup implements IStartup {
 
+    /**
+     * @return true if we are on OS X 10.7 and above
+     */
+    public static boolean isSupportedVersion() {
+        return Platform.WS_COCOA.equals(Platform.getWS()) && System.getProperty("os.version").compareTo("10.7") >= 0;
+    }
+
     @Override
     public void earlyStartup() {
+        if(!isSupportedVersion()) {
+            return;
+        }
+        
         final IWorkbench workbench = PlatformUI.getWorkbench();
         workbench.getDisplay().asyncExec(new Runnable() {
             public void run() {

@@ -30,7 +30,7 @@
       <command
             defaultHandler="uk.ac.bolton.archimate.editor.EscapeFullScreenCommandHandler"
             id="uk.ac.bolton.archimate.editor.fullscreen.macos.commandEscape"
-            name="Exit Full ScreenScreen">
+            name="Exit Full Screen">
       </command>
    </extension>
    <extension
@@ -42,6 +42,9 @@
                commandId="uk.ac.bolton.archimate.editor.fullscreen.macos.commandFullScreen"
                label="Mac Full Screen"
                style="push">
+            <visibleWhen
+                  checkEnabled="true">
+            </visibleWhen>
          </command>
       </menuContribution>
    </extension>on>

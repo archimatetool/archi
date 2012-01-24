@@ -17,7 +17,7 @@ import org.eclipse.ui.PlatformUI;
  * @author Phillip Beauvoir
  */
 public class FullScreenCommandHandler extends AbstractHandler {
-
+    
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         for(Object nsWindow : getNSWindows()) {
@@ -53,4 +53,8 @@ public class FullScreenCommandHandler extends AbstractHandler {
         }
     }
 
+    @Override
+    public boolean isEnabled() {
+        return Startup.isSupportedVersion();
+    }
 }
