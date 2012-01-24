@@ -34,7 +34,15 @@ public class IconicDelegate {
         
         if(fIconic.getImagePath() != null) {
             IArchiveManager archiveManager = (IArchiveManager)fIconic.getAdapter(IArchiveManager.class);
-            Image image = archiveManager.createImage(fIconic.getImagePath());
+
+            Image image = null;
+            try {
+                image = archiveManager.createImage(fIconic.getImagePath());
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
+            
             if(image != null) {
                 // If the image bounds is bigger than the maximum displayed image here then create a scaled image
                 if(image.getBounds().width > IIconic.MAX_IMAGE_SIZE || image.getBounds().height > IIconic.MAX_IMAGE_SIZE) {

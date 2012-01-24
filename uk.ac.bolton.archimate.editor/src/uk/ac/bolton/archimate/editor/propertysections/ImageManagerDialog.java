@@ -309,17 +309,23 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
                 IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
                 
                 for(String path : archiveManager.getImagePaths()) {
-                    GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
                     Image thumbnail = fImageCache.get(path);
                     if(thumbnail == null) {
-                        Image image = archiveManager.createImage(path);
-                        if(image != null) {
-                            thumbnail = ImageFactory.getScaledImage(image, MAX_GALLERY_ITEM_SIZE);
-                            image.dispose();
-                            fImageCache.put(path, thumbnail);
+                        try {
+                            Image image = archiveManager.createImage(path);
+                            if(image != null) {
+                                thumbnail = ImageFactory.getScaledImage(image, MAX_GALLERY_ITEM_SIZE);
+                                image.dispose();
+                                fImageCache.put(path, thumbnail);
+                            }
+                        }
+                        catch(Exception ex) {
+                            ex.printStackTrace();
+                            continue;
                         }
                     }
                     
+                    GalleryItem item = new GalleryItem(fGalleryRoot, SWT.NONE);
                     item.setImage(thumbnail);
                     item.setData(path);
                 }

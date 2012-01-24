@@ -93,8 +93,9 @@ public interface IArchiveManager {
      * Create a new Image for this path entry
      * @param path The image path
      * @return the Image object or null
+     * @throws Exception
      */
-    Image createImage(String path);
+    Image createImage(String path) throws Exception;
 
     /**
      * Get a list of Image entry paths as used in the current state of the model.<br>

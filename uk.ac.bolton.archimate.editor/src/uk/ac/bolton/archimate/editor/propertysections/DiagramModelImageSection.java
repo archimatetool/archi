@@ -16,6 +16,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -28,7 +29,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -179,14 +179,14 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
         String path = null;
         
         try {
-            IArchiveManager archiveManager = (IArchiveManager)getEObject().getAdapter(IArchiveManager.class);
-            
             // User selected a file
             if(selected instanceof File) {
                 File file = (File)selected;
                 if(!file.exists() || !file.canRead()) {
                     return;
                 }
+                
+                IArchiveManager archiveManager = (IArchiveManager)getEObject().getAdapter(IArchiveManager.class);
                 path = archiveManager.addImageFromFile(file);
             }
             // User selected a Gallery image path
@@ -199,8 +199,10 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
             }
         }
         catch(IOException ex) {
-            Logger.logError("Could not add image file", ex);
             ex.printStackTrace();
+            MessageDialog.openError(getPart().getSite().getShell(),
+                    "Set Image",
+                    "Unsupported Image format");
             return;
         }
         

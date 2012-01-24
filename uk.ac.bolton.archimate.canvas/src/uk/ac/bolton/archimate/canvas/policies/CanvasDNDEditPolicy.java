@@ -104,7 +104,15 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
             canvasModelImage.setImagePath(pathName);
 
             // Get width and height of the image
-            Image image = archiveManager.createImage(pathName);
+            Image image = null;
+            try {
+                image = archiveManager.createImage(pathName);
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+                continue;
+            }
+            
             int image_width = image.getBounds().width;
             int image_height = image.getBounds().height;
             image.dispose();

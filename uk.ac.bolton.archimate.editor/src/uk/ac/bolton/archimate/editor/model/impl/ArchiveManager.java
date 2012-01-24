@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.model.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -107,12 +108,22 @@ public class ArchiveManager implements IArchiveManager {
 
     @Override
     public String addImageFromFile(File file) throws IOException {
-        // Is this already in the cache?
+        // Get bytes
         byte[] bytes = BYTE_ARRAY_STORAGE.getBytesFromFile(file);
-        String entryName = BYTE_ARRAY_STORAGE.getKey(bytes);
         
+        // Is this already in the cache?
+        String entryName = BYTE_ARRAY_STORAGE.getKey(bytes);
         // No, so create a new one
         if(entryName == null) {
+            // Is this actually a valid Image file? Test it...
+            try {
+                new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
+            }
+            catch(Throwable ex) {
+                throw new IOException("Not a supported image file", ex);
+            }
+            
+            // OK, add the bytes
             entryName = createArchiveImagePathname(file);
             BYTE_ARRAY_STORAGE.addByteContentEntry(entryName, bytes);
         }
@@ -123,7 +134,7 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     @Override
-    public Image createImage(String path) {
+    public Image createImage(String path) throws Exception {
         if(BYTE_ARRAY_STORAGE.hasEntry(path)) {
             return new Image(Display.getCurrent(), BYTE_ARRAY_STORAGE.getInputStream(path));
         }
