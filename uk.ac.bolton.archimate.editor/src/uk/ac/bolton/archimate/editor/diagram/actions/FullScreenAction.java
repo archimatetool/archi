@@ -35,6 +35,7 @@ import org.eclipse.ui.keys.IBindingService;
 
 import uk.ac.bolton.archimate.editor.diagram.FloatingPalette;
 import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.components.PartListenerAdapter;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
@@ -175,6 +176,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
         fNewShell.setLayout(new FillLayout());
+        fNewShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_128));
         
         // Set the Viewer's control's parent to be the new Shell
         fGraphicalViewer.getControl().setParent(fNewShell);
