@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2011-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -8,6 +8,11 @@ package uk.ac.bolton.archimate.editor.ui.components;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 
@@ -37,39 +42,52 @@ public class CellEditorGlobalActionHandler {
     
     private IAction[] actions = new IAction[actionIds.length];
 
-    public CellEditorGlobalActionHandler(IActionBars actionbars) {
-        fActionBars = actionbars;
-        
-        saveActions();
-        nullActions();
+    public CellEditorGlobalActionHandler() {
+        // Get Action Bars from Active Part
+        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        if(window != null && window.getActivePage() != null && window.getActivePage().getActivePart() != null) {
+            IWorkbenchPartSite site = window.getActivePage().getActivePart().getSite();
+            if(site instanceof IEditorSite) {
+                fActionBars = ((IEditorSite)site).getActionBars();
+            }
+            else if(site instanceof IViewSite) {
+                fActionBars = ((IViewSite)site).getActionBars();
+            }
+        }
+    }
+    
+    /**
+     * Clear the Global Action Handlers for the Active Part
+     */
+    public void clearGlobalActions() {
+        if(fActionBars != null) {
+            // Save Actions
+            for(int i = 0; i < actionIds.length; i++) {
+                actions[i] = fActionBars.getGlobalActionHandler(actionIds[i]);
+            }
+            
+            // Null them
+            for(int i = 0; i < actionIds.length; i++) {
+                fActionBars.setGlobalActionHandler(actionIds[i], null);
+            }
+            
+            // Update
+            fActionBars.updateActionBars();
+        }
     }
     
     /**
      * Restore the Global Action Handlers that were set to null
      */
-    public void dispose() {
-        restoreActions();
-    }
-
-    private void saveActions() {
-        for(int i = 0; i < actionIds.length; i++) {
-            actions[i] = fActionBars.getGlobalActionHandler(actionIds[i]);
+    public void restoreGlobalActions() {
+        if(fActionBars != null) {
+            // Restore Actions
+            for(int i = 0; i < actionIds.length; i++) {
+                fActionBars.setGlobalActionHandler(actionIds[i], actions[i]);
+            }
+            
+            // Update
+            fActionBars.updateActionBars();
         }
-    }
-    
-    private void nullActions() {
-        for(int i = 0; i < actionIds.length; i++) {
-            fActionBars.setGlobalActionHandler(actionIds[i], null);
-        }
-        
-        fActionBars.updateActionBars();
-    }
-    
-    private void restoreActions() {
-        for(int i = 0; i < actionIds.length; i++) {
-            fActionBars.setGlobalActionHandler(actionIds[i], actions[i]);
-        }
-        
-        fActionBars.updateActionBars();
     }
 }

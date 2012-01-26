@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2011-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -84,8 +84,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
@@ -820,14 +818,13 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             public void handleEvent(Event event) {
                 switch(event.type) {
                     case SWT.Activate:
-                        IActionBars actionBars = ((IViewSite)PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                .getActivePage().getActivePart().getSite()).getActionBars();
-                        globalActionHandler = new CellEditorGlobalActionHandler(actionBars);
+                        globalActionHandler = new CellEditorGlobalActionHandler();
+                        globalActionHandler.clearGlobalActions();
                         break;
 
                     case SWT.Deactivate:
                         if(globalActionHandler != null) {
-                            globalActionHandler.dispose();
+                            globalActionHandler.restoreGlobalActions();
                         }
                         break;
 

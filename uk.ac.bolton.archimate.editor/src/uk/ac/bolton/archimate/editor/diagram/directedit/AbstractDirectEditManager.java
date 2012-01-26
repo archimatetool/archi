@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2011-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -12,8 +12,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
@@ -35,10 +33,8 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
     @Override
     protected void initCellEditor() {
         // Hook into the global Action Handlers and null them
-        IActionBars actionBars = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                .getActivePage().getActiveEditor().getEditorSite().getActionBars();
-
-        fGlobalActionHandler = new CellEditorGlobalActionHandler(actionBars);
+        fGlobalActionHandler = new CellEditorGlobalActionHandler();
+        fGlobalActionHandler.clearGlobalActions();
         
         // Stop OS X Lion closing Full Screen when Escape pressed
         if(PlatformUtils.supportsMacFullScreen()) {
@@ -56,7 +52,7 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
     @Override
     protected void bringDown() {
         // Restore the global Action Handlers
-        fGlobalActionHandler.dispose();
+        fGlobalActionHandler.restoreGlobalActions();
         
         super.bringDown();
     }

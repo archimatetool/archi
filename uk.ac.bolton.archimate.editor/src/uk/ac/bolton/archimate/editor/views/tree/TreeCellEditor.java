@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2011-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -18,12 +18,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.tree.commands.RenameCommandHandler;
 import uk.ac.bolton.archimate.model.INameable;
 
@@ -53,7 +52,6 @@ public class TreeCellEditor {
     private String fOldText;
     
     private CellEditorGlobalActionHandler fGlobalActionHandler;
-    private IActionBars fActionBars;
     
     private boolean EDIT_ON_CLICK = false;
     
@@ -184,6 +182,18 @@ public class TreeCellEditor {
             
             fEditor.setEditor(fComposite, item);
             
+            /*
+             * On Ubuntu if user does "New Model" and a new editor View is opened
+             * the focus is retained on the Editor
+             */
+            if(PlatformUtils.isLinux()) {
+                ViewManager.showViewPart(ITreeModelView.ID, true);
+            }
+            
+            // Null out the edit global action handlers...
+            fGlobalActionHandler = new CellEditorGlobalActionHandler();
+            fGlobalActionHandler.clearGlobalActions();
+            
             fText.setText(fElement.getName());
             fText.selectAll();
             fText.setFocus();
@@ -195,14 +205,6 @@ public class TreeCellEditor {
         // Store last item even if null
         fLastItem = item;
         
-        // Null out the edit global action handlers...
-        // Active Part Site will always be the TreeView
-        fActionBars = ((IViewSite)PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                       .getActivePage()
-                       .getActivePart()
-                       .getSite()).getActionBars();
-        
-        fGlobalActionHandler = new CellEditorGlobalActionHandler(fActionBars);
     }
     
     private void finaliseEdit() {
@@ -234,7 +236,7 @@ public class TreeCellEditor {
     private void disposeEditor() {
         // Restore global action handlers
         if(fGlobalActionHandler != null) {
-            fGlobalActionHandler.dispose();
+            fGlobalActionHandler.restoreGlobalActions();
         }
         
         if(fComposite != null && !fComposite.isDisposed()) {
