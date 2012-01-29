@@ -63,7 +63,7 @@ VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
 VIAddVersionKey FileVersion "${VERSION}"
 VIAddVersionKey FileDescription "Archi Installer"
-VIAddVersionKey LegalCopyright "(c) Bolton University 2010"
+VIAddVersionKey LegalCopyright "(c) Bolton University 2011-12"
 InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails hide
 
