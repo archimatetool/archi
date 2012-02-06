@@ -119,6 +119,7 @@
     <genClasses ecoreClass="archimate.ecore#//BusinessRole"/>
     <genClasses ecoreClass="archimate.ecore#//BusinessService"/>
     <genClasses ecoreClass="archimate.ecore#//Value"/>
+    <genClasses ecoreClass="archimate.ecore#//Location"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ApplicationLayerElement"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationCollaboration"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationComponent"/>
@@ -133,6 +134,7 @@
     <genClasses ecoreClass="archimate.ecore#//Network"/>
     <genClasses ecoreClass="archimate.ecore#//InfrastructureInterface"/>
     <genClasses ecoreClass="archimate.ecore#//InfrastructureService"/>
+    <genClasses ecoreClass="archimate.ecore#//InfrastructureFunction"/>
     <genClasses ecoreClass="archimate.ecore#//Node"/>
     <genClasses ecoreClass="archimate.ecore#//SystemSoftware"/>
     <genClasses ecoreClass="archimate.ecore#//Device"/>

@@ -27,6 +27,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
+import uk.ac.bolton.archimate.model.IAssessment;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
 import uk.ac.bolton.archimate.model.IBorderObject;
@@ -46,8 +47,10 @@ import uk.ac.bolton.archimate.model.IBusinessService;
 import uk.ac.bolton.archimate.model.ICloneable;
 import uk.ac.bolton.archimate.model.ICommunicationPath;
 import uk.ac.bolton.archimate.model.ICompositionRelationship;
+import uk.ac.bolton.archimate.model.IConstraint;
 import uk.ac.bolton.archimate.model.IContract;
 import uk.ac.bolton.archimate.model.IDataObject;
+import uk.ac.bolton.archimate.model.IDeliverable;
 import uk.ac.bolton.archimate.model.IDevice;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -63,38 +66,51 @@ import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.IDocumentable;
+import uk.ac.bolton.archimate.model.IDriver;
 import uk.ac.bolton.archimate.model.IFlowRelationship;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IFolderContainer;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.IGap;
+import uk.ac.bolton.archimate.model.IGoal;
 import uk.ac.bolton.archimate.model.IIdentifier;
+import uk.ac.bolton.archimate.model.IImplementationMigrationElement;
+import uk.ac.bolton.archimate.model.IInfluenceRelationship;
+import uk.ac.bolton.archimate.model.IInfrastructureFunction;
 import uk.ac.bolton.archimate.model.IInfrastructureInterface;
 import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.IJunction;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IMeaning;
+import uk.ac.bolton.archimate.model.IMotivationElement;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.INetwork;
 import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
+import uk.ac.bolton.archimate.model.IPlateau;
+import uk.ac.bolton.archimate.model.IPrinciple;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
+import uk.ac.bolton.archimate.model.IRequirement;
 import uk.ac.bolton.archimate.model.ISketchModel;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 import uk.ac.bolton.archimate.model.ISpecialisationRelationship;
+import uk.ac.bolton.archimate.model.IStakeholder;
 import uk.ac.bolton.archimate.model.ISystemSoftware;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 import uk.ac.bolton.archimate.model.ITextContent;
 import uk.ac.bolton.archimate.model.ITriggeringRelationship;
 import uk.ac.bolton.archimate.model.IUsedByRelationship;
 import uk.ac.bolton.archimate.model.IValue;
+import uk.ac.bolton.archimate.model.IWorkPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -489,6 +505,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.INFLUENCE_RELATIONSHIP: {
+                IInfluenceRelationship influenceRelationship = (IInfluenceRelationship)theEObject;
+                T result = caseInfluenceRelationship(influenceRelationship);
+                if (result == null) result = caseRelationship(influenceRelationship);
+                if (result == null) result = caseArchimateElement(influenceRelationship);
+                if (result == null) result = caseArchimateModelElement(influenceRelationship);
+                if (result == null) result = caseIdentifier(influenceRelationship);
+                if (result == null) result = caseCloneable(influenceRelationship);
+                if (result == null) result = caseNameable(influenceRelationship);
+                if (result == null) result = caseDocumentable(influenceRelationship);
+                if (result == null) result = caseProperties(influenceRelationship);
+                if (result == null) result = caseAdapter(influenceRelationship);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.BUSINESS_LAYER_ELEMENT: {
                 IBusinessLayerElement businessLayerElement = (IBusinessLayerElement)theEObject;
                 T result = caseBusinessLayerElement(businessLayerElement);
@@ -744,6 +775,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.LOCATION: {
+                ILocation location = (ILocation)theEObject;
+                T result = caseLocation(location);
+                if (result == null) result = caseBusinessLayerElement(location);
+                if (result == null) result = caseArchimateElement(location);
+                if (result == null) result = caseArchimateModelElement(location);
+                if (result == null) result = caseIdentifier(location);
+                if (result == null) result = caseCloneable(location);
+                if (result == null) result = caseNameable(location);
+                if (result == null) result = caseDocumentable(location);
+                if (result == null) result = caseProperties(location);
+                if (result == null) result = caseAdapter(location);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.APPLICATION_LAYER_ELEMENT: {
                 IApplicationLayerElement applicationLayerElement = (IApplicationLayerElement)theEObject;
                 T result = caseApplicationLayerElement(applicationLayerElement);
@@ -954,6 +1000,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.INFRASTRUCTURE_FUNCTION: {
+                IInfrastructureFunction infrastructureFunction = (IInfrastructureFunction)theEObject;
+                T result = caseInfrastructureFunction(infrastructureFunction);
+                if (result == null) result = caseTechnologyLayerElement(infrastructureFunction);
+                if (result == null) result = caseArchimateElement(infrastructureFunction);
+                if (result == null) result = caseArchimateModelElement(infrastructureFunction);
+                if (result == null) result = caseIdentifier(infrastructureFunction);
+                if (result == null) result = caseCloneable(infrastructureFunction);
+                if (result == null) result = caseNameable(infrastructureFunction);
+                if (result == null) result = caseDocumentable(infrastructureFunction);
+                if (result == null) result = caseProperties(infrastructureFunction);
+                if (result == null) result = caseAdapter(infrastructureFunction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.NODE: {
                 INode node = (INode)theEObject;
                 T result = caseNode(node);
@@ -996,6 +1057,199 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(device);
                 if (result == null) result = caseProperties(device);
                 if (result == null) result = caseAdapter(device);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.MOTIVATION_ELEMENT: {
+                IMotivationElement motivationElement = (IMotivationElement)theEObject;
+                T result = caseMotivationElement(motivationElement);
+                if (result == null) result = caseArchimateElement(motivationElement);
+                if (result == null) result = caseArchimateModelElement(motivationElement);
+                if (result == null) result = caseIdentifier(motivationElement);
+                if (result == null) result = caseCloneable(motivationElement);
+                if (result == null) result = caseNameable(motivationElement);
+                if (result == null) result = caseDocumentable(motivationElement);
+                if (result == null) result = caseProperties(motivationElement);
+                if (result == null) result = caseAdapter(motivationElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.STAKEHOLDER: {
+                IStakeholder stakeholder = (IStakeholder)theEObject;
+                T result = caseStakeholder(stakeholder);
+                if (result == null) result = caseMotivationElement(stakeholder);
+                if (result == null) result = caseArchimateElement(stakeholder);
+                if (result == null) result = caseArchimateModelElement(stakeholder);
+                if (result == null) result = caseIdentifier(stakeholder);
+                if (result == null) result = caseCloneable(stakeholder);
+                if (result == null) result = caseNameable(stakeholder);
+                if (result == null) result = caseDocumentable(stakeholder);
+                if (result == null) result = caseProperties(stakeholder);
+                if (result == null) result = caseAdapter(stakeholder);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DRIVER: {
+                IDriver driver = (IDriver)theEObject;
+                T result = caseDriver(driver);
+                if (result == null) result = caseMotivationElement(driver);
+                if (result == null) result = caseArchimateElement(driver);
+                if (result == null) result = caseArchimateModelElement(driver);
+                if (result == null) result = caseIdentifier(driver);
+                if (result == null) result = caseCloneable(driver);
+                if (result == null) result = caseNameable(driver);
+                if (result == null) result = caseDocumentable(driver);
+                if (result == null) result = caseProperties(driver);
+                if (result == null) result = caseAdapter(driver);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.ASSESSMENT: {
+                IAssessment assessment = (IAssessment)theEObject;
+                T result = caseAssessment(assessment);
+                if (result == null) result = caseMotivationElement(assessment);
+                if (result == null) result = caseArchimateElement(assessment);
+                if (result == null) result = caseArchimateModelElement(assessment);
+                if (result == null) result = caseIdentifier(assessment);
+                if (result == null) result = caseCloneable(assessment);
+                if (result == null) result = caseNameable(assessment);
+                if (result == null) result = caseDocumentable(assessment);
+                if (result == null) result = caseProperties(assessment);
+                if (result == null) result = caseAdapter(assessment);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.GOAL: {
+                IGoal goal = (IGoal)theEObject;
+                T result = caseGoal(goal);
+                if (result == null) result = caseMotivationElement(goal);
+                if (result == null) result = caseArchimateElement(goal);
+                if (result == null) result = caseArchimateModelElement(goal);
+                if (result == null) result = caseIdentifier(goal);
+                if (result == null) result = caseCloneable(goal);
+                if (result == null) result = caseNameable(goal);
+                if (result == null) result = caseDocumentable(goal);
+                if (result == null) result = caseProperties(goal);
+                if (result == null) result = caseAdapter(goal);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.REQUIREMENT: {
+                IRequirement requirement = (IRequirement)theEObject;
+                T result = caseRequirement(requirement);
+                if (result == null) result = caseMotivationElement(requirement);
+                if (result == null) result = caseArchimateElement(requirement);
+                if (result == null) result = caseArchimateModelElement(requirement);
+                if (result == null) result = caseIdentifier(requirement);
+                if (result == null) result = caseCloneable(requirement);
+                if (result == null) result = caseNameable(requirement);
+                if (result == null) result = caseDocumentable(requirement);
+                if (result == null) result = caseProperties(requirement);
+                if (result == null) result = caseAdapter(requirement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.CONSTRAINT: {
+                IConstraint constraint = (IConstraint)theEObject;
+                T result = caseConstraint(constraint);
+                if (result == null) result = caseMotivationElement(constraint);
+                if (result == null) result = caseArchimateElement(constraint);
+                if (result == null) result = caseArchimateModelElement(constraint);
+                if (result == null) result = caseIdentifier(constraint);
+                if (result == null) result = caseCloneable(constraint);
+                if (result == null) result = caseNameable(constraint);
+                if (result == null) result = caseDocumentable(constraint);
+                if (result == null) result = caseProperties(constraint);
+                if (result == null) result = caseAdapter(constraint);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.PRINCIPLE: {
+                IPrinciple principle = (IPrinciple)theEObject;
+                T result = casePrinciple(principle);
+                if (result == null) result = caseMotivationElement(principle);
+                if (result == null) result = caseArchimateElement(principle);
+                if (result == null) result = caseArchimateModelElement(principle);
+                if (result == null) result = caseIdentifier(principle);
+                if (result == null) result = caseCloneable(principle);
+                if (result == null) result = caseNameable(principle);
+                if (result == null) result = caseDocumentable(principle);
+                if (result == null) result = caseProperties(principle);
+                if (result == null) result = caseAdapter(principle);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.IMPLEMENTATION_MIGRATION_ELEMENT: {
+                IImplementationMigrationElement implementationMigrationElement = (IImplementationMigrationElement)theEObject;
+                T result = caseImplementationMigrationElement(implementationMigrationElement);
+                if (result == null) result = caseArchimateElement(implementationMigrationElement);
+                if (result == null) result = caseArchimateModelElement(implementationMigrationElement);
+                if (result == null) result = caseIdentifier(implementationMigrationElement);
+                if (result == null) result = caseCloneable(implementationMigrationElement);
+                if (result == null) result = caseNameable(implementationMigrationElement);
+                if (result == null) result = caseDocumentable(implementationMigrationElement);
+                if (result == null) result = caseProperties(implementationMigrationElement);
+                if (result == null) result = caseAdapter(implementationMigrationElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.WORK_PACKAGE: {
+                IWorkPackage workPackage = (IWorkPackage)theEObject;
+                T result = caseWorkPackage(workPackage);
+                if (result == null) result = caseImplementationMigrationElement(workPackage);
+                if (result == null) result = caseArchimateElement(workPackage);
+                if (result == null) result = caseArchimateModelElement(workPackage);
+                if (result == null) result = caseIdentifier(workPackage);
+                if (result == null) result = caseCloneable(workPackage);
+                if (result == null) result = caseNameable(workPackage);
+                if (result == null) result = caseDocumentable(workPackage);
+                if (result == null) result = caseProperties(workPackage);
+                if (result == null) result = caseAdapter(workPackage);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DELIVERABLE: {
+                IDeliverable deliverable = (IDeliverable)theEObject;
+                T result = caseDeliverable(deliverable);
+                if (result == null) result = caseImplementationMigrationElement(deliverable);
+                if (result == null) result = caseArchimateElement(deliverable);
+                if (result == null) result = caseArchimateModelElement(deliverable);
+                if (result == null) result = caseIdentifier(deliverable);
+                if (result == null) result = caseCloneable(deliverable);
+                if (result == null) result = caseNameable(deliverable);
+                if (result == null) result = caseDocumentable(deliverable);
+                if (result == null) result = caseProperties(deliverable);
+                if (result == null) result = caseAdapter(deliverable);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.PLATEAU: {
+                IPlateau plateau = (IPlateau)theEObject;
+                T result = casePlateau(plateau);
+                if (result == null) result = caseImplementationMigrationElement(plateau);
+                if (result == null) result = caseArchimateElement(plateau);
+                if (result == null) result = caseArchimateModelElement(plateau);
+                if (result == null) result = caseIdentifier(plateau);
+                if (result == null) result = caseCloneable(plateau);
+                if (result == null) result = caseNameable(plateau);
+                if (result == null) result = caseDocumentable(plateau);
+                if (result == null) result = caseProperties(plateau);
+                if (result == null) result = caseAdapter(plateau);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.GAP: {
+                IGap gap = (IGap)theEObject;
+                T result = caseGap(gap);
+                if (result == null) result = caseImplementationMigrationElement(gap);
+                if (result == null) result = caseArchimateElement(gap);
+                if (result == null) result = caseArchimateModelElement(gap);
+                if (result == null) result = caseIdentifier(gap);
+                if (result == null) result = caseCloneable(gap);
+                if (result == null) result = caseNameable(gap);
+                if (result == null) result = caseDocumentable(gap);
+                if (result == null) result = caseProperties(gap);
+                if (result == null) result = caseAdapter(gap);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1583,6 +1837,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Infrastructure Function</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Infrastructure Function</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseInfrastructureFunction(IInfrastructureFunction object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Node</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -1624,6 +1893,201 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDevice(IDevice object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Motivation Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Motivation Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMotivationElement(IMotivationElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Stakeholder</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Stakeholder</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseStakeholder(IStakeholder object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Driver</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Driver</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDriver(IDriver object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Assessment</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Assessment</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAssessment(IAssessment object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Goal</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Goal</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseGoal(IGoal object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Requirement</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Requirement</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseRequirement(IRequirement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseConstraint(IConstraint object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Principle</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Principle</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePrinciple(IPrinciple object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Implementation Migration Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Implementation Migration Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseImplementationMigrationElement(IImplementationMigrationElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Work Package</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Work Package</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseWorkPackage(IWorkPackage object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Deliverable</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Deliverable</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDeliverable(IDeliverable object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Plateau</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Plateau</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePlateau(IPlateau object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Gap</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Gap</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseGap(IGap object) {
         return null;
     }
 
@@ -2168,6 +2632,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Location</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Location</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseLocation(ILocation object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Application Component</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2434,6 +2913,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseUsedByRelationship(IUsedByRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Influence Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Influence Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseInfluenceRelationship(IInfluenceRelationship object) {
         return null;
     }
 

@@ -65,6 +65,8 @@
     <eLiterals name="relations" value="5"/>
     <eLiterals name="diagrams" value="6"/>
     <eLiterals name="derived" value="7" literal="derived"/>
+    <eLiterals name="motivation" value="8" literal="motivation"/>
+    <eLiterals name="implementation_migration" value="9" literal="implementation_migration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FolderContainer" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"
@@ -145,6 +147,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="SpecialisationRelationship" eSuperTypes="#//Relationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//Relationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="UsedByRelationship" eSuperTypes="#//Relationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//Relationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessLayerElement" abstract="true"
       interface="true" eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessActivity" eSuperTypes="#//BusinessLayerElement"/>
@@ -163,6 +166,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="BusinessRole" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//BusinessLayerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationLayerElement" abstract="true"
       interface="true" eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationCollaboration" eSuperTypes="#//ApplicationLayerElement"/>
@@ -179,9 +183,24 @@
   <eClassifiers xsi:type="ecore:EClass" name="Network" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfrastructureInterface" eSuperTypes="#//TechnologyLayerElement #//InterfaceElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfrastructureService" eSuperTypes="#//TechnologyLayerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureFunction" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="SystemSoftware" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Device" eSuperTypes="#//TechnologyLayerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MotivationElement" abstract="true" eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Stakeholder" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessment" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Principle" eSuperTypes="#//MotivationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementationMigrationElement" abstract="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPackage" eSuperTypes="#//ImplementationMigrationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Deliverable" eSuperTypes="#//ImplementationMigrationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Plateau" eSuperTypes="#//ImplementationMigrationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Gap" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
       eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagramModel" eType="#//DiagramModel"

@@ -28,9 +28,10 @@ package uk.ac.bolton.archimate.model;
  *         View objects, Viewpoints, and refactoring of DiagramModel and ArchimateDiagramModel
  * 2.1.0 - The "text" attribute of IDiagramModelConnection is deprecated.
  *		   Lockable support. Borders. DiagramModelImage and IDiagramModelImageProvider
+ * 2.2.0 - ArchiMate 2.0 elements.
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "2.1.0";
+    String VERSION = "2.2.0";
 }

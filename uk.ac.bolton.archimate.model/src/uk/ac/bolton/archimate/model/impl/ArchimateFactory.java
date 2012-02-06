@@ -28,6 +28,7 @@ import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
+import uk.ac.bolton.archimate.model.IAssessment;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
 import uk.ac.bolton.archimate.model.IBounds;
@@ -44,8 +45,10 @@ import uk.ac.bolton.archimate.model.IBusinessRole;
 import uk.ac.bolton.archimate.model.IBusinessService;
 import uk.ac.bolton.archimate.model.ICommunicationPath;
 import uk.ac.bolton.archimate.model.ICompositionRelationship;
+import uk.ac.bolton.archimate.model.IConstraint;
 import uk.ac.bolton.archimate.model.IContract;
 import uk.ac.bolton.archimate.model.IDataObject;
+import uk.ac.bolton.archimate.model.IDeliverable;
 import uk.ac.bolton.archimate.model.IDevice;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -55,27 +58,38 @@ import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelImage;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
+import uk.ac.bolton.archimate.model.IDriver;
 import uk.ac.bolton.archimate.model.IFlowRelationship;
 import uk.ac.bolton.archimate.model.IFolder;
+import uk.ac.bolton.archimate.model.IGap;
+import uk.ac.bolton.archimate.model.IGoal;
+import uk.ac.bolton.archimate.model.IInfluenceRelationship;
+import uk.ac.bolton.archimate.model.IInfrastructureFunction;
 import uk.ac.bolton.archimate.model.IInfrastructureInterface;
 import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IJunction;
+import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.IMeaning;
 import uk.ac.bolton.archimate.model.INetwork;
 import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
+import uk.ac.bolton.archimate.model.IPlateau;
+import uk.ac.bolton.archimate.model.IPrinciple;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
+import uk.ac.bolton.archimate.model.IRequirement;
 import uk.ac.bolton.archimate.model.ISketchModel;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 import uk.ac.bolton.archimate.model.ISpecialisationRelationship;
+import uk.ac.bolton.archimate.model.IStakeholder;
 import uk.ac.bolton.archimate.model.ISystemSoftware;
 import uk.ac.bolton.archimate.model.ITriggeringRelationship;
 import uk.ac.bolton.archimate.model.IUsedByRelationship;
 import uk.ac.bolton.archimate.model.IValue;
+import uk.ac.bolton.archimate.model.IWorkPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -137,6 +151,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.SPECIALISATION_RELATIONSHIP: return createSpecialisationRelationship();
             case IArchimatePackage.TRIGGERING_RELATIONSHIP: return createTriggeringRelationship();
             case IArchimatePackage.USED_BY_RELATIONSHIP: return createUsedByRelationship();
+            case IArchimatePackage.INFLUENCE_RELATIONSHIP: return createInfluenceRelationship();
             case IArchimatePackage.BUSINESS_ACTIVITY: return createBusinessActivity();
             case IArchimatePackage.BUSINESS_ACTOR: return createBusinessActor();
             case IArchimatePackage.BUSINESS_COLLABORATION: return createBusinessCollaboration();
@@ -153,6 +168,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.BUSINESS_ROLE: return createBusinessRole();
             case IArchimatePackage.BUSINESS_SERVICE: return createBusinessService();
             case IArchimatePackage.VALUE: return createValue();
+            case IArchimatePackage.LOCATION: return createLocation();
             case IArchimatePackage.APPLICATION_COLLABORATION: return createApplicationCollaboration();
             case IArchimatePackage.APPLICATION_COMPONENT: return createApplicationComponent();
             case IArchimatePackage.APPLICATION_FUNCTION: return createApplicationFunction();
@@ -165,9 +181,21 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.NETWORK: return createNetwork();
             case IArchimatePackage.INFRASTRUCTURE_INTERFACE: return createInfrastructureInterface();
             case IArchimatePackage.INFRASTRUCTURE_SERVICE: return createInfrastructureService();
+            case IArchimatePackage.INFRASTRUCTURE_FUNCTION: return createInfrastructureFunction();
             case IArchimatePackage.NODE: return createNode();
             case IArchimatePackage.SYSTEM_SOFTWARE: return createSystemSoftware();
             case IArchimatePackage.DEVICE: return createDevice();
+            case IArchimatePackage.STAKEHOLDER: return createStakeholder();
+            case IArchimatePackage.DRIVER: return createDriver();
+            case IArchimatePackage.ASSESSMENT: return createAssessment();
+            case IArchimatePackage.GOAL: return createGoal();
+            case IArchimatePackage.REQUIREMENT: return createRequirement();
+            case IArchimatePackage.CONSTRAINT: return createConstraint();
+            case IArchimatePackage.PRINCIPLE: return createPrinciple();
+            case IArchimatePackage.WORK_PACKAGE: return createWorkPackage();
+            case IArchimatePackage.DELIVERABLE: return createDeliverable();
+            case IArchimatePackage.PLATEAU: return createPlateau();
+            case IArchimatePackage.GAP: return createGap();
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: return createDiagramModelReference();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: return createDiagramModelGroup();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE: return createDiagramModelNote();
@@ -411,6 +439,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public ILocation createLocation() {
+        Location location = new Location();
+        return location;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IApplicationComponent createApplicationComponent() {
         ApplicationComponent applicationComponent = new ApplicationComponent();
         return applicationComponent;
@@ -521,6 +559,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public IInfrastructureFunction createInfrastructureFunction() {
+        InfrastructureFunction infrastructureFunction = new InfrastructureFunction();
+        return infrastructureFunction;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public INode createNode() {
         Node node = new Node();
         return node;
@@ -544,6 +592,116 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IDevice createDevice() {
         Device device = new Device();
         return device;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IStakeholder createStakeholder() {
+        Stakeholder stakeholder = new Stakeholder();
+        return stakeholder;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IDriver createDriver() {
+        Driver driver = new Driver();
+        return driver;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IAssessment createAssessment() {
+        Assessment assessment = new Assessment();
+        return assessment;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IGoal createGoal() {
+        Goal goal = new Goal();
+        return goal;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IRequirement createRequirement() {
+        Requirement requirement = new Requirement();
+        return requirement;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IConstraint createConstraint() {
+        Constraint constraint = new Constraint();
+        return constraint;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IPrinciple createPrinciple() {
+        Principle principle = new Principle();
+        return principle;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IWorkPackage createWorkPackage() {
+        WorkPackage workPackage = new WorkPackage();
+        return workPackage;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IDeliverable createDeliverable() {
+        Deliverable deliverable = new Deliverable();
+        return deliverable;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IPlateau createPlateau() {
+        Plateau plateau = new Plateau();
+        return plateau;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IGap createGap() {
+        Gap gap = new Gap();
+        return gap;
     }
 
     /**
@@ -843,6 +1001,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IUsedByRelationship createUsedByRelationship() {
         UsedByRelationship usedByRelationship = new UsedByRelationship();
         return usedByRelationship;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IInfluenceRelationship createInfluenceRelationship() {
+        InfluenceRelationship influenceRelationship = new InfluenceRelationship();
+        return influenceRelationship;
     }
 
     /**

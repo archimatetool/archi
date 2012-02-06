@@ -36,6 +36,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
+import uk.ac.bolton.archimate.model.IAssessment;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
 import uk.ac.bolton.archimate.model.IBorderObject;
@@ -55,8 +56,10 @@ import uk.ac.bolton.archimate.model.IBusinessService;
 import uk.ac.bolton.archimate.model.ICloneable;
 import uk.ac.bolton.archimate.model.ICommunicationPath;
 import uk.ac.bolton.archimate.model.ICompositionRelationship;
+import uk.ac.bolton.archimate.model.IConstraint;
 import uk.ac.bolton.archimate.model.IContract;
 import uk.ac.bolton.archimate.model.IDataObject;
+import uk.ac.bolton.archimate.model.IDeliverable;
 import uk.ac.bolton.archimate.model.IDevice;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -72,38 +75,51 @@ import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.IDocumentable;
+import uk.ac.bolton.archimate.model.IDriver;
 import uk.ac.bolton.archimate.model.IFlowRelationship;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IFolderContainer;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.IGap;
+import uk.ac.bolton.archimate.model.IGoal;
 import uk.ac.bolton.archimate.model.IIdentifier;
+import uk.ac.bolton.archimate.model.IImplementationMigrationElement;
+import uk.ac.bolton.archimate.model.IInfluenceRelationship;
+import uk.ac.bolton.archimate.model.IInfrastructureFunction;
 import uk.ac.bolton.archimate.model.IInfrastructureInterface;
 import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.IJunction;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IMeaning;
+import uk.ac.bolton.archimate.model.IMotivationElement;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.INetwork;
 import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
+import uk.ac.bolton.archimate.model.IPlateau;
+import uk.ac.bolton.archimate.model.IPrinciple;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
+import uk.ac.bolton.archimate.model.IRequirement;
 import uk.ac.bolton.archimate.model.ISketchModel;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 import uk.ac.bolton.archimate.model.ISpecialisationRelationship;
+import uk.ac.bolton.archimate.model.IStakeholder;
 import uk.ac.bolton.archimate.model.ISystemSoftware;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 import uk.ac.bolton.archimate.model.ITextContent;
 import uk.ac.bolton.archimate.model.ITriggeringRelationship;
 import uk.ac.bolton.archimate.model.IUsedByRelationship;
 import uk.ac.bolton.archimate.model.IValue;
+import uk.ac.bolton.archimate.model.IWorkPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -271,6 +287,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass infrastructureFunctionEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass nodeEClass = null;
 
     /**
@@ -286,6 +309,97 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass deviceEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass motivationElementEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass stakeholderEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass driverEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass assessmentEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass goalEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass requirementEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass constraintEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass principleEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass implementationMigrationElementEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass workPackageEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass deliverableEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass plateauEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass gapEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -558,6 +672,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass locationEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass applicationComponentEClass = null;
 
     /**
@@ -678,6 +799,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass usedByRelationshipEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass influenceRelationshipEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1104,6 +1232,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getInfrastructureFunction() {
+        return infrastructureFunctionEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getNode() {
         return nodeEClass;
     }
@@ -1124,6 +1261,123 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     public EClass getDevice() {
         return deviceEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getMotivationElement() {
+        return motivationElementEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStakeholder() {
+        return stakeholderEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getDriver() {
+        return driverEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getAssessment() {
+        return assessmentEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getGoal() {
+        return goalEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getRequirement() {
+        return requirementEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getConstraint() {
+        return constraintEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getPrinciple() {
+        return principleEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getImplementationMigrationElement() {
+        return implementationMigrationElementEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getWorkPackage() {
+        return workPackageEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getDeliverable() {
+        return deliverableEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getPlateau() {
+        return plateauEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getGap() {
+        return gapEClass;
     }
 
     /**
@@ -1779,6 +2033,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getLocation() {
+        return locationEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getApplicationComponent() {
         return applicationComponentEClass;
     }
@@ -1968,6 +2231,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getInfluenceRelationship() {
+        return influenceRelationshipEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getJunctionElement() {
         return junctionElementEClass;
     }
@@ -2121,6 +2393,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         usedByRelationshipEClass = createEClass(USED_BY_RELATIONSHIP);
 
+        influenceRelationshipEClass = createEClass(INFLUENCE_RELATIONSHIP);
+
         businessLayerElementEClass = createEClass(BUSINESS_LAYER_ELEMENT);
 
         businessActivityEClass = createEClass(BUSINESS_ACTIVITY);
@@ -2155,6 +2429,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         valueEClass = createEClass(VALUE);
 
+        locationEClass = createEClass(LOCATION);
+
         applicationLayerElementEClass = createEClass(APPLICATION_LAYER_ELEMENT);
 
         applicationCollaborationEClass = createEClass(APPLICATION_COLLABORATION);
@@ -2183,11 +2459,39 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         infrastructureServiceEClass = createEClass(INFRASTRUCTURE_SERVICE);
 
+        infrastructureFunctionEClass = createEClass(INFRASTRUCTURE_FUNCTION);
+
         nodeEClass = createEClass(NODE);
 
         systemSoftwareEClass = createEClass(SYSTEM_SOFTWARE);
 
         deviceEClass = createEClass(DEVICE);
+
+        motivationElementEClass = createEClass(MOTIVATION_ELEMENT);
+
+        stakeholderEClass = createEClass(STAKEHOLDER);
+
+        driverEClass = createEClass(DRIVER);
+
+        assessmentEClass = createEClass(ASSESSMENT);
+
+        goalEClass = createEClass(GOAL);
+
+        requirementEClass = createEClass(REQUIREMENT);
+
+        constraintEClass = createEClass(CONSTRAINT);
+
+        principleEClass = createEClass(PRINCIPLE);
+
+        implementationMigrationElementEClass = createEClass(IMPLEMENTATION_MIGRATION_ELEMENT);
+
+        workPackageEClass = createEClass(WORK_PACKAGE);
+
+        deliverableEClass = createEClass(DELIVERABLE);
+
+        plateauEClass = createEClass(PLATEAU);
+
+        gapEClass = createEClass(GAP);
 
         diagramModelComponentEClass = createEClass(DIAGRAM_MODEL_COMPONENT);
         createEReference(diagramModelComponentEClass, DIAGRAM_MODEL_COMPONENT__DIAGRAM_MODEL);
@@ -2334,6 +2638,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         specialisationRelationshipEClass.getESuperTypes().add(this.getRelationship());
         triggeringRelationshipEClass.getESuperTypes().add(this.getRelationship());
         usedByRelationshipEClass.getESuperTypes().add(this.getRelationship());
+        influenceRelationshipEClass.getESuperTypes().add(this.getRelationship());
         businessLayerElementEClass.getESuperTypes().add(this.getArchimateElement());
         businessActivityEClass.getESuperTypes().add(this.getBusinessLayerElement());
         businessActorEClass.getESuperTypes().add(this.getBusinessLayerElement());
@@ -2352,6 +2657,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         businessRoleEClass.getESuperTypes().add(this.getBusinessLayerElement());
         businessServiceEClass.getESuperTypes().add(this.getBusinessLayerElement());
         valueEClass.getESuperTypes().add(this.getBusinessLayerElement());
+        locationEClass.getESuperTypes().add(this.getBusinessLayerElement());
         applicationLayerElementEClass.getESuperTypes().add(this.getArchimateElement());
         applicationCollaborationEClass.getESuperTypes().add(this.getApplicationLayerElement());
         applicationComponentEClass.getESuperTypes().add(this.getApplicationLayerElement());
@@ -2368,9 +2674,23 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         infrastructureInterfaceEClass.getESuperTypes().add(this.getTechnologyLayerElement());
         infrastructureInterfaceEClass.getESuperTypes().add(this.getInterfaceElement());
         infrastructureServiceEClass.getESuperTypes().add(this.getTechnologyLayerElement());
+        infrastructureFunctionEClass.getESuperTypes().add(this.getTechnologyLayerElement());
         nodeEClass.getESuperTypes().add(this.getTechnologyLayerElement());
         systemSoftwareEClass.getESuperTypes().add(this.getTechnologyLayerElement());
         deviceEClass.getESuperTypes().add(this.getTechnologyLayerElement());
+        motivationElementEClass.getESuperTypes().add(this.getArchimateElement());
+        stakeholderEClass.getESuperTypes().add(this.getMotivationElement());
+        driverEClass.getESuperTypes().add(this.getMotivationElement());
+        assessmentEClass.getESuperTypes().add(this.getMotivationElement());
+        goalEClass.getESuperTypes().add(this.getMotivationElement());
+        requirementEClass.getESuperTypes().add(this.getMotivationElement());
+        constraintEClass.getESuperTypes().add(this.getMotivationElement());
+        principleEClass.getESuperTypes().add(this.getMotivationElement());
+        implementationMigrationElementEClass.getESuperTypes().add(this.getArchimateElement());
+        workPackageEClass.getESuperTypes().add(this.getImplementationMigrationElement());
+        deliverableEClass.getESuperTypes().add(this.getImplementationMigrationElement());
+        plateauEClass.getESuperTypes().add(this.getImplementationMigrationElement());
+        gapEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         diagramModelComponentEClass.getESuperTypes().add(this.getIdentifier());
         diagramModelComponentEClass.getESuperTypes().add(this.getCloneable());
         diagramModelComponentEClass.getESuperTypes().add(this.getAdapter());
@@ -2512,6 +2832,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(usedByRelationshipEClass, IUsedByRelationship.class, "UsedByRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
+        initEClass(influenceRelationshipEClass, IInfluenceRelationship.class, "InfluenceRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
         initEClass(businessLayerElementEClass, IBusinessLayerElement.class, "BusinessLayerElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(businessActivityEClass, IBusinessActivity.class, "BusinessActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -2546,6 +2868,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(valueEClass, IValue.class, "Value", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
+        initEClass(locationEClass, ILocation.class, "Location", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
         initEClass(applicationLayerElementEClass, IApplicationLayerElement.class, "ApplicationLayerElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(applicationCollaborationEClass, IApplicationCollaboration.class, "ApplicationCollaboration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -2574,11 +2898,39 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(infrastructureServiceEClass, IInfrastructureService.class, "InfrastructureService", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
+        initEClass(infrastructureFunctionEClass, IInfrastructureFunction.class, "InfrastructureFunction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
         initEClass(nodeEClass, INode.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(systemSoftwareEClass, ISystemSoftware.class, "SystemSoftware", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(deviceEClass, IDevice.class, "Device", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(motivationElementEClass, IMotivationElement.class, "MotivationElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(stakeholderEClass, IStakeholder.class, "Stakeholder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(driverEClass, IDriver.class, "Driver", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(assessmentEClass, IAssessment.class, "Assessment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(goalEClass, IGoal.class, "Goal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(requirementEClass, IRequirement.class, "Requirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(constraintEClass, IConstraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(principleEClass, IPrinciple.class, "Principle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(implementationMigrationElementEClass, IImplementationMigrationElement.class, "ImplementationMigrationElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(workPackageEClass, IWorkPackage.class, "WorkPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(deliverableEClass, IDeliverable.class, "Deliverable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(plateauEClass, IPlateau.class, "Plateau", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(gapEClass, IGap.class, "Gap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(diagramModelComponentEClass, IDiagramModelComponent.class, "DiagramModelComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getDiagramModelComponent_DiagramModel(), this.getDiagramModel(), null, "diagramModel", null, 0, 1, IDiagramModelComponent.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -2700,6 +3052,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         addEEnumLiteral(folderTypeEEnum, FolderType.RELATIONS);
         addEEnumLiteral(folderTypeEEnum, FolderType.DIAGRAMS);
         addEEnumLiteral(folderTypeEEnum, FolderType.DERIVED);
+        addEEnumLiteral(folderTypeEEnum, FolderType.MOTIVATION);
+        addEEnumLiteral(folderTypeEEnum, FolderType.IMPLEMENTATION_MIGRATION);
 
         // Initialize data types
         initEDataType(fileEDataType, File.class, "File", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$

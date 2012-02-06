@@ -198,6 +198,15 @@ public interface IArchimateFactory extends EFactory {
     IValue createValue();
 
     /**
+     * Returns a new object of class '<em>Location</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Location</em>'.
+     * @generated
+     */
+    ILocation createLocation();
+
+    /**
      * Returns a new object of class '<em>Application Component</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -297,6 +306,15 @@ public interface IArchimateFactory extends EFactory {
     IInfrastructureService createInfrastructureService();
 
     /**
+     * Returns a new object of class '<em>Infrastructure Function</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Infrastructure Function</em>'.
+     * @generated
+     */
+    IInfrastructureFunction createInfrastructureFunction();
+
+    /**
      * Returns a new object of class '<em>Node</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -322,6 +340,105 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IDevice createDevice();
+
+    /**
+     * Returns a new object of class '<em>Stakeholder</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stakeholder</em>'.
+     * @generated
+     */
+    IStakeholder createStakeholder();
+
+    /**
+     * Returns a new object of class '<em>Driver</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Driver</em>'.
+     * @generated
+     */
+    IDriver createDriver();
+
+    /**
+     * Returns a new object of class '<em>Assessment</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Assessment</em>'.
+     * @generated
+     */
+    IAssessment createAssessment();
+
+    /**
+     * Returns a new object of class '<em>Goal</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Goal</em>'.
+     * @generated
+     */
+    IGoal createGoal();
+
+    /**
+     * Returns a new object of class '<em>Requirement</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Requirement</em>'.
+     * @generated
+     */
+    IRequirement createRequirement();
+
+    /**
+     * Returns a new object of class '<em>Constraint</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Constraint</em>'.
+     * @generated
+     */
+    IConstraint createConstraint();
+
+    /**
+     * Returns a new object of class '<em>Principle</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Principle</em>'.
+     * @generated
+     */
+    IPrinciple createPrinciple();
+
+    /**
+     * Returns a new object of class '<em>Work Package</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Work Package</em>'.
+     * @generated
+     */
+    IWorkPackage createWorkPackage();
+
+    /**
+     * Returns a new object of class '<em>Deliverable</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Deliverable</em>'.
+     * @generated
+     */
+    IDeliverable createDeliverable();
+
+    /**
+     * Returns a new object of class '<em>Plateau</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Plateau</em>'.
+     * @generated
+     */
+    IPlateau createPlateau();
+
+    /**
+     * Returns a new object of class '<em>Gap</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Gap</em>'.
+     * @generated
+     */
+    IGap createGap();
 
     /**
      * Returns a new object of class '<em>Diagram Model</em>'.
@@ -575,6 +692,15 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IUsedByRelationship createUsedByRelationship();
+
+    /**
+     * Returns a new object of class '<em>Influence Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Influence Relationship</em>'.
+     * @generated
+     */
+    IInfluenceRelationship createInfluenceRelationship();
 
     /**
      * Returns the package supported by this factory.

@@ -1819,6 +1819,88 @@ public interface IArchimatePackage extends EPackage {
     int USED_BY_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.InfluenceRelationship <em>Influence Relationship</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.InfluenceRelationship
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfluenceRelationship()
+     * @generated
+     */
+    int INFLUENCE_RELATIONSHIP = 29;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__ARCHIMATE_MODEL = RELATIONSHIP__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__ID = RELATIONSHIP__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>Target</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+
+    /**
+     * The number of structural features of the '<em>Influence Relationship</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IBusinessLayerElement <em>Business Layer Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1826,7 +1908,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessLayerElement()
      * @generated
      */
-    int BUSINESS_LAYER_ELEMENT = 29;
+    int BUSINESS_LAYER_ELEMENT = 30;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1890,7 +1972,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessActivity()
      * @generated
      */
-    int BUSINESS_ACTIVITY = 30;
+    int BUSINESS_ACTIVITY = 31;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -1954,7 +2036,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessActor()
      * @generated
      */
-    int BUSINESS_ACTOR = 31;
+    int BUSINESS_ACTOR = 32;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2018,7 +2100,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessCollaboration()
      * @generated
      */
-    int BUSINESS_COLLABORATION = 32;
+    int BUSINESS_COLLABORATION = 33;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2082,7 +2164,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getContract()
      * @generated
      */
-    int CONTRACT = 33;
+    int CONTRACT = 34;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2146,7 +2228,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessEvent()
      * @generated
      */
-    int BUSINESS_EVENT = 34;
+    int BUSINESS_EVENT = 35;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2210,7 +2292,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessFunction()
      * @generated
      */
-    int BUSINESS_FUNCTION = 35;
+    int BUSINESS_FUNCTION = 36;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2274,7 +2356,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessInteraction()
      * @generated
      */
-    int BUSINESS_INTERACTION = 36;
+    int BUSINESS_INTERACTION = 37;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2338,7 +2420,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessInterface()
      * @generated
      */
-    int BUSINESS_INTERFACE = 37;
+    int BUSINESS_INTERFACE = 38;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2411,7 +2493,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getMeaning()
      * @generated
      */
-    int MEANING = 38;
+    int MEANING = 39;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2475,7 +2557,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessObject()
      * @generated
      */
-    int BUSINESS_OBJECT = 39;
+    int BUSINESS_OBJECT = 40;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2539,7 +2621,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessProcess()
      * @generated
      */
-    int BUSINESS_PROCESS = 40;
+    int BUSINESS_PROCESS = 41;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2603,7 +2685,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getProduct()
      * @generated
      */
-    int PRODUCT = 41;
+    int PRODUCT = 42;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2667,7 +2749,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getRepresentation()
      * @generated
      */
-    int REPRESENTATION = 42;
+    int REPRESENTATION = 43;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2731,7 +2813,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessRole()
      * @generated
      */
-    int BUSINESS_ROLE = 43;
+    int BUSINESS_ROLE = 44;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2795,7 +2877,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBusinessService()
      * @generated
      */
-    int BUSINESS_SERVICE = 44;
+    int BUSINESS_SERVICE = 45;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2859,7 +2941,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getValue()
      * @generated
      */
-    int VALUE = 45;
+    int VALUE = 46;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2916,6 +2998,70 @@ public interface IArchimatePackage extends EPackage {
     int VALUE_FEATURE_COUNT = BUSINESS_LAYER_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Location <em>Location</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Location
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLocation()
+     * @generated
+     */
+    int LOCATION = 47;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION__ARCHIMATE_MODEL = BUSINESS_LAYER_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION__ID = BUSINESS_LAYER_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION__NAME = BUSINESS_LAYER_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION__DOCUMENTATION = BUSINESS_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION__PROPERTIES = BUSINESS_LAYER_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Location</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOCATION_FEATURE_COUNT = BUSINESS_LAYER_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IApplicationLayerElement <em>Application Layer Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2923,7 +3069,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationLayerElement()
      * @generated
      */
-    int APPLICATION_LAYER_ELEMENT = 46;
+    int APPLICATION_LAYER_ELEMENT = 48;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -2987,7 +3133,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationCollaboration()
      * @generated
      */
-    int APPLICATION_COLLABORATION = 47;
+    int APPLICATION_COLLABORATION = 49;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3051,7 +3197,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationComponent()
      * @generated
      */
-    int APPLICATION_COMPONENT = 48;
+    int APPLICATION_COMPONENT = 50;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3115,7 +3261,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationFunction()
      * @generated
      */
-    int APPLICATION_FUNCTION = 49;
+    int APPLICATION_FUNCTION = 51;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3179,7 +3325,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationInteraction()
      * @generated
      */
-    int APPLICATION_INTERACTION = 50;
+    int APPLICATION_INTERACTION = 52;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3243,7 +3389,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationInterface()
      * @generated
      */
-    int APPLICATION_INTERFACE = 51;
+    int APPLICATION_INTERFACE = 53;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3316,7 +3462,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDataObject()
      * @generated
      */
-    int DATA_OBJECT = 52;
+    int DATA_OBJECT = 54;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3380,7 +3526,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getApplicationService()
      * @generated
      */
-    int APPLICATION_SERVICE = 53;
+    int APPLICATION_SERVICE = 55;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3444,7 +3590,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getTechnologyLayerElement()
      * @generated
      */
-    int TECHNOLOGY_LAYER_ELEMENT = 54;
+    int TECHNOLOGY_LAYER_ELEMENT = 56;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3508,7 +3654,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArtifact()
      * @generated
      */
-    int ARTIFACT = 55;
+    int ARTIFACT = 57;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3572,7 +3718,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getCommunicationPath()
      * @generated
      */
-    int COMMUNICATION_PATH = 56;
+    int COMMUNICATION_PATH = 58;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3636,7 +3782,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getNetwork()
      * @generated
      */
-    int NETWORK = 57;
+    int NETWORK = 59;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3700,7 +3846,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfrastructureInterface()
      * @generated
      */
-    int INFRASTRUCTURE_INTERFACE = 58;
+    int INFRASTRUCTURE_INTERFACE = 60;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3773,7 +3919,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfrastructureService()
      * @generated
      */
-    int INFRASTRUCTURE_SERVICE = 59;
+    int INFRASTRUCTURE_SERVICE = 61;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3830,6 +3976,70 @@ public interface IArchimatePackage extends EPackage {
     int INFRASTRUCTURE_SERVICE_FEATURE_COUNT = TECHNOLOGY_LAYER_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.InfrastructureFunction <em>Infrastructure Function</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.InfrastructureFunction
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfrastructureFunction()
+     * @generated
+     */
+    int INFRASTRUCTURE_FUNCTION = 62;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_FUNCTION__ARCHIMATE_MODEL = TECHNOLOGY_LAYER_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_FUNCTION__ID = TECHNOLOGY_LAYER_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_FUNCTION__NAME = TECHNOLOGY_LAYER_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_FUNCTION__DOCUMENTATION = TECHNOLOGY_LAYER_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_FUNCTION__PROPERTIES = TECHNOLOGY_LAYER_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Infrastructure Function</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFRASTRUCTURE_FUNCTION_FEATURE_COUNT = TECHNOLOGY_LAYER_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Node <em>Node</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3837,7 +4047,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getNode()
      * @generated
      */
-    int NODE = 60;
+    int NODE = 63;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3901,7 +4111,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSystemSoftware()
      * @generated
      */
-    int SYSTEM_SOFTWARE = 61;
+    int SYSTEM_SOFTWARE = 64;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -3965,7 +4175,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDevice()
      * @generated
      */
-    int DEVICE = 62;
+    int DEVICE = 65;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -4022,6 +4232,838 @@ public interface IArchimatePackage extends EPackage {
     int DEVICE_FEATURE_COUNT = TECHNOLOGY_LAYER_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.MotivationElement <em>Motivation Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.MotivationElement
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getMotivationElement()
+     * @generated
+     */
+    int MOTIVATION_ELEMENT = 66;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MOTIVATION_ELEMENT__ARCHIMATE_MODEL = ARCHIMATE_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MOTIVATION_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MOTIVATION_ELEMENT__NAME = ARCHIMATE_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MOTIVATION_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MOTIVATION_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Motivation Element</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int MOTIVATION_ELEMENT_FEATURE_COUNT = ARCHIMATE_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Stakeholder <em>Stakeholder</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Stakeholder
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getStakeholder()
+     * @generated
+     */
+    int STAKEHOLDER = 67;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STAKEHOLDER__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STAKEHOLDER__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STAKEHOLDER__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STAKEHOLDER__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STAKEHOLDER__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Stakeholder</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STAKEHOLDER_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Driver <em>Driver</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Driver
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDriver()
+     * @generated
+     */
+    int DRIVER = 68;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DRIVER__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DRIVER__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DRIVER__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DRIVER__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DRIVER__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Driver</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DRIVER_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Assessment <em>Assessment</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Assessment
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAssessment()
+     * @generated
+     */
+    int ASSESSMENT = 69;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSESSMENT__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSESSMENT__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSESSMENT__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSESSMENT__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSESSMENT__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Assessment</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ASSESSMENT_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Goal <em>Goal</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Goal
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getGoal()
+     * @generated
+     */
+    int GOAL = 70;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GOAL__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GOAL__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GOAL__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GOAL__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GOAL__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Goal</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GOAL_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Requirement <em>Requirement</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Requirement
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getRequirement()
+     * @generated
+     */
+    int REQUIREMENT = 71;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REQUIREMENT__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REQUIREMENT__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REQUIREMENT__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REQUIREMENT__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REQUIREMENT__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Requirement</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REQUIREMENT_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Constraint <em>Constraint</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Constraint
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getConstraint()
+     * @generated
+     */
+    int CONSTRAINT = 72;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRAINT__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRAINT__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRAINT__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRAINT__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRAINT__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Constraint</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRAINT_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Principle <em>Principle</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Principle
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getPrinciple()
+     * @generated
+     */
+    int PRINCIPLE = 73;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRINCIPLE__ARCHIMATE_MODEL = MOTIVATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRINCIPLE__ID = MOTIVATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRINCIPLE__NAME = MOTIVATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRINCIPLE__DOCUMENTATION = MOTIVATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRINCIPLE__PROPERTIES = MOTIVATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Principle</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PRINCIPLE_FEATURE_COUNT = MOTIVATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.ImplementationMigrationElement <em>Implementation Migration Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.ImplementationMigrationElement
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getImplementationMigrationElement()
+     * @generated
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT = 74;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT__ARCHIMATE_MODEL = ARCHIMATE_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT__ID = ARCHIMATE_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT__NAME = ARCHIMATE_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT__DOCUMENTATION = ARCHIMATE_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT__PROPERTIES = ARCHIMATE_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Implementation Migration Element</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT = ARCHIMATE_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.WorkPackage <em>Work Package</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.WorkPackage
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getWorkPackage()
+     * @generated
+     */
+    int WORK_PACKAGE = 75;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORK_PACKAGE__ARCHIMATE_MODEL = IMPLEMENTATION_MIGRATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORK_PACKAGE__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORK_PACKAGE__NAME = IMPLEMENTATION_MIGRATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORK_PACKAGE__DOCUMENTATION = IMPLEMENTATION_MIGRATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORK_PACKAGE__PROPERTIES = IMPLEMENTATION_MIGRATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Work Package</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORK_PACKAGE_FEATURE_COUNT = IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Deliverable <em>Deliverable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Deliverable
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDeliverable()
+     * @generated
+     */
+    int DELIVERABLE = 76;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DELIVERABLE__ARCHIMATE_MODEL = IMPLEMENTATION_MIGRATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DELIVERABLE__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DELIVERABLE__NAME = IMPLEMENTATION_MIGRATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DELIVERABLE__DOCUMENTATION = IMPLEMENTATION_MIGRATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DELIVERABLE__PROPERTIES = IMPLEMENTATION_MIGRATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Deliverable</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DELIVERABLE_FEATURE_COUNT = IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Plateau <em>Plateau</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Plateau
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getPlateau()
+     * @generated
+     */
+    int PLATEAU = 77;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PLATEAU__ARCHIMATE_MODEL = IMPLEMENTATION_MIGRATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PLATEAU__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PLATEAU__NAME = IMPLEMENTATION_MIGRATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PLATEAU__DOCUMENTATION = IMPLEMENTATION_MIGRATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PLATEAU__PROPERTIES = IMPLEMENTATION_MIGRATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Plateau</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PLATEAU_FEATURE_COUNT = IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.Gap <em>Gap</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.Gap
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getGap()
+     * @generated
+     */
+    int GAP = 78;
+
+    /**
+     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GAP__ARCHIMATE_MODEL = IMPLEMENTATION_MIGRATION_ELEMENT__ARCHIMATE_MODEL;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GAP__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GAP__NAME = IMPLEMENTATION_MIGRATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GAP__DOCUMENTATION = IMPLEMENTATION_MIGRATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GAP__PROPERTIES = IMPLEMENTATION_MIGRATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Gap</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GAP_FEATURE_COUNT = IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModel <em>Diagram Model</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4029,7 +5071,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModel()
      * @generated
      */
-    int DIAGRAM_MODEL = 65;
+    int DIAGRAM_MODEL = 81;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelComponent <em>Diagram Model Component</em>}' class.
@@ -4039,7 +5081,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelComponent()
      * @generated
      */
-    int DIAGRAM_MODEL_COMPONENT = 63;
+    int DIAGRAM_MODEL_COMPONENT = 79;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4085,7 +5127,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelObject()
      * @generated
      */
-    int DIAGRAM_MODEL_OBJECT = 67;
+    int DIAGRAM_MODEL_OBJECT = 83;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}' class.
@@ -4095,7 +5137,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 79;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 95;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4105,7 +5147,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelContainer()
      * @generated
      */
-    int DIAGRAM_MODEL_CONTAINER = 64;
+    int DIAGRAM_MODEL_CONTAINER = 80;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4241,7 +5283,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 78;
+    int ARCHIMATE_DIAGRAM_MODEL = 94;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4359,7 +5401,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelReference()
      * @generated
      */
-    int DIAGRAM_MODEL_REFERENCE = 66;
+    int DIAGRAM_MODEL_REFERENCE = 82;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4486,7 +5528,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelGroup()
      * @generated
      */
-    int DIAGRAM_MODEL_GROUP = 68;
+    int DIAGRAM_MODEL_GROUP = 84;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4631,7 +5673,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelNote()
      * @generated
      */
-    int DIAGRAM_MODEL_NOTE = 69;
+    int DIAGRAM_MODEL_NOTE = 85;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4758,7 +5800,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImage()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE = 70;
+    int DIAGRAM_MODEL_IMAGE = 86;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4894,7 +5936,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_CONNECTION = 71;
+    int DIAGRAM_MODEL_CONNECTION = 87;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5057,7 +6099,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 80;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 96;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -5067,7 +6109,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelBendpoint()
      * @generated
      */
-    int DIAGRAM_MODEL_BENDPOINT = 72;
+    int DIAGRAM_MODEL_BENDPOINT = 88;
 
     /**
      * The feature id for the '<em><b>Start X</b></em>' attribute.
@@ -5122,7 +6164,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 73;
+    int FONT_ATTRIBUTE = 89;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5177,7 +6219,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
-    int BORDER_OBJECT = 74;
+    int BORDER_OBJECT = 90;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -5205,7 +6247,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImageProvider()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE_PROVIDER = 75;
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 91;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -5233,7 +6275,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 76;
+    int BOUNDS = 92;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -5288,7 +6330,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 77;
+    int LOCKABLE = 93;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -5703,7 +6745,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 81;
+    int SKETCH_MODEL = 97;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -5794,7 +6836,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 82;
+    int SKETCH_MODEL_STICKY = 98;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5939,7 +6981,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 83;
+    int SKETCH_MODEL_ACTOR = 99;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6075,7 +7117,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 84;
+    int FOLDER_TYPE = 100;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -6085,7 +7127,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 85;
+    int FILE = 101;
 
 
     /**
@@ -6577,6 +7619,16 @@ public interface IArchimatePackage extends EPackage {
     EClass getUsedByRelationship();
 
     /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IInfluenceRelationship <em>Influence Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Influence Relationship</em>'.
+     * @see uk.ac.bolton.archimate.model.IInfluenceRelationship
+     * @generated
+     */
+    EClass getInfluenceRelationship();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IBusinessLayerElement <em>Business Layer Element</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6747,6 +7799,16 @@ public interface IArchimatePackage extends EPackage {
     EClass getValue();
 
     /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.ILocation <em>Location</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Location</em>'.
+     * @see uk.ac.bolton.archimate.model.ILocation
+     * @generated
+     */
+    EClass getLocation();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IApplicationLayerElement <em>Application Layer Element</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6887,6 +7949,16 @@ public interface IArchimatePackage extends EPackage {
     EClass getInfrastructureService();
 
     /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IInfrastructureFunction <em>Infrastructure Function</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Infrastructure Function</em>'.
+     * @see uk.ac.bolton.archimate.model.IInfrastructureFunction
+     * @generated
+     */
+    EClass getInfrastructureFunction();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.INode <em>Node</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6915,6 +7987,136 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EClass getDevice();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IMotivationElement <em>Motivation Element</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Motivation Element</em>'.
+     * @see uk.ac.bolton.archimate.model.IMotivationElement
+     * @generated
+     */
+    EClass getMotivationElement();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IStakeholder <em>Stakeholder</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Stakeholder</em>'.
+     * @see uk.ac.bolton.archimate.model.IStakeholder
+     * @generated
+     */
+    EClass getStakeholder();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDriver <em>Driver</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Driver</em>'.
+     * @see uk.ac.bolton.archimate.model.IDriver
+     * @generated
+     */
+    EClass getDriver();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IAssessment <em>Assessment</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Assessment</em>'.
+     * @see uk.ac.bolton.archimate.model.IAssessment
+     * @generated
+     */
+    EClass getAssessment();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IGoal <em>Goal</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Goal</em>'.
+     * @see uk.ac.bolton.archimate.model.IGoal
+     * @generated
+     */
+    EClass getGoal();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IRequirement <em>Requirement</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Requirement</em>'.
+     * @see uk.ac.bolton.archimate.model.IRequirement
+     * @generated
+     */
+    EClass getRequirement();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IConstraint <em>Constraint</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Constraint</em>'.
+     * @see uk.ac.bolton.archimate.model.IConstraint
+     * @generated
+     */
+    EClass getConstraint();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IPrinciple <em>Principle</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Principle</em>'.
+     * @see uk.ac.bolton.archimate.model.IPrinciple
+     * @generated
+     */
+    EClass getPrinciple();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IImplementationMigrationElement <em>Implementation Migration Element</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Implementation Migration Element</em>'.
+     * @see uk.ac.bolton.archimate.model.IImplementationMigrationElement
+     * @generated
+     */
+    EClass getImplementationMigrationElement();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IWorkPackage <em>Work Package</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Work Package</em>'.
+     * @see uk.ac.bolton.archimate.model.IWorkPackage
+     * @generated
+     */
+    EClass getWorkPackage();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDeliverable <em>Deliverable</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Deliverable</em>'.
+     * @see uk.ac.bolton.archimate.model.IDeliverable
+     * @generated
+     */
+    EClass getDeliverable();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IPlateau <em>Plateau</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Plateau</em>'.
+     * @see uk.ac.bolton.archimate.model.IPlateau
+     * @generated
+     */
+    EClass getPlateau();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IGap <em>Gap</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Gap</em>'.
+     * @see uk.ac.bolton.archimate.model.IGap
+     * @generated
+     */
+    EClass getGap();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IDiagramModel <em>Diagram Model</em>}'.
@@ -7978,6 +9180,16 @@ public interface IArchimatePackage extends EPackage {
         EClass USED_BY_RELATIONSHIP = eINSTANCE.getUsedByRelationship();
 
         /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.InfluenceRelationship <em>Influence Relationship</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.InfluenceRelationship
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfluenceRelationship()
+         * @generated
+         */
+        EClass INFLUENCE_RELATIONSHIP = eINSTANCE.getInfluenceRelationship();
+
+        /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IBusinessLayerElement <em>Business Layer Element</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -8148,6 +9360,16 @@ public interface IArchimatePackage extends EPackage {
         EClass VALUE = eINSTANCE.getValue();
 
         /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Location <em>Location</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Location
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLocation()
+         * @generated
+         */
+        EClass LOCATION = eINSTANCE.getLocation();
+
+        /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IApplicationLayerElement <em>Application Layer Element</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -8288,6 +9510,16 @@ public interface IArchimatePackage extends EPackage {
         EClass INFRASTRUCTURE_SERVICE = eINSTANCE.getInfrastructureService();
 
         /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.InfrastructureFunction <em>Infrastructure Function</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.InfrastructureFunction
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getInfrastructureFunction()
+         * @generated
+         */
+        EClass INFRASTRUCTURE_FUNCTION = eINSTANCE.getInfrastructureFunction();
+
+        /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Node <em>Node</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -8316,6 +9548,136 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass DEVICE = eINSTANCE.getDevice();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.MotivationElement <em>Motivation Element</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.MotivationElement
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getMotivationElement()
+         * @generated
+         */
+        EClass MOTIVATION_ELEMENT = eINSTANCE.getMotivationElement();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Stakeholder <em>Stakeholder</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Stakeholder
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getStakeholder()
+         * @generated
+         */
+        EClass STAKEHOLDER = eINSTANCE.getStakeholder();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Driver <em>Driver</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Driver
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDriver()
+         * @generated
+         */
+        EClass DRIVER = eINSTANCE.getDriver();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Assessment <em>Assessment</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Assessment
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getAssessment()
+         * @generated
+         */
+        EClass ASSESSMENT = eINSTANCE.getAssessment();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Goal <em>Goal</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Goal
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getGoal()
+         * @generated
+         */
+        EClass GOAL = eINSTANCE.getGoal();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Requirement <em>Requirement</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Requirement
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getRequirement()
+         * @generated
+         */
+        EClass REQUIREMENT = eINSTANCE.getRequirement();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Constraint <em>Constraint</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Constraint
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getConstraint()
+         * @generated
+         */
+        EClass CONSTRAINT = eINSTANCE.getConstraint();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Principle <em>Principle</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Principle
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getPrinciple()
+         * @generated
+         */
+        EClass PRINCIPLE = eINSTANCE.getPrinciple();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.ImplementationMigrationElement <em>Implementation Migration Element</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.ImplementationMigrationElement
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getImplementationMigrationElement()
+         * @generated
+         */
+        EClass IMPLEMENTATION_MIGRATION_ELEMENT = eINSTANCE.getImplementationMigrationElement();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.WorkPackage <em>Work Package</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.WorkPackage
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getWorkPackage()
+         * @generated
+         */
+        EClass WORK_PACKAGE = eINSTANCE.getWorkPackage();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Deliverable <em>Deliverable</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Deliverable
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDeliverable()
+         * @generated
+         */
+        EClass DELIVERABLE = eINSTANCE.getDeliverable();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Plateau <em>Plateau</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Plateau
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getPlateau()
+         * @generated
+         */
+        EClass PLATEAU = eINSTANCE.getPlateau();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.Gap <em>Gap</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.Gap
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getGap()
+         * @generated
+         */
+        EClass GAP = eINSTANCE.getGap();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModel <em>Diagram Model</em>}' class.

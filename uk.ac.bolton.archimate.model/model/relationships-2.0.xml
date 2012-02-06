@@ -1,0 +1,2228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ArchiMate 2.0 relationship rules -->
+<relationships version="2.0">
+	<elements>
+		<source element="BusinessActor">
+			<target element="BusinessActor" relations="cfgostu" />
+			<target element="BusinessRole" relations="fiotu" />
+			<target element="BusinessCollaboration" relations="fiotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fiotu" />
+			<target element="BusinessProcess" relations="fiotu" />
+			<target element="BusinessFunction" relations="fiotu" />
+			<target element="BusinessInteraction" relations="fiotu" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fot" />
+			<target element="ApplicationCollaboration" relations="fot" />
+			<target element="ApplicationInterface" relations="fot" />
+			<target element="ApplicationFunction" relations="fot" />
+			<target element="ApplicationInteraction" relations="fot" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="io" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="ioft" />
+			<target element="Deliverable" relations="ro" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessRole">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="cfgostu" />
+			<target element="BusinessCollaboration" relations="cfgostu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="cfgiotu" />
+			<target element="BusinessProcess" relations="fiotu" />
+			<target element="BusinessFunction" relations="fiotu" />
+			<target element="BusinessInteraction" relations="fiotu" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fot" />
+			<target element="ApplicationCollaboration" relations="fot" />
+			<target element="ApplicationInterface" relations="fot" />
+			<target element="ApplicationFunction" relations="fot" />
+			<target element="ApplicationInteraction" relations="fot" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="ioft" />
+			<target element="Deliverable" relations="ro" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessCollaboration">
+			<target element="BusinessActor" relations="fgotu" />
+			<target element="BusinessRole" relations="cfgostu" />
+			<target element="BusinessCollaboration" relations="cfgostu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="cfgotu" />
+			<target element="BusinessProcess" relations="iou" />
+			<target element="BusinessFunction" relations="fiou" />
+			<target element="BusinessInteraction" relations="iou" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fot" />
+			<target element="ApplicationCollaboration" relations="fot" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="fot" />
+			<target element="ApplicationInteraction" relations="fot" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Location">
+			<target element="BusinessActor" relations="io" />
+			<target element="BusinessRole" relations="io" />
+			<target element="BusinessCollaboration" relations="io" />
+			<target element="Location" relations="cgos" />
+			<target element="BusinessInterface" relations="io" />
+			<target element="BusinessProcess" relations="io" />
+			<target element="BusinessFunction" relations="io" />
+			<target element="BusinessInteraction" relations="io" />
+			<target element="BusinessEvent" relations="io" />
+			<target element="BusinessService" relations="io" />
+			<target element="BusinessObject" relations="io" />
+			<target element="Representation" relations="io" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="io" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="io" />
+			<target element="ApplicationCollaboration" relations="io" />
+			<target element="ApplicationInterface" relations="io" />
+			<target element="ApplicationFunction" relations="io" />
+			<target element="ApplicationInteraction" relations="io" />
+			<target element="ApplicationService" relations="io" />
+			<target element="DataObject" relations="io" />
+
+			<target element="Node" relations="io" />
+			<target element="Device" relations="io" />
+			<target element="SystemSoftware" relations="io" />
+			<target element="InfrastructureInterface" relations="io" />
+			<target element="Network" relations="io" />
+			<target element="CommunicationPath" relations="io" />
+			<target element="InfrastructureFunction" relations="io" />
+			<target element="InfrastructureService" relations="io" />
+			<target element="Artifact" relations="io" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="io" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="o" />
+			<target element="Requirement" relations="o" />
+			<target element="Principle" relations="o" />
+			<target element="Constraint" relations="o" />
+			
+			<target element="WorkPackage" relations="io" />
+			<target element="Deliverable" relations="io" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessInterface">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="fotu" />
+			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="cfgostu" />
+			<target element="BusinessProcess" relations="ou" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="iou" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessProcess">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="fotu" />
+			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="cfgostu" />
+			<target element="BusinessFunction" relations="cfgostu" />
+			<target element="BusinessInteraction" relations="cfgostu" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fot" />
+			<target element="ApplicationCollaboration" relations="fot" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessFunction">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="fotu" />
+			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="cfgostu" />
+			<target element="BusinessFunction" relations="cfgostu" />
+			<target element="BusinessInteraction" relations="cfgostu" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fot" />
+			<target element="ApplicationCollaboration" relations="fot" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessInteraction">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="fotu" />
+			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="cfgostu" />
+			<target element="BusinessFunction" relations="cfgostu" />
+			<target element="BusinessInteraction" relations="cfgostu" />
+			<target element="BusinessEvent" relations="ot" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fot" />
+			<target element="ApplicationCollaboration" relations="fot" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessEvent">
+			<target element="BusinessActor" relations="ot" />
+			<target element="BusinessRole" relations="ot" />
+			<target element="BusinessCollaboration" relations="ot" />
+			<target element="Location" relations="ot" />
+			<target element="BusinessInterface" relations="ot" />
+			<target element="BusinessProcess" relations="ot" />
+			<target element="BusinessFunction" relations="ot" />
+			<target element="BusinessInteraction" relations="ot" />
+			<target element="BusinessEvent" relations="cgost" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ot" />
+			<target element="ApplicationCollaboration" relations="ot" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessService">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="ou" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="cfgostu" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="BusinessObject">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="cgos" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="cgos" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Representation">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="or" />
+			<target element="Representation" relations="cgos" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="or" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Product">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="ou" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="gou" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="cgos" />
+			<target element="Contract" relations="ago" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ou" />
+			<target element="ApplicationCollaboration" relations="ou" />
+			<target element="ApplicationInterface" relations="ou" />
+			<target element="ApplicationFunction" relations="ou" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="gou" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="ou" />
+			<target element="Device" relations="ou" />
+			<target element="SystemSoftware" relations="ou" />
+			<target element="InfrastructureInterface" relations="ou" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="ou" />
+			<target element="InfrastructureService" relations="gou" />
+			<target element="Artifact" relations="ao" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Contract">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="cgos" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="cgos" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Meaning">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="cgos" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Value">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="cgos" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="o" />
+			<target element="Requirement" relations="o" />
+			<target element="Principle" relations="o" />
+			<target element="Constraint" relations="o" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="ApplicationComponent">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="fotu" />
+			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="fiotu" />
+			<target element="BusinessFunction" relations="iou" />
+			<target element="BusinessInteraction" relations="iou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="cfgostu" />
+			<target element="ApplicationCollaboration" relations="cfgostu" />
+			<target element="ApplicationInterface" relations="cfgotu" />
+			<target element="ApplicationFunction" relations="iou" />
+			<target element="ApplicationInteraction" relations="iou" />
+			<target element="ApplicationService" relations="ioru" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="ApplicationCollaboration">
+			<target element="BusinessActor" relations="fotu" />
+			<target element="BusinessRole" relations="fotu" />
+			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="fiotu" />
+			<target element="BusinessFunction" relations="fiotu" />
+			<target element="BusinessInteraction" relations="iou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="cfgostu" />
+			<target element="ApplicationCollaboration" relations="cfgostu" />
+			<target element="ApplicationInterface" relations="cfgotu" />
+			<target element="ApplicationFunction" relations="iou" />
+			<target element="ApplicationInteraction" relations="iou" />
+			<target element="ApplicationService" relations="ioru" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="ApplicationInterface">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="fotu" />
+			<target element="BusinessFunction" relations="fotu" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ou" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="fotu" />
+			<target element="ApplicationCollaboration" relations="fotu" />
+			<target element="ApplicationInterface" relations="cfgostu" />
+			<target element="ApplicationFunction" relations="ou" />
+			<target element="ApplicationInteraction" relations="ou" />
+			<target element="ApplicationService" relations="iou" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="ApplicationFunction">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="fotu" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ou" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ou" />
+			<target element="ApplicationCollaboration" relations="ou" />
+			<target element="ApplicationInterface" relations="ou" />
+			<target element="ApplicationFunction" relations="cfgostu" />
+			<target element="ApplicationInteraction" relations="fot" />
+			<target element="ApplicationService" relations="oru" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="ApplicationInteraction">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="fotu" />
+			<target element="BusinessProcess" relations="fotu" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ou" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ou" />
+			<target element="ApplicationCollaboration" relations="ou" />
+			<target element="ApplicationInterface" relations="ou" />
+			<target element="ApplicationFunction" relations="fotu" />
+			<target element="ApplicationInteraction" relations="cfgost" />
+			<target element="ApplicationService" relations="oru" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="ApplicationService">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="ou" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ou" />
+			<target element="BusinessObject" relations="ao" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="ao" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ou" />
+			<target element="ApplicationCollaboration" relations="ou" />
+			<target element="ApplicationInterface" relations="ou" />
+			<target element="ApplicationFunction" relations="ou" />
+			<target element="ApplicationInteraction" relations="ou" />
+			<target element="ApplicationService" relations="cfgostu" />
+			<target element="DataObject" relations="ao" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="DataObject">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="or" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="or" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="cgos" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Node">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="oru" />
+			<target element="BusinessFunction" relations="oru" />
+			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="aoru" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aoru" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="aoru" />
+			<target element="ApplicationCollaboration" relations="aoru" />
+			<target element="ApplicationInterface" relations="aoru" />
+			<target element="ApplicationFunction" relations="aoru" />
+			<target element="ApplicationInteraction" relations="aoru" />
+			<target element="ApplicationService" relations="aoru" />
+			<target element="DataObject" relations="aoru" />
+
+			<target element="Node" relations="cfgostu" />
+			<target element="Device" relations="cfgostu" />
+			<target element="SystemSoftware" relations="cfgostu" />
+			<target element="InfrastructureInterface" relations="cfgotu" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="iou" />
+			<target element="InfrastructureService" relations="ioru" />
+			<target element="Artifact" relations="aiou" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Device">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="oru" />
+			<target element="BusinessFunction" relations="oru" />
+			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="aoru" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aoru" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="aoru" />
+			<target element="ApplicationCollaboration" relations="aoru" />
+			<target element="ApplicationInterface" relations="aoru" />
+			<target element="ApplicationFunction" relations="aoru" />
+			<target element="ApplicationInteraction" relations="aoru" />
+			<target element="ApplicationService" relations="aoru" />
+			<target element="DataObject" relations="aoru" />
+
+			<target element="Node" relations="cfgostu" />
+			<target element="Device" relations="cfgostu" />
+			<target element="SystemSoftware" relations="cfgiostu" />
+			<target element="InfrastructureInterface" relations="cfgotu" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="iou" />
+			<target element="InfrastructureService" relations="ioru" />
+			<target element="Artifact" relations="aiou" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="SystemSoftware">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="oru" />
+			<target element="BusinessFunction" relations="oru" />
+			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="aoru" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aoru" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="aoru" />
+			<target element="ApplicationCollaboration" relations="aoru" />
+			<target element="ApplicationInterface" relations="aoru" />
+			<target element="ApplicationFunction" relations="aoru" />
+			<target element="ApplicationInteraction" relations="aoru" />
+			<target element="ApplicationService" relations="aoru" />
+			<target element="DataObject" relations="aoru" />
+
+			<target element="Node" relations="cfgostu" />
+			<target element="Device" relations="cfgostu" />
+			<target element="SystemSoftware" relations="cfgostu" />
+			<target element="InfrastructureInterface" relations="cfgotu" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="iou" />
+			<target element="InfrastructureService" relations="ioru" />
+			<target element="Artifact" relations="aiou" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="InfrastructureInterface">
+			<target element="BusinessActor" relations="aou" />
+			<target element="BusinessRole" relations="aou" />
+			<target element="BusinessCollaboration" relations="aou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="aou" />
+			<target element="BusinessProcess" relations="aou" />
+			<target element="BusinessFunction" relations="aou" />
+			<target element="BusinessInteraction" relations="aou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="aou" />
+			<target element="BusinessObject" relations="aou" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aou" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="aou" />
+			<target element="ApplicationCollaboration" relations="aou" />
+			<target element="ApplicationInterface" relations="aou" />
+			<target element="ApplicationFunction" relations="aou" />
+			<target element="ApplicationInteraction" relations="aou" />
+			<target element="ApplicationService" relations="aou" />
+			<target element="DataObject" relations="aou" />
+
+			<target element="Node" relations="fotu" />
+			<target element="Device" relations="fotu" />
+			<target element="SystemSoftware" relations="fotu" />
+			<target element="InfrastructureInterface" relations="cfgostu" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="ou" />
+			<target element="InfrastructureService" relations="iou" />
+			<target element="Artifact" relations="aou" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Network">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="cgos" />
+			<target element="CommunicationPath" relations="or" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="CommunicationPath">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="cgos" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="InfrastructureFunction">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="ou" />
+			<target element="BusinessFunction" relations="oru" />
+			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="aou" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aou" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="aou" />
+			<target element="ApplicationCollaboration" relations="aou" />
+			<target element="ApplicationInterface" relations="aou" />
+			<target element="ApplicationFunction" relations="aou" />
+			<target element="ApplicationInteraction" relations="aou" />
+			<target element="ApplicationService" relations="aou" />
+			<target element="DataObject" relations="aou" />
+
+			<target element="Node" relations="ou" />
+			<target element="Device" relations="ou" />
+			<target element="SystemSoftware" relations="ou" />
+			<target element="InfrastructureInterface" relations="ou" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="c" />
+			<target element="InfrastructureFunction" relations="cfgostu" />
+			<target element="InfrastructureService" relations="oru" />
+			<target element="Artifact" relations="aou" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="InfrastructureService">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="ou" />
+			<target element="BusinessFunction" relations="ou" />
+			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="ou" />
+			<target element="BusinessObject" relations="aou" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aou" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ou" />
+			<target element="ApplicationCollaboration" relations="ou" />
+			<target element="ApplicationInterface" relations="ou" />
+			<target element="ApplicationFunction" relations="ou" />
+			<target element="ApplicationInteraction" relations="ou" />
+			<target element="ApplicationService" relations="ou" />
+			<target element="DataObject" relations="aou" />
+
+			<target element="Node" relations="ou" />
+			<target element="Device" relations="ou" />
+			<target element="SystemSoftware" relations="ou" />
+			<target element="InfrastructureInterface" relations="ou" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="ou" />
+			<target element="InfrastructureService" relations="cfgostu" />
+			<target element="Artifact" relations="aou" />
+
+			<target element="Junction" relations="ft" />
+			
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Artifact">
+			<target element="BusinessActor" relations="ou" />
+			<target element="BusinessRole" relations="ou" />
+			<target element="BusinessCollaboration" relations="ou" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ou" />
+			<target element="BusinessProcess" relations="oru" />
+			<target element="BusinessFunction" relations="oru" />
+			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="oru" />
+			<target element="BusinessObject" relations="aor" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="aor" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="oru" />
+			<target element="ApplicationCollaboration" relations="oru" />
+			<target element="ApplicationInterface" relations="oru" />
+			<target element="ApplicationFunction" relations="oru" />
+			<target element="ApplicationInteraction" relations="oru" />
+			<target element="ApplicationService" relations="oru" />
+			<target element="DataObject" relations="aor" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="or" />
+			<target element="InfrastructureInterface" relations="or" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="or" />
+			<target element="InfrastructureService" relations="or" />
+			<target element="Artifact" relations="cgors" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Junction">
+			<target element="BusinessActor" relations="ft" />
+			<target element="BusinessRole" relations="ft" />
+			<target element="BusinessCollaboration" relations="ft" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ft" />
+			<target element="BusinessProcess" relations="ft" />
+			<target element="BusinessFunction" relations="ft" />
+			<target element="BusinessInteraction" relations="ft" />
+			<target element="BusinessEvent" relations="ft" />
+			<target element="BusinessService" relations="ft" />
+			
+			<target element="ApplicationComponent" relations="ft" />
+			<target element="ApplicationCollaboration" relations="ft" />
+			<target element="ApplicationInterface" relations="ft" />
+			<target element="ApplicationFunction" relations="ft" />
+			<target element="ApplicationInteraction" relations="ft" />
+			<target element="ApplicationService" relations="ft" />
+
+			<target element="Node" relations="ft" />
+			<target element="Device" relations="ft" />
+			<target element="SystemSoftware" relations="ft" />
+			<target element="InfrastructureInterface" relations="ft" />
+			<target element="InfrastructureFunction" relations="ft" />
+			<target element="InfrastructureService" relations="ft" />
+
+			<target element="Junction" relations="ft" />
+		</source>
+		
+		<source element="Stakeholder">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="gcso" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="o" />
+			<target element="Requirement" relations="o" />
+			<target element="Principle" relations="o" />
+			<target element="Constraint" relations="o" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Driver">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="on" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="gcson" />
+			<target element="Assessment" relations="on" />
+			<target element="Goal" relations="on" />
+			<target element="Requirement" relations="on" />
+			<target element="Principle" relations="on" />
+			<target element="Constraint" relations="on" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Assessment">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="on" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="on" />
+			<target element="Assessment" relations="gcson" />
+			<target element="Goal" relations="on" />
+			<target element="Requirement" relations="on" />
+			<target element="Principle" relations="on" />
+			<target element="Constraint" relations="on" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Goal">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="on" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="on" />
+			<target element="Assessment" relations="on" />
+			<target element="Goal" relations="gcson" />
+			<target element="Requirement" relations="on" />
+			<target element="Principle" relations="on" />
+			<target element="Constraint" relations="on" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Requirement">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="on" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="on" />
+			<target element="Assessment" relations="on" />
+			<target element="Goal" relations="ron" />
+			<target element="Requirement" relations="gcson" />
+			<target element="Principle" relations="ron" />
+			<target element="Constraint" relations="gcson" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Principle">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="on" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="on" />
+			<target element="Assessment" relations="on" />
+			<target element="Goal" relations="ron" />
+			<target element="Requirement" relations="on" />
+			<target element="Principle" relations="gcson" />
+			<target element="Constraint" relations="on" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Constraint">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="on" />
+			<target element="Assessment" relations="on" />
+			<target element="Goal" relations="ron" />
+			<target element="Requirement" relations="gcson" />
+			<target element="Principle" relations="ron" />
+			<target element="Constraint" relations="gcson" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="WorkPackage">
+			<target element="BusinessActor" relations="roft" />
+			<target element="BusinessRole" relations="roft" />
+			<target element="BusinessCollaboration" relations="ro" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="ro" />
+			<target element="BusinessProcess" relations="ro" />
+			<target element="BusinessFunction" relations="ro" />
+			<target element="BusinessInteraction" relations="ro" />
+			<target element="BusinessEvent" relations="ro" />
+			<target element="BusinessService" relations="ro" />
+			<target element="BusinessObject" relations="ro" />
+			<target element="Representation" relations="ro" />
+			<target element="Product" relations="ro" />
+			<target element="Contract" relations="ro" />
+			<target element="Meaning" relations="ro" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="ro" />
+			<target element="ApplicationCollaboration" relations="ro" />
+			<target element="ApplicationInterface" relations="ro" />
+			<target element="ApplicationFunction" relations="ro" />
+			<target element="ApplicationInteraction" relations="ro" />
+			<target element="ApplicationService" relations="ro" />
+			<target element="DataObject" relations="ro" />
+
+			<target element="Node" relations="ro" />
+			<target element="Device" relations="ro" />
+			<target element="SystemSoftware" relations="ro" />
+			<target element="InfrastructureInterface" relations="ro" />
+			<target element="Network" relations="ro" />
+			<target element="CommunicationPath" relations="ro" />
+			<target element="InfrastructureFunction" relations="ro" />
+			<target element="InfrastructureService" relations="ro" />
+			<target element="Artifact" relations="ro" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="o" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="gcsoft" />
+			<target element="Deliverable" relations="ro" />
+			<target element="Plateau" relations="ro" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Deliverable">
+			<target element="BusinessActor" relations="go" />
+			<target element="BusinessRole" relations="go" />
+			<target element="BusinessCollaboration" relations="go" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="go" />
+			<target element="BusinessProcess" relations="go" />
+			<target element="BusinessFunction" relations="go" />
+			<target element="BusinessInteraction" relations="go" />
+			<target element="BusinessEvent" relations="go" />
+			<target element="BusinessService" relations="go" />
+			<target element="BusinessObject" relations="go" />
+			<target element="Representation" relations="go" />
+			<target element="Product" relations="go" />
+			<target element="Contract" relations="go" />
+			<target element="Meaning" relations="go" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="go" />
+			<target element="ApplicationCollaboration" relations="go" />
+			<target element="ApplicationInterface" relations="go" />
+			<target element="ApplicationFunction" relations="go" />
+			<target element="ApplicationInteraction" relations="go" />
+			<target element="ApplicationService" relations="go" />
+			<target element="DataObject" relations="go" />
+
+			<target element="Node" relations="go" />
+			<target element="Device" relations="go" />
+			<target element="SystemSoftware" relations="go" />
+			<target element="InfrastructureInterface" relations="go" />
+			<target element="Network" relations="go" />
+			<target element="CommunicationPath" relations="go" />
+			<target element="InfrastructureFunction" relations="go" />
+			<target element="InfrastructureService" relations="go" />
+			<target element="Artifact" relations="go" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="ro" />
+			<target element="Requirement" relations="ro" />
+			<target element="Principle" relations="ro" />
+			<target element="Constraint" relations="ro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="gcso" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Plateau">
+			<target element="BusinessActor" relations="go" />
+			<target element="BusinessRole" relations="go" />
+			<target element="BusinessCollaboration" relations="go" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="go" />
+			<target element="BusinessProcess" relations="go" />
+			<target element="BusinessFunction" relations="go" />
+			<target element="BusinessInteraction" relations="go" />
+			<target element="BusinessEvent" relations="go" />
+			<target element="BusinessService" relations="go" />
+			<target element="BusinessObject" relations="go" />
+			<target element="Representation" relations="go" />
+			<target element="Product" relations="go" />
+			<target element="Contract" relations="go" />
+			<target element="Meaning" relations="go" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="go" />
+			<target element="ApplicationCollaboration" relations="go" />
+			<target element="ApplicationInterface" relations="go" />
+			<target element="ApplicationFunction" relations="go" />
+			<target element="ApplicationInteraction" relations="go" />
+			<target element="ApplicationService" relations="go" />
+			<target element="DataObject" relations="go" />
+
+			<target element="Node" relations="go" />
+			<target element="Device" relations="go" />
+			<target element="SystemSoftware" relations="go" />
+			<target element="InfrastructureInterface" relations="go" />
+			<target element="Network" relations="go" />
+			<target element="CommunicationPath" relations="go" />
+			<target element="InfrastructureFunction" relations="go" />
+			<target element="InfrastructureService" relations="go" />
+			<target element="Artifact" relations="go" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="gro" />
+			<target element="Requirement" relations="gro" />
+			<target element="Principle" relations="o" />
+			<target element="Constraint" relations="gro" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="gcsot" />
+			<target element="Gap" relations="o" />
+		</source>
+		
+		<source element="Gap">
+			<target element="BusinessActor" relations="o" />
+			<target element="BusinessRole" relations="o" />
+			<target element="BusinessCollaboration" relations="o" />
+			<target element="Location" relations="o" />
+			<target element="BusinessInterface" relations="o" />
+			<target element="BusinessProcess" relations="o" />
+			<target element="BusinessFunction" relations="o" />
+			<target element="BusinessInteraction" relations="o" />
+			<target element="BusinessEvent" relations="o" />
+			<target element="BusinessService" relations="o" />
+			<target element="BusinessObject" relations="o" />
+			<target element="Representation" relations="o" />
+			<target element="Product" relations="o" />
+			<target element="Contract" relations="o" />
+			<target element="Meaning" relations="o" />
+			<target element="Value" relations="o" />
+			
+			<target element="ApplicationComponent" relations="o" />
+			<target element="ApplicationCollaboration" relations="o" />
+			<target element="ApplicationInterface" relations="o" />
+			<target element="ApplicationFunction" relations="o" />
+			<target element="ApplicationInteraction" relations="o" />
+			<target element="ApplicationService" relations="o" />
+			<target element="DataObject" relations="o" />
+
+			<target element="Node" relations="o" />
+			<target element="Device" relations="o" />
+			<target element="SystemSoftware" relations="o" />
+			<target element="InfrastructureInterface" relations="o" />
+			<target element="Network" relations="o" />
+			<target element="CommunicationPath" relations="o" />
+			<target element="InfrastructureFunction" relations="o" />
+			<target element="InfrastructureService" relations="o" />
+			<target element="Artifact" relations="o" />
+
+			<target element="Stakeholder" relations="o" />
+			<target element="Driver" relations="o" />
+			<target element="Assessment" relations="o" />
+			<target element="Goal" relations="o" />
+			<target element="Requirement" relations="o" />
+			<target element="Principle" relations="o" />
+			<target element="Constraint" relations="o" />
+			
+			<target element="WorkPackage" relations="o" />
+			<target element="Deliverable" relations="o" />
+			<target element="Plateau" relations="o" />
+			<target element="Gap" relations="gcso" />
+		</source>
+		
+	</elements>
+</relationships>

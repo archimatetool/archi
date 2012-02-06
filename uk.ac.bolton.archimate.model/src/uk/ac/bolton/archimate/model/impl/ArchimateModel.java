@@ -34,7 +34,9 @@ import uk.ac.bolton.archimate.model.IBusinessLayerElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IIdentifier;
+import uk.ac.bolton.archimate.model.IImplementationMigrationElement;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.IMotivationElement;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
@@ -219,18 +221,32 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             getFolders().add(2, folder);
         }
 
+        if(getFolder(FolderType.MOTIVATION) == null) {
+            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
+            folder.setName("Motivation");
+            folder.setType(FolderType.MOTIVATION);
+            getFolders().add(3, folder);
+        }
+
+        if(getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
+            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
+            folder.setName("Implementation & Migration");
+            folder.setType(FolderType.IMPLEMENTATION_MIGRATION);
+            getFolders().add(4, folder);
+        }
+        
         if(getFolder(FolderType.CONNECTORS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName("Connectors");
             folder.setType(FolderType.CONNECTORS);
-            getFolders().add(3, folder);
+            getFolders().add(5, folder);
         }
 
         if(getFolder(FolderType.RELATIONS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName("Relations");
             folder.setType(FolderType.RELATIONS);
-            getFolders().add(4, folder);
+            getFolders().add(6, folder);
         }
 
         if(getFolder(FolderType.DIAGRAMS) == null) {
@@ -288,6 +304,12 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         }
         if(element instanceof ITechnologyLayerElement) {
             return getFolder(FolderType.TECHNOLOGY);
+        }
+        if(element instanceof IMotivationElement) {
+            return getFolder(FolderType.MOTIVATION);
+        }
+        if(element instanceof IImplementationMigrationElement) {
+            return getFolder(FolderType.IMPLEMENTATION_MIGRATION);
         }
         if(element instanceof IJunctionElement) {
             return getFolder(FolderType.CONNECTORS);

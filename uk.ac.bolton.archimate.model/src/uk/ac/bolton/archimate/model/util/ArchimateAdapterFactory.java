@@ -28,6 +28,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IArtifact;
+import uk.ac.bolton.archimate.model.IAssessment;
 import uk.ac.bolton.archimate.model.IAssignmentRelationship;
 import uk.ac.bolton.archimate.model.IAssociationRelationship;
 import uk.ac.bolton.archimate.model.IBorderObject;
@@ -47,8 +48,10 @@ import uk.ac.bolton.archimate.model.IBusinessService;
 import uk.ac.bolton.archimate.model.ICloneable;
 import uk.ac.bolton.archimate.model.ICommunicationPath;
 import uk.ac.bolton.archimate.model.ICompositionRelationship;
+import uk.ac.bolton.archimate.model.IConstraint;
 import uk.ac.bolton.archimate.model.IContract;
 import uk.ac.bolton.archimate.model.IDataObject;
+import uk.ac.bolton.archimate.model.IDeliverable;
 import uk.ac.bolton.archimate.model.IDevice;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -64,38 +67,51 @@ import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.IDocumentable;
+import uk.ac.bolton.archimate.model.IDriver;
 import uk.ac.bolton.archimate.model.IFlowRelationship;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IFolderContainer;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.IGap;
+import uk.ac.bolton.archimate.model.IGoal;
 import uk.ac.bolton.archimate.model.IIdentifier;
+import uk.ac.bolton.archimate.model.IImplementationMigrationElement;
+import uk.ac.bolton.archimate.model.IInfluenceRelationship;
+import uk.ac.bolton.archimate.model.IInfrastructureFunction;
 import uk.ac.bolton.archimate.model.IInfrastructureInterface;
 import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.IJunction;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IMeaning;
+import uk.ac.bolton.archimate.model.IMotivationElement;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.INetwork;
 import uk.ac.bolton.archimate.model.INode;
 import uk.ac.bolton.archimate.model.IOrJunction;
+import uk.ac.bolton.archimate.model.IPlateau;
+import uk.ac.bolton.archimate.model.IPrinciple;
 import uk.ac.bolton.archimate.model.IProduct;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
 import uk.ac.bolton.archimate.model.IRealisationRelationship;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.IRepresentation;
+import uk.ac.bolton.archimate.model.IRequirement;
 import uk.ac.bolton.archimate.model.ISketchModel;
 import uk.ac.bolton.archimate.model.ISketchModelActor;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
 import uk.ac.bolton.archimate.model.ISpecialisationRelationship;
+import uk.ac.bolton.archimate.model.IStakeholder;
 import uk.ac.bolton.archimate.model.ISystemSoftware;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 import uk.ac.bolton.archimate.model.ITextContent;
 import uk.ac.bolton.archimate.model.ITriggeringRelationship;
 import uk.ac.bolton.archimate.model.IUsedByRelationship;
 import uk.ac.bolton.archimate.model.IValue;
+import uk.ac.bolton.archimate.model.IWorkPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -270,6 +286,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createUsedByRelationshipAdapter();
             }
             @Override
+            public Adapter caseInfluenceRelationship(IInfluenceRelationship object) {
+                return createInfluenceRelationshipAdapter();
+            }
+            @Override
             public Adapter caseBusinessLayerElement(IBusinessLayerElement object) {
                 return createBusinessLayerElementAdapter();
             }
@@ -338,6 +358,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createValueAdapter();
             }
             @Override
+            public Adapter caseLocation(ILocation object) {
+                return createLocationAdapter();
+            }
+            @Override
             public Adapter caseApplicationLayerElement(IApplicationLayerElement object) {
                 return createApplicationLayerElementAdapter();
             }
@@ -394,6 +418,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createInfrastructureServiceAdapter();
             }
             @Override
+            public Adapter caseInfrastructureFunction(IInfrastructureFunction object) {
+                return createInfrastructureFunctionAdapter();
+            }
+            @Override
             public Adapter caseNode(INode object) {
                 return createNodeAdapter();
             }
@@ -404,6 +432,58 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDevice(IDevice object) {
                 return createDeviceAdapter();
+            }
+            @Override
+            public Adapter caseMotivationElement(IMotivationElement object) {
+                return createMotivationElementAdapter();
+            }
+            @Override
+            public Adapter caseStakeholder(IStakeholder object) {
+                return createStakeholderAdapter();
+            }
+            @Override
+            public Adapter caseDriver(IDriver object) {
+                return createDriverAdapter();
+            }
+            @Override
+            public Adapter caseAssessment(IAssessment object) {
+                return createAssessmentAdapter();
+            }
+            @Override
+            public Adapter caseGoal(IGoal object) {
+                return createGoalAdapter();
+            }
+            @Override
+            public Adapter caseRequirement(IRequirement object) {
+                return createRequirementAdapter();
+            }
+            @Override
+            public Adapter caseConstraint(IConstraint object) {
+                return createConstraintAdapter();
+            }
+            @Override
+            public Adapter casePrinciple(IPrinciple object) {
+                return createPrincipleAdapter();
+            }
+            @Override
+            public Adapter caseImplementationMigrationElement(IImplementationMigrationElement object) {
+                return createImplementationMigrationElementAdapter();
+            }
+            @Override
+            public Adapter caseWorkPackage(IWorkPackage object) {
+                return createWorkPackageAdapter();
+            }
+            @Override
+            public Adapter caseDeliverable(IDeliverable object) {
+                return createDeliverableAdapter();
+            }
+            @Override
+            public Adapter casePlateau(IPlateau object) {
+                return createPlateauAdapter();
+            }
+            @Override
+            public Adapter caseGap(IGap object) {
+                return createGapAdapter();
             }
             @Override
             public Adapter caseDiagramModelComponent(IDiagramModelComponent object) {
@@ -818,6 +898,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IInfrastructureFunction <em>Infrastructure Function</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IInfrastructureFunction
+     * @generated
+     */
+    public Adapter createInfrastructureFunctionAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.INode <em>Node</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -856,6 +950,188 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDeviceAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IMotivationElement <em>Motivation Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IMotivationElement
+     * @generated
+     */
+    public Adapter createMotivationElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IStakeholder <em>Stakeholder</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IStakeholder
+     * @generated
+     */
+    public Adapter createStakeholderAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDriver <em>Driver</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IDriver
+     * @generated
+     */
+    public Adapter createDriverAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IAssessment <em>Assessment</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IAssessment
+     * @generated
+     */
+    public Adapter createAssessmentAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IGoal <em>Goal</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IGoal
+     * @generated
+     */
+    public Adapter createGoalAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IRequirement <em>Requirement</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IRequirement
+     * @generated
+     */
+    public Adapter createRequirementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IConstraint <em>Constraint</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IConstraint
+     * @generated
+     */
+    public Adapter createConstraintAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IPrinciple <em>Principle</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IPrinciple
+     * @generated
+     */
+    public Adapter createPrincipleAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IImplementationMigrationElement <em>Implementation Migration Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IImplementationMigrationElement
+     * @generated
+     */
+    public Adapter createImplementationMigrationElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IWorkPackage <em>Work Package</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IWorkPackage
+     * @generated
+     */
+    public Adapter createWorkPackageAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDeliverable <em>Deliverable</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IDeliverable
+     * @generated
+     */
+    public Adapter createDeliverableAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IPlateau <em>Plateau</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IPlateau
+     * @generated
+     */
+    public Adapter createPlateauAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IGap <em>Gap</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IGap
+     * @generated
+     */
+    public Adapter createGapAdapter() {
         return null;
     }
 
@@ -1364,6 +1640,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.ILocation <em>Location</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.ILocation
+     * @generated
+     */
+    public Adapter createLocationAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IApplicationComponent <em>Application Component</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -1612,6 +1902,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createUsedByRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IInfluenceRelationship <em>Influence Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.IInfluenceRelationship
+     * @generated
+     */
+    public Adapter createInfluenceRelationshipAdapter() {
         return null;
     }
 

@@ -11,12 +11,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Map.Entry;
-
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,7 +23,6 @@ import org.junit.Test;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IRelationship;
 
 
@@ -66,82 +61,6 @@ public class ArchimateModelUtilsTests {
     @After
     public void runAfterEachTest() {
     }
-    
-    // ---------------------------------------------------------------------------------------------
-    // Tests for Relationships look-up tables
-    // ---------------------------------------------------------------------------------------------
-
-    @Test
-    public void testKeyLettersTable() {
-        assertEquals(10, ArchimateModelUtils.keyLetters.size());
-        
-        for(Entry<EClass, String> entry : ArchimateModelUtils.keyLetters.entrySet()) {
-            assertEquals(1, entry.getValue().length());
-        }
-    }
-    
-    @Test
-    public void testLookupTableValid() {
-        assertEquals(32, ArchimateModelUtils.table.size());
-        
-        for(Entry<EClass, String> entry : ArchimateModelUtils.table.entrySet()) {
-            String value = entry.getValue();
-            String[] commas = value.split(",");
-            assertEquals(32, commas.length);
-            for(String s : commas) {
-                //assertTrue("s", s.isEmpty() || s.matches("[acfgiorstu]*"));
-                assertTrue("s", s.isEmpty() || s.matches("a?c?f?g?i?o?r?s?t?u?"));
-            }
-        }
-    }
-    
-    @Test
-    public void testLookupTableOrder() {
-        Object[] keys = ArchimateModelUtils.table.keySet().toArray();
-        assertEquals(32, keys.length);
-        
-        EClass[] classes = new EClass[] {
-                IArchimatePackage.eINSTANCE.getJunction(),
-                IArchimatePackage.eINSTANCE.getBusinessActivity(),
-                IArchimatePackage.eINSTANCE.getBusinessEvent(),
-                IArchimatePackage.eINSTANCE.getBusinessInteraction(),
-                IArchimatePackage.eINSTANCE.getBusinessProcess(),
-                IArchimatePackage.eINSTANCE.getBusinessActor(),
-                IArchimatePackage.eINSTANCE.getBusinessInterface(),
-                IArchimatePackage.eINSTANCE.getBusinessCollaboration(),
-                IArchimatePackage.eINSTANCE.getBusinessRole(),
-                IArchimatePackage.eINSTANCE.getBusinessFunction(),
-                IArchimatePackage.eINSTANCE.getContract(),
-                IArchimatePackage.eINSTANCE.getProduct(),
-                IArchimatePackage.eINSTANCE.getBusinessService(),
-                IArchimatePackage.eINSTANCE.getValue(),
-                IArchimatePackage.eINSTANCE.getBusinessObject(),
-                IArchimatePackage.eINSTANCE.getRepresentation(),
-                IArchimatePackage.eINSTANCE.getMeaning(),
-                IArchimatePackage.eINSTANCE.getApplicationCollaboration(),
-                IArchimatePackage.eINSTANCE.getApplicationComponent(),
-                IArchimatePackage.eINSTANCE.getApplicationFunction(),
-                IArchimatePackage.eINSTANCE.getApplicationInteraction(),
-                IArchimatePackage.eINSTANCE.getApplicationInterface(),
-                IArchimatePackage.eINSTANCE.getApplicationService(),
-                IArchimatePackage.eINSTANCE.getDataObject(),
-                IArchimatePackage.eINSTANCE.getArtifact(),
-                IArchimatePackage.eINSTANCE.getCommunicationPath(),
-                IArchimatePackage.eINSTANCE.getDevice(),
-                IArchimatePackage.eINSTANCE.getNode(),
-                IArchimatePackage.eINSTANCE.getInfrastructureInterface(),
-                IArchimatePackage.eINSTANCE.getNetwork(),
-                IArchimatePackage.eINSTANCE.getInfrastructureService(),
-                IArchimatePackage.eINSTANCE.getSystemSoftware()
-        };
-        
-        int i = 0;
-        for(EClass key : ArchimateModelUtils.table.keySet()) {
-            assertEquals(classes[i], key);
-            i++;
-        }
-    }
-
     
     // ---------------------------------------------------------------------------------------------
     // isValidRelationshipStart
@@ -340,5 +259,4 @@ public class ArchimateModelUtilsTests {
         assertEquals(newElement2, element);
     }
     
-
 } 
