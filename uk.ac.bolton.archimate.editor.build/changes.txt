@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.1 February 06 2011
+Version 2.1 February 06 2012
 ----------------------------
 + Canvas Modelling Toolkit
 + ArchiMate connection tooltips now display the full meaning of the relationship
