@@ -28,7 +28,6 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.actions.CreateDerivedRelationAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.DeleteFromModelAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ViewpointAction;
 import uk.ac.bolton.archimate.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
@@ -40,7 +39,6 @@ import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionSynchroniser;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
@@ -131,9 +129,6 @@ implements IArchimateDiagramEditor {
         // Set Model
         viewer.setContents(getModel());
         
-        // Add Selection Sync
-        TreeSelectionSynchroniser.INSTANCE.addDiagramEditor(this);
-        
         // Native DnD
         viewer.addDropTargetListener(new ArchimateDiagramTransferDropTargetListener(viewer));
     }
@@ -219,11 +214,6 @@ implements IArchimateDiagramEditor {
         ActionRegistry registry = getActionRegistry();
         IAction action;
 
-        // Select Element in Tree
-        action = new SelectElementInTreeAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        
         // Show Structural Chains
         action = new ShowStructuralChainsAction(this);
         registry.registerAction(action);
@@ -260,7 +250,6 @@ implements IArchimateDiagramEditor {
     @Override
     public void dispose() {
         super.dispose();
-        TreeSelectionSynchroniser.INSTANCE.removeDiagramEditor(this);
         if(fPalette != null) {
             fPalette.dispose();
         }

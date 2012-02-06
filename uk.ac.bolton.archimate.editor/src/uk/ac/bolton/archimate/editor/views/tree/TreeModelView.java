@@ -474,14 +474,14 @@ implements ITreeModelView, IUIRequestListener {
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
             super.propertyChange(evt);
             // Remove Syncing
-            TreeSelectionSynchroniser.INSTANCE.removeTreeModelView();
+            TreeSelectionSynchroniser.INSTANCE.setSynchronise(false);
         }
         
         // Ecore Events have finished so turn tree refresh on
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
             super.propertyChange(evt);
             // Add Syncing
-            TreeSelectionSynchroniser.INSTANCE.setTreeModelView(this);
+            TreeSelectionSynchroniser.INSTANCE.setSynchronise(true);
         }
         
         else {

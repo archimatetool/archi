@@ -104,6 +104,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.PrintDiagramAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.PropertiesAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ResetAspectRatioAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SelectAllAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
@@ -740,6 +741,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Full Screen
         action = new FullScreenAction(this);
         registry.registerAction(action);
+        
+        // Select Element in Tree
+        action = new SelectElementInTreeAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
     }
     
     @Override

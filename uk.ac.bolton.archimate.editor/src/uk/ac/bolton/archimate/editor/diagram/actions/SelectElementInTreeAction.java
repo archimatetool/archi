@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
+import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
@@ -44,7 +45,10 @@ public class SelectElementInTreeAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof IDiagramModelArchimateObject) {
+                if(model instanceof IDiagramModel) {
+                    elements.add(model);
+                }
+                else if(model instanceof IDiagramModelArchimateObject) {
                     elements.add(((IDiagramModelArchimateObject)model).getArchimateElement());
                 }
                 else if(model instanceof IDiagramModelArchimateConnection) {
@@ -70,7 +74,7 @@ public class SelectElementInTreeAction extends SelectionAction {
         for(Object object : list) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof IDiagramModelArchimateConnection || model instanceof IDiagramModelArchimateObject) {
+                if(model instanceof IDiagramModel || model instanceof IDiagramModelArchimateConnection || model instanceof IDiagramModelArchimateObject) {
                     return true;
                 }
             }

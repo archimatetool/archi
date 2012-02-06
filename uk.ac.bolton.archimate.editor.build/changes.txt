@@ -1,6 +1,13 @@
 Archi Changes
 -------------
 
+Version 2.2 February XX 2012
+----------------------------
++ Support for ArchiMate 2.0
++ Model Tree selection synchroniser can now select active View in Model Tree
+
+
+
 Version 2.1 February 06 2012
 ----------------------------
 + Canvas Modelling Toolkit

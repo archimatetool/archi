@@ -24,6 +24,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.DefaultEditPartSizeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ExportAsImageAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ExportAsImageToClipboardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendBackwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 
@@ -97,6 +98,10 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         action = actionRegistry.getAction(ActionFactory.RENAME.getId());
         menu.appendToGroup(GROUP_RENAME, action);
 
+        // Select Element in Tree
+        menu.appendToGroup(GROUP_RENAME, new Separator());
+        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
+ 
         menu.add(new Separator(GROUP_EXPORT));
         IMenuManager exportMenu = new MenuManager("Export", "menu_export");
         menu.add(exportMenu);

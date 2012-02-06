@@ -15,7 +15,6 @@ import org.eclipse.jface.action.Separator;
 
 import uk.ac.bolton.archimate.editor.diagram.actions.CreateDerivedRelationAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.DeleteFromModelAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.SelectElementInTreeAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ShowStructuralChainsAction;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
@@ -68,9 +67,5 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
         derivedRelationsMenu.add(actionRegistry.getAction(ShowStructuralChainsAction.ID));
         derivedRelationsMenu.add(actionRegistry.getAction(CreateDerivedRelationAction.ID));
-        
-        // Select Element in Tree
-        menu.appendToGroup(GROUP_RENAME, new Separator());
-        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
     }
 }
