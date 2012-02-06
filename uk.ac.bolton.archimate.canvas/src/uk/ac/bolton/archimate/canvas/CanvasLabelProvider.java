@@ -12,11 +12,14 @@ import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.canvas.model.ICanvasModel;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelBlock;
+import uk.ac.bolton.archimate.canvas.model.ICanvasModelConnection;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelImage;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelSticky;
 import uk.ac.bolton.archimate.canvas.model.ICanvasPackage;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.IEditorLabelProvider;
+import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.model.INameable;
 
 
 /**
@@ -30,6 +33,18 @@ public class CanvasLabelProvider implements IEditorLabelProvider {
 
     @Override
     public String getLabel(Object element) {
+        if(element == null) {
+            return "";
+        }
+        
+        // Get Name
+        if(element instanceof INameable) {
+            String name = ((INameable)element).getName();
+            if(StringUtils.isSet(name)) {
+                return name;
+            }
+        }
+        
         if(element instanceof ICanvasModelImage) {
             return "Image";
         }
@@ -42,8 +57,11 @@ public class CanvasLabelProvider implements IEditorLabelProvider {
         else if(element instanceof ICanvasModel) {
             return "Canvas";
         }
+        else if(element instanceof ICanvasModelConnection) {
+            return "Connection";
+        }
         
-        return null;
+        return "";
     }
 
     @Override

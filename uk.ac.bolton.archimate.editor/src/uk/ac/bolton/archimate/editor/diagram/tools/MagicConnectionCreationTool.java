@@ -39,7 +39,6 @@ import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
@@ -367,7 +366,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
 
     private MenuItem addElementAction(Menu menu, final EClass type) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(ArchimateNames.getDefaultName(type));
+        item.setText(ArchimateLabelProvider.INSTANCE.getDefaultName(type));
         item.setImage(ArchimateLabelProvider.INSTANCE.getImage(type));
         
         // Add hover listener to notify Hints View and also set element if elements first
@@ -399,7 +398,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     
     private MenuItem addConnectionAction(Menu menu, final EClass relationshipType) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(ArchimateNames.getDefaultName(relationshipType));
+        item.setText(ArchimateLabelProvider.INSTANCE.getDefaultName(relationshipType));
         item.setImage(ArchimateLabelProvider.INSTANCE.getImage(relationshipType));
         
         // Add hover listener to notify Hints View

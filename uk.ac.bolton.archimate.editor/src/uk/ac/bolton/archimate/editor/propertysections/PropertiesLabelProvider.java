@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.LabelProviderExtensionHandler;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -94,7 +93,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
     private String getArchimateElementText(IArchimateElement element) {
         String name = escapeText(element.getName());
         
-        String typeName = ArchimateNames.getDefaultName(element.eClass());
+        String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
         
         if(name.length() > 0) {
             return name + " (" + typeName + ")";

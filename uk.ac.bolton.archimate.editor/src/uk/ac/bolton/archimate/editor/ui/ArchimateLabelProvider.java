@@ -11,18 +11,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
+import uk.ac.bolton.archimate.editor.ui.factory.ElementUIFactory;
+import uk.ac.bolton.archimate.editor.ui.factory.IElementUIProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelGroup;
-import uk.ac.bolton.archimate.model.IDiagramModelNote;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
-import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.INameable;
+import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.ISketchModel;
-import uk.ac.bolton.archimate.model.ISketchModelActor;
-import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
 
 /**
@@ -52,39 +48,22 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
             name = ((INameable)element).getName();
         }
         
-        // Blank. Is it an Archimate object?
+        // It's blank. Can we get a default name from its class?
         if(!StringUtils.isSet(name) && element instanceof EObject) {
-            name = ArchimateNames.getDefaultName(((EObject)element).eClass());
+            name = getDefaultName(((EObject)element).eClass());
         }
         
+        // Yes
         if(StringUtils.isSet(name)) {
             return name;
         }
         
         // Defaults for empty strings
-        if(element instanceof IDiagramModelConnection) {
-            return "Connection";
-        }
-        else if(element instanceof IArchimateDiagramModel) {
+        if(element instanceof IArchimateDiagramModel) {
             return "View";
-        }
-        else if(element instanceof IDiagramModelNote) {
-            return "Note";
-        }
-        else if(element instanceof IDiagramModelGroup) {
-            return "Group";
-        }
-        else if(element instanceof IDiagramModelReference) {
-            return "View Reference";
         }
         else if(element instanceof ISketchModel) {
             return "Sketch";
-        }
-        else if(element instanceof ISketchModelActor) {
-            return "Actor";
-        }
-        else if(element instanceof ISketchModelSticky) {
-            return "Sticky";
         }
        
         return StringUtils.safeString(name);
@@ -100,7 +79,7 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         
         // This first, since EClass is an EObject
         if(element instanceof EClass) {
-            image = getEClassImage((EClass)element, null);
+            image = getEClassImage((EClass)element);
         }
         else if(element instanceof EObject) {
             image = getObjectImage(((EObject)element));
@@ -115,24 +94,27 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
     }
     
     /**
-     * @return An Image for an EObject
+     * @return An Image for an EObject instance
      */
     private Image getObjectImage(EObject eObject) {
-        Object type = null;
-        
-        // Interface Element Types
-        if(eObject instanceof IInterfaceElement) {
-            type = ((IInterfaceElement)eObject).getInterfaceType();
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eObject.eClass());
+        if(provider != null) {
+            return provider.getImage(eObject);
         }
         
-        return getEClassImage(eObject.eClass(), type);
+        return getEClassImage(eObject.eClass());
     }
     
     /**
      * @return An Image for an EClass
      */
-    private Image getEClassImage(EClass eClass, Object type) {
-        String imageName = getImageName(eClass, type);
+    private Image getEClassImage(EClass eClass) {
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        if(provider != null) {
+            return provider.getImage();
+        }
+        
+        String imageName = getImageName(eClass);
         if(imageName != null) {
             return IArchimateImages.ImageFactory.getImage(imageName);
         }
@@ -145,7 +127,12 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return An ImageDescriptor for an EClass
      */
     public ImageDescriptor getImageDescriptor(EClass eClass) {
-        String imageName = getImageName(eClass, null);
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        if(provider != null) {
+            return provider.getImageDescriptor();
+        }
+        
+        String imageName = getImageName(eClass);
         if(imageName != null) {
             return IArchimateImages.ImageFactory.getImageDescriptor(imageName);
         }
@@ -153,141 +140,114 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         return null;
     }
     
-    private String getImageName(EClass eClass, Object type) {
+    private String getImageName(EClass eClass) {
         switch(eClass.getClassifierID()) {
-            // Business
-            case IArchimatePackage.BUSINESS_ACTIVITY:
-                return IArchimateImages.ICON_BUSINESS_ACTIVITY_16;
-            case IArchimatePackage.BUSINESS_ACTOR:
-                return IArchimateImages.ICON_BUSINESS_ACTOR_16;
-            case IArchimatePackage.BUSINESS_COLLABORATION:
-                return IArchimateImages.ICON_BUSINESS_COLLABORATION_16;
-            case IArchimatePackage.CONTRACT:
-                return IArchimateImages.ICON_BUSINESS_CONTRACT_16;
-            case IArchimatePackage.BUSINESS_EVENT:
-                return IArchimateImages.ICON_BUSINESS_EVENT_16;
-            case IArchimatePackage.BUSINESS_FUNCTION:
-                return IArchimateImages.ICON_BUSINESS_FUNCTION_16;
-            case IArchimatePackage.BUSINESS_INTERACTION:
-                return IArchimateImages.ICON_BUSINESS_INTERACTION_16;
-            case IArchimatePackage.BUSINESS_INTERFACE:
-                if(type != null && type.equals(IInterfaceElement.REQUIRED)) {
-                    return IArchimateImages.ICON_INTERFACE_REQUIRED_16;
-                }
-                return IArchimateImages.ICON_BUSINESS_INTERFACE_16;
-            case IArchimatePackage.MEANING:
-                return IArchimateImages.ICON_BUSINESS_MEANING_16;
-            case IArchimatePackage.BUSINESS_OBJECT:
-                return IArchimateImages.ICON_BUSINESS_OBJECT_16;
-            case IArchimatePackage.BUSINESS_PROCESS:
-                return IArchimateImages.ICON_BUSINESS_PROCESS_16;
-            case IArchimatePackage.PRODUCT:
-                return IArchimateImages.ICON_BUSINESS_PRODUCT_16;
-            case IArchimatePackage.REPRESENTATION:
-                return IArchimateImages.ICON_BUSINESS_REPRESENTATION_16;
-            case IArchimatePackage.BUSINESS_ROLE:
-                return IArchimateImages.ICON_BUSINESS_ROLE_16;
-            case IArchimatePackage.BUSINESS_SERVICE:
-                return IArchimateImages.ICON_BUSINESS_SERVICE_16;
-            case IArchimatePackage.VALUE:
-                return IArchimateImages.ICON_BUSINESS_VALUE_16;
-                
-            // Application
-            case IArchimatePackage.APPLICATION_COLLABORATION:
-                return IArchimateImages.ICON_APPLICATION_COLLABORATION_16;
-            case IArchimatePackage.APPLICATION_COMPONENT:
-                return IArchimateImages.ICON_APPLICATION_COMPONENT_16;
-            case IArchimatePackage.APPLICATION_FUNCTION:
-                return IArchimateImages.ICON_APPLICATION_FUNCTION_16;
-            case IArchimatePackage.APPLICATION_INTERACTION:
-                return IArchimateImages.ICON_APPLICATION_INTERACTION_16;
-            case IArchimatePackage.APPLICATION_INTERFACE:
-                if(type != null && type.equals(IInterfaceElement.REQUIRED)) {
-                    return IArchimateImages.ICON_INTERFACE_REQUIRED_16;
-                }
-                return IArchimateImages.ICON_APPLICATION_INTERFACE_16;
-            case IArchimatePackage.DATA_OBJECT:
-                return IArchimateImages.ICON_APPLICATION_DATA_OBJECT_16;
-            case IArchimatePackage.APPLICATION_SERVICE:
-                return IArchimateImages.ICON_APPLICATION_SERVICE_16;
-
-            // Technology
-            case IArchimatePackage.ARTIFACT:
-                return IArchimateImages.ICON_TECHNOLOGY_ARTIFACT_16;
-            case IArchimatePackage.COMMUNICATION_PATH:
-                return IArchimateImages.ICON_TECHNOLOGY_COMMUNICATION_PATH_16;
-            case IArchimatePackage.NETWORK:
-                return IArchimateImages.ICON_TECHNOLOGY_NETWORK_16;
-            case IArchimatePackage.INFRASTRUCTURE_INTERFACE:
-                if(type != null && type.equals(IInterfaceElement.REQUIRED)) {
-                    return IArchimateImages.ICON_INTERFACE_REQUIRED_16;
-                }
-                return IArchimateImages.ICON_TECHNOLOGY_INFRASTRUCTURE_INTERFACE_16;
-            case IArchimatePackage.INFRASTRUCTURE_SERVICE:
-                return IArchimateImages.ICON_TECHNOLOGY_INFRASTRUCTURE_SERVICE_16;
-            case IArchimatePackage.NODE:
-                return IArchimateImages.ICON_TECHNOLOGY_NODE_16;
-            case IArchimatePackage.SYSTEM_SOFTWARE:
-                return IArchimateImages.ICON_TECHNOLOGY_SYSTEM_SOFTWARE_16;
-            case IArchimatePackage.DEVICE:
-                return IArchimateImages.ICON_TECHNOLOGY_DEVICE_16;
-                
-            // Junctions
-            case IArchimatePackage.JUNCTION:
-                return IArchimateImages.ICON_JUNCTION_16;
-            case IArchimatePackage.AND_JUNCTION:
-                return IArchimateImages.ICON_JUNCTION_AND_16;
-            case IArchimatePackage.OR_JUNCTION:
-                return IArchimateImages.ICON_JUNCTION_OR_16;
-                
-            // Relationships
-            case IArchimatePackage.ACCESS_RELATIONSHIP:
-                return IArchimateImages.ICON_ACESS_CONNECTION_16;
-            case IArchimatePackage.AGGREGATION_RELATIONSHIP:
-                return IArchimateImages.ICON_AGGREGATION_CONNECTION_16;
-            case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
-                return IArchimateImages.ICON_ASSIGNMENT_CONNECTION_16;
-            case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
-                return IArchimateImages.ICON_ASSOCIATION_CONNECTION_16;
-            case IArchimatePackage.COMPOSITION_RELATIONSHIP:
-                return IArchimateImages.ICON_COMPOSITION_CONNECTION_16;
-            case IArchimatePackage.FLOW_RELATIONSHIP:
-                return IArchimateImages.ICON_FLOW_CONNECTION_16;
-            case IArchimatePackage.REALISATION_RELATIONSHIP:
-                return IArchimateImages.ICON_REALISATION_CONNECTION_16;
-            case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
-                return IArchimateImages.ICON_SPECIALISATION_CONNECTION_16;
-            case IArchimatePackage.TRIGGERING_RELATIONSHIP:
-                return IArchimateImages.ICON_TRIGGERING_CONNECTION_16;
-            case IArchimatePackage.USED_BY_RELATIONSHIP:
-                return IArchimateImages.ICON_USED_BY_CONNECTION_16;
-                
             // Other
             case IArchimatePackage.ARCHIMATE_MODEL:
                 return IArchimateImages.ICON_MODELS_16;
             case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL:
-            case IArchimatePackage.DIAGRAM_MODEL_REFERENCE:
                 return IArchimateImages.ICON_DIAGRAM_16;
-            case IArchimatePackage.DIAGRAM_MODEL_GROUP:
-                return IArchimateImages.ICON_GROUP_16;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION:
-                return IArchimateImages.ICON_CONNECTION_PLAIN_16;
             case IArchimatePackage.FOLDER:
                 return IArchimateImages.ECLIPSE_IMAGE_FOLDER;
-            case IArchimatePackage.DIAGRAM_MODEL_NOTE:
-                return IArchimateImages.ICON_NOTE_16;
-            case IArchimatePackage.DIAGRAM_MODEL_IMAGE:
-                return IArchimateImages.ICON_LANDSCAPE_16;
             
             // Sketch
             case IArchimatePackage.SKETCH_MODEL:
                 return IArchimateImages.ICON_SKETCH_16;
-            case IArchimatePackage.SKETCH_MODEL_ACTOR:
-                return IArchimateImages.ICON_ACTOR_16;
-            case IArchimatePackage.SKETCH_MODEL_STICKY:
-                return IArchimateImages.ICON_STICKY_16;
         }
         
         return null;
     }
+    
+    /**
+     * Get a default human-readable name for an EClass
+     * @param eClass The Class
+     * @return A name or null
+     */
+    public String getDefaultName(EClass eClass) {
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        if(provider != null) {
+            return provider.getDefaultName();
+        }
+        
+        return "";
+    }
+    
+    /**
+     * Get a default human-readable short name for an EClass
+     * @param eClass The Class
+     * @return A name or null
+     */
+    public String getDefaultShortName(EClass eClass) {
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        if(provider != null) {
+            return provider.getDefaultShortName();
+        }
+        
+        return "";
+    }
+
+    /**
+     * @param relation
+     * @return A sentence that describes the relationship between the relationship's source and target elements
+     */
+    public String getRelationshipSentence(IRelationship relation) {
+        String action = "";
+        
+        if(relation != null) {
+            if(relation.getSource() != null && relation.getTarget() != null) {
+                String nameSource = ArchimateLabelProvider.INSTANCE.getLabel(relation.getSource());
+                String nameTarget = ArchimateLabelProvider.INSTANCE.getLabel(relation.getTarget());
+                
+                switch(relation.eClass().getClassifierID()) {
+                    case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
+                        action = "is a specialisation of";
+                        break;
+
+                    case IArchimatePackage.COMPOSITION_RELATIONSHIP:
+                        action = "is composed of";
+                        break;
+
+                    case IArchimatePackage.AGGREGATION_RELATIONSHIP:
+                        action = "aggregates";
+                        break;
+
+                    case IArchimatePackage.TRIGGERING_RELATIONSHIP:
+                        action = "triggers";
+                        break;
+
+                    case IArchimatePackage.FLOW_RELATIONSHIP:
+                        action = "flows to";
+                        break;
+
+                    case IArchimatePackage.ACCESS_RELATIONSHIP:
+                        action = "accesses";
+                        break;
+
+                    case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
+                        action = "is associated with";
+                        break;
+
+                    case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
+                        action = "is assigned to";
+                        break;
+
+                    case IArchimatePackage.REALISATION_RELATIONSHIP:
+                        action = "realises";
+                        break;
+
+                    case IArchimatePackage.USED_BY_RELATIONSHIP:
+                        action = "is used by";
+                        break;
+
+                    default:
+                        break;
+                }
+                
+                action = nameSource + " " + action + " " + nameTarget;
+            }
+        }
+        
+        return action;
+    }
+
 }

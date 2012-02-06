@@ -7,20 +7,16 @@
 package uk.ac.bolton.archimate.editor.ui;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 
-import uk.ac.bolton.archimate.model.IApplicationLayerElement;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IBusinessLayerElement;
+import uk.ac.bolton.archimate.editor.ui.factory.ElementUIFactory;
+import uk.ac.bolton.archimate.editor.ui.factory.IElementUIProvider;
+import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelGroup;
-import uk.ac.bolton.archimate.model.IDiagramModelNote;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
-import uk.ac.bolton.archimate.model.ISketchModelActor;
-import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 
 
 /**
@@ -33,10 +29,6 @@ public class ColorFactory {
     public static final Color COLOR_BUSINESS = new Color(null, 255, 255, 181);
     public static final Color COLOR_APPLICATION = new Color(null, 181, 255, 255);
     public static final Color COLOR_TECHNOLOGY = new Color(null, 201, 231, 183);
-    
-    public static final Color COLOR_GROUP = new Color(null, 210, 215, 215);
-    public static final Color COLOR_NOTE = ColorConstants.white;
-    public static final Color COLOR_DIAGRAM_MODEL_REF = new Color(null, 220, 235, 235);
     
     /**
      * Color Registry
@@ -69,35 +61,26 @@ public class ColorFactory {
     
     /**
      * @param object
-     * @return A defult Color for a diagram model object
+     * @return A default Color (usually a Fill colour) for a diagram model object
      */
     public static Color getDefaultColor(Object object) {
-        if(object instanceof IDiagramModelNote) {
-            return COLOR_NOTE;
-        }
-        if(object instanceof IDiagramModelGroup) {
-            return COLOR_GROUP;
-        }
-        if(object instanceof IDiagramModelReference) {
-            return COLOR_DIAGRAM_MODEL_REF;
-        }
+        EClass eClass = null;
+        
         if(object instanceof IDiagramModelArchimateObject) {
-            IArchimateElement element = ((IDiagramModelArchimateObject)object).getArchimateElement();
-            if(element instanceof IBusinessLayerElement) {
-                return COLOR_BUSINESS;
-            }
-            if(element instanceof IApplicationLayerElement) {
-                return COLOR_APPLICATION;
-            }
-            if(element instanceof ITechnologyLayerElement) {
-                return COLOR_TECHNOLOGY;
-            }
+            eClass = ((IDiagramModelArchimateObject)object).getArchimateElement().eClass();
         }
-        if(object instanceof ISketchModelActor) {
-            return ColorConstants.black;
+        else if(object instanceof IDiagramModelArchimateConnection) {
+            eClass = ((IDiagramModelArchimateConnection)object).getRelationship().eClass();
         }
-        if(object instanceof IDiagramModelConnection) {
-            return ColorConstants.black;
+        else if(object instanceof EObject) {
+            eClass = ((EObject)object).eClass();
+        }
+        
+        if(eClass != null) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+            if(provider != null) {
+                return provider.getDefaultColor() == null ? ColorConstants.white : provider.getDefaultColor();
+            }
         }
         
         return ColorConstants.white;

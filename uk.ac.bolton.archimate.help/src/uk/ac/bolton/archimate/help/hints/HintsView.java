@@ -63,7 +63,6 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.ITechnologyLayerElement;
 
@@ -198,7 +197,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         	error.printStackTrace();
             // Create a message and show that instead
             fTitleLabel.setText("Hints View Error");
-            fTitleLabel.setBackground(new Color[]{ColorFactory.COLOR_GROUP, ColorConstants.white}, new int[]{80}, false);
+            fTitleLabel.setBackground(new Color[]{ColorConstants.lightGray, ColorConstants.white}, new int[]{80}, false);
             Text text = new Text(parent, SWT.MULTI | SWT.WRAP);
             text.setLayoutData(new GridData(GridData.FILL_BOTH));
             text.setText("Cannot create Browser component.\nIf you are running on Linux, try installing xulrunner-1.9.2 and/or libwebkit-1.0-2.");
@@ -431,10 +430,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             clazz = object.getClass();
         }
         
-        if(IDiagramModelGroup.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_GROUP;
-        }
-        
         if(IBusinessLayerElement.class.isAssignableFrom(clazz)) {
             return ColorFactory.COLOR_BUSINESS;
         }
@@ -445,7 +440,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             return ColorFactory.COLOR_TECHNOLOGY;
         }
         
-        return ColorFactory.COLOR_DIAGRAM_MODEL_REF;
+        return ColorFactory.get(220, 235, 235);
     }
 
     

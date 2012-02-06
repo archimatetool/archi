@@ -8,7 +8,7 @@ package uk.ac.bolton.archimate.jasperreports.data;
 
 import org.eclipse.emf.ecore.EObject;
 
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -32,7 +32,7 @@ public class FieldDataFactory {
             return ((INameable)dataElement).getName();
         }
         if("type".equals(fieldName) && dataElement instanceof EObject) {
-            return ArchimateNames.getDefaultName(((EObject)dataElement).eClass());
+            return ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
         }
         if("documentation".equals(fieldName) && dataElement instanceof IDocumentable) {
             String s = ((IDocumentable)dataElement).getDocumentation();

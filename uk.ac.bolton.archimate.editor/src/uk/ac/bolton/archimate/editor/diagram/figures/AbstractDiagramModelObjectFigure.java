@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.Font;
 
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
@@ -158,7 +157,7 @@ implements IDiagramModelObjectFigure {
         
         if(fDiagramModelObject instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
-            String type = ArchimateNames.getDefaultName(element.eClass());
+            String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
             if(!StringUtils.isSet(text)) { // Name was blank
                 toolTipFigure.setText(type);
             }

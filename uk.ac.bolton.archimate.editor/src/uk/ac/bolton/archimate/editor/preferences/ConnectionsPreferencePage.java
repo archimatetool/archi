@@ -29,7 +29,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 
 
 /**
@@ -176,7 +175,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         viewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
-                return ArchimateNames.getDefaultName((EClass)element);
+                return ArchimateLabelProvider.INSTANCE.getDefaultName((EClass)element);
             }
             
             @Override

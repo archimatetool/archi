@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.IEditorPart;
 
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -56,7 +56,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Archimate Diagram Object created from Archimate Element Template
         else if(object instanceof IArchimateElement) {
-            ((IArchimateElement)object).setName(ArchimateNames.getDefaultName(fTemplate));
+            ((IArchimateElement)object).setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
             IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
             dmo.setArchimateElement((IArchimateElement)object);
             dmo.setType(Preferences.getDefaultFigureType(dmo));

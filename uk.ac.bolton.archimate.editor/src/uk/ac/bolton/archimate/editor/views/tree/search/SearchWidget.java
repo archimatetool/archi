@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Text;
 import uk.ac.bolton.archimate.editor.actions.AbstractDropDownAction;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
@@ -214,7 +213,7 @@ public class SearchWidget extends Composite {
     }
 
 	private IAction createObjectAction(final EClass eClass) {
-        IAction action = new Action(ArchimateNames.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
+        IAction action = new Action(ArchimateLabelProvider.INSTANCE.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
                 if(isChecked()) {

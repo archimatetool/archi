@@ -25,7 +25,6 @@ import uk.ac.bolton.archimate.editor.diagram.tools.MagicConnectionModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
 import uk.ac.bolton.archimate.editor.model.viewpoints.IViewpoint;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
@@ -250,7 +249,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String description) {
         return new CombinedTemplateCreationEntry(
-                ArchimateNames.getDefaultShortName(eClass),
+                ArchimateLabelProvider.INSTANCE.getDefaultShortName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
@@ -258,7 +257,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
-        return createConnectionCreationToolEntry(eClass, ArchimateNames.getDefaultName(eClass), description);
+        return createConnectionCreationToolEntry(eClass, ArchimateLabelProvider.INSTANCE.getDefaultName(eClass), description);
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String name, String description) {

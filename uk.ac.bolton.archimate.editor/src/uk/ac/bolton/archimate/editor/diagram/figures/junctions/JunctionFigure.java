@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.Color;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -76,7 +76,7 @@ public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure
         
         ((ToolTipFigure)getToolTip()).setText(text);
         IArchimateElement element = fDiagramModelObject.getArchimateElement();
-        String type = ArchimateNames.getDefaultName(element.eClass());
+        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
         ((ToolTipFigure)getToolTip()).setType("Type: " + type);
     }
 

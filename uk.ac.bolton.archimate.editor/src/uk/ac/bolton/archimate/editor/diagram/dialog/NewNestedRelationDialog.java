@@ -37,7 +37,6 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -185,7 +184,7 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
         class RelationsTableViewerLabelCellProvider extends LabelProvider {
             @Override
             public String getText(Object element) {
-                return ArchimateNames.getDefaultName((EClass)element);
+                return ArchimateLabelProvider.INSTANCE.getDefaultName((EClass)element);
             }
             
             @Override

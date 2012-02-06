@@ -11,7 +11,6 @@ import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IRelationship;
 
@@ -59,10 +58,10 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
         String text = ArchimateLabelProvider.INSTANCE.getLabel(relation);
         toolTipFigure.setText(text);
 
-        String type = ArchimateNames.getDefaultName(relation.eClass());
+        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         toolTipFigure.setType("Type: " + type);
 
-        String rubric = ArchimateNames.getRelationshipSentence(relation);
+        String rubric = ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation);
         toolTipFigure.setRubric(rubric);
 
         return toolTipFigure;

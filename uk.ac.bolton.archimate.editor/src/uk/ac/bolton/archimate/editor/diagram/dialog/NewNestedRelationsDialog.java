@@ -39,7 +39,6 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -105,7 +104,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
                 names = new String[validRelations.size()];
                 names[0] = "(none)";
                 for(int i = 1; i < validRelations.size(); i++) {
-                    names[i] = ArchimateNames.getDefaultName(validRelations.get(i));
+                    names[i] = ArchimateLabelProvider.INSTANCE.getDefaultName(validRelations.get(i));
                 }
             }
             return names;

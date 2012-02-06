@@ -26,6 +26,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
@@ -34,7 +35,7 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.utils.FileUtils;
 import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
@@ -210,7 +211,7 @@ public class HTMLReportExporter {
     
     private void writeConnectionElements() throws IOException {
         IFolder connectionsFolder = fModel.getFolder(FolderType.CONNECTORS);
-        String color = ColorFactory.convertRGBToString(ColorFactory.COLOR_DIAGRAM_MODEL_REF.getRGB());
+        String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
         
         List<EObject> list = new ArrayList<EObject>();
         getElements(connectionsFolder, list, null);
@@ -296,7 +297,7 @@ public class HTMLReportExporter {
         writer.write("</tr>\n");
         
         writer.write("<tr>\n");
-        String type = ArchimateNames.getDefaultName(element.eClass());
+        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
         writer.write("<td valign=\"top\">Type</td>\n");
         writer.write("<td valign=\"top\">" + type + "</td>\n");
         writer.write("</tr>\n");

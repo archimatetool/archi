@@ -17,7 +17,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ArchimateNames;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.views.tree.commands.NewDiagramCommand;
 import uk.ac.bolton.archimate.editor.views.tree.commands.NewElementCommand;
@@ -111,7 +110,7 @@ public class TreeModelViewActionFactory {
     }
 
     private IAction createNewElementAction(final IFolder folder, final EClass eClass) {
-        IAction action = new Action(ArchimateNames.getDefaultName(eClass)) {
+        IAction action = new Action(ArchimateLabelProvider.INSTANCE.getDefaultName(eClass)) {
             @Override
             public void run() {
                 // Create a new Archimate Element, set its name
