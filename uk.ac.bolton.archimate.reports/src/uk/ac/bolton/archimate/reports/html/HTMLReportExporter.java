@@ -94,6 +94,8 @@ public class HTMLReportExporter {
         writeBusinessElements();
         writeApplicationElements();
         writeTechnologyElements();
+        writeMotivationElements();
+        writeImplementationMigrationElements();
         writeConnectionElements();
         writeDiagrams();
         
@@ -141,6 +143,7 @@ public class HTMLReportExporter {
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessRole());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessInterface());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
+        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getLocation());
         writeElements(list, "Business Actors", color);
         
         // Business Functions
@@ -157,7 +160,6 @@ public class HTMLReportExporter {
         
         // Business Processes
         list.clear();
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessActivity());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessEvent());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessInteraction());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessProcess());
@@ -202,11 +204,39 @@ public class HTMLReportExporter {
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getCommunicationPath());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getDevice());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getNode());
+        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureFunction());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureInterface());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getNetwork());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureService());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getSystemSoftware());
         writeElements(list, "Infrastructures", color);
+    }
+    
+    private void writeMotivationElements() throws IOException {
+        IFolder motivationFolder = fModel.getFolder(FolderType.MOTIVATION);
+        String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
+        
+        List<EObject> list = new ArrayList<EObject>();
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getStakeholder());
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getDriver());
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getAssessment());
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getGoal());
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getPrinciple());
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getRequirement());
+        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getConstraint());
+        writeElements(list, "Motivation", color);
+    }
+    
+    private void writeImplementationMigrationElements() throws IOException {
+        IFolder implmigrationFolder = fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION);
+        String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
+        
+        List<EObject> list = new ArrayList<EObject>();
+        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getWorkPackage());
+        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getDeliverable());
+        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getPlateau());
+        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getGap());
+        writeElements(list, "Implementation and Migration", color);
     }
     
     private void writeConnectionElements() throws IOException {

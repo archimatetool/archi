@@ -17,32 +17,40 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class ApplicationUsageViewpoint extends AbstractViewpoint {
     
-    public static final int INDEX = 5;
-    
     EClass[] allowed = new EClass[] {
-            IArchimatePackage.eINSTANCE.getBusinessActor(),
+            IArchimatePackage.eINSTANCE.getBusinessActor(), // Should this be here? BiZZdesign have it
+            IArchimatePackage.eINSTANCE.getBusinessCollaboration(),  // Should this be here? BiZZdesign have it
             IArchimatePackage.eINSTANCE.getBusinessRole(),
-            IArchimatePackage.eINSTANCE.getBusinessCollaboration(),
             IArchimatePackage.eINSTANCE.getBusinessProcess(),
             IArchimatePackage.eINSTANCE.getBusinessFunction(),
             IArchimatePackage.eINSTANCE.getBusinessInteraction(),
-            IArchimatePackage.eINSTANCE.getBusinessActivity(),
             IArchimatePackage.eINSTANCE.getBusinessObject(),
             IArchimatePackage.eINSTANCE.getBusinessEvent(),
 
             IArchimatePackage.eINSTANCE.getApplicationComponent(),
             IArchimatePackage.eINSTANCE.getApplicationCollaboration(),
             IArchimatePackage.eINSTANCE.getApplicationInterface(),
-            IArchimatePackage.eINSTANCE.getApplicationFunction(),
-            IArchimatePackage.eINSTANCE.getApplicationInteraction(),
+            IArchimatePackage.eINSTANCE.getApplicationFunction(), // Should this be here? BiZZdesign have it
+            IArchimatePackage.eINSTANCE.getApplicationInteraction(), // Should this be here? BiZZdesign have it
             IArchimatePackage.eINSTANCE.getApplicationService(),
             IArchimatePackage.eINSTANCE.getDataObject(),
 
             IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
-            IArchimatePackage.eINSTANCE.getOrJunction()
+            IArchimatePackage.eINSTANCE.getOrJunction(),
+
+            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getCompositionRelationship(),
+            IArchimatePackage.eINSTANCE.getAggregationRelationship(),
+            IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
+            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
+            IArchimatePackage.eINSTANCE.getFlowRelationship(),
+            IArchimatePackage.eINSTANCE.getUsedByRelationship(),
+            IArchimatePackage.eINSTANCE.getAccessRelationship(),
+            IArchimatePackage.eINSTANCE.getAssociationRelationship()
     };
-    
+
     @Override
     public String getName() {
         return "Application Usage";
@@ -50,7 +58,7 @@ public class ApplicationUsageViewpoint extends AbstractViewpoint {
     
     @Override
     public int getIndex() {
-        return INDEX;
+        return APPLICATION_USAGE_VIEWPOINT;
     }
 
     @Override

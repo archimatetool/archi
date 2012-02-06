@@ -83,6 +83,20 @@ public class TreeModelViewActionFactory {
                 }
                 break;
 
+            case MOTIVATION:
+                for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                break;
+
+            case IMPLEMENTATION_MIGRATION:
+                for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                break;
+
             case TECHNOLOGY:
                 for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
                     IAction action = createNewElementAction(folder, eClass);

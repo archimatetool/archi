@@ -7,6 +7,9 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.junctions;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
@@ -20,7 +23,26 @@ public class AndJunctionFigure extends OrJunctionFigure {
     
     public AndJunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
-        setBackgroundColor(ColorConstants.black);
     }
 
+    @Override
+    public void paintFigure(Graphics graphics) {
+        graphics.pushState();
+        
+        graphics.setAntialias(SWT.ON);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setBackgroundColor(getFillColor());
+        graphics.fillRectangle(bounds.getCopy());
+        
+        graphics.popState();
+    }
+    
+    @Override
+    public Color getFillColor() {
+        return ColorConstants.black;
+    }
 }

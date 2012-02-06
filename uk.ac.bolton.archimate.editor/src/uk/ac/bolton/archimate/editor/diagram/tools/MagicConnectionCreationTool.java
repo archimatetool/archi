@@ -260,6 +260,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getBusinessClasses(), relationshipType);
                 addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getApplicationClasses(), relationshipType);
                 addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getTechnologyClasses(), relationshipType);
+                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getMotivationClasses(), relationshipType);
+                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getImplementationMigrationClasses(), relationshipType);
                 addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getConnectorClasses(), relationshipType);
                 
                 // Remove the very last separator if there is one
@@ -325,6 +327,26 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getTechnologyClasses());
+
+        if(subMenu.getItemCount() == 0) {
+            item.dispose(); // Nothing there
+        }
+
+        item = new MenuItem(menu, SWT.CASCADE);
+        item.setText("Motivation");
+        subMenu = new Menu(item);
+        item.setMenu(subMenu);
+        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getMotivationClasses());
+
+        if(subMenu.getItemCount() == 0) {
+            item.dispose(); // Nothing there
+        }
+
+        item = new MenuItem(menu, SWT.CASCADE);
+        item.setText("Implementation & Migration");
+        subMenu = new Menu(item);
+        item.setMenu(subMenu);
+        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getImplementationMigrationClasses());
 
         if(subMenu.getItemCount() == 0) {
             item.dispose(); // Nothing there

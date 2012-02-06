@@ -29,7 +29,11 @@ public class FieldDataFactory {
             return dataElement;
         }
         if("name".equals(fieldName) && dataElement instanceof INameable) {
-            return ((INameable)dataElement).getName();
+            String name = ((INameable)dataElement).getName();
+            if(name == null || "".equals(name)) {
+                name = ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+            }
+            return name;
         }
         if("type".equals(fieldName) && dataElement instanceof EObject) {
             return ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());

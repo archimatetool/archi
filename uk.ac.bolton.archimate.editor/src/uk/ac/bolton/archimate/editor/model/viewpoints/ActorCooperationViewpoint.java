@@ -17,8 +17,6 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class ActorCooperationViewpoint extends AbstractViewpoint {
     
-    public static final int INDEX = 1;
-    
     EClass[] allowed = new EClass[] {
             IArchimatePackage.eINSTANCE.getBusinessActor(),
             IArchimatePackage.eINSTANCE.getBusinessRole(),
@@ -32,7 +30,18 @@ public class ActorCooperationViewpoint extends AbstractViewpoint {
 
             IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
-            IArchimatePackage.eINSTANCE.getOrJunction()
+            IArchimatePackage.eINSTANCE.getOrJunction(),
+            
+            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getCompositionRelationship(),
+            IArchimatePackage.eINSTANCE.getAggregationRelationship(),
+            IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
+            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
+            IArchimatePackage.eINSTANCE.getFlowRelationship(),
+            IArchimatePackage.eINSTANCE.getUsedByRelationship(),
+            IArchimatePackage.eINSTANCE.getAccessRelationship(),
+            IArchimatePackage.eINSTANCE.getAssociationRelationship()
     };
     
     @Override
@@ -42,7 +51,7 @@ public class ActorCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public int getIndex() {
-        return INDEX;
+        return ACTOR_COOPERATION_VIEWPOINT;
     }
 
     @Override

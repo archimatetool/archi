@@ -6,20 +6,17 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.junctions;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
@@ -27,19 +24,28 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class OrJunctionFigure extends RectangleFigure implements IDiagramModelObjectFigure {
+public class OrJunctionFigure extends AbstractDiagramModelObjectFigure {
     
     protected static final Dimension SIZE = new Dimension(15, 15);
     
-    protected IDiagramModelArchimateObject fDiagramModelObject;
-    
     public OrJunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
-        fDiagramModelObject = diagramModelObject;
+        super(diagramModelObject);
     }
     
     @Override
-    public IDiagramModelObject getDiagramModelObject() {
-        return fDiagramModelObject;
+    public void paintFigure(Graphics graphics) {
+        graphics.pushState();
+        
+        graphics.setAntialias(SWT.ON);
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setBackgroundColor(getFillColor());
+        graphics.drawRectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
+        
+        graphics.popState();
     }
 
     @Override
@@ -49,27 +55,11 @@ public class OrJunctionFigure extends RectangleFigure implements IDiagramModelOb
 
     @Override
     public void refreshVisuals() {
-        setToolTip();
+        // Set Enabled according to current Viewpoint
+        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getDiagramModelObject());
+        setEnabled(enabled);
     }
     
-    protected void setToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
-            setToolTip(null); // clear it in case user changed Prefs
-            return;
-        }
-        
-        String text = StringUtils.safeString(fDiagramModelObject.getName());
-        
-        if(getToolTip() == null) {
-            setToolTip(new ToolTipFigure());
-        }
-        
-        ((ToolTipFigure)getToolTip()).setText(text);
-        IArchimateElement element = fDiagramModelObject.getArchimateElement();
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
-        ((ToolTipFigure)getToolTip()).setType("Type: " + type);
-    }
-
     @Override
     public IFigure getTextControl() {
         return null;
@@ -86,11 +76,15 @@ public class OrJunctionFigure extends RectangleFigure implements IDiagramModelOb
     
     @Override
     public Color getFillColor() {
-        return null;
+        return ColorConstants.white;
     }
 
     @Override
     public boolean didClickTextControl(Point requestLoc) {
         return false;
+    }
+
+    @Override
+    protected void setUI() {
     }
 }

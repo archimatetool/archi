@@ -17,8 +17,6 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
     
-    public static final int INDEX = 7;
-    
     EClass[] allowed = new EClass[] {
             IArchimatePackage.eINSTANCE.getRepresentation(),
             IArchimatePackage.eINSTANCE.getBusinessObject(),
@@ -29,13 +27,24 @@ public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessCollaboration(),
             IArchimatePackage.eINSTANCE.getBusinessRole(),
             IArchimatePackage.eINSTANCE.getBusinessActor(),
-            IArchimatePackage.eINSTANCE.getBusinessActivity(), // Should this be here?
+            IArchimatePackage.eINSTANCE.getLocation(),
 
             IArchimatePackage.eINSTANCE.getApplicationService(),
             
             IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
-            IArchimatePackage.eINSTANCE.getOrJunction()
+            IArchimatePackage.eINSTANCE.getOrJunction(),
+            
+            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getCompositionRelationship(),
+            IArchimatePackage.eINSTANCE.getAggregationRelationship(),
+            IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
+            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
+            IArchimatePackage.eINSTANCE.getFlowRelationship(),
+            IArchimatePackage.eINSTANCE.getUsedByRelationship(),
+            IArchimatePackage.eINSTANCE.getAccessRelationship(),
+            IArchimatePackage.eINSTANCE.getAssociationRelationship()
     };
     
     @Override
@@ -45,7 +54,7 @@ public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public int getIndex() {
-        return INDEX;
+        return BUSINESS_PROCESS_COOPERATION_VIEWPOINT;
     }
 
     @Override

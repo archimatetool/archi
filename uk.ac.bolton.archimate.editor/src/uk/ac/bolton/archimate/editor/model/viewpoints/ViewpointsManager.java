@@ -31,29 +31,40 @@ public class ViewpointsManager {
     /*
      * All Viewpoints
      */
-    private static List<IViewpoint> fViewpoints = new ArrayList<IViewpoint>();
+    private static List<IViewpoint> VIEWPOINTS = new ArrayList<IViewpoint>();
     
     static {
-        fViewpoints.add(new ActorCooperationViewpoint());
-        fViewpoints.add(new ApplicationBehaviourViewpoint());
-        fViewpoints.add(new ApplicationCooperationViewpoint());
-        fViewpoints.add(new ApplicationStructureViewpoint());
-        fViewpoints.add(new ApplicationUsageViewpoint());
-        fViewpoints.add(new BusinessFunctionViewpoint());
-        fViewpoints.add(new BusinessProcessCooperationViewpoint());
-        fViewpoints.add(new BusinessProcessViewpoint());
-        fViewpoints.add(new BusinessProductViewpoint());
-        fViewpoints.add(new ImplementationAndDeploymentViewpoint());
-        fViewpoints.add(new InformationStructureViewpoint());
-        fViewpoints.add(new InfrastructureUsageViewpoint());
-        fViewpoints.add(new InfrastructureViewpoint());
-        fViewpoints.add(new LayeredViewpoint());
-        fViewpoints.add(new OrganisationViewpoint());
-        fViewpoints.add(new ServiceRealisationViewpoint());
-        fViewpoints.add(new TotalViewpoint());
+        VIEWPOINTS.add(new ActorCooperationViewpoint());
+        VIEWPOINTS.add(new ApplicationBehaviourViewpoint());
+        VIEWPOINTS.add(new ApplicationCooperationViewpoint());
+        VIEWPOINTS.add(new ApplicationStructureViewpoint());
+        VIEWPOINTS.add(new ApplicationUsageViewpoint());
+        VIEWPOINTS.add(new BusinessFunctionViewpoint());
+        VIEWPOINTS.add(new BusinessProcessCooperationViewpoint());
+        VIEWPOINTS.add(new BusinessProcessViewpoint());
+        VIEWPOINTS.add(new BusinessProductViewpoint());
+        VIEWPOINTS.add(new ImplementationAndDeploymentViewpoint());
+        VIEWPOINTS.add(new InformationStructureViewpoint());
+        VIEWPOINTS.add(new InfrastructureUsageViewpoint());
+        VIEWPOINTS.add(new InfrastructureViewpoint());
+        VIEWPOINTS.add(new LayeredViewpoint());
+        VIEWPOINTS.add(new OrganisationViewpoint());
+        VIEWPOINTS.add(new ServiceRealisationViewpoint());
+        VIEWPOINTS.add(new TotalViewpoint());
         
+        VIEWPOINTS.add(new StakeholderViewpoint());
+        VIEWPOINTS.add(new GoalRealisationViewpoint());
+        VIEWPOINTS.add(new GoalContributionViewpoint());
+        VIEWPOINTS.add(new PrinciplesViewpoint());
+        VIEWPOINTS.add(new RequirementsRealisationViewpoint());
+        VIEWPOINTS.add(new MotivationViewpoint());
+        
+        VIEWPOINTS.add(new ProjectViewpoint());
+        VIEWPOINTS.add(new MigrationViewpoint());
+        VIEWPOINTS.add(new ImplementationMigrationViewpoint());
+
         // Sort the Viewpoints by name
-        Collections.sort(fViewpoints, new Comparator<IViewpoint>() {
+        Collections.sort(VIEWPOINTS, new Comparator<IViewpoint>() {
             @Override
             public int compare(IViewpoint vp1, IViewpoint vp2) {
                 return vp1.getName().compareTo(vp2.getName());
@@ -75,28 +86,28 @@ public class ViewpointsManager {
                 IArchimateImages.ICON_VIEWPOINT_TECHNOLOGY_16 };
         
         switch(viewPoint.getIndex()) {
-            case BusinessFunctionViewpoint.INDEX:
-            case BusinessProcessViewpoint.INDEX:
-            case OrganisationViewpoint.INDEX:
+            case IViewpoint.BUSINESS_FUNCTION_VIEWPOINT:
+            case IViewpoint.BUSINESS_PROCESS_VIEWPOINT:
+            case IViewpoint.ORGANISATION_VIEWPOINT:
                 return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINT_BUSINESS_16);
 
-            case ApplicationBehaviourViewpoint.INDEX:
-            case ApplicationCooperationViewpoint.INDEX:
-            case ApplicationStructureViewpoint.INDEX:
+            case IViewpoint.APPLICATION_BEHAVIOUR_VIEWPOINT:
+            case IViewpoint.APPLICATION_COOPERATION_VIEWPOINT:
+            case IViewpoint.APPLICATION_STRUCTURE_VIEWPOINT:
                 return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINT_APPLICATION_16);
                 
-            case InfrastructureViewpoint.INDEX:
+            case IViewpoint.INFRASTRUCTURE_VIEWPOINT:
                 return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINT_TECHNOLOGY_16);
 
-            case ActorCooperationViewpoint.INDEX:
-            case ApplicationUsageViewpoint.INDEX:
-            case BusinessProcessCooperationViewpoint.INDEX:
-            case BusinessProductViewpoint.INDEX:
-            case ServiceRealisationViewpoint.INDEX:
+            case IViewpoint.ACTOR_COOPERATION_VIEWPOINT:
+            case IViewpoint.APPLICATION_USAGE_VIEWPOINT:
+            case IViewpoint.BUSINESS_PROCESS_COOPERATION_VIEWPOINT:
+            case IViewpoint.BUSINESS_PRODUCT_VIEWPOINT:
+            case IViewpoint.SERVICE_REALISATION_VIEWPOINT:
                 return IArchimateImages.ImageFactory.getCompositeImageDescriptor(bus_appNames);
                 
-            case ImplementationAndDeploymentViewpoint.INDEX:
-            case InfrastructureUsageViewpoint.INDEX:
+            case IViewpoint.IMPLEMENTATION_DEPLOYMENT_VIEWPOINT:
+            case IViewpoint.INFRASTRUCTURE_USAGE_VIEWPOINT:
                 return IArchimateImages.ImageFactory.getCompositeImageDescriptor(app_techNames);
                 
             default:
@@ -111,7 +122,7 @@ public class ViewpointsManager {
      * @return A list of all Viewpoints
      */
     public List<IViewpoint> getAllViewpoints() {
-        return fViewpoints;
+        return VIEWPOINTS;
     }
     
     /**
@@ -119,17 +130,17 @@ public class ViewpointsManager {
      * @return A Viewpoint by its index
      */
     public IViewpoint getViewpoint(int index) {
-        if(index < 0 || index >= fViewpoints.size()) {
-            return fViewpoints.get(0);
+        if(index < 0 || index >= VIEWPOINTS.size()) {
+            return VIEWPOINTS.get(0);
         }
         
-        for(IViewpoint vp : fViewpoints) {
+        for(IViewpoint vp : VIEWPOINTS) {
             if(vp.getIndex() == index) {
                 return vp;
             }
         }
         
-        return fViewpoints.get(0);
+        return VIEWPOINTS.get(0);
     }
     
     /**

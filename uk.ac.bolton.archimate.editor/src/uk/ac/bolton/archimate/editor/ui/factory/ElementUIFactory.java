@@ -26,6 +26,7 @@ import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessEventUIProvider
 import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessFunctionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessInteractionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessInterfaceUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessLocationUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessMeaningUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessObjectUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.business.BusinessProcessUIProvider;
@@ -40,6 +41,7 @@ import uk.ac.bolton.archimate.editor.ui.factory.connections.AssignmentConnection
 import uk.ac.bolton.archimate.editor.ui.factory.connections.AssociationConnectionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.connections.CompositionConnectionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.connections.FlowConnectionUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.connections.InfluenceConnectionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.connections.LineConnectionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.connections.RealisationConnectionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.connections.SpecialisationConnectionUIProvider;
@@ -48,6 +50,17 @@ import uk.ac.bolton.archimate.editor.ui.factory.connections.UsedByConnectionUIPr
 import uk.ac.bolton.archimate.editor.ui.factory.diagram.DiagramModelReferenceUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.diagram.GroupUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.diagram.NoteUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.AssessmentUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.ConstraintUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.DeliverableUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.DriverUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.GapUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.GoalUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.PlateauUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.PrincipleUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.RequirementUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.StakeholderUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.extensions.WorkPackageUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.junctions.AndJunctionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.junctions.JunctionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.junctions.OrJunctionUIProvider;
@@ -56,6 +69,7 @@ import uk.ac.bolton.archimate.editor.ui.factory.sketch.SketchStickyUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyArtifactUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyCommunicationPathUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyDeviceUIProvider;
+import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyInfrastructureFunctionUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyInfrastructureInterfaceUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyInfrastructureServiceUIProvider;
 import uk.ac.bolton.archimate.editor.ui.factory.technology.TechnologyNetworkUIProvider;
@@ -89,6 +103,7 @@ public class ElementUIFactory {
         registerProvider(new BusinessRoleUIProvider());
         registerProvider(new BusinessServiceUIProvider());
         registerProvider(new BusinessValueUIProvider());
+        registerProvider(new BusinessLocationUIProvider());
         
         registerProvider(new ApplicationCollaborationUIProvider());
         registerProvider(new ApplicationComponentUIProvider());
@@ -106,6 +121,7 @@ public class ElementUIFactory {
         registerProvider(new TechnologyNodeUIProvider());
         registerProvider(new TechnologySystemSoftwareUIProvider());
         registerProvider(new TechnologyDeviceUIProvider());
+        registerProvider(new TechnologyInfrastructureFunctionUIProvider());
         
         registerProvider(new JunctionUIProvider());
         registerProvider(new AndJunctionUIProvider());
@@ -121,6 +137,20 @@ public class ElementUIFactory {
         registerProvider(new SpecialisationConnectionUIProvider());
         registerProvider(new TriggeringConnectionUIProvider());
         registerProvider(new UsedByConnectionUIProvider());
+        registerProvider(new InfluenceConnectionUIProvider());
+        
+        registerProvider(new StakeholderUIProvider());
+        registerProvider(new DriverUIProvider());
+        registerProvider(new AssessmentUIProvider());
+        registerProvider(new GoalUIProvider());
+        registerProvider(new PrincipleUIProvider());
+        registerProvider(new RequirementUIProvider());
+        registerProvider(new ConstraintUIProvider());
+        
+        registerProvider(new WorkPackageUIProvider());
+        registerProvider(new DeliverableUIProvider());
+        registerProvider(new PlateauUIProvider());
+        registerProvider(new GapUIProvider());
         
         registerProvider(new NoteUIProvider());
         registerProvider(new GroupUIProvider());

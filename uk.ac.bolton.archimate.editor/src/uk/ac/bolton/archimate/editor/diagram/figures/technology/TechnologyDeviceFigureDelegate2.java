@@ -6,13 +6,10 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.figures.technology;
 
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
 
@@ -28,20 +25,7 @@ public class TechnologyDeviceFigureDelegate2 extends TechnologyNodeFigureDelegat
     }
     
     @Override
-    public void drawFigure(Graphics graphics) {
-        super.drawFigure(graphics);
-        
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-    }
-
-    protected Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DEVICE_16);
-    }
-    
-    protected Point calculateImageLocation() {
+    public Point calculateImageLocation() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - FOLD_HEIGHT * 2 - 5, bounds.y + FOLD_HEIGHT + 2);
     }

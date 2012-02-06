@@ -239,6 +239,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
                         action = "is used by";
                         break;
 
+                    case IArchimatePackage.INFLUENCE_RELATIONSHIP:
+                        action = "influences";
+                        break;
+
                     default:
                         break;
                 }

@@ -54,6 +54,8 @@ public class CSVExporter implements IModelExporter {
         writeFolder(model.getFolder(FolderType.BUSINESS));
         writeFolder(model.getFolder(FolderType.APPLICATION));
         writeFolder(model.getFolder(FolderType.TECHNOLOGY));
+        writeFolder(model.getFolder(FolderType.MOTIVATION));
+        writeFolder(model.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
         writeFolder(model.getFolder(FolderType.CONNECTORS));
         writeFolder(model.getFolder(FolderType.RELATIONS));
         

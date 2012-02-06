@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures.technology;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.IFigureDelegate;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 /**
@@ -18,14 +19,16 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 public class TechnologyDeviceFigure
 extends AbstractTextFlowFigure {
     
-    protected IFigureDelegate fFigureDelegate1;
-    protected IFigureDelegate fFigureDelegate2;
+    protected TechnologyDeviceFigureDelegate1 fFigureDelegate1;
+    protected TechnologyDeviceFigureDelegate2 fFigureDelegate2;
     
     public TechnologyDeviceFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
         
         fFigureDelegate1 = new TechnologyDeviceFigureDelegate1(this);
+        
         fFigureDelegate2 = new TechnologyDeviceFigureDelegate2(this);
+        fFigureDelegate2.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DEVICE_16));
     }
     
     @Override

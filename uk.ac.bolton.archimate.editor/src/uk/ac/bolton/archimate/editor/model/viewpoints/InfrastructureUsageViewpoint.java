@@ -17,20 +17,33 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class InfrastructureUsageViewpoint extends AbstractViewpoint {
     
-    public static final int INDEX = 12;
-    
     EClass[] allowed = new EClass[] {
+            IArchimatePackage.eINSTANCE.getApplicationFunction(),
             IArchimatePackage.eINSTANCE.getApplicationComponent(),
 
             IArchimatePackage.eINSTANCE.getDevice(),
             IArchimatePackage.eINSTANCE.getNode(),
             IArchimatePackage.eINSTANCE.getInfrastructureService(),
+            IArchimatePackage.eINSTANCE.getInfrastructureInterface(),
+            IArchimatePackage.eINSTANCE.getInfrastructureFunction(),
             IArchimatePackage.eINSTANCE.getCommunicationPath(),
             IArchimatePackage.eINSTANCE.getSystemSoftware(),
+            IArchimatePackage.eINSTANCE.getNetwork(),
 
             IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
-            IArchimatePackage.eINSTANCE.getOrJunction()
+            IArchimatePackage.eINSTANCE.getOrJunction(),
+            
+            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getCompositionRelationship(),
+            IArchimatePackage.eINSTANCE.getAggregationRelationship(),
+            IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
+            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
+            IArchimatePackage.eINSTANCE.getFlowRelationship(),
+            IArchimatePackage.eINSTANCE.getUsedByRelationship(),
+            IArchimatePackage.eINSTANCE.getAccessRelationship(),
+            IArchimatePackage.eINSTANCE.getAssociationRelationship()
     };
     
     @Override
@@ -40,7 +53,7 @@ public class InfrastructureUsageViewpoint extends AbstractViewpoint {
 
     @Override
     public int getIndex() {
-        return INDEX;
+        return INFRASTRUCTURE_USAGE_VIEWPOINT;
     }
 
     @Override

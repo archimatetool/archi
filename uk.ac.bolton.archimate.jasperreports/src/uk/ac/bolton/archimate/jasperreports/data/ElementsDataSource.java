@@ -38,6 +38,8 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         IFolder businessFolder = model.getFolder(FolderType.BUSINESS);
         IFolder applicationFolder = model.getFolder(FolderType.APPLICATION);
         IFolder technologyFolder = model.getFolder(FolderType.TECHNOLOGY);
+        IFolder motivationFolder = model.getFolder(FolderType.MOTIVATION);
+        IFolder implmigrationFolder = model.getFolder(FolderType.IMPLEMENTATION_MIGRATION);
         IFolder connectorsFolder = model.getFolder(FolderType.CONNECTORS);
         IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
 
@@ -46,6 +48,7 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessRole());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInterface());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
+            getElements(businessFolder, IArchimatePackage.eINSTANCE.getLocation());
         }
         else if("business_functions".equals(type)) {
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessFunction());
@@ -56,7 +59,6 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getMeaning());
         }
         else if("business_processes".equals(type)) {
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessActivity());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessEvent());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInteraction());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessProcess());
@@ -83,10 +85,26 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getCommunicationPath());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getDevice());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getNode());
+            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureFunction());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureInterface());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getNetwork());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureService());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getSystemSoftware());
+        }
+        else if("motivation".equals(type)) {
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getStakeholder());
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getDriver());
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getAssessment());
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getGoal());
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getPrinciple());
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getRequirement());
+            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getConstraint());
+        }
+        else if("impl_migration".equals(type)) {
+            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getWorkPackage());
+            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getDeliverable());
+            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getPlateau());
+            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getGap());
         }
         else if("connectors".equals(type)) {
             getElements(connectorsFolder, null);

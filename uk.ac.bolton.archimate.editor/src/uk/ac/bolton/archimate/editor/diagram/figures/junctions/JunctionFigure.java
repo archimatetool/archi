@@ -7,7 +7,6 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.junctions;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -15,14 +14,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
@@ -30,20 +24,12 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure {
+public class JunctionFigure extends AbstractDiagramModelObjectFigure {
     
     private static final Dimension SIZE = new Dimension(15, 15);
     
-    private IDiagramModelArchimateObject fDiagramModelObject;
-    
     public JunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
-        fDiagramModelObject = diagramModelObject;
-        setBackgroundColor(ColorConstants.black);
-    }
-
-    @Override
-    public IDiagramModelObject getDiagramModelObject() {
-        return fDiagramModelObject;
+        super(diagramModelObject);
     }
 
     @Override
@@ -53,33 +39,27 @@ public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure
     
     @Override
     public void paintFigure(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setAntialias(SWT.ON);
-        super.paintFigure(graphics);
-    }
-
-    @Override
-    public void refreshVisuals() {
-        setToolTip();
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+        
+        graphics.setBackgroundColor(getFillColor());
+        graphics.fillOval(bounds.getCopy());
+        
+        graphics.popState();
     }
     
-    protected void setToolTip() {
-        if(!Preferences.doShowViewTooltips()) {
-            setToolTip(null); // clear it in case user changed Prefs
-            return;
-        }
-        
-        String text = StringUtils.safeString(fDiagramModelObject.getName());
-        
-        if(getToolTip() == null) {
-            setToolTip(new ToolTipFigure());
-        }
-        
-        ((ToolTipFigure)getToolTip()).setText(text);
-        IArchimateElement element = fDiagramModelObject.getArchimateElement();
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
-        ((ToolTipFigure)getToolTip()).setType("Type: " + type);
+    @Override
+    public void refreshVisuals() {
+        // Set Enabled according to current Viewpoint
+        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getDiagramModelObject());
+        setEnabled(enabled);
     }
-
+    
     @Override
     public IFigure getTextControl() {
         return null;
@@ -102,5 +82,9 @@ public class JunctionFigure extends Ellipse implements IDiagramModelObjectFigure
     @Override
     public boolean didClickTextControl(Point requestLoc) {
         return false;
+    }
+
+    @Override
+    protected void setUI() {
     }
 }

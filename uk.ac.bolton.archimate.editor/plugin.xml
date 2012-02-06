@@ -91,6 +91,14 @@
                id="keywords.prefsConnections">
          </keywordReference>
       </page>
+      <page
+            class="uk.ac.bolton.archimate.editor.preferences.RelationsPreferencePage"
+            id="uk.ac.bolton.archimate.editor.prefsRelations"
+            name="Relationships">
+         <keywordReference
+               id="keywords.prefsRelations">
+         </keywordReference>
+      </page>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -593,6 +601,10 @@
       <keyword
             id="keywords.prefsConnections"
             label="magic connector connection nested animation relation implicit">
+      </keyword>
+      <keyword
+            id="keywords.prefsRelations"
+            label="concept relation relations advanced connection connections">
       </keyword>
    </extension>
 

@@ -197,6 +197,11 @@
             title="Contract">
       </hint>
       <hint
+            class="uk.ac.bolton.archimate.model.ILocation"
+            file="hints/location.html"
+            title="Location">
+      </hint>
+      <hint
             class="uk.ac.bolton.archimate.model.IApplicationComponent"
             file="hints/application_component.html"
             title="Application Component">
@@ -262,6 +267,11 @@
             title="Infrastructure Service">
       </hint>
       <hint
+            class="uk.ac.bolton.archimate.model.IInfrastructureFunction"
+            file="hints/infrastructure_function.html"
+            title="Infrastructure Function">
+      </hint>
+      <hint
             class="uk.ac.bolton.archimate.model.ISystemSoftware"
             file="hints/system_software.html"
             title="System Software">
@@ -322,6 +332,11 @@
             title="Specialisation relationship">
       </hint>
       <hint
+            class="uk.ac.bolton.archimate.model.IInfluenceRelationship"
+            file="hints/influence.html"
+            title="Influence relationship">
+      </hint>
+      <hint
             class="uk.ac.bolton.archimate.model.IJunction"
             file="hints/junction.html"
             title="Junction">
@@ -336,6 +351,64 @@
             file="hints/or_junction.html"
             title="Or Junction">
       </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IStakeholder"
+            file="hints/stakeholder.html"
+            title="Stakeholder">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDriver"
+            file="hints/driver.html"
+            title="Driver">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IAssessment"
+            file="hints/assessment.html"
+            title="Assessment">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IGoal"
+            file="hints/goal.html"
+            title="Goal">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IRequirement"
+            file="hints/requirement.html"
+            title="Requirement">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IConstraint"
+            file="hints/constraint.html"
+            title="Constraint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IPrinciple"
+            file="hints/principle.html"
+            title="Principle">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IWorkPackage"
+            file="hints/workpackage.html"
+            title="Work Package">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IDeliverable"
+            file="hints/deliverable.html"
+            title="Deliverable">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IPlateau"
+            file="hints/plateau.html"
+            title="Plateau">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.model.IGap"
+            file="hints/gap.html"
+            title="Gap">
+      </hint>
+   </extension>
+   <extension
+         point="uk.ac.bolton.archimate.help.hints">
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelGroup"
             file="hints/group.html"
@@ -440,9 +513,24 @@
             title="Business Product Viewpoint">
       </hint>
       <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.GoalContributionViewpoint"
+            file="hints/viewpoint_goalcontribution.html"
+            title="Goal Contribution Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.GoalRealisationViewpoint"
+            file="hints/viewpoint_goalrealisation.html"
+            title="Goal Realisation Viewpoint">
+      </hint>
+      <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ImplementationAndDeploymentViewpoint"
             file="hints/viewpoint_impldeploy.html"
             title="Implementation and Deployment Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ImplementationMigrationViewpoint"
+            file="hints/viewpoint_implmigration.html"
+            title="Implementation and Migration Viewpoint">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.InformationStructureViewpoint"
@@ -465,14 +553,44 @@
             title="Layered Viewpoint">
       </hint>
       <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.MigrationViewpoint"
+            file="hints/viewpoint_migration.html"
+            title="Migration Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.MotivationViewpoint"
+            file="hints/viewpoint_motivation.html"
+            title="Motivation Viewpoint">
+      </hint>
+      <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.OrganisationViewpoint"
             file="hints/viewpoint_organisation.html"
             title="Organisation Viewpoint">
       </hint>
       <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.PrinciplesViewpoint"
+            file="hints/viewpoint_principles.html"
+            title="Principles Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.ProjectViewpoint"
+            file="hints/viewpoint_project.html"
+            title="Project Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.RequirementsRealisationViewpoint"
+            file="hints/viewpoint_requirementsrealisation.html"
+            title="Requirements Realisation Viewpoint">
+      </hint>
+      <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ServiceRealisationViewpoint"
             file="hints/viewpoint_servicereal.html"
             title="Service Realisation Viewpoint">
+      </hint>
+      <hint
+            class="uk.ac.bolton.archimate.editor.model.viewpoints.StakeholderViewpoint"
+            file="hints/viewpoint_stakeholder.html"
+            title="Stakeholder Viewpoint">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.TotalViewpoint"

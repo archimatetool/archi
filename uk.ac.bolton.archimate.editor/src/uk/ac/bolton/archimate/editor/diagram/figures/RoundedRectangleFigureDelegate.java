@@ -19,10 +19,14 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
 
-    protected int ARC = 20;
+    protected int fArc = 20;
     
     public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
+    }
+    
+    public void setArc(int arc) {
+        fArc = arc;
     }
     
     @Override
@@ -35,7 +39,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
             graphics.setAlpha(100);
             graphics.setBackgroundColor(ColorConstants.black);
             graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET),
-                    ARC, ARC);
+                    fArc, fArc);
             graphics.setAlpha(255);
         }
         else {
@@ -47,13 +51,13 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
         
         // Fill
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillRoundRectangle(bounds, ARC, ARC);
+        graphics.fillRoundRectangle(bounds, fArc, fArc);
         
         // Outline
         bounds.width--;
         bounds.height--;
         graphics.setForegroundColor(ColorConstants.black);
-        graphics.drawRoundRectangle(bounds, ARC, ARC);
+        graphics.drawRoundRectangle(bounds, fArc, fArc);
 
         // Image icon
         if(getImage() != null) {

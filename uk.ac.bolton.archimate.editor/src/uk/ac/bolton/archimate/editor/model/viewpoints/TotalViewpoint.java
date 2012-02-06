@@ -15,8 +15,6 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class TotalViewpoint extends AbstractViewpoint {
     
-    public static final int INDEX = 0;
-    
     @Override
     public String getName() {
         return "Total";
@@ -24,7 +22,7 @@ public class TotalViewpoint extends AbstractViewpoint {
     
     @Override
     public int getIndex() {
-        return INDEX;
+        return TOTAL_VIEWPOINT;
     }
 
     @Override

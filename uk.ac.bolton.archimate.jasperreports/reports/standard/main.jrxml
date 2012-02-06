@@ -258,6 +258,46 @@
             </break>
         </band>
 
+        <!-- Motivation Sub-Report -->
+        <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("motivation") == true</printWhenExpression>
+            <subreport>
+                <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
+                <subreportParameter name="properties_report">
+                    <subreportParameterExpression>$P{properties_report}</subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="TITLE">
+                    <subreportParameterExpression>"Motivation"</subreportParameterExpression>
+                </subreportParameter>
+                <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("motivation")</dataSourceExpression>
+                <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
+            </subreport>
+            <!-- Page Break -->
+            <break>
+                <reportElement x="0" y="0" width="1" height="1"></reportElement>
+            </break>
+        </band>
+
+        <!-- Implementation and Migration Sub-Report -->
+        <band height="50">
+            <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("impl_migration") == true</printWhenExpression>
+            <subreport>
+                <reportElement isPrintRepeatedValues="false" x="0" y="0" width="515" height="50" isRemoveLineWhenBlank="true"/>
+                <subreportParameter name="properties_report">
+                    <subreportParameterExpression>$P{properties_report}</subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="TITLE">
+                    <subreportParameterExpression>"Implementation and Migration"</subreportParameterExpression>
+                </subreportParameter>
+                <dataSourceExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("impl_migration")</dataSourceExpression>
+                <subreportExpression class="net.sf.jasperreports.engine.JasperReport">$P{elements_report}</subreportExpression>
+            </subreport>
+            <!-- Page Break -->
+            <break>
+                <reportElement x="0" y="0" width="1" height="1"></reportElement>
+            </break>
+        </band>
+
         <!-- Connectors Sub-Report -->
         <band height="50">
             <printWhenExpression>((uk.ac.bolton.archimate.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("connectors") == true</printWhenExpression>

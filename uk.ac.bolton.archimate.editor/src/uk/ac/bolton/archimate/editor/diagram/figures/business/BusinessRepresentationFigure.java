@@ -35,7 +35,7 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
-        int offset = 10;//bounds.height / 5;
+        int offset = 6;
         int curve_y = bounds.y + bounds.height - offset;
         
         if(isEnabled()) {

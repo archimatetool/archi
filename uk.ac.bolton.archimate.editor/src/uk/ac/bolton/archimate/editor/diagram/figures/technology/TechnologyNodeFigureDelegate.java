@@ -8,8 +8,10 @@ package uk.ac.bolton.archimate.editor.diagram.figures.technology;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
@@ -26,6 +28,8 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
 
     protected int FOLD_HEIGHT = 14;
     protected int SHADOW_OFFSET = 2;
+    
+    private Image fImage;
 
     public TechnologyNodeFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
@@ -89,6 +93,11 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
         graphics.drawLine(points2.getPoint(0), points2.getPoint(1));
         graphics.drawLine(points2.getPoint(1), points2.getPoint(2));
         
+        // Image icon
+        if(getImage() != null) {
+            graphics.drawImage(getImage(), calculateImageLocation());
+        }
+        
         graphics.popState();
     }
     
@@ -101,4 +110,18 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
         bounds.height -= 20;
         return bounds;
     }
+    
+    public void setImage(Image image) {
+        fImage = image;
+    }
+    
+    public Image getImage() {
+        return fImage;
+    }
+
+    protected Point calculateImageLocation() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - 20 - 1, bounds.y + 5);
+    }
+
 }
