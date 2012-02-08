@@ -37,7 +37,7 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         String version = model.getVersion();
         
-        if(version != null && version.compareTo("2.1.0") < 0) {
+        if(version != null && version.compareTo("2.1.0") < 0) { //$NON-NLS-1$
             for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
                 EObject element = iter.next();
                 
@@ -46,7 +46,7 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
                     IRelationship relationship = (IRelationship)element;
                     String name = relationship.getName();
                     if(name != null && name.equalsIgnoreCase(getRelationshipDefaultName(relationship))) {
-                        relationship.setName("");
+                        relationship.setName(""); //$NON-NLS-1$
                     }
                 }
                 // If an Archimate connection has a (deprecated) text value then set the Relationship's name to that
@@ -64,8 +64,8 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
                     IDiagramModelConnection connection = (IDiagramModelConnection)element;
                     // Eliminate old name
                     String name = connection.getName();
-                    if(name != null && name.equalsIgnoreCase("Connection")) {
-                        connection.setName("");
+                    if(name != null && name.equalsIgnoreCase("Connection")) { //$NON-NLS-1$
+                        connection.setName(""); //$NON-NLS-1$
                     }
                     
                     @SuppressWarnings("deprecation")
@@ -105,7 +105,7 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
             case IArchimatePackage.USED_BY_RELATIONSHIP:
                 return "Used By relation"; //$NON-NLS-1$
         }
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
 }

@@ -37,7 +37,7 @@ public class GoalUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Goal";
+        return Messages.GoalUIProvider_0;
     }
 
     @Override

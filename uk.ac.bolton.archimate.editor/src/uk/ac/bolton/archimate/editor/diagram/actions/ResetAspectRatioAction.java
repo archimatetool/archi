@@ -31,13 +31,13 @@ import uk.ac.bolton.archimate.model.ILockable;
 public class ResetAspectRatioAction extends SelectionAction {
 
     public static final String ID = "ResetAspectRatioAction"; //$NON-NLS-1$
-    public static final String TEXT = "Reset Aspect Ratio";
+    public static final String TEXT = Messages.ResetAspectRatioAction_0;
 
     public ResetAspectRatioAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
-        setToolTipText("Set the default aspect ratio of this object");
+        setToolTipText(Messages.ResetAspectRatioAction_1);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASPECT_RATIO));
     }
 

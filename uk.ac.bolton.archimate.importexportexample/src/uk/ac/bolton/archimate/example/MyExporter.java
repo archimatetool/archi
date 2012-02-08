@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -33,8 +34,8 @@ import uk.ac.bolton.archimate.model.IFolder;
  */
 public class MyExporter implements IModelExporter {
     
-    String MY_EXTENSION = ".mex";
-    String MY_EXTENSION_WILDCARD = "*.mex";
+    String MY_EXTENSION = ".mex"; //$NON-NLS-1$
+    String MY_EXTENSION_WILDCARD = "*.mex"; //$NON-NLS-1$
     
     private OutputStreamWriter writer;
     
@@ -66,8 +67,10 @@ public class MyExporter implements IModelExporter {
             if(eObject instanceof IArchimateElement) {
                 String s;
                 IArchimateElement element = (IArchimateElement)eObject;
-                s = normalise(element.eClass().getName()) + "," + normalise(element.getName()) + "," + normalise(element.getDocumentation());
-                writer.write(s + "\n");
+                s = normalise(element.eClass().getName()) +
+                        "," + normalise(element.getName()) //$NON-NLS-1$
+                        + "," + normalise(element.getDocumentation()); //$NON-NLS-1$
+                writer.write(s + "\n"); //$NON-NLS-1$
             }
         }
     }
@@ -84,11 +87,11 @@ public class MyExporter implements IModelExporter {
 
     private String normalise(String s) {
         if(s == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
-        s = s.replaceAll("\r\n", " ");
-        s = "\"" + s + "\"";
+        s = s.replaceAll("\r\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
+        s = "\"" + s + "\""; //$NON-NLS-1$ //$NON-NLS-2$
         
         return s;
     }
@@ -98,8 +101,8 @@ public class MyExporter implements IModelExporter {
      */
     private File askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText("Export Model");
-        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } );
+        dialog.setText(Messages.MyExporter_0);
+        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -114,9 +117,9 @@ public class MyExporter implements IModelExporter {
         
         // Make sure the file does not already exist
         if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), "Export Model",
-                    "'" + file +
-                    "' already exists. Are you sure you want to overwrite it?");
+            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    Messages.MyExporter_0,
+                    NLS.bind(Messages.MyExporter_1, file));
             if(!result) {
                 return null;
             }

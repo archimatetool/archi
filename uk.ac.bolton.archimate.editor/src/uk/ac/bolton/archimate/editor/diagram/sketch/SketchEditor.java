@@ -170,6 +170,6 @@ implements ISketchEditor {
     }
 
     public String getSearchExpression(Object target) {
-        return "Sketch View";
+        return Messages.SketchEditor_0;
     }
 }

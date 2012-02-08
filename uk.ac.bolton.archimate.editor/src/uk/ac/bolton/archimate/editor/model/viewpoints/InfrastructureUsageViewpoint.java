@@ -48,7 +48,7 @@ public class InfrastructureUsageViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Infrastructure Usage";
+        return Messages.InfrastructureUsageViewpoint_0;
     }
 
     @Override

@@ -58,7 +58,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
     public static ResourceSet createResourceSet() {
         ResourceSet resourceSet = new ResourceSetImpl();
         // Register the * extension on the ResourceSet to over-ride the ECore global one
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ArchimateResourceFactory());
+        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ArchimateResourceFactory());  //$NON-NLS-1$
         return resourceSet;
     }
 
@@ -79,7 +79,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
              */
             @Override
             public EClassifier getType(EPackage ePackage, String name) {
-                if(ePackage == IArchimatePackage.eINSTANCE && "DiagramModel".equals(name)) {
+                if(ePackage == IArchimatePackage.eINSTANCE && "DiagramModel".equals(name)) { //$NON-NLS-1$
                     return IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL;
                 }
                 return super.getType(ePackage, name);
@@ -89,8 +89,8 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
         result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
         result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
 
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
+        result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+        result.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
         
         // Not sure about this
         // result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);

@@ -57,12 +57,12 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
 
     private TemplateManager fTemplateManager;
     
-    static File CURRENT_FOLDER = new File(System.getProperty("user.home"));
+    static File CURRENT_FOLDER = new File(System.getProperty("user.home")); //$NON-NLS-1$
     
     public SaveCanvasAsTemplateWizardPage(ICanvasModel canvasModel, TemplateManager templateManager) {
-        super("SaveCanvasAsTemplateWizardPage");
-        setTitle("Save Canvas As Template");
-        setDescription("Provide the Canvas' file location, name, description and key thumbnail.");
+        super("SaveCanvasAsTemplateWizardPage"); //$NON-NLS-1$
+        setTitle(Messages.SaveCanvasAsTemplateWizardPage_0);
+        setDescription(Messages.SaveCanvasAsTemplateWizardPage_1);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         fCanvasModel = canvasModel;
         fTemplateManager = templateManager;
@@ -85,11 +85,11 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         fileComposite.setLayout(layout);
         
         label = new Label(fileComposite, SWT.NULL);
-        label.setText("File:");
+        label.setText(Messages.SaveCanvasAsTemplateWizardPage_2);
         
         fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        File newFile = new File(CURRENT_FOLDER, "New Template" + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION);
+        File newFile = new File(CURRENT_FOLDER, Messages.SaveCanvasAsTemplateWizardPage_3 + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION);
         fFileTextField.setText(newFile.getPath());
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFileTextField);
@@ -100,7 +100,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         });
         
         Button fileButton = new Button(fileComposite, SWT.PUSH);
-        fileButton.setText("Choose...");
+        fileButton.setText(Messages.SaveCanvasAsTemplateWizardPage_4);
         fileButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -118,7 +118,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         fieldGroup.setLayout(layout);
         
         label = new Label(fieldGroup, SWT.NULL);
-        label.setText("Name:");
+        label.setText(Messages.SaveCanvasAsTemplateWizardPage_5);
 
         fNameTextField = new Text(fieldGroup, SWT.BORDER | SWT.SINGLE);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -134,7 +134,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         });
         
         label = new Label(fieldGroup, SWT.NULL);
-        label.setText("Description:");
+        label.setText(Messages.SaveCanvasAsTemplateWizardPage_6);
         gd = new GridData(SWT.NULL, SWT.TOP, false, false);
         label.setLayoutData(gd);
         
@@ -154,7 +154,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         thumbsGroup.setLayout(layout);
         
         fButtonIncludeThumbnail = new Button(thumbsGroup, SWT.CHECK);
-        fButtonIncludeThumbnail.setText("Include thumbnail");
+        fButtonIncludeThumbnail.setText(Messages.SaveCanvasAsTemplateWizardPage_7);
         fButtonIncludeThumbnail.setSelection(true);
         fButtonIncludeThumbnail.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -168,7 +168,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         fButtonIncludeThumbnail.setLayoutData(gd);
         
         label = new Label(thumbsGroup, SWT.NULL);
-        label.setText("Preview:   ");
+        label.setText(Messages.SaveCanvasAsTemplateWizardPage_8 + "  "); //$NON-NLS-1$
         gd = new GridData(SWT.NULL, SWT.TOP, false, false);
         label.setLayoutData(gd);
 
@@ -237,8 +237,8 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
     
     private File chooseFile() {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-        dialog.setText("Choose a file name");
-        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
+        dialog.setText(Messages.SaveCanvasAsTemplateWizardPage_9);
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             // Only Windows adds the extension by default
@@ -253,13 +253,13 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
     private void validateFields() {
         String fileName = getFileName();
         if(!StringUtils.isSetAfterTrim(fileName)) {
-            updateStatus("Provide a file name");
+            updateStatus(Messages.SaveCanvasAsTemplateWizardPage_10);
             return;
         }
         
         String name = getTemplateName();
         if(!StringUtils.isSetAfterTrim(name)) {
-            updateStatus("Provide a template name");
+            updateStatus(Messages.SaveCanvasAsTemplateWizardPage_11);
             return;
         }
         

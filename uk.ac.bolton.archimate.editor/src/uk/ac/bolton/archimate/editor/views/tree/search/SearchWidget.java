@@ -100,28 +100,28 @@ public class SearchWidget extends Composite {
     }
 
     protected void setupToolBar() {
-        fActionFilterName = new Action("Name", IAction.AS_CHECK_BOX) {
+        fActionFilterName = new Action(Messages.SearchWidget_0, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
             	fSearchFilter.setFilterOnName(isChecked());
             };
         };
-        fActionFilterName.setToolTipText("Search in Name");
+        fActionFilterName.setToolTipText(Messages.SearchWidget_1);
         fActionFilterName.setChecked(true);
         fSearchFilter.setFilterOnName(true);
         
-        fActionFilterDoc = new Action("Documentation", IAction.AS_CHECK_BOX) {
+        fActionFilterDoc = new Action(Messages.SearchWidget_2, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
             	fSearchFilter.setFilterOnDocumentation(isChecked());
             }
         };
-        fActionFilterDoc.setToolTipText("Search in Documentation");
+        fActionFilterDoc.setToolTipText(Messages.SearchWidget_3);
 
         final ToolBarManager toolBarmanager = new ToolBarManager(SWT.FLAT);
         toolBarmanager.createControl(this);
 
-        AbstractDropDownAction dropDownAction = new AbstractDropDownAction("Filter Options") {
+        AbstractDropDownAction dropDownAction = new AbstractDropDownAction(Messages.SearchWidget_4) {
             @Override
             public void run() {
             	showMenu(toolBarmanager);
@@ -139,43 +139,43 @@ public class SearchWidget extends Composite {
         dropDownAction.add(fActionFilterDoc);
         
         // Properties
-        fPropertiesMenu = new MenuManager("Properties");
+        fPropertiesMenu = new MenuManager(Messages.SearchWidget_5);
         dropDownAction.add(fPropertiesMenu);
         populatePropertiesMenu(fPropertiesMenu);
         
         dropDownAction.add(new Separator());
         
-        MenuManager businessMenu = new MenuManager("Business");
+        MenuManager businessMenu = new MenuManager(Messages.SearchWidget_6);
         dropDownAction.add(businessMenu);
         for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
             businessMenu.add(createObjectAction(eClass));
         }
         
-        MenuManager applicationMenu = new MenuManager("Application");
+        MenuManager applicationMenu = new MenuManager(Messages.SearchWidget_7);
         dropDownAction.add(applicationMenu);
         for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
             applicationMenu.add(createObjectAction(eClass));
         }
         
-        MenuManager technologyMenu = new MenuManager("Technology");
+        MenuManager technologyMenu = new MenuManager(Messages.SearchWidget_8);
         dropDownAction.add(technologyMenu);
         for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
             technologyMenu.add(createObjectAction(eClass));
         }
         
-        MenuManager motivationMenu = new MenuManager("Motivation");
+        MenuManager motivationMenu = new MenuManager(Messages.SearchWidget_9);
         dropDownAction.add(motivationMenu);
         for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
             motivationMenu.add(createObjectAction(eClass));
         }
 
-        MenuManager implementationMenu = new MenuManager("Implementation && Migration");
+        MenuManager implementationMenu = new MenuManager(Messages.SearchWidget_10);
         dropDownAction.add(implementationMenu);
         for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
             implementationMenu.add(createObjectAction(eClass));
         }
 
-        MenuManager relationsMenu = new MenuManager("Relations");
+        MenuManager relationsMenu = new MenuManager(Messages.SearchWidget_11);
         dropDownAction.add(relationsMenu);
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
             relationsMenu.add(createObjectAction(eClass));
@@ -183,7 +183,7 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
-        IAction action = new Action("Show All Folders", IAction.AS_CHECK_BOX) {
+        IAction action = new Action(Messages.SearchWidget_12, IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
             	fSearchFilter.setShowAllFolders(isChecked());
@@ -193,7 +193,7 @@ public class SearchWidget extends Composite {
         
         dropDownAction.add(new Separator());
         
-        action = new Action("Reset Filters") {
+        action = new Action(Messages.SearchWidget_13) {
             @Override
             public void run() {
             	reset();

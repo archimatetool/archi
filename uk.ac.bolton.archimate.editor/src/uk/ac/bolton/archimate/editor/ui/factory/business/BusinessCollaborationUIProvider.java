@@ -34,12 +34,12 @@ public class BusinessCollaborationUIProvider extends AbstractBusinessUIProvider 
 
     @Override
     public String getDefaultName() {
-        return "Business Collaboration";
+        return Messages.BusinessCollaborationUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Collaboration";
+        return Messages.BusinessCollaborationUIProvider_1;
     }
 
     @Override

@@ -6,7 +6,7 @@
       <exportHandler
             class="uk.ac.bolton.archimate.csv.CSVExporter"
             id="uk.ac.bolton.archimate.csv.exportHandler"
-            label="Model To CSV...">
+            label="%exportLabel">
       </exportHandler>
    </extension>
 

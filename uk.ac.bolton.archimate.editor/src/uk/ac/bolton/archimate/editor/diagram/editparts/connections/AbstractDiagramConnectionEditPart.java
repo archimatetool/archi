@@ -33,6 +33,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.osgi.util.NLS;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
 import uk.ac.bolton.archimate.editor.diagram.directedit.LabelDirectEditManager;
@@ -292,7 +293,7 @@ implements IDiagramConnectionEditPart {
      * @return True if this EditPart's Viewer is in Full Screen Mode
      */
     protected boolean isInFullScreenMode() {
-        return getViewer() != null && getViewer().getProperty("full_screen") != null;
+        return getViewer() != null && getViewer().getProperty("full_screen") != null; //$NON-NLS-1$
     }
     
     /**
@@ -329,7 +330,8 @@ implements IDiagramConnectionEditPart {
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String name = (String)request.getCellEditor().getValue();
             IDiagramModelConnection connection = getModel();
-            return new EObjectFeatureCommand("Rename " + connection.getName(), connection, IArchimatePackage.Literals.NAMEABLE__NAME, name);
+            return new EObjectFeatureCommand(NLS.bind(Messages.AbstractDiagramConnectionEditPart_0, connection.getName()),
+                    connection, IArchimatePackage.Literals.NAMEABLE__NAME, name);
         }
 
         @Override

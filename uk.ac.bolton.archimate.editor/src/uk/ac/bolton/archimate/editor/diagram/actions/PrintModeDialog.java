@@ -30,7 +30,7 @@ public class PrintModeDialog extends Dialog {
 
     @Override
     protected void configureShell(Shell newShell) {
-        newShell.setText("Print");
+        newShell.setText(Messages.PrintModeDialog_0);
         super.configureShell(newShell);
     }
 
@@ -39,17 +39,17 @@ public class PrintModeDialog extends Dialog {
         Composite composite = (Composite)super.createDialogArea(parent);
 
         tile = new Button(composite, SWT.RADIO);
-        tile.setText("Tiled");
+        tile.setText(Messages.PrintModeDialog_1);
         tile.setSelection(true);
 
         fitPage = new Button(composite, SWT.RADIO);
-        fitPage.setText("Fit Page");
+        fitPage.setText(Messages.PrintModeDialog_2);
 
         fitWidth = new Button(composite, SWT.RADIO);
-        fitWidth.setText("Fit Width");
+        fitWidth.setText(Messages.PrintModeDialog_3);
 
         fitHeight = new Button(composite, SWT.RADIO);
-        fitHeight.setText("Fit Height");
+        fitHeight.setText(Messages.PrintModeDialog_4);
 
         return composite;
     }

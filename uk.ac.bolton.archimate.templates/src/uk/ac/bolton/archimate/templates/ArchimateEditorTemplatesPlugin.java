@@ -22,7 +22,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin implements IStartup {
     
-    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.templates";
+    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.templates"; //$NON-NLS-1$
 
     /**
      * The shared instance

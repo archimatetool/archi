@@ -30,14 +30,14 @@ public class CanvasTemplateManagerDialog extends TemplateManagerDialog {
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("My Canvasses");
+        shell.setText(Messages.CanvasTemplateManagerDialog_0);
     }
 
     @Override
     protected Control createDialogArea(Composite parent) {
         Control control = super.createDialogArea(parent);
-        setTitle("Manage Canvas Templates");
-        setMessage("Drag and drop Templates into Categories.");
+        setTitle(Messages.CanvasTemplateManagerDialog_1);
+        setMessage(Messages.CanvasTemplateManagerDialog_2);
         return control;
     }
     

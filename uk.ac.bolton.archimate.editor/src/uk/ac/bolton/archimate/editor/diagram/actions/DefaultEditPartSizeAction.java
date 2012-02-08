@@ -30,13 +30,13 @@ import uk.ac.bolton.archimate.model.ILockable;
 public class DefaultEditPartSizeAction extends SelectionAction {
 
     public static final String ID = "DefaultEditPartSizeAction"; //$NON-NLS-1$
-    public static final String TEXT = "De&fault Size";
+    public static final String TEXT = Messages.DefaultEditPartSizeAction_0;
 
     public DefaultEditPartSizeAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
-        setToolTipText("Set the default size of this component");
+        setToolTipText(Messages.DefaultEditPartSizeAction_1);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DEFAULT_SIZE));
     }
 

@@ -16,7 +16,7 @@ import uk.ac.bolton.archimate.editor.ui.services.UIRequest;
  */
 public class TreeEditElementRequest extends UIRequest {
     
-    public static final String REQUEST_NAME = "request.editElement";
+    public static final String REQUEST_NAME = "request.editElement"; //$NON-NLS-1$
 
     /**
      * @param source The source of the request

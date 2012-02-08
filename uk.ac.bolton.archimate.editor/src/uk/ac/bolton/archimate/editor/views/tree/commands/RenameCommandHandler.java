@@ -43,7 +43,7 @@ public class RenameCommandHandler {
     public static void doRenameCommand(INameable element, String newText) {
         CommandStack stack = (CommandStack)((IAdapter)element).getAdapter(CommandStack.class);
         if(stack != null) {
-            stack.execute(new EObjectFeatureCommand("Rename" + " " + element.getName(), element,
+            stack.execute(new EObjectFeatureCommand(Messages.RenameCommandHandler_0 + " " + element.getName(), element, //$NON-NLS-1$
                     IArchimatePackage.Literals.NAMEABLE__NAME, newText));
         }
     }

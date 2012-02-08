@@ -34,12 +34,12 @@ public class AggregationConnectionUIProvider extends AbstractConnectionUIProvide
 
     @Override
     public String getDefaultName() {
-        return "Aggregation relation";
+        return Messages.AggregationConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Aggregation";
+        return Messages.AggregationConnectionUIProvider_1;
     }
 
     @Override

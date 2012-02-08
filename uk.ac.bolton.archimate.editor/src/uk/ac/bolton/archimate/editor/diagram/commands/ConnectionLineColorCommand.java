@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 public class ConnectionLineColorCommand extends EObjectFeatureCommand {
     
     public ConnectionLineColorCommand(IDiagramModelConnection connection, String rgb) {
-        super("Change line colour", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_COLOR, rgb);
+        super(Messages.ConnectionLineColorCommand_0, connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_COLOR, rgb);
     }
 }

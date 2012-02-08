@@ -37,7 +37,7 @@ public class GapUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Gap";
+        return Messages.GapUIProvider_0;
     }
 
     @Override

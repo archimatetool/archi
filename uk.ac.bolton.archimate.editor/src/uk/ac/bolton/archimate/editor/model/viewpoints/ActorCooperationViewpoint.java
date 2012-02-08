@@ -46,7 +46,7 @@ public class ActorCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Actor Co-operation";
+        return Messages.ActorCooperationViewpoint_0;
     }
     
     @Override

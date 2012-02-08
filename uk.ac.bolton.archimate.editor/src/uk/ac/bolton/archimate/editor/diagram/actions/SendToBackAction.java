@@ -26,8 +26,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class SendToBackAction extends SelectionAction {
     
-    public static final String ID = "SendToBackAction";
-    public static final String TEXT = "Send To Back";
+    public static final String ID = "SendToBackAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.SendToBackAction_0;
     
     public SendToBackAction(IWorkbenchPart part) {
         super(part);
@@ -63,7 +63,7 @@ public class SendToBackAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection) {
-        CompoundCommand result = new CompoundCommand("Send To Back");
+        CompoundCommand result = new CompoundCommand(TEXT);
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
@@ -98,7 +98,7 @@ public class SendToBackAction extends SelectionAction {
             if(fParent != null) {
                 fOldPos = fParent.getChildren().indexOf(fDiagramObject);
             }
-            setLabel("Send To Back");
+            setLabel(TEXT);
         }
 
         @Override

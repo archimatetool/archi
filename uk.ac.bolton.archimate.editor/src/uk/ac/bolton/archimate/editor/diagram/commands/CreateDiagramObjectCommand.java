@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.osgi.util.NLS;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
@@ -35,7 +36,7 @@ public class CreateDiagramObjectCommand extends Command {
     
     @Override
     public String getLabel() {
-        return "Create" + " " + ArchimateLabelProvider.INSTANCE.getLabel(fChild);
+        return NLS.bind(Messages.CreateDiagramObjectCommand_0, ArchimateLabelProvider.INSTANCE.getLabel(fChild));
     }
 
     @Override

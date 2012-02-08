@@ -83,7 +83,7 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
             return getReferencedModel().getName();
         }
         else {
-            return "";
+            return ""; //$NON-NLS-1$
         }
     }
 

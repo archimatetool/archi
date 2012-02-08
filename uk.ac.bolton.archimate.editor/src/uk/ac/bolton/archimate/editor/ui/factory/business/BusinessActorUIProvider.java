@@ -34,12 +34,12 @@ public class BusinessActorUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Business Actor";
+        return Messages.BusinessActorUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Actor";
+        return Messages.BusinessActorUIProvider_1;
     }
 
     @Override

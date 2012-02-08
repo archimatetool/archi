@@ -55,7 +55,7 @@ implements IColoredEditPart, ITextEditPart {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
         
         // Add a policy for Native DND
-        installEditPolicy("DND", new ArchimateDNDEditPolicy());
+        installEditPolicy("DND", new ArchimateDNDEditPolicy()); //$NON-NLS-1$
         
         // Install a custom layout policy that handles dragging things around and creating new objects
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new ArchimateDiagramLayoutPolicy());

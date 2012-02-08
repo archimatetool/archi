@@ -52,7 +52,7 @@ public class BusinessProductViewpoint extends AbstractViewpoint {
 
     @Override
     public String getName() {
-        return "Business Product";
+        return Messages.BusinessProductViewpoint_0;
     }
 
     @Override

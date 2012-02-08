@@ -36,7 +36,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class TextPositionSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -70,21 +70,21 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     private Combo fComboPositions;
     
     private static final String[] fComboPositionItems = {
-        "Top Left",
-        "Top Centre",
-        "Top Right",
-        "Middle Left",
-        "Middle Centre",
-        "Middle Right",
-        "Bottom Left",
-        "Bottom Centre",
-        "Bottom Right",
+        Messages.TextPositionSection_0,
+        Messages.TextPositionSection_1,
+        Messages.TextPositionSection_2,
+        Messages.TextPositionSection_3,
+        Messages.TextPositionSection_4,
+        Messages.TextPositionSection_5,
+        Messages.TextPositionSection_6,
+        Messages.TextPositionSection_7,
+        Messages.TextPositionSection_8,
     };
     
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Text Position:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.TextPositionSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         // Position
         fComboPositions = new Combo(parent, SWT.READ_ONLY);
@@ -95,7 +95,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Text Position",
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.TextPositionSection_10,
                                                 fFontAttribute,
                                                 IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION,
                                                 fComboPositions.getSelectionIndex()));
@@ -119,7 +119,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
         }
 
         if(fFontAttribute == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

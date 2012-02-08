@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
@@ -223,17 +222,6 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         return null;
     }
     
-    @Override
-    public IFigure getToolTip() {
-        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
-        
-        if(toolTipFigure != null) {
-            toolTipFigure.setText("Image");
-        }
-        
-        return toolTipFigure;
-    }
-
     @Override
     public void dispose() {
         disposeImage();

@@ -29,8 +29,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class FontColorAction extends SelectionAction {
     
-    public static final String ID = "FontColorAction";
-    public static final String TEXT = "Font colour...";
+    public static final String ID = "FontColorAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.FontColorAction_0;
     
     public FontColorAction(IWorkbenchPart part) {
         super(part);
@@ -96,7 +96,7 @@ public class FontColorAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand("Change font colour");
+        CompoundCommand result = new CompoundCommand(Messages.FontColorAction_1);
         
         for(Object object : selection) {
             if(isValidEditPart(object)) {

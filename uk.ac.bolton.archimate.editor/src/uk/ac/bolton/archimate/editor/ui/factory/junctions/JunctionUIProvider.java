@@ -37,7 +37,7 @@ public class JunctionUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Junction";
+        return Messages.JunctionUIProvider_0;
     }
 
     @Override

@@ -34,12 +34,12 @@ public class RealisationConnectionUIProvider extends AbstractConnectionUIProvide
 
     @Override
     public String getDefaultName() {
-        return "Realisation relation";
+        return Messages.RealisationConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Realisation";
+        return Messages.RealisationConnectionUIProvider_1;
     }
 
     @Override

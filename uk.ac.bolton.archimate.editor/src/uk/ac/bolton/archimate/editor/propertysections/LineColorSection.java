@@ -37,7 +37,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class LineColorSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -83,7 +83,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     }
     
     private void createColorControl(Composite parent) {
-        createCLabel(parent, "Line colour:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.LineColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 2);
 
@@ -97,7 +97,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         fDefaultColorButton = new Button(client, SWT.PUSH);
         fDefaultColorButton.setLayoutData(gd);
         getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
-        fDefaultColorButton.setText("Default");
+        fDefaultColorButton.setText(Messages.LineColorSection_1);
         fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -113,11 +113,11 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         if(element instanceof IDiagramConnectionEditPart) {
             fDiagramModelConnection = (IDiagramModelConnection)((IDiagramConnectionEditPart)element).getModel();
             if(fDiagramModelConnection == null) {
-                throw new RuntimeException("Diagram Connection Object was null");
+                throw new RuntimeException("Diagram Connection Object was null"); //$NON-NLS-1$
             }
         }
         else {
-            throw new RuntimeException("Should have been an IColoredEditPart");
+            throw new RuntimeException("Should have been an IColoredEditPart"); //$NON-NLS-1$
         }
         
         refreshControls();

@@ -27,7 +27,7 @@ public class NewFolderAction extends ViewerAction {
     
     public NewFolderAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
-        setText("Folder");
+        setText(Messages.NewFolderAction_0);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_FOLDER));
     }
     
@@ -40,7 +40,7 @@ public class NewFolderAction extends ViewerAction {
             
             // Create a new Folder, set its name
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("New Folder");
+            folder.setName(Messages.NewFolderAction_1);
             folder.setType(FolderType.USER);
             
             // Execute Command

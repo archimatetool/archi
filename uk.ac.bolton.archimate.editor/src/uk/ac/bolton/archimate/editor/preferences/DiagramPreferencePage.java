@@ -88,68 +88,68 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         client.setLayout(new GridLayout());
         
         Group layoutGroup = new Group(client, SWT.NULL);
-        layoutGroup.setText("Layout");
+        layoutGroup.setText(Messages.DiagramPreferencePage_0);
         layoutGroup.setLayout(new GridLayout(2, false));
         layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         label = new Label(layoutGroup, SWT.NULL);
-        label.setText("Grid Size:");
+        label.setText(Messages.DiagramPreferencePage_1);
         
         fGridSizeSpinner = new Spinner(layoutGroup, SWT.BORDER);
         fGridSizeSpinner.setMinimum(5);
         fGridSizeSpinner.setMaximum(100);
         
         fDoAnimationButton = new Button(layoutGroup, SWT.CHECK);
-        fDoAnimationButton.setText("Animate Layout");
+        fDoAnimationButton.setText(Messages.DiagramPreferencePage_2);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDoAnimationButton.setLayoutData(gd);
 
         label = new Label(layoutGroup, SWT.NULL);
-        label.setText("Animation Speed (mS)");
+        label.setText(Messages.DiagramPreferencePage_3);
 
         fAnimationSpeedSpinner = new Spinner(layoutGroup, SWT.BORDER);
         fAnimationSpeedSpinner.setMinimum(10);
         fAnimationSpeedSpinner.setMaximum(500);
         
         Group viewGroup = new Group(client, SWT.NULL);
-        viewGroup.setText("View");
+        viewGroup.setText(Messages.DiagramPreferencePage_4);
         viewGroup.setLayout(new GridLayout(2, false));
         viewGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fDoAntiAliasButton = new Button(viewGroup, SWT.CHECK);
-        fDoAntiAliasButton.setText("Use anti-aliasing on connections");
+        fDoAntiAliasButton.setText(Messages.DiagramPreferencePage_5);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDoAntiAliasButton.setLayoutData(gd);
         
         fPaletteStateButton = new Button(viewGroup, SWT.CHECK);
-        fPaletteStateButton.setText("Palette is open when opening Views");
+        fPaletteStateButton.setText(Messages.DiagramPreferencePage_6);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fPaletteStateButton.setLayoutData(gd);
         
         fViewTooltipsButton = new Button(viewGroup, SWT.CHECK);
-        fViewTooltipsButton.setText("Show tooltips in Views");
+        fViewTooltipsButton.setText(Messages.DiagramPreferencePage_7);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewTooltipsButton.setLayoutData(gd);
         
         Group fontGroup = new Group(client, SWT.NULL);
-        fontGroup.setText("Font");
+        fontGroup.setText(Messages.DiagramPreferencePage_8);
         fontGroup.setLayout(new GridLayout(2, false));
         fontGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fDefaultFontLabel = new Label(fontGroup, SWT.NULL);
-        fDefaultFontLabel.setText("Default Font");
+        fDefaultFontLabel.setText(Messages.DiagramPreferencePage_9);
         
         fDefaultFontButton = new Button(fontGroup, SWT.PUSH);
-        fDefaultFontButton.setText("Edit...");
+        fDefaultFontButton.setText(Messages.DiagramPreferencePage_10);
         fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 FontDialog dialog = new FontDialog(getShell());
-                dialog.setText("Select Font");
+                dialog.setText(Messages.DiagramPreferencePage_11);
                 dialog.setFontList(new FontData[] { fDefaultFontData });
                 
                 FontData fd = dialog.open();
@@ -161,7 +161,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         label = new Label(fontGroup, SWT.NULL);
-        label.setText("Preview:");
+        label.setText(Messages.DiagramPreferencePage_12);
         
         fFontPreviewLabel = new CLabel(fontGroup, SWT.BORDER);
         gd = new GridData(GridData.FILL_BOTH);
@@ -170,45 +170,45 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fFontPreviewLabel.setLayoutData(gd);
         
         Group viewpointsGroup = new Group(client, SWT.NULL);
-        viewpointsGroup.setText("Viewpoints");
+        viewpointsGroup.setText(Messages.DiagramPreferencePage_13);
         viewpointsGroup.setLayout(new GridLayout(2, false));
         viewpointsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fViewpointsFilterModelTreeButton = new Button(viewpointsGroup, SWT.CHECK);
-        fViewpointsFilterModelTreeButton.setText("Grey out disallowed elements in the Model Tree");
+        fViewpointsFilterModelTreeButton.setText(Messages.DiagramPreferencePage_14);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewpointsFilterModelTreeButton.setLayoutData(gd);
         
         fViewpointsHidePaletteElementsButton = new Button(viewpointsGroup, SWT.CHECK);
-        fViewpointsHidePaletteElementsButton.setText("Hide disallowed elements from the Palette");
+        fViewpointsHidePaletteElementsButton.setText(Messages.DiagramPreferencePage_15);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewpointsHidePaletteElementsButton.setLayoutData(gd);
         
         fViewpointsHideMagicConnectorElementsButton = new Button(viewpointsGroup, SWT.CHECK);
-        fViewpointsHideMagicConnectorElementsButton.setText("Hide disallowed elements from the Magic Connector");
+        fViewpointsHideMagicConnectorElementsButton.setText(Messages.DiagramPreferencePage_16);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewpointsHideMagicConnectorElementsButton.setLayoutData(gd);
 
         fViewpointsGhostDiagramElementsButton = new Button(viewpointsGroup, SWT.RADIO);
-        fViewpointsGhostDiagramElementsButton.setText("Ghost disallowed elements in a View");
+        fViewpointsGhostDiagramElementsButton.setText(Messages.DiagramPreferencePage_17);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsGhostDiagramElementsButton.setLayoutData(gd);
         
         fViewpointsHideDiagramElementsButton = new Button(viewpointsGroup, SWT.RADIO);
-        fViewpointsHideDiagramElementsButton.setText("Hide disallowed elements in a View");
+        fViewpointsHideDiagramElementsButton.setText(Messages.DiagramPreferencePage_18);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsHideDiagramElementsButton.setLayoutData(gd);
         
         Group sketchGroup = new Group(client, SWT.NULL);
-        sketchGroup.setText("Sketch");
+        sketchGroup.setText(Messages.DiagramPreferencePage_19);
         sketchGroup.setLayout(new GridLayout());
         sketchGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         fShowSketchBackgroundButton = new Button(sketchGroup, SWT.CHECK);
-        fShowSketchBackgroundButton.setText("Show Background");
+        fShowSketchBackgroundButton.setText(Messages.DiagramPreferencePage_20);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fShowSketchBackgroundButton.setLayoutData(gd);
         
@@ -255,11 +255,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void setDefaultFontValues() {
-        fFontPreviewLabel.setText(fDefaultFontData.getName() + " " +
-                fDefaultFontData.getHeight() + " " +
-                ((fDefaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? "Bold" : "") + " " +
-                ((fDefaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? "Italic" : "") + " " +
-                "\nThe quick brown fox jumps over the lazy dog.");
+        fFontPreviewLabel.setText(fDefaultFontData.getName() + " " + //$NON-NLS-1$
+                fDefaultFontData.getHeight() + " " + //$NON-NLS-1$
+                ((fDefaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.DiagramPreferencePage_21 : "") + " " +  //$NON-NLS-1$ //$NON-NLS-2$
+                ((fDefaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.DiagramPreferencePage_22 : "") + " " +  //$NON-NLS-1$ //$NON-NLS-2$
+                "\n" + Messages.DiagramPreferencePage_23); //$NON-NLS-1$
         
         disposeTempFont();
         fTempFont = new Font(null, fDefaultFontData);

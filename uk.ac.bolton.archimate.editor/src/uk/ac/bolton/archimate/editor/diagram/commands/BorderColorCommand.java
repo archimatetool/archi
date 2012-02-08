@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IBorderObject;
 public class BorderColorCommand extends EObjectFeatureCommand {
     
     public BorderColorCommand(IBorderObject borderObject, String rgb) {
-        super("Change border colour", borderObject, IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR, rgb);
+        super(Messages.BorderColorCommand_0, borderObject, IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR, rgb);
     }
 }

@@ -24,7 +24,7 @@ public class CloseModelAction extends ViewerAction {
     
     public CloseModelAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
-        setText("Close &Model");
+        setText(Messages.CloseModelAction_0);
         setEnabled(false);
     }
     

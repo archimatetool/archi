@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.osgi.util.NLS;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
@@ -49,7 +51,7 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     public String getViewpointName() {
         if(fCurrentView instanceof IArchimateDiagramModel) {
             int index = ((IArchimateDiagramModel)fCurrentView).getViewpoint();
-            return viewpointsMap.get(index) + " viewpoint";
+            return NLS.bind(Messages.ViewModelDataSource_0, viewpointsMap.get(index));
         }
         return null;
     }
@@ -78,10 +80,10 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     public Object getFieldValue(JRField jrField) throws JRException {
         String fieldName = jrField.getName();
         
-        if("imagePath".equals(fieldName)) {
+        if("imagePath".equals(fieldName)) { //$NON-NLS-1$
             return getImagePath();
         }
-        if("viewpoint".equals(fieldName) && fCurrentView instanceof IArchimateDiagramModel) {
+        if("viewpoint".equals(fieldName) && fCurrentView instanceof IArchimateDiagramModel) { //$NON-NLS-1$
             return getViewpointName();
         }
 
@@ -97,8 +99,8 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
      * Return the path to the diagram image
      */
     private String getImagePath() {
-        String diagramName = fCurrentView.getId() + ".png";
-        return System.getProperty("JASPER_IMAGE_PATH") + "/" + diagramName;
+        String diagramName = fCurrentView.getId() + ".png"; //$NON-NLS-1$
+        return System.getProperty("JASPER_IMAGE_PATH") + "/" + diagramName; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     @Override

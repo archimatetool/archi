@@ -115,7 +115,7 @@ public final class CopySnapshot {
                         CopySnapshot copySnapshot = (CopySnapshot)contents;
                         IArchimateModel model = (IArchimateModel)evt.getNewValue();
                         if(copySnapshot.fSourceArchimateModel == model) {
-                            Clipboard.getDefault().setContents("");
+                            Clipboard.getDefault().setContents(""); //$NON-NLS-1$
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public final class CopySnapshot {
         // Sanity check...
         for(IDiagramModelObject object : modelObjectsSelected) {
             if(object.getDiagramModel() != diagramModel) {
-                System.err.println("Different diagram models in " + getClass());
+                System.err.println("Different diagram models in " + getClass()); //$NON-NLS-1$
                 return;
             }
         }
@@ -367,7 +367,7 @@ public final class CopySnapshot {
         // Mapping of snapshot objects to new copy, used for connections
         Hashtable<IDiagramModelObject, IDiagramModelObject> tmpSnapshotToNewObjectMapping = new Hashtable<IDiagramModelObject, IDiagramModelObject>();
         
-        CompoundCommand result = new PasteCompoundCommand("Paste", tmpSnapshotToNewObjectMapping, viewer);
+        CompoundCommand result = new PasteCompoundCommand(Messages.CopySnapshot_0, tmpSnapshotToNewObjectMapping, viewer);
         
         // Diagram objects first
         for(IDiagramModelObject object : fDiagramModelSnapshot.getChildren()) {
@@ -404,7 +404,7 @@ public final class CopySnapshot {
             // Use a copy so provide a new name
             if(fDoCreateArchimateElementCopies) {
                 String name = dmo.getArchimateElement().getName();
-                dmo.getArchimateElement().setName(name + " (copy)");
+                dmo.getArchimateElement().setName(name + " " + Messages.CopySnapshot_1); //$NON-NLS-1$
             }
             // Else re-use original ArchiMate element
             else {

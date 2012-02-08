@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -63,7 +64,7 @@ public class CSVExporter implements IModelExporter {
     }
     
     private void writeHeader() throws IOException {
-        writer.write("\"Type\",\"Element name\",\"Documentation\",\"Source type\",\"Source name\",\"Target type\",\"Target name\"\n");
+        writer.write(Messages.CSVExporter_0);
     }
     
     private void writeFolder(IFolder folder) throws IOException {
@@ -76,28 +77,28 @@ public class CSVExporter implements IModelExporter {
             if(eObject instanceof IArchimateElement) {
                 IArchimateElement element = (IArchimateElement)eObject;
                 String name = normalise(element.getName());
-                String s = "\"" + element.eClass().getName() + "\"," + "\"" + name + "\"," + "\"" + normalise(element.getDocumentation() + "\",");
+                String s = "\"" + element.eClass().getName() + "\"," + "\"" + name + "\"," + "\"" + normalise(element.getDocumentation() + "\","); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                 if(eObject instanceof IRelationship) {
                     IRelationship relationship = (IRelationship)eObject;
-                    s += "\"" + relationship.getSource().eClass().getName() + "\",";
-                    s += "\"" + relationship.getSource().getName() + "\",";
-                    s += "\"" + relationship.getTarget().eClass().getName() + "\",";
-                    s += "\"" + relationship.getTarget().getName() + "\",";
+                    s += "\"" + relationship.getSource().eClass().getName() + "\","; //$NON-NLS-1$ //$NON-NLS-2$
+                    s += "\"" + relationship.getSource().getName() + "\","; //$NON-NLS-1$ //$NON-NLS-2$
+                    s += "\"" + relationship.getTarget().eClass().getName() + "\","; //$NON-NLS-1$ //$NON-NLS-2$
+                    s += "\"" + relationship.getTarget().getName() + "\","; //$NON-NLS-1$ //$NON-NLS-2$
                 }
                 else {
-                    s += "\"\",\"\",\"\",\"\"";
+                    s += "\"\",\"\",\"\",\"\""; //$NON-NLS-1$
                 }
-                writer.write(s + "\n");
+                writer.write(s + "\n"); //$NON-NLS-1$
             }
         }
     }
     
     private String normalise(String s) {
         if(s == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
-        s = s.replaceAll("(\r\n|\r|\n|\t)", " ");
+        s = s.replaceAll("(\r\n|\r|\n|\t)", " "); //$NON-NLS-1$ //$NON-NLS-2$
         
         return s;
     }
@@ -139,25 +140,25 @@ public class CSVExporter implements IModelExporter {
      */
     private File askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText("Export Model");
-        dialog.setFilterExtensions(new String[] { "*.csv", "*.*" } );
+        dialog.setText(Messages.CSVExporter_1);
+        dialog.setFilterExtensions(new String[] { "*.csv", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path == null) {
             return null;
         }
         
         // Only Windows adds the extension by default
-        if(dialog.getFilterIndex() == 0 && !path.endsWith(".csv")) {
-            path += ".csv";
+        if(dialog.getFilterIndex() == 0 && !path.endsWith(".csv")) { //$NON-NLS-1$
+            path += ".csv"; //$NON-NLS-1$
         }
         
         File file = new File(path);
         
         // Make sure the file does not already exist
         if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), "Export Model",
-                    "'" + file +
-                    "' already exists. Are you sure you want to overwrite it?");
+            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    Messages.CSVExporter_1,
+                    NLS.bind(Messages.CSVExporter_2, file));
             if(!result) {
                 return null;
             }

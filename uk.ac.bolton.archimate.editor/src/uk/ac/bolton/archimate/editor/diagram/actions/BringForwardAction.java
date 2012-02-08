@@ -30,8 +30,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class BringForwardAction extends SelectionAction {
     
-    public static final String ID = "BringForwardAction";
-    public static final String TEXT = "Bring Forward";
+    public static final String ID = "BringForwardAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.BringForwardAction_0;
     
     public BringForwardAction(IWorkbenchPart part) {
         super(part);
@@ -76,7 +76,7 @@ public class BringForwardAction extends SelectionAction {
     private Command createCommand(List<?> selection) {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
         
-        CompoundCommand result = new CompoundCommand("Bring Forward");
+        CompoundCommand result = new CompoundCommand(Messages.BringForwardAction_0);
         
         for(Object object : selection) {
             if(object instanceof GraphicalEditPart) {
@@ -85,7 +85,7 @@ public class BringForwardAction extends SelectionAction {
                 
                 // This can happen if we do things wrong
                 if(viewer != editPart.getViewer()) {
-                    System.err.println("Wrong selection for viewer in " + getClass());
+                    System.err.println("Wrong selection for viewer in " + getClass()); //$NON-NLS-1$
                 }
                 
                 // Locked
@@ -125,7 +125,7 @@ public class BringForwardAction extends SelectionAction {
         public BringForwardCommand(IDiagramModelContainer parent, int oldPos) {
             fParent = parent;
             fOldPos = oldPos;
-            setLabel("Bring Forward");
+            setLabel(Messages.BringForwardAction_0);
         }
 
         @Override

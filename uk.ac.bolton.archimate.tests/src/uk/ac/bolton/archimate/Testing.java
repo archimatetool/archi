@@ -20,14 +20,14 @@ public class Testing {
     /**
      * Temporary folder
      */
-    public static final String TESTS_TEMP_FOLDER = "uk.ac.bolton.tests.tmp";
+    public static final String TESTS_TEMP_FOLDER = "uk.ac.bolton.tests.tmp"; //$NON-NLS-1$
     
     /**
      * Test Folder in Temp dir
      */
-    public static File TMP_FOLDER = new File(System.getProperty("java.io.tmpdir"), TESTS_TEMP_FOLDER);
+    public static File TMP_FOLDER = new File(System.getProperty("java.io.tmpdir"), TESTS_TEMP_FOLDER); //$NON-NLS-1$
     
-    public static File TESTDATA_FOLDER = new File("testdata");
+    public static File TESTDATA_FOLDER = new File("testdata"); //$NON-NLS-1$
 
     
     /**
@@ -43,7 +43,7 @@ public class Testing {
      * @return a Temporary File handle for testing.  Will be deleted on exit.
      */
     public static File getTempFile(String extension) throws IOException {
-        File tmp = File.createTempFile("~test", extension, getMainTestFolder());
+        File tmp = File.createTempFile("~test", extension, getMainTestFolder()); //$NON-NLS-1$
         tmp.deleteOnExit();
         return tmp;
     }

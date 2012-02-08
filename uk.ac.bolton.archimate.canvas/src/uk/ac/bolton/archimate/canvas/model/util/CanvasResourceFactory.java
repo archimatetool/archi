@@ -40,8 +40,8 @@ public class CanvasResourceFactory extends ResourceFactoryImpl {
     public Resource createResource(URI uri) {
         XMLResource result = new CanvasResource(uri);
         
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
+        result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+        result.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
         
         // result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
         // result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);

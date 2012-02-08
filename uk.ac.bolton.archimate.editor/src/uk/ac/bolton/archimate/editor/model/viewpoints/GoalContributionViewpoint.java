@@ -31,7 +31,7 @@ public class GoalContributionViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Goal Contribution";
+        return Messages.GoalContributionViewpoint_0;
     }
 
     @Override

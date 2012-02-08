@@ -39,7 +39,7 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 public class ExportJasperReportsWizardPage2 extends WizardPage {
 
     static File INBUILT_REPORTS_FOLDER = JasperReportsPlugin.INSTANCE.getJasperReportsFolder();
-    static File INBUILT_STANDARD_REPORT = new File(INBUILT_REPORTS_FOLDER, "standard/main.jrxml");
+    static File INBUILT_STANDARD_REPORT = new File(INBUILT_REPORTS_FOLDER, "standard/main.jrxml"); //$NON-NLS-1$
 
     private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage2"; //$NON-NLS-1$
     
@@ -59,14 +59,14 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     
     private static List<Template> fTemplates = new ArrayList<Template>();
     static {
-        fTemplates.add(new Template("Standard", INBUILT_STANDARD_REPORT));
-        fTemplates.add(new Template("Custom...", null));
+        fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_0, INBUILT_STANDARD_REPORT));
+        fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_1, null));
     }
     
     public ExportJasperReportsWizardPage2() {
-        super("ExportJasperReportsWizardPage2");
-        setTitle("Generate Jasper Reports");
-        setDescription("Choose the report template to use.");
+        super("ExportJasperReportsWizardPage2"); //$NON-NLS-1$
+        setTitle(Messages.ExportJasperReportsWizardPage2_2);
+        setDescription(Messages.ExportJasperReportsWizardPage2_3);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
@@ -83,7 +83,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         fieldContainer.setLayout(new GridLayout(2, false));
         
         Label label = new Label(fieldContainer, SWT.NONE);
-        label.setText("Report template:");
+        label.setText(Messages.ExportJasperReportsWizardPage2_4);
         
         fComboTemplateViewer = new ComboViewer(new Combo(fieldContainer, SWT.READ_ONLY | SWT.BORDER));
         fComboTemplateViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -122,7 +122,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
             }
         });
         
-        fComboTemplateViewer.setInput("");
+        fComboTemplateViewer.setInput(""); //$NON-NLS-1$
         fComboTemplateViewer.setSelection(new StructuredSelection(fTemplates.get(0)));
     }
     
@@ -133,9 +133,9 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     
     private void handleCustomDialog() {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setText("Choose the main Jasper template file");
-        dialog.setFilterExtensions(new String[] { "main.jrxml", "*.jrxml", "*.*" } );
-        dialog.setFileName("main.jrxml");
+        dialog.setText(Messages.ExportJasperReportsWizardPage2_5);
+        dialog.setFilterExtensions(new String[] { "main.jrxml", "*.jrxml", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        dialog.setFileName("main.jrxml"); //$NON-NLS-1$
         String path = dialog.open();
         if(path != null) {
             File file = new File(path);
@@ -167,7 +167,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
             final int maxLength = 38;
             if(pathPart.length() > maxLength) {
                 pathPart = pathPart.substring(0, maxLength - 3);
-                pathPart += "..." + File.separator;
+                pathPart += "..." + File.separator; //$NON-NLS-1$
                 path = pathPart += file.getName();
             }
         }

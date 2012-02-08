@@ -59,20 +59,20 @@ public class CanvasModelFactory implements ICreationFactory {
                 String color = ColorFactory.convertRGBToString(((Color)fParam).getRGB());
                 sticky.setFillColor(color);
             }
-            sticky.setBorderColor("#C0C0C0");
+            sticky.setBorderColor("#C0C0C0"); //$NON-NLS-1$
         }
         
         // Block
         else if(object instanceof ICanvasModelBlock) {
             ICanvasModelBlock block = (ICanvasModelBlock)object;
             block.setTextPosition(IFontAttribute.TEXT_POSITION_TOP_LEFT);
-            block.setBorderColor("#000000");
+            block.setBorderColor("#000000"); //$NON-NLS-1$
         }
         
         // Image
         else if(object instanceof ICanvasModelImage) {
             ICanvasModelImage image = (ICanvasModelImage)object;
-            image.setBorderColor("#000000");
+            image.setBorderColor("#000000"); //$NON-NLS-1$
         }
         
         // Canvas Connection

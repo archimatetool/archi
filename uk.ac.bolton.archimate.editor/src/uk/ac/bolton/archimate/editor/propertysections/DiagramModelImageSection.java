@@ -45,7 +45,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class DiagramModelImageSection extends AbstractArchimatePropertySection {
     
-    protected static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    protected static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -87,7 +87,7 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
      * @param parent
      */
     protected void createImageButton(Composite parent) {
-        createCLabel(parent, "Image:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.DiagramModelImageSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         fImageButton = new Button(parent, SWT.PUSH);
         getWidgetFactory().adapt(fImageButton, true, true); // Need to do it this way for Mac
@@ -95,13 +95,13 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
         gd.widthHint = 150;
         fImageButton.setLayoutData(gd);
         fImageButton.setAlignment(SWT.LEFT);
-        fImageButton.setText(" Choose...");
+        fImageButton.setText(" " + Messages.DiagramModelImageSection_1); //$NON-NLS-1$
         fImageButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 MenuManager menuManager = new MenuManager();
                 
-                IAction actionChoose = new Action("Set Image...") {
+                IAction actionChoose = new Action(Messages.DiagramModelImageSection_2) {
                     @Override
                     public void run() {
                         chooseImage();
@@ -110,7 +110,7 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
                 
                 menuManager.add(actionChoose);
                 
-                IAction actionClear = new Action("Remove Image") {
+                IAction actionClear = new Action(Messages.DiagramModelImageSection_3) {
                     @Override
                     public void run() {
                         clearImage();
@@ -136,7 +136,7 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
         }
 
         if(fDiagramModelImage == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -154,7 +154,7 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
     protected void clearImage() {
         if(isAlive()) {
             fIsExecutingCommand = true;
-            getCommandStack().execute(new EObjectFeatureCommand("Clear Image",
+            getCommandStack().execute(new EObjectFeatureCommand(Messages.DiagramModelImageSection_4,
                     getEObject(), IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH,
                     null));
             fIsExecutingCommand = false;
@@ -201,13 +201,13 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
         catch(IOException ex) {
             ex.printStackTrace();
             MessageDialog.openError(getPart().getSite().getShell(),
-                    "Set Image",
-                    "Unsupported Image format");
+                    Messages.DiagramModelImageSection_5,
+                    Messages.DiagramModelImageSection_6);
             return;
         }
         
         fIsExecutingCommand = true;
-        getCommandStack().execute(new EObjectFeatureCommand("Set Image",
+        getCommandStack().execute(new EObjectFeatureCommand(Messages.DiagramModelImageSection_7,
                                 getEObject(), IArchimatePackage.Literals.DIAGRAM_MODEL_IMAGE_PROVIDER__IMAGE_PATH,
                                 path));
         fIsExecutingCommand = false;

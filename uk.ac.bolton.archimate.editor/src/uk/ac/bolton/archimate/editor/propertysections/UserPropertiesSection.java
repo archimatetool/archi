@@ -110,7 +110,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  */
 public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.userProperties";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.userProperties"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -183,7 +183,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             fPropertiesElement = (IProperties)((IAdaptable)element).getAdapter(IProperties.class);
         }
         else {
-            System.err.println(getClass() + " wants to display for " + element);
+            System.err.println(getClass() + " wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -245,7 +245,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         fTableLayout.setColumnData(columnBlank.getColumn(), new ColumnPixelData(24, false));
 
         TableViewerColumn columnKey = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
-        columnKey.getColumn().setText("Name");
+        columnKey.getColumn().setText(Messages.UserPropertiesSection_0);
         fTableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(20, true));
         columnKey.setEditingSupport(new KeyEditingSupport(fTableViewer));
 
@@ -258,7 +258,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         });
 
         TableViewerColumn columnValue = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
-        columnValue.getColumn().setText("Value");
+        columnValue.getColumn().setText(Messages.UserPropertiesSection_1);
         fTableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(80, true));
         columnValue.setEditingSupport(new ValueEditingSupport(fTableViewer));
 
@@ -285,7 +285,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         ToolBarManager toolBarmanager = new ToolBarManager(toolBar);
 
         // New Property
-        fActionNewProperty = new Action("New") {
+        fActionNewProperty = new Action(Messages.UserPropertiesSection_2) {
             @Override
             public void run() {
                 if(isAlive()) {
@@ -312,7 +312,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         };
 
         // New Multiple Properties
-        fActionNewMultipleProperty = new Action("New Multiple...") {
+        fActionNewMultipleProperty = new Action(Messages.UserPropertiesSection_3) {
             @Override
             public void run() {
                 if(isAlive()) {
@@ -335,14 +335,14 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         };
 
         // Remove Property
-        fActionRemoveProperty = new Action("Remove") {
+        fActionRemoveProperty = new Action(Messages.UserPropertiesSection_4) {
             @Override
             public void run() {
                 if(isAlive()) {
                     CompoundCommand compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement) {
                         @Override
                         public String getLabel() {
-                            return getCommands().size() > 1 ? "Remove Properties" : "Remove Property";
+                            return getCommands().size() > 1 ? Messages.UserPropertiesSection_5 : Messages.UserPropertiesSection_6;
                         }
                     };
                     for(Object o : ((IStructuredSelection)fTableViewer.getSelection()).toList()) {
@@ -366,7 +366,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         fActionRemoveProperty.setEnabled(false);
 
         // Manage
-        fActionShowKeyEditor = new Action("Manage") {
+        fActionShowKeyEditor = new Action(Messages.UserPropertiesSection_7) {
             @Override
             public void run() {
                 if(isAlive()) {
@@ -609,7 +609,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             index = properties.size();
         }
 
-        CompoundCommand compoundCmd = new CompoundCommand("Move Properties");
+        CompoundCommand compoundCmd = new CompoundCommand(Messages.UserPropertiesSection_8);
 
         for(IProperty property : propertiesToMove) {
             int oldIndex = properties.indexOf(property);
@@ -696,7 +696,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
                 case 1:
                     String key = ((IProperty)element).getKey();
                     if(!StringUtils.isSetAfterTrim(key)) {
-                        key = "(blank)";
+                        key = Messages.UserPropertiesSection_9;
                     }
                     return key;
 
@@ -762,7 +762,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         @Override
         protected void setValue(Object element, Object value) {
             if(isAlive()) {
-                getCommandStack().execute(new EObjectFeatureCommand("Set Property Name", (IProperty)element,
+                getCommandStack().execute(new EObjectFeatureCommand(Messages.UserPropertiesSection_10, (IProperty)element,
                                             IArchimatePackage.Literals.PROPERTY__KEY, value));
             }
         }
@@ -800,7 +800,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         @Override
         protected void setValue(Object element, Object value) {
             if(isAlive()) {
-                getCommandStack().execute(new EObjectFeatureCommand("Set Property Value", (IProperty)element,
+                getCommandStack().execute(new EObjectFeatureCommand(Messages.UserPropertiesSection_11, (IProperty)element,
                                         IArchimatePackage.Literals.PROPERTY__VALUE, value));
             }
         }
@@ -856,7 +856,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             this.properties = properties;
             this.property = property;
             this.index = index;
-            setLabel("New Property");
+            setLabel(Messages.UserPropertiesSection_12);
         }
 
         @Override
@@ -931,7 +931,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             this.properties = properties;
             this.property = property;
             this.newIndex = newIndex;
-            setLabel("Move Property");
+            setLabel(Messages.UserPropertiesSection_13);
         }
 
         @Override
@@ -960,7 +960,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         private List<IProperty> original;
 
         public SortPropertiesCommand(EList<IProperty> properties) {
-            setLabel("Sort Properties");
+            setLabel(Messages.UserPropertiesSection_14);
             this.properties = properties;
 
             // Keep a copy of the original order
@@ -1024,7 +1024,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         private String[] keys;
 
         public MultipleAddDialog(Shell parentShell) {
-            super(parentShell, "ArchimatePropertiesMultipleAddDialog");
+            super(parentShell, "ArchimatePropertiesMultipleAddDialog"); //$NON-NLS-1$
             setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
             setShellStyle(getShellStyle() | SWT.RESIZE);
 
@@ -1034,7 +1034,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
         @Override
         protected void configureShell(Shell shell) {
             super.configureShell(shell);
-            shell.setText("Properties");
+            shell.setText(Messages.UserPropertiesSection_15);
         }
 
         @Override
@@ -1053,8 +1053,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             // Help
             PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
-            setTitle("Add Multiple Properties");
-            setMessage("Select the Properties to add to this Element");
+            setTitle(Messages.UserPropertiesSection_16);
+            setMessage(Messages.UserPropertiesSection_17);
 
             Composite composite = (Composite)super.createDialogArea(parent);
 
@@ -1102,7 +1102,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
             // Label Provider
             tableViewer.setLabelProvider(new LabelProvider());
-            tableViewer.setInput(""); // anything will do
+            tableViewer.setInput(""); // anything will do //$NON-NLS-1$
         }
 
         private void createButtonPanel(Composite parent) {
@@ -1117,7 +1117,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             client.setLayoutData(gd);
 
             buttonSelectAll = new Button(client, SWT.PUSH);
-            buttonSelectAll.setText("Select All");
+            buttonSelectAll.setText(Messages.UserPropertiesSection_18);
             gd = new GridData(GridData.FILL_HORIZONTAL);
             buttonSelectAll.setLayoutData(gd);
             buttonSelectAll.addSelectionListener(new SelectionAdapter() {
@@ -1128,7 +1128,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             });
 
             buttonDeselectAll = new Button(client, SWT.PUSH);
-            buttonDeselectAll.setText("Deselect All");
+            buttonDeselectAll.setText(Messages.UserPropertiesSection_19);
             gd = new GridData(GridData.FILL_HORIZONTAL);
             buttonDeselectAll.setLayoutData(gd);
             buttonDeselectAll.addSelectionListener(new SelectionAdapter() {
@@ -1141,7 +1141,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         @Override
         protected void okPressed() {
-            compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement, "Add Properties");
+            compoundCmd = new EObjectNonNotifyingCompoundCommand(fPropertiesElement, Messages.UserPropertiesSection_20);
 
             for(Object o : tableViewer.getCheckedElements()) {
                 IProperty property = IArchimateFactory.eINSTANCE.createProperty();

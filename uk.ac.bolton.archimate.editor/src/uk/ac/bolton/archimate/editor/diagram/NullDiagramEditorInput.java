@@ -46,7 +46,7 @@ implements IEditorInput {
     }
 
     public String getName() {
-        return getViewName() == null ? "(Missing View)" : "(Missing) - " + getViewName();
+        return getViewName() == null ? Messages.NullDiagramEditorInput_0 : Messages.NullDiagramEditorInput_1 + " - " + getViewName(); //$NON-NLS-1$
     }
 
     public String getToolTipText() {

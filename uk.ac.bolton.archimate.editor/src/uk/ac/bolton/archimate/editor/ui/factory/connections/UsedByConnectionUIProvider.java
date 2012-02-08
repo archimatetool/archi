@@ -34,12 +34,12 @@ public class UsedByConnectionUIProvider extends AbstractConnectionUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Used By relation";
+        return Messages.UsedByConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Used By";
+        return Messages.UsedByConnectionUIProvider_1;
     }
 
     @Override

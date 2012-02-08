@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 public class FontColorCommand extends EObjectFeatureCommand {
     
     public FontColorCommand(IFontAttribute object, String rgb) {
-        super("Change font", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR, rgb);
+        super(Messages.FontColorCommand_0, object, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR, rgb);
     }
 }

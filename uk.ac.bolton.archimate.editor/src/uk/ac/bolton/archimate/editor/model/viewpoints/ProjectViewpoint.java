@@ -42,7 +42,7 @@ public class ProjectViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Project";
+        return Messages.ProjectViewpoint_0;
     }
 
     @Override

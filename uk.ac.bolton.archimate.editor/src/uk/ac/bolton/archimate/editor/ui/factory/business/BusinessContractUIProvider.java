@@ -34,7 +34,7 @@ public class BusinessContractUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Contract";
+        return Messages.BusinessContractUIProvider_0;
     }
 
     @Override

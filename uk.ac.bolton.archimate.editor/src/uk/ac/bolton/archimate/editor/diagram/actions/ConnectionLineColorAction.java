@@ -29,8 +29,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  */
 public class ConnectionLineColorAction extends SelectionAction {
     
-    public static final String ID = "ConnectionLineColorAction";
-    public static final String TEXT = "Line colour...";
+    public static final String ID = "ConnectionLineColorAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.ConnectionLineColorAction_0;
     
     public ConnectionLineColorAction(IWorkbenchPart part) {
         super(part);
@@ -90,7 +90,7 @@ public class ConnectionLineColorAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand("Change line colour");
+        CompoundCommand result = new CompoundCommand(Messages.ConnectionLineColorAction_1);
         
         for(Object object : selection) {
             if(object instanceof EditPart) {

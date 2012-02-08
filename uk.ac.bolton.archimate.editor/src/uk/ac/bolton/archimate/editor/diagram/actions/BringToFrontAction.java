@@ -26,8 +26,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class BringToFrontAction extends SelectionAction {
     
-    public static final String ID = "BringToFrontAction";
-    public static final String TEXT = "Bring To Front";
+    public static final String ID = "BringToFrontAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.BringToFrontAction_0;
     
     public BringToFrontAction(IWorkbenchPart part) {
         super(part);
@@ -63,7 +63,7 @@ public class BringToFrontAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection) {
-        CompoundCommand result = new CompoundCommand("Bring To Front");
+        CompoundCommand result = new CompoundCommand(Messages.BringToFrontAction_0);
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
@@ -99,7 +99,7 @@ public class BringToFrontAction extends SelectionAction {
                 fNewPos = fParent.getChildren().size() - 1;
                 fOldPos = fParent.getChildren().indexOf(fDiagramObject);
             }
-            setLabel("Bring To Front");
+            setLabel(Messages.BringToFrontAction_0);
         }
 
         @Override

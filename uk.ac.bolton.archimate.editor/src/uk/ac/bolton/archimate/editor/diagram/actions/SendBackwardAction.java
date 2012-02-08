@@ -30,8 +30,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class SendBackwardAction extends SelectionAction {
     
-    public static final String ID = "SendBackwardAction";
-    public static final String TEXT = "Send Backward";
+    public static final String ID = "SendBackwardAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.SendBackwardAction_0;
     
     public SendBackwardAction(IWorkbenchPart part) {
         super(part);
@@ -76,7 +76,7 @@ public class SendBackwardAction extends SelectionAction {
     private Command createCommand(List<?> selection) {
         GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
         
-        CompoundCommand result = new CompoundCommand("Send Backward");
+        CompoundCommand result = new CompoundCommand(TEXT);
         
         for(Object object : selection) {
             if(object instanceof GraphicalEditPart) {
@@ -85,7 +85,7 @@ public class SendBackwardAction extends SelectionAction {
                 
                 // This can happen if we do things wrong
                 if(viewer != editPart.getViewer()) {
-                    System.err.println("Wrong selection for Viewer in " + getClass());
+                    System.err.println("Wrong selection for Viewer in " + getClass()); //$NON-NLS-1$
                 }
 
                 // Locked
@@ -124,7 +124,7 @@ public class SendBackwardAction extends SelectionAction {
         public SendBackwardCommand(IDiagramModelContainer parent, int oldPos) {
             fParent = parent;
             fOldPos = oldPos;
-            setLabel("Send Backward");
+            setLabel(TEXT);
         }
 
         @Override

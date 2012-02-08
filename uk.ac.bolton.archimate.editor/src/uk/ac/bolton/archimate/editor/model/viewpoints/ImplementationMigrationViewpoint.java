@@ -76,7 +76,7 @@ public class ImplementationMigrationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Implementation and Migration";
+        return Messages.ImplementationMigrationViewpoint_0;
     }
 
     @Override

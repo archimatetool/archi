@@ -34,12 +34,12 @@ public class BusinessProcessUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Business Process";
+        return Messages.BusinessProcessUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Process";
+        return Messages.BusinessProcessUIProvider_1;
     }
 
     @Override

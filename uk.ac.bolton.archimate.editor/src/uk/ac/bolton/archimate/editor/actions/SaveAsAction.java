@@ -25,7 +25,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 public class SaveAsAction extends AbstractModelSelectionAction {
     
     public SaveAsAction(IWorkbenchWindow window) {
-        super("Save &As...", window);
+        super(Messages.SaveAsAction_0, window);
 
         setActionDefinitionId(IWorkbenchCommandConstants.FILE_SAVE_AS);
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
@@ -41,7 +41,7 @@ public class SaveAsAction extends AbstractModelSelectionAction {
                 IEditorModelManager.INSTANCE.saveModelAs(model);
             }
             catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), "Error saving file", ex.getMessage());
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.SaveAsAction_1, ex.getMessage());
                 ex.printStackTrace();
             }
         }

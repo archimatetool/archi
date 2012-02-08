@@ -16,6 +16,6 @@ package uk.ac.bolton.archimate.canvas.preferences;
  */
 public interface IPreferenceConstants {
     
-    String CANVAS_EDITOR_ENABLED = "canvasEditorEnabled";
+    String CANVAS_EDITOR_ENABLED = "canvasEditorEnabled"; //$NON-NLS-1$
     
 }

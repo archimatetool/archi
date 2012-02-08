@@ -22,6 +22,6 @@ public interface ITreeModelView extends IModelSelectionView, IModelView {
 
     String ID = ArchimateEditorPlugin.PLUGIN_ID + ".treeModelView"; //$NON-NLS-1$
     String HELP_ID = "uk.ac.bolton.archimate.help.treeModelViewHelp"; //$NON-NLS-1$
-    String NAME = "Models";
+    String NAME = Messages.ITreeModelView_0;
     ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MODELS_16);
 }

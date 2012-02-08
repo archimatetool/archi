@@ -34,7 +34,7 @@ public class BusinessLocationUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Location";
+        return Messages.BusinessLocationUIProvider_0;
     }
 
     @Override

@@ -38,7 +38,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class FillColorSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -84,7 +84,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     }
     
     private void createColorControl(Composite parent) {
-        createCLabel(parent, "Fill colour:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.FillColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 2);
 
@@ -97,7 +97,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
 
         fDefaultColorButton = new Button(client, SWT.PUSH);
         getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
-        fDefaultColorButton.setText("Default");
+        fDefaultColorButton.setText(Messages.FillColorSection_1);
         fDefaultColorButton.setLayoutData(gd);
         fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -114,11 +114,11 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         if(element instanceof IColoredEditPart) {
             fDiagramModelObject = (IDiagramModelObject)((IColoredEditPart)element).getModel();
             if(fDiagramModelObject == null) {
-                throw new RuntimeException("Diagram Model Object was null");
+                throw new RuntimeException("Diagram Model Object was null"); //$NON-NLS-1$
             }
         }
         else {
-            throw new RuntimeException("Should have been an IColoredEditPart");
+            throw new RuntimeException("Should have been an IColoredEditPart"); //$NON-NLS-1$
         }
         
         refreshControls();

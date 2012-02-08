@@ -268,6 +268,6 @@ implements IArchimateDiagramEditor {
     }
 
     public String getSearchExpression(Object target) {
-        return "Diagram View";
+        return Messages.ArchimateDiagramEditor_0;
     }
 }

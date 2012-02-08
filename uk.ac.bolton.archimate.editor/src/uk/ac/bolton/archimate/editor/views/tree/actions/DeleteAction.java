@@ -25,7 +25,7 @@ public class DeleteAction extends ViewerAction {
     
     public DeleteAction(TreeModelViewer selectionProvider) {
         super(selectionProvider);
-        setText("&Delete");
+        setText(Messages.DeleteAction_0);
         
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setActionDefinitionId("org.eclipse.ui.edit.delete"); // Ensures key binding is displayed //$NON-NLS-1$
@@ -50,9 +50,10 @@ public class DeleteAction extends ViewerAction {
         if(cmdHandler.hasDiagramReferences()) {
             if(!MessageDialog.openQuestion(
                     Display.getDefault().getActiveShell(),
-                    "Delete",
-                    "One or more of the elements you have selected is referenced on one or more Views.\n\n" +
-                    "Are you sure you want to delete the selected element(s)?")) {
+                    Messages.DeleteAction_1,
+                    Messages.DeleteAction_2 +
+                    "\n\n" + //$NON-NLS-1$
+                    Messages.DeleteAction_3)) {
                         return;
             }
         }

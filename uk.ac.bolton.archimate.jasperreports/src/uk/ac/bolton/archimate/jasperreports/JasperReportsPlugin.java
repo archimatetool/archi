@@ -22,7 +22,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class JasperReportsPlugin extends AbstractUIPlugin implements IStartup {
     
-    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.jasperreports";
+    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.jasperreports"; //$NON-NLS-1$
 
     /**
      * The shared instance

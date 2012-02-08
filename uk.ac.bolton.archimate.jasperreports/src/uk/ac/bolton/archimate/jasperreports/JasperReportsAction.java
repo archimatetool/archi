@@ -26,7 +26,7 @@ public class JasperReportsAction extends AbstractModelSelectionDelegateAction {
         if(model != null) {
             WizardDialog dialog = new ExtendedWizardDialog(workbenchWindow.getShell(),
                     new ExportJasperReportsWizard(model),
-                    "ExportJasperReportsWizard");
+                    "ExportJasperReportsWizard"); //$NON-NLS-1$
             dialog.open();
         }
     }

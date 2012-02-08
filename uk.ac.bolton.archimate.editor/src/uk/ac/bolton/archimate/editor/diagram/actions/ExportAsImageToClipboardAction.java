@@ -26,7 +26,7 @@ import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
 public class ExportAsImageToClipboardAction extends Action {
     
     public static final String ID = "uk.ac.bolton.archimate.editor.action.exportAsImageToClipboard"; //$NON-NLS-1$
-    public static final String TEXT = "View As Image to Clipboard";
+    public static final String TEXT = Messages.ExportAsImageToClipboardAction_0;
 
     private GraphicalViewer fDiagramViewer;
 
@@ -45,6 +45,7 @@ public class ExportAsImageToClipboardAction extends Action {
         image.dispose();
         
         MessageDialog.openInformation(Display.getDefault().getActiveShell(),
-                "Export As Image to Clipboard", "Image exported to clipboard.");
+                Messages.ExportAsImageToClipboardAction_1,
+                Messages.ExportAsImageToClipboardAction_2);
     }
 }

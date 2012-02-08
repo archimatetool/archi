@@ -35,7 +35,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class HintContentSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -71,35 +71,35 @@ public class HintContentSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Hint Title:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.HintContentSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         Text text = createSingleTextControl(parent, SWT.NONE);
         fTextTitleControl = new PropertySectionTextControl(text, ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE) {
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Hint Title", fHintProvider,
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.HintContentSection_1, fHintProvider,
                             ICanvasPackage.Literals.HINT_PROVIDER__HINT_TITLE, newText));
                     fIsExecutingCommand = false;
                 }
             }
         };
-        fTextTitleControl.setHint("Add a hint title here");
+        fTextTitleControl.setHint(Messages.HintContentSection_2);
         
-        createCLabel(parent, "Hint Content:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.HintContentSection_3, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT) {
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Hint Content", fHintProvider,
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.HintContentSection_4, fHintProvider,
                             ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT, newText));
                     fIsExecutingCommand = false;
                 }
             }
         };
-        fTextContentControl.setHint("Add some HTML content here");
+        fTextContentControl.setHint(Messages.HintContentSection_5);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextContentControl.getTextControl(), HELP_ID);
@@ -114,7 +114,7 @@ public class HintContentSection extends AbstractArchimatePropertySection {
             fHintProvider = (IHintProvider)((EditPart)element).getModel();
         }
         else {
-            System.err.println("Hint Provider was null in " + getClass());
+            System.err.println("Hint Provider was null in " + getClass()); //$NON-NLS-1$
         }
         
         refreshControls();

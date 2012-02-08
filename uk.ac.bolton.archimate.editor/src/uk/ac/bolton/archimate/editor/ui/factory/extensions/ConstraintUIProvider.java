@@ -37,7 +37,7 @@ public class ConstraintUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Constraint";
+        return Messages.ConstraintUIProvider_0;
     }
 
     @Override

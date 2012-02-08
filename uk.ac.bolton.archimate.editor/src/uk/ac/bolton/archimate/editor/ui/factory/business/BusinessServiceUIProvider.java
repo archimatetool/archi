@@ -34,12 +34,12 @@ public class BusinessServiceUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Business Service";
+        return Messages.BusinessServiceUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Service";
+        return Messages.BusinessServiceUIProvider_1;
     }
 
     @Override

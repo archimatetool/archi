@@ -32,7 +32,7 @@ public class DeleteElementsCompoundCommand extends NonNotifyingCompoundCommand {
 
     @Override
     public String getLabel() {
-        return getCommands().size() > 1 ? "Delete Elements" : super.getLabel();
+        return getCommands().size() > 1 ? Messages.DeleteElementsCompoundCommand_0 : super.getLabel();
     }
 
     @Override

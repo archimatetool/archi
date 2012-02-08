@@ -25,7 +25,7 @@ import uk.ac.bolton.archimate.editor.utils.StringUtils;
  */
 public final class FontFactory {
     
-    private static final String DEFAULT_VIEW_FONT_NAME = "defaultViewFont";
+    private static final String DEFAULT_VIEW_FONT_NAME = "defaultViewFont"; //$NON-NLS-1$
     
     /**
      * Font Registry
@@ -37,9 +37,9 @@ public final class FontFactory {
      */
     private static FontRegistry windowsFontRegistry = new FontRegistry();
     
-    public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold("");
+    public static Font SystemFontBold = JFaceResources.getFontRegistry().getBold(""); //$NON-NLS-1$
     
-    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic("");
+    public static Font SystemFontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
     
     /**
      * @param fontName
@@ -111,19 +111,19 @@ public final class FontFactory {
      */
     public static FontData getDefaultViewOSFontData() {
         // Default
-        FontData fd = new FontData("Arial", 9, SWT.NORMAL);
+        FontData fd = new FontData("Arial", 9, SWT.NORMAL); //$NON-NLS-1$
 
         // Windows
         if(PlatformUtils.isWindows()) {
-            fd = new FontData("Segoe UI", 9, SWT.NORMAL);
+            fd = new FontData("Segoe UI", 9, SWT.NORMAL); //$NON-NLS-1$
         }
         // Linux
         else if(PlatformUtils.isLinux()) {
-            fd = new FontData("Arial", 9, SWT.NORMAL);
+            fd = new FontData("Arial", 9, SWT.NORMAL); //$NON-NLS-1$
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("LucidaGrande", 12, SWT.NORMAL);
+            fd = new FontData("LucidaGrande", 12, SWT.NORMAL); //$NON-NLS-1$
         }
 
         return fd;

@@ -26,7 +26,7 @@ public class DeleteFolderCommand extends Command {
     public DeleteFolderCommand(IFolder folder) {
         fParent = (IFolderContainer)folder.eContainer();
         fFolder = folder;
-        setLabel("Delete folder");
+        setLabel(Messages.DeleteFolderCommand_0);
     }
     
     @Override

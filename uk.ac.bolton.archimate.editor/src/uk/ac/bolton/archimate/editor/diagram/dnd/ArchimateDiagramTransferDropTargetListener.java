@@ -19,7 +19,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class ArchimateDiagramTransferDropTargetListener extends AbstractDiagramTransferDropTargetListener {
     
-    public static final String ADD_ELEMENT_CONNECTIONS = "add_element_connections";
+    public static final String ADD_ELEMENT_CONNECTIONS = "add_element_connections"; //$NON-NLS-1$
 
     public ArchimateDiagramTransferDropTargetListener(EditPartViewer viewer) {
         super(viewer);

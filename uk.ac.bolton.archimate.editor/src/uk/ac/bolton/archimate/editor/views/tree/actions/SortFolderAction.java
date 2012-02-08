@@ -25,7 +25,7 @@ public class SortFolderAction extends ViewerAction {
     
     public SortFolderAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
-        setText("Sort elements");
+        setText(Messages.SortFolderAction_0);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SORT_16));
     }
     

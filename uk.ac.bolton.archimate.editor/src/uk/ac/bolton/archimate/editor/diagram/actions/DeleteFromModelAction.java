@@ -37,8 +37,8 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class DeleteFromModelAction extends SelectionAction {
     
-    public static final String ID = "DeleteFromModelAction";
-    public static final String TEXT = "Delete from Model";
+    public static final String ID = "DeleteFromModelAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.DeleteFromModelAction_0;
     
     public DeleteFromModelAction(IWorkbenchPart part) {
         super(part);

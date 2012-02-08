@@ -160,16 +160,16 @@ implements INavigatorView, ISelectionListener {
     private void makeActions() {
         fActionProperties = new PropertiesAction(getViewer());
         
-        fActionPinContent = new Action("Pin to selection", IAction.AS_CHECK_BOX) {
+        fActionPinContent = new Action(Messages.NavigatorView_0, IAction.AS_CHECK_BOX) {
             {
-                setToolTipText("Pins the content to the current selection");
+                setToolTipText(Messages.NavigatorView_1);
                 setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PIN_16));
             }
         };
         
-        fActionNavDown = new Action("Down", IAction.AS_RADIO_BUTTON) {
+        fActionNavDown = new Action(Messages.NavigatorView_2, IAction.AS_RADIO_BUTTON) {
             {
-                setToolTipText("Show target relations");
+                setToolTipText(Messages.NavigatorView_3);
                 setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NAVIGATOR_DOWNWARD_16));
                 setChecked(true);
             }
@@ -181,9 +181,9 @@ implements INavigatorView, ISelectionListener {
             }
         };
         
-        fActionNavUp = new Action("Up", IAction.AS_RADIO_BUTTON) {
+        fActionNavUp = new Action(Messages.NavigatorView_4, IAction.AS_RADIO_BUTTON) {
             {
-                setToolTipText("Show source relations");
+                setToolTipText(Messages.NavigatorView_5);
                 setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NAVIGATOR_UPWARD_16));
             }
             
@@ -379,6 +379,6 @@ implements INavigatorView, ISelectionListener {
     }
 
     public String getSearchExpression(Object target) {
-        return "Navigator Window";
+        return Messages.NavigatorView_6;
     }
 }

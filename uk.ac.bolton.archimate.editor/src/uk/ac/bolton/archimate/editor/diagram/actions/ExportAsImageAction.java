@@ -11,6 +11,7 @@ import java.io.File;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -29,7 +30,7 @@ import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
 public class ExportAsImageAction extends Action {
     
     public static final String ID = "ExportAsImageAction"; //$NON-NLS-1$
-    public static final String TEXT = "View As Image...";
+    public static final String TEXT = Messages.ExportAsImageAction_0;
 
     private GraphicalViewer fDiagramViewer;
 
@@ -53,22 +54,22 @@ public class ExportAsImageAction extends Action {
             ImageLoader loader = new ImageLoader();
             loader.data = new ImageData[]{ image.getImageData() };
 
-            if(file.endsWith(".bmp")) {
+            if(file.endsWith(".bmp")) { //$NON-NLS-1$
                 loader.save(file, SWT.IMAGE_BMP);
             }
-            else if(file.endsWith(".jpg") || file.endsWith(".jpeg")) {
+            else if(file.endsWith(".jpg") || file.endsWith(".jpeg")) { //$NON-NLS-1$ //$NON-NLS-2$
                 loader.save(file, SWT.IMAGE_JPEG);
             }
-            else if(file.endsWith(".png")) {
+            else if(file.endsWith(".png")) { //$NON-NLS-1$
                 loader.save(file, SWT.IMAGE_PNG);
             }
             else {
-                file = file + ".png";
+                file = file + ".png"; //$NON-NLS-1$
                 loader.save(file, SWT.IMAGE_PNG);
             }
         }
         catch(Exception ex) {
-            MessageDialog.openError(Display.getCurrent().getActiveShell(), "Export As Image", ex.getMessage());
+            MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.ExportAsImageAction_1, ex.getMessage());
         }
         finally {
             if(image != null) {
@@ -83,8 +84,8 @@ public class ExportAsImageAction extends Action {
      */
     private String askSaveFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-        dialog.setText("Export View As Image");
-        dialog.setFilterExtensions(new String[] { "*.png", "*.jpg;*.jpeg", "*.bmp" } );
+        dialog.setText(Messages.ExportAsImageAction_2);
+        dialog.setFilterExtensions(new String[] { "*.png", "*.jpg;*.jpeg", "*.bmp" } );  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
         
         String path = dialog.open();
         if(path == null) {
@@ -94,18 +95,18 @@ public class ExportAsImageAction extends Action {
         // Only Windows adds the extension by default
         switch(dialog.getFilterIndex()) {
             case 0:
-                if(!path.endsWith(".png")) {
-                    path += ".png";
+                if(!path.endsWith(".png")) { //$NON-NLS-1$
+                    path += ".png"; //$NON-NLS-1$
                 }
                 break;
             case 1:
-                if(!path.endsWith(".jpg") && !path.endsWith(".jpeg")) {
-                    path += ".jpg";
+                if(!path.endsWith(".jpg") && !path.endsWith(".jpeg")) { //$NON-NLS-1$ //$NON-NLS-2$
+                    path += ".jpg"; //$NON-NLS-1$
                 }
                 break;
             case 2:
-                if(!path.endsWith(".bmp")) {
-                    path += ".bmp";
+                if(!path.endsWith(".bmp")) { //$NON-NLS-1$
+                    path += ".bmp"; //$NON-NLS-1$
                 }
                 break;
 
@@ -116,9 +117,9 @@ public class ExportAsImageAction extends Action {
         // Make sure the file does not already exist
         File file = new File(path);
         if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), "Export As Image",
-                    "'" + file +
-                    "' already exists. Are you sure you want to overwrite it?");
+            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    Messages.ExportAsImageAction_1,
+                    NLS.bind(Messages.ExportAsImageAction_3, file));
             if(!result) {
                 return null;
             }

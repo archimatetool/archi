@@ -275,7 +275,7 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionDuplicate = new DuplicateAction(getViewer());
         
-        fActionToggleSearchField = new Action("", IAction.AS_CHECK_BOX) {
+        fActionToggleSearchField = new Action("", IAction.AS_CHECK_BOX) { //$NON-NLS-1$
             @Override
             public void run() {
                 if(isChecked()) {
@@ -286,7 +286,7 @@ implements ITreeModelView, IUIRequestListener {
                 }
             };
         };
-        fActionToggleSearchField.setToolTipText("Search");
+        fActionToggleSearchField.setToolTipText(Messages.TreeModelView_0);
         fActionToggleSearchField.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SEARCH_16));
     }
     
@@ -339,7 +339,7 @@ implements ITreeModelView, IUIRequestListener {
             return;
         }
         
-        MenuManager newMenu = new MenuManager("New"); //$NON-NLS-1$
+        MenuManager newMenu = new MenuManager(Messages.TreeModelView_1);
         manager.add(newMenu);
 
         manager.add(new Separator());
@@ -354,7 +354,7 @@ implements ITreeModelView, IUIRequestListener {
         // Selected Diagram
         if(selected instanceof IDiagramModel) {
             manager.add(fActionOpenDiagram);
-            manager.add(new Separator("open"));
+            manager.add(new Separator("open")); //$NON-NLS-1$
         }
         
         if(selected instanceof IFolder) {
@@ -371,7 +371,7 @@ implements ITreeModelView, IUIRequestListener {
         }
         
         newMenu.add(new Separator());
-        getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer());
+        getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer()); //$NON-NLS-1$
        
         if(!isEmpty) {
             manager.add(new Separator());
@@ -556,6 +556,6 @@ implements ITreeModelView, IUIRequestListener {
     }
 
     public String getSearchExpression(Object target) {
-        return "Model Tree";
+        return Messages.TreeModelView_2;
     }
 }

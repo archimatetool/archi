@@ -142,15 +142,15 @@ public class TreeModelViewActionFactory {
     }
     
     private IAction createNewArchimateDiagramAction(final IFolder folder) {
-        IAction action = new Action("&ArchiMate View") {
+        IAction action = new Action(Messages.TreeModelViewActionFactory_0) {
             @Override
             public void run() {
                 // Create a new Diagram Model, set its name
                 IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-                diagramModel.setName("New ArchiMate View");
+                diagramModel.setName(Messages.TreeModelViewActionFactory_1);
                 
                 // Execute Command
-                Command cmd = new NewDiagramCommand(folder, diagramModel, "New &ArchiMate View");
+                Command cmd = new NewDiagramCommand(folder, diagramModel, Messages.TreeModelViewActionFactory_1);
                 CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
@@ -161,15 +161,15 @@ public class TreeModelViewActionFactory {
     }
     
     private IAction createNewSketchAction(final IFolder folder) {
-        IAction action = new Action("&Sketch View") {
+        IAction action = new Action(Messages.TreeModelViewActionFactory_2) {
             @Override
             public void run() {
                 // Create a new Diagram Model, set its name
                 ISketchModel sketchModel = IArchimateFactory.eINSTANCE.createSketchModel();
-                sketchModel.setName("New Sketch");
+                sketchModel.setName(Messages.TreeModelViewActionFactory_3);
                 
                 // Execute Command
-                Command cmd = new NewDiagramCommand(folder, sketchModel, "New Sketch");
+                Command cmd = new NewDiagramCommand(folder, sketchModel, Messages.TreeModelViewActionFactory_3);
                 CommandStack commandStack = (CommandStack)folder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }

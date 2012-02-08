@@ -34,12 +34,12 @@ public class InfluenceConnectionUIProvider extends AbstractConnectionUIProvider 
 
     @Override
     public String getDefaultName() {
-        return "Influence relation";
+        return Messages.InfluenceConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Influence";
+        return Messages.InfluenceConnectionUIProvider_1;
     }
 
     @Override

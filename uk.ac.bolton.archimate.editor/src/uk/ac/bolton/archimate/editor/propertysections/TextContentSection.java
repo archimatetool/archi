@@ -30,7 +30,7 @@ import uk.ac.bolton.archimate.model.ITextContent;
  */
 public class TextContentSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -64,7 +64,7 @@ public class TextContentSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Content:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.TextContentSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         
@@ -73,13 +73,13 @@ public class TextContentSection extends AbstractArchimatePropertySection {
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Content", fTextContent,
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.TextContentSection_1, fTextContent,
                                                 IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, newText));
                     fIsExecutingCommand = false;
                 }
             }
         };
-        fTextContentControl.setHint("Add some content text here");
+        fTextContentControl.setHint(Messages.TextContentSection_2);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextContentControl.getTextControl(), HELP_ID);
@@ -95,7 +95,7 @@ public class TextContentSection extends AbstractArchimatePropertySection {
         }
 
         if(fTextContent == null) {
-            throw new RuntimeException("Text Content was null");
+            throw new RuntimeException("Text Content was null"); //$NON-NLS-1$
         }
         
         refreshControls();

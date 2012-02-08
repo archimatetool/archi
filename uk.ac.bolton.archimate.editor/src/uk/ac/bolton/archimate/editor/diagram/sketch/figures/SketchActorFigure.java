@@ -94,7 +94,7 @@ public class SketchActorFigure extends AbstractLabelFigure {
         
         String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
         tooltip.setText(text);
-        tooltip.setType("Type: Actor");
+        tooltip.setType(Messages.SketchActorFigure_0);
         
         return tooltip;
     }

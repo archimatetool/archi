@@ -35,16 +35,16 @@ import uk.ac.bolton.jdom.JDOMUtils;
  */
 public class ArchimateTemplateManager extends TemplateManager {
     
-    public static final String ARCHIMATE_TEMPLATE_FILE_EXTENSION = ".architemplate";
+    public static final String ARCHIMATE_TEMPLATE_FILE_EXTENSION = ".architemplate"; //$NON-NLS-1$
     
-    private File fUserTemplatesFile = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "templates.xml");
+    private File fUserTemplatesFile = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "templates.xml"); //$NON-NLS-1$
     
     public ArchimateTemplateManager() {
     }
     
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {
-        ITemplateGroup group = new TemplateGroup("Installed Templates");
+        ITemplateGroup group = new TemplateGroup(Messages.ArchimateTemplateManager_2);
         File folder = ArchimateEditorTemplatesPlugin.INSTANCE.getTemplatesFolder();
         if(folder.exists()) {
             for(File file : folder.listFiles()) {
@@ -74,7 +74,7 @@ public class ArchimateTemplateManager extends TemplateManager {
             return new ArchimateModelTemplate(null);
         }
         else {
-            throw new IOException("Wrong template format.");
+            throw new IOException(Messages.ArchimateTemplateManager_0);
         }
     }
 

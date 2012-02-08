@@ -92,7 +92,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     private IAction fActionDelete, fActionRename;
 
     public UserPropertiesManagerDialog(Shell parentShell, IArchimateModel model) {
-        super(parentShell, "UserPropertiesManagerDialog");
+        super(parentShell, "UserPropertiesManagerDialog"); //$NON-NLS-1$
         setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
 
@@ -104,7 +104,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("Properties Manager");
+        shell.setText(Messages.UserPropertiesManagerDialog_0);
     }
 
     @Override
@@ -119,8 +119,8 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
-        setTitle("Manage Global User Properties");
-        setMessage("Delete or Rename User Properties to change all occurences in the Model.");
+        setTitle(Messages.UserPropertiesManagerDialog_1);
+        setMessage(Messages.UserPropertiesManagerDialog_2);
 
         Composite composite = (Composite)super.createDialogArea(parent);
 
@@ -133,7 +133,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         createButtonPanel(client);
 
         // Delete Action
-        fActionDelete = new Action("Delete") {
+        fActionDelete = new Action(Messages.UserPropertiesManagerDialog_3) {
             @Override
             public void run() {
                 deleteSelectedPropertyKeys();
@@ -152,7 +152,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         fActionDelete.setEnabled(false);
 
         // Rename Action
-        fActionRename = new Action("Rename") {
+        fActionRename = new Action(Messages.UserPropertiesManagerDialog_4) {
             @Override
             public void run() {
                 renameSelectedPropertyKey();
@@ -160,7 +160,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
 
             @Override
             public String getToolTipText() {
-                return "Rename";
+                return Messages.UserPropertiesManagerDialog_5;
             }
         };
         fActionRename.setEnabled(false);
@@ -208,16 +208,16 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
 
         // Columns
         TableViewerColumn columnOldKey = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
-        columnOldKey.getColumn().setText("Property");
+        columnOldKey.getColumn().setText(Messages.UserPropertiesManagerDialog_6);
         tableLayout.setColumnData(columnOldKey.getColumn(), new ColumnWeightData(40, true));
 
         TableViewerColumn columnNewKey = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
-        columnNewKey.getColumn().setText("New Name");
+        columnNewKey.getColumn().setText(Messages.UserPropertiesManagerDialog_7);
         tableLayout.setColumnData(columnNewKey.getColumn(), new ColumnWeightData(40, true));
         columnNewKey.setEditingSupport(new KeyEditingSupport(fTableViewer));
 
         TableViewerColumn columnUsedNumber = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
-        columnUsedNumber.getColumn().setText("# Used");
+        columnUsedNumber.getColumn().setText("# " + Messages.UserPropertiesManagerDialog_8); //$NON-NLS-1$
         tableLayout.setColumnData(columnUsedNumber.getColumn(), new ColumnWeightData(20, true));
 
         // Content Provider
@@ -247,7 +247,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
             }
         });
 
-        fTableViewer.setInput(""); // anything will do
+        fTableViewer.setInput(""); // anything will do //$NON-NLS-1$
     }
 
     private void createButtonPanel(Composite parent) {
@@ -262,7 +262,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         client.setLayoutData(gd);
 
         fButtonDelete = new Button(client, SWT.PUSH);
-        fButtonDelete.setText("Delete");
+        fButtonDelete.setText(Messages.UserPropertiesManagerDialog_9);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fButtonDelete.setLayoutData(gd);
         fButtonDelete.addSelectionListener(new SelectionAdapter() {
@@ -274,7 +274,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         fButtonDelete.setEnabled(false);
 
         fButtonRename = new Button(client, SWT.PUSH);
-        fButtonRename.setText("Rename");
+        fButtonRename.setText(Messages.UserPropertiesManagerDialog_10);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fButtonRename.setLayoutData(gd);
         fButtonRename.addSelectionListener(new SelectionAdapter() {
@@ -322,7 +322,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
     protected void okPressed() {
         super.okPressed();
 
-        CompoundCommand compoundCmd = new CompoundCommand("Change Properties") {
+        CompoundCommand compoundCmd = new CompoundCommand(Messages.UserPropertiesManagerDialog_11) {
             @Override
             public void execute() {
                 BusyIndicator.showWhile(null, new Runnable() {
@@ -442,7 +442,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
                     return entry.getValue().newName;
 
                 case 2:
-                    return "" + entry.getValue().usedTimes;
+                    return "" + entry.getValue().usedTimes; //$NON-NLS-1$
 
                 default:
                     return null;
@@ -525,7 +525,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
             this.property = property;
             this.oldName = oldName;
             this.newName = newName;
-            setLabel("Rename Property");
+            setLabel(Messages.UserPropertiesManagerDialog_12);
         }
 
         @Override
@@ -555,7 +555,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         DeletePropertyKeyCommand(EList<IProperty> properties, IProperty property) {
             this.properties = properties;
             this.property = property;
-            setLabel("Delete Property");
+            setLabel(Messages.UserPropertiesManagerDialog_13);
         }
 
         @Override

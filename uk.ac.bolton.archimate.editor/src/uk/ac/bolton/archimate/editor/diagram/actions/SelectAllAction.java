@@ -32,8 +32,8 @@ public class SelectAllAction extends Action {
      */
     public SelectAllAction(IWorkbenchPart part) {
         this.part = part;
-        setText("&Select All");
-        setToolTipText("Select All");
+        setText(Messages.SelectAllAction_0);
+        setToolTipText(Messages.SelectAllAction_1);
         setId(ActionFactory.SELECT_ALL.getId());
     }
 

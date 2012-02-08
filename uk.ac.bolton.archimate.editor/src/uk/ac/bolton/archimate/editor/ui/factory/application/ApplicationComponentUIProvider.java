@@ -34,12 +34,12 @@ public class ApplicationComponentUIProvider extends AbstractApplicationUIProvide
 
     @Override
     public String getDefaultName() {
-        return "Application Component";
+        return Messages.ApplicationComponentUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Component";
+        return Messages.ApplicationComponentUIProvider_1;
     }
 
     @Override

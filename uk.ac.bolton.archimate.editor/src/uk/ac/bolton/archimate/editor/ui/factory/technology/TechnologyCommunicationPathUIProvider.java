@@ -34,7 +34,7 @@ public class TechnologyCommunicationPathUIProvider extends AbstractTechnologyUIP
 
     @Override
     public String getDefaultName() {
-        return "Communication Path";
+        return Messages.TechnologyCommunicationPathUIProvider_0;
     }
 
     @Override

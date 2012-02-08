@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 public class TextPositionCommand extends EObjectFeatureCommand {
     
     public TextPositionCommand(IFontAttribute object, int value) {
-        super("Change text position", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION, value);
+        super(Messages.TextPositionCommand_0, object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION, value);
     }
 }

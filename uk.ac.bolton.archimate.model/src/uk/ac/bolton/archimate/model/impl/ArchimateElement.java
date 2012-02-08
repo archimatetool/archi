@@ -80,7 +80,7 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
      * @generated
      * @ordered
      */
-    protected static final String NAME_EDEFAULT = "";
+    protected static final String NAME_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -100,7 +100,7 @@ public abstract class ArchimateElement extends EObjectImpl implements IArchimate
      * @generated
      * @ordered
      */
-    protected static final String DOCUMENTATION_EDEFAULT = "";
+    protected static final String DOCUMENTATION_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.

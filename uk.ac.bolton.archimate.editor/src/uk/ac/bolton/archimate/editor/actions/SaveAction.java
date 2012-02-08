@@ -52,7 +52,7 @@ public class SaveAction extends AbstractModelSelectionAction {
     };
     
     public SaveAction(IWorkbenchWindow window) {
-        super("&Save", window);
+        super(Messages.SaveAction_0, window);
         
         setActionDefinitionId(IWorkbenchCommandConstants.FILE_SAVE);
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
@@ -70,7 +70,7 @@ public class SaveAction extends AbstractModelSelectionAction {
                 IEditorModelManager.INSTANCE.saveModel(model);
             }
             catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), "Error saving file", ex.getMessage());
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.SaveAction_1, ex.getMessage());
                 ex.printStackTrace();
             }
         }

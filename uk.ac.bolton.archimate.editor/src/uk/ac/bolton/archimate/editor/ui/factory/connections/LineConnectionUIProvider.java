@@ -34,7 +34,7 @@ public class LineConnectionUIProvider extends AbstractConnectionUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Connection";
+        return Messages.LineConnectionUIProvider_0;
     }
 
     @Override

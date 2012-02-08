@@ -48,13 +48,13 @@ extends Command {
     public void setNewSource(IDiagramModelObject source) {
         fNewSource = source;
         fNewTarget = null;
-        setLabel("Change Source Connection");
+        setLabel(Messages.ReconnectDiagramConnectionCommand_0);
     }
 
     public void setNewTarget(IDiagramModelObject target) {
         fNewTarget = target;
         fNewSource = null;
-        setLabel("Change Target Connection");
+        setLabel(Messages.ReconnectDiagramConnectionCommand_1);
     }
 
     @Override
@@ -99,7 +99,7 @@ extends Command {
             fConnection.connect(fOldSource, fNewTarget);
         }
         else {
-            throw new IllegalStateException("Should not happen");
+            throw new IllegalStateException("Should not happen"); //$NON-NLS-1$
         }
         
         // If it's a circular connection, add some bendpoints if there are none

@@ -29,7 +29,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class DiagramConnectionNameDocumentationSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -71,8 +71,8 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this connection here");
-        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this connection here");
+        fTextName = createNameControl(parent, Messages.DiagramConnectionNameDocumentationSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.DiagramConnectionNameDocumentationSection_1);
 
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -84,7 +84,7 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
             fConnection = (IDiagramModelConnection)((IAdaptable)element).getAdapter(IDiagramModelConnection.class);
         }
         else {
-            throw new RuntimeException("Should have been an Edit Part");
+            throw new RuntimeException("Should have been an Edit Part"); //$NON-NLS-1$
         }
         
         refreshControls();

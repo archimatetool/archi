@@ -29,7 +29,7 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     protected FormatPainterTool tool;
     
     public FormatPainterToolEntry() {
-        super("", "", null, null);
+        super("", "", null, null); //$NON-NLS-1$ //$NON-NLS-2$
         setToolClass(FormatPainterTool.class);
         setLabels();
         setIcons();
@@ -77,14 +77,19 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     
     protected void setLabels() {
         if(FormatPainterInfo.INSTANCE.isFat()) {
-            setLabel("Format Painter (primed)");
-            String type = (FormatPainterInfo.INSTANCE.getPaintFormat().sourceComponent instanceof IDiagramModelConnection) ?
-                    "a connection" : "an element";
-            setDescription("Click on " + type + " to paste the format.\nDouble-click this tool or the canvas to clear");
+            setLabel(Messages.FormatPainterToolEntry_0);
+            
+            String description1 = Messages.FormatPainterToolEntry_1;
+            String description2 = Messages.FormatPainterToolEntry_2;
+            String description = (FormatPainterInfo.INSTANCE.getPaintFormat().sourceComponent instanceof IDiagramModelConnection) ?
+                    description1 : description2;
+            
+            description += "\n" + Messages.FormatPainterToolEntry_3; //$NON-NLS-1$
+            setDescription(description);
         }
         else {
-            setLabel("Format Painter (empty)");
-            setDescription("Click on an element or connection to copy its formatting");
+            setLabel(Messages.FormatPainterToolEntry_4);
+            setDescription(Messages.FormatPainterToolEntry_5);
         }
     }
     

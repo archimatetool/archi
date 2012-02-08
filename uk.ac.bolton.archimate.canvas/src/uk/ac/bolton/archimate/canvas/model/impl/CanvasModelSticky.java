@@ -117,7 +117,7 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
      * @generated
      * @ordered
      */
-    protected static final String NOTES_EDEFAULT = "";
+    protected static final String NOTES_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getNotes() <em>Notes</em>}' attribute.

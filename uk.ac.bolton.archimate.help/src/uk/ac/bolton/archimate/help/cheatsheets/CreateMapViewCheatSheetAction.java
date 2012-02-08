@@ -39,29 +39,29 @@ implements ICheatSheetAction {
     public void run(String[] params, ICheatSheetManager manager) {
         IViewPart viewPart = ViewManager.showViewPart(ITreeModelView.ID, true);
         if(viewPart == null) {
-            MessageDialog.openWarning(Display.getCurrent().getActiveShell(), "Create Map View",
-                    "Could not open the Model Tree View.");
+            MessageDialog.openWarning(Display.getCurrent().getActiveShell(), Messages.CreateMapViewCheatSheetAction_0,
+                    Messages.CreateMapViewCheatSheetAction_1);
             return;
         }
         
         IArchimateModel model = (IArchimateModel)viewPart.getAdapter(IArchimateModel.class);
         if(model == null) {
-            MessageDialog.openWarning(Display.getCurrent().getActiveShell(), "Create Map View",
-                    "Could not locate a model in the tree.\n\nPlease select one and try again.");
+            MessageDialog.openWarning(Display.getCurrent().getActiveShell(), Messages.CreateMapViewCheatSheetAction_2,
+                    Messages.CreateMapViewCheatSheetAction_3);
             return;
         }
         
         EList<IDiagramModel> diagramModels = model.getDiagramModels();
         if(diagramModels.size() < 2) {
-            MessageDialog.openWarning(Display.getCurrent().getActiveShell(), "Create Map View",
-                    "There are not enough views in the model. There should be at least two.");
+            MessageDialog.openWarning(Display.getCurrent().getActiveShell(), Messages.CreateMapViewCheatSheetAction_4,
+                    Messages.CreateMapViewCheatSheetAction_5);
             return;
         }
         
         CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
         if(stack != null) {
             IArchimateDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-            diagramModel.setName("Map View");
+            diagramModel.setName(Messages.CreateMapViewCheatSheetAction_6);
             
             int y = 20; 
             
@@ -84,7 +84,7 @@ implements ICheatSheetAction {
         IDiagramModel fDiagramModel;
         
         NewViewCommand(IFolder parent, IDiagramModel model) {
-            super("Create Map View");
+            super(Messages.CreateMapViewCheatSheetAction_7);
             fParent = parent;
             fDiagramModel = model;
         }

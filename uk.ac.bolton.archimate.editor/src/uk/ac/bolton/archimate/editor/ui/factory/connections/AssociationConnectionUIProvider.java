@@ -34,12 +34,12 @@ public class AssociationConnectionUIProvider extends AbstractConnectionUIProvide
 
     @Override
     public String getDefaultName() {
-        return "Association relation";
+        return Messages.AssociationConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Association";
+        return Messages.AssociationConnectionUIProvider_1;
     }
 
     @Override

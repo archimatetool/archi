@@ -36,7 +36,7 @@ public class SearchTextWidget extends Composite {
     private ModifyListener fModifyListener = new ModifyListener() {
         public void modifyText(ModifyEvent e) {
             String text = getText();
-            if("".equals(text) && fCancelLabel != null && !fCancelLabel.isDisposed()) {
+            if("".equals(text) && fCancelLabel != null && !fCancelLabel.isDisposed()) { //$NON-NLS-1$
                 fCancelLabel.dispose();
                 fCancelLabel = null;
                 layout();
@@ -52,7 +52,7 @@ public class SearchTextWidget extends Composite {
                 fCancelLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseUp(MouseEvent e) {
-                        fTextControl.setText("");
+                        fTextControl.setText(""); //$NON-NLS-1$
                         fTextControl.setFocus();
                     };
                 });

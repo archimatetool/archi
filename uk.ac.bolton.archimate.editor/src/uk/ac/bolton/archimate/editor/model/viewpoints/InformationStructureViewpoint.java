@@ -44,7 +44,7 @@ public class InformationStructureViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Information Structure";
+        return Messages.InformationStructureViewpoint_0;
     }
 
     @Override

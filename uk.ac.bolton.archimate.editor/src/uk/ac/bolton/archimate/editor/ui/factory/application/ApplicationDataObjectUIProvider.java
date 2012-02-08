@@ -34,7 +34,7 @@ public class ApplicationDataObjectUIProvider extends AbstractApplicationUIProvid
 
     @Override
     public String getDefaultName() {
-        return "Data Object";
+        return Messages.ApplicationDataObjectUIProvider_0;
     }
 
     @Override

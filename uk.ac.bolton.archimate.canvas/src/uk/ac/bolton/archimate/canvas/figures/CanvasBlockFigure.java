@@ -24,7 +24,6 @@ import org.eclipse.swt.graphics.Color;
 
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelBlock;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;

@@ -170,7 +170,7 @@ extends AbstractDiagramModelObjectFigure {
             fTooltip.setText(notes);
         }
         else {
-            fTooltip.setText("Sticky");
+            fTooltip.setText(Messages.CanvasStickyFigure_0);
         }
         
         return fTooltip;

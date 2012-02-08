@@ -34,12 +34,12 @@ public class SpecialisationConnectionUIProvider extends AbstractConnectionUIProv
 
     @Override
     public String getDefaultName() {
-        return "Specialisation relation";
+        return Messages.SpecialisationConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Specialisation";
+        return Messages.SpecialisationConnectionUIProvider_1;
     }
 
     @Override

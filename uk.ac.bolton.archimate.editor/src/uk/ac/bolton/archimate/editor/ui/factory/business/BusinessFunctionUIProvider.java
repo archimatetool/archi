@@ -34,12 +34,12 @@ public class BusinessFunctionUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Business Function";
+        return Messages.BusinessFunctionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Function";
+        return Messages.BusinessFunctionUIProvider_1;
     }
 
     @Override

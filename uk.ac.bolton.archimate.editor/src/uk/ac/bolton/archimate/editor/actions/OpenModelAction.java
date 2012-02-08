@@ -11,6 +11,7 @@ import java.io.File;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
@@ -33,16 +34,16 @@ implements IWorkbenchAction
 {
     
     public OpenModelAction(IWorkbenchWindow window) {
-        setText("&Open...");
-        setToolTipText("Open Model");
-        setId("uk.ac.bolton.archimate.editor.action.openModel");
+        setText(Messages.OpenModelAction_0);
+        setToolTipText(Messages.OpenModelAction_1);
+        setId("uk.ac.bolton.archimate.editor.action.openModel"); //$NON-NLS-1$
         setActionDefinitionId(getId()); // register key binding
     }
     
     @Override
     public void run() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
-        dialog.setFilterExtensions(new String[] { IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } );
+        dialog.setFilterExtensions(new String[] { IEditorModelManager.ARCHIMATE_FILE_WILDCARD, "*.xml", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             final File file = new File(path);
@@ -51,10 +52,9 @@ implements IWorkbenchAction
             IArchimateModel model = getModel(file);
             if(model != null) {
                 MessageDialog.openInformation(Display.getCurrent().getActiveShell(),
-                                                "Open Model",
-                                                "File '" + file.getName() + "' " +
-                                                "is already open." +
-                                                " Its model name is '" + model.getName() + "'.");
+                                                Messages.OpenModelAction_2,
+                                                NLS.bind(Messages.OpenModelAction_3,
+                                                        file.getName(), model.getName()));
                 return;
             }
             

@@ -27,7 +27,7 @@ public class ShowToolbarAction extends Action {
         Display.getCurrent().asyncExec(new Runnable() {
             @Override
             public void run() {
-                setText(isVisible() ? "Hide Toolbar" : "Show Toolbar");
+                setText(isVisible() ? Messages.ShowToolbarAction_0 : Messages.ShowToolbarAction_1);
             }
         });
     }
@@ -36,8 +36,8 @@ public class ShowToolbarAction extends Action {
     public void run() {
         try {
             IHandlerService handlerService = (IHandlerService)PlatformUI.getWorkbench().getService(IHandlerService.class);
-            handlerService.executeCommand("org.eclipse.ui.ToggleCoolbarAction", null);
-            setText(isVisible() ? "Hide Toolbar" : "Show Toolbar");
+            handlerService.executeCommand("org.eclipse.ui.ToggleCoolbarAction", null); //$NON-NLS-1$
+            setText(isVisible() ? Messages.ShowToolbarAction_0 : Messages.ShowToolbarAction_1);
         }
         catch(Exception ex) {
             ex.printStackTrace();

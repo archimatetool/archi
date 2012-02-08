@@ -24,7 +24,7 @@ public class ViewManager {
     
     //public static String PROPERTIES_VIEW = "org.eclipse.ui.views.PropertySheet";
     public static String PROPERTIES_VIEW = ICustomPropertiesView.ID;
-    public static String OUTLINE_VIEW = "org.eclipse.ui.views.ContentOutline";
+    public static String OUTLINE_VIEW = "org.eclipse.ui.views.ContentOutline"; //$NON-NLS-1$
     
     /**
      * Attempt to show the given View if hidden, or bring it to focus

@@ -120,7 +120,7 @@ public class ArchiveManager implements IArchiveManager {
                 new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
             }
             catch(Throwable ex) {
-                throw new IOException("Not a supported image file", ex);
+                throw new IOException("Not a supported image file", ex); //$NON-NLS-1$
             }
             
             // OK, add the bytes
@@ -180,7 +180,7 @@ public class ArchiveManager implements IArchiveManager {
         for(Enumeration<? extends ZipEntry> enm = zipFile.entries(); enm.hasMoreElements();) {
             ZipEntry zipEntry = enm.nextElement();
             String entryName = zipEntry.getName();
-            if(entryName.startsWith("images/")) {
+            if(entryName.startsWith("images/")) { //$NON-NLS-1$
                 // Add to ByteArrayStorage
                 if(!BYTE_ARRAY_STORAGE.hasEntry(entryName)) {
                     InputStream in = zipFile.getInputStream(zipEntry);
@@ -234,7 +234,7 @@ public class ArchiveManager implements IArchiveManager {
      */
     private void saveModelToArchiveFile(File file) throws IOException {
         // Temp file for xml model file
-        File tmpFile = File.createTempFile("archimate", null);
+        File tmpFile = File.createTempFile("archimate", null); //$NON-NLS-1$
         tmpFile.deleteOnExit();
         saveModelToXMLFile(tmpFile);
         
@@ -244,7 +244,7 @@ public class ArchiveManager implements IArchiveManager {
         
         try {
             // Add the model xml file
-            ZipUtils.addFileToZip(tmpFile, "model.xml", zOut);
+            ZipUtils.addFileToZip(tmpFile, "model.xml", zOut); //$NON-NLS-1$
             
             // Add any images
             saveImages(zOut);
@@ -292,7 +292,7 @@ public class ArchiveManager implements IArchiveManager {
         
         String unique = EcoreUtil.generateUUID();
         
-        String path = "images/" + unique;
+        String path = "images/" + unique; //$NON-NLS-1$
         if(ext.length() != 0) {
             path += ext;
         }

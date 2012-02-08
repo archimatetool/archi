@@ -66,7 +66,7 @@ public final class DiagramUtils {
         }
         
         if(editPartFactory == null) {
-            throw new RuntimeException("Unsupported model type");
+            throw new RuntimeException("Unsupported model type"); //$NON-NLS-1$
         }
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();

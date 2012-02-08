@@ -64,7 +64,7 @@ public class PlatformUtils {
      * @return Trus if the platform support Full Screen mode (Mac 10.7 or greater)
      */
     public static boolean supportsMacFullScreen() {
-        return isMac() && System.getProperty("os.version").compareTo("10.7") >= 0;
+        return isMac() && System.getProperty("os.version").compareTo("10.7") >= 0;  //$NON-NLS-1$//$NON-NLS-2$
     }
 
     /**
@@ -83,7 +83,7 @@ public class PlatformUtils {
         
         // Mac
         if(isMac()) {
-            return new File(System.getProperty("user.home"), "Library/Application Support"); //$NON-NLS-1$
+            return new File(System.getProperty("user.home"), "Library/Application Support"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // Default

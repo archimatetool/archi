@@ -37,13 +37,13 @@ public class FullScreenCommandHandler extends AbstractHandler {
     }
     
     public void toggleFullScreen(Object nsWindow) {
-        long toggleFullScreen = MacOSReflect.selector("toggleFullScreen:");
+        long toggleFullScreen = MacOSReflect.selector("toggleFullScreen:"); //$NON-NLS-1$
         long target = MacOSReflect.getID(nsWindow);
         MacOSReflect.objc_msgSend(target, toggleFullScreen, 0);
     }
 
     public boolean isFullScreen(Object nsWindow) {
-        long styleMask = MacOSReflect.executeLong(nsWindow, "styleMask");
+        long styleMask = MacOSReflect.executeLong(nsWindow, "styleMask"); //$NON-NLS-1$
         return (((styleMask >> 14) & 1) == 1);
     }
 

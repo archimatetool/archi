@@ -59,7 +59,7 @@ public class SaveAsCanvasExtensionContributionFactory extends ExtensionContribut
     private class SaveCanvasAsTemplateAction extends Action {
         @Override
         public String getText() {
-            return "Save Canvas as Template...";
+            return Messages.SaveAsCanvasExtensionContributionFactory_0;
         }
 
         @Override
@@ -67,17 +67,17 @@ public class SaveAsCanvasExtensionContributionFactory extends ExtensionContribut
             if(fCurrentCanvasModel != null) {
                 WizardDialog dialog = new ExtendedWizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                                       new SaveCanvasAsTemplateWizard(fCurrentCanvasModel),
-                                      "SaveCanvasAsTemplateWizard");
+                                      "SaveCanvasAsTemplateWizard"); //$NON-NLS-1$
                 dialog.open();
             }
             else {
-                System.err.println("Canvas was null in " + getClass());
+                System.err.println("Canvas was null in " + getClass()); //$NON-NLS-1$
             }
         }
         
         @Override
         public String getId() {
-            return "saveCanvasAsTemplateAction";
+            return "saveCanvasAsTemplateAction"; //$NON-NLS-1$
         };
         
         @Override

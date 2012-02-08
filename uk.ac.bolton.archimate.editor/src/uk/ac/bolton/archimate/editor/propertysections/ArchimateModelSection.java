@@ -30,7 +30,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.archimateModelSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.archimateModelSection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -63,7 +63,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this model here");
+        fTextName = createNameControl(parent, Messages.ArchimateModelSection_0);
         createFileControl(parent);
         createPurposeControl(parent);
         
@@ -73,7 +73,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
     private void createFileControl(Composite parent) {
         // Label
-        getWidgetFactory().createCLabel(parent, "File:");
+        getWidgetFactory().createCLabel(parent, Messages.ArchimateModelSection_1);
 
         // Text
         fTextFile = createSingleTextControl(parent, SWT.READ_ONLY);
@@ -82,7 +82,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
     private void createPurposeControl(Composite parent) {
         // Label
-        createCLabel(parent, "Purpose:", STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.ArchimateModelSection_2, STANDARD_LABEL_WIDTH, SWT.TOP);
 
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
@@ -92,13 +92,13 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Change text", fModel,
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.ArchimateModelSection_3, fModel,
                                                     IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText));
                     fIsExecutingCommand = false;
                 }
             }
         };
-        fTextPurpose.setHint("Add some text describing the purpose, scope and focus of the model");
+        fTextPurpose.setHint(Messages.ArchimateModelSection_4);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
             fModel = (IArchimateModel)element;
         }
         else {
-            System.err.println("Section wants to display for " + element);
+            System.err.println("Section wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -132,7 +132,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
             fTextFile.setText(file.getAbsolutePath());
         }
         else{
-            fTextFile.setText("(not saved)");
+            fTextFile.setText(Messages.ArchimateModelSection_5);
         }
     }
     

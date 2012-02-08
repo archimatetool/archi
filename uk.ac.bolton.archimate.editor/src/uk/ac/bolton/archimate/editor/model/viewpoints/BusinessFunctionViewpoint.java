@@ -40,7 +40,7 @@ public class BusinessFunctionViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Business Function";
+        return Messages.BusinessFunctionViewpoint_0;
     }
     
     @Override

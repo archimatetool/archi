@@ -38,7 +38,7 @@ public final class UIUtils {
             textControl.addListener(SWT.Verify, new Listener() {
                 public void handleEvent(Event event) {
                     if(StringUtils.isSet(event.text)) {
-                        event.text = event.text.replaceAll("(\\r\\n|\\r|\\n)", " ");
+                        event.text = event.text.replaceAll("(\\r\\n|\\r|\\n)", " "); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 }
             });

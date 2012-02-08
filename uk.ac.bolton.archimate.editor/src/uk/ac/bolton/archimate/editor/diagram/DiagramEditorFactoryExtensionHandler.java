@@ -24,7 +24,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class DiagramEditorFactoryExtensionHandler {
     
-    public static String EXTENSIONPOINT = "uk.ac.bolton.archimate.editor.diagramEditorFactory";
+    public static String EXTENSIONPOINT = "uk.ac.bolton.archimate.editor.diagramEditorFactory"; //$NON-NLS-1$
     
     public static DiagramEditorFactoryExtensionHandler INSTANCE = new DiagramEditorFactoryExtensionHandler();
     
@@ -52,8 +52,8 @@ public class DiagramEditorFactoryExtensionHandler {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSIONPOINT)) {
             try {
-                String id = configurationElement.getAttribute("id");
-                IDiagramEditorFactory factory = (IDiagramEditorFactory)configurationElement.createExecutableExtension("class");
+                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+                IDiagramEditorFactory factory = (IDiagramEditorFactory)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 if(id != null && factory != null) {
                     factories.add(factory);
                 }

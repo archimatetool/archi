@@ -177,7 +177,7 @@ public class DerivedRelationsUtils {
                 result.add(chain);
             }
             else {
-                System.err.println("Found invalid chain:");
+                System.err.println("Found invalid chain:"); //$NON-NLS-1$
                 _printChain(chain, element2);
             }
         }
@@ -340,7 +340,7 @@ public class DerivedRelationsUtils {
                 
                 // Duplicate check - there must be a loop?
                 if(_containsChain(chain, chains)) {
-                    System.err.println("Duplicate chain:");
+                    System.err.println("Duplicate chain:"); //$NON-NLS-1$
                     _printChain(chain, finalTarget);
                 }
 
@@ -411,15 +411,15 @@ public class DerivedRelationsUtils {
     
     private static void _printChain(List<IRelationship> chain, IArchimateElement finalTarget) {
         String s = chain.get(0).getSource().getName();
-        s += " --> ";
+        s += " --> "; //$NON-NLS-1$
         for(int i = 1; i < chain.size(); i++) {
             IRelationship relation = chain.get(i);
             s += _getRelationshipText(chain, relation);
             if(isBidirectionalRelationship(relation)) {
-                s += " <-> ";
+                s += " <-> "; //$NON-NLS-1$
             }
             else {
-                s += " --> ";
+                s += " --> "; //$NON-NLS-1$
             }
         }
         s += finalTarget.getName();

@@ -34,7 +34,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class NotesSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -67,7 +67,7 @@ public class NotesSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Notes:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.NotesSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         
@@ -76,13 +76,13 @@ public class NotesSection extends AbstractArchimatePropertySection {
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Notes", fNotesContent,
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.NotesSection_1, fNotesContent,
                                                 ICanvasPackage.Literals.NOTES_CONTENT__NOTES, newText));
                     fIsExecutingCommand = false;
                 }
             }
         };
-        fTextNotesControl.setHint("Add some notes here");
+        fTextNotesControl.setHint(Messages.NotesSection_2);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextNotesControl.getTextControl(), HELP_ID);
@@ -98,7 +98,7 @@ public class NotesSection extends AbstractArchimatePropertySection {
         }
 
         if(fNotesContent == null) {
-            throw new RuntimeException("Notes Content was null");
+            throw new RuntimeException("Notes Content was null"); //$NON-NLS-1$
         }
         
         refreshControls();

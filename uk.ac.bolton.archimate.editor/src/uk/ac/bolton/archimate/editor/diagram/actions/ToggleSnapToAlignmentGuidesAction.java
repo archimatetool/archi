@@ -21,7 +21,7 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
 public class ToggleSnapToAlignmentGuidesAction extends Action {
 
 	public ToggleSnapToAlignmentGuidesAction() {
-		super("Snap to Alignment Guides", AS_CHECK_BOX);
+		super(Messages.ToggleSnapToAlignmentGuidesAction_0, AS_CHECK_BOX);
 		setToolTipText(getText());
 		setId(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY);
 		setActionDefinitionId(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY);

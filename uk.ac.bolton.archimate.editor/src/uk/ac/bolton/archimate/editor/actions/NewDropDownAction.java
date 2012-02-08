@@ -21,9 +21,9 @@ extends AbstractDropDownAction {
     
     public NewDropDownAction() {
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NEW_FILE_16));
-        setText("&New");
-        setToolTipText("New Empty Model");
-        setId("uk.ac.bolton.archimate.editor.action.newAction");
+        setText(Messages.NewDropDownAction_0);
+        setToolTipText(Messages.NewDropDownAction_1);
+        setId("uk.ac.bolton.archimate.editor.action.newAction"); //$NON-NLS-1$
     }
     
     @Override

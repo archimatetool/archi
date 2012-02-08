@@ -33,13 +33,13 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class TextAlignmentAction extends SelectionAction {
     
-    public static final String ACTION_LEFT_ID = "TextAlignmentActionLeft";
-    public static final String ACTION_CENTER_ID = "TextAlignmentActionCenter";
-    public static final String ACTION_RIGHT_ID = "TextAlignmentActionRight";
+    public static final String ACTION_LEFT_ID = "TextAlignmentActionLeft"; //$NON-NLS-1$
+    public static final String ACTION_CENTER_ID = "TextAlignmentActionCenter"; //$NON-NLS-1$
+    public static final String ACTION_RIGHT_ID = "TextAlignmentActionRight"; //$NON-NLS-1$
     
-    public static final String ACTION_LEFT_TEXT = "Left";
-    public static final String ACTION_CENTER_TEXT = "Centre";
-    public static final String ACTION_RIGHT_TEXT = "Right";
+    public static final String ACTION_LEFT_TEXT = Messages.TextAlignmentAction_0;
+    public static final String ACTION_CENTER_TEXT = Messages.TextAlignmentAction_1;
+    public static final String ACTION_RIGHT_TEXT = Messages.TextAlignmentAction_2;
     
     public static final String ACTION_IDS[] = {
         ACTION_LEFT_ID,
@@ -130,7 +130,7 @@ public class TextAlignmentAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection) {
-        CompoundCommand result = new CompoundCommand("Change text alignment");
+        CompoundCommand result = new CompoundCommand(Messages.TextAlignmentAction_3);
         
         for(Object object : selection) {
             if(object instanceof ITextAlignedEditPart) {

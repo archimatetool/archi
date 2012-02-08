@@ -18,7 +18,7 @@ public interface ICompatibilityHandler {
     /**
      * Extension ID
      */
-    String EXTENSION_ID = "uk.ac.bolton.archimate.compatibility.compatibilityHandler";
+    String EXTENSION_ID = "uk.ac.bolton.archimate.compatibility.compatibilityHandler"; //$NON-NLS-1$
 
     /**
      * Fix the issue

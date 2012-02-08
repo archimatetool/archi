@@ -34,12 +34,12 @@ public class ApplicationInteractionUIProvider extends AbstractApplicationUIProvi
 
     @Override
     public String getDefaultName() {
-        return "Application Interaction";
+        return Messages.ApplicationInteractionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Interaction";
+        return Messages.ApplicationInteractionUIProvider_1;
     }
 
     @Override

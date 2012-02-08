@@ -31,8 +31,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class FontAction extends SelectionAction {
     
-    public static final String ID = "FontAction";
-    public static final String TEXT = "Font...";
+    public static final String ID = "FontAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.FontAction_0;
     
     public FontAction(IWorkbenchPart part) {
         super(part);
@@ -91,7 +91,7 @@ public class FontAction extends SelectionAction {
         }
         
         FontDialog dialog = new FontDialog(getWorkbenchPart().getSite().getShell());
-        dialog.setText("Select Font");
+        dialog.setText(Messages.FontAction_1);
         dialog.setFontList(new FontData[] { fontData } );
         dialog.setRGB(ColorFactory.convertStringToRGB(rgbValue));
         
@@ -102,7 +102,7 @@ public class FontAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, FontData selectedFontData, RGB newColor) {
-        CompoundCommand result = new CompoundCommand("Change font");
+        CompoundCommand result = new CompoundCommand(Messages.FontAction_2);
         
         for(Object object : selection) {
             if(isValidEditPart(object)) {

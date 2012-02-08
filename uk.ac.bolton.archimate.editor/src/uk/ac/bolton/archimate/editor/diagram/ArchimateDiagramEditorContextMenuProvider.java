@@ -28,8 +28,8 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
 
     public static final String ID = "ArchimateDiagramEditorContextMenuProvider"; //$NON-NLS-1$
     
-    public static final String GROUP_DERIVED = "group_derived";
-    public static final String GROUP_VIEWPOINTS = "group_viewpoints";
+    public static final String GROUP_DERIVED = "group_derived"; //$NON-NLS-1$
+    public static final String GROUP_VIEWPOINTS = "group_viewpoints"; //$NON-NLS-1$
     
     /**
      * Creates a new ContextMenuProvider assoicated with the given viewer
@@ -55,7 +55,7 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
 
         // Viewpoints
         menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_VIEWPOINTS));
-        IMenuManager viewPointMenu = new MenuManager("Viewpoint");
+        IMenuManager viewPointMenu = new MenuManager(Messages.ArchimateDiagramEditorContextMenuProvider_0);
         menu.appendToGroup(GROUP_VIEWPOINTS, viewPointMenu);
         for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
             viewPointMenu.add(actionRegistry.getAction(viewPoint.getClass().toString()));
@@ -63,7 +63,7 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         
         // Derived Relations
         menu.appendToGroup(GROUP_VIEWPOINTS, new Separator(GROUP_DERIVED));
-        IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
+        IMenuManager derivedRelationsMenu = new MenuManager(Messages.ArchimateDiagramEditorContextMenuProvider_1);
         menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
         derivedRelationsMenu.add(actionRegistry.getAction(ShowStructuralChainsAction.ID));
         derivedRelationsMenu.add(actionRegistry.getAction(CreateDerivedRelationAction.ID));

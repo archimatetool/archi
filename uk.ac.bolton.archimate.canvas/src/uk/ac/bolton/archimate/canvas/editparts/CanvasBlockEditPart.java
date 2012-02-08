@@ -95,7 +95,7 @@ implements IColoredEditPart, ITextAlignedEditPart, ITextPositionedEditPart {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
         
         // Install a policy for DND support
-        installEditPolicy("DND", new CanvasDNDEditPolicy());
+        installEditPolicy("DND", new CanvasDNDEditPolicy()); //$NON-NLS-1$
 
         // Add these
         updateEditPolicies();
@@ -162,7 +162,7 @@ implements IColoredEditPart, ITextAlignedEditPart, ITextPositionedEditPart {
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String content = (String)request.getCellEditor().getValue();
-            return new EObjectFeatureCommand("Content", getModel(),
+            return new EObjectFeatureCommand(Messages.CanvasBlockEditPart_0, getModel(),
                         IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, content);
         }
 

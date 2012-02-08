@@ -20,13 +20,13 @@ public class SaveCanvasAsTemplateToCollectionWizardPage extends SaveModelAsTempl
     private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
 
     public SaveCanvasAsTemplateToCollectionWizardPage(TemplateManager templateManager) {
-        super("SaveCanvasAsTemplateWizardPage2", templateManager);
+        super("SaveCanvasAsTemplateWizardPage2", templateManager); //$NON-NLS-1$
     }
     
     @Override
     protected void init() {
-        setTitle("Save Canvas As Template");
-        setDescription("Choose whether to include the template in your collection.");
+        setTitle(Messages.SaveCanvasAsTemplateToCollectionWizardPage_0);
+        setDescription(Messages.SaveCanvasAsTemplateToCollectionWizardPage_1);
     }
 
     @Override

@@ -26,7 +26,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelGroup;
  */
 public class GroupSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -54,8 +54,8 @@ public class GroupSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this group here");
-        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this group here");
+        fTextName = createNameControl(parent, Messages.GroupSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.GroupSection_1);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -66,11 +66,11 @@ public class GroupSection extends AbstractArchimatePropertySection {
         if(element instanceof GroupEditPart) {
             fDiagramModelGroup = (IDiagramModelGroup)((EditPart)element).getModel();
             if(fDiagramModelGroup == null) {
-                throw new RuntimeException("Diagram Group was null");
+                throw new RuntimeException("Diagram Group was null"); //$NON-NLS-1$
             }
         }
         else {
-            throw new RuntimeException("Should have been a Group Edit Part");
+            throw new RuntimeException("Should have been a Group Edit Part"); //$NON-NLS-1$
         }
         
         refreshControls();

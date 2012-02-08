@@ -163,7 +163,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * @generated
      * @ordered
      */
-    protected static final String HINT_TITLE_EDEFAULT = "";
+    protected static final String HINT_TITLE_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getHintTitle() <em>Hint Title</em>}' attribute.
@@ -183,7 +183,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * @generated
      * @ordered
      */
-    protected static final String HINT_CONTENT_EDEFAULT = "";
+    protected static final String HINT_CONTENT_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getHintContent() <em>Hint Content</em>}' attribute.
@@ -203,7 +203,7 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
      * @generated
      * @ordered
      */
-    protected static final String CONTENT_EDEFAULT = "";
+    protected static final String CONTENT_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getContent() <em>Content</em>}' attribute.

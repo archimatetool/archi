@@ -43,7 +43,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class UsedInViewsSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.usedInViewsSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.usedInViewsSection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -67,7 +67,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     }
     
     private void createTableControl(Composite parent) {
-        createCLabel(parent, "Used in Views:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.UsedInViewsSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);
@@ -136,7 +136,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             fArchimateElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
         }
         else {
-            System.err.println("UsedInViewsSection wants to display for " + element);
+            System.err.println("UsedInViewsSection wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

@@ -22,7 +22,7 @@ public class RenameAction extends ViewerAction {
     
     public RenameAction(TreeModelViewer selectionProvider) {
         super(selectionProvider);
-        setText("Re&name");
+        setText(Messages.RenameAction_0);
         setEnabled(false);
         setActionDefinitionId(IWorkbenchCommandConstants.FILE_RENAME); // register key binding
     }

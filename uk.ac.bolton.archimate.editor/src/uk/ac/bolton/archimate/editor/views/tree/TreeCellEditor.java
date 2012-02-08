@@ -199,7 +199,7 @@ public class TreeCellEditor {
             fText.setFocus();
 
             // Clear item
-            item.setText("");
+            item.setText(""); //$NON-NLS-1$
         }
         
         // Store last item even if null

@@ -77,7 +77,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
 
         IArchiveManager archiveManager = (IArchiveManager)getTargetContainer().getAdapter(IArchiveManager.class);
         
-        CompoundCommand result = new CompoundCommand("Add Images");
+        CompoundCommand result = new CompoundCommand(Messages.CanvasDNDEditPolicy_0);
 
         for(String s : files) {
             File file = new File(s);
@@ -85,14 +85,14 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
                 continue;
             }
             String name = file.getName().toLowerCase();
-            if(!(name.endsWith(".png") || name.endsWith(".bmp") || name.endsWith(".gif") ||
-                    name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".tif") ||
-                    name.endsWith(".tiff") || name.endsWith(".ico"))) {
+            if(!(name.endsWith(".png") || name.endsWith(".bmp") || name.endsWith(".gif") || //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".tif") || //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    name.endsWith(".tiff") || name.endsWith(".ico"))) { //$NON-NLS-1$ //$NON-NLS-2$
                 continue;
             }
 
             ICanvasModelImage canvasModelImage = ICanvasFactory.eINSTANCE.createCanvasModelImage();
-            canvasModelImage.setName("Image");
+            canvasModelImage.setName(Messages.CanvasDNDEditPolicy_1);
             String pathName;
             try {
                 pathName = archiveManager.addImageFromFile(file);
@@ -153,7 +153,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
         List<IDiagramModel> list = getDiagramRefsToAdd(objects);
 
         // Compound Command
-        CompoundCommand result = new CompoundCommand("Add Elements");
+        CompoundCommand result = new CompoundCommand(Messages.CanvasDNDEditPolicy_2);
         
         for(IDiagramModel diagramModel : list) {
             result.add(new AddDiagramModelReferenceCommand(getTargetContainer(), diagramModel, x, y));

@@ -15,6 +15,7 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
@@ -59,7 +60,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
     private TemplateManager fTemplateManager;
     
     public SaveArchimateModelAsTemplateWizard(IArchimateModel model) {
-        setWindowTitle("Save Model As Template");
+        setWindowTitle(Messages.SaveArchimateModelAsTemplateWizard_0);
         fModel = model;
         fTemplateManager = new ArchimateTemplateManager();
     }
@@ -79,8 +80,9 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
         
         // Make sure the file does not already exist
         if(fZipFile.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), "Save As Template", "'" + fZipFile +
-                    "' already exists. Are you sure you want to overwrite it?");
+            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    Messages.SaveArchimateModelAsTemplateWizard_1,
+                    NLS.bind(Messages.SaveArchimateModelAsTemplateWizard_2, fZipFile.getPath()));
             if(!result) {
                 return false;
             }
@@ -107,7 +109,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
                     ex.printStackTrace();
                     Display.getCurrent().asyncExec(new Runnable() { // Display after wizard closes
                         public void run() {
-                            MessageDialog.openError(getShell(), "Save As Template", ex.getMessage());
+                            MessageDialog.openError(getShell(), Messages.SaveArchimateModelAsTemplateWizard_3, ex.getMessage());
                         }
                     });
                 }
@@ -137,7 +139,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
                 int i = 1;
                 for(IDiagramModel dm : fModel.getDiagramModels()) {
                     Image image = TemplateUtils.createThumbnailImage(dm);
-                    ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png", zOut, SWT.IMAGE_PNG, null);
+                    ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png", zOut, SWT.IMAGE_PNG, null); //$NON-NLS-1$
                     image.dispose();
                 }
             }
@@ -190,7 +192,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
                 int i = 1;
                 for(IDiagramModel dm : fModel.getDiagramModels()) {
                     if(dm == fSelectedDiagramModel) {
-                        String keyThumb = TemplateManager.ZIP_ENTRY_THUMBNAILS + i + ".png";
+                        String keyThumb = TemplateManager.ZIP_ENTRY_THUMBNAILS + i + ".png"; //$NON-NLS-1$
                         Element elementKeyThumb = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
                         elementKeyThumb.setText(keyThumb);
                         root.addContent(elementKeyThumb);
@@ -205,7 +207,7 @@ public class SaveArchimateModelAsTemplateWizard extends Wizard {
     }
 
     private File saveModelToTempFile() throws IOException {
-        File tmpFile = File.createTempFile("architemplate", null);
+        File tmpFile = File.createTempFile("architemplate", null); //$NON-NLS-1$
         tmpFile.deleteOnExit();
         
         // Copy the model

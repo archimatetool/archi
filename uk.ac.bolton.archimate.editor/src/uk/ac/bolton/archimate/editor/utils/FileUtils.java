@@ -107,7 +107,7 @@ public final class FileUtils  {
         }
 	    
 	    if(progressMonitor != null) {
-	        progressMonitor.setTaskName("Copying files...");
+	        progressMonitor.setTaskName(Messages.FileUtils_0);
 	    }
 	    
 	    for(File file : files) {
@@ -136,7 +136,7 @@ public final class FileUtils  {
         }
         
         if(progressMonitor != null) {
-            progressMonitor.setTaskName("Moving files...");
+            progressMonitor.setTaskName(Messages.FileUtils_1);
         }
         
         for(File file : files) {

@@ -37,7 +37,7 @@ public class DeliverableUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Deliverable";
+        return Messages.DeliverableUIProvider_0;
     }
 
     @Override

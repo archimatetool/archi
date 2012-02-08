@@ -161,7 +161,7 @@ implements IDiagramModelObjectFigure {
             if(!StringUtils.isSet(text)) { // Name was blank
                 toolTipFigure.setText(type);
             }
-            toolTipFigure.setType("Type: " + type);
+            toolTipFigure.setType(Messages.AbstractDiagramModelObjectFigure_0 + " " + type); //$NON-NLS-1$
         }
 
         return toolTipFigure;

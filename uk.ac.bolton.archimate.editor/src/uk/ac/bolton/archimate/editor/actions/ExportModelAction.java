@@ -37,7 +37,7 @@ public class ExportModelAction extends AbstractModelSelectionAction {
                 fExporter.export(model);
             }
             catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), "Error exporting file", ex.getMessage());
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.ExportModelAction_0, ex.getMessage());
                 ex.printStackTrace();
             }
         }

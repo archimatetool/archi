@@ -37,8 +37,8 @@ public class ExtendedWizardDialog extends WizardDialog {
             section = settings.addNewSection(fId);
             Point pt = getDefaultDialogSize();
             if(pt != null) {
-                section.put("DIALOG_WIDTH", pt.x);
-                section.put("DIALOG_HEIGHT", pt.y);
+                section.put("DIALOG_WIDTH", pt.x); //$NON-NLS-1$
+                section.put("DIALOG_HEIGHT", pt.y); //$NON-NLS-1$
             }
         }
         return section;

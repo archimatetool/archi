@@ -51,7 +51,7 @@ public class ServiceRealisationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Service Realisation";
+        return Messages.ServiceRealisationViewpoint_0;
     }
 
     @Override

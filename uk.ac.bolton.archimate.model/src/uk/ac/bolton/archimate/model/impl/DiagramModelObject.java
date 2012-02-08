@@ -379,7 +379,7 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
      */
     public void addConnection(IDiagramModelConnection connection) {
         if(connection == null) {
-            throw new IllegalArgumentException("Connection was null");
+            throw new IllegalArgumentException("Connection was null"); //$NON-NLS-1$
         }
         if(connection.getSource() == connection.getTarget()) {
             //throw new IllegalArgumentException("Connection source is same as target!");

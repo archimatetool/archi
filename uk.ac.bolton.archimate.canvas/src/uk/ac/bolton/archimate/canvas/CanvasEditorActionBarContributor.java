@@ -32,7 +32,7 @@ extends AbstractDiagramEditorActionBarContributor {
         IMenuManager editMenu = super.contributeToEditMenu(menuManager);
         
         // Text Positions
-        IMenuManager textPositionMenu = new MenuManager("Text position");
+        IMenuManager textPositionMenu = new MenuManager(Messages.CanvasEditorActionBarContributor_0);
         for(String id : TextPositionAction.ACTION_IDS) {
             textPositionMenu.add(getAction(id));
         }
@@ -42,8 +42,8 @@ extends AbstractDiagramEditorActionBarContributor {
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(BorderColorAction.ID));
         
         // Lock
-        editMenu.insertAfter(ArchimateEditorActionFactory.RENAME.getId(), new Separator("lock"));
-        editMenu.appendToGroup("lock", getAction(LockObjectAction.ID));
+        editMenu.insertAfter(ArchimateEditorActionFactory.RENAME.getId(), new Separator("lock")); //$NON-NLS-1$
+        editMenu.appendToGroup("lock", getAction(LockObjectAction.ID)); //$NON-NLS-1$
         
         return editMenu;
     }
@@ -52,7 +52,7 @@ extends AbstractDiagramEditorActionBarContributor {
     protected IMenuManager createViewMenu(IMenuManager menuManager) {
         IMenuManager viewMenu = super.createViewMenu(menuManager);
         
-        IMenuManager subMenu = viewMenu.findMenuUsingPath("menu_position");
+        IMenuManager subMenu = viewMenu.findMenuUsingPath("menu_position"); //$NON-NLS-1$
         subMenu.add(getAction(ResetAspectRatioAction.ID));
         
         return viewMenu;

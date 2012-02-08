@@ -33,7 +33,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  */
 public class SearchFilter extends ViewerFilter {
     private TreeViewer fViewer;
-    private String fSearchText = "";
+    private String fSearchText = ""; //$NON-NLS-1$
     private TreePath[] fExpanded;
 
     private boolean fFilterName;
@@ -83,7 +83,7 @@ public class SearchFilter extends ViewerFilter {
         if(isFiltering()) {
             restoreState();
         }
-        fSearchText = "";
+        fSearchText = ""; //$NON-NLS-1$
         reset();
     }
 

@@ -23,7 +23,7 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 public class FontCompoundCommand extends CompoundCommand {
     
     public FontCompoundCommand(IFontAttribute object, String fontString, RGB rgb) {
-        super("Change font");
+        super(Messages.FontCompoundCommand_0);
         
         // Default font = null
         if(FontFactory.getDefaultUserViewFontData().toString().equals(fontString)) {
@@ -39,7 +39,7 @@ public class FontCompoundCommand extends CompoundCommand {
         
         if(rgb != null) {
             fontColorString = ColorFactory.convertRGBToString(rgb);
-            if("#000000".equals(fontColorString)) {
+            if("#000000".equals(fontColorString)) { //$NON-NLS-1$
                 fontColorString = null; // Default colour black = null
             }
         }

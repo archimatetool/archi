@@ -28,7 +28,7 @@ public class CanvasDiagramPart extends AbstractDiagramPart {
         updateEditPolicies();
         
         // Install a policy for DND support
-        installEditPolicy("DND", new CanvasDNDEditPolicy());
+        installEditPolicy("DND", new CanvasDNDEditPolicy()); //$NON-NLS-1$
         
         // And we need to install this Group Container Policy here as well as in the GroupEditpart
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new BasicContainerEditPolicy());

@@ -10,7 +10,7 @@
          <action
                class="uk.ac.bolton.archimate.reports.html.HTMLReportAction"
                id="uk.ac.bolton.archimate.reports.reportHTML"
-               label="HTML..."
+               label="%action.label"
                menubarPath="file/report_menu/report_ext">
          </action>
       </actionSet>

@@ -68,7 +68,7 @@ public class IDAdapter extends EContentAdapter {
     public String getNewID() {
         String id;
         do {
-            id = UUID.randomUUID().toString().split("-")[0];
+            id = UUID.randomUUID().toString().split("-")[0]; //$NON-NLS-1$
         }
         while(fUsedIDs.contains(id));
         

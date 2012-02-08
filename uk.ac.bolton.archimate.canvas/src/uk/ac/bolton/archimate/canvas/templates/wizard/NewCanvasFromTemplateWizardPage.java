@@ -24,13 +24,13 @@ public class NewCanvasFromTemplateWizardPage extends NewModelFromTemplateWizardP
     private static String HELP_ID = "uk.ac.bolton.archimate.help.NewCanvasFromTemplateWizardPage"; //$NON-NLS-1$
 
     public NewCanvasFromTemplateWizardPage(TemplateManager templateManager) {
-        super("NewCanvasFromTemplateWizardPage", templateManager);
+        super("NewCanvasFromTemplateWizardPage", templateManager); //$NON-NLS-1$
     }
     
     @Override
     protected void init() {
-        setTitle("New Canvas");
-        setDescription("Choose a Template for your Canvas");
+        setTitle(Messages.NewCanvasFromTemplateWizardPage_0);
+        setDescription(Messages.NewCanvasFromTemplateWizardPage_1);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
     }
 

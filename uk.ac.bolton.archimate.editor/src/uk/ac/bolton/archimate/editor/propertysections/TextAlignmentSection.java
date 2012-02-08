@@ -33,7 +33,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -78,7 +78,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
             }
         };
         
-        createCLabel(parent, "Text Alignment:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.TextAlignmentSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 3);
         
@@ -109,11 +109,11 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         if(element instanceof ITextAlignedEditPart && ((EditPart)element).getModel() instanceof IFontAttribute) {
             fFontObject = (IFontAttribute)((EditPart)element).getModel();
             if(fFontObject == null) {
-                throw new RuntimeException("Font Object was null");
+                throw new RuntimeException("Font Object was null"); //$NON-NLS-1$
             }
         }
         else {
-            throw new RuntimeException("Should have been an IFontAttribute");
+            throw new RuntimeException("Should have been an IFontAttribute"); //$NON-NLS-1$
         }
         
         refreshControls();

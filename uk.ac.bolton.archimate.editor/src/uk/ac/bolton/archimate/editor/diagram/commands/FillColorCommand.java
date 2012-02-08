@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public class FillColorCommand extends EObjectFeatureCommand {
     
     public FillColorCommand(IDiagramModelObject object, String rgb) {
-        super("Change fill colour", object, IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR, rgb);
+        super(Messages.FillColorCommand_0, object, IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR, rgb);
     }
 }

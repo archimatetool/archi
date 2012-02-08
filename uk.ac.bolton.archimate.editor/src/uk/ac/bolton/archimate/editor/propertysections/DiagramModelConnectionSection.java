@@ -32,7 +32,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class DiagramModelConnectionSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -68,7 +68,7 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
     
     private void createRouterTypeControl(Composite parent) {
         // Label
-        getWidgetFactory().createCLabel(parent, "Connection Router:");
+        getWidgetFactory().createCLabel(parent, Messages.DiagramModelConnectionSection_0);
         
         // Combo
         fComboRouterType = new Combo(parent, SWT.READ_ONLY);
@@ -96,7 +96,7 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
             fDiagramModel = (IDiagramModel)element;
         }
         else {
-            System.err.println("Section wants to display for " + element);
+            System.err.println("Section wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

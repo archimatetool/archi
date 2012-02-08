@@ -157,7 +157,7 @@ public class StickyFigure extends AbstractContainerFigure {
         
         String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
         tooltip.setText(text);
-        tooltip.setType("Type: Sticky");
+        tooltip.setType(Messages.StickyFigure_0);
        
         return tooltip;
     }

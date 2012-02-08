@@ -32,7 +32,7 @@ public class MigrationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Migration";
+        return Messages.MigrationViewpoint_0;
     }
 
     @Override

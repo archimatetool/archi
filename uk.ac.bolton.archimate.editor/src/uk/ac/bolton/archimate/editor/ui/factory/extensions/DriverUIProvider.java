@@ -37,7 +37,7 @@ public class DriverUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Driver";
+        return Messages.DriverUIProvider_0;
     }
 
     @Override

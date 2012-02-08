@@ -63,7 +63,7 @@ public class ExportJasperReportsWizard extends Wizard {
     private boolean fIsPDF, fIsHTML, fIsDOCX, fIsPPT, fIsODT, fIsRTF;
     
     public ExportJasperReportsWizard(IArchimateModel model) {
-        setWindowTitle("Generate Jasper Reports");
+        setWindowTitle(Messages.ExportJasperReportsWizard_0);
         fModel = model;
     }
     
@@ -83,7 +83,7 @@ public class ExportJasperReportsWizard extends Wizard {
         
         // Check this exists
         if(fMainTemplateFile == null || !fMainTemplateFile.exists()) {
-            MessageDialog.openError(getShell(), "File Error", "Template is not available.");
+            MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_1, Messages.ExportJasperReportsWizard_2);
             return false;
         }
         
@@ -104,7 +104,7 @@ public class ExportJasperReportsWizard extends Wizard {
             fExportFolder.mkdirs();
         }
         catch(Exception ex) {
-            MessageDialog.openError(getShell(), "File Error", "The folder or filename is incorrect.");
+            MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_3, Messages.ExportJasperReportsWizard_4);
             return false;
         }
         
@@ -121,7 +121,7 @@ public class ExportJasperReportsWizard extends Wizard {
                             }
                             catch(Exception ex) {
                                 ex.printStackTrace();
-                                MessageDialog.openError(getShell(), "Export Error", ex.getMessage());
+                                MessageDialog.openError(getShell(), Messages.ExportJasperReportsWizard_5, ex.getMessage());
                             }
                             finally {
                                 monitor.done();
@@ -139,60 +139,60 @@ public class ExportJasperReportsWizard extends Wizard {
     }
 
     private void export(IProgressMonitor monitor) throws Exception {
-        monitor.beginTask("Generating Reports", 11);
+        monitor.beginTask(Messages.ExportJasperReportsWizard_6, 11);
         
         // Temp Folder to store assets
-        File tmpFolder = new File(fExportFolder, "tmp");
+        File tmpFolder = new File(fExportFolder, "tmp"); //$NON-NLS-1$
         tmpFolder.mkdirs();
         
         //System.out.println("Exporting: " + fModel.getName());
 
-        monitor.subTask("Creating Views...");
+        monitor.subTask(Messages.ExportJasperReportsWizard_7);
         writeDiagrams(tmpFolder);
         monitor.worked(1);
         
-        monitor.subTask("Creating Jasper Print...");
+        monitor.subTask(Messages.ExportJasperReportsWizard_8);
         JasperPrint jasperPrint = createJasperPrint(monitor, tmpFolder);
         monitor.worked(1);
         
         if(fIsHTML) {
-            monitor.subTask("Generating HTML...");
-            exportHTML(jasperPrint, new File(fExportFolder, fExportFileName + ".html"));
+            monitor.subTask(Messages.ExportJasperReportsWizard_9);
+            exportHTML(jasperPrint, new File(fExportFolder, fExportFileName + ".html")); //$NON-NLS-1$
         }
         monitor.worked(1);
 
         if(fIsPDF) {
-            monitor.subTask("Generating PDF...");
-            exportPDF(jasperPrint, new File(fExportFolder, fExportFileName + ".pdf"));
+            monitor.subTask(Messages.ExportJasperReportsWizard_10);
+            exportPDF(jasperPrint, new File(fExportFolder, fExportFileName + ".pdf")); //$NON-NLS-1$
         }
         monitor.worked(1);
 
         if(fIsDOCX) {
-            monitor.subTask("Generating DOCX...");
-            exportDOCX(jasperPrint, new File(fExportFolder, fExportFileName + ".docx"));
+            monitor.subTask(Messages.ExportJasperReportsWizard_11);
+            exportDOCX(jasperPrint, new File(fExportFolder, fExportFileName + ".docx")); //$NON-NLS-1$
         }
         monitor.worked(1);
         
         if(fIsPPT) {
-            monitor.subTask("Generating PPT...");
-            exportPPT(jasperPrint, new File(fExportFolder, fExportFileName + ".pptx"));
+            monitor.subTask(Messages.ExportJasperReportsWizard_12);
+            exportPPT(jasperPrint, new File(fExportFolder, fExportFileName + ".pptx")); //$NON-NLS-1$
         }
         monitor.worked(1);
         
         if(fIsRTF) {
-            monitor.subTask("Generating RTF...");
-            exportRTF(jasperPrint, new File(fExportFolder, fExportFileName + ".rtf"));
+            monitor.subTask(Messages.ExportJasperReportsWizard_13);
+            exportRTF(jasperPrint, new File(fExportFolder, fExportFileName + ".rtf")); //$NON-NLS-1$
         }
         monitor.worked(1);
         
         if(fIsODT) {
-            monitor.subTask("Generating ODT...");
-            exportODT(jasperPrint, new File(fExportFolder, fExportFileName + ".odt"));
+            monitor.subTask(Messages.ExportJasperReportsWizard_14);
+            exportODT(jasperPrint, new File(fExportFolder, fExportFileName + ".odt")); //$NON-NLS-1$
         }
         monitor.worked(1);
         
         if(DELETE_TEMP_FILES) {
-            monitor.subTask("Cleaning up...");
+            monitor.subTask(Messages.ExportJasperReportsWizard_15);
             FileUtils.deleteFolder(tmpFolder);
         }
         monitor.worked(1);
@@ -206,7 +206,7 @@ public class ExportJasperReportsWizard extends Wizard {
     private void writeDiagrams(File tmpFolder) {
         for(IDiagramModel dm : fModel.getDiagramModels()) {
             Image image = DiagramUtils.createImage(dm);
-            String diagramName = dm.getId() + ".png";
+            String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
             try {
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { image.getImageData() };
@@ -221,30 +221,30 @@ public class ExportJasperReportsWizard extends Wizard {
     
     private JasperPrint createJasperPrint(IProgressMonitor monitor, File tmpFolder) throws JRException {
         // Set the location of the default Jasper Properties File
-        File propsFile = new File(JasperReportsPlugin.INSTANCE.getPluginFolder(), "jasperreports.properties");
+        File propsFile = new File(JasperReportsPlugin.INSTANCE.getPluginFolder(), "jasperreports.properties"); //$NON-NLS-1$
         System.setProperty(JRProperties.PROPERTIES_FILE, propsFile.getAbsolutePath());
 
         // Set the location of the Images
-        System.setProperty("JASPER_IMAGE_PATH", tmpFolder.getPath());
+        System.setProperty("JASPER_IMAGE_PATH", tmpFolder.getPath()); //$NON-NLS-1$
 
         // Declare Parameters passed to JasperFillManager
         Map<String, Object> params = new HashMap<String, Object>();
 
         // Parameters referenced in Report
-        params.put("REPORT_TITLE", fReportTitle);
+        params.put("REPORT_TITLE", fReportTitle); //$NON-NLS-1$
         //params.put(JRParameter.REPORT_LOCALE, Locale.US);
         
         monitor.worked(1);
         
         // Compile Main Report
         //System.out.println("Compiling Main Report");
-        monitor.subTask("Compiling...");
+        monitor.subTask(Messages.ExportJasperReportsWizard_16);
         JasperReport mainReport = JasperCompileManager.compileReport(fMainTemplateFile.getPath());
         
         // Compile sub-reports
         File folder = fMainTemplateFile.getParentFile();
         for(File file : folder.listFiles()) {
-            if(!file.equals(fMainTemplateFile) && file.getName().endsWith(".jrxml")) {
+            if(!file.equals(fMainTemplateFile) && file.getName().endsWith(".jrxml")) { //$NON-NLS-1$
                 //System.out.println("Compiling Sub-Report: " + file);
                 JasperReport jr = JasperCompileManager.compileReport(file.getPath());
                 params.put(jr.getName(), jr);
@@ -255,7 +255,7 @@ public class ExportJasperReportsWizard extends Wizard {
         
         // Fill Report
         //System.out.println("Filling Report");
-        monitor.subTask("Filling...");
+        monitor.subTask(Messages.ExportJasperReportsWizard_17);
         return JasperFillManager.fillReport(mainReport, params, new ArchimateModelDataSource(fModel));
     }
     

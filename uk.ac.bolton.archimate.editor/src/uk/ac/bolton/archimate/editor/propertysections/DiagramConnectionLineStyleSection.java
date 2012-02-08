@@ -41,7 +41,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class DiagramConnectionLineStyleSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -76,7 +76,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Line Style:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.DiagramConnectionLineStyleSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 3);
         
@@ -104,7 +104,7 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             fConnection = (IDiagramModelConnection)((IAdaptable)element).getAdapter(IDiagramModelConnection.class);
         }
         else {
-            throw new RuntimeException("Should have been an Edit Part");
+            throw new RuntimeException("Should have been an Edit Part"); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -198,20 +198,20 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
     
     protected class LineStyleSelector extends StyleSelector {
         public LineStyleSelector(Composite parent) {
-            super(parent, "Set the line style");
+            super(parent, Messages.DiagramConnectionLineStyleSection_1);
         }
 
         @Override
         protected void addActions(MenuManager menuManager) {
-            IAction action = createAction("Solid", IDiagramModelConnection.LINE_SOLID, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
+            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_2, IDiagramModelConnection.LINE_SOLID, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
             menuManager.add(action);
             action.setChecked((fConnection.getType() & IDiagramModelConnection.LINE_DASHED) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.LINE_DOTTED) == 0);
             
-            action = createAction("Dashed", IDiagramModelConnection.LINE_DASHED, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_DASHED));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_3, IDiagramModelConnection.LINE_DASHED, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_DASHED));
             menuManager.add(action);
 
-            action = createAction("Dotted", IDiagramModelConnection.LINE_DOTTED, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_DOTTED));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_4, IDiagramModelConnection.LINE_DOTTED, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_DOTTED));
             menuManager.add(action);
         }
         
@@ -236,24 +236,24 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
     protected class SourceArrowSelector extends StyleSelector {
         public SourceArrowSelector(Composite parent) {
-            super(parent, "Set the line's tail arrow type");
+            super(parent, Messages.DiagramConnectionLineStyleSection_5);
         }
 
         @Override
         protected void addActions(MenuManager menuManager) {
-            IAction action = createAction("None", IDiagramModelConnection.ARROW_NONE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
+            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_6, IDiagramModelConnection.ARROW_NONE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
             action.setChecked((fConnection.getType() & IDiagramModelConnection.ARROW_FILL_SOURCE) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_SOURCE) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_LINE_SOURCE) == 0);
             menuManager.add(action);
             
-            action = createAction("Fill", IDiagramModelConnection.ARROW_FILL_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_FILL));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_7, IDiagramModelConnection.ARROW_FILL_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_FILL));
             menuManager.add(action);
 
-            action = createAction("Hollow", IDiagramModelConnection.ARROW_HOLLOW_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_HOLLOW));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_8, IDiagramModelConnection.ARROW_HOLLOW_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_HOLLOW));
             menuManager.add(action);
 
-            action = createAction("Line", IDiagramModelConnection.ARROW_LINE_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_LINE));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_9, IDiagramModelConnection.ARROW_LINE_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_LINE));
             menuManager.add(action);
         }
         
@@ -282,24 +282,24 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
     
     protected class TargetArrowSelector extends StyleSelector {
         public TargetArrowSelector(Composite parent) {
-            super(parent, "Set the line's head arrow type");
+            super(parent, Messages.DiagramConnectionLineStyleSection_10);
         }
 
         @Override
         protected void addActions(MenuManager menuManager) {
-            IAction action = createAction("None", IDiagramModelConnection.ARROW_NONE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
+            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_11, IDiagramModelConnection.ARROW_NONE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
             action.setChecked((fConnection.getType() & IDiagramModelConnection.ARROW_FILL_TARGET) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_TARGET) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_LINE_TARGET) == 0);
             menuManager.add(action);
             
-            action = createAction("Fill", IDiagramModelConnection.ARROW_FILL_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_FILL));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_12, IDiagramModelConnection.ARROW_FILL_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_FILL));
             menuManager.add(action);
 
-            action = createAction("Hollow", IDiagramModelConnection.ARROW_HOLLOW_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_HOLLOW));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_13, IDiagramModelConnection.ARROW_HOLLOW_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_HOLLOW));
             menuManager.add(action);
 
-            action = createAction("Line", IDiagramModelConnection.ARROW_LINE_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_LINE));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_14, IDiagramModelConnection.ARROW_LINE_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_LINE));
             menuManager.add(action);
         }
         

@@ -42,7 +42,7 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class UsedInRelationshipsSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.usedInRelationshipsSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.usedInRelationshipsSection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -66,7 +66,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     }
     
     private void createTableControl(Composite parent) {
-        createCLabel(parent, "Model Relations:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.UsedInRelationshipsSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);
@@ -99,11 +99,11 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             @Override
             public String getText(Object element) {
                 IRelationship relationship = (IRelationship)element;
-                String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " (";
+                String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
                 name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
-                name += " - ";
+                name += " - "; //$NON-NLS-1$
                 name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
-                name += ")";
+                name += ")"; //$NON-NLS-1$
                 return name;
             }
             
@@ -140,7 +140,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             fArchimateElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
         }
         else {
-            System.err.println("UsedInRelationshipsSection wants to display for " + element);
+            System.err.println("UsedInRelationshipsSection wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

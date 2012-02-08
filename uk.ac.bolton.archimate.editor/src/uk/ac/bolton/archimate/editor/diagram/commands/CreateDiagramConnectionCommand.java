@@ -35,7 +35,7 @@ extends Command {
      */
     public CreateDiagramConnectionCommand(CreateConnectionRequest request) {
         fRequest = request;
-        setLabel("Create Connection");
+        setLabel(Messages.CreateDiagramConnectionCommand_0);
     }
     
     /**
@@ -45,7 +45,7 @@ extends Command {
      */
     public void setSource(IDiagramModelObject source) {
         if(source == null) {
-            throw new IllegalArgumentException("Source connected model object cannot be null");
+            throw new IllegalArgumentException("Source connected model object cannot be null"); //$NON-NLS-1$
         }
         fSource = source;
     }
@@ -57,7 +57,7 @@ extends Command {
      */
     public void setTarget(IDiagramModelObject target) {
         if(target == null) {
-            throw new IllegalArgumentException("Target connected model object cannot be null");
+            throw new IllegalArgumentException("Target connected model object cannot be null"); //$NON-NLS-1$
         }
         fTarget = target;
     }

@@ -6,7 +6,7 @@
          point="org.eclipse.ui.actionSets">
       <actionSet
             id="org.eclipse.ui.cheatsheets.actionSet"
-            label="Cheat Sheets"
+            label="%actionSet.label"
             visible="true">
          <action
                class="org.eclipse.ui.cheatsheets.CheatSheetExtensionFactory:helpMenuAction"
@@ -18,14 +18,14 @@
       </actionSet>
       <actionSet
             id="uk.ac.bolton.archimate.help.hints.actionSet"
-            label="Hints"
+            label="%actionSet.label.0"
             visible="true">
          <action
                class="uk.ac.bolton.archimate.help.hints.ShowHintsViewAction"
                definitionId="uk.ac.bolton.archimate.help.action.showHintsView"
                icon="img/hint-16.png"
                id="uk.ac.bolton.archimate.help.showHintsView"
-               label="Hints"
+               label="%action.label"
                menubarPath="window/show_view"
                style="push"
                toolbarPath="toolbar_views/end">
@@ -102,7 +102,7 @@
          point="org.eclipse.ui.commands">
       <command
             id="uk.ac.bolton.archimate.help.action.showHintsView"
-            name="Show Hints View">
+            name="%command.name">
       </command>
    </extension>
    <extension
@@ -119,292 +119,292 @@
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessActor"
             file="hints/business_actor.html"
-            title="Business Actor">
+            title="%hint.title">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessRole"
             file="hints/business_role.html"
-            title="Business Role">
+            title="%hint.title.0">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessCollaboration"
             file="hints/business_collaboration.html"
-            title="Business Collaboration">
+            title="%hint.title.1">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessInterface"
             file="hints/business_interface.html"
-            title="Business Interface">
+            title="%hint.title.2">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessObject"
             file="hints/business_object.html"
-            title="Business Object">
+            title="%hint.title.3">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessProcess"
             file="hints/business_process.html"
-            title="Business Process">
+            title="%hint.title.4">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessActivity"
             file="hints/business_activity.html"
-            title="Business Activity">
+            title="%hint.title.5">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessFunction"
             file="hints/business_function.html"
-            title="Business Function">
+            title="%hint.title.6">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessInteraction"
             file="hints/business_interaction.html"
-            title="Business Interaction">
+            title="%hint.title.7">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessEvent"
             file="hints/business_event.html"
-            title="Business Event">
+            title="%hint.title.8">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessService"
             file="hints/business_service.html"
-            title="Business Service">
+            title="%hint.title.9">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IRepresentation"
             file="hints/representation.html"
-            title="Representation">
+            title="%hint.title.10">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IMeaning"
             file="hints/meaning.html"
-            title="Meaning">
+            title="%hint.title.11">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IValue"
             file="hints/value.html"
-            title="Value">
+            title="%hint.title.12">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IProduct"
             file="hints/product.html"
-            title="Product">
+            title="%hint.title.13">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IContract"
             file="hints/contract.html"
-            title="Contract">
+            title="%hint.title.14">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ILocation"
             file="hints/location.html"
-            title="Location">
+            title="%hint.title.15">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IApplicationComponent"
             file="hints/application_component.html"
-            title="Application Component">
+            title="%hint.title.16">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IApplicationCollaboration"
             file="hints/application_collaboration.html"
-            title="Application Collaboration">
+            title="%hint.title.17">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IApplicationInterface"
             file="hints/application_interface.html"
-            title="Application Interface">
+            title="%hint.title.18">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDataObject"
             file="hints/data_object.html"
-            title="Data Object">
+            title="%hint.title.19">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IApplicationFunction"
             file="hints/application_function.html"
-            title="Application Function">
+            title="%hint.title.20">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IApplicationInteraction"
             file="hints/application_interaction.html"
-            title="Application Interaction">
+            title="%hint.title.21">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IApplicationService"
             file="hints/application_service.html"
-            title="Application Service">
+            title="%hint.title.22">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.INode"
             file="hints/node.html"
-            title="Node">
+            title="%hint.title.23">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDevice"
             file="hints/device.html"
-            title="Device">
+            title="%hint.title.24">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IInfrastructureInterface"
             file="hints/infrastructure_interface.html"
-            title="Infrastructure Interface">
+            title="%hint.title.25">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.INetwork"
             file="hints/network.html"
-            title="Network">
+            title="%hint.title.26">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ICommunicationPath"
             file="hints/communication_path.html"
-            title="Communication Path">
+            title="%hint.title.27">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IInfrastructureService"
             file="hints/infrastructure_service.html"
-            title="Infrastructure Service">
+            title="%hint.title.28">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IInfrastructureFunction"
             file="hints/infrastructure_function.html"
-            title="Infrastructure Function">
+            title="%hint.title.29">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ISystemSoftware"
             file="hints/system_software.html"
-            title="System Software">
+            title="%hint.title.30">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IArtifact"
             file="hints/artifact.html"
-            title="Artifact">
+            title="%hint.title.31">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ICompositionRelationship"
             file="hints/composition.html"
-            title="Composition relationship">
+            title="%hint.title.32">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IAggregationRelationship"
             file="hints/aggregation.html"
-            title="Aggregation relationship">
+            title="%hint.title.33">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IAssignmentRelationship"
             file="hints/assignment.html"
-            title="Assignment relationship">
+            title="%hint.title.34">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IRealisationRelationship"
             file="hints/realisation.html"
-            title="Realisation relationship">
+            title="%hint.title.35">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IUsedByRelationship"
             file="hints/used_by.html"
-            title="Used By relationship">
+            title="%hint.title.36">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IAccessRelationship"
             file="hints/access.html"
-            title="Access relationship">
+            title="%hint.title.37">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IAssociationRelationship"
             file="hints/association.html"
-            title="Association relationship">
+            title="%hint.title.38">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ITriggeringRelationship"
             file="hints/triggering.html"
-            title="Triggering relationship">
+            title="%hint.title.39">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IFlowRelationship"
             file="hints/flow.html"
-            title="Flow relationship">
+            title="%hint.title.40">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ISpecialisationRelationship"
             file="hints/specialisation.html"
-            title="Specialisation relationship">
+            title="%hint.title.41">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IInfluenceRelationship"
             file="hints/influence.html"
-            title="Influence relationship">
+            title="%hint.title.42">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IJunction"
             file="hints/junction.html"
-            title="Junction">
+            title="%hint.title.43">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IAndJunction"
             file="hints/and_junction.html"
-            title="And Junction">
+            title="%hint.title.44">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IOrJunction"
             file="hints/or_junction.html"
-            title="Or Junction">
+            title="%hint.title.45">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IStakeholder"
             file="hints/stakeholder.html"
-            title="Stakeholder">
+            title="%hint.title.46">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDriver"
             file="hints/driver.html"
-            title="Driver">
+            title="%hint.title.47">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IAssessment"
             file="hints/assessment.html"
-            title="Assessment">
+            title="%hint.title.48">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IGoal"
             file="hints/goal.html"
-            title="Goal">
+            title="%hint.title.49">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IRequirement"
             file="hints/requirement.html"
-            title="Requirement">
+            title="%hint.title.50">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IConstraint"
             file="hints/constraint.html"
-            title="Constraint">
+            title="%hint.title.51">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IPrinciple"
             file="hints/principle.html"
-            title="Principle">
+            title="%hint.title.52">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IWorkPackage"
             file="hints/workpackage.html"
-            title="Work Package">
+            title="%hint.title.53">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDeliverable"
             file="hints/deliverable.html"
-            title="Deliverable">
+            title="%hint.title.54">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IPlateau"
             file="hints/plateau.html"
-            title="Plateau">
+            title="%hint.title.55">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IGap"
             file="hints/gap.html"
-            title="Gap">
+            title="%hint.title.56">
       </hint>
    </extension>
    <extension
@@ -412,57 +412,57 @@
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelGroup"
             file="hints/group.html"
-            title="Group">
+            title="%hint.title.57">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModel"
             file="hints/view.html"
-            title="View">
+            title="%hint.title.58">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelNote"
             file="hints/note.html"
-            title="Note">
+            title="%hint.title.59">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelReference"
             file="hints/view_ref.html"
-            title="View Reference">
+            title="%hint.title.60">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IFolder"
             file="hints/folder.html"
-            title="Folder">
+            title="%hint.title.61">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IArchimateModel"
             file="hints/model.html"
-            title="Model">
+            title="%hint.title.62">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelConnection"
             file="hints/connection.html"
-            title="Connection">
+            title="%hint.title.63">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ISketchModel"
             file="hints/sketch.html"
-            title="Sketch">
+            title="%hint.title.64">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ISketchModelActor"
             file="hints/sketch_actor.html"
-            title="Sketch Actor">
+            title="%hint.title.65">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.ISketchModelSticky"
             file="hints/sketch_sticky.html"
-            title="Sticky">
+            title="%hint.title.66">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelImage"
             file="hints/diagram_image.html"
-            title="Image">
+            title="%hint.title.67">
       </hint>
    </extension>
    <extension
@@ -470,132 +470,132 @@
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ActorCooperationViewpoint"
             file="hints/viewpoint_actorcooperation.html"
-            title="Actor Co-operation Viewpoint">
+            title="%hint.title.68">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationBehaviourViewpoint"
             file="hints/viewpoint_applicationbehaviour.html"
-            title="Application Behaviour Viewpoint">
+            title="%hint.title.69">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationCooperationViewpoint"
             file="hints/viewpoint_applicationcooperation.html"
-            title="Application Co-operation Viewpoint">
+            title="%hint.title.70">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationStructureViewpoint"
             file="hints/viewpoint_applicationstructure.html"
-            title="Application Structure Viewpoint">
+            title="%hint.title.71">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ApplicationUsageViewpoint"
             file="hints/viewpoint_applicationusage.html"
-            title="Application Usage Viewpoint">
+            title="%hint.title.72">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessFunctionViewpoint"
             file="hints/viewpoint_businessfunction.html"
-            title="Business Function Viewpoint">
+            title="%hint.title.73">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessProcessViewpoint"
             file="hints/viewpoint_businessprocess.html"
-            title="Business Process Viewpoint">
+            title="%hint.title.74">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessProcessCooperationViewpoint"
             file="hints/viewpoint_businessprocesscoop.html"
-            title="Business Process Co-operation Viewpoint">
+            title="%hint.title.75">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.BusinessProductViewpoint"
             file="hints/viewpoint_businessproduct.html"
-            title="Business Product Viewpoint">
+            title="%hint.title.76">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.GoalContributionViewpoint"
             file="hints/viewpoint_goalcontribution.html"
-            title="Goal Contribution Viewpoint">
+            title="%hint.title.77">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.GoalRealisationViewpoint"
             file="hints/viewpoint_goalrealisation.html"
-            title="Goal Realisation Viewpoint">
+            title="%hint.title.78">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ImplementationAndDeploymentViewpoint"
             file="hints/viewpoint_impldeploy.html"
-            title="Implementation and Deployment Viewpoint">
+            title="%hint.title.79">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ImplementationMigrationViewpoint"
             file="hints/viewpoint_implmigration.html"
-            title="Implementation and Migration Viewpoint">
+            title="%hint.title.80">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.InformationStructureViewpoint"
             file="hints/viewpoint_infostructure.html"
-            title="Information Structure Viewpoint">
+            title="%hint.title.81">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.InfrastructureViewpoint"
             file="hints/viewpoint_infra.html"
-            title="Infrastructure Viewpoint">
+            title="%hint.title.82">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.InfrastructureUsageViewpoint"
             file="hints/viewpoint_infrausage.html"
-            title="Infrastructure Usage Viewpoint">
+            title="%hint.title.83">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.LayeredViewpoint"
             file="hints/viewpoint_layered.html"
-            title="Layered Viewpoint">
+            title="%hint.title.84">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.MigrationViewpoint"
             file="hints/viewpoint_migration.html"
-            title="Migration Viewpoint">
+            title="%hint.title.85">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.MotivationViewpoint"
             file="hints/viewpoint_motivation.html"
-            title="Motivation Viewpoint">
+            title="%hint.title.86">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.OrganisationViewpoint"
             file="hints/viewpoint_organisation.html"
-            title="Organisation Viewpoint">
+            title="%hint.title.87">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.PrinciplesViewpoint"
             file="hints/viewpoint_principles.html"
-            title="Principles Viewpoint">
+            title="%hint.title.88">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ProjectViewpoint"
             file="hints/viewpoint_project.html"
-            title="Project Viewpoint">
+            title="%hint.title.89">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.RequirementsRealisationViewpoint"
             file="hints/viewpoint_requirementsrealisation.html"
-            title="Requirements Realisation Viewpoint">
+            title="%hint.title.90">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ServiceRealisationViewpoint"
             file="hints/viewpoint_servicereal.html"
-            title="Service Realisation Viewpoint">
+            title="%hint.title.91">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.StakeholderViewpoint"
             file="hints/viewpoint_stakeholder.html"
-            title="Stakeholder Viewpoint">
+            title="%hint.title.92">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.TotalViewpoint"
             file="hints/viewpoint_total.html"
-            title="Total Viewpoint">
+            title="%hint.title.93">
       </hint>
    </extension>
 

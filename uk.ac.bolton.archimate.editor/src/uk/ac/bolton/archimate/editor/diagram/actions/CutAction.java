@@ -33,7 +33,7 @@ public class CutAction extends CopyAction {
     
     @Override
     protected void init() {
-        setText("&Cut");
+        setText(Messages.CutAction_0);
         setId(ActionFactory.CUT.getId());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
@@ -49,7 +49,7 @@ public class CutAction extends CopyAction {
         
         BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
             public void run() {
-                CompoundCommand result = new CompoundCommand("Cut");
+                CompoundCommand result = new CompoundCommand(Messages.CutAction_1);
                 
                 for(Object object : getSelectedObjects()) {
                     if(object instanceof EditPart) {

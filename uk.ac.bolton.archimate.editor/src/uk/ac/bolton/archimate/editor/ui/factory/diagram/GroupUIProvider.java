@@ -37,7 +37,7 @@ public class GroupUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Group";
+        return Messages.GroupUIProvider_0;
     }
 
     @Override

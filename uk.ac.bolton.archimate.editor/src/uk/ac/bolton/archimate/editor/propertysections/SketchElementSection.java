@@ -24,7 +24,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class SketchElementSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -52,8 +52,8 @@ public class SketchElementSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this element here");
-        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this element here");
+        fTextName = createNameControl(parent, Messages.SketchElementSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.SketchElementSection_1);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -66,7 +66,7 @@ public class SketchElementSection extends AbstractArchimatePropertySection {
         }
 
         if(fEObject == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

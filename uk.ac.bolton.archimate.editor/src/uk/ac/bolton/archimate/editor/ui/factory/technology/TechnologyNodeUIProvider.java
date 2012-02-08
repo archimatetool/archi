@@ -34,7 +34,7 @@ public class TechnologyNodeUIProvider extends AbstractTechnologyUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Node";
+        return Messages.TechnologyNodeUIProvider_0;
     }
 
     @Override

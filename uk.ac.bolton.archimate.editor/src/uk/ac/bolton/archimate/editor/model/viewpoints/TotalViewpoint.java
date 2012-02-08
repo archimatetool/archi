@@ -17,7 +17,7 @@ public class TotalViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Total";
+        return Messages.TotalViewpoint_0;
     }
     
     @Override

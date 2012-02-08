@@ -39,7 +39,7 @@ public class BasicContainerEditPolicy extends ContainerEditPolicy {
      */
 	@Override
     public Command getOrphanChildrenCommand(GroupRequest request) {
-        CompoundCommand result = new NonNotifyingCompoundCommand("Move elements");
+        CompoundCommand result = new NonNotifyingCompoundCommand(Messages.BasicContainerEditPolicy_0);
 
         IDiagramModelContainer parent = (IDiagramModelContainer)getHost().getModel();
 

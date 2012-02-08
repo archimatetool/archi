@@ -35,14 +35,14 @@ import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
  */
 public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMenuProvider {
     
-    public static final String GROUP_UNDO = "group_undo";
-    public static final String GROUP_EDIT = "group_edit";
-    public static final String GROUP_RENAME = "group_rename";
-    public static final String GROUP_EXPORT = "group_export";
-    public static final String GROUP_ORDER = "group_order";
-    public static final String GROUP_POSITION = "group_position";
-    public static final String GROUP_CONNECTIONS = "group_connections";
-    public static final String GROUP_PROPERTIES = "group_properties";
+    public static final String GROUP_UNDO = "group_undo"; //$NON-NLS-1$
+    public static final String GROUP_EDIT = "group_edit"; //$NON-NLS-1$
+    public static final String GROUP_RENAME = "group_rename"; //$NON-NLS-1$
+    public static final String GROUP_EXPORT = "group_export"; //$NON-NLS-1$
+    public static final String GROUP_ORDER = "group_order"; //$NON-NLS-1$
+    public static final String GROUP_POSITION = "group_position"; //$NON-NLS-1$
+    public static final String GROUP_CONNECTIONS = "group_connections"; //$NON-NLS-1$
+    public static final String GROUP_PROPERTIES = "group_properties"; //$NON-NLS-1$
 
     protected ActionRegistry actionRegistry;
 
@@ -103,13 +103,13 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
  
         menu.add(new Separator(GROUP_EXPORT));
-        IMenuManager exportMenu = new MenuManager("Export", "menu_export");
+        IMenuManager exportMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_0, "menu_export"); //$NON-NLS-1$
         menu.add(exportMenu);
         exportMenu.add(actionRegistry.getAction(ExportAsImageAction.ID));
         exportMenu.add(actionRegistry.getAction(ExportAsImageToClipboardAction.ID));
         
         menu.add(new Separator(GROUP_ORDER));
-        IMenuManager orderMenu = new MenuManager("Order", "menu_order");
+        IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_1, "menu_order"); //$NON-NLS-1$
         menu.add(orderMenu);
         orderMenu.add(actionRegistry.getAction(BringToFrontAction.ID));
         orderMenu.add(actionRegistry.getAction(BringForwardAction.ID));
@@ -117,7 +117,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         orderMenu.add(actionRegistry.getAction(SendBackwardAction.ID));
         
         menu.add(new GroupMarker(GROUP_POSITION));
-        IMenuManager alignmentMenu = new MenuManager("Position", "menu_position");
+        IMenuManager alignmentMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_2, "menu_position"); //$NON-NLS-1$
         menu.add(alignmentMenu);
         
         alignmentMenu.add(actionRegistry.getAction(GEFActionConstants.ALIGN_LEFT));
@@ -139,7 +139,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         alignmentMenu.add(actionRegistry.getAction(DefaultEditPartSizeAction.ID));
         
         menu.add(new Separator(GROUP_CONNECTIONS));
-        IMenuManager connectionMenu = new MenuManager("Connection Router", "menu_connection_router");
+        IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_3, "menu_connection_router"); //$NON-NLS-1$
         menu.appendToGroup(GROUP_CONNECTIONS, connectionMenu);
         connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
         connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));

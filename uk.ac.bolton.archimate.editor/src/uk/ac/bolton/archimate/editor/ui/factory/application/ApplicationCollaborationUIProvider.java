@@ -34,12 +34,12 @@ public class ApplicationCollaborationUIProvider extends AbstractApplicationUIPro
 
     @Override
     public String getDefaultName() {
-        return "Application Collaboration";
+        return Messages.ApplicationCollaborationUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Collaboration";
+        return Messages.ApplicationCollaborationUIProvider_1;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ImplementationAndDeploymentViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Implementation and Deployment";
+        return Messages.ImplementationAndDeploymentViewpoint_0;
     }
 
     @Override

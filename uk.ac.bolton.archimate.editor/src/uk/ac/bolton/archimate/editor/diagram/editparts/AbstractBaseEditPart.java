@@ -163,7 +163,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
      * @return True if this EditPart's Viewer is in Full Screen Mode
      */
     public boolean isInFullScreenMode() {
-        return getViewer() != null && getViewer().getProperty("full_screen") != null;
+        return getViewer() != null && getViewer().getProperty("full_screen") != null; //$NON-NLS-1$
     }
     
     /**

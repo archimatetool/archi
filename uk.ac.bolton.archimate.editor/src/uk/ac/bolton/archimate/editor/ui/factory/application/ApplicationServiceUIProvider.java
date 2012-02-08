@@ -34,12 +34,12 @@ public class ApplicationServiceUIProvider extends AbstractApplicationUIProvider 
 
     @Override
     public String getDefaultName() {
-        return "Application Service";
+        return Messages.ApplicationServiceUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Service";
+        return Messages.ApplicationServiceUIProvider_1;
     }
 
     @Override

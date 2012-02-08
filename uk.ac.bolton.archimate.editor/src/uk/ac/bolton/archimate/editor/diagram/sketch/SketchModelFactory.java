@@ -52,12 +52,12 @@ public class SketchModelFactory implements ICreationFactory {
         
         // Actor
         if(object instanceof ISketchModelActor) {
-            ((ISketchModelActor)object).setName("Actor");
+            ((ISketchModelActor)object).setName(Messages.SketchModelFactory_0);
         }
         
         // Sticky
         else if(object instanceof ISketchModelSticky) {
-            ((ISketchModelSticky)object).setName("Sticky");
+            ((ISketchModelSticky)object).setName(Messages.SketchModelFactory_1);
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertRGBToString(((Color)fParam).getRGB());
                 ((ISketchModelSticky)object).setFillColor(color);
@@ -66,7 +66,7 @@ public class SketchModelFactory implements ICreationFactory {
         
         // Group
         else if(object instanceof IDiagramModelGroup) {
-            ((IDiagramModelGroup)object).setName("Group");
+            ((IDiagramModelGroup)object).setName(Messages.SketchModelFactory_2);
         }
         
         // Connection

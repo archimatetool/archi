@@ -88,28 +88,28 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
     private class NewCanvasAction extends Action {
         @Override
         public String getText() {
-            return "Blank Canvas";
+            return Messages.NewCanvasExtensionContributionFactory_0;
         }
         
         @Override
         public void run() {
             if(fCurrentFolder != null) {
                 ICanvasModel canvasModel = ICanvasFactory.eINSTANCE.createCanvasModel();
-                canvasModel.setName("New Canvas");
+                canvasModel.setName(Messages.NewCanvasExtensionContributionFactory_1);
 
                 // Execute Command
-                Command cmd = new NewDiagramCommand(fCurrentFolder, canvasModel, "New Canvas");
+                Command cmd = new NewDiagramCommand(fCurrentFolder, canvasModel, Messages.NewCanvasExtensionContributionFactory_1);
                 CommandStack commandStack = (CommandStack)fCurrentFolder.getAdapter(CommandStack.class);
                 commandStack.execute(cmd);
             }
             else {
-                System.err.println("Folder was null in " + getClass());
+                System.err.println("Folder was null in " + getClass()); //$NON-NLS-1$
             }
         }
         
         @Override
         public String getId() {
-            return "newCanvasAction";
+            return "newCanvasAction"; //$NON-NLS-1$
         };
         
         @Override
@@ -124,7 +124,7 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
     private class NewCanvasFromTemplateAction extends Action {
         @Override
         public String getText() {
-            return "Canvas from Template...";
+            return Messages.NewCanvasExtensionContributionFactory_2;
         }
         
         @Override
@@ -132,17 +132,17 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
             if(fCurrentFolder != null) {
                 WizardDialog dialog = new ExtendedWizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                                       new NewCanvasFromTemplateWizard(fCurrentFolder),
-                                      "NewCanvasFromTemplateWizard");
+                                      "NewCanvasFromTemplateWizard"); //$NON-NLS-1$
                 dialog.open();
             }
             else {
-                System.err.println("Folder was null in " + getClass());
+                System.err.println("Folder was null in " + getClass()); //$NON-NLS-1$
             }
         }
         
         @Override
         public String getId() {
-            return "newCanvasFromTemplateAction";
+            return "newCanvasFromTemplateAction"; //$NON-NLS-1$
         };
         
         @Override

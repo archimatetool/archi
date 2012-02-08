@@ -34,7 +34,7 @@ public class MacOSReflect {
     
     static {
         try {
-            OS = Class.forName("org.eclipse.swt.internal.cocoa.OS");
+            OS = Class.forName("org.eclipse.swt.internal.cocoa.OS"); //$NON-NLS-1$
         }
         catch(ClassNotFoundException ex) {
             throw new RuntimeException(ex);
@@ -49,7 +49,7 @@ public class MacOSReflect {
     public static Class NSUInteger;
     
     static {
-        boolean is64bit = System.getProperty("os.arch").equals(Platform.ARCH_X86_64);
+        boolean is64bit = System.getProperty("os.arch").equals(Platform.ARCH_X86_64); //$NON-NLS-1$
         NSUInteger = is64bit ? long.class : int.class;
     }
 
@@ -59,7 +59,7 @@ public class MacOSReflect {
      * @return the long value
      */
     public static long getID(Object id) {
-        return ((Number) getField(id, "id")).longValue();
+        return ((Number) getField(id, "id")).longValue(); //$NON-NLS-1$
     }
 
     /**
@@ -69,7 +69,7 @@ public class MacOSReflect {
      * @param arg
      */
     public static void objc_msgSend(long target, long sel, long arg) {
-        executeLong(OS, "objc_msgSend", new Class[] { NSUInteger, NSUInteger, NSUInteger }, target, sel, arg);
+        executeLong(OS, "objc_msgSend", new Class[] { NSUInteger, NSUInteger, NSUInteger }, target, sel, arg); //$NON-NLS-1$
     }
 
     /**
@@ -81,7 +81,7 @@ public class MacOSReflect {
         try {
             Number selector = fSelectors.get(sel);
             if(selector == null) {
-                selector = (Number)(OS.getMethod("sel_registerName", String.class).invoke(null, sel));
+                selector = (Number)(OS.getMethod("sel_registerName", String.class).invoke(null, sel)); //$NON-NLS-1$
                 fSelectors.put(sel, selector);
             }
             return selector.longValue();
@@ -99,9 +99,9 @@ public class MacOSReflect {
      */
     public static Object getNSWindow(Shell shell) {
         try {
-            Field fieldView = Control.class.getDeclaredField("view");
+            Field fieldView = Control.class.getDeclaredField("view"); //$NON-NLS-1$
             Object nsView = fieldView.get(shell);
-            Method methodWindow = fieldView.getType().getDeclaredMethod("window");
+            Method methodWindow = fieldView.getType().getDeclaredMethod("window"); //$NON-NLS-1$
             return methodWindow.invoke(nsView, new Object[] {});
         }
         catch(Exception ex) {

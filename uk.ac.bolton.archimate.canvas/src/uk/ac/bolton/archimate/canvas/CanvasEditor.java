@@ -122,6 +122,6 @@ implements ICanvasEditor {
     }
 
     public String getSearchExpression(Object target) {
-        return "Canvas View";
+        return Messages.CanvasEditor_0;
     }
 }

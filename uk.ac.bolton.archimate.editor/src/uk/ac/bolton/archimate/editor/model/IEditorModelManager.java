@@ -22,32 +22,32 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
  */
 public interface IEditorModelManager {
     
-    String ARCHIMATE_FILE_EXTENSION = ".archimate";
-    String ARCHIMATE_FILE_WILDCARD = "*.archimate";
+    String ARCHIMATE_FILE_EXTENSION = ".archimate"; //$NON-NLS-1$
+    String ARCHIMATE_FILE_WILDCARD = "*.archimate"; //$NON-NLS-1$
     
-    String PROPERTY_MODEL_CREATED = "IEditorModelManager.model.created";
-    String PROPERTY_MODEL_OPENED = "IEditorModelManager.model.opened";
-    String PROPERTY_MODEL_LOADED = "IEditorModelManager.model.loaded";
-    String PROPERTY_MODEL_REMOVED = "IEditorModelManager.model.removed";
-    String PROPERTY_MODEL_SAVED = "IEditorModelManager.model.saved";
+    String PROPERTY_MODEL_CREATED = "IEditorModelManager.model.created"; //$NON-NLS-1$
+    String PROPERTY_MODEL_OPENED = "IEditorModelManager.model.opened"; //$NON-NLS-1$
+    String PROPERTY_MODEL_LOADED = "IEditorModelManager.model.loaded"; //$NON-NLS-1$
+    String PROPERTY_MODEL_REMOVED = "IEditorModelManager.model.removed"; //$NON-NLS-1$
+    String PROPERTY_MODEL_SAVED = "IEditorModelManager.model.saved"; //$NON-NLS-1$
     
-    String COMMAND_STACK_CHANGED = "IEditorModelManager.model.dirty";
+    String COMMAND_STACK_CHANGED = "IEditorModelManager.model.dirty"; //$NON-NLS-1$
 
-    String PROPERTY_ECORE_EVENT = "IEditorModelManager.ecore.event";
+    String PROPERTY_ECORE_EVENT = "IEditorModelManager.ecore.event"; //$NON-NLS-1$
     
     /*
      *  Notification that many ECore events will be fired in succession.
      *  Listeners can choose to then ignore the events and then update when notified of end.
      */
-    String PROPERTY_ECORE_EVENTS_START = "IEditorModelManager.ecore.events.start";
-    String PROPERTY_ECORE_EVENTS_END = "IEditorModelManager.ecore.events.end";
+    String PROPERTY_ECORE_EVENTS_START = "IEditorModelManager.ecore.events.start"; //$NON-NLS-1$
+    String PROPERTY_ECORE_EVENTS_END = "IEditorModelManager.ecore.events.end"; //$NON-NLS-1$
     
     /*
      * If the user creates a new view and it's open and then the user closes the application without first
      * saving the model, then Eclipse tries to restore it again next time. So we don't persist the state
      * of the diagram if the diagram view is not saved.
      */
-    String ADAPTER_PROPERTY_MODEL_SAVED = "saved";
+    String ADAPTER_PROPERTY_MODEL_SAVED = "saved"; //$NON-NLS-1$
     
     /**
      * The singleton instance of the Editor Model Manager

@@ -55,7 +55,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
      */
     public AbstractTemplate(String id) {
         if(id == null) {
-            id = UUID.randomUUID().toString().split("-")[0];
+            id = UUID.randomUUID().toString().split("-")[0]; //$NON-NLS-1$
         }
         fID = id;
     }
@@ -111,7 +111,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
             int i = 1;
             Image image;
             do {
-                image = loadImage(TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png");
+                image = loadImage(TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png"); //$NON-NLS-1$
                 if(image != null) {
                     list.add(image);
                 }
@@ -174,7 +174,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         String model = ZipUtils.extractZipEntry(fFile, TemplateManager.ZIP_ENTRY_MODEL);
         
         // Start a zip stream
-        File tmpFile = File.createTempFile("architemplate", null);
+        File tmpFile = File.createTempFile("architemplate", null); //$NON-NLS-1$
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(tmpFile));
         ZipOutputStream zOut = new ZipOutputStream(out);
         
@@ -185,7 +185,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         Image[] images = getThumbnails();
         int i = 1;
         for(Image image : images) {
-            ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png", zOut, SWT.IMAGE_PNG, null);
+            ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + i++ + ".png", zOut, SWT.IMAGE_PNG, null); //$NON-NLS-1$
         }
         
         zOut.flush();
@@ -200,8 +200,8 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
     private void loadManifest() {
         // Default first
         fManifestLoaded = true;
-        fName = "";
-        fDescription = "";
+        fName = ""; //$NON-NLS-1$
+        fDescription = ""; //$NON-NLS-1$
         
         if(fFile != null && fFile.exists()) {
             try {

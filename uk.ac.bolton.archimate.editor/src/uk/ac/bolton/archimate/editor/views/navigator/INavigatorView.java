@@ -21,7 +21,7 @@ public interface INavigatorView extends IModelView {
 
     String ID = ArchimateEditorPlugin.PLUGIN_ID + ".navigatorView"; //$NON-NLS-1$
     String HELP_ID = "uk.ac.bolton.archimate.help.navigatorViewHelp"; //$NON-NLS-1$
-    String NAME = "Navigator";
+    String NAME = Messages.INavigatorView_0;
     ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NAVIGATOR_16);
     
 }

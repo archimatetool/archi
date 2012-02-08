@@ -37,7 +37,7 @@ public class AssessmentUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Assessment";
+        return Messages.AssessmentUIProvider_0;
     }
 
     @Override

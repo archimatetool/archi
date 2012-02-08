@@ -63,7 +63,7 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
         fBrowser = createBrowser(parent);
         if(fBrowser == null) {
             Label label = new Label(parent, SWT.NONE);
-            label.setText("Browser component not available");
+            label.setText(Messages.BrowserEditor_0);
             label.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
             return;
         }
@@ -84,7 +84,7 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
         try {
             // On Eclipse 3.6 set this
             if(isGTK()) {
-                System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true");
+                System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             }
             browser = new Browser(parent, SWT.NONE);
             browser.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));

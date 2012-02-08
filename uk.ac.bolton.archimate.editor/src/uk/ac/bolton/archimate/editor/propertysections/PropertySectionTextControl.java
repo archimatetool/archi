@@ -84,7 +84,7 @@ public abstract class PropertySectionTextControl implements FocusListener {
     @Override
     public void focusGained(FocusEvent e) {
         if(fHintShowing) {
-            showNormalText(""); // clear hint text
+            showNormalText(""); // clear hint text //$NON-NLS-1$
         }
     }
 
@@ -99,7 +99,7 @@ public abstract class PropertySectionTextControl implements FocusListener {
     }
     
     private void updateText() {
-        String oldText = ""; // Text control has default of ""
+        String oldText = ""; // Text control has default of "" //$NON-NLS-1$
         String newText = getText();
         
         if(fDataElement != null) {
@@ -118,7 +118,7 @@ public abstract class PropertySectionTextControl implements FocusListener {
             fHintShowing = true;
         }
         else {
-            setText(""); // clears previous text if no hint text
+            setText(""); // clears previous text if no hint text //$NON-NLS-1$
         }
     }
     

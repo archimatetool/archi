@@ -23,7 +23,7 @@ public class MoveObjectCommand extends Command {
     private int fOldPos;
     
     public MoveObjectCommand(IFolder newParent, INameable element) {
-        super("Move " + element.getName());
+        super(Messages.MoveObjectCommand_0 + " " + element.getName()); //$NON-NLS-1$
         fOldParent = (IFolder)element.eContainer();
         fNewParent = newParent;
         fElement = element;

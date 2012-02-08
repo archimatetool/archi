@@ -123,7 +123,7 @@ public class DuplicateCommandHandler {
         for(Object object : fElementsToDuplicate) {
             CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
             if(compoundCommand == null) { // sanity check
-                System.err.println("Could not get CompoundCommand in " + getClass());
+                System.err.println("Could not get CompoundCommand in " + getClass()); //$NON-NLS-1$
                 continue;
             }
             
@@ -154,14 +154,14 @@ public class DuplicateCommandHandler {
         // Get the Command Stack registered to the object
         CommandStack stack = (CommandStack)object.getAdapter(CommandStack.class);
         if(stack == null) {
-            System.err.println("CommandStack was null in " + getClass());
+            System.err.println("CommandStack was null in " + getClass()); //$NON-NLS-1$
             return null;
         }
         
         // Now get or create a Compound Command
         CompoundCommand compoundCommand = fCommandMap.get(stack);
         if(compoundCommand == null) {
-            compoundCommand = new NonNotifyingCompoundCommand("Duplicate");
+            compoundCommand = new NonNotifyingCompoundCommand(Messages.DuplicateCommandHandler_1);
             fCommandMap.put(stack, compoundCommand);
         }
         
@@ -193,7 +193,7 @@ public class DuplicateCommandHandler {
         public DuplicateDiagramModelCommand(IDiagramModel dm) {
             fParent = (IFolder)dm.eContainer();
             fDiagramModelOriginal = dm;
-            setLabel("Duplicate View");
+            setLabel(Messages.DuplicateCommandHandler_2);
         }
         
         @Override
@@ -201,7 +201,7 @@ public class DuplicateCommandHandler {
             // We have to add the diagram model to the model first so that child objects can be allocated IDs.
             // See uk.ac.bolton.archimate.model.util.IDAdapter
             fDiagramModelCopy = (IDiagramModel)fDiagramModelOriginal.getCopy();
-            fDiagramModelCopy.setName(fDiagramModelOriginal.getName() + " (copy)");
+            fDiagramModelCopy.setName(fDiagramModelOriginal.getName() + " " + Messages.DuplicateCommandHandler_3); //$NON-NLS-1$
             fParent.getElements().add(fDiagramModelCopy);
             
             fNewObjects.add(fDiagramModelCopy);
@@ -283,11 +283,11 @@ public class DuplicateCommandHandler {
         private IArchimateElement fElementCopy;
         
         public DuplicateElementCommand(IArchimateElement element) {
-            setLabel("Duplicate Element");
+            setLabel(Messages.DuplicateCommandHandler_4);
 
             fParent = (IFolder)element.eContainer();
             fElementCopy = (IArchimateElement)element.getCopy();
-            fElementCopy.setName(element.getName() + " (copy)");
+            fElementCopy.setName(element.getName() + " " + Messages.DuplicateCommandHandler_3); //$NON-NLS-1$
 
             fNewObjects.add(fElementCopy);
         }

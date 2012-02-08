@@ -52,20 +52,20 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
     
     public CanvasEditorPalette() {
         createControlsGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
         
         createElementsGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
 
         createStickiesGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
     }
 
     /**
      * Create a Group of Controls
      */
     private PaletteContainer createControlsGroup() {
-        PaletteContainer group = new PaletteToolbar("Tools");
+        PaletteContainer group = new PaletteToolbar(Messages.CanvasEditorPalette_0);
         add(group);
         
         // The selection tool
@@ -87,11 +87,11 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
     }
     
     private PaletteContainer createElementsGroup() {
-        PaletteContainer group = new PaletteGroup("Elements");
+        PaletteContainer group = new PaletteGroup(Messages.CanvasEditorPalette_1);
         add(group);
         
         PaletteEntry entry = new CombinedTemplateCreationEntry(
-                "Block",
+                Messages.CanvasEditorPalette_2,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelBlock()),
                 ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK_16),
@@ -99,7 +99,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         group.add(entry);
         
         entry = new CombinedTemplateCreationEntry(
-                "Image",
+                Messages.CanvasEditorPalette_3,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelImage()),
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LANDSCAPE_16),
@@ -109,7 +109,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.LINE_SOLID,
-                "Line Connection",
+                Messages.CanvasEditorPalette_4,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_PLAIN_16));
         group.add(entry);
@@ -117,7 +117,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET,
-                "Arrow Connection",
+                Messages.CanvasEditorPalette_5,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_ARROW_16));
         group.add(entry);
@@ -125,7 +125,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
-                "Dashed Connection",
+                Messages.CanvasEditorPalette_6,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DASHED_ARROW_16));
         group.add(entry);
@@ -133,7 +133,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 ICanvasPackage.eINSTANCE.getCanvasModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
-                "Dotted Connection",
+                Messages.CanvasEditorPalette_7,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DOTTED_ARROW_16));
         group.add(entry);
@@ -143,7 +143,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
     }
 
     private PaletteContainer createStickiesGroup() {
-        PaletteContainer group = new PaletteToolbar("Stickies");
+        PaletteContainer group = new PaletteToolbar(Messages.CanvasEditorPalette_8);
         add(group);
         
         // Sticky Notes
@@ -178,7 +178,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
 
     private PaletteEntry createStickyEntry(Color color) {
         return new CombinedTemplateCreationEntry(
-                "Sticky",
+                Messages.CanvasEditorPalette_9,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), color),
                 getStickyImageDescriptor(color),

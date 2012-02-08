@@ -22,7 +22,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class FileTransferDropTargetListener extends AbstractTransferDropTargetListener {
     
-    public static String FILE_TRANSFER_REQUEST = "filetransfer";
+    public static String FILE_TRANSFER_REQUEST = "filetransfer"; //$NON-NLS-1$
 
     public FileTransferDropTargetListener(EditPartViewer viewer) {
         super(viewer, FileTransfer.getInstance());

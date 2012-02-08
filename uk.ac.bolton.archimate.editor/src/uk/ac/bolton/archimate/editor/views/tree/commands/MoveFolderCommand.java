@@ -22,7 +22,7 @@ public class MoveFolderCommand extends Command {
     private int fOldPos;
     
     public MoveFolderCommand(IFolder newParent, IFolder folder) {
-        super("Move " + folder.getName());
+        super(Messages.MoveFolderCommand_0 + " " + folder.getName()); //$NON-NLS-1$
         fOldParent = (IFolder)folder.eContainer();
         fNewParent = newParent;
         fFolder = folder;

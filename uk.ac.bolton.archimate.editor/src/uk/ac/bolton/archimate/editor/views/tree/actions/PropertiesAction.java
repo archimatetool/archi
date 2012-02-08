@@ -22,7 +22,7 @@ public class PropertiesAction extends ViewerAction {
     
     public PropertiesAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
-        setText("P&roperties");
+        setText(Messages.PropertiesAction_0);
         
         // Ensures key binding is displayed
         setActionDefinitionId(IWorkbenchCommandConstants.FILE_PROPERTIES);

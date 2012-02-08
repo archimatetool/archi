@@ -86,7 +86,7 @@ public class FormatPainterTool extends AbstractTool {
     }
     
     protected CompoundCommand createCommand(PaintFormat pf, Object targetObject) {
-        CompoundCommand result = new CompoundCommand("Format Painter");
+        CompoundCommand result = new CompoundCommand(Messages.FormatPainterTool_0);
         
         if(pf.sourceComponent instanceof IDiagramModelObject && targetObject instanceof IDiagramModelObject) {
             IDiagramModelObject source = (IDiagramModelObject)pf.sourceComponent;
@@ -162,7 +162,7 @@ public class FormatPainterTool extends AbstractTool {
     
     @Override
     protected String getCommandName() {
-        return "FormatPaint";
+        return "FormatPaint"; //$NON-NLS-1$
     }
 
 }

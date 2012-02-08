@@ -70,7 +70,7 @@ implements IColoredEditPart, ITextAlignedEditPart  {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
         
         // Add a DND Policy
-        installEditPolicy("DND", new SketchDNDEditPolicy());
+        installEditPolicy("DND", new SketchDNDEditPolicy()); //$NON-NLS-1$
         
         // Install a custom layout policy that handles dragging things around and creating new objects
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());
@@ -128,7 +128,7 @@ implements IColoredEditPart, ITextAlignedEditPart  {
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String content = (String)request.getCellEditor().getValue();
-            return new EObjectFeatureCommand("Content", getModel(),
+            return new EObjectFeatureCommand(Messages.StickyEditPart_0, getModel(),
                     IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, content);
         }
 

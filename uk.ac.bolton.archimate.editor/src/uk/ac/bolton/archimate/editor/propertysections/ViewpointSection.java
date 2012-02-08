@@ -42,7 +42,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class ViewpointSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -86,7 +86,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Viewpoint:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.ViewpointSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         fComboViewer = new ComboViewer(new Combo(parent, SWT.READ_ONLY | SWT.BORDER));
         fComboViewer.getCombo().setVisibleItemCount(12);
@@ -104,7 +104,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
                     IViewpoint viewPoint = (IViewpoint)((IStructuredSelection)event.getSelection()).getFirstElement();
                     if(viewPoint != null) {
                         fIsExecutingCommand = true;
-                        getCommandStack().execute(new EObjectFeatureCommand("Viewpoint",
+                        getCommandStack().execute(new EObjectFeatureCommand(Messages.ViewpointSection_1,
                                 fDiagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
                                 viewPoint.getIndex()));
                         fIsExecutingCommand = false;
@@ -137,7 +137,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
             }
         });
         
-        fComboViewer.setInput("");
+        fComboViewer.setInput(""); //$NON-NLS-1$
 
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -154,7 +154,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
             fDiagramModel = (IArchimateDiagramModel)((ArchimateDiagramPart)element).getAdapter(IDiagramModel.class);
         }
         else {
-            System.err.println(getClass() + " wants to display for " + element);
+            System.err.println(getClass() + " wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

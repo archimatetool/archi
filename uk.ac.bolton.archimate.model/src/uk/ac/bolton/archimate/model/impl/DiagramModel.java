@@ -87,7 +87,7 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
      * @generated
      * @ordered
      */
-    protected static final String NAME_EDEFAULT = "";
+    protected static final String NAME_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getName() <em>Name</em>}' attribute.

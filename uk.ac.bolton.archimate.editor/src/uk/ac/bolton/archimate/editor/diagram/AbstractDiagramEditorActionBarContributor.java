@@ -60,10 +60,10 @@ extends ActionBarContributor {
 
     protected ZoomComboContributionItem fZoomCombo;
     
-    protected String GROUP_EDIT_MENU = "group_editMenu";
-    protected String GROUP_TOOLBAR_END = "group_toolbarEnd";
-    protected String GROUP_POSITION = "group_position";
-    private String GROUP_CONNECTIONS = "group_connections";
+    protected String GROUP_EDIT_MENU = "group_editMenu"; //$NON-NLS-1$
+    protected String GROUP_TOOLBAR_END = "group_toolbarEnd"; //$NON-NLS-1$
+    protected String GROUP_POSITION = "group_position"; //$NON-NLS-1$
+    private String GROUP_CONNECTIONS = "group_connections"; //$NON-NLS-1$
     
     @Override
     protected void buildActions() {
@@ -84,13 +84,13 @@ extends ActionBarContributor {
         addRetargetAction(new MatchHeightRetargetAction());
         
         addRetargetAction(new RetargetAction(SnapToGrid.PROPERTY_GRID_ENABLED, 
-                "Snap to Grid", IAction.AS_CHECK_BOX));
+                Messages.AbstractDiagramEditorActionBarContributor_0, IAction.AS_CHECK_BOX));
 
         addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, 
-                "Grid Visible", IAction.AS_CHECK_BOX));
+                Messages.AbstractDiagramEditorActionBarContributor_1, IAction.AS_CHECK_BOX));
         
         addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, 
-                "Snap to Alignment Guides", IAction.AS_CHECK_BOX));
+                Messages.AbstractDiagramEditorActionBarContributor_2, IAction.AS_CHECK_BOX));
         
         //addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY, 
         //        "Ruler", IAction.AS_CHECK_BOX));
@@ -153,7 +153,7 @@ extends ActionBarContributor {
         addRetargetAction(new RetargetAction(BorderColorAction.ID, BorderColorAction.TEXT));
         
         // Lock
-        addRetargetAction(new LabelRetargetAction(LockObjectAction.ID, "Lock"));
+        addRetargetAction(new LabelRetargetAction(LockObjectAction.ID, Messages.AbstractDiagramEditorActionBarContributor_3));
     }
 
     @Override
@@ -181,7 +181,7 @@ extends ActionBarContributor {
      * Create the "View" Menu
      */
     protected IMenuManager createViewMenu(IMenuManager menuManager) {
-        IMenuManager viewMenu = new MenuManager("&View");
+        IMenuManager viewMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_4);
         
         viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
         viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
@@ -193,7 +193,7 @@ extends ActionBarContributor {
         //viewMenu.add(getAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY));
         viewMenu.add(new Separator());
         
-        IMenuManager orderMenu = new MenuManager("Order", "menu_order");
+        IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_5, "menu_order"); //$NON-NLS-1$
         viewMenu.add(orderMenu);
         orderMenu.add(getAction(BringToFrontAction.ID));
         orderMenu.add(getAction(BringForwardAction.ID));
@@ -201,7 +201,7 @@ extends ActionBarContributor {
         orderMenu.add(getAction(SendBackwardAction.ID));
         
         viewMenu.add(new GroupMarker(GROUP_POSITION));
-        IMenuManager alignmentMenu = new MenuManager("Position", "menu_position");
+        IMenuManager alignmentMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_6, "menu_position"); //$NON-NLS-1$
         viewMenu.add(alignmentMenu);
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_LEFT));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_CENTER));
@@ -222,7 +222,7 @@ extends ActionBarContributor {
         alignmentMenu.add(getAction(DefaultEditPartSizeAction.ID));
         
         viewMenu.add(new Separator(GROUP_CONNECTIONS ));
-        IMenuManager connectionMenu = new MenuManager("Connection Router", "menu_connection_router");
+        IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_7, "menu_connection_router"); //$NON-NLS-1$
         viewMenu.add(connectionMenu);
         connectionMenu.add(getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
         connectionMenu.add(getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
@@ -241,7 +241,7 @@ extends ActionBarContributor {
         IMenuManager fileMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_FILE);
         
         // Export menu items
-        IMenuManager exportMenu = menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_FILE + "/export_menu");
+        IMenuManager exportMenu = menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_FILE + "/export_menu"); //$NON-NLS-1$
         exportMenu.add(getAction(ExportAsImageAction.ID));
         exportMenu.add(getAction(ExportAsImageToClipboardAction.ID));
         
@@ -264,7 +264,7 @@ extends ActionBarContributor {
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FontColorAction.ID));
         
         // Text Alignment
-        IMenuManager textAlignmentMenu = new MenuManager("Text alignment");
+        IMenuManager textAlignmentMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_8);
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_LEFT_ID));
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_CENTER_ID));
         textAlignmentMenu.add(getAction(TextAlignmentAction.ACTION_RIGHT_ID));

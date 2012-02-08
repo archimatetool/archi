@@ -58,35 +58,35 @@ public class StyledTextControl implements Listener, LineStyleListener {
     private boolean fMouseDown;
     private boolean fDragEvent;
     
-    private IAction fActionSelectAll = new Action("Select All") {
+    private IAction fActionSelectAll = new Action(Messages.StyledTextControl_0) {
         @Override
         public void run() {
             fStyledText.selectAll();
         }
     };
     
-    private IAction fActionCut = new Action("Cut") {
+    private IAction fActionCut = new Action(Messages.StyledTextControl_1) {
         @Override
         public void run() {
             fStyledText.cut();
         }
     };
     
-    private IAction fActionCopy = new Action("Copy") {
+    private IAction fActionCopy = new Action(Messages.StyledTextControl_2) {
         @Override
         public void run() {
             fStyledText.copy();
         }
     };
     
-    private IAction fActionPaste = new Action("Paste") {
+    private IAction fActionPaste = new Action(Messages.StyledTextControl_3) {
         @Override
         public void run() {
             fStyledText.paste();
         }
     };
     
-    private IAction fActionDelete = new Action("Delete") {
+    private IAction fActionDelete = new Action(Messages.StyledTextControl_4) {
         @Override
         public void run() {
             fStyledText.invokeAction(SWT.DEL);
@@ -233,7 +233,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
         fLinkRanges = new ArrayList<int[]>();
         fLinks = new ArrayList<String>();
         
-        int urlSeparatorOffset = s.indexOf("://");
+        int urlSeparatorOffset = s.indexOf("://"); //$NON-NLS-1$
         while(urlSeparatorOffset >= 0) {
             // URL protocol (left to "://")
             int urlOffset = urlSeparatorOffset;
@@ -249,7 +249,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
             urlOffset++;
 
             // Right to "://"
-            StringTokenizer tokenizer = new StringTokenizer(s.substring(urlSeparatorOffset + 3), " \t\n\r\f<>", false);
+            StringTokenizer tokenizer = new StringTokenizer(s.substring(urlSeparatorOffset + 3), " \t\n\r\f<>", false); //$NON-NLS-1$
             if(!tokenizer.hasMoreTokens()) {
                 return;
             }
@@ -259,7 +259,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
             fLinkRanges.add(new int[]{urlOffset, urlLength});
             fLinks.add(s.substring(urlOffset, urlOffset + urlLength));
 
-            urlSeparatorOffset = s.indexOf("://", urlOffset + urlLength + 1);
+            urlSeparatorOffset = s.indexOf("://", urlOffset + urlLength + 1); //$NON-NLS-1$
         }
     }
 

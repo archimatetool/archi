@@ -33,5 +33,5 @@ package uk.ac.bolton.archimate.model;
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "2.2.0";
+    String VERSION = "2.2.0"; //$NON-NLS-1$
 }

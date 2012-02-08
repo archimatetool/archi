@@ -17,6 +17,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -35,7 +36,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
  */
 public class MRUMenuManager extends MenuManager implements PropertyChangeListener {
     
-    private static final String MRU_PREFS_KEY = "MRU";
+    private static final String MRU_PREFS_KEY = "MRU"; //$NON-NLS-1$
     
     private List<File> fMRU_List = new ArrayList<File>();
     
@@ -44,7 +45,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     private int MAX;
     
     public MRUMenuManager(IWorkbenchWindow window) {
-        super("Open Recent", "open_recent_menu");
+        super(Messages.MRUMenuManager_0, "open_recent_menu"); //$NON-NLS-1$
         
         fWindow = window;
         
@@ -84,7 +85,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
      * Don't show temp files
      */
     private boolean isTempFile(File file) {
-        return file != null && file.getName().startsWith("~");
+        return file != null && file.getName().startsWith("~"); //$NON-NLS-1$
     }
     
     private void addToList(File file) {
@@ -139,7 +140,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     private void saveList() {
         // Clear
         for(int i = 0; i < 50; i++) {
-            Preferences.STORE.setValue(MRU_PREFS_KEY + i, "");
+            Preferences.STORE.setValue(MRU_PREFS_KEY + i, ""); //$NON-NLS-1$
         }
         
         // Save
@@ -163,7 +164,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
             final int maxLength = 38;
             if(pathPart.length() > maxLength) {
                 pathPart = pathPart.substring(0, maxLength - 3);
-                pathPart += "..." + File.separator;
+                pathPart += "..." + File.separator; //$NON-NLS-1$
                 path = pathPart += file.getName();
             }
         }
@@ -196,8 +197,8 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
             else {
                 // File does not exist
                 MessageDialog.openInformation(fWindow.getShell(),
-                        "Open File",
-                        "'" + file + "' cannot be found");
+                        Messages.MRUMenuManager_1,
+                        NLS.bind(Messages.MRUMenuManager_2, file));
                 
                 fMRU_List.remove(file);
                 createMenuItems();
@@ -207,7 +208,7 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     
     private class MRU_ClearAction extends Action {
         MRU_ClearAction() {
-            setText("Clear Menu");
+            setText(Messages.MRUMenuManager_3);
         }
         
         @Override

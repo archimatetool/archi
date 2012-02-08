@@ -34,7 +34,7 @@ public class TechnologySystemSoftwareUIProvider extends AbstractTechnologyUIProv
 
     @Override
     public String getDefaultName() {
-        return "System Software";
+        return Messages.TechnologySystemSoftwareUIProvider_0;
     }
 
     @Override

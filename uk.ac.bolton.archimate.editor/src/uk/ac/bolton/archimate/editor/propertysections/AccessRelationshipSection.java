@@ -33,7 +33,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class AccessRelationshipSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -66,10 +66,10 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     private Combo fComboType;
     
     private static final String[] fComboTypeItems = {
-        "Access",
-        "Read",
-        "Write",
-        "Read/Write"
+        Messages.AccessRelationshipSection_0,
+        Messages.AccessRelationshipSection_1,
+        Messages.AccessRelationshipSection_2,
+        Messages.AccessRelationshipSection_3
     };
     
     // Map original values to combo box positions
@@ -82,7 +82,7 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Access Type:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.AccessRelationshipSection_4, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         fComboType = new Combo(parent, SWT.READ_ONLY);
         fComboType.setItems(fComboTypeItems);
         fComboType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -91,7 +91,7 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Access Type",
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.AccessRelationshipSection_5,
                                                         fAccessRelationship,
                                                         IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE,
                                                         fTypeValues[fComboType.getSelectionIndex()]));
@@ -115,7 +115,7 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
             fAccessRelationship = (IAccessRelationship)((IAdaptable)element).getAdapter(IArchimateElement.class);
         }
         else {
-            System.err.println("AccessRelationshipSection wants to display for " + element);
+            System.err.println("AccessRelationshipSection wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

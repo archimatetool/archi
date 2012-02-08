@@ -85,7 +85,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     protected boolean fIsSettingFields;
     
     public TemplateManagerDialog(Shell parentShell, TemplateManager templateManager) {
-        super(parentShell, "TemplateManagerDialog");
+        super(parentShell, "TemplateManagerDialog"); //$NON-NLS-1$
         setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
@@ -95,7 +95,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("My Templates");
+        shell.setText(Messages.TemplateManagerDialog_1);
     }
 
     @Override
@@ -103,8 +103,8 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, getHelpID());
 
-        setTitle("Manage Templates");
-        setMessage("Drag and drop Templates into Categories.");
+        setTitle(Messages.TemplateManagerDialog_2);
+        setMessage(Messages.TemplateManagerDialog_3);
         Composite composite = (Composite)super.createDialogArea(parent);
 
         Composite client = new Composite(composite, SWT.NULL);
@@ -127,7 +127,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         tableComp.setLayout(layout);
         
         CLabel label = new CLabel(tableComp, SWT.NULL);
-        label.setText("Templates");
+        label.setText(Messages.TemplateManagerDialog_4);
         
         Composite tableComp2 = new Composite(tableComp, SWT.NULL);
         tableComp2.setLayout(new TableColumnLayout());
@@ -152,7 +152,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         treeComp.setLayout(layout);
         
         label = new CLabel(treeComp, SWT.NULL);
-        label.setText("Categories");
+        label.setText(Messages.TemplateManagerDialog_5);
         //label.setImage(IArchimateImages.ImageFactory.getImage(ImageFactory.ECLIPSE_IMAGE_FOLDER));
         
         fTreeViewer = new TemplatesTreeViewer(treeComp, SWT.MULTI);
@@ -178,7 +178,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         buttonBar.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
         
         fButtonAddTemplate = new Button(buttonBar, SWT.NULL);
-        fButtonAddTemplate.setText("Add Template...");
+        fButtonAddTemplate.setText(Messages.TemplateManagerDialog_6);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fButtonAddTemplate.setLayoutData(gd);
         fButtonAddTemplate.addSelectionListener(new SelectionAdapter() {
@@ -189,7 +189,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         });
         
         fButtonNewGroup = new Button(buttonBar, SWT.NULL);
-        fButtonNewGroup.setText("New Category...");
+        fButtonNewGroup.setText(Messages.TemplateManagerDialog_7);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fButtonNewGroup.setLayoutData(gd);
         fButtonNewGroup.addSelectionListener(new SelectionAdapter() {
@@ -200,7 +200,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         });
         
         fButtonRemove = new Button(buttonBar, SWT.NULL);
-        fButtonRemove.setText("Remove");
+        fButtonRemove.setText(Messages.TemplateManagerDialog_8);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fButtonRemove.setLayoutData(gd);
         fButtonRemove.setEnabled(false);
@@ -219,7 +219,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fNameLabel = new Label(fieldContainer, SWT.NULL);
-        fNameLabel.setText("Name:");
+        fNameLabel.setText(Messages.TemplateManagerDialog_9);
         fNameLabel.setEnabled(false);
         
         fNameTextField = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
@@ -253,7 +253,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         });
 
         fDescriptionLabel = new Label(fieldContainer, SWT.NULL);
-        fDescriptionLabel.setText("Description:");
+        fDescriptionLabel.setText(Messages.TemplateManagerDialog_10);
         fDescriptionLabel.setEnabled(false);
         
         fDescriptionTextField = new Text(fieldContainer, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
@@ -277,7 +277,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         });
 
         fFileLabel = new Label(fieldContainer, SWT.NULL);
-        fFileLabel.setText("File:");
+        fFileLabel.setText(Messages.TemplateManagerDialog_11);
         fFileLabel.setEnabled(false);
         
         fFileTextField = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
@@ -308,7 +308,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
                 }
                 catch(IOException ex) {
                     ex.printStackTrace();
-                    MessageDialog.openError(null, "Error saving template", ex.getMessage());
+                    MessageDialog.openError(null, Messages.TemplateManagerDialog_12, ex.getMessage());
                 }
             }
         });
@@ -325,8 +325,8 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
      */
     protected void openTemplate() {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setText("Open Template");
-        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
+        dialog.setText(Messages.TemplateManagerDialog_13);
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path == null) {
             return;
@@ -335,7 +335,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         final File file = new File(path);
         
         if(hasUserTemplate(file)) {
-            MessageDialog.openInformation(getShell(), "Template", "This template is already in the list!");
+            MessageDialog.openInformation(getShell(), Messages.TemplateManagerDialog_16, Messages.TemplateManagerDialog_17);
             return;
         }
         
@@ -349,7 +349,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
                     fTableViewer.refresh();
                 }
                 catch(IOException ex) {
-                    MessageDialog.openError(getShell(), "Error opening file", ex.getMessage());
+                    MessageDialog.openError(getShell(), Messages.TemplateManagerDialog_18, ex.getMessage());
                 }
             }
         });
@@ -362,7 +362,7 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         IInputValidator validator = new IInputValidator() {
             @Override
             public String isValid(String newText) {
-                return "".equals(newText) ? "" : hasGroup(newText) ? "Category already exists" : null;
+                return "".equals(newText) ? "" : hasGroup(newText) ? Messages.TemplateManagerDialog_21 : null; //$NON-NLS-1$ //$NON-NLS-2$
             }
             
             boolean hasGroup(String name) {
@@ -376,8 +376,8 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         };
 
         InputDialog dialog = new InputDialog(getShell(),
-                "New Template Category",
-                "New Category:",
+                Messages.TemplateManagerDialog_22,
+                Messages.TemplateManagerDialog_23,
                 "", //$NON-NLS-1$
                 validator);
         
@@ -437,9 +437,9 @@ public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
         fFileLabel.setEnabled(o instanceof ITemplate);
         
         // Fields
-        fNameTextField.setText("");
-        fDescriptionTextField.setText("");
-        fFileTextField.setText("");
+        fNameTextField.setText(""); //$NON-NLS-1$
+        fDescriptionTextField.setText(""); //$NON-NLS-1$
+        fFileTextField.setText(""); //$NON-NLS-1$
         
         fNameTextField.setEnabled(o instanceof ITemplate || o instanceof ITemplateGroup);
         fDescriptionTextField.setEnabled(o instanceof ITemplate);

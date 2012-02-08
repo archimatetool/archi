@@ -1,9 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: CSV Export
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: uk.ac.bolton.archimate.csv;singleton:=true
 Bundle-Version: 2.1.0.qualifier
-Bundle-Vendor: Bolton University
+Bundle-Vendor: %Bundle-Vendor
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
  uk.ac.bolton.archimate.editor

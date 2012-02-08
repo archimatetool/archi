@@ -66,6 +66,9 @@
                <documentation>
                   A translatable label that will be used in the host&apos;s Export menu ending with an ellipsis (...)
                </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">

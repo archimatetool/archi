@@ -61,13 +61,13 @@ public class HTMLUtilsTests {
      */
     @Test
     public void stripTags_String() {
-        String string = "This is a test String";
+        String string = "This is a test String"; //$NON-NLS-1$
         String result = HTMLUtils.stripTags(string);
-        assertEquals("String should be the same", string, result);
+        assertEquals("String should be the same", string, result); //$NON-NLS-1$
         
-        String string2 = "<bold>This is a <i>test String</bold>";
+        String string2 = "<bold>This is a <i>test String</bold>"; //$NON-NLS-1$
         result = HTMLUtils.stripTags(string2);
-        assertEquals("String should be the same", string, result);
+        assertEquals("String should be the same", string, result); //$NON-NLS-1$
     }
     
 }

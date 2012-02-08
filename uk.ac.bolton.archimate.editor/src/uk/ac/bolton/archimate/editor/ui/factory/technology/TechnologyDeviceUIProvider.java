@@ -34,7 +34,7 @@ public class TechnologyDeviceUIProvider extends AbstractTechnologyUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Device";
+        return Messages.TechnologyDeviceUIProvider_0;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * @generated
      * @ordered
      */
-    protected static final String CONTENT_EDEFAULT = "";
+    protected static final String CONTENT_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getContent() <em>Content</em>}' attribute.

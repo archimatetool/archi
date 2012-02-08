@@ -105,7 +105,7 @@ public class ModelViewsTreeViewer extends TreeViewer {
             if(element instanceof INameable) {
                 return ((INameable)element).getName();
             }
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         @Override

@@ -30,7 +30,7 @@ public class HTMLReportAction extends AbstractModelSelectionDelegateAction {
                 exporter.export(model);
             }
             catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), "Error exporting", ex.getMessage());
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());
                 ex.printStackTrace();
             }
         }

@@ -34,8 +34,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  */
 public class ConnectionLineWidthAction extends SelectionAction {
     
-    public static final String ID = "ConnectionLineWidthAction";
-    public static final String TEXT = "Line width...";
+    public static final String ID = "ConnectionLineWidthAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.ConnectionLineWidthAction_0;
     
     public ConnectionLineWidthAction(IWorkbenchPart part) {
         super(part);
@@ -80,7 +80,7 @@ public class ConnectionLineWidthAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, int newLineWidth) {
-        CompoundCommand result = new CompoundCommand("Connection line width");
+        CompoundCommand result = new CompoundCommand(Messages.ConnectionLineWidthAction_1);
         
         for(Object object : selection) {
             if(object instanceof IDiagramConnectionEditPart) {
@@ -111,7 +111,7 @@ public class ConnectionLineWidthAction extends SelectionAction {
         @Override
         protected void configureShell(Shell newShell) {
             super.configureShell(newShell);
-            newShell.setText("Connection line width");
+            newShell.setText(Messages.ConnectionLineWidthAction_1);
         }
         
         @Override

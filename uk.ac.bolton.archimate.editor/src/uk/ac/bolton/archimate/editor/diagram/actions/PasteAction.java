@@ -35,7 +35,7 @@ public class PasteAction extends SelectionAction {
         
         fGraphicalViewer = viewer;
         
-        setText("&Paste");
+        setText(Messages.PasteAction_0);
         setId(ActionFactory.PASTE.getId());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
@@ -70,7 +70,7 @@ public class PasteAction extends SelectionAction {
     private IDiagramModel getTargetDiagramModel() {
         IDiagramModel diagramModel = (IDiagramModel)getWorkbenchPart().getAdapter(IDiagramModel.class);
         if(diagramModel == null) {
-            System.err.println("DiagramModel was null in " + getClass());
+            System.err.println("DiagramModel was null in " + getClass()); //$NON-NLS-1$
         }
         return diagramModel;
     }

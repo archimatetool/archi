@@ -29,7 +29,7 @@ public class NewFolderCommand extends Command {
     public NewFolderCommand(IFolder parent, IFolder folder) {
         fParent = parent;
         fFolder = folder;
-        setLabel("New Folder");
+        setLabel(Messages.NewFolderCommand_0);
     }
     
     @Override

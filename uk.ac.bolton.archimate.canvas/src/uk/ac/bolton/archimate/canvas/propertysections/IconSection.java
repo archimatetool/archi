@@ -90,21 +90,21 @@ public class IconSection extends DiagramModelImageSection {
     private Combo fComboPosition;
     
     private static final String[] fComboPositionItems = {
-        "Top Left",
-        "Top Centre",
-        "Top Right",
-        "Middle Left",
-        "Middle Centre",
-        "Middle Right",
-        "Bottom Left",
-        "Bottom Centre",
-        "Bottom Right",
+        Messages.IconSection_0,
+        Messages.IconSection_1,
+        Messages.IconSection_2,
+        Messages.IconSection_3,
+        Messages.IconSection_4,
+        Messages.IconSection_5,
+        Messages.IconSection_6,
+        Messages.IconSection_7,
+        Messages.IconSection_8,
     };
     
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Preview:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.IconSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         final int canvasSize = IIconic.MAX_IMAGE_SIZE;
         
@@ -148,7 +148,7 @@ public class IconSection extends DiagramModelImageSection {
             }
         });
         
-        String tooltip = "Drag an image onto here or double-click to select";
+        String tooltip = Messages.IconSection_10;
         fCanvas.setToolTipText(tooltip);
         
         DropTarget target = new DropTarget(fCanvas, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_DEFAULT);
@@ -171,7 +171,7 @@ public class IconSection extends DiagramModelImageSection {
         createImageButton(parent);
         
         // Position
-        createCLabel(parent, "Position:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.IconSection_11, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
 
         fComboPosition = new Combo(parent, SWT.READ_ONLY);
         fComboPosition.setItems(fComboPositionItems);
@@ -183,7 +183,7 @@ public class IconSection extends DiagramModelImageSection {
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Icon Position",
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.IconSection_12,
                                                 fIconic,
                                                 ICanvasPackage.Literals.ICONIC__IMAGE_POSITION,
                                                 fComboPosition.getSelectionIndex()));
@@ -203,7 +203,7 @@ public class IconSection extends DiagramModelImageSection {
         }
 
         if(fIconic == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

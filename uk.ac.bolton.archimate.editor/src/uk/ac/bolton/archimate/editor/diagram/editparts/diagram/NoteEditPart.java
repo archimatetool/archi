@@ -81,7 +81,7 @@ implements IColoredEditPart, ITextAlignedEditPart {
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String content = (String)request.getCellEditor().getValue();
-            return new EObjectFeatureCommand("Content", getModel(),
+            return new EObjectFeatureCommand(Messages.NoteEditPart_0, getModel(),
                     IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, content);
         }
 

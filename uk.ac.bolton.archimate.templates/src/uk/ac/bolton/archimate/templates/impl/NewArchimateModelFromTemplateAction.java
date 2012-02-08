@@ -50,7 +50,7 @@ public class NewArchimateModelFromTemplateAction implements IWorkbenchWindowActi
     public void runWithEvent(IAction action, Event event) {
         WizardDialog dialog = new ExtendedWizardDialog(workbenchWindow.getShell(),
                 new NewArchimateModelFromTemplateWizard(),
-                "NewArchimateModelFromTemplateWizard");
+                "NewArchimateModelFromTemplateWizard"); //$NON-NLS-1$
         dialog.open();
     }
 
@@ -66,8 +66,8 @@ public class NewArchimateModelFromTemplateAction implements IWorkbenchWindowActi
     
     private void addActionToToolbar(IWorkbenchWindow window) {
         ICoolBarManager coolBarManager = ((ApplicationWindow)window).getCoolBarManager();
-        ToolBarContributionItem fileToolbar = (ToolBarContributionItem)coolBarManager.find("toolbar_file");
-        ActionContributionItem item = (ActionContributionItem)fileToolbar.getToolBarManager().find("uk.ac.bolton.archimate.editor.action.newAction");
+        ToolBarContributionItem fileToolbar = (ToolBarContributionItem)coolBarManager.find("toolbar_file"); //$NON-NLS-1$
+        ActionContributionItem item = (ActionContributionItem)fileToolbar.getToolBarManager().find("uk.ac.bolton.archimate.editor.action.newAction"); //$NON-NLS-1$
         NewDropDownAction newDropDown = (NewDropDownAction)item.getAction();
         newDropDown.add(action);
     }

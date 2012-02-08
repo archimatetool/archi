@@ -21,8 +21,8 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
 public class ToggleGridVisibleAction extends Action {
 
     public ToggleGridVisibleAction() {
-        super("Grid Visible", AS_CHECK_BOX);
-        setToolTipText("Grid Visible");
+        super(Messages.ToggleGridVisibleAction_0, AS_CHECK_BOX);
+        setToolTipText(Messages.ToggleGridVisibleAction_0);
         setId(GEFActionConstants.TOGGLE_GRID_VISIBILITY);
         setActionDefinitionId(GEFActionConstants.TOGGLE_GRID_VISIBILITY);
         setChecked(isChecked());

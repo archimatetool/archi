@@ -75,7 +75,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     @Override
     public void connect(IDiagramModelObject source, IDiagramModelObject target) {
         if(!(source instanceof IDiagramModelArchimateObject) && !(target instanceof IDiagramModelArchimateObject)) {
-            throw new IllegalArgumentException("Should be Archimate objects for source and target!");
+            throw new IllegalArgumentException("Should be Archimate objects for source and target!"); //$NON-NLS-1$
         }
         super.connect(source, target);
     }

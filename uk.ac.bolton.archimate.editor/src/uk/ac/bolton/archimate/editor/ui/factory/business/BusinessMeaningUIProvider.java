@@ -34,7 +34,7 @@ public class BusinessMeaningUIProvider extends AbstractBusinessUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Meaning";
+        return Messages.BusinessMeaningUIProvider_0;
     }
 
     @Override

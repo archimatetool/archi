@@ -81,26 +81,26 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:
-                type += " (write)";
+                type += " " + Messages.AccessConnectionFigure_0; //$NON-NLS-1$
                 break;
                 
             case IAccessRelationship.READ_ACCESS:
-                type += " (read)";
+                type += " " + Messages.AccessConnectionFigure_1; //$NON-NLS-1$
                 break;
 
             case IAccessRelationship.UNSPECIFIED_ACCESS:
-                type += " (access)";
+                type += " " + Messages.AccessConnectionFigure_2; //$NON-NLS-1$
                 break;
 
             case IAccessRelationship.READ_WRITE_ACCESS:
-                type += " (read/write)";
+                type += " " + Messages.AccessConnectionFigure_3; //$NON-NLS-1$
                 break;
 
             default:
                 break;
         }
         
-        tooltip.setType("Type: " + type);
+        tooltip.setType(Messages.AccessConnectionFigure_4 + " " + type); //$NON-NLS-1$
 
         return tooltip;
     }

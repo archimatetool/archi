@@ -44,7 +44,7 @@ public interface IArchiveManager {
             
             try {
                 zipFile = new ZipFile(file);
-                return zipFile.getEntry("model.xml") != null;
+                return zipFile.getEntry("model.xml") != null; //$NON-NLS-1$
             }
             catch(Exception ex) {
             }
@@ -67,7 +67,7 @@ public interface IArchiveManager {
          * @return The URI
          */
         public static URI createArchiveModelURI(File file) {
-            return URI.createURI(getArchiveFilePath(file) + "!/model.xml");
+            return URI.createURI(getArchiveFilePath(file) + "!/model.xml"); //$NON-NLS-1$
         }
         
         /**
@@ -76,7 +76,7 @@ public interface IArchiveManager {
          * @return The path
          */
         public static String getArchiveFilePath(File file) {
-            return "archive:file:///" + file.getPath();
+            return "archive:file:///" + file.getPath(); //$NON-NLS-1$
         }
     }
 

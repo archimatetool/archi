@@ -40,7 +40,7 @@ implements IWorkbenchAction {
                 fImporter.doImport();
             }
             catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), "Error importing file", ex.getMessage());
+                MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
                 ex.printStackTrace();
             }
         }

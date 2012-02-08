@@ -35,7 +35,7 @@ public class NoteUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Note";
+        return Messages.NoteUIProvider_0;
     }
 
     @Override

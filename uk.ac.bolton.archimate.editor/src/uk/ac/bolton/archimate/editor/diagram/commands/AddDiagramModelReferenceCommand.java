@@ -26,7 +26,7 @@ public class AddDiagramModelReferenceCommand extends Command {
     private IDiagramModelReference fReference;
 
     public AddDiagramModelReferenceCommand(IDiagramModelContainer parent, IDiagramModel diagramModel, int x, int y) {
-        setLabel("Add view reference");
+        setLabel(Messages.AddDiagramModelReferenceCommand_0);
         
         fParent = parent;
         fReference = IArchimateFactory.eINSTANCE.createDiagramModelReference();

@@ -37,7 +37,7 @@ public class SketchActorUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Actor";
+        return Messages.SketchActorUIProvider_0;
     }
 
     @Override

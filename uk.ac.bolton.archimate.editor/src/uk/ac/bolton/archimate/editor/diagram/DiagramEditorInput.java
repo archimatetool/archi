@@ -46,7 +46,7 @@ implements IEditorInput, IPersistableElement {
     }
 
     public String getName() {
-        return fModel.getArchimateModel() == null ? "(unknown)" : fModel.getArchimateModel().getName() + ": " + fModel.getName();
+        return fModel.getArchimateModel() == null ? Messages.DiagramEditorInput_0 : fModel.getArchimateModel().getName() + ": " + fModel.getName(); //$NON-NLS-1$
     }
 
     public String getToolTipText() {

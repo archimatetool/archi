@@ -76,7 +76,7 @@ public class HintsView
 extends ViewPart
 implements IContextProvider, IHintsView, ISelectionListener, IComponentSelectionListener {
     
-    static File cssFile = new File(ArchimateEditorHelpPlugin.INSTANCE.getHintsFolder(), "style.css");
+    static File cssFile = new File(ArchimateEditorHelpPlugin.INSTANCE.getHintsFolder(), "style.css"); //$NON-NLS-1$
 
     private Browser fBrowser;
     
@@ -92,8 +92,8 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     
     private class PinAction extends Action {
         PinAction() {
-            super("Pin to selection", IAction.AS_CHECK_BOX);
-            setToolTipText("Pins the content to the current selection");
+            super(Messages.HintsView_0, IAction.AS_CHECK_BOX);
+            setToolTipText(Messages.HintsView_1);
             setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PIN_16));
         }
     }
@@ -120,14 +120,14 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         layout.verticalSpacing = 0;
         parent.setLayout(layout);
         
-        if(!JFaceResources.getFontRegistry().hasValueFor("HintsTitleFont")) {
+        if(!JFaceResources.getFontRegistry().hasValueFor("HintsTitleFont")) { //$NON-NLS-1$
             FontData[] fontData = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT).getFontData();
             fontData[0].setHeight(fontData[0].getHeight() + 4);
-            JFaceResources.getFontRegistry().put("HintsTitleFont", fontData);
+            JFaceResources.getFontRegistry().put("HintsTitleFont", fontData); //$NON-NLS-1$
         }
         
         fTitleLabel = new CLabel(parent, SWT.NULL);
-        fTitleLabel.setFont(JFaceResources.getFont("HintsTitleFont"));
+        fTitleLabel.setFont(JFaceResources.getFont("HintsTitleFont")); //$NON-NLS-1$
         fTitleLabel.setBackground(ColorConstants.white);
         
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -189,18 +189,18 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         try {
             // On Eclipse 3.6 set this
             if(PlatformUtils.isGTK()) {
-                System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true");
+                System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             }
             browser = new Browser(parent, SWT.NONE);
         }
         catch(SWTError error) {
         	error.printStackTrace();
             // Create a message and show that instead
-            fTitleLabel.setText("Hints View Error");
+            fTitleLabel.setText(Messages.HintsView_2);
             fTitleLabel.setBackground(new Color[]{ColorConstants.lightGray, ColorConstants.white}, new int[]{80}, false);
             Text text = new Text(parent, SWT.MULTI | SWT.WRAP);
             text.setLayoutData(new GridData(GridData.FILL_BOTH));
-            text.setText("Cannot create Browser component.\nIf you are running on Linux, try installing xulrunner-1.9.2 and/or libwebkit-1.0-2.");
+            text.setText(Messages.HintsView_3);
         }
         
         return browser;
@@ -277,7 +277,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
                 fTitleLabel.setBackground(new Color[] { color, ColorConstants.white }, new int[] { 80 }, false);
                 text = makeHTMLEntry(text);
                 fBrowser.setText(text);
-                fLastPath = "";
+                fLastPath = ""; //$NON-NLS-1$
                 return;
             }
         }
@@ -308,9 +308,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
         }
         else {
-            fBrowser.setText("");
-            fLastPath = "";
-            fTitleLabel.setText("");
+            fBrowser.setText(""); //$NON-NLS-1$
+            fLastPath = ""; //$NON-NLS-1$
+            fTitleLabel.setText(""); //$NON-NLS-1$
             fTitleLabel.setBackground(ColorConstants.white);
         }
     }
@@ -320,23 +320,23 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
      */
     private String makeHTMLEntry(String text) {
         if(text == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         StringBuffer html = new StringBuffer();
-        html.append("<html><head>");
+        html.append("<html><head>"); //$NON-NLS-1$
         
-        html.append("<link rel=\"stylesheet\" href=\"");
+        html.append("<link rel=\"stylesheet\" href=\""); //$NON-NLS-1$
         html.append(cssFile.getPath());
-        html.append("\" type=\"text/css\">");
+        html.append("\" type=\"text/css\">"); //$NON-NLS-1$
         
-        html.append("</head>");
+        html.append("</head>"); //$NON-NLS-1$
         
-        html.append("<body>");
+        html.append("<body>"); //$NON-NLS-1$
         html.append(text);
-        html.append("</body>");
+        html.append("</body>"); //$NON-NLS-1$
         
-        html.append("</html>");
+        html.append("</html>"); //$NON-NLS-1$
         return html.toString();
     }
     
@@ -390,13 +390,13 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     private void createFileMap() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
-            String className = configurationElement.getAttribute("class");
-            String fileName = configurationElement.getAttribute("file");
-            String title = configurationElement.getAttribute("title");
+            String className = configurationElement.getAttribute("class"); //$NON-NLS-1$
+            String fileName = configurationElement.getAttribute("file"); //$NON-NLS-1$
+            String title = configurationElement.getAttribute("title"); //$NON-NLS-1$
             
             String id = configurationElement.getNamespaceIdentifier();
             Bundle bundle = Platform.getBundle(id);
-            URL url = FileLocator.find(bundle, new Path("$nl$/" + fileName), null);
+            URL url = FileLocator.find(bundle, new Path("$nl$/" + fileName), null); //$NON-NLS-1$
             
             try {
                 url = FileLocator.resolve(url);
@@ -464,6 +464,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     }
 
     public String getSearchExpression(Object target) {
-        return "Hints Window";
+        return Messages.HintsView_4;
     }
 }

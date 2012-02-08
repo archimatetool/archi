@@ -26,7 +26,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
  */
 public class MyImporter implements IModelImporter {
 
-    String MY_EXTENSION_WILDCARD = "*.mex";
+    String MY_EXTENSION_WILDCARD = "*.mex"; //$NON-NLS-1$
 
     @Override
     public void doImport() throws IOException {
@@ -40,7 +40,7 @@ public class MyImporter implements IModelImporter {
         // If successful create a new Archimate Model and set defaults
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
-        model.setName("Imported");
+        model.setName(Messages.MyImporter_0);
         
         // Add values from file to model here...
        
@@ -50,7 +50,7 @@ public class MyImporter implements IModelImporter {
 
     private File askOpenFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
-        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } );
+        dialog.setFilterExtensions(new String[] { MY_EXTENSION_WILDCARD, "*.*" } ); //$NON-NLS-1$
         String path = dialog.open();
         return path != null ? new File(path) : null;
     }

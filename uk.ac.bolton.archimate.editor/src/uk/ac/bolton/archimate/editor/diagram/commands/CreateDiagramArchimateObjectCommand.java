@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
@@ -33,7 +34,7 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
     public String getLabel() {
         String label = super.getLabel();
         if(fSubCommand != null) {
-            label += " and " + fSubCommand.getRelationshipCreated().getName();
+            label = NLS.bind(Messages.CreateDiagramArchimateObjectCommand_0, label, fSubCommand.getRelationshipCreated().getName());
         }
         return label;
     }

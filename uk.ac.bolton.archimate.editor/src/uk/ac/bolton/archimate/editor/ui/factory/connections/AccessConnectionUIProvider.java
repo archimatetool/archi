@@ -34,12 +34,12 @@ public class AccessConnectionUIProvider extends AbstractConnectionUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Access relation";
+        return Messages.AccessConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Access";
+        return Messages.AccessConnectionUIProvider_1;
     }
 
     @Override

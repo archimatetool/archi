@@ -34,12 +34,12 @@ public class CompositionConnectionUIProvider extends AbstractConnectionUIProvide
 
     @Override
     public String getDefaultName() {
-        return "Composition relation";
+        return Messages.CompositionConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Composition";
+        return Messages.CompositionConnectionUIProvider_1;
     }
 
     @Override

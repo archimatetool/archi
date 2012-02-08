@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 public class ConnectionTextPositionCommand extends EObjectFeatureCommand {
     
     public ConnectionTextPositionCommand(IDiagramModelConnection connection, int position) {
-        super("Connection text position", connection, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION, position);
+        super(Messages.ConnectionTextPositionCommand_0, connection, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION, position);
     }
 }

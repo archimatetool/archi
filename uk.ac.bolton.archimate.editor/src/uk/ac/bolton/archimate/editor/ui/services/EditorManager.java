@@ -83,7 +83,7 @@ public class EditorManager {
         }
 
         if(id == null || editorInput == null) {
-            throw new RuntimeException("Unsupported model type");
+            throw new RuntimeException("Unsupported model type"); //$NON-NLS-1$
         }
         
         IEditorPart part = openEditor(editorInput, id);

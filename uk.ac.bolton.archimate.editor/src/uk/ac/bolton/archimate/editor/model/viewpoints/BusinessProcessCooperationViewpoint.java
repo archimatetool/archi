@@ -49,7 +49,7 @@ public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Business Process Co-operation";
+        return Messages.BusinessProcessCooperationViewpoint_0;
     }
     
     @Override

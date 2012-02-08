@@ -171,7 +171,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @generated
      * @ordered
      */
-    protected static final String TEXT_EDEFAULT = "";
+    protected static final String TEXT_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
@@ -556,7 +556,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      */
     public void connect(IDiagramModelObject source, IDiagramModelObject target) {
         if(source == null || target == null) {
-            throw new IllegalArgumentException("Source or Target cannot be null");
+            throw new IllegalArgumentException("Source or Target cannot be null"); //$NON-NLS-1$
         }
         if(source == target) {
             //throw new IllegalArgumentException("Source cannot be the same as target!");

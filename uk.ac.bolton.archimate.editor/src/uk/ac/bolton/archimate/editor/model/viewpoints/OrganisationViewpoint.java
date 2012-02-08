@@ -42,7 +42,7 @@ public class OrganisationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Organisation";
+        return Messages.OrganisationViewpoint_0;
     }
 
     @Override

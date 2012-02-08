@@ -20,13 +20,13 @@ public class NewArchimateModelFromTemplateWizardPage extends NewModelFromTemplat
     private static String HELP_ID = "uk.ac.bolton.archimate.help.NewArchimateModelFromTemplateWizardPage"; //$NON-NLS-1$
 
     public NewArchimateModelFromTemplateWizardPage(TemplateManager templateManager) {
-        super("NewArchimateModelFromTemplateWizardPage", templateManager);
+        super("NewArchimateModelFromTemplateWizardPage", templateManager); //$NON-NLS-1$
     }
 
     @Override
     protected void init() {
-        setTitle("New ArchiMate Model");
-        setDescription("Choose a Template for your Model");
+        setTitle(Messages.NewArchimateModelFromTemplateWizardPage_1);
+        setDescription(Messages.NewArchimateModelFromTemplateWizardPage_2);
     }
     
     @Override

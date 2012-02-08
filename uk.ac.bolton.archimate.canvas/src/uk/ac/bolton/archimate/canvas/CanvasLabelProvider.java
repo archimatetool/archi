@@ -34,7 +34,7 @@ public class CanvasLabelProvider implements IEditorLabelProvider {
     @Override
     public String getLabel(Object element) {
         if(element == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         // Get Name
@@ -47,22 +47,22 @@ public class CanvasLabelProvider implements IEditorLabelProvider {
         
         // Defaults for empty strings
         if(element instanceof ICanvasModelImage) {
-            return "Image";
+            return Messages.CanvasLabelProvider_0;
         }
         else if(element instanceof ICanvasModelBlock) {
-            return "Block";
+            return Messages.CanvasLabelProvider_1;
         }
         else if(element instanceof ICanvasModelSticky) {
-            return "Sticky";
+            return Messages.CanvasLabelProvider_2;
         }
         else if(element instanceof ICanvasModel) {
-            return "Canvas";
+            return Messages.CanvasLabelProvider_3;
         }
         else if(element instanceof ICanvasModelConnection) {
-            return "Connection";
+            return Messages.CanvasLabelProvider_4;
         }
         
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     @Override

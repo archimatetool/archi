@@ -82,7 +82,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated
      * @ordered
      */
-    protected static final String NAME_EDEFAULT = "";
+    protected static final String NAME_EDEFAULT = ""; //$NON-NLS-1$
     /**
      * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -202,56 +202,56 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     protected void addDefaultFolders() {
         if(getFolder(FolderType.BUSINESS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Business");
+            folder.setName(Messages.ArchimateModel_0);
             folder.setType(FolderType.BUSINESS);
             getFolders().add(0, folder);
         }
 
         if(getFolder(FolderType.APPLICATION) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Application");
+            folder.setName(Messages.ArchimateModel_1);
             folder.setType(FolderType.APPLICATION);
             getFolders().add(1, folder);
         }
 
         if(getFolder(FolderType.TECHNOLOGY) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Technology");
+            folder.setName(Messages.ArchimateModel_2);
             folder.setType(FolderType.TECHNOLOGY);
             getFolders().add(2, folder);
         }
 
         if(getFolder(FolderType.MOTIVATION) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Motivation");
+            folder.setName(Messages.ArchimateModel_3);
             folder.setType(FolderType.MOTIVATION);
             getFolders().add(3, folder);
         }
 
         if(getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Implementation & Migration");
+            folder.setName(Messages.ArchimateModel_4);
             folder.setType(FolderType.IMPLEMENTATION_MIGRATION);
             getFolders().add(4, folder);
         }
         
         if(getFolder(FolderType.CONNECTORS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Connectors");
+            folder.setName(Messages.ArchimateModel_5);
             folder.setType(FolderType.CONNECTORS);
             getFolders().add(5, folder);
         }
 
         if(getFolder(FolderType.RELATIONS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Relations");
+            folder.setName(Messages.ArchimateModel_6);
             folder.setType(FolderType.RELATIONS);
             getFolders().add(6, folder);
         }
 
         if(getFolder(FolderType.DIAGRAMS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName("Views");
+            folder.setName(Messages.ArchimateModel_7);
             folder.setType(FolderType.DIAGRAMS);
             getFolders().add(getFolders().size(), folder); // Make sure this is last
         }
@@ -267,7 +267,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         addDefaultFolders(); // Check they haven't been deleted
         
         IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-        folder.setName("Derived Relations");
+        folder.setName(Messages.ArchimateModel_8);
         folder.setType(FolderType.DERIVED);
         int index = getFolders().indexOf(getFolder(FolderType.RELATIONS)) + 1;
         getFolders().add(index, folder);

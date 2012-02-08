@@ -35,7 +35,7 @@ public class SketchDiagramPart extends AbstractDiagramPart {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new DiagramLayoutPolicy());
         
         // Install a policy for DND support
-        installEditPolicy("DND", new SketchDNDEditPolicy());
+        installEditPolicy("DND", new SketchDNDEditPolicy()); //$NON-NLS-1$
         
         // And we need to install this Group Container Policy here as well as in the GroupEditpart
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new BasicContainerEditPolicy());

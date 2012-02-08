@@ -21,8 +21,8 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
 public class ToggleGridEnabledAction extends Action {
 
     public ToggleGridEnabledAction() {
-        super("Snap to Grid", AS_CHECK_BOX);
-        setToolTipText("Snap to Grid");
+        super(Messages.ToggleGridEnabledAction_0, AS_CHECK_BOX);
+        setToolTipText(Messages.ToggleGridEnabledAction_0);
         setId(SnapToGrid.PROPERTY_GRID_ENABLED);
         setActionDefinitionId(SnapToGrid.PROPERTY_GRID_ENABLED);
         setChecked(isChecked());

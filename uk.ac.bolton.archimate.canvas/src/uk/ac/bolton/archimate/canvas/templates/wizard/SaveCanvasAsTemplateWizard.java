@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
@@ -63,7 +64,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     private TemplateManager fTemplateManager;
     
     public SaveCanvasAsTemplateWizard(ICanvasModel canvasModel) {
-        setWindowTitle("Save Canvas As Template");
+        setWindowTitle(Messages.SaveCanvasAsTemplateWizard_0);
         fCanvasModel = canvasModel;
         fTemplateManager = new CanvasTemplateManager();
     }
@@ -83,8 +84,9 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         
         // Make sure the file does not already exist
         if(fZipFile.exists()) {
-            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), "Save As Template", "'" + fZipFile +
-                    "' already exists. Are you sure you want to overwrite it?");
+            boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                    Messages.SaveCanvasAsTemplateWizard_1,
+                    NLS.bind(Messages.SaveCanvasAsTemplateWizard_2, fZipFile));
             if(!result) {
                 return false;
             }
@@ -110,7 +112,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
                     ex.printStackTrace();
                     Display.getCurrent().asyncExec(new Runnable() { // Display after wizard closes
                         public void run() {
-                            MessageDialog.openError(getShell(), "Save As Template", ex.getMessage());
+                            MessageDialog.openError(getShell(), Messages.SaveCanvasAsTemplateWizard_3, ex.getMessage());
                         }
                     });
                 }
@@ -145,7 +147,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
             // Thumbnail
             if(fIncludeThumbnail) {
                 Image image = TemplateUtils.createThumbnailImage(fCanvasModel);
-                ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png", zOut, SWT.IMAGE_PNG, null);
+                ZipUtils.addImageToZip(image, TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png", zOut, SWT.IMAGE_PNG, null); //$NON-NLS-1$
                 image.dispose();
             }
         }
@@ -184,7 +186,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         
         // Thumbnail
         if(fIncludeThumbnail) {
-            String keyThumb = TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png";
+            String keyThumb = TemplateManager.ZIP_ENTRY_THUMBNAILS + "1.png"; //$NON-NLS-1$
             Element elementKeyThumb = new Element(ITemplateXMLTags.XML_TEMPLATE_ELEMENT_KEY_THUMBNAIL);
             elementKeyThumb.setText(keyThumb);
             root.addContent(elementKeyThumb);
@@ -194,7 +196,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     }
 
     private File saveModelToTempFile() throws IOException {
-        File tmpFile = File.createTempFile("architemplate", null);
+        File tmpFile = File.createTempFile("architemplate", null); //$NON-NLS-1$
         tmpFile.deleteOnExit();
         
         // Create a new container Archimate model
@@ -204,7 +206,7 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         tempModel.setId(EcoreUtil.generateUUID());
         tempModel.setFile(tmpFile);
         tempModel.setVersion(ModelVersion.VERSION);
-        tempModel.setName("Canvas Template");
+        tempModel.setName(Messages.SaveCanvasAsTemplateWizard_4);
 
         // Get the Canvas copy
         ICanvasModel copyCanvas = EcoreUtil.copy(fCanvasModel);

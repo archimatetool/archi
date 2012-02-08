@@ -25,7 +25,7 @@ import uk.ac.bolton.archimate.model.IFolder;
  */
 public class FolderSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.folderSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.folderSection"; //$NON-NLS-1$
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -54,8 +54,8 @@ public class FolderSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this folder here");
-        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this folder here");
+        fTextName = createNameControl(parent, Messages.FolderSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.FolderSection_1);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -67,7 +67,7 @@ public class FolderSection extends AbstractArchimatePropertySection {
             fFolder = (IFolder)element;
         }
         else {
-            System.err.println("Section wants to display for " + element);
+            System.err.println("Section wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

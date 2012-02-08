@@ -24,7 +24,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class SketchStickySection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -47,7 +47,7 @@ public class SketchStickySection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this sticky here");
+        fTextName = createNameControl(parent, Messages.SketchStickySection_0);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -60,7 +60,7 @@ public class SketchStickySection extends AbstractArchimatePropertySection {
         }
 
         if(fEObject == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

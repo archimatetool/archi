@@ -34,12 +34,12 @@ public class ApplicationFunctionUIProvider extends AbstractApplicationUIProvider
 
     @Override
     public String getDefaultName() {
-        return "Application Function";
+        return Messages.ApplicationFunctionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Function";
+        return Messages.ApplicationFunctionUIProvider_1;
     }
 
     @Override

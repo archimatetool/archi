@@ -65,7 +65,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Group
         else if(object instanceof IDiagramModelGroup) {
-            ((IDiagramModelGroup)object).setName("Group");
+            ((IDiagramModelGroup)object).setName(Messages.ArchimateDiagramModelFactory_0);
         }
         
         return object;

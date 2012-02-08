@@ -98,7 +98,7 @@ extends AbstractLabelContainerFigure {
             return null;
         }
         
-        tooltip.setType("Type: Group");
+        tooltip.setType(Messages.GroupFigure_0);
         
         return tooltip;
     }

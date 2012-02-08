@@ -35,7 +35,7 @@ public class MotivationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Motivation";
+        return Messages.MotivationViewpoint_0;
     }
 
     @Override

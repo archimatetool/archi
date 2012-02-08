@@ -37,7 +37,7 @@ public class CanvasEditorContextMenuProvider extends AbstractDiagramEditorContex
     public void buildContextMenu(IMenuManager menu) {
         super.buildContextMenu(menu);
         
-        IMenuManager subMenu = menu.findMenuUsingPath("menu_position");
+        IMenuManager subMenu = menu.findMenuUsingPath("menu_position"); //$NON-NLS-1$
         subMenu.add(actionRegistry.getAction(ResetAspectRatioAction.ID));
     }
 }

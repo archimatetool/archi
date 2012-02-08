@@ -30,25 +30,25 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class TextPositionAction extends SelectionAction {
     
-    public static final String ACTION_TOP_LEFT_ID = "TextPositionActionTopLeft";
-    public static final String ACTION_TOP_CENTRE_ID = "TextPositionActionTopCentre";
-    public static final String ACTION_TOP_RIGHT_ID = "TextPositionActionTopRight";
-    public static final String ACTION_MIDDLE_LEFT_ID = "TextPositionActionMiddleLeft";
-    public static final String ACTION_MIDDLE_CENTRE_ID = "TextPositionActionMiddleCentre";
-    public static final String ACTION_MIDDLE_RIGHT_ID = "TextPositionActionMiddleRight";
-    public static final String ACTION_BOTTOM_LEFT_ID = "TextPositionActionBottomLeft";
-    public static final String ACTION_BOTTOM_CENTRE_ID = "TextPositionActionBottomCentre";
-    public static final String ACTION_BOTTOM_RIGHT_ID = "TextPositionActionBottomRight";
+    public static final String ACTION_TOP_LEFT_ID = "TextPositionActionTopLeft"; //$NON-NLS-1$
+    public static final String ACTION_TOP_CENTRE_ID = "TextPositionActionTopCentre"; //$NON-NLS-1$
+    public static final String ACTION_TOP_RIGHT_ID = "TextPositionActionTopRight"; //$NON-NLS-1$
+    public static final String ACTION_MIDDLE_LEFT_ID = "TextPositionActionMiddleLeft"; //$NON-NLS-1$
+    public static final String ACTION_MIDDLE_CENTRE_ID = "TextPositionActionMiddleCentre"; //$NON-NLS-1$
+    public static final String ACTION_MIDDLE_RIGHT_ID = "TextPositionActionMiddleRight"; //$NON-NLS-1$
+    public static final String ACTION_BOTTOM_LEFT_ID = "TextPositionActionBottomLeft"; //$NON-NLS-1$
+    public static final String ACTION_BOTTOM_CENTRE_ID = "TextPositionActionBottomCentre"; //$NON-NLS-1$
+    public static final String ACTION_BOTTOM_RIGHT_ID = "TextPositionActionBottomRight"; //$NON-NLS-1$
     
-    public static final String ACTION_TOP_LEFT_TEXT = "Top Left";
-    public static final String ACTION_TOP_CENTRE_TEXT = "Top Centre";
-    public static final String ACTION_TOP_RIGHT_TEXT = "Top Right";
-    public static final String ACTION_MIDDLE_LEFT_TEXT = "Middle Left";
-    public static final String ACTION_MIDDLE_CENTRE_TEXT = "Middle Centre";
-    public static final String ACTION_MIDDLE_RIGHT_TEXT = "Middle Right";
-    public static final String ACTION_BOTTOM_LEFT_TEXT = "Bottom Left";
-    public static final String ACTION_BOTTOM_CENTRE_TEXT = "Bottom Centre";
-    public static final String ACTION_BOTTOM_RIGHT_TEXT = "Bottom Right";
+    public static final String ACTION_TOP_LEFT_TEXT = Messages.TextPositionAction_0;
+    public static final String ACTION_TOP_CENTRE_TEXT = Messages.TextPositionAction_1;
+    public static final String ACTION_TOP_RIGHT_TEXT = Messages.TextPositionAction_2;
+    public static final String ACTION_MIDDLE_LEFT_TEXT = Messages.TextPositionAction_3;
+    public static final String ACTION_MIDDLE_CENTRE_TEXT = Messages.TextPositionAction_4;
+    public static final String ACTION_MIDDLE_RIGHT_TEXT = Messages.TextPositionAction_5;
+    public static final String ACTION_BOTTOM_LEFT_TEXT = Messages.TextPositionAction_6;
+    public static final String ACTION_BOTTOM_CENTRE_TEXT = Messages.TextPositionAction_7;
+    public static final String ACTION_BOTTOM_RIGHT_TEXT = Messages.TextPositionAction_8;
     
     public static final String ACTION_IDS[] = {
         ACTION_TOP_LEFT_ID,
@@ -151,7 +151,7 @@ public class TextPositionAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection) {
-        CompoundCommand result = new CompoundCommand("Change text position");
+        CompoundCommand result = new CompoundCommand(Messages.TextPositionAction_9);
         
         for(Object object : selection) {
             if(object instanceof ITextPositionedEditPart) {

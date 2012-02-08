@@ -34,12 +34,12 @@ public class FlowConnectionUIProvider extends AbstractConnectionUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Flow relation";
+        return Messages.FlowConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Flow";
+        return Messages.FlowConnectionUIProvider_1;
     }
 
     @Override

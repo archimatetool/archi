@@ -28,7 +28,7 @@ public class SketchGroupEditPart extends GroupEditPart {
         installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new SketchConnectionPolicy());
 
         // Install our own DND policy
-        installEditPolicy("DND", new SketchDNDEditPolicy());
+        installEditPolicy("DND", new SketchDNDEditPolicy()); //$NON-NLS-1$
     }
 
 }

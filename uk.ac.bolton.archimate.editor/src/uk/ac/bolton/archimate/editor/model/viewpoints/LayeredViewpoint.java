@@ -17,7 +17,7 @@ public class LayeredViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Layered";
+        return Messages.LayeredViewpoint_0;
     }
 
     @Override

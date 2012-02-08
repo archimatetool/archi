@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.ui;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.ui.factory.ElementUIFactory;
@@ -16,6 +17,7 @@ import uk.ac.bolton.archimate.editor.ui.factory.IElementUIProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.IDiagramModelImage;
 import uk.ac.bolton.archimate.model.INameable;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.ISketchModel;
@@ -38,7 +40,7 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
     @Override
     public String getLabel(Object element) {
         if(element == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         String name = null;
@@ -60,10 +62,13 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         
         // Defaults for empty strings
         if(element instanceof IArchimateDiagramModel) {
-            return "View";
+            return Messages.ArchimateLabelProvider_0;
         }
         else if(element instanceof ISketchModel) {
-            return "Sketch";
+            return Messages.ArchimateLabelProvider_1;
+        }
+        else if(element instanceof IDiagramModelImage) {
+            return Messages.ArchimateLabelProvider_2;
         }
        
         // If it's blank try registered extensions
@@ -174,7 +179,7 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
             return provider.getDefaultName();
         }
         
-        return "";
+        return ""; //$NON-NLS-1$
     }
     
     /**
@@ -188,7 +193,7 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
             return provider.getDefaultShortName();
         }
         
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     /**
@@ -196,8 +201,6 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return A sentence that describes the relationship between the relationship's source and target elements
      */
     public String getRelationshipSentence(IRelationship relation) {
-        String action = "";
-        
         if(relation != null) {
             if(relation.getSource() != null && relation.getTarget() != null) {
                 String nameSource = ArchimateLabelProvider.INSTANCE.getLabel(relation.getSource());
@@ -205,58 +208,45 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
                 
                 switch(relation.eClass().getClassifierID()) {
                     case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
-                        action = "is a specialisation of";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_3, nameSource, nameTarget);
 
                     case IArchimatePackage.COMPOSITION_RELATIONSHIP:
-                        action = "is composed of";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_4, nameSource, nameTarget);
 
                     case IArchimatePackage.AGGREGATION_RELATIONSHIP:
-                        action = "aggregates";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_5, nameSource, nameTarget);
 
                     case IArchimatePackage.TRIGGERING_RELATIONSHIP:
-                        action = "triggers";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_6, nameSource, nameTarget);
 
                     case IArchimatePackage.FLOW_RELATIONSHIP:
-                        action = "flows to";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_7, nameSource, nameTarget);
 
                     case IArchimatePackage.ACCESS_RELATIONSHIP:
-                        action = "accesses";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_8, nameSource, nameTarget);
 
                     case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
-                        action = "is associated with";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_9, nameSource, nameTarget);
 
                     case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
-                        action = "is assigned to";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_10, nameSource, nameTarget);
 
                     case IArchimatePackage.REALISATION_RELATIONSHIP:
-                        action = "realises";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_11, nameSource, nameTarget);
 
                     case IArchimatePackage.USED_BY_RELATIONSHIP:
-                        action = "is used by";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_12, nameSource, nameTarget);
 
                     case IArchimatePackage.INFLUENCE_RELATIONSHIP:
-                        action = "influences";
-                        break;
+                        return NLS.bind(Messages.ArchimateLabelProvider_13, nameSource, nameTarget);
 
                     default:
-                        break;
+                        return ""; //$NON-NLS-1$
                 }
-                
-                action = nameSource + " " + action + " " + nameTarget;
             }
         }
         
-        return action;
+        return ""; //$NON-NLS-1$
     }
 
 }

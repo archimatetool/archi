@@ -72,7 +72,7 @@ public class RequirementsRealisationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Requirements Realisation";
+        return Messages.RequirementsRealisationViewpoint_0;
     }
 
     @Override

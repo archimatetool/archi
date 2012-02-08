@@ -49,7 +49,7 @@ extends AbstractTextFlowFigure {
             return null;
         }
         
-        tooltip.setType("Type: View Reference");
+        tooltip.setType(Messages.DiagramModelReferenceFigure_0);
         
         return tooltip;
     }

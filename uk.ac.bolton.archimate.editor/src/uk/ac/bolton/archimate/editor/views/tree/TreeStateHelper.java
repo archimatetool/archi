@@ -33,12 +33,12 @@ public class TreeStateHelper {
     
     public static TreeStateHelper INSTANCE = new TreeStateHelper();
     
-    private static final String ELEMENT_SEP_CHAR = " ";
+    private static final String ELEMENT_SEP_CHAR = " "; //$NON-NLS-1$
     
-    private static final String MEMENTO_EXPANDED = "expanded";
-    private static final String MEMENTO_MODEL = "model";
-    private static final String MEMENTO_FILE = "file";
-    private static final String MEMENTO_ELEMENTS = "elements";
+    private static final String MEMENTO_EXPANDED = "expanded"; //$NON-NLS-1$
+    private static final String MEMENTO_MODEL = "model"; //$NON-NLS-1$
+    private static final String MEMENTO_FILE = "file"; //$NON-NLS-1$
+    private static final String MEMENTO_ELEMENTS = "elements"; //$NON-NLS-1$
     
     // Expanded tree elements or element ids for the session
     private List<Object> fExpandedElements = new ArrayList<Object>();

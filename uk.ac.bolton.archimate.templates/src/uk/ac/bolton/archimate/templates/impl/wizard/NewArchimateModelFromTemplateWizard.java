@@ -39,7 +39,7 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
     private TemplateManager fTemplateManager;
     
     public NewArchimateModelFromTemplateWizard() {
-        setWindowTitle("New ArchiMate Model");
+        setWindowTitle(Messages.NewArchimateModelFromTemplateWizard_0);
         fTemplateManager = new ArchimateTemplateManager();
     }
     
@@ -66,14 +66,14 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                 @Override
                 public void run() {
                     try {
-                        File tmp = File.createTempFile("~architemplate", null);
+                        File tmp = File.createTempFile("~architemplate", null); //$NON-NLS-1$
                         tmp.deleteOnExit();
                         File file = ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmp);
                         if(file != null && file.exists()) {
                             IArchimateModel model = IEditorModelManager.INSTANCE.openModel(file);
                             if(model != null) {
                                 // New name
-                                model.setName("(new) " + model.getName());
+                                model.setName(Messages.NewArchimateModelFromTemplateWizard_1 + " " + model.getName()); //$NON-NLS-1$
                                 
                                 // Set latest model version (need to do this in case we immediately save as Template)
                                 model.setVersion(ModelVersion.VERSION);
@@ -85,11 +85,11 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                                 UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
                             }
                             else {
-                                fErrorMessage = "Unknown format";
+                                fErrorMessage = Messages.NewArchimateModelFromTemplateWizard_2;
                             }
                         }
                         else {
-                            fErrorMessage = "Unknown format";
+                            fErrorMessage = Messages.NewArchimateModelFromTemplateWizard_2;
                         }
                         tmp.delete();
                     }
@@ -102,7 +102,7 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
         }
         
         if(fErrorMessage != null) {
-            MessageDialog.openError(getShell(), "Error opening file", fErrorMessage);
+            MessageDialog.openError(getShell(), Messages.NewArchimateModelFromTemplateWizard_3, fErrorMessage);
             getContainer().getShell().setVisible(true);
         }
         

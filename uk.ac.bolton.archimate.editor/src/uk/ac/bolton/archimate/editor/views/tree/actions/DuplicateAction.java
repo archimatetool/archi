@@ -22,7 +22,7 @@ public class DuplicateAction extends ViewerAction {
     
     public DuplicateAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
-        setText("Dup&licate");
+        setText(Messages.DuplicateAction_0);
         
         setActionDefinitionId(ArchimateEditorActionFactory.DUPLICATE.getCommandId()); // Ensures key binding is displayed
         setEnabled(false);

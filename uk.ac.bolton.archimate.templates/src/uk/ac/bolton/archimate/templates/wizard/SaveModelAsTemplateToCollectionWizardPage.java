@@ -67,7 +67,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, getHelpID());
         
         fDoStoreInCollectionButton = new Button(container, SWT.CHECK);
-        fDoStoreInCollectionButton.setText("Add to my template collection");
+        fDoStoreInCollectionButton.setText(Messages.SaveModelAsTemplateToCollectionWizardPage_0);
         fDoStoreInCollectionButton.setSelection(true);
         
         fDoStoreInCollectionButton.addSelectionListener(new SelectionAdapter() {
@@ -90,7 +90,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         });
         
         label = new Label(container, SWT.NULL);
-        label.setText("Category:");
+        label.setText(Messages.SaveModelAsTemplateToCollectionWizardPage_1);
         
         Composite fieldContainer = new Composite(container, SWT.NULL);
         fieldContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -114,7 +114,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
         fCategoriesTableViewer.setInput(fTemplateManager.getUserTemplateGroups());
         
         fNewGroupButton = new Button(fieldContainer, SWT.NULL);
-        fNewGroupButton.setText("New...");
+        fNewGroupButton.setText(Messages.SaveModelAsTemplateToCollectionWizardPage_2);
         gd = new GridData(SWT.TOP, SWT.TOP, false, false);
         fNewGroupButton.setLayoutData(gd);
         
@@ -124,7 +124,7 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
                 IInputValidator validator = new IInputValidator() {
                     @Override
                     public String isValid(String newText) {
-                        return "".equals(newText) ? "" : hasGroup(newText) ? "Category already exists" : null;
+                        return "".equals(newText) ? "" : hasGroup(newText) ? Messages.SaveModelAsTemplateToCollectionWizardPage_3 : null; //$NON-NLS-1$ //$NON-NLS-2$
                     }
                     
                     boolean hasGroup(String name) {
@@ -138,8 +138,8 @@ public abstract class SaveModelAsTemplateToCollectionWizardPage extends WizardPa
                 };
                 
                 InputDialog dialog = new InputDialog(getShell(),
-                        "New Template Category",
-                        "New Category:",
+                        Messages.SaveModelAsTemplateToCollectionWizardPage_4,
+                        Messages.SaveModelAsTemplateToCollectionWizardPage_5,
                         "", //$NON-NLS-1$
                         validator);
                 

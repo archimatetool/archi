@@ -20,6 +20,6 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 public interface ICustomPropertiesView extends IViewPart {
     String ID = ArchimateEditorPlugin.PLUGIN_ID + ".propertiesView"; //$NON-NLS-1$
     String HELP_ID = "uk.ac.bolton.archimate.help.propertiesViewHelp"; //$NON-NLS-1$
-    String NAME = "Properties";
+    String NAME = Messages.ICustomPropertiesView_0;
     ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON);
 }

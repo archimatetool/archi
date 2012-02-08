@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
 public class ConnectionRouterTypeCommand extends EObjectFeatureCommand {
     
     public ConnectionRouterTypeCommand(IDiagramModel diagramModel, int type) {
-        super("Connection router", diagramModel, IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE, type);
+        super(Messages.ConnectionRouterTypeCommand_0, diagramModel, IArchimatePackage.Literals.DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE, type);
     }
 }

@@ -39,7 +39,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class FontSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -64,13 +64,13 @@ public class FontSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(final Composite parent) {
-        createCLabel(parent, "Font:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.FontSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 3);
 
         // Button
         fFontSelectionButton = new Button(client, SWT.PUSH);
-        fFontSelectionButton.setText("Edit...");
+        fFontSelectionButton.setText(Messages.FontSection_1);
         getWidgetFactory().adapt(fFontSelectionButton, true, true); // Need to do it this way for Mac
         GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
         gd.widthHint = ITabbedLayoutConstants.BUTTON_WIDTH;
@@ -79,11 +79,11 @@ public class FontSection extends AbstractArchimatePropertySection {
         // Default
         fDefaultFontButton = new Button(client, SWT.PUSH);
         fDefaultFontButton.setLayoutData(gd);
-        fDefaultFontButton.setText("Default");
+        fDefaultFontButton.setText(Messages.FontSection_2);
         getWidgetFactory().adapt(fDefaultFontButton, true, true); // Need to do it this way for Mac
         
         // Font Name
-        fFontLabel = getWidgetFactory().createCLabel(client, "");
+        fFontLabel = getWidgetFactory().createCLabel(client, ""); //$NON-NLS-1$
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fFontLabel.setLayoutData(gd);
         
@@ -104,7 +104,7 @@ public class FontSection extends AbstractArchimatePropertySection {
                     }
                     
                     FontDialog dialog = new FontDialog(parent.getShell());
-                    dialog.setText("Select Font");
+                    dialog.setText(Messages.FontSection_3);
                     dialog.setFontList(new FontData[] { fontData } );
                     
                     RGB rgb = ColorFactory.convertStringToRGB(fFontObject.getFontColor());
@@ -144,11 +144,11 @@ public class FontSection extends AbstractArchimatePropertySection {
         if(element instanceof EditPart && ((EditPart)element).getModel() instanceof IFontAttribute) {
             fFontObject = (IFontAttribute)((EditPart)element).getModel();
             if(fFontObject == null) {
-                throw new RuntimeException("Font Object was null");
+                throw new RuntimeException("Font Object was null"); //$NON-NLS-1$
             }
         }
         else {
-            throw new RuntimeException("Should have been an IFontAttribute");
+            throw new RuntimeException("Should have been an IFontAttribute"); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -167,10 +167,10 @@ public class FontSection extends AbstractArchimatePropertySection {
             }
         }
         
-        fFontLabel.setText(defaultFontData.getName() + " " +
-                defaultFontData.getHeight() + " " +
-                ((defaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? "Bold" : "") + " " +
-                ((defaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? "Italic" : ""));
+        fFontLabel.setText(defaultFontData.getName() + " " + //$NON-NLS-1$
+                defaultFontData.getHeight() + " " + //$NON-NLS-1$
+                ((defaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontSection_4 : "") + " " +  //$NON-NLS-1$ //$NON-NLS-2$
+                ((defaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontSection_5 : "")); //$NON-NLS-1$
         
         boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
         fFontSelectionButton.setEnabled(enabled);

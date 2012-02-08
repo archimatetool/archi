@@ -31,9 +31,9 @@ public class SelectElementInTreeAction extends SelectionAction {
 
     public SelectElementInTreeAction(IWorkbenchPart part) {
         super(part);
-        setText("Select in Model Tree");
+        setText(Messages.SelectElementInTreeAction_0);
         setId(ID);
-        setToolTipText("Select the element in the Tree");
+        setToolTipText(Messages.SelectElementInTreeAction_1);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class WorkPackageUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Work Package";
+        return Messages.WorkPackageUIProvider_0;
     }
 
     @Override

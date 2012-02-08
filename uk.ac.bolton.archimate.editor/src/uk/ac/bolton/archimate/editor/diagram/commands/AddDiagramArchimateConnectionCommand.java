@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.osgi.util.NLS;
 
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -27,7 +28,7 @@ public class AddDiagramArchimateConnectionCommand extends Command {
     private IDiagramModelObject fSource, fTarget;
     
     public AddDiagramArchimateConnectionCommand(IDiagramModelObject src, IDiagramModelObject tgt, IRelationship relationship) {
-        setLabel("Add" + " " + relationship.getName());
+        setLabel(NLS.bind(Messages.AddDiagramArchimateConnectionCommand_0, relationship.getName()));
 
         fSource = src;
         fTarget = tgt;

@@ -43,8 +43,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
 
     private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage1"; //$NON-NLS-1$
     
-    static String SAVE_DIR = System.getProperty("user.home");
-    static String REPORT_FILENAME = "archi-report";
+    static String SAVE_DIR = System.getProperty("user.home"); //$NON-NLS-1$
+    static String REPORT_FILENAME = "archi-report"; //$NON-NLS-1$
     static boolean IS_HTML = true, IS_PDF = true, IS_WORD = true, IS_PPT, IS_RTF, IS_ODT;
     
     private IArchimateModel fModel;
@@ -59,10 +59,10 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
     private Image fImageHTML, fImagePDF, fImageDOCX, fImagePPTX, fImageODT, fImageRTF;
 
     public ExportJasperReportsWizardPage1(IArchimateModel model) {
-        super("ExportJasperReportsWizardPage1");
+        super("ExportJasperReportsWizardPage1"); //$NON-NLS-1$
         
-        setTitle("Generate Jasper Reports");
-        setDescription("Choose the output location, report title and which formats to generate.");
+        setTitle(Messages.ExportJasperReportsWizardPage1_0);
+        setDescription(Messages.ExportJasperReportsWizardPage1_1);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
         
         fModel = model;
@@ -81,7 +81,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fieldContainer.setLayout(new GridLayout(3, false));
         
         Label label = new Label(fieldContainer, SWT.NONE);
-        label.setText("Report location:");
+        label.setText(Messages.ExportJasperReportsWizardPage1_2);
         
         fTextOutputFolder = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
         fTextOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -95,7 +95,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         });
         
         Button button = new Button(fieldContainer, SWT.PUSH);
-        button.setText("Browse...");
+        button.setText(Messages.ExportJasperReportsWizardPage1_3);
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -104,7 +104,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         });
         
         label = new Label(fieldContainer, SWT.NONE);
-        label.setText("Report filename:");
+        label.setText(Messages.ExportJasperReportsWizardPage1_4);
         fTextFilename = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
@@ -119,7 +119,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         });
 
         label = new Label(fieldContainer, SWT.NONE);
-        label.setText("Report title:");
+        label.setText(Messages.ExportJasperReportsWizardPage1_5);
         fTextReportTitle = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
@@ -143,14 +143,14 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         });
         
         Group exportTypesGroup = new Group(container, SWT.NULL);
-        exportTypesGroup.setText("Formats to generate:");
+        exportTypesGroup.setText(Messages.ExportJasperReportsWizardPage1_6);
         exportTypesGroup.setLayout(new GridLayout(4, false));
         exportTypesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImageHTML);
         fButtonExportHTML = new Button(exportTypesGroup, SWT.CHECK);
-        fButtonExportHTML.setText("HTML");
+        fButtonExportHTML.setText(Messages.ExportJasperReportsWizardPage1_7);
         fButtonExportHTML.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fButtonExportHTML.setSelection(IS_HTML);
         fButtonExportHTML.addSelectionListener(new SelectionAdapter() {
@@ -163,7 +163,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImagePDF);
         fButtonExportPDF = new Button(exportTypesGroup, SWT.CHECK);
-        fButtonExportPDF.setText("PDF");
+        fButtonExportPDF.setText(Messages.ExportJasperReportsWizardPage1_8);
         fButtonExportPDF.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fButtonExportPDF.setSelection(IS_PDF);
         fButtonExportPDF.addSelectionListener(new SelectionAdapter() {
@@ -176,7 +176,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImageRTF);
         fButtonExportRTF = new Button(exportTypesGroup, SWT.CHECK);
-        fButtonExportRTF.setText("RTF");
+        fButtonExportRTF.setText(Messages.ExportJasperReportsWizardPage1_9);
         fButtonExportRTF.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fButtonExportRTF.setSelection(IS_RTF);
         fButtonExportRTF.addSelectionListener(new SelectionAdapter() {
@@ -189,7 +189,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImageDOCX);
         fButtonExportDOCX = new Button(exportTypesGroup, SWT.CHECK);
-        fButtonExportDOCX.setText("MS Word");
+        fButtonExportDOCX.setText(Messages.ExportJasperReportsWizardPage1_10);
         fButtonExportDOCX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fButtonExportDOCX.setSelection(IS_WORD);
         fButtonExportDOCX.addSelectionListener(new SelectionAdapter() {
@@ -202,7 +202,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImagePPTX);
         fButtonExportPPTX = new Button(exportTypesGroup, SWT.CHECK);
-        fButtonExportPPTX.setText("MS Powerpoint");
+        fButtonExportPPTX.setText(Messages.ExportJasperReportsWizardPage1_11);
         fButtonExportPPTX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fButtonExportPPTX.setSelection(IS_PPT);
         fButtonExportPPTX.addSelectionListener(new SelectionAdapter() {
@@ -215,7 +215,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImageODT);
         fButtonExportODT = new Button(exportTypesGroup, SWT.CHECK);
-        fButtonExportODT.setText("Open Office");
+        fButtonExportODT.setText(Messages.ExportJasperReportsWizardPage1_12);
         fButtonExportODT.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fButtonExportODT.setSelection(IS_ODT);
         fButtonExportODT.addSelectionListener(new SelectionAdapter() {
@@ -270,25 +270,25 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
                 isExportODT() || isExportRTF();
         
         if(!isOK) {
-            updateStatus("Choose at least one export format");
+            updateStatus(Messages.ExportJasperReportsWizardPage1_13);
             return;
         }
         
         String s = fTextOutputFolder.getText();
         if("".equals(s.trim())) { //$NON-NLS-1$
-            updateStatus("Choose export folder");
+            updateStatus(Messages.ExportJasperReportsWizardPage1_14);
             return;
         }
         
         s = fTextFilename.getText();
         if("".equals(s.trim())) { //$NON-NLS-1$
-            updateStatus("Choose file name");
+            updateStatus(Messages.ExportJasperReportsWizardPage1_15);
             return;
         }
         
         s = fTextReportTitle.getText();
         if("".equals(s.trim())) { //$NON-NLS-1$
-            updateStatus("Choose report title");
+            updateStatus(Messages.ExportJasperReportsWizardPage1_16);
             return;
         }
         
@@ -306,8 +306,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
     
     private void handleBrowse() {
         DirectoryDialog dialog = new DirectoryDialog(getShell());
-        dialog.setText("Report");
-        dialog.setMessage("Choose a folder in which to generate the report.");
+        dialog.setText(Messages.ExportJasperReportsWizardPage1_17);
+        dialog.setMessage(Messages.ExportJasperReportsWizardPage1_18);
         String path = dialog.open();
         if(path != null) {
             fTextOutputFolder.setText(path);
@@ -315,12 +315,12 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
     }
     
     private void loadImages() {
-        fImageDOCX = loadImage("img/docx.png");
-        fImageHTML = loadImage("img/html.png");
-        fImageODT = loadImage("img/odt.png");
-        fImagePDF = loadImage("img/pdf.gif");
-        fImagePPTX = loadImage("img/pptx.png");
-        fImageRTF = loadImage("img/rtf.png");
+        fImageDOCX = loadImage("img/docx.png"); //$NON-NLS-1$
+        fImageHTML = loadImage("img/html.png"); //$NON-NLS-1$
+        fImageODT = loadImage("img/odt.png"); //$NON-NLS-1$
+        fImagePDF = loadImage("img/pdf.gif"); //$NON-NLS-1$
+        fImagePPTX = loadImage("img/pptx.png"); //$NON-NLS-1$
+        fImageRTF = loadImage("img/rtf.png"); //$NON-NLS-1$
     }
     
     private void disposeImages() {

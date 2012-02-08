@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 public class FontStyleCommand extends EObjectFeatureCommand {
     
     public FontStyleCommand(IFontAttribute object, String fontData) {
-        super("Change font", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT, fontData);
+        super(Messages.FontStyleCommand_0, object, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT, fontData);
     }
 }

@@ -124,7 +124,7 @@ implements IColoredEditPart, ITextAlignedEditPart, ITextPositionedEditPart {
         @Override
         protected Command getDirectEditCommand(DirectEditRequest request) {
             String content = (String)request.getCellEditor().getValue();
-            return new EObjectFeatureCommand("Content", getModel(),
+            return new EObjectFeatureCommand(Messages.CanvasStickyEditPart_0, getModel(),
                     IArchimatePackage.Literals.TEXT_CONTENT__CONTENT, content);
         }
 

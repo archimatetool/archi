@@ -91,7 +91,7 @@ public class FloatingPalette {
         fShell.setBounds(fPaletteState.bounds);
         
         fShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_16));
-        fShell.setText("Palette");
+        fShell.setText(Messages.FloatingPalette_0);
         
         // Disposed by system
         fShell.addDisposeListener(new DisposeListener() {
@@ -153,15 +153,15 @@ public class FloatingPalette {
 
     private void saveState(Shell shell) {
         Rectangle bounds = shell.getBounds();
-        String s = "" + bounds.x + "," + bounds.y + "," + bounds.width + "," + bounds.height + "," + fPaletteState.isOpen;
-        Preferences.STORE.setValue("pallete_floater_state", s);
+        String s = "" + bounds.x + "," + bounds.y + "," + bounds.width + "," + bounds.height + "," + fPaletteState.isOpen; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        Preferences.STORE.setValue("pallete_floater_state", s); //$NON-NLS-1$
     }
     
     private void loadState() {
-        String s = Preferences.STORE.getString("pallete_floater_state");
+        String s = Preferences.STORE.getString("pallete_floater_state"); //$NON-NLS-1$
         if(StringUtils.isSet(s)) {
             try {
-                String[] bits = s.split(",");
+                String[] bits = s.split(","); //$NON-NLS-1$
                 if(bits.length == 5) {
                     fPaletteState.bounds.x = Integer.valueOf(bits[0]);
                     fPaletteState.bounds.y = Integer.valueOf(bits[1]);

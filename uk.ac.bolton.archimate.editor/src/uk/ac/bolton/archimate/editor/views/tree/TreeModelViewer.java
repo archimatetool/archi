@@ -215,8 +215,8 @@ public class TreeModelViewer extends TreeViewer {
      * Label Provider
      */
     private class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
-        Font fontItalic = JFaceResources.getFontRegistry().getItalic("");
-        Font fontBold = JFaceResources.getFontRegistry().getBold("");
+        Font fontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
+        Font fontBold = JFaceResources.getFontRegistry().getBold(""); //$NON-NLS-1$
         
         @Override
         public String getText(Object element) {
@@ -226,17 +226,17 @@ public class TreeModelViewer extends TreeViewer {
             if(element instanceof IArchimateModel) {
                 IArchimateModel model = (IArchimateModel)element;
                 if(IEditorModelManager.INSTANCE.isModelDirty(model)) {
-                    name = "*" + name;
+                    name = "*" + name; //$NON-NLS-1$
                 }
             }
             
             if(element instanceof IRelationship) {
                 IRelationship relationship = (IRelationship)element;
-                name += " (";
+                name += " ("; //$NON-NLS-1$
                 name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
-                name += " - ";
+                name += " - "; //$NON-NLS-1$
                 name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
-                name += ")";
+                name += ")"; //$NON-NLS-1$
             }
             
             return name;

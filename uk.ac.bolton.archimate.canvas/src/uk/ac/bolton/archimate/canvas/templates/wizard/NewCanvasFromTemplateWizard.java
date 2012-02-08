@@ -16,6 +16,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 
@@ -52,7 +53,7 @@ public class NewCanvasFromTemplateWizard extends Wizard {
     private TemplateManager fTemplateManager;
     
     public NewCanvasFromTemplateWizard(IFolder folder) {
-        setWindowTitle("New Canvas");
+        setWindowTitle(Messages.NewCanvasFromTemplateWizard_0);
         fFolder = folder;
         fTemplateManager = new CanvasTemplateManager();
     }
@@ -81,27 +82,27 @@ public class NewCanvasFromTemplateWizard extends Wizard {
                 public void run() {
                     try {
                         fErrorMessage = null;
-                        File tmp = File.createTempFile("~architemplate", null);
+                        File tmp = File.createTempFile("~architemplate", null); //$NON-NLS-1$
                         tmp.deleteOnExit();
                         File file = ZipUtils.extractZipEntry(zipFile, TemplateManager.ZIP_ENTRY_MODEL, tmp);
                         if(file != null && file.exists()) {
                             createNewCanvasFromTemplate(file);
                         }
                         else {
-                            fErrorMessage = "Unknown format";
+                            fErrorMessage = Messages.NewCanvasFromTemplateWizard_1;
                         }
                         tmp.delete();
                     }
                     catch(Exception ex) {
                         ex.printStackTrace();
-                        fErrorMessage = "Unknown format: " + ex.getMessage();
+                        fErrorMessage = Messages.NewCanvasFromTemplateWizard_2 + " " + ex.getMessage(); //$NON-NLS-1$
                     }
                 }
             });
         }
         
         if(fErrorMessage != null) {
-            MessageDialog.openError(getShell(), "Error opening file", fErrorMessage);
+            MessageDialog.openError(getShell(), Messages.NewCanvasFromTemplateWizard_3, fErrorMessage);
             getContainer().getShell().setVisible(true);
         }
         
@@ -129,8 +130,8 @@ public class NewCanvasFromTemplateWizard extends Wizard {
             }
             // Incompatible
             catch(IncompatibleModelException ex1) {
-                fErrorMessage = "Cannot open '" + file +  "'. " + "This model is incompatible."
-                                + "\n" + ex1.getMessage();
+                fErrorMessage = NLS.bind(Messages.NewCanvasFromTemplateWizard_4, file)
+                                + "\n" + ex1.getMessage(); //$NON-NLS-1$
                 throw ex1;
             }
         }
@@ -156,7 +157,7 @@ public class NewCanvasFromTemplateWizard extends Wizard {
             archiveManager.loadImagesFromModelFile(file); 
         }
         
-        Command cmd = new NewDiagramCommand(fFolder, canvasModel, "New Canvas from Template");
+        Command cmd = new NewDiagramCommand(fFolder, canvasModel, Messages.NewCanvasFromTemplateWizard_5);
         CommandStack commandStack = (CommandStack)fFolder.getAdapter(CommandStack.class);
         commandStack.execute(cmd);
     }

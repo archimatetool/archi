@@ -20,7 +20,7 @@ public class CreateBendpointCommand extends BendpointCommand implements IAnimata
     private IDiagramModelBendpoint fBendpoint;
     
     public CreateBendpointCommand() {
-        super("Create Bendpoint");
+        super(Messages.CreateBendpointCommand_0);
     }
 
     @Override

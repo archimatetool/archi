@@ -48,7 +48,7 @@ import uk.ac.bolton.archimate.model.INode;
  */
 public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
 
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramFigureTypeSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramFigureTypeSection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -147,7 +147,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
             fDiagramObject = (IDiagramModelArchimateObject)((IAdaptable)element).getAdapter(IDiagramModelObject.class);
         }
         if(fDiagramObject == null) {
-            System.err.println("Diagram Object was null in " + getClass());
+            System.err.println("Diagram Object was null in " + getClass()); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -186,7 +186,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
                 public void mouseDown(MouseEvent e) {
                     if(!selected && isAlive()) {
                         int newType = fDiagramObject.getType() == 0 ? 1 : 0;
-                        getCommandStack().execute(new EObjectFeatureCommand("Figure Type", getEObject(),
+                        getCommandStack().execute(new EObjectFeatureCommand(Messages.DiagramFigureTypeSection_0, getEObject(),
                                 IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE, newType));
                     }
                 }

@@ -41,7 +41,7 @@ public class ApplicationStructureViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Application Structure";
+        return Messages.ApplicationStructureViewpoint_0;
     }
 
     @Override

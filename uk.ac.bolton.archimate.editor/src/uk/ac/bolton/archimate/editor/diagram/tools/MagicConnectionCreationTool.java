@@ -303,7 +303,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
      */
     private void addElementActions(Menu menu, IDiagramModelArchimateObject sourceDiagramModelObject) {
         MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText("Business");
+        item.setText(Messages.MagicConnectionCreationTool_0);
         Menu subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getBusinessClasses());
@@ -313,7 +313,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
 
         item = new MenuItem(menu, SWT.CASCADE);
-        item.setText("Application");
+        item.setText(Messages.MagicConnectionCreationTool_1);
         subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getApplicationClasses());
@@ -323,7 +323,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
 
         item = new MenuItem(menu, SWT.CASCADE);
-        item.setText("Technology");
+        item.setText(Messages.MagicConnectionCreationTool_2);
         subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getTechnologyClasses());
@@ -333,7 +333,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
 
         item = new MenuItem(menu, SWT.CASCADE);
-        item.setText("Motivation");
+        item.setText(Messages.MagicConnectionCreationTool_3);
         subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getMotivationClasses());
@@ -343,7 +343,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
 
         item = new MenuItem(menu, SWT.CASCADE);
-        item.setText("Implementation & Migration");
+        item.setText(Messages.MagicConnectionCreationTool_4);
         subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getImplementationMigrationClasses());
@@ -353,7 +353,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
 
         item = new MenuItem(menu, SWT.CASCADE);
-        item.setText("Connectors");
+        item.setText(Messages.MagicConnectionCreationTool_5);
         subMenu = new Menu(item);
         item.setMenu(subMenu);
         addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getConnectorClasses());
@@ -486,7 +486,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         PoofAnimater animater;
         
         CreateElementCompoundCommand(FigureCanvas canvas, int x, int y) {
-            super("Create Element");
+            super(Messages.MagicConnectionCreationTool_6);
             animater = new PoofAnimater(canvas, x, y);
         }
         

@@ -21,8 +21,8 @@ public class PropertiesAction extends SelectionAction {
 
     public PropertiesAction(IWorkbenchPart part) {
         super(part);
-        setText("Properties");
-        setToolTipText("Properties");
+        setText(Messages.PropertiesAction_0);
+        setToolTipText(Messages.PropertiesAction_0);
         setActionDefinitionId(ActionFactory.PROPERTIES.getCommandId()); // Ensures key binding is displayed
         setId(ActionFactory.PROPERTIES.getId());
     }

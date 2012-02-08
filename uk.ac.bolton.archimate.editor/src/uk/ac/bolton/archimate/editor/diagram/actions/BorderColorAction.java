@@ -29,8 +29,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class BorderColorAction extends SelectionAction {
     
-    public static final String ID = "BorderColorAction";
-    public static final String TEXT = "Border colour...";
+    public static final String ID = "BorderColorAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.BorderColorAction_0;
     
     public BorderColorAction(IWorkbenchPart part) {
         super(part);
@@ -96,7 +96,7 @@ public class BorderColorAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand("Change border colour");
+        CompoundCommand result = new CompoundCommand(Messages.BorderColorAction_1);
         
         for(Object object : selection) {
             if(isValidEditPart(object)) {

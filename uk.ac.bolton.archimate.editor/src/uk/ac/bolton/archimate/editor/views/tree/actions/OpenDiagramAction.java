@@ -22,7 +22,7 @@ public class OpenDiagramAction extends ViewerAction {
     
     public OpenDiagramAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
-        setText("Open V&iew");
+        setText(Messages.OpenDiagramAction_0);
         setEnabled(false);
     }
     

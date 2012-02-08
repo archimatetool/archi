@@ -63,7 +63,7 @@ public class WindowsStartup implements IStartup {
         
         // We'll get it by reflection...
         try {
-            Field f = Control.class.getDeclaredField("handle");
+            Field f = Control.class.getDeclaredField("handle"); //$NON-NLS-1$
             return (Integer)f.get(shell);
         }
         catch(Exception ex) {

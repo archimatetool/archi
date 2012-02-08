@@ -34,7 +34,7 @@ public class TechnologyArtifactUIProvider extends AbstractTechnologyUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Artifact";
+        return Messages.TechnologyArtifactUIProvider_0;
     }
 
     @Override

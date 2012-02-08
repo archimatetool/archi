@@ -37,7 +37,7 @@ public class PrincipleUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Principle";
+        return Messages.PrincipleUIProvider_0;
     }
 
     @Override

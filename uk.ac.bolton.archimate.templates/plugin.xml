@@ -11,13 +11,13 @@
                class="uk.ac.bolton.archimate.templates.impl.NewArchimateModelFromTemplateAction"
                icon="img/newfile.gif"
                id="uk.ac.bolton.archimate.templates.newArchimateModelFromTemplate"
-               label="Model From &amp;Template..."
+               label="%action.label"
                menubarPath="file/new_menu/new_menu.ext">
          </action>
          <action
                class="uk.ac.bolton.archimate.templates.impl.SaveAsTemplateAction"
                id="uk.ac.bolton.archimate.templates.saveAsTemplate"
-               label="Save As &amp;Template..."
+               label="%action.label.0"
                menubarPath="file/save.ext">
          </action>
       </actionSet>

@@ -40,7 +40,7 @@ implements IPreferenceConstants {
         
         store.setDefault(ANTI_ALIAS, true);
         
-        store.setDefault(DEFAULT_VIEW_FONT, "");
+        store.setDefault(DEFAULT_VIEW_FONT, ""); //$NON-NLS-1$
         
         store.setDefault(LINK_VIEW, false);
         

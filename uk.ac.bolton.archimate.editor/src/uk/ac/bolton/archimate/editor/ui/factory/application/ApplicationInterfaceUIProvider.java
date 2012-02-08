@@ -37,12 +37,12 @@ public class ApplicationInterfaceUIProvider extends AbstractApplicationUIProvide
 
     @Override
     public String getDefaultName() {
-        return "Application Interface";
+        return Messages.ApplicationInterfaceUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Interface";
+        return Messages.ApplicationInterfaceUIProvider_1;
     }
 
     @Override

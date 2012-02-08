@@ -27,15 +27,15 @@ import uk.ac.bolton.jdom.JDOMUtils;
  */
 public abstract class TemplateManager implements ITemplateXMLTags {
     
-    public static final String ZIP_ENTRY_MANIFEST = "manifest.xml";
-    public static final String ZIP_ENTRY_MODEL = "model.archimate";
-    public static final String ZIP_ENTRY_THUMBNAILS = "Thumbnails/";
+    public static final String ZIP_ENTRY_MANIFEST = "manifest.xml"; //$NON-NLS-1$
+    public static final String ZIP_ENTRY_MODEL = "model.archimate"; //$NON-NLS-1$
+    public static final String ZIP_ENTRY_THUMBNAILS = "Thumbnails/"; //$NON-NLS-1$
     
     public static final int THUMBNAIL_WIDTH = 512;
     public static final int THUMBNAIL_HEIGHT = 512;
     
     // The "All" User Template group
-    public ITemplateGroup AllUserTemplatesGroup = new TemplateGroup("All") {
+    public ITemplateGroup AllUserTemplatesGroup = new TemplateGroup(Messages.TemplateManager_0) {
         @Override
         public List<ITemplate> getTemplates() {
             return getUserTemplates();

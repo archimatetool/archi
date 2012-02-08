@@ -81,8 +81,8 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
     
     protected int DEFAULT_GALLERY_ITEM_SIZE = 120;
     
-    protected static final String OPEN = "Open...";
-    protected static final String MANAGE = "Manage...";
+    protected static final String OPEN = Messages.NewModelFromTemplateWizardPage_0;
+    protected static final String MANAGE = Messages.NewModelFromTemplateWizardPage_1;
     
     public NewModelFromTemplateWizardPage(String pageName, TemplateManager templateManager) {
         super(pageName);
@@ -119,7 +119,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         
         // Inbuilt Templates
         gd = new GridData(SWT.FILL, SWT.FILL, true, false);
-        fInbuiltTableViewer = createGroupsTableViewer(tableComposite, "Templates", gd);
+        fInbuiltTableViewer = createGroupsTableViewer(tableComposite, Messages.NewModelFromTemplateWizardPage_2, gd);
         fInbuiltTableViewer.setInput(new Object[] { fTemplateManager.getInbuiltTemplateGroup(), OPEN, MANAGE });
         // Mouse UP actions...
         fInbuiltTableViewer.getControl().addMouseListener(new MouseAdapter() {
@@ -139,7 +139,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         
         // My Templates
         gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-        fUserTableViewer = createGroupsTableViewer(tableComposite, "My Templates", gd);
+        fUserTableViewer = createGroupsTableViewer(tableComposite, Messages.NewModelFromTemplateWizardPage_3, gd);
         fUserTableViewer.setSorter(new ViewerSorter() {
             @Override
             public int category(Object element) {
@@ -297,8 +297,8 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         getContainer().getShell().setVisible(false);
         
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setText("Open Template");
-        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
+        dialog.setText(Messages.NewModelFromTemplateWizardPage_4);
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path == null) {
             selectFirstTableItem();
@@ -319,7 +319,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
                     ((ExtendedWizardDialog)getContainer()).finishPressed();
                 }
                 catch(IOException ex) {
-                    MessageDialog.openError(getShell(), "Error opening file", ex.getMessage());
+                    MessageDialog.openError(getShell(), Messages.NewModelFromTemplateWizardPage_5, ex.getMessage());
                     selectFirstTableItem();
                     getContainer().getShell().setVisible(true);
                 }

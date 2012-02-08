@@ -169,7 +169,7 @@ public class DeleteCommandHandler {
                     compoundCommand.add(cmd);
                 }
                 else {
-                    System.err.println("Could not get CompoundCommand in " + getClass());
+                    System.err.println("Could not get CompoundCommand in " + getClass()); //$NON-NLS-1$
                 }
             }
         }
@@ -184,7 +184,7 @@ public class DeleteCommandHandler {
             
             CompoundCommand compoundCommand = getCompoundCommand((IAdapter)object);
             if(compoundCommand == null) { // sanity check
-                System.err.println("Could not get CompoundCommand in " + getClass());
+                System.err.println("Could not get CompoundCommand in " + getClass()); //$NON-NLS-1$
                 continue;
             }
 
@@ -318,7 +318,7 @@ public class DeleteCommandHandler {
         // Get the Command Stack registered to the object
         CommandStack stack = (CommandStack)object.getAdapter(CommandStack.class);
         if(stack == null) {
-            System.err.println("CommandStack was null in " + getClass());
+            System.err.println("CommandStack was null in " + getClass()); //$NON-NLS-1$
             return null;
         }
         

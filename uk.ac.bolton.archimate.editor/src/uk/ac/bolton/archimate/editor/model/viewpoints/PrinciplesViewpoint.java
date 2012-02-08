@@ -29,7 +29,7 @@ public class PrinciplesViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Principles";
+        return Messages.PrinciplesViewpoint_0;
     }
 
     @Override

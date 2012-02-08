@@ -35,7 +35,7 @@ public class SketchStickyUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Sticky";
+        return Messages.SketchStickyUIProvider_0;
     }
 
     @Override

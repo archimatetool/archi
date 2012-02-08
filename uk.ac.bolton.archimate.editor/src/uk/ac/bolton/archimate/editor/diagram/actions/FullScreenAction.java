@@ -47,8 +47,8 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
  */
 public class FullScreenAction extends WorkbenchPartAction {
     
-    public static final String ID = "uk.ac.bolton.archimate.editor.action.fullScreen";
-    public static final String TEXT = "Full Screen";
+    public static final String ID = "uk.ac.bolton.archimate.editor.action.fullScreen"; //$NON-NLS-1$
+    public static final String TEXT = Messages.FullScreenAction_0;
     
     private GraphicalViewer fGraphicalViewer;
     private Shell fNewShell;
@@ -109,7 +109,7 @@ public class FullScreenAction extends WorkbenchPartAction {
             manager.remove(ActionFactory.PROPERTIES.getId());
             
             if(!fFloatingPalette.isOpen()) {
-                manager.add(new Action("Show Palette") {
+                manager.add(new Action(Messages.FullScreenAction_1) {
                     @Override
                     public void run() {
                         fFloatingPalette.open();
@@ -117,7 +117,7 @@ public class FullScreenAction extends WorkbenchPartAction {
                 });
             }
             
-            manager.add(new Action("Close Full Screen") {
+            manager.add(new Action(Messages.FullScreenAction_2) {
                 @Override
                 public void run() {
                     close();
@@ -158,7 +158,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fOldPaletteViewer = fGraphicalViewer.getEditDomain().getPaletteViewer();
         
         // Set Property so clients know this is in full screen mode
-        fGraphicalViewer.setProperty("full_screen", true);
+        fGraphicalViewer.setProperty("full_screen", true); //$NON-NLS-1$
         
         addKeyBindings();
         
@@ -215,7 +215,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell.dispose();
         
         // Reset Property
-        fGraphicalViewer.setProperty("full_screen", null);
+        fGraphicalViewer.setProperty("full_screen", null); //$NON-NLS-1$
 
         // Visible & Focus
         fOldParent.getShell().setVisible(true);

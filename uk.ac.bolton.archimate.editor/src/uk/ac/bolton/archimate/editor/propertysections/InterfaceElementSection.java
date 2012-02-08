@@ -33,7 +33,7 @@ import uk.ac.bolton.archimate.model.IInterfaceElement;
  */
 public class InterfaceElementSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -67,13 +67,13 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
     private Combo fComboInterfaceType;
     
     private static final String[] fComboInterfaceItems = {
-        "Provided",
-        "Required"
+        Messages.InterfaceElementSection_0,
+        Messages.InterfaceElementSection_1
     };
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Interface Type:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.InterfaceElementSection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         fComboInterfaceType = new Combo(parent, SWT.READ_ONLY);
         fComboInterfaceType.setItems(fComboInterfaceItems);
         fComboInterfaceType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -82,7 +82,7 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Interface Type",
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.InterfaceElementSection_3,
                             fInterfaceElement, IArchimatePackage.Literals.INTERFACE_ELEMENT__INTERFACE_TYPE,
                             fComboInterfaceType.getSelectionIndex()));
                     fIsExecutingCommand = false;
@@ -105,7 +105,7 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
             fInterfaceElement = (IInterfaceElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
         }
         else {
-            System.err.println("InterfaceElementSection wants to display for " + element);
+            System.err.println("InterfaceElementSection wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

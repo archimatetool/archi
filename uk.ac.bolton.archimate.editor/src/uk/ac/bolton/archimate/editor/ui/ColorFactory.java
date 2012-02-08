@@ -92,18 +92,18 @@ public class ColorFactory {
      */
     public static String convertRGBToString(RGB rgb) {
         if(rgb == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
-        StringBuffer sb = new StringBuffer("#");
+        StringBuffer sb = new StringBuffer("#"); //$NON-NLS-1$
         String s = Integer.toHexString(rgb.red);
-        if(s.length() == 1) sb.append("0");
+        if(s.length() == 1) sb.append("0"); //$NON-NLS-1$
         sb.append(s);
         s = Integer.toHexString(rgb.green);
-        if(s.length() == 1) sb.append("0");
+        if(s.length() == 1) sb.append("0"); //$NON-NLS-1$
         sb.append(s);
         s = Integer.toHexString(rgb.blue);
-        if(s.length() == 1) sb.append("0");
+        if(s.length() == 1) sb.append("0"); //$NON-NLS-1$
         sb.append(s);
         
         return sb.toString();
@@ -114,7 +114,7 @@ public class ColorFactory {
      * @return The RGB or null for String type #00FF2D
      */
     public static RGB convertStringToRGB(String string) {
-        if(string == null || !(string.length() == 7) || !(string.startsWith("#")) ) {
+        if(string == null || !(string.length() == 7) || !(string.startsWith("#")) ) { //$NON-NLS-1$
             return null;
         }
         

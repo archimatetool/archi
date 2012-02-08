@@ -39,7 +39,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      * @generated
      * @ordered
      */
-    protected static final String HINT_TITLE_EDEFAULT = "";
+    protected static final String HINT_TITLE_EDEFAULT = ""; //$NON-NLS-1$
     /**
      * The cached value of the '{@link #getHintTitle() <em>Hint Title</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -57,7 +57,7 @@ public class CanvasModel extends DiagramModel implements ICanvasModel {
      * @generated
      * @ordered
      */
-    protected static final String HINT_CONTENT_EDEFAULT = "";
+    protected static final String HINT_CONTENT_EDEFAULT = ""; //$NON-NLS-1$
     /**
      * The cached value of the '{@link #getHintContent() <em>Hint Content</em>}' attribute.
      * <!-- begin-user-doc -->

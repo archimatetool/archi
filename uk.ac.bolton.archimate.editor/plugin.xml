@@ -47,7 +47,7 @@
       <perspective
             class="uk.ac.bolton.archimate.editor.perspectives.MainPerspective"
             id="uk.ac.bolton.archimate.editor.perspectiveMain"
-            name="Main">
+            name="%perspective.name">
       </perspective>
    </extension>
 
@@ -94,7 +94,7 @@
       <page
             class="uk.ac.bolton.archimate.editor.preferences.RelationsPreferencePage"
             id="uk.ac.bolton.archimate.editor.prefsRelations"
-            name="Relationships">
+            name="%prefsRelationships">
          <keywordReference
                id="keywords.prefsRelations">
          </keywordReference>
@@ -162,31 +162,31 @@
          <propertyTab
                category="main.category"
                id="main.tab"
-               label="Main">
+               label="%propertyTab.label">
          </propertyTab>
          <propertyTab
                afterTab="main.tab"
                category="main.category"
                id="properties.tab"
-               label="Properties">
+               label="%propertyTab.label.0">
          </propertyTab>
          <propertyTab
                afterTab="properties.tab"
                category="main.category"
                id="analysis.tab"
-               label="Analysis">
+               label="%propertyTab.label.1">
          </propertyTab>
          <propertyTab
                category="appearance.category"
                id="appearance.tab"
-               label="Appearance">
+               label="%propertyTab.label.2">
          </propertyTab>
          <propertyTab
                afterTab="appearance.tab"
                category="appearance.category"
                id="figure.tab"
                indented="true"
-               label="Figure">
+               label="%propertyTab.label.3">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -537,74 +537,74 @@
          point="org.eclipse.ui.commands">
       <command
             id="uk.ac.bolton.archimate.editor.action.newModel"
-            name="New Model">
+            name="%command.name">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.openModel"
-            name="Open Model">
+            name="%command.name.0">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.closeModel"
-            name="Close Model">
+            name="%command.name.1">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.duplicate"
-            name="Duplicate">
+            name="%command.name.2">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.openDiagram"
-            name="Open Diagram">
+            name="%command.name.3">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.showTreeModelView"
-            name="Show Tree Model View">
+            name="%command.name.4">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.showPropertiesView"
-            name="Show Properties View">
+            name="%command.name.5">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.showOutlineView"
-            name="Show Outline View">
+            name="%command.name.6">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.showNavigatorView"
-            name="Show Navigator View">
+            name="%command.name.7">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.showPaletteView"
-            name="Show Palette View">
+            name="%command.name.8">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.exportAsImageToClipboard"
-            name="Export As Image to Clipboard">
+            name="%command.name.9">
       </command>
       <command
             id="uk.ac.bolton.archimate.editor.action.fullScreen"
-            name="Full Screen">
+            name="%command.name.10">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.keywords">
       <keyword
             id="keywords.prefsGeneral"
-            label="model tree files view filter search folder">
+            label="%keyword.label">
       </keyword>
       <keyword
             id="keywords.prefsFigures"
-            label="figure view">
+            label="%keyword.label.0">
       </keyword>
       <keyword
             id="keywords.prefsDiagram"
-            label="layout grid animate animation view palette font sketch background">
+            label="%keyword.label.1">
       </keyword>
       <keyword
             id="keywords.prefsConnections"
-            label="magic connector connection nested animation relation implicit">
+            label="%keyword.label.2">
       </keyword>
       <keyword
             id="keywords.prefsRelations"
-            label="concept relation relations advanced connection connections">
+            label="%keyword.label.3">
       </keyword>
    </extension>
 

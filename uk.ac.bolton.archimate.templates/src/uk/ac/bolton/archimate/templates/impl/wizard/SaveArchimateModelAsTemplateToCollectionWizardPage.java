@@ -20,13 +20,13 @@ public class SaveArchimateModelAsTemplateToCollectionWizardPage extends SaveMode
     private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
 
     public SaveArchimateModelAsTemplateToCollectionWizardPage(TemplateManager templateManager) {
-        super("SaveModelAsTemplateToCollectionWizardPage", templateManager);
+        super("SaveModelAsTemplateToCollectionWizardPage", templateManager); //$NON-NLS-1$
     }
     
     @Override
     protected void init() {
-        setTitle("Save ArchiMate Model As Template");
-        setDescription("Choose whether to include the template in your collection.");
+        setTitle(Messages.SaveArchimateModelAsTemplateToCollectionWizardPage_1);
+        setDescription(Messages.SaveArchimateModelAsTemplateToCollectionWizardPage_2);
     }
 
     @Override

@@ -48,12 +48,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         GridData gd;
         
         Group fileGroup = new Group(client, SWT.NULL);
-        fileGroup.setText("General");
+        fileGroup.setText(Messages.CanvasPreferencePage_0);
         fileGroup.setLayout(new GridLayout(2, false));
         fileGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fCanvasEditorEnabledButton = new Button(fileGroup, SWT.CHECK);
-        fCanvasEditorEnabledButton.setText("Enable Canvas Modelling Toolkit");
+        fCanvasEditorEnabledButton.setText(Messages.CanvasPreferencePage_1);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fCanvasEditorEnabledButton.setLayoutData(gd);

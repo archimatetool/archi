@@ -20,7 +20,7 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
  * @author Phillip Beauvoir
  */
 public class BackgroundImageLayer extends FreeformLayer {
-    public static final String NAME = "BackgroundImageLayer";
+    public static final String NAME = "BackgroundImageLayer"; //$NON-NLS-1$
     
     private Image fBackgroundImage = IArchimateImages.ImageFactory.getImage(IArchimateImages.BROWN_PAPER);
     private int width = fBackgroundImage.getBounds().width;

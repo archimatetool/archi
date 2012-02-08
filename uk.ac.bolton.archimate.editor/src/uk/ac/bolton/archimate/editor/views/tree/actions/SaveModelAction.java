@@ -28,7 +28,7 @@ public class SaveModelAction extends ViewerAction {
     
     public SaveModelAction(ITreeModelView view) {
         super(view.getSelectionProvider());
-        setText("Save");
+        setText(Messages.SaveModelAction_0);
         
         fView = view;
         
@@ -45,7 +45,7 @@ public class SaveModelAction extends ViewerAction {
                 IEditorModelManager.INSTANCE.saveModel(model);
             }
             catch(IOException ex) {
-                MessageDialog.openError(fView.getSite().getShell(), "Error saving file", ex.getMessage());
+                MessageDialog.openError(fView.getSite().getShell(), Messages.SaveModelAction_1, ex.getMessage());
                 ex.printStackTrace();
             }
         }

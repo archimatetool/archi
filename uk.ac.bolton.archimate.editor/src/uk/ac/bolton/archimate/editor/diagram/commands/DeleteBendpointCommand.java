@@ -17,7 +17,7 @@ public class DeleteBendpointCommand extends BendpointCommand implements IAnimata
     private IDiagramModelBendpoint fBendpoint;
 
     public DeleteBendpointCommand() {
-        super("Remove Bendpoint");
+        super(Messages.DeleteBendpointCommand_0);
     }
 
     @Override

@@ -64,12 +64,12 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
 
     private TemplateManager fTemplateManager;
     
-    static File CURRENT_FOLDER = new File(System.getProperty("user.home"));
+    static File CURRENT_FOLDER = new File(System.getProperty("user.home")); //$NON-NLS-1$
     
     public SaveArchimateModelAsTemplateWizardPage(IArchimateModel model, TemplateManager templateManager) {
-        super("SaveModelAsTemplateWizardPage");
-        setTitle("Save ArchiMate Model As Template");
-        setDescription("Provide the Template's file location, name, description and key thumbnail.");
+        super("SaveModelAsTemplateWizardPage"); //$NON-NLS-1$
+        setTitle(Messages.SaveArchimateModelAsTemplateWizardPage_2);
+        setDescription(Messages.SaveArchimateModelAsTemplateWizardPage_3);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         fModel = model;
         fTemplateManager = templateManager;
@@ -92,11 +92,11 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         fileComposite.setLayout(layout);
         
         label = new Label(fileComposite, SWT.NULL);
-        label.setText("File:");
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_4);
         
         fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        File newFile = new File(CURRENT_FOLDER, "New Template" + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION);
+        File newFile = new File(CURRENT_FOLDER, Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION);
         fFileTextField.setText(newFile.getPath());
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFileTextField);
@@ -107,7 +107,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         });
         
         Button fileButton = new Button(fileComposite, SWT.PUSH);
-        fileButton.setText("Choose...");
+        fileButton.setText(Messages.SaveArchimateModelAsTemplateWizardPage_6);
         fileButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -125,7 +125,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         fieldGroup.setLayout(layout);
         
         label = new Label(fieldGroup, SWT.NULL);
-        label.setText("Name:");
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_7);
 
         fNameTextField = new Text(fieldGroup, SWT.BORDER | SWT.SINGLE);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -141,7 +141,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         });
         
         label = new Label(fieldGroup, SWT.NULL);
-        label.setText("Description:");
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_8);
         gd = new GridData(SWT.NULL, SWT.TOP, false, false);
         label.setLayoutData(gd);
         
@@ -162,7 +162,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         thumbsGroup.setLayout(layout);
         
         fButtonIncludeThumbs = new Button(thumbsGroup, SWT.CHECK);
-        fButtonIncludeThumbs.setText("Include thumbnails");
+        fButtonIncludeThumbs.setText(Messages.SaveArchimateModelAsTemplateWizardPage_9);
         fButtonIncludeThumbs.setSelection(thumbsEnabled);
         fButtonIncludeThumbs.setEnabled(thumbsEnabled);
         fButtonIncludeThumbs.addSelectionListener(new SelectionAdapter() {
@@ -174,7 +174,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         });
         
         label = new Label(thumbsGroup, SWT.NULL);
-        label.setText("Key thumbnail:");
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_10);
         label.setEnabled(thumbsEnabled);
 
         Composite thumbContainer = new Composite(thumbsGroup, SWT.NULL);
@@ -277,8 +277,8 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
     
     private File chooseFile() {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-        dialog.setText("Choose a file name");
-        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } );
+        dialog.setText(Messages.SaveArchimateModelAsTemplateWizardPage_11);
+        dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             // Only Windows adds the extension by default
@@ -293,13 +293,13 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
     private void validateFields() {
         String fileName = getFileName();
         if(!StringUtils.isSetAfterTrim(fileName)) {
-            updateStatus("Provide a file name");
+            updateStatus(Messages.SaveArchimateModelAsTemplateWizardPage_14);
             return;
         }
         
         String name = getTemplateName();
         if(!StringUtils.isSetAfterTrim(name)) {
-            updateStatus("Provide a template name");
+            updateStatus(Messages.SaveArchimateModelAsTemplateWizardPage_15);
             return;
         }
         

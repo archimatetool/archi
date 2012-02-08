@@ -48,7 +48,7 @@ public class ImageFactory {
      */
     public Image getImage(String imageName) {
         if(imageName == null) {
-            throw new IllegalArgumentException("Image name cannot be null");
+            throw new IllegalArgumentException("Image name cannot be null"); //$NON-NLS-1$
         }
 
         ImageRegistry registry = fPlugin.getImageRegistry();
@@ -104,7 +104,7 @@ public class ImageFactory {
      */
     public Image getCompositeImage(String[] imageNames) {
         // Make a registry name, cached
-        String key_name = "@";
+        String key_name = "@"; //$NON-NLS-1$
         for(String name : imageNames) {
             key_name += name;
         }
@@ -129,7 +129,7 @@ public class ImageFactory {
      */
     public CompositeImageDescriptor getCompositeImageDescriptor(String[] imageNames) {
         // Make a registry name, cached
-        String key_name = "@";
+        String key_name = "@"; //$NON-NLS-1$
         for(String name : imageNames) {
             key_name += name;
         }
@@ -160,7 +160,7 @@ public class ImageFactory {
      */
     public ImageDescriptor getImageDescriptor(String imageName) {
         if(imageName == null) {
-            throw new IllegalArgumentException("Image name cannot be null");
+            throw new IllegalArgumentException("Image name cannot be null"); //$NON-NLS-1$
         }
         
         ImageRegistry registry = fPlugin.getImageRegistry();

@@ -137,6 +137,6 @@ public class FormatPainterInfo {
     }
     
     private void fireUpdated() {
-        listeners.firePropertyChange("FORMAT_PAINTER_UPDATED", false, true);
+        listeners.firePropertyChange("FORMAT_PAINTER_UPDATED", false, true); //$NON-NLS-1$
     }
 }

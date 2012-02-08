@@ -30,8 +30,8 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class FillColorAction extends SelectionAction {
     
-    public static final String ID = "FillColorAction";
-    public static final String TEXT = "Fill colour...";
+    public static final String ID = "FillColorAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.FillColorAction_0;
     
     public FillColorAction(IWorkbenchPart part) {
         super(part);
@@ -92,7 +92,7 @@ public class FillColorAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand("Change fill colour");
+        CompoundCommand result = new CompoundCommand(Messages.FillColorAction_1);
         
         for(Object object : selection) {
             if(object instanceof IColoredEditPart) {

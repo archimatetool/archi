@@ -27,7 +27,7 @@ public class Startup implements IStartup {
      * @return true if we are on OS X 10.7 and above
      */
     public static boolean isSupportedVersion() {
-        return Platform.WS_COCOA.equals(Platform.getWS()) && System.getProperty("os.version").compareTo("10.7") >= 0;
+        return Platform.WS_COCOA.equals(Platform.getWS()) && System.getProperty("os.version").compareTo("10.7") >= 0; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Startup implements IStartup {
             
             Object nsWindow = MacOSReflect.getNSWindow(shell);
             
-            Method methodSetCollectionBehavior = nsWindow.getClass().getDeclaredMethod("setCollectionBehavior", MacOSReflect.NSUInteger);
+            Method methodSetCollectionBehavior = nsWindow.getClass().getDeclaredMethod("setCollectionBehavior", MacOSReflect.NSUInteger); //$NON-NLS-1$
             methodSetCollectionBehavior.invoke(nsWindow, 1 << 7);
             
             // Get rid of the dummy toolbar created in CocoaUIEnhancer. The equivalent of:
@@ -63,7 +63,7 @@ public class Startup implements IStartup {
             // nswindow.setToolbar(null);
             
             // Wait for CocoaUIEnhancer to create the dummy toolbar
-            Method methodToolbar = nsWindow.getClass().getDeclaredMethod("toolbar");
+            Method methodToolbar = nsWindow.getClass().getDeclaredMethod("toolbar"); //$NON-NLS-1$
             Display display = shell.getDisplay();
             int safeCount = 0;
             while(methodToolbar.invoke(nsWindow) == null && safeCount++ < 100) {
@@ -73,8 +73,8 @@ public class Startup implements IStartup {
             }
           
             // Set it to null
-            Class<?> classNSToolbar = Class.forName("org.eclipse.swt.internal.cocoa.NSToolbar");
-            Method methodSetToolbar = nsWindow.getClass().getDeclaredMethod("setToolbar", classNSToolbar);
+            Class<?> classNSToolbar = Class.forName("org.eclipse.swt.internal.cocoa.NSToolbar"); //$NON-NLS-1$
+            Method methodSetToolbar = nsWindow.getClass().getDeclaredMethod("setToolbar", classNSToolbar); //$NON-NLS-1$
             methodSetToolbar.invoke(nsWindow, new Object[] { null });
         }
         catch(Exception ex) {

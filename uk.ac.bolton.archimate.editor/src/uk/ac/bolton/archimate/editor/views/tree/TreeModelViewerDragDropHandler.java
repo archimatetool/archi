@@ -219,7 +219,7 @@ public class TreeModelViewerDragDropHandler {
         final CompoundCommand compoundCommand = new NonNotifyingCompoundCommand() {
             @Override
             public String getLabel() {
-                return getCommands().size() > 1 ? "Move Elements" : super.getLabel();
+                return getCommands().size() > 1 ? Messages.TreeModelViewerDragDropHandler_0 : super.getLabel();
             }
         };
         

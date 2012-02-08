@@ -23,7 +23,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class LabelProviderExtensionHandler {
     
-    public static String EXTENSIONPOINT = "uk.ac.bolton.archimate.editor.labelProvider";
+    public static String EXTENSIONPOINT = "uk.ac.bolton.archimate.editor.labelProvider"; //$NON-NLS-1$
     
     public static LabelProviderExtensionHandler INSTANCE = new LabelProviderExtensionHandler();
     
@@ -44,8 +44,8 @@ public class LabelProviderExtensionHandler {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSIONPOINT)) {
             try {
-                String id = configurationElement.getAttribute("id");
-                IEditorLabelProvider provider = (IEditorLabelProvider)configurationElement.createExecutableExtension("class");
+                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+                IEditorLabelProvider provider = (IEditorLabelProvider)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 if(id != null && provider != null) {
                     factories.add(provider);
                 }

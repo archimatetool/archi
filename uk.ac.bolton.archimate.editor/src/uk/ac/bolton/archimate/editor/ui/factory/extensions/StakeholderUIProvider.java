@@ -37,7 +37,7 @@ public class StakeholderUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Stakeholder";
+        return Messages.StakeholderUIProvider_0;
     }
 
     @Override

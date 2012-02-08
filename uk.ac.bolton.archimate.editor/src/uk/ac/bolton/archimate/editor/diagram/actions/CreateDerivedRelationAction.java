@@ -32,6 +32,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Image;
@@ -65,8 +66,8 @@ import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils.TooComplicatedExc
  */
 public class CreateDerivedRelationAction extends SelectionAction {
     
-    public static final String ID = "CreateDerivedRelationAction";
-    public static final String TEXT = "Create Derived Relation...";
+    public static final String ID = "CreateDerivedRelationAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.CreateDerivedRelationAction_0;
 
     public CreateDerivedRelationAction(IWorkbenchPart part) {
         super(part);
@@ -112,16 +113,16 @@ public class CreateDerivedRelationAction extends SelectionAction {
         // Already has a direct relationship in both directions
         if(chainList1.hasExistingDirectRelationship() && chainList2.hasExistingDirectRelationship()) {
             MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
-                    "Derived Relation",
-                    "There is already a direct relation.");
+                    Messages.CreateDerivedRelationAction_1,
+                    Messages.CreateDerivedRelationAction_2);
             return;
         }
         
         // Both chains are too complicated
         if(chainList1.isTooComplicated && chainList2.isTooComplicated) {
             MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
-                    "Derived Relation",
-                    "There are too many possibilities to compute.");
+                    Messages.CreateDerivedRelationAction_1,
+                    Messages.CreateDerivedRelationAction_3);
             return;
         }
         
@@ -129,13 +130,13 @@ public class CreateDerivedRelationAction extends SelectionAction {
         if(chainList1.getChains() == null && chainList2.getChains() == null) {
             if(chainList1.isTooComplicated || chainList2.isTooComplicated) {
                 MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
-                        "Derived Relation",
-                        "No derived relation found or too complicated to compute.");
+                        Messages.CreateDerivedRelationAction_1,
+                        Messages.CreateDerivedRelationAction_4);
             }
             else {
                 MessageDialog.openInformation(getWorkbenchPart().getSite().getShell(),
-                        "Derived Relation",
-                        "No derived relation found.");
+                        Messages.CreateDerivedRelationAction_1,
+                        Messages.CreateDerivedRelationAction_5);
             }
             return;
         }
@@ -222,7 +223,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         @Override
         protected void configureShell(Shell shell) {
             super.configureShell(shell);
-            shell.setText("Create Derived Relation");
+            shell.setText(Messages.CreateDerivedRelationAction_6);
             shell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DERIVED_16));
         }
         
@@ -274,13 +275,14 @@ public class CreateDerivedRelationAction extends SelectionAction {
         
         private void createTooComplicatedMessage(Composite parent, ChainList chainList) {
             CLabel label = createLabel(parent, chainList);
-            label.setText(label.getText() + "  Too many possibilities to compute!");
+            label.setText(label.getText() + "  " + Messages.CreateDerivedRelationAction_7); //$NON-NLS-1$
             label.setImage(Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION));
         }
         
         private CLabel createLabel(Composite parent, ChainList chainList) {
             CLabel label = new CLabel(parent, SWT.NULL);
-            label.setText("From '" + chainList.srcElement.getName() + "' to '" + chainList.tgtElement.getName() + "':");
+            String text = NLS.bind(Messages.CreateDerivedRelationAction_8, chainList.srcElement.getName(), chainList.tgtElement.getName());
+            label.setText(text);
             label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             return label;
         }
@@ -340,11 +342,11 @@ public class CreateDerivedRelationAction extends SelectionAction {
             TableColumnLayout layout = (TableColumnLayout)getControl().getParent().getLayout();
             
             TableColumn column = new TableColumn(table, SWT.NONE);
-            column.setText("Chain in model");
+            column.setText(Messages.CreateDerivedRelationAction_9);
             layout.setColumnData(column, new ColumnWeightData(80, true));
             
             column = new TableColumn(table, SWT.NONE);
-            column.setText("Weakest");
+            column.setText(Messages.CreateDerivedRelationAction_10);
             layout.setColumnData(column, new ColumnWeightData(20, true));
             
             setContentProvider(new DerivedConnectionsContentProvider());
@@ -395,15 +397,15 @@ public class CreateDerivedRelationAction extends SelectionAction {
                     // Chain
                     case 0:
                         String s = chainList.srcElement.getName();
-                        s += " --> ";
+                        s += " --> "; //$NON-NLS-1$
                         for(int i = 1; i < chain.size(); i++) {
                             IRelationship relation = chain.get(i);
                             s += getRelationshipText(chain, relation);
                             if(DerivedRelationsUtils.isBidirectionalRelationship(relation)) {
-                                s += " <-> ";
+                                s += " <-> "; //$NON-NLS-1$
                             }
                             else {
-                                s += " --> ";
+                                s += " --> "; //$NON-NLS-1$
                             }
                         }
                         s += chainList.tgtElement.getName();
@@ -415,7 +417,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
                         return DerivedRelationsUtils.getWeakestType(chain).getName(); 
                 }
 
-                return "";
+                return ""; //$NON-NLS-1$
             }
             
             private String getRelationshipText(List<IRelationship> chain, IRelationship relation) {
@@ -452,7 +454,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
             fSource = source;
             fTarget = target;
             fRelation = relation;
-            setLabel("Create Derived Relation");
+            setLabel(Messages.CreateDerivedRelationAction_11);
         }
 
         @Override

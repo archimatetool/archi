@@ -37,7 +37,7 @@ public class OrJunctionUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Or Junction";
+        return Messages.OrJunctionUIProvider_0;
     }
 
     @Override

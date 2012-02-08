@@ -68,7 +68,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
         
         Label rubric = new Label(parent, SWT.NULL);
-        rubric.setText("These are the allowed relationships between elements as per the ArchiMate 2.0 specification.");
+        rubric.setText(Messages.RelationsPreferencePage_0);
 
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout(2, false));
@@ -120,13 +120,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         viewer.setLabelProvider(new MyLabelProvider());
         
-        hookContextMenu(viewer);
+        //hookContextMenu(viewer);
         
         viewer.setInput(getData());
         
-        String text = "";
+        String text = ""; //$NON-NLS-1$
         for(Entry<EClass, Character> entry : RelationshipsMatrix.INSTANCE.getRelationshipsValueMap().entrySet()) {
-            text += entry.getValue() + ": " + ArchimateLabelProvider.INSTANCE.getDefaultShortName(entry.getKey()) + "\n";
+            text += entry.getValue() + ": " + ArchimateLabelProvider.INSTANCE.getDefaultShortName(entry.getKey()) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         Label label = new Label(client, SWT.NULL);
         label.setText(text);
@@ -135,6 +135,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         return client;
     }
     
+    @SuppressWarnings("unused")
     private void hookContextMenu(final GridTableViewer viewer) {
         MenuManager menuMgr = new MenuManager("#GridPopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
@@ -143,7 +144,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             public void menuAboutToShow(IMenuManager manager) {
                 final CellSelection selection = ((CellSelection)viewer.getSelection());
                 if(!selection.isEmpty()) {
-                    manager.add(new Action("Restore to default") {
+                    manager.add(new Action("Restore to default") { //$NON-NLS-1$
                         @Override
                         public void run() {
                             for(Object element : selection.toArray()) {
@@ -195,7 +196,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             EClass eClassRow = (EClass)element;
             EClass eClassColumn = getData().get(columnIndex);
             
-            String text = "";
+            String text = ""; //$NON-NLS-1$
             
             Map<EClass, List<TargetMatrix>> matrixMap = RelationshipsMatrix.INSTANCE.getRelationshipsMatrix();
             Map<EClass, Character> valueMap = RelationshipsMatrix.INSTANCE.getRelationshipsValueMap();

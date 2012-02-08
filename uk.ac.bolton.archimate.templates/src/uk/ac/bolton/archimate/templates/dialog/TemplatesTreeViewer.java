@@ -89,7 +89,7 @@ public class TemplatesTreeViewer extends TreeViewer {
             if(element instanceof ITemplate) {
                 return ((ITemplate)element).getName();
             }
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         @Override

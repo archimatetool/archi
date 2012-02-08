@@ -25,7 +25,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class DiagramModelSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -53,8 +53,8 @@ public class DiagramModelSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this view here");
-        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this view here");
+        fTextName = createNameControl(parent, Messages.DiagramModelSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.DiagramModelSection_1);
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -69,7 +69,7 @@ public class DiagramModelSection extends AbstractArchimatePropertySection {
             fDiagramModel = (IDiagramModel)element;
         }
         else {
-            System.err.println("Section wants to display for " + element);
+            System.err.println("Section wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

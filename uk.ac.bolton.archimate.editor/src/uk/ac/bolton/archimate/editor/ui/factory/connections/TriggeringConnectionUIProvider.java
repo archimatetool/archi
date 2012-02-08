@@ -34,12 +34,12 @@ public class TriggeringConnectionUIProvider extends AbstractConnectionUIProvider
 
     @Override
     public String getDefaultName() {
-        return "Triggering relation";
+        return Messages.TriggeringConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Triggering";
+        return Messages.TriggeringConnectionUIProvider_1;
     }
 
     @Override

@@ -26,7 +26,7 @@ import uk.ac.bolton.archimate.model.INameable;
  */
 public class NameSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -50,7 +50,7 @@ public class NameSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name here");
+        fTextName = createNameControl(parent, Messages.NameSection_0);
 
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -63,7 +63,7 @@ public class NameSection extends AbstractArchimatePropertySection {
         }
 
         if(fNameable == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

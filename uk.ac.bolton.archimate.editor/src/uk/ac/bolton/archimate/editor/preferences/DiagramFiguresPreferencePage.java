@@ -75,7 +75,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
 	 */
 	public DiagramFiguresPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
-		setDescription("Select the default figures to use when creating new elements.");
+		setDescription(Messages.DiagramFiguresPreferencePage_0);
 	}
 
     @Override
@@ -110,17 +110,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     }
     
     private void loadFigures() {
-        fChoices.add(new ImageChoice("Business Interface",
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_1,
                 BUSINESS_INTERFACE_FIGURE, IArchimateImages.FIGURE_BUSINESS_INTERFACE1, IArchimateImages.FIGURE_BUSINESS_INTERFACE2));
-        fChoices.add(new ImageChoice("Application Component",
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_2,
                 APPLICATION_COMPONENT_FIGURE, IArchimateImages.FIGURE_APPLICATION_COMPONENT1, IArchimateImages.FIGURE_APPLICATION_COMPONENT2));
-        fChoices.add(new ImageChoice("Application Interface",
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_3,
                 APPLICATION_INTERFACE_FIGURE, IArchimateImages.FIGURE_APPLICATION_INTERFACE1, IArchimateImages.FIGURE_APPLICATION_INTERFACE2));
-        fChoices.add(new ImageChoice("Device",
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_4,
                 TECHNOLOGY_DEVICE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE1, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE2));
-        fChoices.add(new ImageChoice("Node",
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_5,
                 TECHNOLOGY_NODE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_NODE1, IArchimateImages.FIGURE_TECHNOLOGY_NODE2));
-        fChoices.add(new ImageChoice("Infrastructure Interface",
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_6,
                 TECHNOLOGY_INTERFACE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2));
     }
     

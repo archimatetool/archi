@@ -31,7 +31,7 @@ public class SortFolderCommand extends Command implements Comparator<EObject>  {
     private List<EObject> fList;
 
     public SortFolderCommand(IFolder folder) {
-        setLabel("Sort");
+        setLabel(Messages.SortFolderCommand_0);
         fFolder = folder;
         
         // Keep a copy of the orginal order
@@ -84,10 +84,10 @@ public class SortFolderCommand extends Command implements Comparator<EObject>  {
         }
         
         if(name1 == null) {
-            name1 = "";
+            name1 = ""; //$NON-NLS-1$
         }
         if(name2 == null) {
-            name2 = "";
+            name2 = ""; //$NON-NLS-1$
         }
         
         return name1.compareTo(name2);

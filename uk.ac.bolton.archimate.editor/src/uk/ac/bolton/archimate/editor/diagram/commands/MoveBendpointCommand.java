@@ -20,7 +20,7 @@ public class MoveBendpointCommand extends BendpointCommand implements IAnimatabl
     private IDiagramModelBendpoint fOldBendpoint, fNewBendpoint;
     
     public MoveBendpointCommand() {
-        super("Move Bendpoint");
+        super(Messages.MoveBendpointCommand_0);
     }
 
     @Override

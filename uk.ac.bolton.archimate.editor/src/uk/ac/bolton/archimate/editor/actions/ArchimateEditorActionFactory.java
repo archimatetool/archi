@@ -50,8 +50,8 @@ public final class ArchimateEditorActionFactory {
             if(window == null) {
                 throw new IllegalArgumentException();
             }
-            LabelRetargetAction action = new LabelRetargetAction(getId(), "&Delete");
-            action.setToolTipText("Delete");
+            LabelRetargetAction action = new LabelRetargetAction(getId(), Messages.ArchimateEditorActionFactory_0);
+            action.setToolTipText(Messages.ArchimateEditorActionFactory_1);
             window.getPartService().addPartListener(action);
             action.setActionDefinitionId(getCommandId());
             action.enableAccelerator(false);
@@ -74,8 +74,8 @@ public final class ArchimateEditorActionFactory {
             if (window == null) {
                 throw new IllegalArgumentException();
             }
-            LabelRetargetAction action = new LabelRetargetAction(getId(), "Rena&me");
-            action.setToolTipText("Rename");
+            LabelRetargetAction action = new LabelRetargetAction(getId(), Messages.ArchimateEditorActionFactory_2);
+            action.setToolTipText(Messages.ArchimateEditorActionFactory_3);
             window.getPartService().addPartListener(action);
             action.setActionDefinitionId(getCommandId());
             return action;
@@ -86,14 +86,14 @@ public final class ArchimateEditorActionFactory {
      * A Retargetable Action to Open a Diagram
      */
     public static final ActionFactory OPEN_DIAGRAM = new ActionFactory("open_diagram", //$NON-NLS-1$
-                                    "uk.ac.bolton.archimate.editor.action.openDiagram") {
+                                    "uk.ac.bolton.archimate.editor.action.openDiagram") { //$NON-NLS-1$
 
         @Override
         public IWorkbenchAction create(IWorkbenchWindow window) {
             if (window == null) {
                 throw new IllegalArgumentException();
             }
-            RetargetAction action = new RetargetAction(getId(), "Open &View");
+            RetargetAction action = new RetargetAction(getId(), Messages.ArchimateEditorActionFactory_4);
             window.getPartService().addPartListener(action);
             // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
@@ -105,14 +105,14 @@ public final class ArchimateEditorActionFactory {
      * A Retargetable Action to Close a Model
      */
     public static final ActionFactory CLOSE_MODEL = new ActionFactory("close_model", //$NON-NLS-1$
-                                    "uk.ac.bolton.archimate.editor.action.closeModel") {
+                                    "uk.ac.bolton.archimate.editor.action.closeModel") { //$NON-NLS-1$
 
         @Override
         public IWorkbenchAction create(IWorkbenchWindow window) {
             if (window == null) {
                 throw new IllegalArgumentException();
             }
-            RetargetAction action = new RetargetAction(getId(), "Close Model");
+            RetargetAction action = new RetargetAction(getId(), Messages.ArchimateEditorActionFactory_5);
             window.getPartService().addPartListener(action);
             // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());
@@ -158,14 +158,14 @@ public final class ArchimateEditorActionFactory {
      * A Retargetable Action to Duplicate
      */
     public static final ActionFactory DUPLICATE = new ActionFactory("duplicate", //$NON-NLS-1$
-                                "uk.ac.bolton.archimate.editor.action.duplicate") {
+                                "uk.ac.bolton.archimate.editor.action.duplicate") { //$NON-NLS-1$
         
         @Override
         public IWorkbenchAction create(IWorkbenchWindow window) {
             if (window == null) {
                 throw new IllegalArgumentException();
             }
-            LabelRetargetAction action = new LabelRetargetAction(getId(), "Duplicate");
+            LabelRetargetAction action = new LabelRetargetAction(getId(), Messages.ArchimateEditorActionFactory_6);
             window.getPartService().addPartListener(action);
             // Don't do this unless registering a key binding in plugin.xml
             action.setActionDefinitionId(getCommandId());

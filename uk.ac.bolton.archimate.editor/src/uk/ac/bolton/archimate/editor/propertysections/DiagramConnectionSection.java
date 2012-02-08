@@ -33,7 +33,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -61,15 +61,15 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     private Combo fComboLineWidth;
     
     public static final String[] comboTextPositionItems = {
-            "Source",
-            "Middle",
-            "Target"
+            Messages.DiagramConnectionSection_0,
+            Messages.DiagramConnectionSection_1,
+            Messages.DiagramConnectionSection_2
     };
     
     public static final String[] comboLineWidthItems = {
-            "Normal",
-            "Medium",
-            "Heavy"
+            Messages.DiagramConnectionSection_3,
+            Messages.DiagramConnectionSection_4,
+            Messages.DiagramConnectionSection_5
     };
     
     @Override
@@ -82,7 +82,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     }
     
     private void createTextPositionComboControl(Composite parent) {
-        createCLabel(parent, "Text Position:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.DiagramConnectionSection_6, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         fComboTextPosition = new Combo(parent, SWT.READ_ONLY);
         fComboTextPosition.setItems(comboTextPositionItems);
@@ -100,7 +100,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     }
     
     private void createLineWidthComboControl(Composite parent) {
-        createCLabel(parent, "Line Width:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.DiagramConnectionSection_7, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         fComboLineWidth = new Combo(parent, SWT.READ_ONLY);
         fComboLineWidth.setItems(comboLineWidthItems);
@@ -123,7 +123,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             fConnection = (IDiagramModelConnection)((IAdaptable)element).getAdapter(IDiagramModelConnection.class);
         }
         else {
-            throw new RuntimeException("Should have been an Edit Part");
+            throw new RuntimeException("Should have been an Edit Part"); //$NON-NLS-1$
         }
         
         refreshControls();

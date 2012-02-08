@@ -24,6 +24,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -135,12 +136,12 @@ implements IEditorModelManager {
     @Override
     public IArchimateModel createNewModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setName("(new model)");
+        model.setName(Messages.EditorModelManager_0);
         model.setDefaults();
         
         // Add one default diagram
         IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        diagramModel.setName("Default View");
+        diagramModel.setName(Messages.EditorModelManager_1);
         model.getFolder(FolderType.DIAGRAMS).getElements().add(diagramModel);
         
         // Add to Models
@@ -221,9 +222,9 @@ implements IEditorModelManager {
             // Incompatible, don't load it
             catch(IncompatibleModelException ex1) {
                 MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                        "Error opening model",
-                        "Cannot open '" + file +  "'. " + "This model is incompatible."
-                        + "\n" + ex1.getMessage());
+                        Messages.EditorModelManager_2,
+                        NLS.bind(Messages.EditorModelManager_3, file)
+                        + "\n" + ex1.getMessage()); //$NON-NLS-1$
                 return null;
             }
         }
@@ -234,9 +235,9 @@ implements IEditorModelManager {
         }
         catch(LaterModelVersionException ex) {
             boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                    "Opening model",
-                    "'" + file +  "' is a later version model " + "(" + ex.getVersion() + ")." +
-                    " Are you sure you want to continue opening it?");
+                    Messages.EditorModelManager_4,
+                    NLS.bind(Messages.EditorModelManager_5,
+                            file, ex.getVersion()));
             if(!answer) {
                 return null;
             }
@@ -304,9 +305,9 @@ implements IEditorModelManager {
      */
     private boolean askSaveModel(IArchimateModel model) throws IOException {
         MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(),
-                "Save Model",
+                Messages.EditorModelManager_6,
                 null,
-                "' " + model.getName() + "' has been modified. Save changes?",
+                NLS.bind(Messages.EditorModelManager_7, model.getName()),
                 MessageDialog.QUESTION,
                 new String[] {
                     IDialogConstants.YES_LABEL,
@@ -344,7 +345,7 @@ implements IEditorModelManager {
         
         // Save backup
         if(file.exists()) {
-            FileUtils.copyFile(file, new File(model.getFile().getAbsolutePath() + ".bak"), false);
+            FileUtils.copyFile(file, new File(model.getFile().getAbsolutePath() + ".bak"), false); //$NON-NLS-1$
         }
         
         // Set model version
@@ -415,7 +416,7 @@ implements IEditorModelManager {
         shell.setActive(); // Get focus on Mac
         
         FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-        dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.*" } );
+        dialog.setFilterExtensions(new String[] { ARCHIMATE_FILE_WILDCARD, "*.*" } ); //$NON-NLS-1$
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -431,16 +432,18 @@ implements IEditorModelManager {
         // Make sure we don't already have it open
         for(IArchimateModel m : getModels()) {
             if(file.equals(m.getFile())) {
-                MessageDialog.openWarning(shell, "Save Model", "' " + file +
-                        "' is already already open. Please choose another file name.");
+                MessageDialog.openWarning(shell,
+                        Messages.EditorModelManager_8,
+                        NLS.bind(Messages.EditorModelManager_9, file));
                 return null;
             }
         }
         
         // Make sure the file does not already exist
         if(file.exists()) {
-            boolean result = MessageDialog.openQuestion(shell, "Save Model", "'" + file +
-                    "' already exists. Are you sure you want to overwrite it?");
+            boolean result = MessageDialog.openQuestion(shell,
+                    Messages.EditorModelManager_10,
+                    NLS.bind(Messages.EditorModelManager_11, file));
             if(!result) {
                 return null;
             }
@@ -502,7 +505,7 @@ implements IEditorModelManager {
             archiveManager.loadImages();
         }
         catch(IOException ex) {
-            Logger.logError("Could not load images", ex);
+            Logger.logError("Could not load images", ex); //$NON-NLS-1$
             ex.printStackTrace();
         }
         
@@ -523,13 +526,13 @@ implements IEditorModelManager {
 
     public void saveState() throws IOException {
         Document doc = new Document();
-        Element rootElement = new Element("models");
+        Element rootElement = new Element("models"); //$NON-NLS-1$
         doc.setRootElement(rootElement);
         for(IArchimateModel model : getModels()) {
             File file = model.getFile(); // has been saved
             if(file != null) {
-                Element modelElement = new Element("model");
-                modelElement.setAttribute("file", file.getAbsolutePath());
+                Element modelElement = new Element("model"); //$NON-NLS-1$
+                modelElement.setAttribute("file", file.getAbsolutePath()); //$NON-NLS-1$
                 rootElement.addContent(modelElement);
             }
         }
@@ -541,9 +544,9 @@ implements IEditorModelManager {
             Document doc = JDOMUtils.readXMLFile(backingFile);
             if(doc.hasRootElement()) {
                 Element rootElement = doc.getRootElement();
-                for(Object e : rootElement.getChildren("model")) {
+                for(Object e : rootElement.getChildren("model")) { //$NON-NLS-1$
                     Element modelElement = (Element)e;
-                    String filePath = modelElement.getAttributeValue("file");
+                    String filePath = modelElement.getAttributeValue("file"); //$NON-NLS-1$
                     if(filePath != null) {
                         loadModel(new File(filePath));
                     }

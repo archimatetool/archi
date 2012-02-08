@@ -23,7 +23,7 @@ import uk.ac.bolton.archimate.editor.views.tree.ITreeModelView;
  */
 public class MainPerspective implements IPerspectiveFactory {
 
-    public static final String ID = "uk.ac.bolton.archimate.editor.perspectiveMain";
+    public static final String ID = "uk.ac.bolton.archimate.editor.perspectiveMain"; //$NON-NLS-1$
     
     /*
      * Folder Layouts
@@ -58,7 +58,7 @@ public class MainPerspective implements IPerspectiveFactory {
         folderLayoutLeftBottom.addView(INavigatorView.ID);
         
         // Palette View
-        folderLayoutRight.addPlaceholder("org.eclipse.gef.ui.palette_view");
+        folderLayoutRight.addPlaceholder("org.eclipse.gef.ui.palette_view"); //$NON-NLS-1$
         
         // Placeholder for all other views
         folderLayoutBottom.addPlaceholder("*"); //$NON-NLS-1$

@@ -53,23 +53,23 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     
     public SketchEditorPalette() {
         createControlsGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
         
         createElementsGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
         
         createStickiesGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
         
         createConnectionsGroup();
-        add(new PaletteSeparator(""));
+        add(new PaletteSeparator("")); //$NON-NLS-1$
     }
 
     /**
      * Create a Group of Controls
      */
     private PaletteContainer createControlsGroup() {
-        PaletteContainer group = new PaletteToolbar("Tools");
+        PaletteContainer group = new PaletteToolbar(Messages.SketchEditorPalette_0);
         add(group);
         
         // The selection tool
@@ -91,26 +91,26 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     }
 
     private PaletteContainer createElementsGroup() {
-        PaletteContainer group = new PaletteGroup("Elements");
+        PaletteContainer group = new PaletteGroup(Messages.SketchEditorPalette_1);
         add(group);
         
         // Actor
         PaletteEntry groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getSketchModelActor(),
-                "Actor",
-                "Actor Element");
+                Messages.SketchEditorPalette_2,
+                Messages.SketchEditorPalette_3);
         group.add(groupEntry);
         
         // Group
         groupEntry = createCombinedTemplateCreationEntry(IArchimatePackage.eINSTANCE.getDiagramModelGroup(),
-                "Group",
-                "Grouping Element");
+                Messages.SketchEditorPalette_4,
+                Messages.SketchEditorPalette_5);
         group.add(groupEntry);
     
         return group;
     }
     
     private PaletteContainer createStickiesGroup() {
-        PaletteContainer group = new PaletteToolbar("Stickies");
+        PaletteContainer group = new PaletteToolbar(Messages.SketchEditorPalette_6);
         add(group);
         
         // Sticky Notes
@@ -127,13 +127,13 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
     }
     
     private PaletteContainer createConnectionsGroup() {
-        PaletteContainer group = new PaletteGroup("Connections");
+        PaletteContainer group = new PaletteGroup(Messages.SketchEditorPalette_7);
         add(group);
         
         ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.LINE_SOLID,
-                "Line Connection",
+                Messages.SketchEditorPalette_8,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_PLAIN_16));
         group.add(entry);
@@ -141,7 +141,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET,
-                "Arrow Connection",
+                Messages.SketchEditorPalette_9,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_ARROW_16));
         group.add(entry);
@@ -149,7 +149,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
-                "Dashed Connection",
+                Messages.SketchEditorPalette_10,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DASHED_ARROW_16));
         group.add(entry);
@@ -157,7 +157,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
-                "Dotted Connection",
+                Messages.SketchEditorPalette_11,
                 null,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DOTTED_ARROW_16));
         group.add(entry);
@@ -190,7 +190,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
 
     private PaletteEntry createStickyEntry(Color color) {
         return new CombinedTemplateCreationEntry(
-                "Sticky",
+                Messages.SketchEditorPalette_12,
                 null,
                 new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), color),
                 getStickyImageDescriptor(color),

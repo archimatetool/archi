@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.ILockable;
 public class LockObjectCommand extends EObjectFeatureCommand {
     
     public LockObjectCommand(ILockable lockable, boolean lock) {
-        super(lock ? "Lock" : "Unlock", lockable, IArchimatePackage.Literals.LOCKABLE__LOCKED, lock);
+        super(lock ? Messages.LockObjectCommand_0 : Messages.LockObjectCommand_1, lockable, IArchimatePackage.Literals.LOCKABLE__LOCKED, lock);
     }
 }

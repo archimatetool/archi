@@ -20,7 +20,7 @@ public interface IArchimateDiagramEditor extends IDiagramModelEditor {
     String HELP_ID = "uk.ac.bolton.archimate.help.diagramEditorHelp"; //$NON-NLS-1$
     String PALETTE_HELP_ID = "uk.ac.bolton.archimate.help.diagramEditorPaletteHelp"; //$NON-NLS-1$
     
-    String PROPERTY_SHOW_STRUCTURAL_CHAIN = "_prop_showStructuralChain";
+    String PROPERTY_SHOW_STRUCTURAL_CHAIN = "_prop_showStructuralChain"; //$NON-NLS-1$
     
     /**
      * Select the graphical objects wrapping the Archimate elements

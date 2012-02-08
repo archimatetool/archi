@@ -68,14 +68,14 @@ public class StringUtilsTests {
     public void safeStringNull() {
         String string = null;
         String result = StringUtils.safeString(string);
-        assertEquals("String should be blank", "", result);
+        assertEquals("String should be blank", "", result); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     @Test
     public void safeStringNotNull() {
-        String string = "Hello World";
+        String string = "Hello World"; //$NON-NLS-1$
         String result = StringUtils.safeString(string);
-        assertEquals("String should be same", string, result);
+        assertEquals("String should be same", string, result); //$NON-NLS-1$
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -87,21 +87,21 @@ public class StringUtilsTests {
     public void isSetNull() {
         String string = null;
         boolean result = StringUtils.isSet(string);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
 
     @Test
     public void isSetEmptyString() {
-        String string = "";
+        String string = ""; //$NON-NLS-1$
         boolean result = StringUtils.isSet(string);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
 
     @Test
     public void isSetString() {
-        String string = "Hello";
+        String string = "Hello"; //$NON-NLS-1$
         boolean result = StringUtils.isSet(string);
-        assertTrue("Should be true", result);
+        assertTrue("Should be true", result); //$NON-NLS-1$
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -111,23 +111,23 @@ public class StringUtilsTests {
      */
     @Test
     public void isSetAfterTrim1() {
-        String s = "   ";
+        String s = "   "; //$NON-NLS-1$
         boolean result = StringUtils.isSetAfterTrim(s);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
     
     @Test
     public void isSetAfterTrim2() {
         String s = null;
         boolean result = StringUtils.isSetAfterTrim(s);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
     
     @Test
     public void isSetAfterTrim3() {
-        String s = " \n\n  ";
+        String s = " \n\n  "; //$NON-NLS-1$
         boolean result = StringUtils.isSetAfterTrim(s);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -137,30 +137,30 @@ public class StringUtilsTests {
      */
     @Test
     public void getStringCharacters1() {
-        String s = "*";
+        String s = "*"; //$NON-NLS-1$
         String result = StringUtils.getStringCharacters(s, 5);
-        assertEquals("String wrong", "*****", result);
+        assertEquals("String wrong", "*****", result); //$NON-NLS-1$ //$NON-NLS-2$
     }
     
     @Test
     public void getStringCharacters2() {
-        String s = "*";
+        String s = "*"; //$NON-NLS-1$
         String result = StringUtils.getStringCharacters(s, 1);
-        assertEquals("String wrong", "*", result);
+        assertEquals("String wrong", "*", result); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     @Test
     public void getStringCharacters3() {
-        String s = "*";
+        String s = "*"; //$NON-NLS-1$
         String result = StringUtils.getStringCharacters(s, 0);
-        assertEquals("String wrong", "", result);
+        assertEquals("String wrong", "", result); //$NON-NLS-1$ //$NON-NLS-2$
     }
     
     @Test
     public void getStringCharacters4() {
-        String s = "*";
+        String s = "*"; //$NON-NLS-1$
         String result = StringUtils.getStringCharacters(s, -1);
-        assertEquals("String wrong", "", result);
+        assertEquals("String wrong", "", result); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -170,22 +170,22 @@ public class StringUtilsTests {
      */
     @Test
     public void isValidID1() {
-        String s = "Hello*";
+        String s = "Hello*"; //$NON-NLS-1$
         boolean result = StringUtils.isValidID(s);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
     
     @Test
     public void isValidID2() {
-        String s = "-hello-world-x";
+        String s = "-hello-world-x"; //$NON-NLS-1$
         boolean result = StringUtils.isValidID(s);
-        assertFalse("Should be false", result);
+        assertFalse("Should be false", result); //$NON-NLS-1$
     }
     
     @Test
     public void isValidIDFromUUID() {
-        String s = "id-" + UUID.randomUUID().toString(); //Must have non-numeric start
+        String s = "id-" + UUID.randomUUID().toString();  //$NON-NLS-1$ //Must have non-numeric start
         boolean result = StringUtils.isValidID(s);
-        assertTrue(s + "  Should be valid ID", result);
+        assertTrue(s + "  Should be valid ID", result); //$NON-NLS-1$
     }
 }

@@ -50,14 +50,14 @@
                category="main.category"
                id="hint.tab"
                indented="false"
-               label="Hint">
+               label="%propertyTab.label">
          </propertyTab>
          <propertyTab
                afterTab="appearance.tab"
                category="appearance.category"
                id="image.tab"
                indented="true"
-               label="Image">
+               label="%propertyTab.label.0">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -104,27 +104,27 @@
       <hint
             class="uk.ac.bolton.archimate.canvas.model.ICanvasModel"
             file="help/hints/canvas_diagram.html"
-            title="Canvas View">
+            title="%hint.title">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.canvas.model.ICanvasModelBlock"
             file="help/hints/canvas_block.html"
-            title="Canvas Block">
+            title="%hint.title.0">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.canvas.model.ICanvasModelImage"
             file="help/hints/canvas_image.html"
-            title="Canvas Image">
+            title="%hint.title.1">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.canvas.model.ICanvasModelSticky"
             file="help/hints/canvas_sticky.html"
-            title="Canvas Sticky">
+            title="%hint.title.2">
       </hint>
       <hint
             class="uk.ac.bolton.archimate.canvas.model.ICanvasModelConnection"
             file="help/hints/canvas_connection.html"
-            title="Canvas Connection">
+            title="%hint.title.3">
       </hint>
    </extension>
    <extension
@@ -132,7 +132,7 @@
       <page
             class="uk.ac.bolton.archimate.canvas.preferences.CanvasPreferencePage"
             id="uk.ac.bolton.archimate.canvas.preferences.CanvasPreferencePage"
-            name="Canvas Toolkit">
+            name="%page.name">
       </page>
    </extension>
    <extension

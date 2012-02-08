@@ -27,7 +27,7 @@ public class DeleteElementCommand extends Command {
     public DeleteElementCommand(INameable element) {
         fFolder = (IFolder)element.eContainer();
         fElement = element;
-        setLabel("Delete" + " " + ArchimateLabelProvider.INSTANCE.getLabel(fElement));
+        setLabel(Messages.DeleteElementCommand_0 + " " + ArchimateLabelProvider.INSTANCE.getLabel(fElement)); //$NON-NLS-1$
     }
     
     @Override

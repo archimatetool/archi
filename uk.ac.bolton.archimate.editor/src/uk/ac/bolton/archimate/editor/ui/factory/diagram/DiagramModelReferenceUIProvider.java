@@ -37,7 +37,7 @@ public class DiagramModelReferenceUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "View Reference";
+        return Messages.DiagramModelReferenceUIProvider_0;
     }
 
     @Override

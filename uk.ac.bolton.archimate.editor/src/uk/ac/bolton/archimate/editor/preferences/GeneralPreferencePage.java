@@ -55,30 +55,30 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         GridData gd;
         
         Group fileGroup = new Group(client, SWT.NULL);
-        fileGroup.setText("Files");
+        fileGroup.setText(Messages.GeneralPreferencePage_0);
         fileGroup.setLayout(new GridLayout(2, false));
         fileGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fOpenDiagramsOnLoadButton = new Button(fileGroup, SWT.CHECK);
-        fOpenDiagramsOnLoadButton.setText("Automatically open Views in a Model when opening from file");
+        fOpenDiagramsOnLoadButton.setText(Messages.GeneralPreferencePage_1);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fOpenDiagramsOnLoadButton.setLayoutData(gd);
         
         Label label = new Label(fileGroup, SWT.NULL);
-        label.setText("Size of recently opened file list:");
+        label.setText(Messages.GeneralPreferencePage_2);
         
         fMRUSizeSpinner = new Spinner(fileGroup, SWT.BORDER);
         fMRUSizeSpinner.setMinimum(3);
         fMRUSizeSpinner.setMaximum(15);
         
         Group appearanceGroup = new Group(client, SWT.NULL);
-        appearanceGroup.setText("Appearance");
+        appearanceGroup.setText(Messages.GeneralPreferencePage_3);
         appearanceGroup.setLayout(new GridLayout(2, false));
         appearanceGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fUseCurvedTabsButton = new Button(appearanceGroup, SWT.CHECK);
-        fUseCurvedTabsButton.setText("Use curved tabs");
+        fUseCurvedTabsButton.setText(Messages.GeneralPreferencePage_4);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fUseCurvedTabsButton.setLayoutData(gd);

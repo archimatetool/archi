@@ -15,7 +15,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class ArchimateWidgetsPlugin extends AbstractUIPlugin {
     
-    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.widgets";
+    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.widgets"; //$NON-NLS-1$
 
     /**
      * The shared instance

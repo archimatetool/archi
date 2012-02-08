@@ -34,12 +34,12 @@ public class AssignmentConnectionUIProvider extends AbstractConnectionUIProvider
 
     @Override
     public String getDefaultName() {
-        return "Assignment relation";
+        return Messages.AssignmentConnectionUIProvider_0;
     }
 
     @Override
     public String getDefaultShortName() {
-        return "Assignment";
+        return Messages.AssignmentConnectionUIProvider_1;
     }
 
     @Override

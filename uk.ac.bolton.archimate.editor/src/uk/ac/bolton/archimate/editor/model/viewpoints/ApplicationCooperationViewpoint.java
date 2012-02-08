@@ -46,7 +46,7 @@ public class ApplicationCooperationViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Application Co-operation";
+        return Messages.ApplicationCooperationViewpoint_0;
     }
     
     @Override

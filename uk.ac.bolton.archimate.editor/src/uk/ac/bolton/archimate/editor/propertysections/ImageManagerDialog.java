@@ -73,7 +73,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
     private static String HELP_ID = "uk.ac.bolton.archimate.help.ImageManagerDialog"; //$NON-NLS-1$
     
-    protected static final String OPEN = "Open from File...";
+    protected static final String OPEN = Messages.ImageManagerDialog_0;
     
     protected int DEFAULT_GALLERY_ITEM_SIZE = 128;
     protected int MIN_GALLERY_ITEM_SIZE = 64;
@@ -92,7 +92,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     private Map<String, Image> fImageCache = new HashMap<String, Image>();
 
     public ImageManagerDialog(Shell parentShell, IArchimateModel selectedModel, String selectedImagePath) {
-        super(parentShell, "ImageManagerDialog");
+        super(parentShell, "ImageManagerDialog"); //$NON-NLS-1$
         setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
@@ -103,7 +103,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("My Images");
+        shell.setText(Messages.ImageManagerDialog_1);
     }
 
     @Override
@@ -111,8 +111,8 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
-        setTitle("My Images");
-        setMessage("Choose an Image");
+        setTitle(Messages.ImageManagerDialog_1);
+        setMessage(Messages.ImageManagerDialog_2);
         Composite composite = (Composite)super.createDialogArea(parent);
 
         Composite client = new Composite(composite, SWT.NULL);
@@ -135,7 +135,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         tableComp.setLayout(layout);
         
         CLabel label = new CLabel(tableComp, SWT.NULL);
-        label.setText("Select");
+        label.setText(Messages.ImageManagerDialog_3);
         
         Composite tableComp2 = new Composite(tableComp, SWT.NULL);
         tableComp2.setLayout(new TableColumnLayout());
@@ -143,7 +143,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         
         fModelsViewer = new ModelsViewer(tableComp2);
         fModelsViewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-        fModelsViewer.setInput("");
+        fModelsViewer.setInput(""); //$NON-NLS-1$
         fModelsViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
@@ -342,7 +342,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         getShell().setVisible(false);
 
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setFilterExtensions(new String[] { "*.png;*.jpg;*.jpeg;*.gif;*.tif;*.tiff;*.bmp;*.ico", "*.*" } );
+        dialog.setFilterExtensions(new String[] { "*.png;*.jpg;*.jpeg;*.gif;*.tif;*.tiff;*.bmp;*.ico", "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             fSelectedObject = new File(path);

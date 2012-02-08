@@ -19,7 +19,7 @@ public interface IHintsView extends IViewPart {
 
     String ID = ArchimateEditorHelpPlugin.PLUGIN_ID + ".hintsView"; //$NON-NLS-1$
     String HELP_ID = ArchimateEditorHelpPlugin.PLUGIN_ID + ".hintsViewHelp"; //$NON-NLS-1$
-    String NAME = "Hints";
+    String NAME = Messages.IHintsView_0;
     
-    String EXTENSION_POINT_ID = "uk.ac.bolton.archimate.help.hints";
+    String EXTENSION_POINT_ID = "uk.ac.bolton.archimate.help.hints"; //$NON-NLS-1$
 }

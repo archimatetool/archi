@@ -7,6 +7,7 @@
 package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.osgi.util.NLS;
 
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -25,7 +26,7 @@ public class AddDiagramObjectCommand extends Command {
     public AddDiagramObjectCommand(IDiagramModelContainer parent, IDiagramModelObject object) {
         fParent = parent;
         fChild = object;
-        setLabel("Add" + " " + object.getName());
+        setLabel(NLS.bind(Messages.AddDiagramObjectCommand_0, object.getName()));
     }
 
     @Override

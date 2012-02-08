@@ -116,12 +116,12 @@ extends ActionBarAdvisor {
         
         // Close Editor
         fActionCloseEditor = ActionFactory.CLOSE.create(window);
-        fActionCloseEditor.setText("Close View");
+        fActionCloseEditor.setText(Messages.ArchimateEditorActionBarAdvisor_0);
         register(fActionCloseEditor);
 
         // Close All Editors
         fActionCloseAllEditors = ActionFactory.CLOSE_ALL.create(window);
-        fActionCloseAllEditors.setText("Close All Views");
+        fActionCloseAllEditors.setText(Messages.ArchimateEditorActionBarAdvisor_1);
         register(fActionCloseAllEditors);
         
         // Save
@@ -186,7 +186,7 @@ extends ActionBarAdvisor {
         
         // Reset Perspective
         fActionResetPerspective = ActionFactory.RESET_PERSPECTIVE.create(window);
-        fActionResetPerspective.setText("Reset Window Layout");
+        fActionResetPerspective.setText(Messages.ArchimateEditorActionBarAdvisor_2);
         register(fActionResetPerspective);
         
         // Toggle Coolbar
@@ -194,28 +194,28 @@ extends ActionBarAdvisor {
         
         // Show Views
         fShowModelsView = new ToggleViewAction(ITreeModelView.NAME, ITreeModelView.ID,
-                "uk.ac.bolton.archimate.editor.action.showTreeModelView", ITreeModelView.IMAGE_DESCRIPTOR);
+                "uk.ac.bolton.archimate.editor.action.showTreeModelView", ITreeModelView.IMAGE_DESCRIPTOR); //$NON-NLS-1$
         register(fShowModelsView);
         
-        fShowPropertiesView = new ToggleViewAction("Properties", ViewManager.PROPERTIES_VIEW,
-                "uk.ac.bolton.archimate.editor.action.showPropertiesView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON));
+        fShowPropertiesView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_3, ViewManager.PROPERTIES_VIEW,
+                "uk.ac.bolton.archimate.editor.action.showPropertiesView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON)); //$NON-NLS-1$
         register(fShowPropertiesView);
         
-        fShowOutlineView = new ToggleViewAction("Outline", ViewManager.OUTLINE_VIEW,
-                "uk.ac.bolton.archimate.editor.action.showOutlineView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON));
+        fShowOutlineView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_4, ViewManager.OUTLINE_VIEW,
+                "uk.ac.bolton.archimate.editor.action.showOutlineView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON)); //$NON-NLS-1$
         register(fShowOutlineView);
         
-        fShowNavigatorView = new ToggleViewAction("Navigator", INavigatorView.ID,
-                "uk.ac.bolton.archimate.editor.action.showNavigatorView", INavigatorView.IMAGE_DESCRIPTOR);
+        fShowNavigatorView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_5, INavigatorView.ID,
+                "uk.ac.bolton.archimate.editor.action.showNavigatorView", INavigatorView.IMAGE_DESCRIPTOR); //$NON-NLS-1$
         register(fShowNavigatorView);
 
-        fShowPaletteView = new ToggleViewAction("Palette", PaletteView.ID,
-                                    "uk.ac.bolton.archimate.editor.action.showPaletteView",
-                                    AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.gef",
-                                    "$nl$/icons/palette_view.gif")) {
+        fShowPaletteView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_6, PaletteView.ID,
+                                    "uk.ac.bolton.archimate.editor.action.showPaletteView", //$NON-NLS-1$
+                                    AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.gef", //$NON-NLS-1$
+                                    "$nl$/icons/palette_view.gif")) { //$NON-NLS-1$
             @Override
             public String getToolTipText() {
-                return "Detached Palette";
+                return Messages.ArchimateEditorActionBarAdvisor_7;
             };
         };
         register(fShowPaletteView);
@@ -243,14 +243,14 @@ extends ActionBarAdvisor {
     private MenuManager createFileMenu() {
         IWorkbenchWindow window = getActionBarConfigurer().getWindowConfigurer().getWindow();
         
-        MenuManager menu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
+        MenuManager menu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_8, IWorkbenchActionConstants.M_FILE);
         menu.add(new GroupMarker(IWorkbenchActionConstants.FILE_START));
 
         // New
-        MenuManager newMenu = new MenuManager("&New", "new_menu");
+        MenuManager newMenu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_9, "new_menu"); //$NON-NLS-1$
         menu.add(newMenu);
         newMenu.add(fActionNewArchimateModel);
-        newMenu.add(new GroupMarker("new_menu.ext"));
+        newMenu.add(new GroupMarker("new_menu.ext")); //$NON-NLS-1$
         menu.add(new GroupMarker(IWorkbenchActionConstants.NEW_EXT));
         
         menu.add(fActionOpenModel);
@@ -276,21 +276,21 @@ extends ActionBarAdvisor {
         menu.add(fActionPrint);
         menu.add(new Separator());
         
-        MenuManager importMenu = new MenuManager("&Import", "import_menu");
+        MenuManager importMenu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_10, "import_menu"); //$NON-NLS-1$
         menu.add(importMenu);
         addImportModelExtensionMenuItems(window, importMenu);
-        importMenu.add(new GroupMarker("import_ext"));
+        importMenu.add(new GroupMarker("import_ext")); //$NON-NLS-1$
         importMenu.add(new Separator());
         
-        MenuManager exportMenu = new MenuManager("&Export", "export_menu");
+        MenuManager exportMenu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_11, "export_menu"); //$NON-NLS-1$
         menu.add(exportMenu);
         addExportModelExtensionMenuItems(window, exportMenu);
-        exportMenu.add(new GroupMarker("export_ext"));
+        exportMenu.add(new GroupMarker("export_ext")); //$NON-NLS-1$
         exportMenu.add(new Separator());
         
-        MenuManager reportMenu = new MenuManager("&Report", "report_menu");
+        MenuManager reportMenu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_12, "report_menu"); //$NON-NLS-1$
         menu.add(reportMenu);
-        reportMenu.add(new GroupMarker("report_ext"));
+        reportMenu.add(new GroupMarker("report_ext")); //$NON-NLS-1$
         
         menu.add(new Separator());
         
@@ -314,7 +314,7 @@ extends ActionBarAdvisor {
     private MenuManager createEditMenu() {
         IWorkbenchWindow window = getActionBarConfigurer().getWindowConfigurer().getWindow();
         
-        MenuManager menu = new MenuManager("&Edit", IWorkbenchActionConstants.M_EDIT);
+        MenuManager menu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_13, IWorkbenchActionConstants.M_EDIT);
         menu.add(new GroupMarker(IWorkbenchActionConstants.EDIT_START));
         
         menu.add(fActionUndo);
@@ -361,7 +361,7 @@ extends ActionBarAdvisor {
     private MenuManager createWindowMenu() {
         IWorkbenchWindow window = getActionBarConfigurer().getWindowConfigurer().getWindow();
 
-        MenuManager menu = new MenuManager("&Window", IWorkbenchActionConstants.M_WINDOW);
+        MenuManager menu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_14, IWorkbenchActionConstants.M_WINDOW);
 
         //MenuManager perspectiveMenu = new MenuManager(Messages.LDAuthorActionBarAdvisor_10, "openPerspective"); //$NON-NLS-1$
         //IContributionItem perspectiveList = ContributionItemFactory.PERSPECTIVES_SHORTLIST.create(window);
@@ -381,7 +381,7 @@ extends ActionBarAdvisor {
         menu.add(fShowOutlineView);
         menu.add(fShowNavigatorView);
         menu.add(fShowPaletteView);
-        menu.add(new GroupMarker("show_view"));
+        menu.add(new GroupMarker("show_view")); //$NON-NLS-1$
         menu.add(new Separator());
 
         menu.add(fActionResetPerspective);
@@ -389,7 +389,7 @@ extends ActionBarAdvisor {
 
         menu.add(new Separator("nav")); //$NON-NLS-1$
 
-        MenuManager navigationMenu = new MenuManager("Navigation");
+        MenuManager navigationMenu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_15);
         menu.add(navigationMenu);
 
         IAction a = ActionFactory.NEXT_EDITOR.create(window);
@@ -424,7 +424,7 @@ extends ActionBarAdvisor {
     private MenuManager createHelpMenu() {
         IWorkbenchWindow window = getActionBarConfigurer().getWindowConfigurer().getWindow();
         
-        MenuManager menu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
+        MenuManager menu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_16, IWorkbenchActionConstants.M_HELP);
         
         menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
         
@@ -492,7 +492,7 @@ extends ActionBarAdvisor {
         toolBarViews.add(new Separator());
         
         // If System Property to VM arguments is "-Dshowheap=true" then Show Heap Widget
-        if("true".equals(System.getProperty("showheap"))) {
+        if("true".equals(System.getProperty("showheap"))) { //$NON-NLS-1$ //$NON-NLS-2$
             IToolBarManager toolBarTools = new ToolBarManager(SWT.FLAT);
             toolBarTools.add(new HeapStatusWidgetToolBarContributionItem());
             coolBarManager.add(new ToolBarContributionItem(toolBarTools, "toolbar_tools")); //$NON-NLS-1$
@@ -504,11 +504,11 @@ extends ActionBarAdvisor {
      */
     private void addExportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager exportMenu) {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.editor.exportHandler")) {
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.editor.exportHandler")) { //$NON-NLS-1$
             try {
-                String id = configurationElement.getAttribute("id");
-                String label = configurationElement.getAttribute("label");
-                IModelExporter exporter = (IModelExporter)configurationElement.createExecutableExtension("class");
+                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+                String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
+                IModelExporter exporter = (IModelExporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 if(id != null && label != null && exporter != null) {
                     ExportModelAction action = new ExportModelAction(window, id, label, exporter);
                     exportMenu.add(action);
@@ -525,11 +525,11 @@ extends ActionBarAdvisor {
      */
     private void addImportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager importMenu) {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.editor.importHandler")) {
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("uk.ac.bolton.archimate.editor.importHandler")) { //$NON-NLS-1$
             try {
-                String id = configurationElement.getAttribute("id");
-                String label = configurationElement.getAttribute("label");
-                IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class");
+                String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
+                String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
+                IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 if(id != null && label != null && importer != null) {
                     ImportModelAction action = new ImportModelAction(window, id, label, importer);
                     importMenu.add(action);

@@ -117,6 +117,6 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
     }
 
     public String getSearchExpression(Object target) {
-        return "Outline Window";
+        return Messages.OverviewOutlinePage_0;
     }
 }

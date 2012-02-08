@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 public class ConnectionLineWidthCommand extends EObjectFeatureCommand {
     
     public ConnectionLineWidthCommand(IDiagramModelConnection connection, int lineWidth) {
-        super("Connection line width", connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH, lineWidth);
+        super(Messages.ConnectionLineWidthCommand_0, connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH, lineWidth);
     }
 }

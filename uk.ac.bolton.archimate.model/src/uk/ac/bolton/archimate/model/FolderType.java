@@ -90,7 +90,9 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    DIAGRAMS(6, "diagrams", "diagrams"), /**
+    DIAGRAMS(6, "diagrams", "diagrams"), //$NON-NLS-1$ //$NON-NLS-2$
+    
+    /**
      * The '<em><b>Derived</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -98,7 +100,9 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    DERIVED(7, "derived", "derived"), /**
+    DERIVED(7, "derived", "derived"), //$NON-NLS-1$ //$NON-NLS-2$
+    
+    /**
      * The '<em><b>Motivation</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -106,7 +110,9 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    MOTIVATION(8, "motivation", "motivation"), /**
+    MOTIVATION(8, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
+    
+    /**
      * The '<em><b>Implementation migration</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -71,7 +71,7 @@ public class BrowserEditorInput implements IBrowserEditorInput {
             return title;
         }
         
-        return getURL() == null ? "(unknown)" : getURL();
+        return getURL() == null ? Messages.BrowserEditorInput_0 : getURL();
     }
 
     @Override

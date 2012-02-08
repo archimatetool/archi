@@ -37,7 +37,7 @@ public class RequirementUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Requirement";
+        return Messages.RequirementUIProvider_0;
     }
 
     @Override

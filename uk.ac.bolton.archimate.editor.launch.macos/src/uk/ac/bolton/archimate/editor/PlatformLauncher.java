@@ -58,7 +58,7 @@ public class PlatformLauncher implements IPlatformLauncher {
     private void checkOpenFile() {
         Location instanceLoc = Platform.getInstanceLocation();
         if(instanceLoc != null) {
-            File openingFile = new File(instanceLoc.getURL().getPath(), "opening");
+            File openingFile = new File(instanceLoc.getURL().getPath(), "opening"); //$NON-NLS-1$
             if(openingFile.isFile() && openingFile.canRead()) {
                 try {
                     String fileName = readFileAsString(openingFile);

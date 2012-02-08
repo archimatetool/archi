@@ -19,7 +19,7 @@ import uk.ac.bolton.archimate.editor.ui.services.UIRequest;
  */
 public class TreeSelectionRequest extends UIRequest {
     
-    public static final String REQUEST_NAME = "request.selectElements";
+    public static final String REQUEST_NAME = "request.selectElements"; //$NON-NLS-1$
 
     private boolean fReveal;
     private IStructuredSelection fSelection;

@@ -114,7 +114,7 @@ public class PlatformLauncher implements IPlatformLauncher {
         
         // We'll get it by reflection...
         try {
-            length = (Integer)invokeWindowsOSMethod("GetWindowTextLength", hWnd, int.class);
+            length = (Integer)invokeWindowsOSMethod("GetWindowTextLength", hWnd, int.class); //$NON-NLS-1$
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -146,8 +146,8 @@ public class PlatformLauncher implements IPlatformLauncher {
         
         // We'll do it by reflection...
         try {
-            invokeWindowsOSMethod("SetForegroundWindow", hWnd, int.class);
-            invokeWindowsOSMethod("SetFocus", hWnd, int.class);
+            invokeWindowsOSMethod("SetForegroundWindow", hWnd, int.class); //$NON-NLS-1$
+            invokeWindowsOSMethod("SetFocus", hWnd, int.class); //$NON-NLS-1$
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -158,7 +158,7 @@ public class PlatformLauncher implements IPlatformLauncher {
      * Invoke a Windows OS SWT Specific method by reflection
      */
     private Object invokeWindowsOSMethod(String methodName, int hWnd, Class<?>... parameterTypes) throws Exception {
-        Class<?> c = Class.forName("org.eclipse.swt.internal.win32.OS");
+        Class<?> c = Class.forName("org.eclipse.swt.internal.win32.OS"); //$NON-NLS-1$
         Method m = c.getDeclaredMethod(methodName, parameterTypes);
         return m.invoke(c, hWnd);
     }

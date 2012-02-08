@@ -32,7 +32,7 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 public class ArchimateDiagramEditorActionBarContributor
 extends AbstractDiagramEditorActionBarContributor {
     
-    protected String editDeleteMenuGroup = "editDeleteMenuGroup";
+    protected String editDeleteMenuGroup = "editDeleteMenuGroup"; //$NON-NLS-1$
 
     @Override
     protected void buildActions() {
@@ -77,7 +77,7 @@ extends AbstractDiagramEditorActionBarContributor {
         IMenuManager viewMenu = super.createViewMenu(menuManager);
         
         // Viewpoints
-        IMenuManager viewPointMenu = new MenuManager("Viewpoint");
+        IMenuManager viewPointMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_0);
         viewMenu.add(viewPointMenu);
         for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
             viewPointMenu.add(getAction(viewPoint.getClass().toString()));
@@ -86,7 +86,7 @@ extends AbstractDiagramEditorActionBarContributor {
         viewMenu.add(new Separator());
         
         // Derived Relations
-        IMenuManager derivedRelationsMenu = new MenuManager("Derived Relations");
+        IMenuManager derivedRelationsMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_1);
         viewMenu.add(derivedRelationsMenu);
         derivedRelationsMenu.add(getAction(ShowStructuralChainsAction.ID));
         derivedRelationsMenu.add(getAction(CreateDerivedRelationAction.ID));

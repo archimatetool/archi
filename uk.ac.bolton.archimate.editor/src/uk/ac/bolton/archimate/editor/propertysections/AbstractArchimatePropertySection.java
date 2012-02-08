@@ -149,7 +149,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected PropertySectionTextControl createNameControl(Composite parent, String hint) {
         // Label
-        createCLabel(parent, "Name:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.AbstractArchimatePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
 
         // Text
         Text textControl = createSingleTextControl(parent, SWT.NONE);
@@ -159,7 +159,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Rename" + " " + oldText, getEObject(),
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.AbstractArchimatePropertySection_1 + " " + oldText, getEObject(), //$NON-NLS-1$
                             IArchimatePackage.Literals.NAMEABLE__NAME, newText));
                     fIsExecutingCommand = false;
                 }
@@ -175,7 +175,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected PropertySectionTextControl createDocumentationControl(Composite parent, String hint) {
         // Label
-        createCLabel(parent, "Documentation:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createCLabel(parent, Messages.AbstractArchimatePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
         
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
@@ -185,7 +185,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
             protected void textChanged(String oldText, String newText) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand("Change Documentation", getEObject(),
+                    getCommandStack().execute(new EObjectFeatureCommand(Messages.AbstractArchimatePropertySection_3, getEObject(),
                             IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, newText));
                     fIsExecutingCommand = false;
                 }

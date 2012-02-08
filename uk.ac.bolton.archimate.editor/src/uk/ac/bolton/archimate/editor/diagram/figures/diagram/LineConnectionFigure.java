@@ -161,7 +161,7 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
         
         String text = ArchimateLabelProvider.INSTANCE.getLabel(getModelConnection());
         tooltip.setText(text);
-        tooltip.setType("Type: Connection");
+        tooltip.setType(Messages.LineConnectionFigure_0);
         
         return tooltip;
     }

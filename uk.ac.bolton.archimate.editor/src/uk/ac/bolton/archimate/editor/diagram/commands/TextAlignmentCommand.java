@@ -19,6 +19,6 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
 public class TextAlignmentCommand extends EObjectFeatureCommand {
     
     public TextAlignmentCommand(IFontAttribute object, int value) {
-        super("Change text alignment", object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT, value);
+        super(Messages.TextAlignmentCommand_0, object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT, value);
     }
 }

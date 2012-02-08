@@ -34,7 +34,7 @@ public class TechnologyInfrastructureFunctionUIProvider extends AbstractTechnolo
 
     @Override
     public String getDefaultName() {
-        return "Infrastructure Function";
+        return Messages.TechnologyInfrastructureFunctionUIProvider_0;
     }
 
     @Override

@@ -53,7 +53,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
 
     public String getText(Object element) {
         if(!(element instanceof IStructuredSelection)) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         element = ((IStructuredSelection)element).getFirstElement();
@@ -80,7 +80,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
             return escapeText(text);
         }
         
-        return " "; // Ensure the title bar is displayed
+        return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
 
     private String getArchimateElementText(IArchimateElement element) {
@@ -89,7 +89,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
         String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
         
         if(name.length() > 0) {
-            return name + " (" + typeName + ")";
+            return name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         return typeName;
@@ -98,7 +98,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
     private String escapeText(String text) {
         if(StringUtils.isSet(text)) {
             // Ampersands need to be doubled or they don't show
-            return text.replaceAll("&", "&&");
+            return text.replaceAll("&", "&&");  //$NON-NLS-1$//$NON-NLS-2$
         }
         return text;
     }

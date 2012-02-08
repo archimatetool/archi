@@ -31,7 +31,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class LockedSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value
@@ -63,7 +63,7 @@ public class LockedSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, "Locked:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.LockedSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         fButtonLocked = new Button(parent, SWT.CHECK);
         fButtonLocked.addSelectionListener(new SelectionAdapter() {
@@ -88,7 +88,7 @@ public class LockedSection extends AbstractArchimatePropertySection {
         }
 
         if(fLockable == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

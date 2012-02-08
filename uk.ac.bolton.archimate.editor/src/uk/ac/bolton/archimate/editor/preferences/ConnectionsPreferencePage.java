@@ -73,44 +73,44 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Magic Connector
         Group magicConnectorGroup = new Group(client, SWT.NULL);
-        magicConnectorGroup.setText("Magic Connector");
+        magicConnectorGroup.setText(Messages.ConnectionsPreferencePage_0);
         magicConnectorGroup.setLayout(new GridLayout());
         magicConnectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         fDoAnimateMagicConnectorButton = new Button(magicConnectorGroup, SWT.CHECK);
-        fDoAnimateMagicConnectorButton.setText("Show Animation on Undo/Redo");
+        fDoAnimateMagicConnectorButton.setText(Messages.ConnectionsPreferencePage_1);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fDoAnimateMagicConnectorButton.setLayoutData(gd);
         
         fMagicConnectorPolarity1Button = new Button(magicConnectorGroup, SWT.RADIO);
-        fMagicConnectorPolarity1Button.setText("Show Elements first (Use the Ctrl key to swap)");
+        fMagicConnectorPolarity1Button.setText(Messages.ConnectionsPreferencePage_2);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fMagicConnectorPolarity1Button.setLayoutData(gd);
         
         fMagicConnectorPolarity2Button = new Button(magicConnectorGroup, SWT.RADIO);
-        fMagicConnectorPolarity2Button.setText("Show Connections first (Use the Ctrl key to swap)");
+        fMagicConnectorPolarity2Button.setText(Messages.ConnectionsPreferencePage_3);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fMagicConnectorPolarity2Button.setLayoutData(gd);
         
         // Connections
         Group connectorGroup = new Group(client, SWT.NULL);
-        connectorGroup.setText("Connections");
+        connectorGroup.setText(Messages.ConnectionsPreferencePage_4);
         connectorGroup.setLayout(new GridLayout());
         connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fAllowCircularConnectionsButton = new Button(connectorGroup, SWT.CHECK);
-        fAllowCircularConnectionsButton.setText("Allow circular connections");
+        fAllowCircularConnectionsButton.setText(Messages.ConnectionsPreferencePage_5);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fAllowCircularConnectionsButton.setLayoutData(gd);
 
         // Nested Connections (ARM)
         Group nestedConnectionsGroup = new Group(client, SWT.NULL);
-        nestedConnectionsGroup.setText("Automatic Relationship Management");
+        nestedConnectionsGroup.setText(Messages.ConnectionsPreferencePage_6);
         nestedConnectionsGroup.setLayout(new GridLayout());
         nestedConnectionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         fUseNestedConnectionsButton = new Button(nestedConnectionsGroup, SWT.CHECK);
-        fUseNestedConnectionsButton.setText("Enable implicit connections in Views for nested elements");
+        fUseNestedConnectionsButton.setText(Messages.ConnectionsPreferencePage_7);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseNestedConnectionsButton.setLayoutData(gd);
         fUseNestedConnectionsButton.addSelectionListener(new SelectionAdapter() {
@@ -121,7 +121,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         fCreateRelationWhenAddingNewElementButton = new Button(nestedConnectionsGroup, SWT.CHECK);
-        fCreateRelationWhenAddingNewElementButton.setText("Offer to create new relation when creating new element from Palette");
+        fCreateRelationWhenAddingNewElementButton.setText(Messages.ConnectionsPreferencePage_8);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenAddingNewElementButton.setLayoutData(gd);
         fCreateRelationWhenAddingNewElementButton.addSelectionListener(new SelectionAdapter() {
@@ -132,7 +132,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         fCreateRelationWhenAddingModelTreeElementButton = new Button(nestedConnectionsGroup, SWT.CHECK);
-        fCreateRelationWhenAddingModelTreeElementButton.setText("Offer to create new relation when adding element from Model Tree");
+        fCreateRelationWhenAddingModelTreeElementButton.setText(Messages.ConnectionsPreferencePage_9);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenAddingModelTreeElementButton.setLayoutData(gd);
         fCreateRelationWhenAddingModelTreeElementButton.addSelectionListener(new SelectionAdapter() {
@@ -143,7 +143,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         fCreateRelationWhenMovingElement = new Button(nestedConnectionsGroup, SWT.CHECK);
-        fCreateRelationWhenMovingElement.setText("Offer to create new relation when moving an element to a new parent element");
+        fCreateRelationWhenMovingElement.setText(Messages.ConnectionsPreferencePage_10);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenMovingElement.setLayoutData(gd);
         fCreateRelationWhenMovingElement.addSelectionListener(new SelectionAdapter() {
@@ -154,11 +154,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         Label label = new Label(nestedConnectionsGroup, SWT.NONE);
-        label.setText("Relation types offered when creating new relations:");
+        label.setText(Messages.ConnectionsPreferencePage_11);
         fTableViewerNewRelations = createRelationsTable(nestedConnectionsGroup);
         
         label = new Label(nestedConnectionsGroup, SWT.NONE);
-        label.setText("Relation types to hide when elements are nested:");
+        label.setText(Messages.ConnectionsPreferencePage_12);
         fTableViewerHiddenRelations = createRelationsTable(nestedConnectionsGroup);
         
         setValues();

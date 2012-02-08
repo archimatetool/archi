@@ -38,31 +38,31 @@ public class RelationshipsMatrix {
     /**
      * The Bundle ID
      */
-    static final String BUNDLE_ID = "uk.ac.bolton.archimate.model";
+    static final String BUNDLE_ID = "uk.ac.bolton.archimate.model"; //$NON-NLS-1$
 
     /**
      * The Key letters XML file
      */
-    static final String RELATIONSHIPS_KEYS_FILE = "model/relationships-keys.xml";
+    static final String RELATIONSHIPS_KEYS_FILE = "model/relationships-keys.xml"; //$NON-NLS-1$
 
     /**
      * The Relationships 1.0 XML file
      */
-    static final String RELATIONSHIPS_1_0_FILE = "model/relationships-2.0.xml";
+    static final String RELATIONSHIPS_1_0_FILE = "model/relationships-2.0.xml"; //$NON-NLS-1$
     
     /*
      * XML element and attribute names
      */
-    static final String XML_ELEMENT_ROOT = "relationships";
-    static final String XML_ELEMENT_KEYS = "keys";
-    static final String XML_ELEMENT_KEY = "key";
-    static final String XML_ELEMENT_ELEMENTS = "elements";
-    static final String XML_ELEMENT_SOURCE = "source";
-    static final String XML_ELEMENT_TARGET = "target";
-    static final String XML_ATTRIBUTE_CHAR = "char";
-    static final String XML_ATTRIBUTE_RELATIONSHIP = "relationship";
-    static final String XML_ATTRIBUTE_RELATIONS = "relations";
-    static final String XML_ATTRIBUTE_ELEMENT = "element";
+    static final String XML_ELEMENT_ROOT = "relationships"; //$NON-NLS-1$
+    static final String XML_ELEMENT_KEYS = "keys"; //$NON-NLS-1$
+    static final String XML_ELEMENT_KEY = "key"; //$NON-NLS-1$
+    static final String XML_ELEMENT_ELEMENTS = "elements"; //$NON-NLS-1$
+    static final String XML_ELEMENT_SOURCE = "source"; //$NON-NLS-1$
+    static final String XML_ELEMENT_TARGET = "target"; //$NON-NLS-1$
+    static final String XML_ATTRIBUTE_CHAR = "char"; //$NON-NLS-1$
+    static final String XML_ATTRIBUTE_RELATIONSHIP = "relationship"; //$NON-NLS-1$
+    static final String XML_ATTRIBUTE_RELATIONS = "relations"; //$NON-NLS-1$
+    static final String XML_ATTRIBUTE_ELEMENT = "element"; //$NON-NLS-1$
 
     public static class TargetMatrix {
         EClass targetClass;
@@ -179,19 +179,19 @@ public class RelationshipsMatrix {
 
             String keyLetter = elementKey.getAttributeValue(XML_ATTRIBUTE_CHAR);
             if(keyLetter == null || keyLetter.length() != 1) {
-                System.err.println(getClass() + ": Key letter incorrect: " + keyLetter);
+                System.err.println(getClass() + ": Key letter incorrect: " + keyLetter); //$NON-NLS-1$
                 continue;
             }
 
             String relationName = elementKey.getAttributeValue(XML_ATTRIBUTE_RELATIONSHIP);
             if(relationName == null) {
-                System.err.println(getClass() + ": Relationship name incorrect: " + relationName);
+                System.err.println(getClass() + ": Relationship name incorrect: " + relationName); //$NON-NLS-1$
                 continue;
             }
 
             EClass relationship = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(relationName);
             if(relationship == null) {
-                System.err.println(getClass() + ": Couldn't find relationship " + relationName);
+                System.err.println(getClass() + ": Couldn't find relationship " + relationName); //$NON-NLS-1$
                 continue;
             }
 
@@ -214,7 +214,7 @@ public class RelationshipsMatrix {
         // Iterate through all "source" elements
         Element elementElements = doc.getRootElement().getChild(XML_ELEMENT_ELEMENTS);
         if(elementElements == null) { // oops
-            System.err.println(getClass() + ": Couldn't find elements element.");
+            System.err.println(getClass() + ": Couldn't find elements element."); //$NON-NLS-1$
             return;
         }
         
@@ -230,7 +230,7 @@ public class RelationshipsMatrix {
             // Get EClass source from mapping
             EClass source = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(sourceName);
             if(source == null) {
-                System.err.println(getClass() + ": Couldn't find source " + sourceName);
+                System.err.println(getClass() + ": Couldn't find source " + sourceName); //$NON-NLS-1$
                 continue;
             }
             
@@ -253,7 +253,7 @@ public class RelationshipsMatrix {
                 // Get EClass target from mapping
                 EClass target = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(targetName);
                 if(target == null) {
-                    System.err.println(getClass() + ": Couldn't find target " + targetName);
+                    System.err.println(getClass() + ": Couldn't find target " + targetName); //$NON-NLS-1$
                     continue;
                 }
                 
@@ -278,7 +278,7 @@ public class RelationshipsMatrix {
                         matrix.getRelationships().add(relationship);
                     }
                     else {
-                        System.err.println(getClass() + ": Found unmapped key char: " + key);
+                        System.err.println(getClass() + ": Found unmapped key char: " + key); //$NON-NLS-1$
                     }
                 }
             }

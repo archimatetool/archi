@@ -53,7 +53,7 @@ public class ApplicationUsageViewpoint extends AbstractViewpoint {
 
     @Override
     public String getName() {
-        return "Application Usage";
+        return Messages.ApplicationUsageViewpoint_0;
     }
     
     @Override

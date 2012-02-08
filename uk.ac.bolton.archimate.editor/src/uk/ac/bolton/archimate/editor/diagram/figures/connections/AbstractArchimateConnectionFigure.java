@@ -59,7 +59,7 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
         toolTipFigure.setText(text);
 
         String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
-        toolTipFigure.setType("Type: " + type);
+        toolTipFigure.setType(Messages.AbstractArchimateConnectionFigure_0 + " " + type); //$NON-NLS-1$
 
         String rubric = ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation);
         toolTipFigure.setRubric(rubric);

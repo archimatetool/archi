@@ -38,7 +38,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class BorderColorSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -94,7 +94,7 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     }
     
     private void createColorControl(Composite parent) {
-        createCLabel(parent, "Border colour:", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createCLabel(parent, Messages.BorderColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         Composite client = createComposite(parent, 2);
 
@@ -108,7 +108,7 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
         fNoBorderButton = new Button(client, SWT.PUSH);
         fNoBorderButton.setLayoutData(gd);
         getWidgetFactory().adapt(fNoBorderButton, true, true); // Need to do it this way for Mac
-        fNoBorderButton.setText("None");
+        fNoBorderButton.setText(Messages.BorderColorSection_1);
         fNoBorderButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -126,7 +126,7 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
         }
 
         if(fBorderObject == null) {
-            throw new RuntimeException("Object was null");
+            throw new RuntimeException("Object was null"); //$NON-NLS-1$
         }
         
         refreshControls();

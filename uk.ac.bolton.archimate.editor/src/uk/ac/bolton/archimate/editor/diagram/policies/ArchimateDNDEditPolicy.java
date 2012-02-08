@@ -71,7 +71,7 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         List<IDiagramModelArchimateObject> diagramObjects = new ArrayList<IDiagramModelArchimateObject>();
 
         // Compound Command - it has to be Non-Notifying or it's way too slow (tested with Bill's UoB model!)
-        CompoundCommand result = new NonNotifyingCompoundCommand("Add Elements");
+        CompoundCommand result = new NonNotifyingCompoundCommand(Messages.ArchimateDNDEditPolicy_0);
 
         // Add the Commands adding the Elements first
         for(IArchimateElement element : fElementsToAdd) {

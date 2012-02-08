@@ -46,7 +46,7 @@ public class SketchDNDEditPolicy extends AbstractDNDEditPolicy {
         List<IDiagramModel> list = getDiagramRefsToAdd(objects);
 
         // Compound Command
-        CompoundCommand result = new CompoundCommand("Add Elements");
+        CompoundCommand result = new CompoundCommand(Messages.SketchDNDEditPolicy_0);
         
         for(IDiagramModel diagramModel : list) {
             result.add(new AddDiagramModelReferenceCommand(getTargetContainer(), diagramModel, x, y));

@@ -29,9 +29,9 @@ public class LockObjectAction extends SelectionAction {
 
     public LockObjectAction(IWorkbenchPart part) {
         super(part);
-        setText("Lock");
+        setText(Messages.LockObjectAction_0);
         setId(ID);
-        setToolTipText("Lock the component");
+        setToolTipText(Messages.LockObjectAction_1);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LOCK_16));
     }
 
@@ -60,7 +60,7 @@ public class LockObjectAction extends SelectionAction {
     
     private void updateText() {
         boolean lock = isToLock();
-        setText(lock ? "Lock" : "Unlock");
+        setText(lock ? Messages.LockObjectAction_0 : Messages.LockObjectAction_2);
         setImageDescriptor(lock ? IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LOCK_16) :
             IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_UNLOCK_16));
     }

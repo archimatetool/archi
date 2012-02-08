@@ -35,12 +35,12 @@ import uk.ac.bolton.jdom.JDOMUtils;
  */
 public class CanvasTemplateManager extends TemplateManager {
     
-    public static final String CANVAS_TEMPLATE_FILE_EXTENSION = ".archicanvas";
-    private File fUserTemplatesFile = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "canvasses.xml");
+    public static final String CANVAS_TEMPLATE_FILE_EXTENSION = ".archicanvas"; //$NON-NLS-1$
+    private File fUserTemplatesFile = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "canvasses.xml"); //$NON-NLS-1$
 
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {
-        ITemplateGroup group = new TemplateGroup("Installed Templates");
+        ITemplateGroup group = new TemplateGroup(Messages.CanvasTemplateManager_0);
         File folder = CanvasEditorPlugin.INSTANCE.getTemplatesFolder();
         if(folder.exists()) {
             for(File file : folder.listFiles()) {
@@ -70,7 +70,7 @@ public class CanvasTemplateManager extends TemplateManager {
             return new CanvasModelTemplate(null);
         }
         else {
-            throw new IOException("Wrong template format.");
+            throw new IOException("Wrong template format."); //$NON-NLS-1$
         }
     }
 

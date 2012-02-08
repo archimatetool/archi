@@ -51,7 +51,7 @@ public class BusinessProcessViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Business Process";
+        return Messages.BusinessProcessViewpoint_0;
     }
     
     @Override

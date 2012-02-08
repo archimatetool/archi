@@ -48,7 +48,7 @@ public class ArchimateDiagramPart extends AbstractDiagramPart {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new ArchimateDiagramLayoutPolicy());
         
         // Install a policy for DND support
-        installEditPolicy("DND", new ArchimateDNDEditPolicy());
+        installEditPolicy("DND", new ArchimateDNDEditPolicy()); //$NON-NLS-1$
         
         // Install a Container Policy for orphaning child parts
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new BasicContainerEditPolicy());

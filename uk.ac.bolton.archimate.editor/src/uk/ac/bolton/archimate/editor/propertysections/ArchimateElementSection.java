@@ -28,7 +28,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class ArchimateElementSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection";
+    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value
@@ -67,8 +67,8 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        fTextName = createNameControl(parent, "Add a name for this element here");
-        fTextDocumentation = createDocumentationControl(parent, "Add documentation relating to this element here");
+        fTextName = createNameControl(parent, Messages.ArchimateElementSection_0);
+        fTextDocumentation = createDocumentationControl(parent, Messages.ArchimateElementSection_1);
 
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -85,7 +85,7 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
             fArchimateElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
         }
         else {
-            System.err.println("ArchimateElementSection wants to display for " + element);
+            System.err.println("ArchimateElementSection wants to display for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

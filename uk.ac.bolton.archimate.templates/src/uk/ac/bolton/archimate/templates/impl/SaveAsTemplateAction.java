@@ -27,7 +27,7 @@ public class SaveAsTemplateAction extends AbstractModelSelectionDelegateAction {
         if(model != null) {
             WizardDialog dialog = new ExtendedWizardDialog(workbenchWindow.getShell(),
                     new SaveArchimateModelAsTemplateWizard(model),
-                    "SaveModelAsTemplateWizard");
+                    "SaveModelAsTemplateWizard"); //$NON-NLS-1$
             dialog.open();
         }
     }

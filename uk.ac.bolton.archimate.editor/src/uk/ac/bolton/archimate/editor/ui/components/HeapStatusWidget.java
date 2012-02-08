@@ -106,7 +106,7 @@ public class HeapStatusWidget extends Composite {
 		maxMemKnown = maxMem != Long.MAX_VALUE;
 
         button = new Canvas(this, SWT.NONE);
-        button.setToolTipText("Run Garbage Collector");
+        button.setToolTipText("Run Garbage Collector"); //$NON-NLS-1$
         
 		ImageDescriptor imageDesc = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_TRASH_16);
 		Display display = getDisplay();
@@ -238,7 +238,7 @@ public class HeapStatusWidget extends Composite {
 	@Override
     public Point computeSize(int wHint, int hHint, boolean changed) {
         GC gc = new GC(this);
-        Point p = gc.textExtent("MMMMMMMMMMMM");
+        Point p = gc.textExtent("MMMMMMMMMMMM"); //$NON-NLS-1$
         int height = imgBounds.height;
         // choose the largest of 
         // 	- Text height + margins
@@ -391,7 +391,7 @@ public class HeapStatusWidget extends Composite {
 		gc.setBackground(usedMemCol);
         gc.fillRectangle(x + 1, y + 1, uw, h - 2);
         
-        String s = convertToMegString(usedMem) + " of " + convertToMegString(totalMem);
+        String s = convertToMegString(usedMem) + " of " + convertToMegString(totalMem); //$NON-NLS-1$
         Point p = gc.textExtent(s);
         int sx = (rect.width - 15 - p.x) / 2 + rect.x + 1;
         int sy = (rect.height - 2 - p.y) / 2 + rect.y + 1;
@@ -449,7 +449,7 @@ public class HeapStatusWidget extends Composite {
             gc.drawLine(thresholdX, y + 1, thresholdX, y + h - 2);
         }
 
-        String s = convertToMegString(usedMem) + " of " + convertToMegString(totalMem);
+        String s = convertToMegString(usedMem) + " of " + convertToMegString(totalMem); //$NON-NLS-1$
         Point p = gc.textExtent(s);
         int sx = (rect.width - 15 - p.x) / 2 + rect.x + 1;
         int sy = (rect.height - 2 - p.y) / 2 + rect.y + 1;
@@ -490,9 +490,9 @@ public class HeapStatusWidget extends Composite {
     private void updateToolTip() {
     	String usedStr = convertToMegString(usedMem);
     	String totalStr = convertToMegString(totalMem);
-    	String maxStr = maxMemKnown ? convertToMegString(maxMem) : "<unknown>";
-    	String markStr = mark == -1 ? "<none>" : convertToMegString(mark);
-    	String toolTip = "Heap size: " + usedStr + " of total: "  + totalStr + " max: " + maxStr + " mark: " + markStr;
+    	String maxStr = maxMemKnown ? convertToMegString(maxMem) : "<unknown>"; //$NON-NLS-1$
+    	String markStr = mark == -1 ? "<none>" : convertToMegString(mark); //$NON-NLS-1$
+    	String toolTip = "Heap size: " + usedStr + " of total: "  + totalStr + " max: " + maxStr + " mark: " + markStr; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         if(!toolTip.equals(getToolTipText())) {
             setToolTipText(toolTip);
         }
@@ -502,7 +502,7 @@ public class HeapStatusWidget extends Composite {
      * Converts the given number of bytes to a printable number of megabytes (rounded up).
      */
     private String convertToMegString(long numBytes) {
-        return new Long(convertToMeg(numBytes)) + "M";
+        return new Long(convertToMeg(numBytes)) + "M"; //$NON-NLS-1$
     }
 
     /**
@@ -515,7 +515,7 @@ public class HeapStatusWidget extends Composite {
 
     class SetMarkAction extends Action {
         SetMarkAction() {
-            super("&Set Mark");
+            super("&Set Mark"); //$NON-NLS-1$
         }
         
         @Override
@@ -526,7 +526,7 @@ public class HeapStatusWidget extends Composite {
     
     class ClearMarkAction extends Action {
         ClearMarkAction() {
-            super("&Clear Mark");
+            super("&Clear Mark"); //$NON-NLS-1$
         }
         
         @Override
@@ -537,7 +537,7 @@ public class HeapStatusWidget extends Composite {
 
     class ShowMaxAction extends Action {
     	ShowMaxAction() {
-            super("Show &Max Heap", IAction.AS_CHECK_BOX);
+            super("Show &Max Heap", IAction.AS_CHECK_BOX); //$NON-NLS-1$
             setEnabled(maxMemKnown);
             setChecked(showMax);
         }
@@ -552,7 +552,7 @@ public class HeapStatusWidget extends Composite {
     class CloseHeapStatusAction extends Action{
     	
     	CloseHeapStatusAction(){
-    		super("&Close");
+    		super("&Close"); //$NON-NLS-1$
     	}
     	
     	@Override

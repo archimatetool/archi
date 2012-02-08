@@ -30,7 +30,7 @@ public class StakeholderViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Stakeholder";
+        return Messages.StakeholderViewpoint_0;
     }
 
     @Override

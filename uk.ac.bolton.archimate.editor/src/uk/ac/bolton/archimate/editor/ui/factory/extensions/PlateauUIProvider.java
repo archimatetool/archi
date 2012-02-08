@@ -37,7 +37,7 @@ public class PlateauUIProvider extends AbstractElementUIProvider {
 
     @Override
     public String getDefaultName() {
-        return "Plateau";
+        return Messages.PlateauUIProvider_0;
     }
 
     @Override

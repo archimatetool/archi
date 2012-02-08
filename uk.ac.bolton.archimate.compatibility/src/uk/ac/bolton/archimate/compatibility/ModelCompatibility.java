@@ -44,7 +44,7 @@ public class ModelCompatibility {
         for(Diagnostic diagnostic : resource.getErrors()) {
             if(isCatastrophicError(diagnostic)) {
                 IncompatibleModelException ex = new IncompatibleModelException(diagnostic.getMessage());
-                Logger.logError("Error opening model", ex);
+                Logger.logError("Error opening model", ex); //$NON-NLS-1$
                 ex.printStackTrace();
                 throw ex;
             }
@@ -96,7 +96,7 @@ public class ModelCompatibility {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(ICompatibilityHandler.EXTENSION_ID)) {
             try {
-                ICompatibilityHandler handler = (ICompatibilityHandler)configurationElement.createExecutableExtension("class");
+                ICompatibilityHandler handler = (ICompatibilityHandler)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 if(handler != null) {
                     handler.fixCompatibility(resource);
                 }

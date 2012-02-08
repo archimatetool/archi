@@ -44,7 +44,7 @@ public class ApplicationBehaviourViewpoint extends AbstractViewpoint {
     
     @Override
     public String getName() {
-        return "Application Behaviour";
+        return Messages.ApplicationBehaviourViewpoint_0;
     }
     
     @Override

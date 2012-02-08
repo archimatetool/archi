@@ -37,7 +37,7 @@ public class Property extends EObjectImpl implements IProperty {
      * @generated
      * @ordered
      */
-    protected static final String KEY_EDEFAULT = "";
+    protected static final String KEY_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getKey() <em>Key</em>}' attribute.
@@ -57,7 +57,7 @@ public class Property extends EObjectImpl implements IProperty {
      * @generated
      * @ordered
      */
-    protected static final String VALUE_EDEFAULT = "";
+    protected static final String VALUE_EDEFAULT = ""; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.

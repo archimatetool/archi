@@ -34,7 +34,7 @@ public class BusinessRepresentationUIProvider extends AbstractBusinessUIProvider
 
     @Override
     public String getDefaultName() {
-        return "Representation";
+        return Messages.BusinessRepresentationUIProvider_0;
     }
 
     @Override

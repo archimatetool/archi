@@ -22,7 +22,7 @@ import uk.ac.bolton.archimate.editor.views.tree.TreeSelectionSynchroniser;
 public class LinkToEditorAction extends Action {
     
     public LinkToEditorAction() {
-        super("Link to View", IAction.AS_CHECK_BOX);
+        super(Messages.LinkToEditorAction_0, IAction.AS_CHECK_BOX);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LINKED_16));
         setChecked(Preferences.doLinkView());
     }

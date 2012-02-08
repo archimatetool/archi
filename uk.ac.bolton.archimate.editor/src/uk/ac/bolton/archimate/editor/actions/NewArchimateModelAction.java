@@ -28,9 +28,9 @@ implements IWorkbenchAction
     
     public NewArchimateModelAction() {
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NEW_FILE_16));
-        setText("&Empty Model");
-        setToolTipText("New Empty Model");
-        setId("uk.ac.bolton.archimate.editor.action.newModel");
+        setText(Messages.NewArchimateModelAction_0);
+        setToolTipText(Messages.NewArchimateModelAction_1);
+        setId("uk.ac.bolton.archimate.editor.action.newModel"); //$NON-NLS-1$
         setActionDefinitionId(getId()); // register key binding
     }
     

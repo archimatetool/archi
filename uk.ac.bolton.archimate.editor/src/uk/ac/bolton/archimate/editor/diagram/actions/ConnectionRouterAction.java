@@ -26,9 +26,9 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public abstract class ConnectionRouterAction extends Action implements Disposable {
     
-    public static String CONNECTION_ROUTER_BENDPONT = "Manual";
-    public static String CONNECTION_ROUTER_SHORTEST_PATH = "Shortest Path";
-    public static String CONNECTION_ROUTER_MANHATTAN = "Manhattan";
+    public static String CONNECTION_ROUTER_BENDPONT = Messages.ConnectionRouterAction_0;
+    public static String CONNECTION_ROUTER_SHORTEST_PATH = Messages.ConnectionRouterAction_1;
+    public static String CONNECTION_ROUTER_MANHATTAN = Messages.ConnectionRouterAction_2;
     
     private IWorkbenchPart part;
     private IDiagramModel diagramModel;
@@ -77,7 +77,7 @@ public abstract class ConnectionRouterAction extends Action implements Disposabl
      * Bend Point
      */
     public static class BendPointConnectionRouterAction extends ConnectionRouterAction  {
-        public static String ID = "BendPointConnectionAction";
+        public static String ID = "BendPointConnectionAction"; //$NON-NLS-1$
         
         public BendPointConnectionRouterAction(IWorkbenchPart part) {
             super(part);
@@ -95,7 +95,7 @@ public abstract class ConnectionRouterAction extends Action implements Disposabl
      * Shortest Path
      */
     public static class ShortestPathConnectionRouterAction extends ConnectionRouterAction  {
-        public static String ID = "ShortestPathConnectionRouterAction";
+        public static String ID = "ShortestPathConnectionRouterAction"; //$NON-NLS-1$
         
         public ShortestPathConnectionRouterAction(IWorkbenchPart part) {
             super(part);
@@ -113,7 +113,7 @@ public abstract class ConnectionRouterAction extends Action implements Disposabl
      * Manhattan
      */
     public static class ManhattanConnectionRouterAction extends ConnectionRouterAction  {
-        public static String ID = "ManhattanConnectionAction";
+        public static String ID = "ManhattanConnectionAction"; //$NON-NLS-1$
         
         public ManhattanConnectionRouterAction(IWorkbenchPart part) {
             super(part);
