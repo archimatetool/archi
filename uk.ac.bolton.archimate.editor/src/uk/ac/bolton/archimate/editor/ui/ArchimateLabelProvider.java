@@ -22,7 +22,7 @@ import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**
- * Label Provider for Archimate Editor
+ * Main Label Provider for Archimate Editor
  * 
  * @author Phillip Beauvoir
  */
@@ -66,6 +66,11 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
             return "Sketch";
         }
        
+        // If it's blank try registered extensions
+        if(!StringUtils.isSet(name)) {
+            name = LabelProviderExtensionHandler.INSTANCE.getLabel(element);
+        }
+        
         return StringUtils.safeString(name);
     }
 

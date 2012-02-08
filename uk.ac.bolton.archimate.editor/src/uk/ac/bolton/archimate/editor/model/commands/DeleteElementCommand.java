@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.INameable;
 
@@ -26,7 +27,7 @@ public class DeleteElementCommand extends Command {
     public DeleteElementCommand(INameable element) {
         fFolder = (IFolder)element.eContainer();
         fElement = element;
-        setLabel("Delete " + element.getName());
+        setLabel("Delete" + " " + ArchimateLabelProvider.INSTANCE.getLabel(fElement));
     }
     
     @Override

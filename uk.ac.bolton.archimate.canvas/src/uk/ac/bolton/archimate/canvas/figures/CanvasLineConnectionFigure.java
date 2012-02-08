@@ -6,11 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.canvas.figures;
 
-import org.eclipse.draw2d.IFigure;
-
-import uk.ac.bolton.archimate.canvas.CanvasLabelProvider;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelConnection;
-import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.LineConnectionFigure;
 
 /**
@@ -23,20 +19,6 @@ extends LineConnectionFigure {
 
     public CanvasLineConnectionFigure(ICanvasModelConnection connection) {
         super(connection);
-    }
-    
-    @Override
-    public IFigure getToolTip() {
-        ToolTipFigure tooltip = (ToolTipFigure)super.getToolTip();
-        
-        if(tooltip == null) {
-            return null;
-        }
-        
-        String text = CanvasLabelProvider.INSTANCE.getLabel(getModelConnection());
-        tooltip.setText(text);
-        
-        return tooltip;
     }
     
 }

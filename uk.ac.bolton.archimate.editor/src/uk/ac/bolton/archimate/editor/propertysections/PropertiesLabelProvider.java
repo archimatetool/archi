@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.LabelProviderExtensionHandler;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
@@ -75,18 +74,12 @@ public class PropertiesLabelProvider implements ILabelProvider {
             element = ((EditPart)element).getModel();
         }
         
-        // Check our label provider
+        // Check the main label provider
         String text = ArchimateLabelProvider.INSTANCE.getLabel(element);
         if(StringUtils.isSet(text)) {
             return escapeText(text);
         }
         
-        // Check registered label providers
-        text = LabelProviderExtensionHandler.INSTANCE.getLabel(element);
-        if(StringUtils.isSet(text)) {
-            return escapeText(text);
-        }
-
         return " "; // Ensure the title bar is displayed
     }
 

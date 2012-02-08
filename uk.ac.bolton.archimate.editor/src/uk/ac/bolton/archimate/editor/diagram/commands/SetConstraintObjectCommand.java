@@ -9,6 +9,7 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
+import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -35,7 +36,7 @@ public class SetConstraintObjectCommand extends Command implements IAnimatableCo
         fObject = object;
         fOldPos = object.getBounds();
         fNewPos = bounds;
-        setLabel("Move/Size" + " " + object.getName());
+        setLabel("Move/Size" + " " + ArchimateLabelProvider.INSTANCE.getLabel(object));
     }
     
     @Override

@@ -45,6 +45,7 @@ public class CanvasLabelProvider implements IEditorLabelProvider {
             }
         }
         
+        // Defaults for empty strings
         if(element instanceof ICanvasModelImage) {
             return "Image";
         }

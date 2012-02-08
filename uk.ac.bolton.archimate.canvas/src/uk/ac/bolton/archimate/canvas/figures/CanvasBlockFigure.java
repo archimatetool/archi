@@ -177,17 +177,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
     }
     
     @Override
-    public IFigure getToolTip() {
-        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
-        
-        if(toolTipFigure != null) {
-            toolTipFigure.setText("Block");
-        }
-        
-        return toolTipFigure;
-    }
-
-    @Override
     public void dispose() {
         fIconicDelegate.dispose();
     }
