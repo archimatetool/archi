@@ -6,7 +6,7 @@
 
 <body>
 <h1>The Model Tree</h1>
-<p>An ArchiMate model consists of a number of ArchiMate  elements belonging to three &quot;layers&quot; - the &quot;Business&quot; layer, the &quot;Application&quot;  layer and the &quot;Technology&quot; layer. Each ArchiMate element belongs to one of  these layers. For example, a &quot;Business Object&quot; belongs to the &quot;Business&quot; layer  and an &quot;Application Component&quot; belongs to the Application layer. The following  is a list of all the ArchiMate elements grouped by their layers:</p>
+<p>An ArchiMate 2.0 model consists of a number of ArchiMate  elements belonging to three &quot;layers&quot; - the &quot;Business&quot; layer, the &quot;Application&quot;  layer and the &quot;Technology&quot; layer. Each ArchiMate element belongs to one of  these layers. For example, a &quot;Business Object&quot; belongs to the &quot;Business&quot; layer  and an &quot;Application Component&quot; belongs to the Application layer. The following  is a list of all the ArchiMate elements grouped by their layers:</p>
 <p><strong><em>Business Layer<br>
   </em></strong>Business actor<br>
   Business role<br>
@@ -22,7 +22,9 @@
   Meaning<br>
   Value<strong><em><br>
   </em></strong>Product<br>
-  Contract</p>
+  Contract<br>
+  Location
+</p>
 <p><strong><em>Application Layer<br>
   </em></strong>Application component<br>
   Application collaboration<br>
@@ -37,9 +39,27 @@
   Network<br>
   Communication path<br>
   Infrastructure interface<br>
+  Infrastructure function  <br>
   System software<br>
   Infrastructure service<br>
   Artifact</p>
+<p>The ArchiMate 2.0 specification introduces the additional following extensions and concepts:</p>
+<p><strong><em>Motivation<br>
+</em></strong>Stakeholder<br> 
+Driver<br>
+Assessment<br> 
+Goal<br>
+Principle<br>
+Requirement<br> 
+Constraint</p>
+<p><strong><em>Implementation &amp; Migration<br>
+</em></strong>Work package<br> 
+Deliverable
+<br> 
+Plateau
+<br> 
+Gap
+</p>
 <p>Each element in the model can connect to one or more other  elements via one or more relationships (connections). These are as follows:</p>
 <p><strong><em>Relationships<br>
   </em></strong>Association<br>
@@ -53,10 +73,12 @@
   Triggering<br>
   Grouping<br>
   Junction<br>
-  Specialization</p>
-<p>It is beyond the scope of this guide to explain these  elements and their relationships. For more information refer to the Archimate  1.0 Specification Guide (available from <a href="http://www.archimate.org/">http://www.archimate.org/</a>)</p>
+  Specialization<br>
+  Influence
+</p>
+<p>It is beyond the scope of this guide to explain these  elements and their relationships. For more information refer to the ArchiMate   Specification Guide (available from <a href="http://www.archimate.org/">http://www.archimate.org/</a>)</p>
 <p>An ArchiMate model consists of configurations of these  elements connected to each other via the various relationships. The normative model is represented in Archi in the &quot;Models&quot; window as a tree structure  organised into folders:</p>
-<p class="caption"> <img border="0" width="293" height="647" src="img/model-tree.png"><br>
+<p class="caption"> <img border="0" width="315" height="649" src="img/model-tree.png"><br>
 The Model Tree window showing an example model for &quot;Archisurance&quot;</p>
 <p>Each ArchiMate element and relationship is placed under its  respective folder in the Model Tree.</p>
 <p>&nbsp;</p>
