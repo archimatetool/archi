@@ -46,7 +46,7 @@
       <propertyTabs
             contributorId="uk.ac.bolton.archimate.editor">
          <propertyTab
-               afterTab="main.tab"
+               afterTab="properties.tab"
                category="main.category"
                id="hint.tab"
                indented="false"
