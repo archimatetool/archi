@@ -53,6 +53,7 @@ public class ConnectionPreferences extends Preferences {
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getUsedByRelationship(), 1 << 2);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAccessRelationship(), 1 << 1);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAssociationRelationship(), 1 << 0);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getInfluenceRelationship(), 1 << 10);
     }
     
     private static EClass[] fRelationClassesForNew = null;
