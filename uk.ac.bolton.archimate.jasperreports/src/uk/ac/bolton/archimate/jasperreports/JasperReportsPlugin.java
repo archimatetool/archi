@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -47,7 +48,14 @@ public class JasperReportsPlugin extends AbstractUIPlugin implements IStartup {
      * @return The Jasper Reports folder
      */
     public File getJasperReportsFolder() {
-        return new File(getPluginFolder(), "reports"); //$NON-NLS-1$
+        URL url = FileLocator.find(getBundle(), new Path("$nl$/reports"), null); //$NON-NLS-1$
+        try {
+            url = FileLocator.resolve(url);
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        return new File(url.getPath()); 
     }
 
     /**

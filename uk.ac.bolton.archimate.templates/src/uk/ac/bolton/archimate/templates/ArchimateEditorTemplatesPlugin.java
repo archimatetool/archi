@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -47,7 +48,14 @@ public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin implements 
      * @return The templates folder
      */
     public File getTemplatesFolder() {
-        return new File(getPluginFolder(), "templates"); //$NON-NLS-1$
+        URL url = FileLocator.find(getBundle(), new Path("$nl$/templates"), null); //$NON-NLS-1$
+        try {
+            url = FileLocator.resolve(url);
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        return new File(url.getPath()); 
     }
     
     /**
