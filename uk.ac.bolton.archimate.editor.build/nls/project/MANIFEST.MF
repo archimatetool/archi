@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Language Pack
+Bundle-SymbolicName: !bundle-name!
+Bundle-Version: !nls-version!.qualifier
+Fragment-Host: !fragment-host!;bundle-version="!archi-version!"
+Bundle-ClassPath: !bundle-classpath!
