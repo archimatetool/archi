@@ -74,11 +74,13 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             public void partClosed(IWorkbenchPart part) {
                 if(part instanceof IDiagramModelEditor) {
                     IDiagramModelEditor diagramEditor = (IDiagramModelEditor)part;
-                    GraphicalViewer viewer = (GraphicalViewer)diagramEditor.getAdapter(GraphicalViewer.class);
-                    if(viewer != null) { // could be null under some circumstances
-                        viewer.removeSelectionChangedListener(TreeSelectionSynchroniser.this);
+                    if(fDiagramEditors.contains(diagramEditor)) { // important guard
+                        GraphicalViewer viewer = (GraphicalViewer)diagramEditor.getAdapter(GraphicalViewer.class);
+                        if(viewer != null) { // could be null under some circumstances
+                            viewer.removeSelectionChangedListener(TreeSelectionSynchroniser.this);
+                        }
+                        fDiagramEditors.remove(diagramEditor);
                     }
-                    fDiagramEditors.remove(diagramEditor);
                 }
             }
         });
