@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -78,15 +78,17 @@ public class ArchimateModelTests {
         
         // Correct number of folders
         assertNotNull(list);
-        assertEquals(6, list.size());
+        assertEquals(8, list.size());
         
         // Types
         assertEquals(FolderType.BUSINESS, list.get(0).getType());
         assertEquals(FolderType.APPLICATION, list.get(1).getType());
         assertEquals(FolderType.TECHNOLOGY, list.get(2).getType());
-        assertEquals(FolderType.CONNECTORS, list.get(3).getType());
-        assertEquals(FolderType.RELATIONS, list.get(4).getType());
-        assertEquals(FolderType.DIAGRAMS, list.get(5).getType());
+        assertEquals(FolderType.MOTIVATION, list.get(3).getType());
+        assertEquals(FolderType.IMPLEMENTATION_MIGRATION, list.get(4).getType());
+        assertEquals(FolderType.CONNECTORS, list.get(5).getType());
+        assertEquals(FolderType.RELATIONS, list.get(6).getType());
+        assertEquals(FolderType.DIAGRAMS, list.get(7).getType());
     }
     
     @Test
@@ -100,7 +102,7 @@ public class ArchimateModelTests {
         
         // Correct number of folders
         assertNotNull(list);
-        assertEquals(6, list.size());
+        assertEquals(8, list.size());
     }
 
     // ---------------------------------------------------------------------------------------------
