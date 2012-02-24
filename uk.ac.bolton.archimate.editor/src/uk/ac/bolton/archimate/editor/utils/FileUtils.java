@@ -164,7 +164,11 @@ public final class FileUtils  {
 	        throw new IOException("Source and target folders cannot be the same."); //$NON-NLS-1$
 	    }
 	    
-	    // Check that destFolder is not a child of srcFolder
+        if(!srcFolder.exists()) {
+            throw new IOException("Source folder does not exist"); //$NON-NLS-1$
+        }
+
+        // Check that destFolder is not a child of srcFolder
 	    for(File dest = destFolder.getParentFile(); dest != null; dest = dest.getParentFile()) {
 	        if(dest.equals(srcFolder)) {
 	            throw new IOException("The destination folder cannot be a subfolder of the source folder."); //$NON-NLS-1$
