@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -66,7 +66,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     }
     
     private void createTableControl(Composite parent) {
-        createCLabel(parent, Messages.UsedInRelationshipsSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createLabel(parent, Messages.UsedInRelationshipsSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -83,7 +83,7 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     }
     
     private void createColorControl(Composite parent) {
-        createCLabel(parent, Messages.FontColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createLabel(parent, Messages.FontColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         Composite client = createComposite(parent, 2);
         

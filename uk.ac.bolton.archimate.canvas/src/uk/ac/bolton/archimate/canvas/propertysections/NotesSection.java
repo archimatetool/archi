@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -67,7 +67,7 @@ public class NotesSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, Messages.NotesSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createLabel(parent, Messages.NotesSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
         

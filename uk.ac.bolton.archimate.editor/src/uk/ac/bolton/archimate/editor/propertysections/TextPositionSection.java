@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -84,7 +84,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, Messages.TextPositionSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createLabel(parent, Messages.TextPositionSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         // Position
         fComboPositions = new Combo(parent, SWT.READ_ONLY);

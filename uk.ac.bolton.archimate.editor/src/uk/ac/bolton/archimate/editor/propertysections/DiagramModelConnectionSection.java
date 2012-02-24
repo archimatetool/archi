@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -68,7 +68,7 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
     
     private void createRouterTypeControl(Composite parent) {
         // Label
-        getWidgetFactory().createCLabel(parent, Messages.DiagramModelConnectionSection_0);
+        createLabel(parent, Messages.DiagramModelConnectionSection_0, ITabbedLayoutConstants.BIG_LABEL_WIDTH, SWT.CENTER);
         
         // Combo
         fComboRouterType = new Combo(parent, SWT.READ_ONLY);

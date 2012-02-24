@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -73,7 +73,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
     private void createFileControl(Composite parent) {
         // Label
-        getWidgetFactory().createCLabel(parent, Messages.ArchimateModelSection_1);
+        createLabel(parent, Messages.ArchimateModelSection_1, STANDARD_LABEL_WIDTH, SWT.CENTER);
 
         // Text
         fTextFile = createSingleTextControl(parent, SWT.READ_ONLY);
@@ -82,7 +82,7 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
     private void createPurposeControl(Composite parent) {
         // Label
-        createCLabel(parent, Messages.ArchimateModelSection_2, STANDARD_LABEL_WIDTH, SWT.TOP);
+        createLabel(parent, Messages.ArchimateModelSection_2, STANDARD_LABEL_WIDTH, SWT.NONE);
 
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);

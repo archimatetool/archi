@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -13,10 +13,10 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
@@ -66,6 +66,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
         GridLayout layout = new GridLayout(2, false);
         layout.marginTop = V_SPACING;
         layout.marginHeight = 0;
+        layout.marginLeft = 3;
         layout.marginBottom = shouldUseExtraSpace() ? 5 : 0; 
         layout.verticalSpacing = V_SPACING;
         parent.setLayout(layout);
@@ -149,7 +150,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected PropertySectionTextControl createNameControl(Composite parent, String hint) {
         // Label
-        createCLabel(parent, Messages.AbstractArchimatePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createLabel(parent, Messages.AbstractArchimatePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
 
         // Text
         Text textControl = createSingleTextControl(parent, SWT.NONE);
@@ -175,7 +176,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected PropertySectionTextControl createDocumentationControl(Composite parent, String hint) {
         // Label
-        createCLabel(parent, Messages.AbstractArchimatePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.TOP);
+        createLabel(parent, Messages.AbstractArchimatePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
@@ -246,15 +247,16 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
     }
     
     /**
-     * @param parent
-     * @param text
-     * @param width
-     * @param v_position
+     * Create Label control. Style is set to SWT.WRAP
+     * @param parent Parent composite
+     * @param text Text to display
+     * @param width Width of label in pixels
+     * @param v_position Vertical position. Should be SWT.CENTER or SWT.NONE
      * @return
      */
-    protected CLabel createCLabel(Composite parent, String text, int width, int v_position) {
-        CLabel label = getWidgetFactory().createCLabel(parent, text);
-        GridData gd = new GridData(SWT.NONE, v_position, false, false);
+    protected Label createLabel(Composite parent, String text, int width, int verticalPosition) {
+        Label label = getWidgetFactory().createLabel(parent, text, SWT.WRAP);
+        GridData gd = new GridData(SWT.NONE, verticalPosition, false, false);
         gd.widthHint = width;
         label.setLayoutData(gd);
         return label;

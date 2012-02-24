@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -63,7 +63,7 @@ public class LockedSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void createControls(Composite parent) {
-        createCLabel(parent, Messages.LockedSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        createLabel(parent, Messages.LockedSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fButtonLocked = new Button(parent, SWT.CHECK);
         fButtonLocked.addSelectionListener(new SelectionAdapter() {
