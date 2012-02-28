@@ -1673,6 +1673,9 @@
 			<target element="InfrastructureService" relations="ft" />
 
 			<target element="Junction" relations="ft" />
+
+			<target element="WorkPackage" relations="ft" />
+			<target element="Plateau" relations="t" />
 		</source>
 		
 		<source element="Stakeholder">
@@ -2059,6 +2062,8 @@
 			<target element="InfrastructureFunction" relations="ro" />
 			<target element="InfrastructureService" relations="ro" />
 			<target element="Artifact" relations="ro" />
+			
+			<target element="Junction" relations="ft" />
 
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -2159,6 +2164,8 @@
 			<target element="InfrastructureFunction" relations="go" />
 			<target element="InfrastructureService" relations="go" />
 			<target element="Artifact" relations="go" />
+			
+			<target element="Junction" relations="t" />
 
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
