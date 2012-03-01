@@ -106,9 +106,11 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
         fColorSelector.addListener(colorListener);
 
         fNoBorderButton = new Button(client, SWT.PUSH);
+        fNoBorderButton.setText(Messages.BorderColorSection_1);
+        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
         fNoBorderButton.setLayoutData(gd);
         getWidgetFactory().adapt(fNoBorderButton, true, true); // Need to do it this way for Mac
-        fNoBorderButton.setText(Messages.BorderColorSection_1);
         fNoBorderButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

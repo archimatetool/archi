@@ -19,6 +19,20 @@ public interface ITabbedLayoutConstants {
      * hand side of the composite.
      */
     int STANDARD_LABEL_WIDTH = 115;
+    
+    /**
+     * The bigger label width when labels for sections line up on the left
+     * hand side of the composite.
+     */
     int BIG_LABEL_WIDTH = 135;
+    
+    /**
+     * Minimum Button Width
+     */
     int BUTTON_WIDTH = 75;
+    
+    /**
+     * Minimum Combo Width
+     */
+    int COMBO_WIDTH = 100;
 }

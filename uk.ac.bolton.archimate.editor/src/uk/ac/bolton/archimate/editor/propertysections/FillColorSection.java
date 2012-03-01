@@ -98,6 +98,8 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         fDefaultColorButton = new Button(client, SWT.PUSH);
         getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
         fDefaultColorButton.setText(Messages.FillColorSection_1);
+        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
         fDefaultColorButton.setLayoutData(gd);
         fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
             @Override

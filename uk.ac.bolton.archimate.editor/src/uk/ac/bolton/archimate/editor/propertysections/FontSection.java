@@ -68,23 +68,25 @@ public class FontSection extends AbstractArchimatePropertySection {
         
         Composite client = createComposite(parent, 3);
 
-        // Button
+        // Edit...
         fFontSelectionButton = new Button(client, SWT.PUSH);
         fFontSelectionButton.setText(Messages.FontSection_1);
         getWidgetFactory().adapt(fFontSelectionButton, true, true); // Need to do it this way for Mac
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = ITabbedLayoutConstants.BUTTON_WIDTH;
+        GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
         fFontSelectionButton.setLayoutData(gd);
 
         // Default
         fDefaultFontButton = new Button(client, SWT.PUSH);
-        fDefaultFontButton.setLayoutData(gd);
         fDefaultFontButton.setText(Messages.FontSection_2);
+        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
+        fDefaultFontButton.setLayoutData(gd);
         getWidgetFactory().adapt(fDefaultFontButton, true, true); // Need to do it this way for Mac
         
         // Font Name
         fFontLabel = getWidgetFactory().createCLabel(client, ""); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd = new GridData(SWT.FILL, SWT.NONE, true, false);
         fFontLabel.setLayoutData(gd);
         
         fFontSelectionButton.addSelectionListener(new SelectionAdapter() {
@@ -171,6 +173,8 @@ public class FontSection extends AbstractArchimatePropertySection {
                 defaultFontData.getHeight() + " " + //$NON-NLS-1$
                 ((defaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.FontSection_4 : "") + " " +  //$NON-NLS-1$ //$NON-NLS-2$
                 ((defaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.FontSection_5 : "")); //$NON-NLS-1$
+        
+        fFontLabel.getParent().getParent().layout();
         
         boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
         fFontSelectionButton.setEnabled(enabled);

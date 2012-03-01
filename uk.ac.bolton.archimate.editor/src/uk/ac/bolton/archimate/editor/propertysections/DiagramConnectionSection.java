@@ -86,7 +86,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         
         fComboTextPosition = new Combo(parent, SWT.READ_ONLY);
         fComboTextPosition.setItems(comboTextPositionItems);
-        fComboTextPosition.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
+        fComboTextPosition.setLayoutData(gd);
         fComboTextPosition.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -104,7 +106,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
         
         fComboLineWidth = new Combo(parent, SWT.READ_ONLY);
         fComboLineWidth.setItems(comboLineWidthItems);
-        fComboLineWidth.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
+        fComboLineWidth.setLayoutData(gd);
         fComboLineWidth.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

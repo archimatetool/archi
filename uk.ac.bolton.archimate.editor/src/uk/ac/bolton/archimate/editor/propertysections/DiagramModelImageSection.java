@@ -90,12 +90,12 @@ public class DiagramModelImageSection extends AbstractArchimatePropertySection {
         createLabel(parent, Messages.DiagramModelImageSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
         fImageButton = new Button(parent, SWT.PUSH);
+        fImageButton.setText(" " + Messages.DiagramModelImageSection_1); //$NON-NLS-1$
         getWidgetFactory().adapt(fImageButton, true, true); // Need to do it this way for Mac
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = 150;
+        GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
         fImageButton.setLayoutData(gd);
         fImageButton.setAlignment(SWT.LEFT);
-        fImageButton.setText(" " + Messages.DiagramModelImageSection_1); //$NON-NLS-1$
         fImageButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

@@ -84,7 +84,9 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
             }
         });
         
-        fComboRouterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridData gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.COMBO_WIDTH;
+        fComboRouterType.setLayoutData(gd);
     }
 
     @Override

@@ -105,7 +105,6 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
         });
         
         GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = 150;
         fComboPositions.setLayoutData(gd);
         
         // Help

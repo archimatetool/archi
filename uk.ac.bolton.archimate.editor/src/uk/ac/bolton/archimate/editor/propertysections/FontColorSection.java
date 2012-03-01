@@ -95,9 +95,11 @@ public class FontColorSection extends AbstractArchimatePropertySection {
         fColorSelector.addListener(colorListener);
 
         fDefaultColorButton = new Button(client, SWT.PUSH);
+        fDefaultColorButton.setText(Messages.FontColorSection_1);
+        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
+        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
         fDefaultColorButton.setLayoutData(gd);
         getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
-        fDefaultColorButton.setText(Messages.FontColorSection_1);
         fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

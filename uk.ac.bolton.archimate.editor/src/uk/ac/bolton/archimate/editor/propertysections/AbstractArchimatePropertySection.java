@@ -241,7 +241,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
         layout.marginWidth = 0;
         layout.verticalSpacing = V_SPACING;
         c.setLayout(layout);
-        c.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        c.setLayoutData(new GridData());
         
         return c;
     }
