@@ -9,7 +9,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.help.ui,
  org.eclipse.ui,
- org.eclipse.ui.views.properties.tabbed,
  uk.ac.bolton.archimate.editor,
  uk.ac.bolton.jdom,
  uk.ac.bolton.archimate.compatibility,
