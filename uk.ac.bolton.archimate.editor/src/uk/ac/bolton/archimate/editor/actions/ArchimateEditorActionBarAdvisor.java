@@ -381,7 +381,8 @@ extends ActionBarAdvisor {
         menu.add(fShowOutlineView);
         menu.add(fShowNavigatorView);
         menu.add(fShowPaletteView);
-        menu.add(new GroupMarker("show_view")); //$NON-NLS-1$
+        menu.add(new GroupMarker("show_view_append")); //$NON-NLS-1$
+        menu.add(new GroupMarker("show_view_end")); //$NON-NLS-1$
         menu.add(new Separator());
 
         menu.add(fActionResetPerspective);
@@ -488,6 +489,7 @@ extends ActionBarAdvisor {
         toolBarViews.add(fShowOutlineView);
         toolBarViews.add(fShowNavigatorView);
         toolBarViews.add(fShowPaletteView);
+        toolBarViews.add(new GroupMarker("append")); //$NON-NLS-1$
         toolBarViews.add(new GroupMarker("end")); //$NON-NLS-1$
         toolBarViews.add(new Separator());
         

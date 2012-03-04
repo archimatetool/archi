@@ -26,7 +26,7 @@
                icon="img/hint-16.png"
                id="uk.ac.bolton.archimate.help.showHintsView"
                label="%action.label"
-               menubarPath="window/show_view"
+               menubarPath="window/show_view_end"
                style="push"
                toolbarPath="toolbar_views/end">
          </action>
