@@ -86,7 +86,7 @@ public class FontSection extends AbstractArchimatePropertySection {
         
         // Font Name
         fFontLabel = getWidgetFactory().createCLabel(client, ""); //$NON-NLS-1$
-        gd = new GridData(SWT.FILL, SWT.NONE, true, false);
+        gd = new GridData(SWT.FILL, SWT.FILL, true, false);
         fFontLabel.setLayoutData(gd);
         
         fFontSelectionButton.addSelectionListener(new SelectionAdapter() {
