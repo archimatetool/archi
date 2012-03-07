@@ -136,8 +136,6 @@
   </folder>
   <folder name="Motivation" id="fc275161" type="motivation">
     <element xsi:type="archimate:Principle" id="f5674126" name="Client Satisfaction Goal"/>
-    <element xsi:type="archimate:Principle" id="b9a73a2d" name="Principle (copy)"/>
-    <element xsi:type="archimate:Principle" id="b051959a" name="Principle (copy)"/>
     <element xsi:type="archimate:Principle" id="3938617c" name="One Stop Principle"/>
     <element xsi:type="archimate:Principle" id="67316f1f" name="Treatment Time Principle"/>
     <element xsi:type="archimate:Principle" id="b56d54a6" name="Costs Goal"/>
