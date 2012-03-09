@@ -300,7 +300,7 @@ implements IEditorModelManager {
     /**
      * Show dialog to save modified model
      * @param model
-     * @return true if the user chose to save the model, false otherwise
+     * @return true if the user chose to save the model or chose not to save the model, false if cancelled
      * @throws IOException 
      */
     private boolean askSaveModel(IArchimateModel model) throws IOException {
@@ -318,16 +318,16 @@ implements IEditorModelManager {
         
         int result = dialog.open();
         
-        // Save
+        // Yes
         if(result == 0) {
             return saveModel(model);
         }
-        // Cancel
-        else if(result == 2) {
-            return false;
+        // No
+        if(result == 1) {
+            return true;
         }
-        
-        return true;
+        // Cancel
+        return false;
     }
 
     @Override
