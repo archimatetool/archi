@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010-11 Bolton University, UK.
+ * Copyright (c) 2010-12 Bolton University, UK.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
@@ -14,7 +14,6 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramArchimateObjectCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 
 
 /**
@@ -34,7 +33,7 @@ extends DiagramLayoutPolicy {
             
             // Archimate type object
             if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
-                return new CreateDiagramArchimateObjectCommand((IDiagramModelContainer)getHost().getModel(), request, bounds);
+                return new CreateDiagramArchimateObjectCommand(getHost(), request, bounds);
             }
         }
         

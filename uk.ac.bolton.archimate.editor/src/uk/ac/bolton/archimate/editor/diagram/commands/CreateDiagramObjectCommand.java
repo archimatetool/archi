@@ -7,10 +7,17 @@
 package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.widgets.Display;
 
+import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -24,12 +31,14 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public class CreateDiagramObjectCommand extends Command {
     
     protected CreateRequest fRequest;
+    protected EditPart fParentEditPart;
     protected IDiagramModelContainer fParent;
     protected IDiagramModelObject fChild;
     protected Rectangle fBounds;
 
-    public CreateDiagramObjectCommand(IDiagramModelContainer parent, CreateRequest request, Rectangle bounds) {
-        fParent = parent;
+    public CreateDiagramObjectCommand(EditPart parentEditPart, CreateRequest request, Rectangle bounds) {
+        fParentEditPart = parentEditPart;
+        fParent = (IDiagramModelContainer)fParentEditPart.getModel();
         fRequest = request;
         fBounds = bounds;
     }
@@ -41,6 +50,18 @@ public class CreateDiagramObjectCommand extends Command {
 
     @Override
     public void execute() {
+        addChild();
+        
+        // Edit Name on thread
+        Display.getCurrent().asyncExec(new Runnable() {
+            @Override
+            public void run() {
+                editNameOfNewObject();
+            }
+        });
+    }
+    
+    protected void addChild() {
         fChild = (IDiagramModelObject)fRequest.getNewObject();
         fChild.setBounds(fBounds.x, fBounds.y, fBounds.width, fBounds.height);
         redo();
@@ -54,6 +75,22 @@ public class CreateDiagramObjectCommand extends Command {
     @Override
     public void redo() {
         fParent.getChildren().add(fChild);
+    }
+    
+    /**
+     * Edit name of new object if set in Preferences
+     */
+    protected void editNameOfNewObject() {
+        if(ArchimateEditorPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
+            EditPartViewer viewer = fParentEditPart.getViewer();
+            if(viewer != null) {
+                EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fChild);
+                if(editPart != null) {
+                    Request directEditRequest = new Request(RequestConstants.REQ_DIRECT_EDIT);
+                    editPart.performRequest(directEditRequest);
+                }
+            }
+        }
     }
     
     @Override

@@ -64,6 +64,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewpointsHideDiagramElementsButton;
     private Button fViewpointsHideMagicConnectorElementsButton;
     
+    private Button fEditNameOnNewObject;
+    
     private Button fShowSketchBackgroundButton;
     
     
@@ -134,6 +136,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fViewTooltipsButton.setLayoutData(gd);
+        
+        fEditNameOnNewObject = new Button(viewGroup, SWT.CHECK);
+        fEditNameOnNewObject.setText(Messages.DiagramPreferencePage_24);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fEditNameOnNewObject.setLayoutData(gd);
         
         Group fontGroup = new Group(client, SWT.NULL);
         fontGroup.setText(Messages.DiagramPreferencePage_8);
@@ -247,6 +254,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
         fShowSketchBackgroundButton.setSelection(getPreferenceStore().getBoolean(SKETCH_SHOW_BACKGROUND));
+        
+        fEditNameOnNewObject.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
     }
     
     private void setSpinnerValues() {
@@ -289,6 +298,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         getPreferenceStore().setValue(SKETCH_SHOW_BACKGROUND, fShowSketchBackgroundButton.getSelection());
         
+        getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObject.getSelection());
+        
         return true;
     }
     
@@ -314,6 +325,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
         fShowSketchBackgroundButton.setSelection(getPreferenceStore().getDefaultBoolean(SKETCH_SHOW_BACKGROUND));
+        
+        fEditNameOnNewObject.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
         
         super.performDefaults();
     }

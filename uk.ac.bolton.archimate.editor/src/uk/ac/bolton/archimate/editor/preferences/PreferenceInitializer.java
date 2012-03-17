@@ -67,5 +67,7 @@ implements IPreferenceConstants {
         store.setDefault(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, false);
         store.setDefault(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, true);
         store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);
+        
+        store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
     }
 }

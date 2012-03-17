@@ -38,7 +38,7 @@ extends XYLayoutEditPolicy {
     @Override
     protected Command getCreateCommand(CreateRequest request) {
         Rectangle bounds = getConstraintFor(request);
-        return new CreateDiagramObjectCommand((IDiagramModelContainer)getHost().getModel(), request, bounds);
+        return new CreateDiagramObjectCommand(getHost(), request, bounds);
     }
     
     /*

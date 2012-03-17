@@ -64,4 +64,6 @@ public interface IPreferenceConstants {
     String VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS = "viewpointsHideDiagramElements"; //$NON-NLS-1$
     String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements"; //$NON-NLS-1$
     String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements"; //$NON-NLS-1$
+
+    String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject"; //$NON-NLS-1$
 }
