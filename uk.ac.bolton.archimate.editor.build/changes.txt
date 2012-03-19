@@ -1,12 +1,12 @@
 Archi Changes
 -------------
 
-Version 2.2.1 April XX 2012
+Version 2.2.1 March 19 2012
 ---------------------------
 + When adding a new element from the Palette you can now immediately edit the element's name (can be turned off in Preferences)
 * Allow WorkPackage and Plateau types to connect to Junctions 
 * Typo fixes
-* Buttons and labels in Properties window can accomodate longer strings (as used by non-English localised versions)
+* Buttons and labels in Properties window can accommodate longer strings (as used by non-English localised versions)
 * Tidy up some Properties window controls
 * Archisurance example now complies with ArchiMate 2.0
 * Fix pressing "x" cancel on Save confirmation dialog does not cancel
