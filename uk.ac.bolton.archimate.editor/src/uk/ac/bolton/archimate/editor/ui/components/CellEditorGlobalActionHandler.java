@@ -54,6 +54,13 @@ public class CellEditorGlobalActionHandler {
                 fActionBars = ((IViewSite)site).getActionBars();
             }
         }
+        
+        // Save Actions
+        if(fActionBars != null) {
+            for(int i = 0; i < actionIds.length; i++) {
+                actions[i] = fActionBars.getGlobalActionHandler(actionIds[i]);
+            }
+        }
     }
     
     /**
@@ -61,11 +68,6 @@ public class CellEditorGlobalActionHandler {
      */
     public void clearGlobalActions() {
         if(fActionBars != null) {
-            // Save Actions
-            for(int i = 0; i < actionIds.length; i++) {
-                actions[i] = fActionBars.getGlobalActionHandler(actionIds[i]);
-            }
-            
             // Null them
             for(int i = 0; i < actionIds.length; i++) {
                 fActionBars.setGlobalActionHandler(actionIds[i], null);

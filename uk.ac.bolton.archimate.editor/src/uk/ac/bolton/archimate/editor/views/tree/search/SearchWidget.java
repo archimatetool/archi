@@ -24,13 +24,15 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import uk.ac.bolton.archimate.editor.actions.AbstractDropDownAction;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -45,7 +47,7 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class SearchWidget extends Composite {
 
-    private Control fSearchControl;
+    private Text fSearchText;
     
     private SearchFilter fSearchFilter;
     
@@ -55,6 +57,30 @@ public class SearchWidget extends Composite {
     private MenuManager fPropertiesMenu;
     
     private List<IAction> fObjectActions = new ArrayList<IAction>();
+    
+    // Hook into the global edit Action Handlers and null them when the text control has the focus
+    private Listener textControlListener = new Listener() {
+        private CellEditorGlobalActionHandler globalActionHandler;
+        
+        @Override
+        public void handleEvent(Event event) {
+            switch(event.type) {
+                case SWT.Activate:
+                    globalActionHandler = new CellEditorGlobalActionHandler();
+                    globalActionHandler.clearGlobalActions();
+                    break;
+
+                case SWT.Deactivate:
+                    if(globalActionHandler != null) {
+                        globalActionHandler.restoreGlobalActions();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
     
     public SearchWidget(Composite parent, SearchFilter filter) {
         super(parent, SWT.NULL);
@@ -73,30 +99,30 @@ public class SearchWidget extends Composite {
     
     @Override
     public boolean setFocus() {
-        return fSearchControl.setFocus();
+        return fSearchText.setFocus();
     }
 
     protected void setupSearchTextWidget() {
         if(PlatformUtils.isWindows()) {
-            fSearchControl = new SearchTextWidget(this);
-            ((SearchTextWidget)fSearchControl).getTextControl().addModifyListener(new ModifyListener() {
-                @Override
-                public void modifyText(ModifyEvent e) {
-                    fSearchFilter.setSearchText(((SearchTextWidget)fSearchControl).getText());
-                }
-            });
-            fSearchControl.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            SearchTextWidget widget = new SearchTextWidget(this);
+            widget.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            fSearchText = widget.getTextControl();
         }
         else {
-            fSearchControl = new Text(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH);
-            ((Text)fSearchControl).addModifyListener(new ModifyListener() {
-                @Override
-                public void modifyText(ModifyEvent e) {
-                    fSearchFilter.setSearchText(((Text)fSearchControl).getText());
-                }
-            });
-            fSearchControl.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            fSearchText = new Text(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH);
+            fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }
+        
+        fSearchText.addModifyListener(new ModifyListener() {
+            @Override
+            public void modifyText(ModifyEvent e) {
+                fSearchFilter.setSearchText(fSearchText.getText());
+            }
+        });
+
+        // Hook into the global edit Action Handlers and null them when the text control has the focus
+        fSearchText.addListener(SWT.Activate, textControlListener);
+        fSearchText.addListener(SWT.Deactivate, textControlListener);
     }
 
     protected void setupToolBar() {

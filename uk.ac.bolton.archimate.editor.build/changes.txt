@@ -1,6 +1,12 @@
 Archi Changes
 -------------
 
+Version 2.2.2 March 20 2012
+---------------------------
+* Fix global key bindings not cleared in Search bar and Zoom combo
+
+
+
 Version 2.2.1 March 19 2012
 ---------------------------
 + When adding a new element from the Palette you can now immediately edit the element's name (can be turned off in Preferences)

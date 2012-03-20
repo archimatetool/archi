@@ -22,6 +22,11 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.LabelRetargetAction;
@@ -48,6 +53,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.SendToBackAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextPositionAction;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
 
 
 /**
@@ -276,7 +282,31 @@ extends ActionBarContributor {
     @Override
     public void contributeToToolBar(IToolBarManager toolBarManager) {
         // Add the Zoom Manager Combo
-        fZoomCombo = new ZoomComboContributionItem(getPage());
+        fZoomCombo = new ZoomComboContributionItem(getPage()) {
+            // Hook into the Combo so we can disable global edit action handlers when it gets the focus
+            private CellEditorGlobalActionHandler globalActionHandler;
+            
+            @Override
+            protected Control createControl(Composite parent) {
+                Combo combo = (Combo)super.createControl(parent);
+                
+                combo.addFocusListener(new FocusListener() {
+                    public void focusGained(FocusEvent e) {
+                        globalActionHandler = new CellEditorGlobalActionHandler();
+                        globalActionHandler.clearGlobalActions();
+                    }
+
+                    public void focusLost(FocusEvent e) {
+                        if(globalActionHandler != null) {
+                            globalActionHandler.restoreGlobalActions();
+                        }
+                    }
+                });
+                
+                return combo;
+            }
+        };
+        
         toolBarManager.add(fZoomCombo);
 
         toolBarManager.add(new Separator());
