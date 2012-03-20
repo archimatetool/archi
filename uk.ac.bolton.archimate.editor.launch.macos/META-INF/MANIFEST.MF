@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Mac Launcher
 Bundle-SymbolicName: uk.ac.bolton.archimate.editor.launch.macos;singleton:=true
-Bundle-Version: 2.2.1.qualifier
+Bundle-Version: 2.2.2.qualifier
 Bundle-Vendor: Bolton University
 Fragment-Host: uk.ac.bolton.archimate.editor;bundle-version="1.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

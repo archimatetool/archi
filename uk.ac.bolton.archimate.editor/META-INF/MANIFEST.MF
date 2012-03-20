@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %productName
 Bundle-SymbolicName: uk.ac.bolton.archimate.editor;singleton:=true
-Bundle-Version: 2.2.1.qualifier
+Bundle-Version: 2.2.2.qualifier
 Bundle-Activator: uk.ac.bolton.archimate.editor.ArchimateEditorPlugin
 Bundle-Vendor: Bolton University
 Bundle-Localization: plugin
