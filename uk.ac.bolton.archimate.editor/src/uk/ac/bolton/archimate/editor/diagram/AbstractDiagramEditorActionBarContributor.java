@@ -292,7 +292,7 @@ extends ActionBarContributor {
                 
                 combo.addFocusListener(new FocusListener() {
                     public void focusGained(FocusEvent e) {
-                        globalActionHandler = new CellEditorGlobalActionHandler();
+                        globalActionHandler = new CellEditorGlobalActionHandler(getActionBars());
                         globalActionHandler.clearGlobalActions();
                     }
 

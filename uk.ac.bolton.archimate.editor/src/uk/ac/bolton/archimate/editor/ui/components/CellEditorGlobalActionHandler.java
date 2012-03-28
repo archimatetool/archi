@@ -41,7 +41,10 @@ public class CellEditorGlobalActionHandler {
     };
     
     private IAction[] actions = new IAction[actionIds.length];
-
+    
+    /**
+     * Will attempt to use the Action Bars for the Active Workbench part in focus
+     */
     public CellEditorGlobalActionHandler() {
         // Get Action Bars from Active Part
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -56,6 +59,24 @@ public class CellEditorGlobalActionHandler {
         }
         
         // Save Actions
+        saveActionBars();
+    }
+    
+    /**
+     * Uses given Action Bars
+     * @param actionBars
+     */
+    public CellEditorGlobalActionHandler(IActionBars actionBars) {
+        fActionBars = actionBars;
+        
+        // Save Actions
+        saveActionBars();
+    }
+
+    /**
+     * Save Actions
+     */
+    private void saveActionBars() {
         if(fActionBars != null) {
             for(int i = 0; i < actionIds.length; i++) {
                 actions[i] = fActionBars.getGlobalActionHandler(actionIds[i]);
