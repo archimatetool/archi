@@ -1,6 +1,12 @@
 Archi Changes
 -------------
 
+Version 2.2.3 March 28 2012
+---------------------------
+* Fix global key bindings not cleared when editing new View added in Models Tree
+
+
+
 Version 2.2.2 March 20 2012
 ---------------------------
 * Fix global key bindings not cleared in Search bar and Zoom combo
