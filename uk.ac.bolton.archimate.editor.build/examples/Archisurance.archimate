@@ -484,7 +484,7 @@
           <sourceConnection xsi:type="archimate:Connection" id="4147" source="4114" target="4111" relationship="1426"/>
         </child>
       </child>
-      <child xsi:type="archimate:Group" id="4082" name="Business processen and internal actors / roles" fillColor="#ebebeb">
+      <child xsi:type="archimate:Group" id="4082" name="Business processes and internal actors / roles" fillColor="#ebebeb">
         <bounds x="20" y="330" width="710" height="150"/>
         <child xsi:type="archimate:DiagramObject" id="4094" textAlignment="2" targetConnections="4145" fillColor="#ff8080" archimateElement="514">
           <bounds x="489" y="45" width="80" height="40"/>
