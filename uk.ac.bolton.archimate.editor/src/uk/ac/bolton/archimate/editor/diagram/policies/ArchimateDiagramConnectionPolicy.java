@@ -25,8 +25,10 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.IDiagramModelReference;
 import uk.ac.bolton.archimate.model.IRelationship;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
@@ -299,6 +301,24 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
      * @return True if valid connection source/target for connection type
      */
     private boolean isValidConnection(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
+        // Diagram Connection from/to notes/groups/diagram refs
+        if(relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
+            if(source == target) {
+                return false;
+            }
+            if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
+                return false;
+            }
+            if(source instanceof IDiagramModelGroup || source instanceof IDiagramModelReference) {
+                return !(target instanceof IDiagramModelArchimateObject);
+            }
+            if(source instanceof IDiagramModelArchimateObject) {
+                return target instanceof IDiagramModelNote;
+            }
+            
+            return true;
+        }
+
         // Connection from Archimate object to Archimate object 
         if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
             
@@ -310,14 +330,6 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             IArchimateElement sourceElement = ((IDiagramModelArchimateObject)source).getArchimateElement();
             IArchimateElement targetElement = ((IDiagramModelArchimateObject)target).getArchimateElement();
             return ArchimateModelUtils.isValidRelationship(sourceElement, targetElement, relationshipType);
-        }
-        
-        // Connection from/to notes
-        if(source instanceof IDiagramModelNote && target instanceof IDiagramModelNote) {
-            return source != target; // No circular relations on notes
-        }
-        if(source instanceof IDiagramModelNote || target instanceof IDiagramModelNote) {
-            return relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection();
         }
         
         return false;

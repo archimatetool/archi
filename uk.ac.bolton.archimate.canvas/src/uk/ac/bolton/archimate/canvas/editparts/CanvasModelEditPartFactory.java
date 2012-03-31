@@ -14,7 +14,6 @@ import uk.ac.bolton.archimate.canvas.model.ICanvasModelBlock;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelConnection;
 import uk.ac.bolton.archimate.canvas.model.ICanvasModelSticky;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramImageEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModelImage;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
@@ -56,7 +55,7 @@ implements EditPartFactory {
         
         // Diagram Model Reference
         else if(model instanceof IDiagramModelReference) {
-            child = new DiagramModelReferenceEditPart();
+            child = new CanvasDiagramModelReferenceEditPart();
         }
         
         // Connections

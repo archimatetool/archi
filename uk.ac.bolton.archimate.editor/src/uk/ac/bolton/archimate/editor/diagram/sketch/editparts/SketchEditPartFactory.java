@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
@@ -51,7 +50,7 @@ implements EditPartFactory {
         
         // Diagram Model Reference
         else if(model instanceof IDiagramModelReference) {
-            child = new DiagramModelReferenceEditPart();
+            child = new SketchDiagramModelReferenceEditPart();
         }
         
         // Group

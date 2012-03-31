@@ -7,21 +7,18 @@
 package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractBaseEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.DiagramModelReferenceFigure;
+import uk.ac.bolton.archimate.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 import uk.ac.bolton.archimate.editor.ui.services.EditorManager;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 
@@ -31,34 +28,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceEditPart extends AbstractBaseEditPart
+public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart
 implements IColoredEditPart, ITextAlignedEditPart {
 
-    private Adapter adapter = new AdapterImpl() {
-        @Override
-        public void notifyChanged(Notification msg) {
-            switch(msg.getEventType()) {
-                case Notification.SET:
-                    Object feature = msg.getFeature();
-                    if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__BOUNDS) {
-                        refreshBounds();
-                    }
-                    else {
-                        refreshFigure();
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    };
-
-    @Override
-    protected Adapter getECoreAdapter() {
-        return adapter;
-    }
-    
     @Override
     protected void addECoreAdapter() {
         super.addECoreAdapter();
@@ -83,13 +55,16 @@ implements IColoredEditPart, ITextAlignedEditPart {
 
     @Override
     protected void createEditPolicies() {
+        // Allow parts to be connected
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
+
         // Add a policy to handle editing the Parts (for example, deleting a part)
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
     }
 
     @Override
     protected IFigure createFigure() {
-        DiagramModelReferenceFigure figure = new DiagramModelReferenceFigure((IDiagramModelReference)getModel());
+        DiagramModelReferenceFigure figure = new DiagramModelReferenceFigure(getModel());
         return figure;
     }
 
