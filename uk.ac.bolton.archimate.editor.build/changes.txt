@@ -1,6 +1,12 @@
 Archi Changes
 -------------
 
+Version 2.3 April XX 2012
+-------------------------
+* Fix preferred figure type not used when adding elements from Models Tree to a View
+
+
+
 Version 2.2.3 March 28 2012
 ---------------------------
 * Fix global key bindings not cleared when editing new View added in Models Tree

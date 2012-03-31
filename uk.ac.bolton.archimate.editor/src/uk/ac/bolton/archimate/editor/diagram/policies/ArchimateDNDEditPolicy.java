@@ -24,6 +24,7 @@ import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -76,15 +77,16 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         // Add the Commands adding the Elements first
         for(IArchimateElement element : fElementsToAdd) {
             // Add Diagram object
-            IDiagramModelArchimateObject object = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-            object.setArchimateElement(element);
-            object.setBounds(x, y, -1, -1);
+            IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+            dmo.setArchimateElement(element);
+            dmo.setType(Preferences.getDefaultFigureType(dmo));
+            dmo.setBounds(x, y, -1, -1);
             
             // Store it
-            diagramObjects.add(object);
+            diagramObjects.add(dmo);
             
             // Add Command
-            result.add(new AddDiagramObjectCommand(getTargetContainer(), object));
+            result.add(new AddDiagramObjectCommand(getTargetContainer(), dmo));
 
             // Increase x,y
             x += 150;
