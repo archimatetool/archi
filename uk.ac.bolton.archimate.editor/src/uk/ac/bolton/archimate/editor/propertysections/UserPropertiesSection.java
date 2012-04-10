@@ -41,9 +41,7 @@ import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -403,12 +401,23 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             }
         });
 
-        fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+        /*
+         * Table Double-click on cell
+         */
+        fTableViewer.getTable().addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
-            public void doubleClick(DoubleClickEvent event) {
-                IProperty selected = (IProperty)((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(selected != null) {
-                    handleDoubleClick(selected);
+            public void handleEvent(Event event) {
+                // Get Table item
+                TableItem item = fTableViewer.getTable().getItem(new Point(event.x, event.y));
+                // Double-click into empty table creates new Property
+                if(item == null) {
+                    fActionNewProperty.run();                    
+                }
+                // Handle selected item property double-clicked
+                else {
+                    if(item.getData() instanceof IProperty) {
+                        handleDoubleClick((IProperty)item.getData());
+                    }
                 }
             }
         });
