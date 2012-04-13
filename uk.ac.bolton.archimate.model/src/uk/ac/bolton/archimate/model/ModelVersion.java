@@ -29,9 +29,10 @@ package uk.ac.bolton.archimate.model;
  * 2.1.0 - The "text" attribute of IDiagramModelConnection is deprecated.
  *		   Lockable support. Borders. DiagramModelImage and IDiagramModelImageProvider
  * 2.2.0 - ArchiMate 2.0 elements.
+ * 2.2.1 - Sketch Model Background attribute
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "2.2.0"; //$NON-NLS-1$
+    String VERSION = "2.2.1"; //$NON-NLS-1$
 }

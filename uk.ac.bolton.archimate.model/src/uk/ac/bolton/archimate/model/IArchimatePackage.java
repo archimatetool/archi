@@ -6820,13 +6820,22 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL__CONNECTION_ROUTER_TYPE = DIAGRAM_MODEL__CONNECTION_ROUTER_TYPE;
 
     /**
+     * The feature id for the '<em><b>Background</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL__BACKGROUND = DIAGRAM_MODEL_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the '<em>Sketch Model</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SKETCH_MODEL_FEATURE_COUNT = DIAGRAM_MODEL_FEATURE_COUNT + 0;
+    int SKETCH_MODEL_FEATURE_COUNT = DIAGRAM_MODEL_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.SketchModelSticky <em>Sketch Model Sticky</em>}' class.
@@ -8683,6 +8692,17 @@ public interface IArchimatePackage extends EPackage {
     EClass getSketchModel();
 
     /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.ISketchModel#getBackground <em>Background</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Background</em>'.
+     * @see uk.ac.bolton.archimate.model.ISketchModel#getBackground()
+     * @see #getSketchModel()
+     * @generated
+     */
+    EAttribute getSketchModel_Background();
+
+    /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.ISketchModelSticky <em>Sketch Model Sticky</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -10140,6 +10160,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass SKETCH_MODEL = eINSTANCE.getSketchModel();
+
+        /**
+         * The meta object literal for the '<em><b>Background</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute SKETCH_MODEL__BACKGROUND = eINSTANCE.getSketchModel_Background();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.SketchModelSticky <em>Sketch Model Sticky</em>}' class.
