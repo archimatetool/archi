@@ -28,7 +28,8 @@ public interface IArchimateImages {
     String ICON_APP_64 = IMGPATH + "app-64.png"; //$NON-NLS-1$
     String ICON_APP_128 = IMGPATH + "app-128.png"; //$NON-NLS-1$
     
-    String BROWN_PAPER = IMGPATH + "br_paper.jpg"; //$NON-NLS-1$
+    String BROWN_PAPER_BACKGROUND = IMGPATH + "br_paper.jpg"; //$NON-NLS-1$
+    String CORK_BACKGROUND = IMGPATH + "cork.jpg"; //$NON-NLS-1$
     String DEFAULT_MODEL_THUMB = IMGPATH + "default_model_thumb.png"; //$NON-NLS-1$
     
     // ECLIPSE IMAGES

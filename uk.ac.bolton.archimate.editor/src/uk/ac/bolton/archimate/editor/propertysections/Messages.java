@@ -182,6 +182,10 @@ public class Messages extends NLS {
 
     public static String SketchElementSection_1;
 
+    public static String SketchModelBackgroundSection_0;
+
+    public static String SketchModelBackgroundSection_1;
+
     public static String SketchStickySection_0;
 
     public static String TextAlignmentSection_0;

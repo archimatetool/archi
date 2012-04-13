@@ -16,6 +16,8 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.views.tree.commands.NewDiagramCommand;
@@ -167,6 +169,10 @@ public class TreeModelViewActionFactory {
                 // Create a new Diagram Model, set its name
                 ISketchModel sketchModel = IArchimateFactory.eINSTANCE.createSketchModel();
                 sketchModel.setName(Messages.TreeModelViewActionFactory_3);
+                
+                // Defaults
+                int defaultBackground = Preferences.STORE.getInt(IPreferenceConstants.SKETCH_DEFAULT_BACKGROUND);
+                sketchModel.setBackground(defaultBackground);
                 
                 // Execute Command
                 Command cmd = new NewDiagramCommand(folder, sketchModel, Messages.TreeModelViewActionFactory_3);

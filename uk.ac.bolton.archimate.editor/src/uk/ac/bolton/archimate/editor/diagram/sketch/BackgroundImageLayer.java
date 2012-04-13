@@ -11,27 +11,43 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-
 
 /**
- * Layer to hold Background Image
+ * Layer to hold a tiled background image
  * 
  * @author Phillip Beauvoir
  */
 public class BackgroundImageLayer extends FreeformLayer {
     public static final String NAME = "BackgroundImageLayer"; //$NON-NLS-1$
     
-    private Image fBackgroundImage = IArchimateImages.ImageFactory.getImage(IArchimateImages.BROWN_PAPER);
-    private int width = fBackgroundImage.getBounds().width;
-    private int height = fBackgroundImage.getBounds().height;
+    private Image fBackgroundImage;
+    private int fImageWidth;
+    private int fImageHeight;
+    
+    public BackgroundImageLayer() {
+    }
+    
+    public BackgroundImageLayer(Image image) {
+        setImage(image);
+    }
+    
+    public void setImage(Image image) {
+        fBackgroundImage = image;
+        if(fBackgroundImage != null) {
+            fImageWidth = fBackgroundImage.getBounds().width;
+            fImageHeight = fBackgroundImage.getBounds().height;
+        }
+        repaint();
+    }
     
     @Override
     public void paintFigure(Graphics graphics) {
-        Rectangle bounds = getBounds();
-        for(int x = bounds.x; x < bounds.width; x += width) {
-            for(int y = bounds.y; y < bounds.height; y += height) {
-                graphics.drawImage(fBackgroundImage, x, y);
+        if(fBackgroundImage != null) {
+            Rectangle bounds = getBounds();
+            for(int x = bounds.x; x < bounds.width; x += fImageWidth) {
+                for(int y = bounds.y; y < bounds.height; y += fImageHeight) {
+                    graphics.drawImage(fBackgroundImage, x, y);
+                }
             }
         }
     }

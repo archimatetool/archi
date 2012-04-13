@@ -12,6 +12,12 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.editor.diagram.sketch.messages"; //$NON-NLS-1$
 
+    public static String ISketchEditor_0;
+
+    public static String ISketchEditor_1;
+
+    public static String ISketchEditor_2;
+
     public static String SketchEditor_0;
 
     public static String SketchEditorPalette_0;

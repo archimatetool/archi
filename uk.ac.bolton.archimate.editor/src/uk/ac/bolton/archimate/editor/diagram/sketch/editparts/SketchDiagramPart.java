@@ -6,13 +6,17 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor.diagram.sketch.editparts;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractDiagramPart;
 import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
 import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
+import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
 import uk.ac.bolton.archimate.editor.diagram.sketch.policies.SketchDNDEditPolicy;
+import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.ISketchModel;
 
 
@@ -27,6 +31,32 @@ public class SketchDiagramPart extends AbstractDiagramPart {
     @Override
     public ISketchModel getModel() {
         return (ISketchModel)super.getModel();
+    }
+    
+    @Override
+    protected void eCoreChanged(Notification msg) {
+        switch(msg.getEventType()) {
+            case Notification.SET:
+                Object feature = msg.getFeature();
+                // Sketch model background
+                if(feature == IArchimatePackage.Literals.SKETCH_MODEL__BACKGROUND) {
+                    setBackgroundImage(msg.getNewValue());
+                }
+                break;
+
+            default:
+                break;
+        }
+        
+        super.eCoreChanged(msg);
+    }
+
+    /**
+     * Update the background image
+     */
+    private void setBackgroundImage(Object newValue) {
+        ISketchEditor editor = (ISketchEditor)((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart();
+        editor.updateBackgroundImage();
     }
 
     @Override

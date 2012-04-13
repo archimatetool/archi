@@ -74,10 +74,6 @@ public class Preferences implements IPreferenceConstants {
         STORE.setValue(LINK_VIEW, val);
     }
     
-    public static boolean doSketchShowBackground() {
-        return STORE.getBoolean(SKETCH_SHOW_BACKGROUND);
-    }
-    
     public static boolean doShowPalette() {
         return STORE.getBoolean(PALETTE_STATE);
     }

@@ -377,6 +377,13 @@
             </input>
          </propertySection>
          <propertySection
+               afterSection="diagramModelSection"
+               class="uk.ac.bolton.archimate.editor.propertysections.SketchModelBackgroundSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.SketchModelBackgroundSection$Filter"
+               id="sketchModelBackgroundSection"
+               tab="appearance.tab">
+         </propertySection>
+         <propertySection
                class="uk.ac.bolton.archimate.editor.propertysections.NameSection"
                id="nameSection"
                tab="main.tab">

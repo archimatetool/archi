@@ -46,7 +46,7 @@ implements IPreferenceConstants {
         
         store.setDefault(OPEN_DIAGRAMS_ON_LOAD, false);
         
-        store.setDefault(SKETCH_SHOW_BACKGROUND, true);
+        store.setDefault(SKETCH_DEFAULT_BACKGROUND, 1);
         
         store.setDefault(PALETTE_STATE, true);
 

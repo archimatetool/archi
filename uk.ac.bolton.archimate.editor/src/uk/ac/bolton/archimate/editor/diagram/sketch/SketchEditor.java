@@ -16,8 +16,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -25,8 +24,7 @@ import uk.ac.bolton.archimate.editor.diagram.AbstractDiagramEditor;
 import uk.ac.bolton.archimate.editor.diagram.sketch.dnd.SketchDiagramTransferDropTargetListener;
 import uk.ac.bolton.archimate.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.ISketchModel;
 
 
@@ -46,22 +44,10 @@ implements ISketchEditor {
     private ScalableFreeformLayeredPane fScalableFreeformLayeredPane;
     private BackgroundImageLayer fBackgroundImageLayer;
     
-    private IPropertyChangeListener fPrefsListener = new IPropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent event) {
-            if(IPreferenceConstants.SKETCH_SHOW_BACKGROUND.equals(event.getProperty())) {
-                showImagePane();
-            }
-        }
-    };
-    
     @Override
     public void doCreatePartControl(Composite parent) {
         // Register Help Context
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
-        
-        // Preferences
-        Preferences.STORE.addPropertyChangeListener(fPrefsListener);
     }
     
     @Override
@@ -104,7 +90,7 @@ implements ISketchEditor {
                 // Insert Background Image behind Grid
                 // Note - background image is not on a Printable Layer, so won't print!
                 fScalableFreeformLayeredPane = super.createScaledLayers();
-                showImagePane();
+                updateBackgroundImage();
                 return fScalableFreeformLayeredPane;
             }
 
@@ -122,17 +108,31 @@ implements ISketchEditor {
         viewer.setRootEditPart(rootPart);
     }
     
-    private void showImagePane() {
-        if(Preferences.doSketchShowBackground()) {
-            if(fBackgroundImageLayer == null) {
-                fBackgroundImageLayer = new BackgroundImageLayer();
-            }
+    public void updateBackgroundImage() {
+        ISketchModel model = getModel();
+        
+        if(fBackgroundImageLayer == null) {
+            fBackgroundImageLayer = new BackgroundImageLayer();
             fScalableFreeformLayeredPane.add(fBackgroundImageLayer, BackgroundImageLayer.NAME, 0);
         }
-        else {
-            if(fBackgroundImageLayer != null) {
-                fScalableFreeformLayeredPane.remove(fBackgroundImageLayer);
-            }
+        
+        switch(model.getBackground()) {
+            case 0:
+                fBackgroundImageLayer.setImage(null);
+                break;
+
+            case 1:
+                Image img = IArchimateImages.ImageFactory.getImage(IArchimateImages.BROWN_PAPER_BACKGROUND);
+                fBackgroundImageLayer.setImage(img);
+                break;
+                
+            case 2:
+                img = IArchimateImages.ImageFactory.getImage(IArchimateImages.CORK_BACKGROUND);
+                fBackgroundImageLayer.setImage(img);
+                break;
+                
+            default:
+                break;
         }
     }
     
@@ -152,9 +152,6 @@ implements ISketchEditor {
         if(fPalette != null) {
             fPalette.dispose();
         }
-        
-        // Preferences
-        Preferences.STORE.removePropertyChangeListener(fPrefsListener);
     }
     
     // =================================================================================

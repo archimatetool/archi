@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -27,6 +28,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
@@ -64,10 +66,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewpointsHideDiagramElementsButton;
     private Button fViewpointsHideMagicConnectorElementsButton;
     
-    private Button fEditNameOnNewObject;
+    private Button fEditNameOnNewObjectButton;
     
-    private Button fShowSketchBackgroundButton;
-    
+    private Combo fDefaultSketchBackgroundCombo;
     
 	/**
 	 * Constructor
@@ -137,10 +138,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fViewTooltipsButton.setLayoutData(gd);
         
-        fEditNameOnNewObject = new Button(viewGroup, SWT.CHECK);
-        fEditNameOnNewObject.setText(Messages.DiagramPreferencePage_24);
+        fEditNameOnNewObjectButton = new Button(viewGroup, SWT.CHECK);
+        fEditNameOnNewObjectButton.setText(Messages.DiagramPreferencePage_24);
         gd = new GridData(GridData.FILL_HORIZONTAL);
-        fEditNameOnNewObject.setLayoutData(gd);
+        fEditNameOnNewObjectButton.setLayoutData(gd);
         
         Group fontGroup = new Group(client, SWT.NULL);
         fontGroup.setText(Messages.DiagramPreferencePage_8);
@@ -210,14 +211,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHideDiagramElementsButton.setLayoutData(gd);
         
         Group sketchGroup = new Group(client, SWT.NULL);
+        sketchGroup.setLayout(new GridLayout(2, false));
         sketchGroup.setText(Messages.DiagramPreferencePage_19);
-        sketchGroup.setLayout(new GridLayout());
         sketchGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        fShowSketchBackgroundButton = new Button(sketchGroup, SWT.CHECK);
-        fShowSketchBackgroundButton.setText(Messages.DiagramPreferencePage_20);
+        // Default Sketch background
+        label = new Label(sketchGroup, SWT.NULL);
+        label.setText(Messages.DiagramPreferencePage_20);
+        fDefaultSketchBackgroundCombo = new Combo(sketchGroup, SWT.READ_ONLY);
+        fDefaultSketchBackgroundCombo.setItems(ISketchEditor.BACKGROUNDS);
         gd = new GridData(GridData.FILL_HORIZONTAL);
-        fShowSketchBackgroundButton.setLayoutData(gd);
+        fDefaultSketchBackgroundCombo.setLayoutData(gd);
         
         setValues();
         
@@ -253,9 +257,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
-        fShowSketchBackgroundButton.setSelection(getPreferenceStore().getBoolean(SKETCH_SHOW_BACKGROUND));
+        fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));
         
-        fEditNameOnNewObject.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
+        fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
     }
     
     private void setSpinnerValues() {
@@ -296,9 +300,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
         
-        getPreferenceStore().setValue(SKETCH_SHOW_BACKGROUND, fShowSketchBackgroundButton.getSelection());
+        getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
-        getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObject.getSelection());
+        getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
         
         return true;
     }
@@ -324,9 +328,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
-        fShowSketchBackgroundButton.setSelection(getPreferenceStore().getDefaultBoolean(SKETCH_SHOW_BACKGROUND));
+        fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
         
-        fEditNameOnNewObject.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
+        fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
         
         super.performDefaults();
     }

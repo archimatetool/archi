@@ -43,7 +43,7 @@ public interface IPreferenceConstants {
     String TECHNOLOGY_DEVICE_FIGURE = "technologyDeviceFigure"; //$NON-NLS-1$
     String TECHNOLOGY_INTERFACE_FIGURE = "technologyInterfaceFigure"; //$NON-NLS-1$
     
-    String SKETCH_SHOW_BACKGROUND = "sketchShowBackground"; //$NON-NLS-1$
+    String SKETCH_DEFAULT_BACKGROUND = "sketchDefaultBackground"; //$NON-NLS-1$
     
     String PALETTE_STATE = "palette_state"; //$NON-NLS-1$
 
