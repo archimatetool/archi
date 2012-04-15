@@ -67,6 +67,11 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
      * Flags to update Factory elements when hovering on menu items
      */
     private boolean fArmOnElements, fArmOnConnections;
+
+    /**
+     * This flag stops some thread conditions (on Mac) that can re-set the current command when the context menu is showing
+     */
+    private boolean fCanSetCurrentCommand = true;
     
     public MagicConnectionCreationTool() {
        setDefaultCursor(cursor);
@@ -79,6 +84,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         getFactory().clear();
         
         // Do this first, here (we have to!)
+        fCanSetCurrentCommand = true;
         Command endCommand = getCommand();
         setCurrentCommand(endCommand);
         
@@ -120,6 +126,14 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         super.setTargetEditPart(editpart);
     }
     
+    @Override
+    protected void setCurrentCommand(Command c) {
+        // Guard against Mac threading issue
+        if(fCanSetCurrentCommand) {
+            super.setCurrentCommand(c);
+        }
+    }
+    
     /**
      * Create just a new connection between source and target elements
      */
@@ -127,6 +141,9 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             IDiagramModelArchimateObject targetDiagramModelObject) {
         
         fArmOnConnections = false;
+        
+        // Set this threading safety guard
+        fCanSetCurrentCommand = false;
         
         Menu menu = new Menu(getCurrentViewer().getControl());
         addConnectionActions(menu, sourceDiagramModelObject.getArchimateElement(), targetDiagramModelObject.getArchimateElement());
@@ -143,7 +160,10 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         if(!menu.isDisposed()) {
             menu.dispose();
         }
-        
+
+        // Reset guard
+        fCanSetCurrentCommand = true;
+
         eraseSourceFeedback();
 
         // No selection
