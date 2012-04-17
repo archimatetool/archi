@@ -452,10 +452,7 @@ implements ITreeModelView, IUIRequestListener {
             IArchimateModel model = (IArchimateModel)evt.getNewValue();
             
             // Expand and Select new node
-            getViewer().expandToLevel(model, 1);
-            // Expand views node
-            getViewer().expandToLevel(model.getDefaultDiagramModel(), 1);
-
+            getViewer().expandToLevel(model.getDefaultDiagramModel(), -1);
             getViewer().setSelection(new StructuredSelection(model), true);
         }
         
@@ -530,7 +527,10 @@ implements ITreeModelView, IUIRequestListener {
             // Viewpoint changed
             else if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
-                    getViewer().refresh();
+                    if(notifier instanceof IDiagramModel) {
+                        IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
+                        getViewer().refresh(model);
+                    }
                 }
             }
             

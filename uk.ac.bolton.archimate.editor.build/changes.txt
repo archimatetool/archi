@@ -6,6 +6,7 @@ Version 2.3 May XX 2012
 + Can now connect lines between View reference figures and other figures
 + Double-click in blank area of User Properties Table creates new Property
 + The background for a Sketch view can now be set per view to one of "None", "Brown Paper" or "Cork" from the "Appearance" tab in Properties
++ Improved UI performance when there are many open tree nodes in the Models Tree
 + The Java version shipped with the Windows installer is now version 1.6.0_31
 * Fix Magic Connector sometimes not creating selected connection on Mac
 * Fix preferred figure type not used when adding elements from Models Tree to a View

@@ -348,8 +348,11 @@ implements INavigatorView, ISelectionListener {
     protected void eCoreChanged(Notification msg) {
         int type = msg.getEventType();
         
+        if(type == Notification.ADD || type == Notification.REMOVE) {
+            getViewer().refresh();
+        }
         // Attribute set
-        if(type == Notification.SET) {
+        else if(type == Notification.SET) {
             Object feature = msg.getFeature();
 
             // Relationship/Connection changed - requires full refresh
