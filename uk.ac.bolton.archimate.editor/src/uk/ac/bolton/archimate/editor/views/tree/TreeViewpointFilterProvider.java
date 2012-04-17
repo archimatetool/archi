@@ -8,7 +8,7 @@ package uk.ac.bolton.archimate.editor.views.tree;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
@@ -45,7 +45,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
     /**
      * Tree Viewer
      */
-    private Viewer fViewer;
+    private TreeViewer fViewer;
     
     /**
      * Application Preferences Listener
@@ -59,7 +59,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
         }
     };
     
-    TreeViewpointFilterProvider(Viewer viewer) {
+    TreeViewpointFilterProvider(TreeViewer viewer) {
         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
         fViewer = viewer;
 
@@ -74,6 +74,16 @@ public class TreeViewpointFilterProvider implements IPartListener {
         });
     }
     
+    /**
+     * Refresh the Archimate model in the tree
+     */
+    private void refreshTreeModel(IArchimateDiagramModel dm) {
+        if(dm != null && isActive()) {
+            IArchimateModel model = dm.getArchimateModel();
+            fViewer.refresh(model);
+        }
+    }
+
     @Override
     public void partActivated(IWorkbenchPart part) {
         /*
@@ -89,15 +99,28 @@ public class TreeViewpointFilterProvider implements IPartListener {
          * 7. TreeModelViewer.refresh(element) then cancels editing
          */
         if(part instanceof IEditorPart) {
+            IArchimateDiagramModel previous = fActiveDiagramModel;
+
+            // Archimate editor
             if(part instanceof IArchimateDiagramEditor) {
-                fActiveDiagramModel = (IArchimateDiagramModel)((IArchimateDiagramEditor)part).getModel();
+                IArchimateDiagramModel dm = (IArchimateDiagramModel)((IArchimateDiagramEditor)part).getModel();
+                
+                if(previous == dm) {
+                    return;
+                }
+                
+                fActiveDiagramModel = dm;
             }
+            // Other type of editor (sketch, canvas)
             else {
                 fActiveDiagramModel = null;
             }
-            if(isActive()) {
-                fViewer.refresh(); // refresh tree
-            }
+            
+            // Refresh previous model
+            refreshTreeModel(previous);
+
+            // Refresh selected model
+            refreshTreeModel(fActiveDiagramModel);
         }
     }
 
