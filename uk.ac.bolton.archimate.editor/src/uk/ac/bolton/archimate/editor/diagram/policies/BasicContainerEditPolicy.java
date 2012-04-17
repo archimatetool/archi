@@ -13,7 +13,6 @@ import org.eclipse.gef.editpolicies.ContainerEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.GroupRequest;
 
-import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -39,7 +38,7 @@ public class BasicContainerEditPolicy extends ContainerEditPolicy {
      */
 	@Override
     public Command getOrphanChildrenCommand(GroupRequest request) {
-        CompoundCommand result = new NonNotifyingCompoundCommand(Messages.BasicContainerEditPolicy_0);
+        CompoundCommand result = new CompoundCommand(Messages.BasicContainerEditPolicy_0);
 
         IDiagramModelContainer parent = (IDiagramModelContainer)getHost().getModel();
 
