@@ -46,9 +46,9 @@ public class RelationshipsMatrix {
     static final String RELATIONSHIPS_KEYS_FILE = "model/relationships-keys.xml"; //$NON-NLS-1$
 
     /**
-     * The Relationships 1.0 XML file
+     * The Relationships XML file
      */
-    static final String RELATIONSHIPS_1_0_FILE = "model/relationships-2.0.xml"; //$NON-NLS-1$
+    static final String RELATIONSHIPS_FILE = "model/relationships-2.0.xml"; //$NON-NLS-1$
     
     /*
      * XML element and attribute names
@@ -96,8 +96,8 @@ public class RelationshipsMatrix {
         // Load Key letters file
         loadKeyLetters();
         
-        // URL to the Relationships 1.0 XML file
-        URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_1_0_FILE);
+        // URL to the Relationships XML file
+        URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_FILE);
         loadRelationships(url);
     }
     
