@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" ecore:nsPrefix="ecore" ecore:package="org.eclipse.emf.ecore" targetNamespace="http://www.eclipse.org/emf/2002/Ecore">
+  <xsd:element ecore:ignore="true" name="EAttribute" type="ecore:EAttribute"/>
+  <xsd:element ecore:ignore="true" name="EAnnotation" type="ecore:EAnnotation"/>
+  <xsd:element ecore:ignore="true" name="EClass" type="ecore:EClass"/>
+  <xsd:element ecore:ignore="true" name="EClassifier" type="ecore:EClassifier"/>
+  <xsd:element ecore:ignore="true" name="EDataType" type="ecore:EDataType"/>
+  <xsd:element ecore:ignore="true" name="EEnum" type="ecore:EEnum"/>
+  <xsd:element ecore:ignore="true" name="EEnumLiteral" type="ecore:EEnumLiteral"/>
+  <xsd:element ecore:ignore="true" name="EFactory" type="ecore:EFactory"/>
+  <xsd:element ecore:ignore="true" name="EModelElement" type="ecore:EModelElement"/>
+  <xsd:element ecore:ignore="true" name="ENamedElement" type="ecore:ENamedElement"/>
+  <xsd:element ecore:ignore="true" name="EObject" type="xsd:anyType"/>
+  <xsd:element ecore:ignore="true" name="EOperation" type="ecore:EOperation"/>
+  <xsd:element ecore:ignore="true" name="EPackage" type="ecore:EPackage"/>
+  <xsd:element ecore:ignore="true" name="EParameter" type="ecore:EParameter"/>
+  <xsd:element ecore:ignore="true" name="EReference" type="ecore:EReference"/>
+  <xsd:element ecore:ignore="true" name="EStructuralFeature" type="ecore:EStructuralFeature"/>
+  <xsd:element ecore:ignore="true" name="ETypedElement" type="ecore:ETypedElement"/>
+  <xsd:element ecore:ignore="true" name="EStringToStringMapEntry" type="ecore:EStringToStringMapEntry"/>
+  <xsd:element ecore:ignore="true" name="EGenericType" type="ecore:EGenericType"/>
+  <xsd:element ecore:ignore="true" name="ETypeParameter" type="ecore:ETypeParameter"/>
+  <xsd:complexType ecore:constraints="ConsistentTransient" name="EAttribute">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EStructuralFeature">
+        <xsd:attribute ecore:unsettable="false" name="iD" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:lowerBound="1" ecore:reference="ecore:EDataType" ecore:transient="true" ecore:volatile="true" name="eAttributeType" type="xsd:anyURI"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType ecore:constraints="WellFormedSourceURI" name="EAnnotation">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="details" type="ecore:EStringToStringMapEntry"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contents" type="xsd:anyType"/>
+        </xsd:sequence>
+        <xsd:attribute name="source" type="ecore:EString"/>
+        <xsd:attribute ecore:reference="xsd:anyType" name="references">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType ecore:constraints="InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures" name="EClass">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="isSuperTypeOf" type="ecore:EBoolean">
+          <parameter name="someClass" type="ecore:EClass"/>
+        </operation>
+        <operation name="getFeatureCount" type="ecore:EInt"/>
+        <operation name="getEStructuralFeature" type="ecore:EStructuralFeature">
+          <parameter name="featureID" type="ecore:EInt"/>
+        </operation>
+        <operation name="getFeatureID" type="ecore:EInt">
+          <parameter name="feature" type="ecore:EStructuralFeature"/>
+        </operation>
+        <operation name="getEStructuralFeature" type="ecore:EStructuralFeature">
+          <parameter name="featureName" type="ecore:EString"/>
+        </operation>
+        <operation name="getOperationCount" type="ecore:EInt"/>
+        <operation name="getEOperation" type="ecore:EOperation">
+          <parameter name="operationID" type="ecore:EInt"/>
+        </operation>
+        <operation name="getOperationID" type="ecore:EInt">
+          <parameter name="operation" type="ecore:EOperation"/>
+        </operation>
+        <operation name="getOverride" type="ecore:EOperation">
+          <parameter name="operation" type="ecore:EOperation"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EClassifier">
+        <xsd:sequence>
+          <xsd:element ecore:opposite="eContainingClass" maxOccurs="unbounded" minOccurs="0" name="eOperations" type="ecore:EOperation"/>
+          <xsd:element ecore:opposite="eContainingClass" maxOccurs="unbounded" minOccurs="0" name="eStructuralFeatures" type="ecore:EStructuralFeature"/>
+          <xsd:element ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" maxOccurs="unbounded" minOccurs="0" name="eGenericSuperTypes" type="ecore:EGenericType"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:unsettable="false" name="abstract" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="interface" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:reference="ecore:EClass" ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" name="eSuperTypes">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EAttribute" ecore:transient="true" ecore:volatile="true" name="eAllAttributes">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EReference" ecore:transient="true" ecore:volatile="true" name="eAllReferences">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EReference" ecore:transient="true" ecore:volatile="true" name="eReferences">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EAttribute" ecore:transient="true" ecore:volatile="true" name="eAttributes">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EReference" ecore:transient="true" ecore:volatile="true" name="eAllContainments">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EOperation" ecore:transient="true" ecore:volatile="true" name="eAllOperations">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EStructuralFeature" ecore:transient="true" ecore:volatile="true" name="eAllStructuralFeatures">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EClass" ecore:transient="true" ecore:volatile="true" name="eAllSuperTypes">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EAttribute" ecore:transient="true" ecore:volatile="true" name="eIDAttribute" type="xsd:IDREF"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:reference="ecore:EGenericType" ecore:transient="true" ecore:volatile="true" name="eAllGenericSuperTypes">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" ecore:constraints="WellFormedInstanceTypeName UniqueTypeParameterNames" name="EClassifier">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="isInstance" type="ecore:EBoolean">
+          <parameter name="object" type="ecore:EJavaObject"/>
+        </operation>
+        <operation name="getClassifierID" type="ecore:EInt"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ENamedElement">
+        <xsd:sequence>
+          <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="eTypeParameters" type="ecore:ETypeParameter"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" ecore:volatile="true" name="instanceClassName" type="ecore:EString"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:type="ecore:EJavaClass{?}" ecore:volatile="true" name="instanceClass" type="ecore:EJavaClass"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="defaultValue" type="ecore:EJavaObject"/>
+        <xsd:attribute ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" ecore:volatile="true" name="instanceTypeName" type="ecore:EString"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EDataType">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EClassifier">
+        <xsd:attribute default="true" ecore:unsettable="false" name="serializable" type="ecore:EBoolean"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType ecore:constraints="UniqueEnumeratorNames UniqueEnumeratorLiterals" name="EEnum">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="getEEnumLiteral" type="ecore:EEnumLiteral">
+          <parameter name="name" type="ecore:EString"/>
+        </operation>
+        <operation name="getEEnumLiteral" type="ecore:EEnumLiteral">
+          <parameter name="value" type="ecore:EInt"/>
+        </operation>
+        <operation name="getEEnumLiteralByLiteral" type="ecore:EEnumLiteral">
+          <parameter name="literal" type="ecore:EString"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EDataType">
+        <xsd:sequence>
+          <xsd:element ecore:opposite="eEnum" maxOccurs="unbounded" minOccurs="0" name="eLiterals" type="ecore:EEnumLiteral"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EEnumLiteral">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ENamedElement">
+        <xsd:attribute ecore:unsettable="false" name="value" type="ecore:EInt"/>
+        <xsd:attribute ecore:transient="true" name="instance" type="ecore:EEnumerator"/>
+        <xsd:attribute name="literal" type="ecore:EString"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EFactory">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="create" type="xsd:anyType">
+          <parameter name="eClass" type="ecore:EClass"/>
+        </operation>
+        <operation name="createFromString" type="ecore:EJavaObject">
+          <parameter name="eDataType" type="ecore:EDataType"/>
+          <parameter name="literalValue" type="ecore:EString"/>
+        </operation>
+        <operation name="convertToString" type="ecore:EString">
+          <parameter name="eDataType" type="ecore:EDataType"/>
+          <parameter name="instanceValue" type="ecore:EJavaObject"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EModelElement">
+        <xsd:attribute ecore:lowerBound="1" ecore:opposite="eFactoryInstance" ecore:reference="ecore:EPackage" ecore:transient="true" name="ePackage" type="xsd:IDREF"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="EModelElement">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="getEAnnotation" type="ecore:EAnnotation">
+          <parameter name="source" type="ecore:EString"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element ecore:opposite="eModelElement" maxOccurs="unbounded" minOccurs="0" name="eAnnotations" type="ecore:EAnnotation"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" ecore:constraints="WellFormedName" name="ENamedElement">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EModelElement">
+        <xsd:attribute name="name" type="ecore:EString"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EObject">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="eClass" type="ecore:EClass"/>
+        <operation name="eIsProxy" type="ecore:EBoolean"/>
+        <operation name="eResource" type="ecore:EResource"/>
+        <operation name="eContainer" type="xsd:anyType"/>
+        <operation name="eContainingFeature" type="ecore:EStructuralFeature"/>
+        <operation name="eContainmentFeature" type="ecore:EReference"/>
+        <operation name="eContents" type="ecore:EEList{xsd:anyType}"/>
+        <operation name="eAllContents" type="ecore:ETreeIterator{xsd:anyType}"/>
+        <operation name="eCrossReferences" type="ecore:EEList{xsd:anyType}"/>
+        <operation name="eGet" type="ecore:EJavaObject">
+          <parameter name="feature" type="ecore:EStructuralFeature"/>
+        </operation>
+        <operation name="eGet" type="ecore:EJavaObject">
+          <parameter name="feature" type="ecore:EStructuralFeature"/>
+          <parameter name="resolve" type="ecore:EBoolean"/>
+        </operation>
+        <operation name="eSet">
+          <parameter name="feature" type="ecore:EStructuralFeature"/>
+          <parameter name="newValue" type="ecore:EJavaObject"/>
+        </operation>
+        <operation name="eIsSet" type="ecore:EBoolean">
+          <parameter name="feature" type="ecore:EStructuralFeature"/>
+        </operation>
+        <operation name="eUnset">
+          <parameter name="feature" type="ecore:EStructuralFeature"/>
+        </operation>
+        <operation exceptions="ecore:EInvocationTargetException" name="eInvoke" type="ecore:EJavaObject">
+          <parameter name="operation" type="ecore:EOperation"/>
+          <parameter name="arguments" type="ecore:EEList{?}"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:complexType>
+  <xsd:complexType ecore:constraints="UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid" name="EOperation">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="getOperationID" type="ecore:EInt"/>
+        <operation name="isOverrideOf" type="ecore:EBoolean">
+          <parameter name="someOperation" type="ecore:EOperation"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ETypedElement">
+        <xsd:sequence>
+          <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="eTypeParameters" type="ecore:ETypeParameter"/>
+          <xsd:element ecore:opposite="eOperation" maxOccurs="unbounded" minOccurs="0" name="eParameters" type="ecore:EParameter"/>
+          <xsd:element ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" maxOccurs="unbounded" minOccurs="0" name="eGenericExceptions" type="ecore:EGenericType"/>
+        </xsd:sequence>
+        <xsd:attribute ecore:reference="ecore:EClassifier" ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" name="eExceptions">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType ecore:constraints="WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs" name="EPackage">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="getEClassifier" type="ecore:EClassifier">
+          <parameter name="name" type="ecore:EString"/>
+        </operation>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ENamedElement">
+        <xsd:sequence>
+          <xsd:element ecore:opposite="ePackage" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="eClassifiers" type="ecore:EClassifier"/>
+          <xsd:element ecore:opposite="eSuperPackage" ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="eSubpackages" type="ecore:EPackage"/>
+        </xsd:sequence>
+        <xsd:attribute name="nsURI" type="ecore:EString"/>
+        <xsd:attribute name="nsPrefix" type="ecore:EString"/>
+        <xsd:attribute ecore:lowerBound="1" ecore:opposite="ePackage" ecore:reference="ecore:EFactory" ecore:transient="true" name="eFactoryInstance" type="xsd:IDREF"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EParameter">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ETypedElement"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType ecore:constraints="ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer" name="EReference">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EStructuralFeature">
+        <xsd:attribute ecore:unsettable="false" name="containment" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:unsettable="false" ecore:volatile="true" name="container" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="resolveProxies" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:reference="ecore:EReference" name="eOpposite" type="xsd:anyURI"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:lowerBound="1" ecore:reference="ecore:EClass" ecore:transient="true" ecore:volatile="true" name="eReferenceType" type="xsd:anyURI"/>
+        <xsd:attribute ecore:reference="ecore:EAttribute" name="eKeys">
+          <xsd:simpleType>
+            <xsd:list itemType="xsd:anyURI"/>
+          </xsd:simpleType>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" ecore:constraints="ValidDefaultValueLiteral" name="EStructuralFeature">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+        <operation name="getFeatureID" type="ecore:EInt"/>
+        <operation name="getContainerClass" type="ecore:EJavaClass{?}"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ETypedElement">
+        <xsd:attribute default="true" ecore:unsettable="false" name="changeable" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="volatile" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="transient" type="ecore:EBoolean"/>
+        <xsd:attribute name="defaultValueLiteral" type="ecore:EString"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="defaultValue" type="ecore:EJavaObject"/>
+        <xsd:attribute ecore:unsettable="false" name="unsettable" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="derived" type="ecore:EBoolean"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" ecore:constraints="ValidLowerBound ValidUpperBound ConsistentBounds ValidType" name="ETypedElement">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ENamedElement">
+        <xsd:sequence>
+          <xsd:element ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" ecore:volatile="true" minOccurs="0" name="eGenericType" type="ecore:EGenericType"/>
+        </xsd:sequence>
+        <xsd:attribute default="true" ecore:unsettable="false" name="ordered" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="unique" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="lowerBound" type="ecore:EInt"/>
+        <xsd:attribute default="1" ecore:unsettable="false" name="upperBound" type="ecore:EInt"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:unsettable="false" ecore:volatile="true" name="many" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:unsettable="false" ecore:volatile="true" name="required" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:reference="ecore:EClassifier" ecore:suppressedIsSetVisibility="true" ecore:suppressedUnsetVisibility="true" ecore:unsettable="true" ecore:volatile="true" name="eType" type="xsd:anyURI"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="EBigDecimal">
+    <xsd:restriction base="xsd:decimal"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EBigInteger">
+    <xsd:restriction base="xsd:integer"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="boolean" name="EBoolean">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Boolean" name="EBooleanObject">
+    <xsd:restriction base="ecore:EBoolean"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EByte">
+    <xsd:restriction base="xsd:byte"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EByteArray">
+    <xsd:restriction base="xsd:hexBinary"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Byte" name="EByteObject">
+    <xsd:restriction base="ecore:EByte"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="char" name="EChar">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Character" name="ECharacterObject">
+    <xsd:restriction base="ecore:EChar"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.util.Date" name="EDate">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.DiagnosticChain" ecore:serializable="false" name="EDiagnosticChain">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EDouble">
+    <xsd:restriction base="xsd:double"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Double" name="EDoubleObject">
+    <xsd:restriction base="ecore:EDouble"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.EList" ecore:serializable="false" name="EEList">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="typeParameters" source="http://www.eclipse.org/emf/2002/Ecore">
+        <typeParameter name="E"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.Enumerator" ecore:serializable="false" name="EEnumerator">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.util.FeatureMap" ecore:serializable="false" name="EFeatureMap">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.util.FeatureMap$Entry" ecore:serializable="false" name="EFeatureMapEntry">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EFloat">
+    <xsd:restriction base="xsd:float"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Float" name="EFloatObject">
+    <xsd:restriction base="ecore:EFloat"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="int" name="EInt">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Integer" name="EIntegerObject">
+    <xsd:restriction base="ecore:EInt"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Class" name="EJavaClass">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="typeParameters" source="http://www.eclipse.org/emf/2002/Ecore">
+        <typeParameter name="T"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Object" name="EJavaObject">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="ELong">
+    <xsd:restriction base="xsd:long"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Long" name="ELongObject">
+    <xsd:restriction base="ecore:ELong"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.util.Map" ecore:serializable="false" name="EMap">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="typeParameters" source="http://www.eclipse.org/emf/2002/Ecore">
+        <typeParameter name="K"/>
+        <typeParameter name="V"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.resource.Resource" ecore:serializable="false" name="EResource">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.resource.ResourceSet" ecore:serializable="false" name="EResourceSet">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EShort">
+    <xsd:restriction base="xsd:short"/>
+  </xsd:simpleType>
+  <xsd:simpleType ecore:instanceClass="java.lang.Short" name="EShortObject">
+    <xsd:restriction base="ecore:EShort"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="EString">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:complexType ecore:instanceClass="java.util.Map$Entry" name="EStringToStringMapEntry">
+    <xsd:attribute name="key" type="ecore:EString"/>
+    <xsd:attribute name="value" type="ecore:EString"/>
+  </xsd:complexType>
+  <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.TreeIterator" ecore:serializable="false" name="ETreeIterator">
+    <xsd:annotation>
+      <xsd:appinfo ecore:key="typeParameters" source="http://www.eclipse.org/emf/2002/Ecore">
+        <typeParameter name="E"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:complexType ecore:constraints="ConsistentType ConsistentBounds ConsistentArguments" name="EGenericType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="eUpperBound" type="ecore:EGenericType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="eTypeArguments" type="ecore:EGenericType"/>
+      <xsd:element minOccurs="0" name="eLowerBound" type="ecore:EGenericType"/>
+    </xsd:sequence>
+    <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:lowerBound="1" ecore:reference="ecore:EClassifier" ecore:transient="true" name="eRawType" type="xsd:anyURI"/>
+    <xsd:attribute ecore:reference="ecore:ETypeParameter" name="eTypeParameter" type="xsd:IDREF"/>
+    <xsd:attribute ecore:reference="ecore:EClassifier" name="eClassifier" type="xsd:anyURI"/>
+  </xsd:complexType>
+  <xsd:complexType name="ETypeParameter">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ENamedElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="eBounds" type="ecore:EGenericType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType ecore:instanceClass="java.lang.reflect.InvocationTargetException" ecore:serializable="false" name="EInvocationTargetException">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+</xsd:schema>
