@@ -24,7 +24,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ViewChildrenDataSource implements JRRewindableDataSource, IDataSource {
+public class ViewChildrenDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
     private List<IArchimateElement> fChildren = new ArrayList<IArchimateElement>();
     private IArchimateElement fCurrentElement;
@@ -62,6 +62,10 @@ public class ViewChildrenDataSource implements JRRewindableDataSource, IDataSour
         return fCurrentElement != null;
     }
 
+    public PropertiesModelDataSource getPropertiesDataSource() {
+        return new PropertiesModelDataSource(fCurrentElement);
+    }
+    
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {
         return FieldDataFactory.getFieldValue(fCurrentElement, jrField.getName());
