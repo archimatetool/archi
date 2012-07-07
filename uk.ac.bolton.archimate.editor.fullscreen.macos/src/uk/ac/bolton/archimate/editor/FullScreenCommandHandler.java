@@ -8,6 +8,8 @@ package uk.ac.bolton.archimate.editor;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -20,41 +22,25 @@ public class FullScreenCommandHandler extends AbstractHandler {
     
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        for(Object nsWindow : getNSWindows()) {
-            toggleFullScreen(nsWindow);
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+        if(windows != null && windows.length > 0) {
+            Shell shell = windows[0].getShell();
+            shell.setFullScreen(!shell.getFullScreen());
         }
         
         return null;
     }
     
-    protected Object[] getNSWindows() {
-        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-        Object[] nsWindows = new Object[windows.length];
-        for(int i = 0; i < windows.length; i++) {
-            nsWindows[i] = MacOSReflect.getNSWindow(windows[i].getShell());
-        }
-        return nsWindows;
-    }
-    
-    public void toggleFullScreen(Object nsWindow) {
-        long toggleFullScreen = MacOSReflect.selector("toggleFullScreen:"); //$NON-NLS-1$
-        long target = MacOSReflect.getID(nsWindow);
-        MacOSReflect.objc_msgSend(target, toggleFullScreen, 0);
-    }
-
-    public boolean isFullScreen(Object nsWindow) {
-        long styleMask = MacOSReflect.executeLong(nsWindow, "styleMask"); //$NON-NLS-1$
-        return (((styleMask >> 14) & 1) == 1);
-    }
-
-    public void setFullScreen(Object nsWindow, boolean fullScreen) {
-        if(isFullScreen(nsWindow) != fullScreen) {
-            toggleFullScreen(nsWindow);
-        }
-    }
-
     @Override
     public boolean isEnabled() {
-        return Startup.isSupportedVersion();
+        return isSupportedVersion();
     }
+    
+    /**
+     * @return true if we are on OS X 10.7 and above
+     */
+    public static boolean isSupportedVersion() {
+        return Platform.WS_COCOA.equals(Platform.getWS()) && System.getProperty("os.version").compareTo("10.7") >= 0; //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
 }

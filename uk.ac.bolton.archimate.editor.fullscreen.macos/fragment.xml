@@ -2,11 +2,6 @@
 <?eclipse version="3.7"?>
 <fragment>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="uk.ac.bolton.archimate.editor.Startup"></startup>
-   </extension>
-   <extension
          point="org.eclipse.ui.bindings">
       <key
             commandId="uk.ac.bolton.archimate.editor.fullscreen.macos.commandFullScreen"

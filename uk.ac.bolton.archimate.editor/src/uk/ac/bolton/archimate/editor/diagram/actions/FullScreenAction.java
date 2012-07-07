@@ -43,6 +43,10 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 /**
  * Full Screen Action
  * 
+ * Works on Windows and Linux but not Mac >= 10.7
+ * Mac's own full screen action conflicts starting from Eclipse 3.8 since Shell.setFullScreen(boolean) was changed
+ * to use Mac's full screen.
+ * 
  * @author Phillip Beauvoir
  */
 public class FullScreenAction extends WorkbenchPartAction {

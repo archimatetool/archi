@@ -54,6 +54,7 @@ import uk.ac.bolton.archimate.editor.diagram.actions.TextAlignmentAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.TextPositionAction;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.components.CellEditorGlobalActionHandler;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 /**
@@ -151,9 +152,11 @@ extends ActionBarContributor {
                 ConnectionRouterAction.CONNECTION_ROUTER_MANHATTAN, IAction.AS_RADIO_BUTTON));
         
         // Full Screen
-        retargetAction = new RetargetAction(FullScreenAction.ID, FullScreenAction.TEXT);
-        retargetAction.setActionDefinitionId(FullScreenAction.ID);
-        addRetargetAction(retargetAction);
+        if(!PlatformUtils.supportsMacFullScreen()) {
+            retargetAction = new RetargetAction(FullScreenAction.ID, FullScreenAction.TEXT);
+            retargetAction.setActionDefinitionId(FullScreenAction.ID);
+            addRetargetAction(retargetAction);
+        }
         
         // Border Color
         addRetargetAction(new RetargetAction(BorderColorAction.ID, BorderColorAction.TEXT));
@@ -235,8 +238,10 @@ extends ActionBarContributor {
         connectionMenu.add(getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
         viewMenu.add(new Separator());
 
-        viewMenu.add(getAction(FullScreenAction.ID));
-        viewMenu.add(new Separator());
+        if(!PlatformUtils.supportsMacFullScreen()) {
+            viewMenu.add(getAction(FullScreenAction.ID));
+            viewMenu.add(new Separator());
+        }
         
         menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
         
