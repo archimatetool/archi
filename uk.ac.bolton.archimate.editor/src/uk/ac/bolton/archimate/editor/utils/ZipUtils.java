@@ -364,6 +364,7 @@ public final class ZipUtils {
 		
 		// If we didn't get it return
 		if(zipEntry == null) {
+		    zIn.close();
 			return null;
 		} 
 		
