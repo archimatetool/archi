@@ -24,6 +24,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -37,7 +39,6 @@ import uk.ac.bolton.archimate.editor.diagram.FloatingPalette;
 import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.components.PartListenerAdapter;
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 /**
@@ -171,16 +172,21 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().addKeyListener(keyListener);
 
         // Create new Shell
-        // SWT.SHELL_TRIM is best option for all platforms. GTK needs it for full-size shell and OS X Lion has a bug with SWT.RESIZE
+        // SWT.SHELL_TRIM is best option for all platforms. GTK needs it for a full-size shell
         int style = SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
-        if(PlatformUtils.isMac()) {
-            style |= SWT.ON_TOP; // SWT.ON_TOP is needed on Mac to ensure Focus click-through
-        }
         fNewShell = new Shell(Display.getCurrent(), style); 
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
         fNewShell.setLayout(new FillLayout());
         fNewShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_128));
+        
+        // On Ubuntu the min/max/close buttons are shown, so trap close button
+        fNewShell.addShellListener(new ShellAdapter() {
+            @Override
+            public void shellClosed(ShellEvent e) {
+                close();
+            }
+        });
         
         // Set the Viewer's control's parent to be the new Shell
         fGraphicalViewer.getControl().setParent(fNewShell);
