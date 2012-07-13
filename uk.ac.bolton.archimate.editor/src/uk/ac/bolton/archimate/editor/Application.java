@@ -39,31 +39,35 @@ implements IApplication {
 	
 	public Object start(IApplicationContext context) throws Exception {
 	    /*
-	     * Platform specific startup if user launches app twice or from .archimate file
+	     * Platform specific startup if user launches app twice or from .archimate file on the desktop
 	     */
 	    IPlatformLauncher launcher = ArchimateEditorPlugin.INSTANCE.getPlatformLauncher();
 	    if(launcher != null) {
 	        launcher.startup();
 	        
             /*
-             * If the application is already open, exit
+             * If the application is already open (Windows), exit
              */
 	        if(launcher.shouldApplicationExitEarly()) {
                 return EXIT_OK;
             }
 	    }
 	    
+	    // Create Main Display
 	    Display display = PlatformUI.createDisplay();
 	    
+	    // Tell the Launcher if needed (Mac)
+	    if(launcher != null) {
+	        launcher.displayCreated(display);
+	    }
+	    	    
 	    try {
 	        int code = PlatformUI.createAndRunWorkbench(display, new ArchimateEditorWorkbenchAdvisor());
 	        // Exit the application with an appropriate return code
 	        return code == PlatformUI.RETURN_RESTART ? EXIT_RESTART : EXIT_OK;
 	    }
 	    finally {
-	        if(display != null) {
-	            display.dispose();
-	        }
+	        display.dispose();
 	    }
 	}
 	

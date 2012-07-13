@@ -13,6 +13,7 @@ import java.util.Properties;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -23,6 +24,10 @@ public class PlatformLauncher implements IPlatformLauncher {
     @Override
     public void startup() {
         logOpenFile();
+    }
+
+    @Override
+    public void displayCreated(Display display) {
     }
 
     @Override

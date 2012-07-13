@@ -21,7 +21,7 @@
 
    <launcher name="Archi">
       <linux icon="/uk.ac.bolton.archimate.editor.build/branding/linux/icon.xpm"/>
-      <macosx icon="/uk.ac.bolton.archimate.editor.build/branding/mac/app/Contents/Resources/icon.icns"/>
+      <macosx icon="/uk.ac.bolton.archimate.editor.build/branding/mac/icon.icns"/>
       <solaris/>
       <win useIco="true">
          <ico path="/uk.ac.bolton.archimate.editor.build/branding/windows/icon.ico"/>

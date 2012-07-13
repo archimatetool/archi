@@ -6,6 +6,7 @@
  *******************************************************************************/
 package uk.ac.bolton.archimate.editor;
 
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 
 
@@ -17,12 +18,17 @@ import org.eclipse.ui.IWorkbenchWindow;
 public interface IPlatformLauncher {
     
     /**
-     * Do any actions needed when the application starts
+     * Do any actions needed when the application starts but before the main Display and Workbench are created
      */
     void startup();
     
     /**
-     * Do any actions needed when the application's windows are open
+     * Do any actions needed when the application's display is created
+     */
+    void displayCreated(Display display);
+
+    /**
+     * Do any actions needed when the application's windows are open and the workbench has been created
      */
     void postWindowOpen(IWorkbenchWindow window);
 

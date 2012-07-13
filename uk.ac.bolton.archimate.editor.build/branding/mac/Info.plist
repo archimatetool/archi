@@ -2,10 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>archimate</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>icon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Archi Model</string>
+			<key>LSIsAppleDefaultForType</key>
+			<true/>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>launcher/Archi</string>
 	<key>CFBundleGetInfoString</key>
-	<string>2.3.1</string>
+	<string>Archi</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>

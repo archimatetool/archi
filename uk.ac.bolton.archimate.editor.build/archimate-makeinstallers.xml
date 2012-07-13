@@ -105,7 +105,6 @@
 		<property name="mac.new.launcher.dir"   value="${mac.contents.dir}/MacOS/launcher"/>
 		<property name="mac.launcher"           value="${mac.launcher.dir}/${app.name}"/>
 		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>		
-        <property name="mac.applet.launcher"    value="${mac.launcher.dir}/applet"/>       
 	
     	<antcall target="make_mac">
     		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-cocoa32-${version}.zip"/>
@@ -123,50 +122,42 @@
         <delete dir="${tmp.dir}"/>
         <mkdir dir="${tmp.dir}"/>
         
-        <!-- copy app shell launcher as Archi.app -->
-        <copy todir="${tmp.dir}/${mac.app}" >
-            <fileset dir="${src.dir}/branding/mac/app"/>
-        </copy>
-
         <!-- copy build -->
-		<copy todir="${tmp.dir}/${mac.resources.dir}" >
+		<copy todir="${tmp.dir}" >
 			<fileset dir="${output_mac.dir}"/>
 		</copy>
     	
     	<!-- copy our .ini file over -->
-        <copy file="${src.dir}/branding/mac/Archi.ini" todir="${tmp.dir}/${mac.resources.dir}/${mac.launcher.dir}" overwrite="true"/>
+        <copy file="${src.dir}/branding/mac/Archi.ini" todir="${tmp.dir}/${mac.launcher.dir}" overwrite="true"/>
 
     	<!-- copy our Info.plist file over -->
-        <copy file="${src.dir}/branding/mac/Info.plist" todir="${tmp.dir}/${mac.resources.dir}/${mac.contents.dir}" overwrite="true"/>
+        <copy file="${src.dir}/branding/mac/Info.plist" todir="${tmp.dir}/${mac.contents.dir}" overwrite="true"/>
 
         <!-- Move the plugin and configuration files into the .app folder -->
-		<move todir="${tmp.dir}/${mac.resources.dir}/${mac.app}/configuration">
-			<fileset dir="${tmp.dir}/${mac.resources.dir}/configuration"/>
+		<move todir="${tmp.dir}/${mac.app}">
+			<fileset dir="${tmp.dir}" >
+				<exclude name="${mac.app}/" />
+			</fileset>
 		</move>
-        <move todir="${tmp.dir}/${mac.resources.dir}/${mac.app}/plugins">
-            <fileset dir="${tmp.dir}/${mac.resources.dir}/plugins"/>
-        </move>
     	
         <!-- Move the launcher files down one level to match movement of plugins folder -->
-		<move todir="${tmp.dir}/${mac.resources.dir}/${mac.new.launcher.dir}">
-			<fileset dir="${tmp.dir}/${mac.resources.dir}/${mac.launcher.dir}" />
+		<move todir="${tmp.dir}/${mac.new.launcher.dir}">
+			<fileset dir="${tmp.dir}/${mac.launcher.dir}" />
 		</move>
-    	
+
         <!-- copy extras last -->
         <antcall target="copy_extra_files"/>
         
     	<!-- zip -->
 		<zip destfile="${mac.zip}" update="false">
-			<!-- Set the executable permission on the launcher files -->
+			<!-- Set the executable permission on the launcher file -->
 			<zipfileset dir="${tmp.dir}" filemode="755" prefix="${folder.name}">
 				<include name="**/${mac.new.launcher}"/>
-				<include name="**/${mac.applet.launcher}"/>
 			</zipfileset>
 		    
 			<!-- Other files without the executable permission -->
 			<zipfileset dir="${tmp.dir}" prefix="${folder.name}">
 				<exclude name="**/${mac.new.launcher}"/>
-				<exclude name="**/${mac.applet.launcher}"/>
 			</zipfileset>
 		</zip>
 
