@@ -1,10 +1,11 @@
 Archi Changes
 -------------
 
-Version 2.3.1 September XX 2012
+Version 2.3.1 July XX 2012
 -------------------------------
 + Built on Eclipse 3.8 RCP
 + Support for Java 7
++ Improved native launcher for Mac OS X version
 - View Full Screen removed from Mac OS X version as it now conflicts with Mac's own Full Screen support
 
 
