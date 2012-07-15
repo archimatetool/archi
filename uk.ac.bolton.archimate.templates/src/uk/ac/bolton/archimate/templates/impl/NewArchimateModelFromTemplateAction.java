@@ -11,12 +11,12 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IActionDelegate2;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.internal.WorkbenchWindow;
 
 import uk.ac.bolton.archimate.editor.actions.NewDropDownAction;
 import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
@@ -28,6 +28,7 @@ import uk.ac.bolton.archimate.templates.impl.wizard.NewArchimateModelFromTemplat
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("restriction")
 public class NewArchimateModelFromTemplateAction implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
     
     private IWorkbenchWindow workbenchWindow;
@@ -64,8 +65,9 @@ public class NewArchimateModelFromTemplateAction implements IWorkbenchWindowActi
         addActionToToolbar(window);
     }
     
+    // TODO Find a better way to do this using API
     private void addActionToToolbar(IWorkbenchWindow window) {
-        ICoolBarManager coolBarManager = ((ApplicationWindow)window).getCoolBarManager();
+        ICoolBarManager coolBarManager = ((WorkbenchWindow)window).getCoolBarManager2();
         ToolBarContributionItem fileToolbar = (ToolBarContributionItem)coolBarManager.find("toolbar_file"); //$NON-NLS-1$
         ActionContributionItem item = (ActionContributionItem)fileToolbar.getToolBarManager().find("uk.ac.bolton.archimate.editor.action.newAction"); //$NON-NLS-1$
         NewDropDownAction newDropDown = (NewDropDownAction)item.getAction();
