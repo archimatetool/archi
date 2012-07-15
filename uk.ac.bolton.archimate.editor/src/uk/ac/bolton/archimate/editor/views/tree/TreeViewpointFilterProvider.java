@@ -68,7 +68,10 @@ public class TreeViewpointFilterProvider implements IPartListener {
         fViewer.getControl().addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
-                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().removePartListener(TreeViewpointFilterProvider.this);
+            	if(PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+            		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().removePartListener(TreeViewpointFilterProvider.this);
+            	}
+                
                 Preferences.STORE.removePropertyChangeListener(prefsListener);
             }
         });
@@ -132,13 +135,15 @@ public class TreeViewpointFilterProvider implements IPartListener {
     public void partClosed(IWorkbenchPart part) {
         // Check if no editors open
         if(part instanceof IEditorPart) {
-            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-            if(page != null && page.getActiveEditor() == null) {
-                fActiveDiagramModel = null;
-                if(isActive()) {
-                    fViewer.refresh();
+        	if(PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+        		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                if(page != null && page.getActiveEditor() == null) {
+                    fActiveDiagramModel = null;
+                    if(isActive()) {
+                        fViewer.refresh();
+                    }
                 }
-            }
+        	}
         }
     }
 
