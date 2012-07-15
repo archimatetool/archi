@@ -433,7 +433,7 @@ extends ActionBarAdvisor {
         menu.add(ActionFactory.HELP_SEARCH.create(window));
         menu.add(ActionFactory.DYNAMIC_HELP.create(window));
         
-        menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+        menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
         menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         
         /*
