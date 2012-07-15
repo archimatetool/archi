@@ -11,7 +11,6 @@ import java.net.URL;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
@@ -22,7 +21,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  * 
  * @author Phillip Beauvoir
  */
-public class ShowWebsiteHandler extends AbstractHandler implements IHandler {
+public class ShowWebsiteHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {

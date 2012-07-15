@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.help.hints;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
@@ -19,7 +18,7 @@ import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
  * 
  * @author Phillip Beauvoir
  */
-public class ShowHintsViewHandler extends AbstractHandler implements IHandler {
+public class ShowHintsViewHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {

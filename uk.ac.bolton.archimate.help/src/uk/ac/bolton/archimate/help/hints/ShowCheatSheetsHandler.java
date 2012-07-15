@@ -9,7 +9,6 @@ package uk.ac.bolton.archimate.help.hints;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.ui.internal.cheatsheets.actions.CheatSheetCategoryBasedSelectionAction;
 
 
@@ -19,7 +18,7 @@ import org.eclipse.ui.internal.cheatsheets.actions.CheatSheetCategoryBasedSelect
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("restriction")
-public class ShowCheatSheetsHandler extends AbstractHandler implements IHandler {
+public class ShowCheatSheetsHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
