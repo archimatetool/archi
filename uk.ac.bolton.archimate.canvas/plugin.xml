@@ -91,7 +91,7 @@
       <menuContribution
             allPopups="true"
             class="uk.ac.bolton.archimate.canvas.NewCanvasExtensionContributionFactory"
-            locationURI="popup:uk.ac.bolton.archimate.editor.treeModelView.new_menu">
+            locationURI="popup:uk.ac.bolton.archimate.editor.treeModelView.new_menu?after=new_additions">
       </menuContribution>
       <menuContribution
             allPopups="true"

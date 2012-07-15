@@ -339,8 +339,11 @@ implements ITreeModelView, IUIRequestListener {
             return;
         }
         
-        MenuManager newMenu = new MenuManager(Messages.TreeModelView_1);
+        MenuManager newMenu = new MenuManager(Messages.TreeModelView_1, "new"); //$NON-NLS-1$
         manager.add(newMenu);
+        
+        // TODO On Eclipse 4 registering a sub-menu if the main MenuManager is already registered causes a NPE
+        getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer()); //$NON-NLS-1$
 
         manager.add(new Separator());
         
@@ -370,8 +373,7 @@ implements ITreeModelView, IUIRequestListener {
             }
         }
         
-        newMenu.add(new Separator());
-        getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer()); //$NON-NLS-1$
+        newMenu.add(new Separator("new_additions")); //$NON-NLS-1$
        
         if(!isEmpty) {
             manager.add(new Separator());
