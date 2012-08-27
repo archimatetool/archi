@@ -108,7 +108,6 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 fHandCursor.dispose();
                 fBusyCursor.dispose();
                 
-                fStyledText.removeListener(SWT.MouseDown, StyledTextControl.this);
                 fStyledText.removeListener(SWT.MouseUp, StyledTextControl.this);
                 fStyledText.removeListener(SWT.MouseMove, StyledTextControl.this);
                 fStyledText.getDisplay().removeFilter(SWT.KeyDown, StyledTextControl.this);
@@ -123,7 +122,6 @@ public class StyledTextControl implements Listener, LineStyleListener {
             }
         });
         
-        fStyledText.addListener(SWT.MouseDown, this);
         fStyledText.addListener(SWT.MouseUp, this);
         fStyledText.addListener(SWT.MouseMove, this);
         fStyledText.getDisplay().addFilter(SWT.KeyDown, this);
