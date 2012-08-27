@@ -1,12 +1,14 @@
 Archi Changes
 -------------
 
-Version 2.3.1 July XX 2012
+Version 2.3.1 September XX 2012
 -------------------------------
 + Built on Eclipse 3.8 RCP
 + Support for Java 7
 + Improved native launcher for Mac OS X version
 + Added "Archi on the Web" menu item to Help menu
++ The Java version shipped with the Windows installer is now version 1.6.0_34
+* Fix hyperlinks not working in some Operating Systems in Properties window's multi-line text controls
 * Internal bug fixes
 - View Full Screen removed from Mac OS X version as it now conflicts with Mac's own Full Screen support
 
