@@ -12,7 +12,7 @@
   	</description>
 	
 	<!-- Default/Start Target -->
-	<target name="run" depends="init, make_win_folder, make_win_zips, make_mac_zips, make_lnx_zips" />
+	<target name="run" depends="init, make_win_folder, make_win_zip, make_mac_zips, make_lnx_zips" />
 	
 	<!-- Init some stuff -->
 	<target name="init">
@@ -59,11 +59,11 @@
 		</move>
 	</target>
 	
-	<!-- Make Windows zips -->
-    <target name="make_win_zips">
-	    <property name="output_win.dir"         location="${output.dir}/win32.win32.x86"/>
-	    <property name="win.zip"                location="${output.dir}/${app.name}-win32-${version}.zip"/>
-	    <property name="win_jre.zip"            location="${output.dir}/${app.name}-win32-jre-${version}.zip"/>
+	<!-- Make Windows zip -->
+    <target name="make_win_zip">
+	    <property name="output_win32.dir"       location="${output.dir}/win32.win32.x86"/>
+	    <property name="output_win64.dir"       location="${output.dir}/win32.win32.x86_64"/>
+	    <property name="win.zip"                location="${output.dir}/${app.name}-win32_64-${version}.zip"/>
 	    
         <delete dir="${tmp.dir}"/>
         <mkdir dir="${tmp.dir}"/>
@@ -71,27 +71,30 @@
         <!-- copy extras -->
         <antcall target="copy_extra_files"/>
         
-    	<!-- copy our .ini file over -->
-        <copy file="${src.dir}/branding/windows/Archi.ini" todir="${tmp.dir}" overwrite="true"/>
+    	<!-- copy our .ini files over -->
+        <copy file="${src.dir}/branding/windows/Archi.ini" tofile="${tmp.dir}/Archi32.ini" overwrite="true"/>
+        <copy file="${src.dir}/branding/windows/Archi.ini" tofile="${tmp.dir}/Archi64.ini" overwrite="true"/>
 
-        <!-- copy build -->
+        <!-- copy 32-bit build -->
 		<copy todir="${tmp.dir}" >
-			<fileset dir="${output_win.dir}"/>
+			<fileset dir="${output_win32.dir}"/>
 		</copy>
-        
-        <!-- non-java zip -->
+    	
+    	<!-- rename Archi.exe to Archi32.exe -->
+    	<move file="${tmp.dir}/${app.name}.exe" tofile="${tmp.dir}/${app.name}32.exe"/>
+    	
+        <!-- copy 64-bit build -->
+		<copy todir="${tmp.dir}" overwrite="false">
+			<fileset dir="${output_win64.dir}"/>
+		</copy>
+    	
+    	<!-- rename Archi.exe to Archi64.exe -->
+    	<move file="${tmp.dir}/${app.name}.exe" tofile="${tmp.dir}/${app.name}64.exe"/>
+    	
+        <!-- make zip -->
 		<zip destfile="${win.zip}" update="false">
 			<zipfileset dir="${tmp.dir}" prefix="${folder.name}"/>
 		</zip>
-
-        <!-- java zip -->
-    	<!--
-		<zip destfile="${win_jre.zip}" update="false">
-			<zipfileset dir="${tmp.dir}" prefix="${folder.name}"/>
-			<zipfileset dir="${jre.sourcedir}" prefix="${folder.name}/jre">
-			</zipfileset>
-		</zip>
-		-->
 
         <delete dir="${tmp.dir}"/>
 	</target>
@@ -107,12 +110,12 @@
 		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>		
 	
     	<antcall target="make_mac">
-    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-cocoa32-${version}.zip"/>
+    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac32-${version}.zip"/>
         	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86"/>
     	</antcall>
 
     	<antcall target="make_mac">
-        	<param name="mac.zip"      		value="${output.dir}/${app.name}-mac-cocoa64-${version}.zip"/>
+        	<param name="mac.zip"      		value="${output.dir}/${app.name}-mac64-${version}.zip"/>
         	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86_64"/>
     	</antcall>
     </target>

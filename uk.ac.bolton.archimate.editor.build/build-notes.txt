@@ -32,6 +32,7 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	macosx (cocoa/x86)
 	macosx (cocoa/x86_64)
 	win32 (win32/x86)
+	win32 (win32/x86_64)
 	
 	Click "Finish" and wait for the export wizard to create the output folders in "/Archi".
 	The "/Archi" folder should be created on your local drive with the following build sub-folders:
@@ -41,6 +42,7 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	macosx.cocoa.x86
 	macosx.cocoa.x86_64
 	win32.win32.x86
+	win32.win32.x86_64
 
 10.  Run the "archimate-makeinstallers.xml" Ant script from Eclipse.
 11.  Run the NSIS installer for Windows version (windows_installer.nsi).

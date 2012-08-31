@@ -5,6 +5,7 @@ Version 2.3.1 September XX 2012
 -------------------------------
 + Built on Eclipse 3.8 RCP
 + Support for Java 7
++ Support for Windows 8 32-bit and 64-bit versions
 + Improved native launcher for Mac OS X version
 + Added "Archi on the Web" menu item to Help menu
 + The Java version shipped with the Windows installer is now version 1.6.0_34
