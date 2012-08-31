@@ -42,7 +42,7 @@ public class WindowsStartup implements IStartup {
     private void hookWindow(IWorkbenchWindow window) {
         Shell shell = window.getShell();
         if(shell != null && !shell.isDisposed()) {
-            int hWnd = getShellWindowHandle(shell);
+            Number hWnd = getShellWindowHandle(shell);
             logPrimaryWindow(hWnd);
             shell.addDisposeListener(new DisposeListener() {
                 public void widgetDisposed(DisposeEvent e) {
@@ -57,14 +57,14 @@ public class WindowsStartup implements IStartup {
         }
     }
     
-    private int getShellWindowHandle(Shell shell) {
-        // This is the Win32 SWT specific field
+    private Number getShellWindowHandle(Shell shell) {
+        // This is the Win SWT specific field for Control.handle for a Shell
         // return shell.handle;
         
         // We'll get it by reflection...
         try {
             Field f = Control.class.getDeclaredField("handle"); //$NON-NLS-1$
-            return (Integer)f.get(shell);
+            return (Number)f.get(shell);
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -92,7 +92,7 @@ public class WindowsStartup implements IStartup {
      * Log the window that we are using
      * @param hWnd
      */
-    private void logPrimaryWindow(int hWnd) {
+    private void logPrimaryWindow(Number hWnd) {
         WindowState state = WindowState.get(WindowState.WINDOW);
         if(state.exists()) {
             state.delete();
