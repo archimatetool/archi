@@ -1,7 +1,8 @@
 Archi for Linux README
 ======================
 
-* If the menu bar bar is not visible on Ubuntu launch with "Archi-Ubuntu.sh"
+* If the menu bar bar is not visible on Ubuntu launch with
+  export UBUNTU_MENUPROXY=0
 * If the Hints Window does not display correctly install xulrunner-1.9.2 or libwebkitgtk-1.0.0:
     sudo apt-get install xulrunner-1.9.2
     sudo apt-get install libwebkitgtk-1.0.0

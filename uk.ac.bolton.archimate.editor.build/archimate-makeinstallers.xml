@@ -12,7 +12,7 @@
   	</description>
 	
 	<!-- Default/Start Target -->
-	<target name="run" depends="init, make_win_folder, make_win_zip, make_mac_zips, make_lnx_zips" />
+	<target name="run" depends="init, make_win_folder, make_win_zip, make_mac_zips, make_lnx_zip" />
 	
 	<!-- Init some stuff -->
 	<target name="init">
@@ -167,53 +167,60 @@
         <delete dir="${tmp.dir}" />
 	</target>
 
-	<!-- Make Linux zips -->
-	<target name="make_lnx_zips">
-	    <property name="lnx.launcher"           value="${app.name}"/>
-		<property name="lnx.launcher2"          value="Archi-Ubuntu.sh"/>
-		
-	    <antcall target="make_lnx">
-	    	<param name="lnx.tar"               value="${output.dir}/${app.name}-lnx32-${version}.tar"/>
-	    	<param name="output_lnx.dir"        value="${output.dir}/linux.gtk.x86"/>
-	    </antcall>
+	<!-- Make Linux zip -->
+    <target name="make_lnx_zip">
+	    <property name="output_lnx32.dir"       location="${output.dir}/linux.gtk.x86"/>
+	    <property name="output_lnx64.dir"       location="${output.dir}/linux.gtk.x86_64"/>
+	    <property name="lnx.tar"                location="${output.dir}/${app.name}-lnx32_64-${version}.tar"/>
 
-        <antcall target="make_lnx">
-            <param name="lnx.tar"               value="${output.dir}/${app.name}-lnx64-${version}.tar"/>
-            <param name="output_lnx.dir"        value="${output.dir}/linux.gtk.x86_64"/>
-        </antcall>
-	</target>
-	
-	<!-- Make Linux version -->
-    <target name="make_lnx">
-        <delete dir="${tmp.dir}"/>
+	    <delete dir="${tmp.dir}"/>
         <mkdir dir="${tmp.dir}"/>
         
         <!-- copy extras -->
         <antcall target="copy_extra_files"/>
         
-    	<!-- copy other files over -->
+        <!-- copy other files over -->
         <copy todir="${tmp.dir}" overwrite="true">
             <fileset dir="${src.dir}/branding/linux"/>
         </copy>
 
-        <!-- copy build -->
+        <!-- rename our .ini files -->
+        <copy file="${tmp.dir}/Archi.ini" tofile="${tmp.dir}/Archi32.ini" overwrite="true"/>
+        <copy file="${tmp.dir}/Archi.ini" tofile="${tmp.dir}/Archi64.ini" overwrite="true"/>
+    	<delete file="${tmp.dir}/Archi.ini"/>
+
+        <!-- copy 32-bit build -->
 		<copy todir="${tmp.dir}" >
-			<fileset dir="${output_lnx.dir}"/>
+			<fileset dir="${output_lnx32.dir}"/>
 		</copy>
-        
-        <!-- tar -->
+    	
+    	<!-- rename Archi to Archi32 -->
+    	<move file="${tmp.dir}/${app.name}" tofile="${tmp.dir}/${app.name}32"/>
+    	
+        <!-- copy 64-bit build -->
+		<copy todir="${tmp.dir}" overwrite="false">
+			<fileset dir="${output_lnx64.dir}"/>
+		</copy>
+    	
+    	<!-- rename Archi to Archi64 -->
+    	<move file="${tmp.dir}/${app.name}" tofile="${tmp.dir}/${app.name}64"/>
+
+		<!-- Delete Unneccessary Cairo file see https://bugs.eclipse.org/bugs/show_bug.cgi?id=376560s -->
+		<delete file="${tmp.dir}/libcairo-swt.so"/>
+
+		<!-- tar -->
 		<tar destfile="${lnx.tar}" >
 			<!-- Set the executable permission on the launcher files -->
 			<tarfileset dir="${output.dir}" mode="755" username="archimate" group="archimate">
-				<include name="${folder.name}/${lnx.launcher}"/>
-				<include name="${folder.name}/${lnx.launcher2}"/>
+				<include name="${folder.name}/${app.name}32"/>
+				<include name="${folder.name}/${app.name}64"/>
 			</tarfileset>
 		    
 			<!-- Other files without the executable permission -->
 			<tarfileset dir="${output.dir}" username="archimate" group="archimate">
 				<include name="${folder.name}/"/>
-				<exclude name="${folder.name}/${lnx.launcher}"/>
-				<exclude name="${folder.name}/${lnx.launcher2}"/>
+				<exclude name="${folder.name}/${app.name}32"/>
+				<exclude name="${folder.name}/${app.name}64"/>
 			</tarfileset>
 		</tar>
 
