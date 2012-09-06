@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.3.1 September XX 2012
+Version 2.3.1 September 06 2012
 -------------------------------
 + Built on Eclipse 3.8 RCP
 + Support for Java 7
