@@ -26,4 +26,6 @@ public interface ICanvasImages {
     String ICON_CANVAS_BLOCK_16 = IMGPATH + "block-16.png"; //$NON-NLS-1$
     String ICON_CANVAS_MODEL_16 = IMGPATH + "canvas-16.png"; //$NON-NLS-1$
     String ICON_CANVAS_STICKY_16 = IMGPATH + "sticky-16.png"; //$NON-NLS-1$
+    
+    String ICON_NEWFILE_16 = IMGPATH + "newfile.gif"; //$NON-NLS-1$
 }
