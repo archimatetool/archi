@@ -65,6 +65,12 @@ public interface IEditorModelManager {
     IArchimateModel createNewModel();
     
     /**
+     * Register a model in the manager
+     * @param model
+     */
+    void registerModel(IArchimateModel model);
+    
+    /**
      * Open a model by loading it and opening its Views
      * @return The newly opened model or null
      */

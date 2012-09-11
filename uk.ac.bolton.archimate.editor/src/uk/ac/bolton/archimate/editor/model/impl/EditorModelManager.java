@@ -144,6 +144,14 @@ implements IEditorModelManager {
         diagramModel.setName(Messages.EditorModelManager_1);
         model.getFolder(FolderType.DIAGRAMS).getElements().add(diagramModel);
         
+        // Register
+        registerModel(model);
+        
+        return model;
+    }
+    
+    @Override
+    public void registerModel(IArchimateModel model) {
         // Add to Models
         getModels().add(model);
         
@@ -155,7 +163,6 @@ implements IEditorModelManager {
         
         firePropertyChange(this, PROPERTY_MODEL_CREATED, null, model);
         model.eAdapters().add(new ECoreAdapter());
-        return model;
     }
     
     @Override
