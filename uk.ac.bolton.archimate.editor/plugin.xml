@@ -635,7 +635,7 @@
                icon="img/newfile.gif"
                id="uk.ac.bolton.archimate.menu.newModel"
                label="%command.label.0"
-               style="pulldown">
+               style="push">
          </command>
          <separator
                name="uk.ac.bolton.archimate.menu.separatorNewDropdown"
