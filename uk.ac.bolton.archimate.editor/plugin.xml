@@ -614,6 +614,35 @@
             label="%keyword.label.3">
       </keyword>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:toolbar_file?after=start">
+         <command
+               commandId="uk.ac.bolton.archimate.editor.action.newModel"
+               icon="img/newfile.gif"
+               id="uk.ac.bolton.archimate.menu.newDropdown"
+               label="%command.label"
+               style="pulldown">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:uk.ac.bolton.archimate.menu.newDropdown">
+         <command
+               commandId="uk.ac.bolton.archimate.editor.action.newModel"
+               icon="img/newfile.gif"
+               id="uk.ac.bolton.archimate.menu.newModel"
+               label="%command.label.0"
+               style="pulldown">
+         </command>
+         <separator
+               name="uk.ac.bolton.archimate.menu.separatorNewDropdown"
+               visible="false">
+         </separator>
+      </menuContribution>
+   </extension>
 
 
 </plugin>

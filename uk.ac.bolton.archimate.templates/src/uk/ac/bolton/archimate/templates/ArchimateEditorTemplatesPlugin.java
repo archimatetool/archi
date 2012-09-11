@@ -41,7 +41,7 @@ public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin implements 
 
     @Override
     public void earlyStartup() {
-        // Do nothing
+        // Do nothing - this will initialise the "Save As Template..." menu item
     }
     
     /**

@@ -458,11 +458,6 @@ extends ActionBarAdvisor {
         
         toolBarFile.add(new GroupMarker("start")); //$NON-NLS-1$
         
-        // New
-        NewDropDownAction newDropDown = new NewDropDownAction();
-        newDropDown.add(fActionNewArchimateModel);
-        toolBarFile.add(newDropDown);
-        
         toolBarFile.add(fActionOpenModel);
         toolBarFile.add(fActionSave);
         toolBarFile.add(new GroupMarker("end")); //$NON-NLS-1$

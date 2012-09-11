@@ -8,13 +8,6 @@
             label="Templates"
             visible="true">
          <action
-               class="uk.ac.bolton.archimate.templates.impl.NewArchimateModelFromTemplateAction"
-               icon="img/newfile.gif"
-               id="uk.ac.bolton.archimate.templates.newArchimateModelFromTemplate"
-               label="%action.label"
-               menubarPath="file/new_menu/new_menu.ext">
-         </action>
-         <action
                class="uk.ac.bolton.archimate.templates.impl.SaveAsTemplateAction"
                id="uk.ac.bolton.archimate.templates.saveAsTemplate"
                label="%action.label.0"
@@ -23,9 +16,39 @@
       </actionSet>
    </extension>
    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.bolton.archimate.templates.impl.NewArchimateModelFromTemplateHandler"
+            id="uk.ac.bolton.archimate.templates.modelFromTemplate"
+            name="New Model From Template">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:new_menu?after=new_menu.ext">
+         <command
+               commandId="uk.ac.bolton.archimate.templates.modelFromTemplate"
+               icon="img/newfile.gif"
+               label="%action.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:uk.ac.bolton.archimate.menu.newDropdown">
+         <command
+               commandId="uk.ac.bolton.archimate.templates.modelFromTemplate"
+               icon="img/newfile.gif"
+               label="%action.label"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
          point="org.eclipse.ui.startup">
-      <startup>
-      </startup>
+      <startup></startup>
    </extension>
 
 </plugin>
