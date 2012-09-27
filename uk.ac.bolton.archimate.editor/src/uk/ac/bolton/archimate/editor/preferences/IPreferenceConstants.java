@@ -37,6 +37,7 @@ public interface IPreferenceConstants {
     String LINK_VIEW = "linkView"; //$NON-NLS-1$
     
     String BUSINESS_INTERFACE_FIGURE = "businessInterfaceFigure"; //$NON-NLS-1$
+    String BUSINESS_PROCESS_FIGURE = "businessProcessFigure"; //$NON-NLS-1$
     String APPLICATION_COMPONENT_FIGURE = "applicationComponentFigure"; //$NON-NLS-1$
     String APPLICATION_INTERFACE_FIGURE = "applicationInterfaceFigure"; //$NON-NLS-1$
     String TECHNOLOGY_NODE_FIGURE = "technologyNodeFigure"; //$NON-NLS-1$

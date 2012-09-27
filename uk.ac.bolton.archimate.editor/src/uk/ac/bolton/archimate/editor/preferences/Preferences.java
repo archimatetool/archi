@@ -99,6 +99,9 @@ public class Preferences implements IPreferenceConstants {
             case IArchimatePackage.BUSINESS_INTERFACE:
                 return Preferences.STORE.getInt(BUSINESS_INTERFACE_FIGURE);
                 
+            case IArchimatePackage.BUSINESS_PROCESS:
+                return Preferences.STORE.getInt(BUSINESS_PROCESS_FIGURE);
+
             case IArchimatePackage.APPLICATION_INTERFACE:
                 return Preferences.STORE.getInt(APPLICATION_INTERFACE_FIGURE);
                 
