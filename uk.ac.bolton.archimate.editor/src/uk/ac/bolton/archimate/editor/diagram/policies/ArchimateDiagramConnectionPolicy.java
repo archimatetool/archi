@@ -14,6 +14,9 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.CreateDiagramConnectionCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.DiagramCommandFactory;
@@ -211,16 +214,41 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
      * Will also add and remove the associated Archimate Relationship to the model
      */
     private class CreateArchimateConnectionCommand extends CreateLineConnectionCommand {
+        // Flag to mark whether a new relationship was created or whether we re-used an existing one
+        private boolean useExistingRelation;
+        
         public CreateArchimateConnectionCommand(CreateConnectionRequest request) {
             super(request);
         }
         
         @Override
         public void execute() {
+            EClass classType = (EClass)fRequest.getNewObjectType();
+            IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)fSource;
+            IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)fTarget;
+            
+            // If there is already a relation of this type in the model...
+            IRelationship relation = getExistingRelationshipOfType(classType, source, target);
+            if(relation != null) {
+                // ...then ask the user if they want to re-use it
+                useExistingRelation = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                        Messages.ArchimateDiagramConnectionPolicy_0,
+                        NLS.bind(Messages.ArchimateDiagramConnectionPolicy_1,
+                                source.getName(), target.getName()));
+                // Yes...
+                if(useExistingRelation) {
+                     // ...set connection's relationship to the existing relation
+                    fConnection = createNewConnection();
+                    ((IDiagramModelArchimateConnection)fConnection).setRelationship(relation);
+                }
+            }
+
             super.execute();
             
             // Now add the relationship to the model
-            ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
+            if(!useExistingRelation) {
+                ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
+            }
         }
 
         @Override
@@ -228,7 +256,9 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             super.redo();
             
             // Now add the relationship to the model
-            ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
+            if(!useExistingRelation) {
+                ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
+            }
         }
         
         @Override
@@ -236,7 +266,9 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             super.undo();
             
             // Now remove the relationship from its folder
-            ((IDiagramModelArchimateConnection)fConnection).removeRelationshipFromModel();
+            if(!useExistingRelation) {
+                ((IDiagramModelArchimateConnection)fConnection).removeRelationshipFromModel();
+            }
         }
     }
     
@@ -333,5 +365,19 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         }
         
         return false;
+    }
+    
+    /**
+     * See if there is an existing relationship of the proposed type between source and target diagram objects.
+     * If there is, we can offer to re-use it instead of creating a new one.
+     * @return an existing relationship or null
+     */
+    private IRelationship getExistingRelationshipOfType(EClass classType, IDiagramModelArchimateObject source, IDiagramModelArchimateObject target) {
+        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(source.getArchimateElement())) {
+            if(relation.eClass().equals(classType) && relation.getTarget() == target.getArchimateElement()) {
+                return relation;
+            }
+        }
+        return null;
     }
 }

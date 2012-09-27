@@ -75,7 +75,12 @@ extends Command {
 
     @Override
     public void execute() {
-        fConnection = (IDiagramModelConnection)fRequest.getNewObject();
+        // If null create new one
+        if(fConnection == null) {
+            fConnection = createNewConnection();
+        }
+        
+        // Connect
         fConnection.connect(fSource, fTarget);
         
         // If it's a circular connection, add some bendpoints
@@ -92,6 +97,14 @@ extends Command {
     @Override
     public void undo() {
         fConnection.disconnect();
+    }
+    
+    /**
+     * Create a new connection from the request
+     * @return The new connection
+     */
+    protected IDiagramModelConnection createNewConnection() {
+        return (IDiagramModelConnection)fRequest.getNewObject();
     }
     
     /**

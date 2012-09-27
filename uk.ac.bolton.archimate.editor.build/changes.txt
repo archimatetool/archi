@@ -1,6 +1,12 @@
 Archi Changes
 -------------
 
+Version 2.3.2 November XX 2012
+------------------------------
++ When creating a new connection between two elements, if there is an existing relationship of the same type, offer to reference that one
+
+
+
 Version 2.3.1 September 06 2012
 -------------------------------
 + Built on Eclipse 3.8 RCP
