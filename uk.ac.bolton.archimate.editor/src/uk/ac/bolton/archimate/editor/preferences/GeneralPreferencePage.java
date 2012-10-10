@@ -13,7 +13,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
@@ -21,8 +20,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 /**
  * General Preferences Page
@@ -35,6 +32,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsGeneral"; //$NON-NLS-1$
     
     private Button fOpenDiagramsOnLoadButton;
+    private Button fBackupOnSaveButton;
     
     private Spinner fMRUSizeSpinner;
     
@@ -59,12 +57,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fileGroup.setLayout(new GridLayout(2, false));
         fileGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        // Automatically open views when opening a model file
         fOpenDiagramsOnLoadButton = new Button(fileGroup, SWT.CHECK);
         fOpenDiagramsOnLoadButton.setText(Messages.GeneralPreferencePage_1);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fOpenDiagramsOnLoadButton.setLayoutData(gd);
+
+        // Backup file on save
+        fBackupOnSaveButton = new Button(fileGroup, SWT.CHECK);
+        fBackupOnSaveButton.setText(Messages.GeneralPreferencePage_5);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fBackupOnSaveButton.setLayoutData(gd);
         
+       // Size of recently opened file list
         Label label = new Label(fileGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_2);
         
@@ -89,18 +96,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
 
     private void setValues() {
-        // Bug on Mac OS X Carbon - field is initially empty unless we thread this
-        if(PlatformUtils.isMacCarbon()) {
-            Display.getCurrent().asyncExec(new Runnable() {
-                public void run() {
-                    setSpinnerValues();
-                }
-            });
-        }
-        else {
-            setSpinnerValues();
-        }
-
+        setSpinnerValues();
+        fBackupOnSaveButton.setSelection(getPreferenceStore().getBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fUseCurvedTabsButton.setSelection(!PlatformUI.getPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS));
     }
@@ -111,6 +108,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
+        getPreferenceStore().setValue(BACKUP_ON_SAVE, fBackupOnSaveButton.getSelection());
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, !fUseCurvedTabsButton.getSelection());
@@ -119,6 +117,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     protected void performDefaults() {
+        fBackupOnSaveButton.setSelection(getPreferenceStore().getDefaultBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         fUseCurvedTabsButton.setSelection(!PlatformUI.getPreferenceStore().getDefaultBoolean(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS));

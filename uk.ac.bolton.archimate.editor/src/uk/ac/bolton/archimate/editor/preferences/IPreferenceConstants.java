@@ -27,6 +27,7 @@ public interface IPreferenceConstants {
     String VIEW_TOOLTIPS = "viewTooltips"; //$NON-NLS-1$
     
     String OPEN_DIAGRAMS_ON_LOAD = "openDiagramsOnLoad"; //$NON-NLS-1$
+    String BACKUP_ON_SAVE = "backupOnSave"; //$NON-NLS-1$
     
     String ANIMATE = "animate"; //$NON-NLS-1$
     String ANIMATION_SPEED = "animationSpeed"; //$NON-NLS-1$
