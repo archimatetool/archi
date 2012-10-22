@@ -1713,7 +1713,7 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Stakeholder" relations="gcso" />
+			<target element="Stakeholder" relations="cgos" />
 			<target element="Driver" relations="o" />
 			<target element="Assessment" relations="o" />
 			<target element="Goal" relations="o" />
@@ -1743,7 +1743,7 @@
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
 			<target element="Meaning" relations="o" />
-			<target element="Value" relations="on" />
+			<target element="Value" relations="no" />
 			
 			<target element="ApplicationComponent" relations="o" />
 			<target element="ApplicationCollaboration" relations="o" />
@@ -1764,12 +1764,12 @@
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="gcson" />
-			<target element="Assessment" relations="on" />
-			<target element="Goal" relations="on" />
-			<target element="Requirement" relations="on" />
-			<target element="Principle" relations="on" />
-			<target element="Constraint" relations="on" />
+			<target element="Driver" relations="cgnos" />
+			<target element="Assessment" relations="no" />
+			<target element="Goal" relations="no" />
+			<target element="Requirement" relations="no" />
+			<target element="Principle" relations="no" />
+			<target element="Constraint" relations="no" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
@@ -1793,7 +1793,7 @@
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
 			<target element="Meaning" relations="o" />
-			<target element="Value" relations="on" />
+			<target element="Value" relations="no" />
 			
 			<target element="ApplicationComponent" relations="o" />
 			<target element="ApplicationCollaboration" relations="o" />
@@ -1814,12 +1814,12 @@
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="on" />
-			<target element="Assessment" relations="gcson" />
-			<target element="Goal" relations="on" />
-			<target element="Requirement" relations="on" />
-			<target element="Principle" relations="on" />
-			<target element="Constraint" relations="on" />
+			<target element="Driver" relations="no" />
+			<target element="Assessment" relations="cgnos" />
+			<target element="Goal" relations="no" />
+			<target element="Requirement" relations="no" />
+			<target element="Principle" relations="no" />
+			<target element="Constraint" relations="no" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
@@ -1843,7 +1843,7 @@
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
 			<target element="Meaning" relations="o" />
-			<target element="Value" relations="on" />
+			<target element="Value" relations="no" />
 			
 			<target element="ApplicationComponent" relations="o" />
 			<target element="ApplicationCollaboration" relations="o" />
@@ -1864,12 +1864,12 @@
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="on" />
-			<target element="Assessment" relations="on" />
-			<target element="Goal" relations="gcson" />
-			<target element="Requirement" relations="on" />
-			<target element="Principle" relations="on" />
-			<target element="Constraint" relations="on" />
+			<target element="Driver" relations="no" />
+			<target element="Assessment" relations="no" />
+			<target element="Goal" relations="cgnos" />
+			<target element="Requirement" relations="no" />
+			<target element="Principle" relations="no" />
+			<target element="Constraint" relations="no" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
@@ -1893,7 +1893,7 @@
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
 			<target element="Meaning" relations="o" />
-			<target element="Value" relations="on" />
+			<target element="Value" relations="no" />
 			
 			<target element="ApplicationComponent" relations="o" />
 			<target element="ApplicationCollaboration" relations="o" />
@@ -1914,12 +1914,12 @@
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="on" />
-			<target element="Assessment" relations="on" />
-			<target element="Goal" relations="ron" />
-			<target element="Requirement" relations="gcson" />
-			<target element="Principle" relations="ron" />
-			<target element="Constraint" relations="gcson" />
+			<target element="Driver" relations="no" />
+			<target element="Assessment" relations="no" />
+			<target element="Goal" relations="nor" />
+			<target element="Requirement" relations="cgnos" />
+			<target element="Principle" relations="nor" />
+			<target element="Constraint" relations="cgnos" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
@@ -1943,7 +1943,7 @@
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
 			<target element="Meaning" relations="o" />
-			<target element="Value" relations="on" />
+			<target element="Value" relations="no" />
 			
 			<target element="ApplicationComponent" relations="o" />
 			<target element="ApplicationCollaboration" relations="o" />
@@ -1964,12 +1964,12 @@
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="on" />
-			<target element="Assessment" relations="on" />
-			<target element="Goal" relations="ron" />
-			<target element="Requirement" relations="on" />
-			<target element="Principle" relations="gcson" />
-			<target element="Constraint" relations="on" />
+			<target element="Driver" relations="no" />
+			<target element="Assessment" relations="no" />
+			<target element="Goal" relations="nor" />
+			<target element="Requirement" relations="no" />
+			<target element="Principle" relations="cgnos" />
+			<target element="Constraint" relations="no" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
@@ -2014,12 +2014,12 @@
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="on" />
-			<target element="Assessment" relations="on" />
-			<target element="Goal" relations="ron" />
-			<target element="Requirement" relations="gcson" />
-			<target element="Principle" relations="ron" />
-			<target element="Constraint" relations="gcson" />
+			<target element="Driver" relations="no" />
+			<target element="Assessment" relations="no" />
+			<target element="Goal" relations="nor" />
+			<target element="Requirement" relations="cgnos" />
+			<target element="Principle" relations="nor" />
+			<target element="Constraint" relations="cgnos" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
@@ -2028,40 +2028,40 @@
 		</source>
 		
 		<source element="WorkPackage">
-			<target element="BusinessActor" relations="roft" />
-			<target element="BusinessRole" relations="roft" />
-			<target element="BusinessCollaboration" relations="ro" />
+			<target element="BusinessActor" relations="fort" />
+			<target element="BusinessRole" relations="fort" />
+			<target element="BusinessCollaboration" relations="or" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ro" />
-			<target element="BusinessProcess" relations="ro" />
-			<target element="BusinessFunction" relations="ro" />
-			<target element="BusinessInteraction" relations="ro" />
-			<target element="BusinessEvent" relations="ro" />
-			<target element="BusinessService" relations="ro" />
-			<target element="BusinessObject" relations="ro" />
-			<target element="Representation" relations="ro" />
-			<target element="Product" relations="ro" />
-			<target element="Contract" relations="ro" />
-			<target element="Meaning" relations="ro" />
+			<target element="BusinessInterface" relations="or" />
+			<target element="BusinessProcess" relations="or" />
+			<target element="BusinessFunction" relations="or" />
+			<target element="BusinessInteraction" relations="or" />
+			<target element="BusinessEvent" relations="or" />
+			<target element="BusinessService" relations="or" />
+			<target element="BusinessObject" relations="or" />
+			<target element="Representation" relations="or" />
+			<target element="Product" relations="or" />
+			<target element="Contract" relations="or" />
+			<target element="Meaning" relations="or" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="ro" />
-			<target element="ApplicationCollaboration" relations="ro" />
-			<target element="ApplicationInterface" relations="ro" />
-			<target element="ApplicationFunction" relations="ro" />
-			<target element="ApplicationInteraction" relations="ro" />
-			<target element="ApplicationService" relations="ro" />
-			<target element="DataObject" relations="ro" />
+			<target element="ApplicationComponent" relations="or" />
+			<target element="ApplicationCollaboration" relations="or" />
+			<target element="ApplicationInterface" relations="or" />
+			<target element="ApplicationFunction" relations="or" />
+			<target element="ApplicationInteraction" relations="or" />
+			<target element="ApplicationService" relations="or" />
+			<target element="DataObject" relations="or" />
 
-			<target element="Node" relations="ro" />
-			<target element="Device" relations="ro" />
-			<target element="SystemSoftware" relations="ro" />
-			<target element="InfrastructureInterface" relations="ro" />
-			<target element="Network" relations="ro" />
-			<target element="CommunicationPath" relations="ro" />
-			<target element="InfrastructureFunction" relations="ro" />
-			<target element="InfrastructureService" relations="ro" />
-			<target element="Artifact" relations="ro" />
+			<target element="Node" relations="or" />
+			<target element="Device" relations="or" />
+			<target element="SystemSoftware" relations="or" />
+			<target element="InfrastructureInterface" relations="or" />
+			<target element="Network" relations="or" />
+			<target element="CommunicationPath" relations="or" />
+			<target element="InfrastructureFunction" relations="or" />
+			<target element="InfrastructureService" relations="or" />
+			<target element="Artifact" relations="or" />
 			
 			<target element="Junction" relations="ft" />
 
@@ -2069,13 +2069,13 @@
 			<target element="Driver" relations="o" />
 			<target element="Assessment" relations="o" />
 			<target element="Goal" relations="ro" />
-			<target element="Requirement" relations="ro" />
+			<target element="Requirement" relations="or" />
 			<target element="Principle" relations="o" />
-			<target element="Constraint" relations="ro" />
+			<target element="Constraint" relations="or" />
 			
-			<target element="WorkPackage" relations="gcsoft" />
-			<target element="Deliverable" relations="ro" />
-			<target element="Plateau" relations="ro" />
+			<target element="WorkPackage" relations="cfgost" />
+			<target element="Deliverable" relations="or" />
+			<target element="Plateau" relations="or" />
 			<target element="Gap" relations="o" />
 		</source>
 		
@@ -2118,13 +2118,13 @@
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
 			<target element="Assessment" relations="o" />
-			<target element="Goal" relations="ro" />
-			<target element="Requirement" relations="ro" />
-			<target element="Principle" relations="ro" />
-			<target element="Constraint" relations="ro" />
+			<target element="Goal" relations="or" />
+			<target element="Requirement" relations="or" />
+			<target element="Principle" relations="or" />
+			<target element="Constraint" relations="or" />
 			
 			<target element="WorkPackage" relations="o" />
-			<target element="Deliverable" relations="gcso" />
+			<target element="Deliverable" relations="cgos" />
 			<target element="Plateau" relations="o" />
 			<target element="Gap" relations="o" />
 		</source>
@@ -2170,14 +2170,14 @@
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
 			<target element="Assessment" relations="o" />
-			<target element="Goal" relations="gro" />
-			<target element="Requirement" relations="gro" />
+			<target element="Goal" relations="gor" />
+			<target element="Requirement" relations="gor" />
 			<target element="Principle" relations="o" />
-			<target element="Constraint" relations="gro" />
+			<target element="Constraint" relations="gor" />
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
-			<target element="Plateau" relations="gcsot" />
+			<target element="Plateau" relations="cgost" />
 			<target element="Gap" relations="o" />
 		</source>
 		
@@ -2228,7 +2228,7 @@
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="o" />
 			<target element="Plateau" relations="o" />
-			<target element="Gap" relations="gcso" />
+			<target element="Gap" relations="cgos" />
 		</source>
 		
 	</elements>
