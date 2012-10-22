@@ -2125,7 +2125,7 @@
 			
 			<target element="WorkPackage" relations="o" />
 			<target element="Deliverable" relations="cgos" />
-			<target element="Plateau" relations="o" />
+			<target element="Plateau" relations="or" />
 			<target element="Gap" relations="o" />
 		</source>
 		
