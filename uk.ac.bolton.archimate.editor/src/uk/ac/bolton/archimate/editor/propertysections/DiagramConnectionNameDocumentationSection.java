@@ -102,7 +102,7 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
         fTextName.refresh(fConnection);
         
         boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
-        fTextName.getTextControl().setEnabled(enabled);
+        fTextName.setEditable(enabled);
     }
     
     protected void refreshDocumentationField() {
@@ -112,7 +112,7 @@ public class DiagramConnectionNameDocumentationSection extends AbstractArchimate
         fTextDocumentation.refresh(fConnection);
 
         boolean enabled = fConnection instanceof ILockable ? !((ILockable)fConnection).isLocked() : true;
-        fTextDocumentation.getTextControl().setEnabled(enabled);
+        fTextDocumentation.setEditable(enabled);
     }
     
     @Override

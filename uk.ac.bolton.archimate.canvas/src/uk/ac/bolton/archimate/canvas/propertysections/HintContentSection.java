@@ -129,8 +129,8 @@ public class HintContentSection extends AbstractArchimatePropertySection {
         fTextContentControl.refresh(fHintProvider);
         
         boolean enabled = fHintProvider instanceof ILockable ? !((ILockable)fHintProvider).isLocked() : true;
-        fTextTitleControl.getTextControl().setEnabled(enabled);
-        fTextContentControl.getTextControl().setEnabled(enabled);
+        fTextTitleControl.setEditable(enabled);
+        fTextContentControl.setEditable(enabled);
     }
     
     @Override

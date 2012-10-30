@@ -82,7 +82,7 @@ public class FolderSection extends AbstractArchimatePropertySection {
         if(fIsExecutingCommand) {
             return; 
         }
-        fTextName.getTextControl().setEnabled(fFolder != null && fFolder.getType() == FolderType.USER);
+        fTextName.setEditable(fFolder != null && fFolder.getType() == FolderType.USER);
         fTextName.refresh(fFolder);
     }
     

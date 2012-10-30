@@ -80,7 +80,7 @@ public class NameSection extends AbstractArchimatePropertySection {
         fTextName.refresh(fNameable);
         
         boolean enabled = fNameable instanceof ILockable ? !((ILockable)fNameable).isLocked() : true;
-        fTextName.getTextControl().setEnabled(enabled);
+        fTextName.setEditable(enabled);
     }
     
     @Override

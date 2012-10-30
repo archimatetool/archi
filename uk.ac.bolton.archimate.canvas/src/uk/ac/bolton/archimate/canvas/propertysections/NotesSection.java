@@ -111,7 +111,7 @@ public class NotesSection extends AbstractArchimatePropertySection {
         fTextNotesControl.refresh(fNotesContent);
         
         boolean enabled = fNotesContent instanceof ILockable ? !((ILockable)fNotesContent).isLocked() : true;
-        fTextNotesControl.getTextControl().setEnabled(enabled);
+        fTextNotesControl.setEditable(enabled);
     }
     
     @Override

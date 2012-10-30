@@ -64,6 +64,15 @@ public abstract class PropertySectionTextControl implements FocusListener {
         return fTextControl;
     }
     
+    public void setEditable(boolean editable) {
+        if(fTextControl instanceof Text) {
+            ((Text)fTextControl).setEditable(editable);
+        }
+        if(fTextControl instanceof StyledText) {
+            ((StyledText)fTextControl).setEditable(editable);
+        }
+    }
+    
     public void refresh(EObject dataElement) {
         fDataElement = dataElement;
         

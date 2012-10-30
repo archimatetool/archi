@@ -108,7 +108,7 @@ public class TextContentSection extends AbstractArchimatePropertySection {
         fTextContentControl.refresh(fTextContent);
         
         boolean enabled = fTextContent instanceof ILockable ? !((ILockable)fTextContent).isLocked() : true;
-        fTextContentControl.getTextControl().setEnabled(enabled);
+        fTextContentControl.setEditable(enabled);
     }
     
     @Override

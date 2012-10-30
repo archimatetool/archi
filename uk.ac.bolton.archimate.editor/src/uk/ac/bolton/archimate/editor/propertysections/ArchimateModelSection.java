@@ -77,7 +77,6 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
 
         // Text
         fTextFile = createSingleTextControl(parent, SWT.READ_ONLY);
-        fTextFile.setEnabled(false);
     }
     
     private void createPurposeControl(Composite parent) {
