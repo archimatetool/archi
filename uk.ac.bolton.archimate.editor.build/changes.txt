@@ -7,6 +7,7 @@ Version 2.3.2 November XX 2012
 + Business Process figure can be displayed as an arrow figure
 + Preferences option to choose whether to automatically create a backup file (*.bak) when saving
 + The Java version shipped with the Windows installer is now version 1.6.0_37
++ Allow all elements to be accessed by Jasper Reports
 * Relationship rule added - Deliverable Realises Plateau
 * Canvas Editor locked text controls are selectable/scrollable
 + Built on Eclipse 3.8.1 RCP

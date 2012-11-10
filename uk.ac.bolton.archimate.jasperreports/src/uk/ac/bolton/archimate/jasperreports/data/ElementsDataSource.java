@@ -14,6 +14,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 import uk.ac.bolton.archimate.model.FolderType;
@@ -30,6 +31,23 @@ import uk.ac.bolton.archimate.model.IFolder;
  */
 public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDataSource {
     
+    public static final String ELEMENTS_BUSINESS_ACTORS = "business_actors"; //$NON-NLS-1$
+    public static final String ELEMENTS_BUSINESS_FUNCTIONS = "business_functions"; //$NON-NLS-1$
+    public static final String ELEMENTS_BUSINESS_INFORMATION = "business_information"; //$NON-NLS-1$
+    public static final String ELEMENTS_BUSINESS_PROCESSES = "business_processes"; //$NON-NLS-1$
+    public static final String ELEMENTS_BUSINESS_PRODUCTS = "business_products"; //$NON-NLS-1$
+    
+    public static final String ELEMENTS_APPLICATIONS = "applications"; //$NON-NLS-1$
+    public static final String ELEMENTS_APPLICATION_DATA = "application_data"; //$NON-NLS-1$
+
+    public static final String ELEMENTS_INFRASTRUCTURES = "infrastructures"; //$NON-NLS-1$
+
+    public static final String ELEMENTS_MOTIVATION = "motivation"; //$NON-NLS-1$
+    public static final String ELEMENTS_IMPLEMENTATION_MIGRATION = "impl_migration"; //$NON-NLS-1$
+    
+    public static final String ELEMENTS_CONNECTORS = "connectors"; //$NON-NLS-1$
+    public static final String ELEMENTS_RELATIONS = "relations"; //$NON-NLS-1$
+    
     List<IArchimateElement> fElements = new ArrayList<IArchimateElement>();
     private IArchimateElement fCurrentElement;
     private int currentIndex = -1;
@@ -43,33 +61,33 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         IFolder connectorsFolder = model.getFolder(FolderType.CONNECTORS);
         IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
 
-        if("business_actors".equals(type)) { //$NON-NLS-1$
+        if(ELEMENTS_BUSINESS_ACTORS.equals(type)) { 
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessActor());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessRole());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInterface());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getLocation());
         }
-        else if("business_functions".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_BUSINESS_FUNCTIONS.equals(type)) {
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessFunction());
         }
-        else if("business_information".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_BUSINESS_INFORMATION.equals(type)) {
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessObject());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getRepresentation());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getMeaning());
         }
-        else if("business_processes".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_BUSINESS_PROCESSES.equals(type)) {
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessEvent());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInteraction());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessProcess());
         }
-        else if("business_products".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_BUSINESS_PRODUCTS.equals(type)) {
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getContract());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getProduct());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessService());
             getElements(businessFolder, IArchimatePackage.eINSTANCE.getValue());
         }
-        else if("applications".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_APPLICATIONS.equals(type)) {
             getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationCollaboration());
             getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationComponent());
             getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationFunction());
@@ -77,10 +95,10 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationInterface());
             getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationService());
         }
-        else if("application_data".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_APPLICATION_DATA.equals(type)) {
             getElements(applicationFolder, IArchimatePackage.eINSTANCE.getDataObject());
         }
-        else if("infrastructures".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_INFRASTRUCTURES.equals(type)) {
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getArtifact());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getCommunicationPath());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getDevice());
@@ -91,7 +109,7 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureService());
             getElements(technologyFolder, IArchimatePackage.eINSTANCE.getSystemSoftware());
         }
-        else if("motivation".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_MOTIVATION.equals(type)) {
             getElements(motivationFolder, IArchimatePackage.eINSTANCE.getStakeholder());
             getElements(motivationFolder, IArchimatePackage.eINSTANCE.getDriver());
             getElements(motivationFolder, IArchimatePackage.eINSTANCE.getAssessment());
@@ -100,17 +118,24 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getElements(motivationFolder, IArchimatePackage.eINSTANCE.getRequirement());
             getElements(motivationFolder, IArchimatePackage.eINSTANCE.getConstraint());
         }
-        else if("impl_migration".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_IMPLEMENTATION_MIGRATION.equals(type)) {
             getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getWorkPackage());
             getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getDeliverable());
             getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getPlateau());
             getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getGap());
         }
-        else if("connectors".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_CONNECTORS.equals(type)) {
             getElements(connectorsFolder, null);
         }
-        else if("relations".equals(type)) { //$NON-NLS-1$
+        else if(ELEMENTS_RELATIONS.equals(type)) {
             getElements(relationsFolder, null);
+        }
+        // A particular Element type in any folder
+        else if(type != null) {
+            EClassifier classifier =  IArchimatePackage.eINSTANCE.getEClassifier(type);
+            if(classifier instanceof EClass) {
+                getElements(model, (EClass)classifier);
+            }
         }
         
         ArchimateModelDataSource.sort(fElements);
@@ -145,6 +170,12 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
     @Override
     public void moveFirst() throws JRException {
         currentIndex = -1;
+    }
+    
+    private void getElements(IArchimateModel model, EClass type) {
+        for(IFolder folder : model.getFolders()) {
+            getElements(folder, type);
+        }
     }
 
     private void getElements(IFolder folder, EClass type) {
