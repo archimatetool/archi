@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  uk.ac.bolton.archimate.editor,
  uk.ac.bolton.jdom,
- uk.ac.bolton.archimate.compatibility,
  uk.ac.bolton.archimate.help,
  uk.ac.bolton.archimate.templates
 Bundle-ClassPath: uk.ac.bolton.archimate.canvas.jar

@@ -4,7 +4,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.compatibility;
+package uk.ac.bolton.archimate.editor.model.compatibility;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -18,7 +18,7 @@ public interface ICompatibilityHandler {
     /**
      * Extension ID
      */
-    String EXTENSION_ID = "uk.ac.bolton.archimate.compatibility.compatibilityHandler"; //$NON-NLS-1$
+    String EXTENSION_ID = "uk.ac.bolton.archimate.editor.compatibilityHandler"; //$NON-NLS-1$
 
     /**
      * Fix the issue

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="uk.ac.bolton.archimate.compatibility" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="uk.ac.bolton.archimate.editor" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="uk.ac.bolton.archimate.compatibility" id="uk.ac.bolton.archimate.compatibility.compatibilityHandler" name="Archi Model CompatibilityHandler"/>
+         <meta.schema plugin="uk.ac.bolton.archimate.editor" id="uk.ac.bolton.archimate.editor.compatibilityHandler" name="Archi Model CompatibilityHandler"/>
       </appinfo>
       <documentation>
          Use this extension point to register a model compatibility handler

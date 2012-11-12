@@ -4,15 +4,15 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.compatibility.handlers;
+package uk.ac.bolton.archimate.editor.model.compatibility.handlers;
 
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import uk.ac.bolton.archimate.compatibility.CompatibilityHandlerException;
-import uk.ac.bolton.archimate.compatibility.ICompatibilityHandler;
+import uk.ac.bolton.archimate.editor.model.compatibility.CompatibilityHandlerException;
+import uk.ac.bolton.archimate.editor.model.compatibility.ICompatibilityHandler;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;

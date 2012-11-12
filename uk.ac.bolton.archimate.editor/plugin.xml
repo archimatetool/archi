@@ -5,6 +5,7 @@
    <extension-point id="importHandler" name="Import Handler" schema="schema/importHandler.exsd"/>
    <extension-point id="labelProvider" name="Label Provider" schema="schema/labelProvider.exsd"/>
    <extension-point id="diagramEditorFactory" name="Diagram Editor Factory" schema="schema/diagramEditorFactory.exsd"/>
+   <extension-point id="compatibilityHandler" name="Model Compatibility Handler" schema="schema/compatibilityHandler.exsd"/>
    <extension
          id="app"
          name="%appName"
@@ -642,6 +643,13 @@
                visible="false">
          </separator>
       </menuContribution>
+   </extension>
+   <extension
+         point="uk.ac.bolton.archimate.editor.compatibilityHandler">
+      <compatibilityHandler
+            class="uk.ac.bolton.archimate.editor.model.compatibility.handlers.FixConnectionTextNames"
+            id="uk.ac.bolton.archimate.editor.compatibility.connectionTextHandler">
+      </compatibilityHandler>
    </extension>
 
 
