@@ -14,6 +14,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+import uk.ac.bolton.archimate.editor.diagram.ArchimateDiagramModelFactory;
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramArchimateConnectionCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramModelReferenceCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramObjectCommand;
@@ -24,9 +25,7 @@ import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
 import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
 import uk.ac.bolton.archimate.editor.model.commands.NonNotifyingCompoundCommand;
 import uk.ac.bolton.archimate.editor.preferences.ConnectionPreferences;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IDiagramModel;
@@ -77,9 +76,7 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         // Add the Commands adding the Elements first
         for(IArchimateElement element : fElementsToAdd) {
             // Add Diagram object
-            IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-            dmo.setArchimateElement(element);
-            dmo.setType(Preferences.getDefaultFigureType(dmo));
+            IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
             dmo.setBounds(x, y, -1, -1);
             
             // Store it

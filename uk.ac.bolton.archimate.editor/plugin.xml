@@ -100,6 +100,14 @@
                id="keywords.prefsRelations">
          </keywordReference>
       </page>
+      <page
+            class="uk.ac.bolton.archimate.editor.preferences.ColoursPreferencePage"
+            id="uk.ac.bolton.archimate.editor.prefsColours"
+            name="%prefsColours">
+         <keywordReference
+               id="keywords.prefsColours">
+         </keywordReference>
+      </page>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -613,6 +621,10 @@
       <keyword
             id="keywords.prefsRelations"
             label="%keyword.label.3">
+      </keyword>
+      <keyword
+            id="keywords.prefsColours"
+            label="%keyword.label.4">
       </keyword>
    </extension>
    <extension

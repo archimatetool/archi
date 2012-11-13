@@ -68,4 +68,7 @@ public interface IPreferenceConstants {
     String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements"; //$NON-NLS-1$
 
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject"; //$NON-NLS-1$
+    
+    String DEFAULT_FILL_COLOR_PREFIX = "defaultFillColour_"; //$NON-NLS-1$
+    String SAVE_USER_DEFAULT_FILL_COLOR = ""; //$NON-NLS-1$
 }

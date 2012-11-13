@@ -122,7 +122,7 @@ implements IDiagramModelObjectFigure {
      */
     public Color getFillColor() {
         if(fFillColor == null) {
-            return ColorFactory.getDefaultColor(fDiagramModelObject);
+            return ColorFactory.getDefaultFillColor(fDiagramModelObject);
         }
         return fFillColor;
     }

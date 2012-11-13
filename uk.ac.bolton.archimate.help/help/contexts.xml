@@ -100,6 +100,10 @@
        <description>Show the allowed ArchiMate relationships.</description>
        <topic href="help/prefs_relations.html" label="Relationships Preferences"/>
     </context>
+    <context id="prefsColours">
+       <topic href="help/prefs_colours.html" label="Colours Preferences"/>
+       <description>Edit the application colours</description>
+    </context>
     <context id="userProperties" title="User Properties">
        <description>Edit User Properties</description>
        <topic href="help/properties_user_properties.html" label="User Properties"/>

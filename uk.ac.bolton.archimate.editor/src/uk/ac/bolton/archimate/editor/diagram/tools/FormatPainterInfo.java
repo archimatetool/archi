@@ -52,7 +52,7 @@ public class FormatPainterInfo {
             
             fillColor = object.getFillColor();
             if(fillColor == null) { // If null it's a default color for a IDiagramModelObject
-                Color c = ColorFactory.getDefaultColor(object);
+                Color c = ColorFactory.getDefaultFillColor(object);
                 fillColor = ColorFactory.convertRGBToString(c.getRGB());
             }
         }

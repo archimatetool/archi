@@ -70,5 +70,7 @@ implements IPreferenceConstants {
         store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);
         
         store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
+        
+        store.setDefault(SAVE_USER_DEFAULT_FILL_COLOR, false);
     }
 }
