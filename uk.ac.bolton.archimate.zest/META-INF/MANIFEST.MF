@@ -14,3 +14,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.zest.core,
  org.eclipse.zest.layouts
 Bundle-Activator: uk.ac.bolton.archimate.zest.ArchimateZestPlugin
+Bundle-ClassPath: uk.ac.bolton.archimate.zest.jar
