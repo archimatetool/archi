@@ -1,7 +1,7 @@
 <project name="Create NLS projects" default="run" basedir=".">
   	
 	<description>
-		Create NLS langauge pack projects from source projects
+		Create NLS language pack projects from source projects
   	</description>
 	
 	<!-- Default/Start Target -->
@@ -170,6 +170,20 @@
 				<include name="templates/" />
 			</fileset>
 		</copy>
+
+
+		<!-- uk.ac.bolton.archimate.zest -->
+		<property name="zest.prj.src"    			value="uk.ac.bolton.archimate.zest"/>
+		<property name="zest.prj.tgt"    			value="${zest.prj.src}.${lang_code}"/>
+		<property name="zest.loc.src"    			location="../../${zest.prj.src}"/>
+		<property name="zest.loc.tgt"    			location="../../${main.dir}/${zest.prj.tgt}"/>
+    	
+		<antcall target="create_archi_project">
+    		<param name="prj.src"  					value="${zest.prj.src}"/>
+    		<param name="prj.tgt"  					value="${zest.prj.tgt}"/>
+    		<param name="loc.src"      				value="${zest.loc.src}"/>
+        	<param name="loc.tgt"  					value="${zest.loc.tgt}"/>
+    	</antcall>
 
 	</target>
 	

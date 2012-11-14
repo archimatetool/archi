@@ -3,6 +3,7 @@ Archi Changes
 
 Version 2.4 November 14 2012
 ----------------------------
++ Added new Visualiser Window
 + When creating a new connection between two elements, if there is an existing relationship of the same type, offer to reference that one
 + Business Process figure can be displayed as an arrow figure
 + Preferences option to set default fill colours
@@ -10,6 +11,7 @@ Version 2.4 November 14 2012
 + The Java version shipped with the Windows installer is now version 1.6.0_37
 + Built on Eclipse 3.8.1 RCP
 + Allow all ArchiMate elements to be accessed by Jasper Reports
+* Fixed bug where Navigator View didn't update in response to some model changes
 * Relationship rule added - Deliverable Realises Plateau
 * Canvas Editor locked text controls are selectable/scrollable
 

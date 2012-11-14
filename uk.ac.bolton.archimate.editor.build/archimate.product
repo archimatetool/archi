@@ -103,6 +103,8 @@
       <plugin id="org.eclipse.ui.views.properties.tabbed"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.update.configurator"/>
+      <plugin id="org.eclipse.zest.core"/>
+      <plugin id="org.eclipse.zest.layouts"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="uk.ac.bolton.archimate.canvas"/>
       <plugin id="uk.ac.bolton.archimate.csv"/>
@@ -116,6 +118,7 @@
       <plugin id="uk.ac.bolton.archimate.reports"/>
       <plugin id="uk.ac.bolton.archimate.templates"/>
       <plugin id="uk.ac.bolton.archimate.widgets"/>
+      <plugin id="uk.ac.bolton.archimate.zest"/>
       <plugin id="uk.ac.bolton.jdom"/>
    </plugins>
 

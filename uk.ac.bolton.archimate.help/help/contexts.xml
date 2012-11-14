@@ -14,6 +14,10 @@
        <description>The Navigator window displays the currently selected model element and all of its relationships with other elements.</description>
        <topic href="help/navigator.html" label="The Navigator Window"/>
     </context>
+    <context id="zestViewHelp" title="The Visualiser Window">
+       <description>The Visualiser window displays the currently selected model element and all of its relationships with other elements in a diagrammatic layout.</description>
+       <topic href="help/visualiser.html" label="The Visualiser Window"/>
+    </context>
     <context id="hintsViewHelp" title="Hints Window">
        <description>The Hints window shows a hint for the selected element or palette entry. It can be useful to provide basic information about the purpose of the elements and relationships in a model.</description>
        <topic href="help/hints.html" label="The Hints Window"/>
@@ -100,7 +104,7 @@
        <description>Show the allowed ArchiMate relationships.</description>
        <topic href="help/prefs_relations.html" label="Relationships Preferences"/>
     </context>
-    <context id="prefsColours">
+    <context id="prefsColours" title="Colours Preferences">
        <topic href="help/prefs_colours.html" label="Colours Preferences"/>
        <description>Edit the application colours</description>
     </context>

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Archi Zest Visualiser
+Bundle-SymbolicName: uk.ac.bolton.archimate.zest;singleton:=true
+Bundle-Version: 2.4.0.qualifier
+Bundle-Vendor: Bolton University
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.help.ui,
+ uk.ac.bolton.archimate.editor,
+ org.eclipse.zest.core,
+ org.eclipse.zest.layouts
+Bundle-Activator: uk.ac.bolton.archimate.zest.ArchimateZestPlugin
