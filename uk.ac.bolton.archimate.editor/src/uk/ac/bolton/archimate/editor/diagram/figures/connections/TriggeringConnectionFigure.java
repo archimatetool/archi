@@ -17,13 +17,20 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class TriggeringConnectionFigure extends AbstractArchimateConnectionFigure {
 	
+    /**
+     * @return Decoration to use on Target Node
+     */
+    public static PolygonDecoration createFigureTargetDecoration() {
+        return new PolygonDecoration();
+    }
+
     public TriggeringConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	
     @Override
     protected void setFigureProperties() {
-        setTargetDecoration(new PolygonDecoration()); 
+        setTargetDecoration(createFigureTargetDecoration()); 
     }
     
 

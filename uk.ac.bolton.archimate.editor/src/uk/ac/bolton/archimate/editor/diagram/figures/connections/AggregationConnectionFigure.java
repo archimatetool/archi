@@ -21,36 +21,36 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class AggregationConnectionFigure extends AbstractArchimateConnectionFigure {
 	
+    /**
+     * @return Decoration to use on Source Node
+     */
+    public static PolygonDecoration createFigureSourceDecoration() {
+        return new PolygonDecoration() {
+            {
+                setScale(5, 3);
+                PointList decorationPointList = new PointList();
+                decorationPointList.addPoint( 0, 0);
+                decorationPointList.addPoint(-2, 2);
+                decorationPointList.addPoint(-4, 0);
+                decorationPointList.addPoint(-2,-2);
+                setTemplate(decorationPointList);
+            }
+            
+            @Override
+            protected void fillShape(Graphics g) {
+                // Draw this as white in case it is disabled
+                g.setBackgroundColor(ColorConstants.white);
+                super.fillShape(g);
+            }
+        };
+    }
+
     public AggregationConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	
     @Override
     protected void setFigureProperties() {
-        setSourceDecoration(new EndPoint());
-    }
-    
-
-    class EndPoint extends PolygonDecoration {
-        EndPoint() {
-            setScale(5, 3);
-            
-            PointList decorationPointList = new PointList();
-            decorationPointList.addPoint( 0, 0);
-            decorationPointList.addPoint(-2, 2);
-            decorationPointList.addPoint(-4, 0);
-            decorationPointList.addPoint(-2,-2);
-            setTemplate(decorationPointList);
-
-            setBackgroundColor(ColorConstants.white);
-        }
-
-        @Override
-        protected void fillShape(Graphics g) {
-            // Draw this as white in case it is disabled
-            g.setBackgroundColor(ColorConstants.white);
-            super.fillShape(g);
-        }
-
+        setSourceDecoration(createFigureSourceDecoration());
     }
 }

@@ -20,12 +20,10 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class SpecialisationConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    public SpecialisationConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
-    }
-	
-    @Override
-    protected void setFigureProperties() {
+    /**
+     * @return Decoration to use on Target Node
+     */
+    public static PolygonDecoration createFigureTargetDecoration() {
         PolygonDecoration decoration = new PolygonDecoration() {
             @Override
             protected void fillShape(Graphics g) {
@@ -37,6 +35,16 @@ public class SpecialisationConnectionFigure extends AbstractArchimateConnectionF
         
         decoration.setScale(10, 7);
         decoration.setBackgroundColor(ColorConstants.white);
-        setTargetDecoration(decoration);
+        return decoration;
     }
+
+    public SpecialisationConnectionFigure(IDiagramModelArchimateConnection connection) {
+        super(connection);
+    }
+	
+    @Override
+    protected void setFigureProperties() {
+        setTargetDecoration(createFigureTargetDecoration());
+    }
+    
 }

@@ -19,27 +19,29 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class CompositionConnectionFigure extends AbstractArchimateConnectionFigure {
 	
+    /**
+     * @return Decoration to use on Source Node
+     */
+    public static PolygonDecoration createFigureSourceDecoration() {
+        return new PolygonDecoration() {
+            {
+                setScale(5, 3);
+                PointList decorationPointList = new PointList();
+                decorationPointList.addPoint( 0, 0);
+                decorationPointList.addPoint(-2, 2);
+                decorationPointList.addPoint(-4, 0);
+                decorationPointList.addPoint(-2,-2);
+                setTemplate(decorationPointList);
+            }
+        };
+    }
+
     public CompositionConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	
     @Override
     protected void setFigureProperties() {
-        setSourceDecoration(new EndPoint());
+        setSourceDecoration(createFigureSourceDecoration());
     }
-    
-
-    class EndPoint extends PolygonDecoration {
-        EndPoint() {
-            setScale(5, 3);
-            
-            PointList decorationPointList = new PointList();
-            decorationPointList.addPoint( 0, 0);
-            decorationPointList.addPoint(-2, 2);
-            decorationPointList.addPoint(-4, 0);
-            decorationPointList.addPoint(-2,-2);
-            setTemplate(decorationPointList);
-        }
-    }
-
 }

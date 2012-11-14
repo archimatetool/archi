@@ -20,13 +20,11 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  * @author Phillip Beauvoir
  */
 public class RealisationConnectionFigure extends AbstractArchimateConnectionFigure {
-	
-    public RealisationConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
-    }
-	
-    @Override
-    protected void setFigureProperties() {
+    
+    /**
+     * @return Decoration to use on Target Node
+     */
+    public static PolygonDecoration createFigureTargetDecoration() {
         PolygonDecoration decoration = new PolygonDecoration() {
             @Override
             protected void fillShape(Graphics g) {
@@ -37,7 +35,17 @@ public class RealisationConnectionFigure extends AbstractArchimateConnectionFigu
         };
         decoration.setScale(10, 7);
         decoration.setBackgroundColor(ColorConstants.white);
-        setTargetDecoration(decoration);
+        
+        return decoration;
+    }
+	
+    public RealisationConnectionFigure(IDiagramModelArchimateConnection connection) {
+        super(connection);
+    }
+	
+    @Override
+    protected void setFigureProperties() {
+        setTargetDecoration(createFigureTargetDecoration());
         
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
         setLineDash(new float[] { 4 });

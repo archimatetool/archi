@@ -22,10 +22,24 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
 	
-    private PolylineDecoration fDecoratorSource = new PolylineDecoration();
-    private PolylineDecoration fDecoratorTarget = new PolylineDecoration();
+    /**
+     * @return Decoration to use on Source Node
+     */
+    public static PolylineDecoration createFigureSourceDecoration() {
+        return new PolylineDecoration();
+    }
+
+    /**
+     * @return Decoration to use on Target Node
+     */
+    public static PolylineDecoration createFigureTargetDecoration() {
+        return new PolylineDecoration();
+    }
+
+    private PolylineDecoration fDecoratorSource = createFigureSourceDecoration();
+    private PolylineDecoration fDecoratorTarget = createFigureTargetDecoration();
     
-	public AccessConnectionFigure(IDiagramModelArchimateConnection connection) {
+    public AccessConnectionFigure(IDiagramModelArchimateConnection connection) {
 	    super(connection);
 	}
 	

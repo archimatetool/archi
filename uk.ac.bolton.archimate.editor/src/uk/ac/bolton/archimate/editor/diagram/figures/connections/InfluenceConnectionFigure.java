@@ -19,13 +19,20 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure {
 	
+    /**
+     * @return Decoration to use on Target Node
+     */
+    public static PolygonDecoration createFigureTargetDecoration() {
+        return new PolygonDecoration();
+    }
+
     public InfluenceConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	
     @Override
     protected void setFigureProperties() {
-        setTargetDecoration(new PolygonDecoration()); 
+        setTargetDecoration(createFigureTargetDecoration()); 
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
         setLineDash(new float[] { 6, 3 });
     }

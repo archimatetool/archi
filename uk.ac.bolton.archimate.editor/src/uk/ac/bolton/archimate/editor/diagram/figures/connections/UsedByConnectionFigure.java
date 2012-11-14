@@ -18,13 +18,20 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
  */
 public class UsedByConnectionFigure extends AbstractArchimateConnectionFigure {
 	
+    /**
+     * @return Decoration to use on Target Node
+     */
+    public static PolylineDecoration createFigureTargetDecoration() {
+        return new PolylineDecoration();
+    }
+
     public UsedByConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	
     @Override
     protected void setFigureProperties() {
-        setTargetDecoration(new PolylineDecoration()); // arrow at target endpoint 
+        setTargetDecoration(createFigureTargetDecoration()); // arrow at target endpoint 
     }
     
 
