@@ -348,7 +348,8 @@ implements INavigatorView, ISelectionListener {
     protected void eCoreChanged(Notification msg) {
         int type = msg.getEventType();
         
-        if(type == Notification.ADD || type == Notification.REMOVE) {
+        if(type == Notification.ADD || type == Notification.ADD_MANY ||
+                type == Notification.REMOVE || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
             getViewer().refresh();
         }
         // Attribute set
@@ -367,6 +368,11 @@ implements INavigatorView, ISelectionListener {
         else {
             super.eCoreChanged(msg);
         }
+    }
+    
+    @Override
+    protected void refreshElementsFromBufferedNotifications() {
+        getViewer().refresh();
     }
 
     // =================================================================================
