@@ -14,3 +14,4 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.bolton.jdom
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: uk.ac.bolton.archimate.model.jar

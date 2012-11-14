@@ -96,9 +96,8 @@ public class RelationshipsMatrix {
         // Load Key letters file
         loadKeyLetters();
         
-        // URL to the Relationships XML file
-        URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_FILE);
-        loadRelationships(url);
+        // Load Relationships file
+        loadRelationships();
     }
     
     public Map<EClass, List<TargetMatrix>> getRelationshipsMatrix() {
@@ -161,8 +160,8 @@ public class RelationshipsMatrix {
     }
     
     private void loadKeyLetters() {
-        // URL to the Relationships 1.0 XML file
-        URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_KEYS_FILE);
+        //URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_KEYS_FILE);
+        URL url = Platform.getBundle(BUNDLE_ID).getEntry(RELATIONSHIPS_KEYS_FILE);
 
         // Load the JDOM Document from XML
         Document doc = null;
@@ -200,7 +199,10 @@ public class RelationshipsMatrix {
         }
     }
 
-    private void loadRelationships(URL url) {
+    private void loadRelationships() {
+        //URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_FILE);
+        URL url = Platform.getBundle(BUNDLE_ID).getEntry(RELATIONSHIPS_FILE);
+        
         // Load the JDOM Document from XML
         Document doc = null;
         try {
