@@ -101,4 +101,16 @@ public final class StringUtils {
         }
         return id.replaceAll("[^a-zA-Z0-9-]", "_"); //$NON-NLS-1$ //$NON-NLS-2$
     }
+    
+    /**
+     * In some controls (Label and CLabel) single ampersands don't show up
+     * @param text
+     * @return
+     */
+    public static String escapeAmpersandsInText(String text) {
+        if(isSet(text)) {
+            return text.replaceAll("&", "&&");  //$NON-NLS-1$//$NON-NLS-2$
+        }
+        return text;
+    }
 }
