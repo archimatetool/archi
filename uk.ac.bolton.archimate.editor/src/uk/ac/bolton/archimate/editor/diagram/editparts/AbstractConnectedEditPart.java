@@ -15,9 +15,13 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.util.PropertyChangeEvent;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -31,7 +35,7 @@ public abstract class AbstractConnectedEditPart
 extends AbstractBaseEditPart
 implements NodeEditPart {
     
-    private ConnectionAnchor fAnchor;
+    protected ConnectionAnchor fDefaultConnectionAnchor;
     
     private Adapter adapter = new AdapterImpl() {
         @Override
@@ -91,6 +95,15 @@ implements NodeEditPart {
     }
     
     @Override
+    protected void applicationPreferencesChanged(PropertyChangeEvent event) {
+        if(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR.equals(event.getProperty())) {
+            resetConnectionAnchors();
+        }
+        
+        super.applicationPreferencesChanged(event);
+    }
+    
+    @Override
     protected Adapter getECoreAdapter() {
         return adapter;
     }
@@ -131,10 +144,29 @@ implements NodeEditPart {
      * Default is a Chopbox connection anchor
      */
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
+        if(fDefaultConnectionAnchor == null) {
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+                fDefaultConnectionAnchor = new OrthogonalAnchor(this);
+            }
+            else {
+                fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
+            }
         }
-        return fAnchor;
+        return fDefaultConnectionAnchor;
+    }
+    
+    /**
+     * Reset the connection anchors to return updated ones
+     */
+    protected void resetConnectionAnchors() {
+        fDefaultConnectionAnchor = null; // Forces update
+        
+        for(Object editPart : getSourceConnections()) {
+            ((EditPart)editPart).refresh();
+        }
+        for(Object editPart : getTargetConnections()) {
+            ((EditPart)editPart).refresh();
+        }
     }
     
     // =================================== Filtering ====================================================

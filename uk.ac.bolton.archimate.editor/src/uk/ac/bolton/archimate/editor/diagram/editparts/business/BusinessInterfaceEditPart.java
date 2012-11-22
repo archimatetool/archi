@@ -11,10 +11,12 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.EditPart;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.OrthogonalAnchor;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessInterfaceFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
@@ -25,8 +27,6 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
 public class BusinessInterfaceEditPart
 extends AbstractArchimateEditableTextFlowEditPart {
     
-    private ConnectionAnchor fAnchor;
-    
     @Override
     protected IFigure createFigure() {
         return new BusinessInterfaceFigure(getModel());
@@ -34,19 +34,24 @@ extends AbstractArchimateEditableTextFlowEditPart {
     
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fAnchor == null) {
-            switch(getModel().getType()) {
-                case 1:
-                    fAnchor = new EllipseAnchor(getFigure());
-                    break;
+        if(fDefaultConnectionAnchor == null) {
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+                fDefaultConnectionAnchor = new OrthogonalAnchor(this);
+            }
+            else {
+                switch(getModel().getType()) {
+                    case 1:
+                        fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
+                        break;
 
-                default:
-                    fAnchor = new ChopboxAnchor(getFigure());
-                    break;
+                    default:
+                        fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
+                        break;
+                }
             }
         }
         
-        return fAnchor;
+        return fDefaultConnectionAnchor;
     }
 
     @Override
@@ -55,16 +60,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
         
         // Update Connection Anchors
         if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
-            fAnchor = null; // Force update
-            
-            for(Object o : getSourceConnections()) {
-                EditPart e = (EditPart)o;
-                e.refresh();
-            }
-            for(Object o : getTargetConnections()) {
-                EditPart e = (EditPart)o;
-                e.refresh();
-            }
+            resetConnectionAnchors();
         }
     }
 

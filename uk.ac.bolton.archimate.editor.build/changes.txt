@@ -1,13 +1,14 @@
 Archi Changes
 -------------
 
-Version 2.4 November 14 2012
+Version 2.4 November 23 2012
 ----------------------------
 + Added new Visualiser Window
 + When creating a new connection between two elements, if there is an existing relationship of the same type, offer to reference that one
 + Business Process figure can be displayed as an arrow figure
 + Preferences option to set default fill colours
 + Preferences option to choose whether to automatically create a backup file (*.bak) when saving
++ Preferences option to use orthogonal anchor points for connections (contributed by Jean-Baptiste Sarrodie, aka Jaiguru)
 + The Java version shipped with the Windows installer is now version 1.6.0_37
 + Built on Eclipse 3.8.1 RCP
 + Allow all ArchiMate elements to be accessed by Jasper Reports

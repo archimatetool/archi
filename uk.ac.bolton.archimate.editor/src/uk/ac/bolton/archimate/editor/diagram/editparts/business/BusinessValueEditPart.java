@@ -11,7 +11,10 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.OrthogonalAnchor;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessValueFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 
 /**
  * Business Value Edit Part
@@ -21,8 +24,6 @@ import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessValueFigur
 public class BusinessValueEditPart
 extends AbstractArchimateEditableTextFlowEditPart {
     
-    private ConnectionAnchor fAnchor;
-    
     @Override
     protected IFigure createFigure() {
         return new BusinessValueFigure(getModel());
@@ -30,9 +31,14 @@ extends AbstractArchimateEditableTextFlowEditPart {
  
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new EllipseAnchor(getFigure());
+        if(fDefaultConnectionAnchor == null) {
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+                fDefaultConnectionAnchor = new OrthogonalAnchor(this);
+            }
+            else {
+                fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
+            }
         }
-        return fAnchor;
+        return fDefaultConnectionAnchor;
     }
 }
