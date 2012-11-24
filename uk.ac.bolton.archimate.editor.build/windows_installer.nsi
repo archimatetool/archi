@@ -5,7 +5,7 @@ Name Archi
 # General Symbol Definitions
 !define VERSION 2.4.0
 !define INSTALLER_VERSION 2.4.0.0
-!define COMPANY "Bolton University"
+!define COMPANY "Archi"
 !define URL http://archi.cetis.ac.uk
 !define SRC_FOLDER "\Archi\Archi_win\*"
 !define EXEFILE "\Archi\Archi-win32-${VERSION}.exe"
@@ -63,7 +63,7 @@ VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
 VIAddVersionKey FileVersion "${VERSION}"
 VIAddVersionKey FileDescription "Archi Installer"
-VIAddVersionKey LegalCopyright "(c) Bolton University 2011-12"
+VIAddVersionKey LegalCopyright ""
 InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails hide
 

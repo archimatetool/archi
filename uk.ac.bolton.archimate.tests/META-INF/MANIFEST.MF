@@ -4,6 +4,6 @@ Bundle-Name: JUnit Tests for Archi
 Bundle-SymbolicName: uk.ac.bolton.archimate.tests
 Bundle-Version: 1.0.0
 Fragment-Host: uk.ac.bolton.archimate.editor
-Bundle-Vendor: Bolton University
+Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.junit4
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

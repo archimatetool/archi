@@ -1,4 +1,4 @@
-Copyright (c) 2010-2012 Bolton University, UK.
+Copyright (c) 2010-2012 Phillip Beauvoir
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

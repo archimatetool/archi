@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Import and Export Model Example
 Bundle-SymbolicName: uk.ac.bolton.archimate.importexportexample;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Bolton University
+Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.ui,

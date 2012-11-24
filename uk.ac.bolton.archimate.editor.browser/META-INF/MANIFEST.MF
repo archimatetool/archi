@@ -5,7 +5,7 @@ Bundle-SymbolicName: uk.ac.bolton.archimate.editor.browser;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: uk.ac.bolton.archimate.editor.browser.BrowserPlugin
-Bundle-Vendor: Bolton University
+Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

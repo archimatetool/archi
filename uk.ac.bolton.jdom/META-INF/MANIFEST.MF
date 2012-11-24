@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JDOM and Jaxen Utils
 Bundle-SymbolicName: uk.ac.bolton.jdom
 Bundle-Version: 1.1.1.qualifier
-Bundle-Vendor: Bolton University
+Bundle-Vendor: Phillip Beauvoir
 Export-Package: .,
  org.jaxen,
  org.jaxen.dom,
