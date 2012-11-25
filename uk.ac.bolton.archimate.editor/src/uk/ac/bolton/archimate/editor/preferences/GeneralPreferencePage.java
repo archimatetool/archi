@@ -37,6 +37,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fUseCurvedTabsButton;
     
+    private Button fAnimateVisualiserNodesButton;
+    
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
 	}
@@ -70,7 +72,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fBackupOnSaveButton.setLayoutData(gd);
         
-       // Size of recently opened file list
+        // Size of recently opened file list
         Label label = new Label(fileGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_2);
         
@@ -78,6 +80,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMRUSizeSpinner.setMinimum(3);
         fMRUSizeSpinner.setMaximum(15);
         
+        // Appearance
         Group appearanceGroup = new Group(client, SWT.NULL);
         appearanceGroup.setText(Messages.GeneralPreferencePage_3);
         appearanceGroup.setLayout(new GridLayout(2, false));
@@ -89,6 +92,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fUseCurvedTabsButton.setLayoutData(gd);
         
+        // Visualiser
+        Group visualiserGroup = new Group(client, SWT.NULL);
+        visualiserGroup.setText(Messages.GeneralPreferencePage_6);
+        visualiserGroup.setLayout(new GridLayout(2, false));
+        visualiserGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fAnimateVisualiserNodesButton = new Button(visualiserGroup, SWT.CHECK);
+        fAnimateVisualiserNodesButton.setText(Messages.GeneralPreferencePage_7);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fAnimateVisualiserNodesButton.setLayoutData(gd);
+        
         setValues();
         
         return client;
@@ -99,6 +114,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fBackupOnSaveButton.setSelection(getPreferenceStore().getBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fUseCurvedTabsButton.setSelection(!PlatformUI.getPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS));
+        fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
     }
     
     private void setSpinnerValues() {
@@ -111,6 +127,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, !fUseCurvedTabsButton.getSelection());
+        getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
         return true;
     }
     
@@ -120,6 +137,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         fUseCurvedTabsButton.setSelection(!PlatformUI.getPreferenceStore().getDefaultBoolean(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS));
+        fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
         super.performDefaults();
     }
     

@@ -72,4 +72,6 @@ public interface IPreferenceConstants {
     String SAVE_USER_DEFAULT_FILL_COLOR = ""; //$NON-NLS-1$
     
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
+    
+    String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
 }

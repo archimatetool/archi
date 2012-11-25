@@ -73,5 +73,7 @@ implements IPreferenceConstants {
         store.setDefault(SAVE_USER_DEFAULT_FILL_COLOR, false);
         
         store.setDefault(USE_ORTHOGONAL_ANCHOR, false);
+        
+        store.setDefault(ANIMATE_VISUALISER_NODES, true);
     }
 }
