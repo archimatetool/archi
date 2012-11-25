@@ -28,8 +28,6 @@ public class JunctionEditPart
 extends AbstractArchimateEditPart
 implements INonResizableEditPart {            
     
-    protected ConnectionAnchor fAnchor;
-
     @Override
     protected IFigure createFigure() {
         return new JunctionFigure(getModel());
@@ -37,10 +35,7 @@ implements INonResizableEditPart {
 
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new EllipseAnchor(getFigure());
-        }
-        return fAnchor;
+        return new EllipseAnchor(getFigure());
     }
 
     @Override

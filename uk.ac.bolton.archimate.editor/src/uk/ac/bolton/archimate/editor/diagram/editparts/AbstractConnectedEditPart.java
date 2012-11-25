@@ -36,9 +36,6 @@ public abstract class AbstractConnectedEditPart
 extends AbstractBaseEditPart
 implements NodeEditPart {
     
-    protected ConnectionAnchor fDefaultConnectionAnchor;
-    protected ConnectionAnchor fActiveConnectionAnchor;
-    
     private Adapter adapter = new AdapterImpl() {
         @Override
         public void notifyChanged(Notification msg) {
@@ -99,7 +96,7 @@ implements NodeEditPart {
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
         if(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR.equals(event.getProperty())) {
-            resetConnectionAnchors();
+            refreshConnectionAnchors();
         }
         
         super.applicationPreferencesChanged(event);
@@ -139,11 +136,12 @@ implements NodeEditPart {
             return getConnectionAnchor(connection);
         }
         else if(request instanceof CreateConnectionRequest) {
-            // TODO
             EditPart source = ((CreateConnectionRequest)request).getSourceEditPart();
             EditPart target = ((CreateConnectionRequest)request).getTargetEditPart();
+            // TODO
         }
-    	return new ChopboxAnchor(getFigure());
+        
+    	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
@@ -152,47 +150,38 @@ implements NodeEditPart {
             return getConnectionAnchor(connection);
         }
         else if(request instanceof CreateConnectionRequest) {
-            // TODO
             EditPart source = ((CreateConnectionRequest)request).getSourceEditPart();
             EditPart target = ((CreateConnectionRequest)request).getTargetEditPart();
+            // TODO
         }
+        
         return getDefaultConnectionAnchor();
     }
     
     /**
-     * @return The default connection anchor to use for source and target connections
-     * Default is a Chopbox connection anchor
-     */
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fDefaultConnectionAnchor == null) {
-            fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fDefaultConnectionAnchor;
-    }
-    
-    /**
      * @return The connection anchor to use for source and target connections
-     * Default is a Chopbox connection anchor
      */
     protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
-        if(fDefaultConnectionAnchor == null) {
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-                fDefaultConnectionAnchor = new OrthogonalAnchor(this, connection);
-            }
-            else {
-                fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
-            }
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+            return new OrthogonalAnchor(this, connection);
         }
-        return fDefaultConnectionAnchor;
+        
+        return getDefaultConnectionAnchor();
     }
     
     /**
-     * Reset the connection anchors to return updated ones
+     * @return The default connection anchor to use for source and target connections if nothing else is set in
+     *         getConnectionAnchor(ConnectionEditPart)
+     *         Default is a Chopbox connection anchor
      */
-    protected void resetConnectionAnchors() {
-        fDefaultConnectionAnchor = null; // Forces update
-        fActiveConnectionAnchor = null; // Forces update
-        
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
+        return new ChopboxAnchor(getFigure());
+    }
+    
+    /**
+     * Refresh the connection anchors to return updated ones
+     */
+    protected void refreshConnectionAnchors() {
         for(Object editPart : getSourceConnections()) {
             ((EditPart)editPart).refresh();
         }

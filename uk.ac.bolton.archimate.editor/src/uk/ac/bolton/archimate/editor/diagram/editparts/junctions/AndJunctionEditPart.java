@@ -26,9 +26,6 @@ extends JunctionEditPart {
 
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fAnchor == null) {
-            fAnchor = new ChopboxAnchor(getFigure());
-        }
-        return fAnchor;
+        return new ChopboxAnchor(getFigure());
     }
 }

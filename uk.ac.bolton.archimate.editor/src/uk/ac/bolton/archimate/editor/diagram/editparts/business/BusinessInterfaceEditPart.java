@@ -10,13 +10,9 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.ConnectionEditPart;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.OrthogonalAnchor;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessInterfaceFigure;
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
@@ -34,32 +30,13 @@ extends AbstractArchimateEditableTextFlowEditPart {
     
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        if(fDefaultConnectionAnchor == null) {
-            switch(getModel().getType()) {
-                case 1:
-                    fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
-                    break;
+        switch(getModel().getType()) {
+            case 1:
+                return new EllipseAnchor(getFigure());
 
-                default:
-                    fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
-                    break;
-            }
+            default:
+                return new ChopboxAnchor(getFigure());
         }
-        
-        return fDefaultConnectionAnchor;
-    }
-
-    @Override
-    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-            if(fActiveConnectionAnchor == null) {
-                fActiveConnectionAnchor = new OrthogonalAnchor(this, connection);
-            }
-            
-            return fActiveConnectionAnchor;
-        }
-        
-        return getDefaultConnectionAnchor();
     }
 
     @Override
@@ -68,7 +45,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
         
         // Update Connection Anchors
         if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
-            resetConnectionAnchors();
+            refreshConnectionAnchors();
         }
     }
 
