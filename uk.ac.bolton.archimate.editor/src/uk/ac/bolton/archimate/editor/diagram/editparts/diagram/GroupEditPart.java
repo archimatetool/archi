@@ -121,7 +121,12 @@ implements IColoredEditPart, ITextEditPart {
     }
 
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
+    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
+        return getDefaultConnectionAnchor();
+    }
+    
+    @Override
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fAnchor == null) {
             fAnchor = ((GroupFigure)getFigure()).createConnectionAnchor();
         }

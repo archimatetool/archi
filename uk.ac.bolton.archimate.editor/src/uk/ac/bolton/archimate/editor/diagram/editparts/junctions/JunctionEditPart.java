@@ -36,11 +36,16 @@ implements INonResizableEditPart {
     }
 
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fAnchor == null) {
             fAnchor = new EllipseAnchor(getFigure());
         }
         return fAnchor;
+    }
+
+    @Override
+    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
+        return getDefaultConnectionAnchor();
     }
 
     @Override

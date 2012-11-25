@@ -30,15 +30,22 @@ extends AbstractArchimateEditableTextFlowEditPart {
     }
  
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fDefaultConnectionAnchor == null) {
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-                fDefaultConnectionAnchor = new OrthogonalAnchor(this, connection);
-            }
-            else {
-                fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
-            }
+            fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
         }
         return fDefaultConnectionAnchor;
+    }
+
+    @Override
+    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+            if(fActiveConnectionAnchor == null) {
+                fActiveConnectionAnchor = new OrthogonalAnchor(this, connection);
+            }
+            return fActiveConnectionAnchor;
+        }
+        
+        return getDefaultConnectionAnchor();
     }
 }

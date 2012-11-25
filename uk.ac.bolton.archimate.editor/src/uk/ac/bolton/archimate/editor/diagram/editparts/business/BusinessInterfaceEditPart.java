@@ -33,25 +33,33 @@ extends AbstractArchimateEditableTextFlowEditPart {
     }
     
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
         if(fDefaultConnectionAnchor == null) {
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-                fDefaultConnectionAnchor = new OrthogonalAnchor(this, connection);
-            }
-            else {
-                switch(getModel().getType()) {
-                    case 1:
-                        fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
-                        break;
+            switch(getModel().getType()) {
+                case 1:
+                    fDefaultConnectionAnchor = new EllipseAnchor(getFigure());
+                    break;
 
-                    default:
-                        fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
-                        break;
-                }
+                default:
+                    fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());
+                    break;
             }
         }
         
         return fDefaultConnectionAnchor;
+    }
+
+    @Override
+    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+            if(fActiveConnectionAnchor == null) {
+                fActiveConnectionAnchor = new OrthogonalAnchor(this, connection);
+            }
+            
+            return fActiveConnectionAnchor;
+        }
+        
+        return getDefaultConnectionAnchor();
     }
 
     @Override
