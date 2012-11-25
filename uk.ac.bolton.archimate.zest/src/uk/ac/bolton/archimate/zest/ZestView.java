@@ -51,8 +51,6 @@ import uk.ac.bolton.archimate.editor.views.tree.actions.PropertiesAction;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**
@@ -166,8 +164,9 @@ implements IZestView, ISelectionListener {
     }
     
     void updateLabel(Object selected) {
-        if(selected instanceof IArchimateElement && !(selected instanceof IRelationship)) {
-            String text = StringUtils.escapeAmpersandsInText(((INameable)selected).getName());
+        if(selected instanceof IArchimateElement) {
+            String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
+            text = StringUtils.escapeAmpersandsInText(text);
             fLabel.setText(text);
             fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(selected));
         }

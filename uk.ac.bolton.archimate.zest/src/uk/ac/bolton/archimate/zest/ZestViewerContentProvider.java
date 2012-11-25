@@ -32,7 +32,12 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
     @Override
     public Object[] getElements(Object inputElement) {
-        if(inputElement instanceof IArchimateElement && !(inputElement instanceof IRelationship)) {
+        // Relationship
+        if(inputElement instanceof IRelationship) {
+            return new Object[]  { inputElement };
+        }
+        // Element
+        else if(inputElement instanceof IArchimateElement) {
             IArchimateElement element = (IArchimateElement)inputElement;
             
             // Check if it was deleted
