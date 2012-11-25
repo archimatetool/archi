@@ -125,7 +125,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		// figureBBox contains the current figure bounding box
 		figureBBox.setBounds(getBox());
 		getOwner().translateToAbsolute(figureBBox);
-		figureBBox = isEllipse(getOwner()) ? figureBBox.shrink(remoteFigBBox.width * (1-cosPi4)/2, figureBBox.height * (1-cosPi4)/2): figureBBox;
+		figureBBox = isEllipse(getOwner()) ? figureBBox.shrink(figureBBox.width * (1-cosPi4)/2, figureBBox.height * (1-cosPi4)/2): figureBBox;
 		
 		if (inFigure) {
 			// Figure to Figure case: compute a new reference point if it is contained in a figure.
