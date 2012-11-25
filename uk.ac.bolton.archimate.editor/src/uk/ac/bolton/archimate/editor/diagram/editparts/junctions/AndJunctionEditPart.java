@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.junctions;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.ConnectionEditPart;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.junctions.AndJunctionFigure;
 
@@ -25,7 +26,7 @@ extends JunctionEditPart {
     }
 
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
         if(fAnchor == null) {
             fAnchor = new ChopboxAnchor(getFigure());
         }

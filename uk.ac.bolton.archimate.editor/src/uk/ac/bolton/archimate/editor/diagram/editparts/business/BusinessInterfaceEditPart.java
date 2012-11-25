@@ -10,6 +10,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.ConnectionEditPart;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.OrthogonalAnchor;
@@ -32,10 +33,10 @@ extends AbstractArchimateEditableTextFlowEditPart {
     }
     
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
         if(fDefaultConnectionAnchor == null) {
             if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-                fDefaultConnectionAnchor = new OrthogonalAnchor(this);
+                fDefaultConnectionAnchor = new OrthogonalAnchor(this, connection);
             }
             else {
                 switch(getModel().getType()) {

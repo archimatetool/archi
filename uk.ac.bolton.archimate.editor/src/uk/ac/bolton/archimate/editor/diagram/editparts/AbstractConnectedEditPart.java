@@ -17,6 +17,8 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.requests.CreateConnectionRequest;
+import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -123,29 +125,43 @@ implements NodeEditPart {
     }
     
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-    	return getDefaultConnectionAnchor();
-    }
-
-    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-    	return getDefaultConnectionAnchor();
+    	return getDefaultConnectionAnchor(connection);
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-    	return getDefaultConnectionAnchor();
+        return getDefaultConnectionAnchor(connection);
+    }
+
+    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+        if(request instanceof ReconnectRequest) {
+            ConnectionEditPart connection = ((ReconnectRequest)request).getConnectionEditPart();
+            return getDefaultConnectionAnchor(connection);
+        }
+        else if(request instanceof CreateConnectionRequest) {
+            // TODO 
+        }
+    	return new ChopboxAnchor(getFigure());
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-    	return getDefaultConnectionAnchor();
+        if(request instanceof ReconnectRequest) {
+            ConnectionEditPart connection = ((ReconnectRequest)request).getConnectionEditPart();
+            return getDefaultConnectionAnchor(connection);
+        }
+        else if(request instanceof CreateConnectionRequest) {
+            // TODO 
+        }
+        return new ChopboxAnchor(getFigure());
     }
     
     /**
      * @return The connection anchor to use for source and target connections
      * Default is a Chopbox connection anchor
      */
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
         if(fDefaultConnectionAnchor == null) {
             if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-                fDefaultConnectionAnchor = new OrthogonalAnchor(this);
+                fDefaultConnectionAnchor = new OrthogonalAnchor(this, connection);
             }
             else {
                 fDefaultConnectionAnchor = new ChopboxAnchor(getFigure());

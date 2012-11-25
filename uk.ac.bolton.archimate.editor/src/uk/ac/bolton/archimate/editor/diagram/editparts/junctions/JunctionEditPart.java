@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.junctions;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -35,7 +36,7 @@ implements INonResizableEditPart {
     }
 
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
         if(fAnchor == null) {
             fAnchor = new EllipseAnchor(getFigure());
         }

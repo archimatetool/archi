@@ -47,23 +47,23 @@ import java.util.Iterator;
  * @author Jean-Baptiste Sarrodie (aka Jaiguru)
  */
 public class OrthogonalAnchor extends ChopboxAnchor {
-	private AbstractConnectedEditPart parentConnection;
-
-	/**
-	 * Constructs a new OrthogonalAnchor.
-	 */
-	protected OrthogonalAnchor() {
-	}
 	
+    private AbstractConnectedEditPart fParentEditPart;
+    
+    private ConnectionEditPart fConnection;
+
 	/**
 	 * Constructs an OrthogonalAnchor with the given <i>parent</i> EditPart.
 	 * 
-	 * @param parent
+	 * @param parentEditPart
 	 *            The parent EditPart
+	 * @param connection
+	 *            The connection
 	 */
-	public OrthogonalAnchor(AbstractConnectedEditPart parent) {
-		super(parent.getFigure());
-		parentConnection = parent;
+	public OrthogonalAnchor(AbstractConnectedEditPart parentEditPart, ConnectionEditPart connection) {
+		super(parentEditPart.getFigure());
+		fParentEditPart = parentEditPart;
+		fConnection = connection;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		
 		// Anchor will be determined differently if the reference point is a BendPoint or a Figure
 		// Check outgoing connections
-		connectionIt = parentConnection.getSourceConnections().iterator();
+		connectionIt = fParentEditPart.getSourceConnections().iterator();
 		while (!inFigure && connectionIt.hasNext()) {
 			remoteFig = ((GraphicalEditPart) ((ConnectionEditPart)connectionIt.next()).getTarget()).getFigure();
 			remoteFigBBox.setBounds(remoteFig.getBounds());
@@ -111,7 +111,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 			inFigure = remoteFigCenter.contains(reference);
 		}
 		// If needed, check incoming connections
-		connectionIt = parentConnection.getTargetConnections().iterator();
+		connectionIt = fParentEditPart.getTargetConnections().iterator();
 		while (!inFigure && connectionIt.hasNext()) {
 			remoteFig = ((GraphicalEditPart) ((ConnectionEditPart)connectionIt.next()).getSource()).getFigure();
 			remoteFigBBox.setBounds(remoteFig.getBounds());

@@ -7,6 +7,7 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -120,7 +121,7 @@ implements IColoredEditPart, ITextEditPart {
     }
 
     @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
+    protected ConnectionAnchor getDefaultConnectionAnchor(ConnectionEditPart connection) {
         if(fAnchor == null) {
             fAnchor = ((GroupFigure)getFigure()).createConnectionAnchor();
         }
