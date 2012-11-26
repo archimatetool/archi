@@ -17,7 +17,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.zest.core.widgets.GraphNode;
 
@@ -62,16 +61,16 @@ public class DrillDownManager implements ISelectionChangedListener {
         fOriginal = object;
         fCurrent = object;
         
-        fGraphViewer.setInput(object);
+        setGraphViewerInput(object);
+        
         fBackStack.clear();
-        
         restoreLastState();
-        
-        if(object != null) {
-            fGraphViewer.setSelection(new StructuredSelection(object));
-        }
-        
         updateNavigationButtons();
+    }
+    
+    private void setGraphViewerInput(Object object) {
+        ((ZestViewerLabelProvider)fGraphViewer.getLabelProvider()).setFocusElement(object);
+        fGraphViewer.setInput(object);
     }
     
     void reset() {
@@ -93,9 +92,8 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             fBackStack.push(fCurrent);
             fCurrent = selected;
-            fGraphViewer.setInput(selected);
+            setGraphViewerInput(selected);
             
-            fGraphViewer.setSelection(new StructuredSelection(selected));
             updateNavigationButtons();
             
             restoreLastState();
@@ -110,9 +108,8 @@ public class DrillDownManager implements ISelectionChangedListener {
             
             Object selected = fBackStack.pop();
             fCurrent = selected;
-            fGraphViewer.setInput(selected);
+            setGraphViewerInput(selected);
             
-            fGraphViewer.setSelection(new StructuredSelection(selected));
             updateNavigationButtons();
             
             restoreLastState();

@@ -5,6 +5,7 @@
  */
 package uk.ac.bolton.archimate.zest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.Viewer;
@@ -21,7 +22,17 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  * @author Phillip Beauvoir
  */
 public class ZestViewerContentProvider implements IGraphContentProvider {
-
+    
+    private static int DEPTH = 0;
+    
+    public void setDepth(int depth) {
+        DEPTH = depth;
+    }
+    
+    public int getDepth() {
+        return DEPTH;
+    }
+    
     @Override
     public void dispose() {
     }
@@ -45,11 +56,45 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
                 return new Object[0];
             }
 
-            List<IRelationship> list = ArchimateModelUtils.getRelationships(element);
-            return list.toArray();
+            // Get relationships
+            List<IRelationship> mainList = new ArrayList<IRelationship>();
+            getRelations(mainList, new ArrayList<IArchimateElement>(), element, 0);
+            
+            return mainList.toArray();
         }
         
         return new Object[0];
+    }
+    
+    /**
+     * Get all relations from source and target of element and add to list, no more than DEPTH
+     */
+    private void getRelations(List<IRelationship> mainList, List<IArchimateElement> checkList, IArchimateElement element, int count) {
+        if(checkList.contains(element)) {
+            return;
+        }
+        
+        List<IRelationship> list = ArchimateModelUtils.getRelationships(element);
+        for(IRelationship relationship : list) {
+            if(!mainList.contains(relationship)) {
+                mainList.add(relationship);
+            }
+        }
+        
+        count++;
+        if(count > DEPTH) {
+            return;
+        }
+        
+        checkList.add(element);
+        
+        for(IRelationship relationship : list) {
+            IArchimateElement source = relationship.getSource();
+            IArchimateElement target = relationship.getTarget();
+            
+            getRelations(mainList, checkList, source, count);
+            getRelations(mainList, checkList, target, count);
+        }
     }
     
     @Override

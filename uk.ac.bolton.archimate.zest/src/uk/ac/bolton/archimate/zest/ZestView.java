@@ -198,6 +198,28 @@ implements IZestView, ISelectionListener {
         manager.add(fActionPinContent);
         manager.add(new Separator());
         manager.add(fActionLayout);
+        
+        final IMenuManager menuManager = bars.getMenuManager();
+
+        // Depth Actions
+        IAction[] depthActions = new Action[4];
+        for(int i = 0; i < 4; i++) {
+            depthActions[i] = new Action(Messages.ZestView_3 + " " + (i + 1), IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
+                @Override
+                public void run() {
+                    IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                    ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(Integer.valueOf(getId()));
+                    fGraphViewer.setInput(fGraphViewer.getInput());
+                    fGraphViewer.setSelection(selection);
+                    fGraphViewer.doApplyLayout();
+                }
+            };
+            
+            depthActions[i].setId(Integer.toString(i));
+            menuManager.add(depthActions[i]);
+        }
+        
+        depthActions[((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getDepth()].setChecked(true);
     }
 
     private void reset() {
@@ -241,7 +263,7 @@ implements IZestView, ISelectionListener {
             }
         };
         
-        fActionPinContent = new Action(Messages.ZestView_0, IAction.AS_CHECK_BOX) {
+        fActionPinContent = new Action(Messages.ZestView_4, IAction.AS_CHECK_BOX) {
             {
                 setToolTipText(Messages.ZestView_1);
                 setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PIN_16));

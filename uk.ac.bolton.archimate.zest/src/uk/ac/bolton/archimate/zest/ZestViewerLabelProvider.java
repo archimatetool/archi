@@ -54,7 +54,18 @@ import uk.ac.bolton.archimate.model.IUsedByRelationship;
 public class ZestViewerLabelProvider extends BaseLabelProvider
 implements ILabelProvider, ISelfStyleProvider {
     
-    public Color HIGHLIGHT_COLOR = new Color(Display.getDefault(), 200, 200, 255);
+    Color HIGHLIGHT_COLOR = new Color(Display.getDefault(), 255, 255, 255);
+    Color FOCUS_COLOR = new Color(Display.getDefault(), 200, 200, 255);
+    
+    private Object focusObject;
+    
+    /**
+     * Set the element to have the focus
+     * @param object
+     */
+    public void setFocusElement(Object object) {
+        focusObject = object;
+    }
     
     @Override
     public Image getImage(Object element) {
@@ -76,10 +87,11 @@ implements ILabelProvider, ISelfStyleProvider {
     public void dispose() {
         super.dispose();
         HIGHLIGHT_COLOR.dispose();
+        FOCUS_COLOR.dispose();
     }
 
     // ========================================================================================
-    // IEntityStyleProvider
+    // IEntityStyleProvider (not used)
     // ========================================================================================
 
     public boolean fisheyeNode(Object entity) {
@@ -208,6 +220,10 @@ implements ILabelProvider, ISelfStyleProvider {
 
     @Override
     public void selfStyleNode(Object element, GraphNode node) {
+        if(element == focusObject) {
+            node.setBackgroundColor(FOCUS_COLOR);
+        }
+        
         node.setHighlightColor(getNodeHighlightColor(element));
         node.setTooltip(getTooltip(element));
     }

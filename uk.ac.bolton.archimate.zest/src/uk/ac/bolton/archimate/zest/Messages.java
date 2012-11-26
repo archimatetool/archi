@@ -24,6 +24,10 @@ public class Messages extends NLS {
 
     public static String ZestView_2;
 
+    public static String ZestView_3;
+
+    public static String ZestView_4;
+
     public static String ZestViewerLabelProvider_0;
     static {
         // initialize resource bundle
