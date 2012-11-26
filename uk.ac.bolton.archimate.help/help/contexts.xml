@@ -88,6 +88,10 @@
        <description>Edit the Connections Preferences.</description>
        <topic href="help/prefs_connections.html" label="Connections Preferences"/>
     </context>
+    <context id="prefsColours" title="Colours Preferences">
+       <topic href="help/prefs_colours.html" label="Colours Preferences"/>
+       <description>Edit the application colours</description>
+    </context>
     <context id="prefsDiagram" title="Diagram Preferences">
        <description>Edit the Diagram Preferences.</description>
        <topic href="help/prefs_diagram.html" label="Diagram Preferences"/>
@@ -103,10 +107,6 @@
     <context id="prefsRelations" title="Relationships Preferences">
        <description>Show the allowed ArchiMate relationships.</description>
        <topic href="help/prefs_relations.html" label="Relationships Preferences"/>
-    </context>
-    <context id="prefsColours" title="Colours Preferences">
-       <topic href="help/prefs_colours.html" label="Colours Preferences"/>
-       <description>Edit the application colours</description>
     </context>
     <context id="userProperties" title="User Properties">
        <description>Edit User Properties</description>
