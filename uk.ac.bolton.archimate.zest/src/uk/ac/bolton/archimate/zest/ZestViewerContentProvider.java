@@ -23,14 +23,14 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class ZestViewerContentProvider implements IGraphContentProvider {
     
-    private static int DEPTH = 0;
+    private int fDepth = 0;
     
     public void setDepth(int depth) {
-        DEPTH = depth;
+        fDepth = depth;
     }
     
     public int getDepth() {
-        return DEPTH;
+        return fDepth;
     }
     
     @Override
@@ -82,7 +82,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         }
         
         count++;
-        if(count > DEPTH) {
+        if(count > fDepth) {
             return;
         }
         

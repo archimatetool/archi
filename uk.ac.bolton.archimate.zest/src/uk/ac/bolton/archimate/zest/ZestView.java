@@ -212,7 +212,12 @@ implements IZestView, ISelectionListener {
                 @Override
                 public void run() {
                     IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
-                    ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(Integer.valueOf(getId()));
+                    // set depth
+                    int depth = Integer.valueOf(getId());
+                    ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
+                    // store in prefs
+                    ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
+                    // update viewer
                     fGraphViewer.setInput(fGraphViewer.getInput());
                     fGraphViewer.setSelection(selection);
                     fGraphViewer.doApplyLayout();
@@ -223,7 +228,10 @@ implements IZestView, ISelectionListener {
             menuManager.add(depthActions[i]);
         }
         
-        depthActions[((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getDepth()].setChecked(true);
+        // Set depth from prefs
+        int depth = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
+        depthActions[depth].setChecked(true);
     }
 
     @Override
