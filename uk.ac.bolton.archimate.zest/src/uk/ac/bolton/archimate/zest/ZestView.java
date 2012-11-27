@@ -149,38 +149,41 @@ implements IZestView, ISelectionListener {
     }
     
     private void setElement(Object object) {
-        Object selected = null;
+        IArchimateElement element = null;
         
         if(object instanceof IArchimateElement) {
-            selected = object;
+            element = (IArchimateElement)object;
         }
         else if(object instanceof IAdaptable) {
-            selected = ((IAdaptable)object).getAdapter(IArchimateElement.class);
+            element = (IArchimateElement)((IAdaptable)object).getAdapter(IArchimateElement.class);
         }
         
-        fDrillDownManager.setNewInput(selected);
+        fDrillDownManager.setNewInput(element);
         updateActions();
         
-        updateLabel(selected);
+        updateLabel();
     }
     
-    void updateLabel(Object selected) {
-        if(selected instanceof IArchimateElement) {
-            String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
-            text = StringUtils.escapeAmpersandsInText(text);
-            fLabel.setText(text);
-            fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(selected));
-        }
-        else {
-            fLabel.setText(""); //$NON-NLS-1$
-            fLabel.setImage(null);
-        }
+    void refresh() {
+        getViewer().refresh();
+        updateActions();
+        updateLabel();
+    }
+    
+    /**
+     * Update local label
+     */
+    void updateLabel() {
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentElement());
+        text = StringUtils.escapeAmpersandsInText(text);
+        fLabel.setText(text);
+        fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentElement()));
     }
 
     /**
-     * Update the Local Actions depending on the selection 
+     * Update the Local Actions depending on the selection, and undo/redo actions
      */
-    private void updateActions() {
+    void updateActions() {
         IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
         fActionProperties.update(selection);
         updateUndoActions();
@@ -203,8 +206,8 @@ implements IZestView, ISelectionListener {
         final IMenuManager menuManager = bars.getMenuManager();
 
         // Depth Actions
-        IAction[] depthActions = new Action[4];
-        for(int i = 0; i < 4; i++) {
+        IAction[] depthActions = new Action[6];
+        for(int i = 0; i < 6; i++) {
             depthActions[i] = new Action(Messages.ZestView_3 + " " + (i + 1), IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
                 @Override
                 public void run() {
@@ -223,11 +226,6 @@ implements IZestView, ISelectionListener {
         depthActions[((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getDepth()].setChecked(true);
     }
 
-    private void reset() {
-        fDrillDownManager.reset();
-        updateLabel(null);
-    }
-    
     @Override
     public void setFocus() {
         if(fGraphViewer != null) {
@@ -324,20 +322,17 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
-        if(selected instanceof IArchimateModelElement) {
-            return ((IArchimateModelElement)selected).getArchimateModel();
-        }
-        return null;
+        IArchimateElement element = fDrillDownManager.getCurrentElement();
+        return element != null ? element.getArchimateModel() : null;
     }
-
+    
     @Override
     public void dispose() {
         super.dispose();
         
         // Explicit dispose seems to be needed if the GraphViewer is displaying scrollbars
         // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=373191
-        // In fact Graph.dispose() seems never to be called
+        // In fact, Graph.dispose() seems never to be called
         // fGraphViewer.getControl().dispose();
         
         // Unregister selection listener
@@ -357,7 +352,7 @@ implements IZestView, ISelectionListener {
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
             Object input = getViewer().getInput();
             if(input instanceof IArchimateModelElement && ((IArchimateModelElement)input).getArchimateModel() == newValue) {
-                reset();
+                fDrillDownManager.reset();
             }
         }
         // Command Stack - update Actions
@@ -379,20 +374,25 @@ implements IZestView, ISelectionListener {
         
         if(type == Notification.ADD || type == Notification.ADD_MANY ||
                 type == Notification.REMOVE || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
-            getViewer().refresh();
+            refresh();
         }
         
         // Attribute set
         else if(type == Notification.SET) {
             Object feature = msg.getFeature();
+            Object notifier = msg.getNotifier();
 
             // Relationship/Connection changed - requires full refresh
             if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE ||
                                         feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
-                getViewer().refresh();
+                refresh();
             }
             else {
                 super.eCoreChanged(msg);
+            }
+            
+            if(notifier == fDrillDownManager.getCurrentElement()) {
+                updateLabel();
             }
         }
         else {
@@ -402,7 +402,7 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected void refreshElementsFromBufferedNotifications() {
-        getViewer().refresh();
+        refresh();
     }
 
     // =================================================================================

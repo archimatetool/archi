@@ -43,20 +43,20 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
     @Override
     public Object[] getElements(Object inputElement) {
-        // Relationship
-        if(inputElement instanceof IRelationship) {
-            return new Object[]  { inputElement };
-        }
-        // Element
-        else if(inputElement instanceof IArchimateElement) {
+        if(inputElement instanceof IArchimateElement) {
             IArchimateElement element = (IArchimateElement)inputElement;
             
             // Check if it was deleted
             if(element.eContainer() == null) {
                 return new Object[0];
             }
+            
+            // Relationship
+            if(element instanceof IRelationship) {
+                return new Object[]  { inputElement };
+            }
 
-            // Get relationships
+            // Element - Get its relationships
             List<IRelationship> mainList = new ArrayList<IRelationship>();
             getRelations(mainList, new ArrayList<IArchimateElement>(), element, 0);
             
