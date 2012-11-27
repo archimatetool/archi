@@ -69,6 +69,7 @@ import uk.ac.bolton.archimate.editor.views.tree.search.SearchFilter;
 import uk.ac.bolton.archimate.editor.views.tree.search.SearchWidget;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
+import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IFolder;
@@ -414,6 +415,15 @@ implements ITreeModelView, IUIRequestListener {
         IToolBarManager manager = bars.getToolBarManager();
         manager.add(fActionToggleSearchField);
         manager.add(fActionLinkToEditor);
+    }
+    
+    @Override
+    protected IArchimateModel getActiveArchimateModel() {
+        Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
+        if(selected instanceof IArchimateModelElement) {
+            return ((IArchimateModelElement)selected).getArchimateModel();
+        }
+        return null;
     }
     
     @Override

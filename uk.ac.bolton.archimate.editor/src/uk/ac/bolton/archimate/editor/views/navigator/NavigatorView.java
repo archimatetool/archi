@@ -43,6 +43,7 @@ import uk.ac.bolton.archimate.editor.views.AbstractModelView;
 import uk.ac.bolton.archimate.editor.views.tree.actions.IViewerAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.PropertiesAction;
 import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
@@ -64,6 +65,8 @@ implements INavigatorView, ISelectionListener {
     private IAction fActionPinContent;
     
     private NavigatorDrillDownAdapter fDrillDownAdapter;
+    
+    private IArchimateElement fCurrentElement;
     
     private class NavigatorDrillDownAdapter extends DrillDownAdapter {
         public NavigatorDrillDownAdapter() {
@@ -290,22 +293,36 @@ implements INavigatorView, ISelectionListener {
     private void setElement(Object object) {
         fDrillDownAdapter.reset();
         
-        if(object instanceof IAdaptable) {
-            object = ((IAdaptable)object).getAdapter(IArchimateElement.class);
-        }
+        IArchimateElement element = null;
+        
         if(object instanceof IArchimateElement) {
-            getViewer().setInput(new Object[] { object }); // Need to use an array
+            element = (IArchimateElement)object;
+        }
+        else if(object instanceof IAdaptable) {
+            element = (IArchimateElement)((IAdaptable)object).getAdapter(IArchimateElement.class);
+        }
+        
+        if(element != null) {
+            getViewer().setInput(new Object[] { element }); // Need to use an array
         }
         else {
             getViewer().setInput(null);
         }
+        
+        fCurrentElement = element;
     }
     
     private void reset() {
         fDrillDownAdapter.reset();
         getViewer().setInput(null);
+        fCurrentElement = null;
     }
     
+    @Override
+    protected IArchimateModel getActiveArchimateModel() {
+        return fCurrentElement != null ? fCurrentElement.getArchimateModel() : null;
+    }
+
     @Override
     public void dispose() {
         super.dispose();

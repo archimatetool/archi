@@ -49,6 +49,7 @@ import uk.ac.bolton.archimate.editor.views.AbstractModelView;
 import uk.ac.bolton.archimate.editor.views.tree.actions.IViewerAction;
 import uk.ac.bolton.archimate.editor.views.tree.actions.PropertiesAction;
 import uk.ac.bolton.archimate.model.IArchimateElement;
+import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
@@ -321,6 +322,15 @@ implements IZestView, ISelectionListener {
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
     }
     
+    @Override
+    protected IArchimateModel getActiveArchimateModel() {
+        Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
+        if(selected instanceof IArchimateModelElement) {
+            return ((IArchimateModelElement)selected).getArchimateModel();
+        }
+        return null;
+    }
+
     @Override
     public void dispose() {
         super.dispose();

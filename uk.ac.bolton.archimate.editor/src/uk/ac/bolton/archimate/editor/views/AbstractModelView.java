@@ -16,7 +16,6 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.help.IContextProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
@@ -28,7 +27,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -107,16 +105,12 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // The Selected Archimate Model in scope
         if(adapter == IArchimateModel.class) {
-            Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
-            if(selected instanceof IArchimateModelElement) {
-                return ((IArchimateModelElement)selected).getArchimateModel();
-            }
-            return null;
+            return getActiveArchimateModel();
         }
         
         // CommandStack (requested by GEF's UndoAction and RedoAction and our SaveAction)
         if(adapter == CommandStack.class) {
-            IArchimateModel model = (IArchimateModel)getAdapter(IArchimateModel.class);
+            IArchimateModel model = getActiveArchimateModel();
             if(model != null) {
                 return model.getAdapter(CommandStack.class);
             }
@@ -127,6 +121,11 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
 
         return super.getAdapter(adapter);
     }
+    
+    /**
+     * @return The active ArchimateModel in scope. May be null
+     */
+    protected abstract IArchimateModel getActiveArchimateModel();
     
     // =================================================================================
     //                       Listen to Editor Model Changes
