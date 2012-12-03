@@ -2,7 +2,9 @@ HTML source notes
 -----------------
 * Screenshots are based on the Archi application sized to 1011x763 pixels
 * Ensure images in the HTML docs are no wider than 700 pixels
-* Have only one <p>&nbsp;</p> at the end of each HTML file
+* If an image is sized differently to its original size then set both the height and width attributes of <img> in order to be sized properly in Word
+  otherwise if an image is a 1:1 size you can omit both the width and height attributes
+* Have one only <p>&nbsp;</p> at the end of each HTML file
 
 
 Edit the source HTML files
