@@ -24,7 +24,7 @@ Name Archi
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER Archi
-!define MUI_UNICON branding\windows\uninstall.ico
+!define MUI_UNICON branding\windows\icon.ico
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
