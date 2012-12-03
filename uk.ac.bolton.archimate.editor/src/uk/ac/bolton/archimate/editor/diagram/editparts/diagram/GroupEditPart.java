@@ -7,7 +7,6 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.diagram;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -119,11 +118,6 @@ implements IColoredEditPart, ITextEditPart {
         return new LabelDirectEditManager(this, getFigure().getTextControl());
     }
 
-    @Override
-    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
-        return getDefaultConnectionAnchor();
-    }
-    
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
         return new GroupFigureConnectionAnchor(getFigure());

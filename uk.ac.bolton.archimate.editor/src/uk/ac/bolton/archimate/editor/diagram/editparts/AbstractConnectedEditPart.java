@@ -17,8 +17,6 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.requests.CreateConnectionRequest;
-import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -123,55 +121,35 @@ implements NodeEditPart {
     }
     
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-    	return getConnectionAnchor(connection);
+    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	    return new OrthogonalAnchor(getFigure(), connection, true);
+    	}
+    	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-        return getConnectionAnchor(connection);
+    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    		return new OrthogonalAnchor(getFigure(), connection, false);
+    	}
+    	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-        if(request instanceof ReconnectRequest) {
-            ConnectionEditPart connection = ((ReconnectRequest)request).getConnectionEditPart();
-            return getConnectionAnchor(connection);
-        }
-        else if(request instanceof CreateConnectionRequest) {
-            EditPart source = ((CreateConnectionRequest)request).getSourceEditPart();
-            EditPart target = ((CreateConnectionRequest)request).getTargetEditPart();
-            // TODO
-        }
-        
+    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	    return new OrthogonalAnchor(getFigure(), request, true);
+    	}
     	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-        if(request instanceof ReconnectRequest) {
-            ConnectionEditPart connection = ((ReconnectRequest)request).getConnectionEditPart();
-            return getConnectionAnchor(connection);
-        }
-        else if(request instanceof CreateConnectionRequest) {
-            EditPart source = ((CreateConnectionRequest)request).getSourceEditPart();
-            EditPart target = ((CreateConnectionRequest)request).getTargetEditPart();
-            // TODO
-        }
-        
-        return getDefaultConnectionAnchor();
+    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	    return new OrthogonalAnchor(getFigure(), request, false);
+    	}
+    	return getDefaultConnectionAnchor();
     }
     
     /**
-     * @return The connection anchor to use for source and target connections
-     */
-    protected ConnectionAnchor getConnectionAnchor(ConnectionEditPart connection) {
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
-            return new OrthogonalAnchor(this, connection);
-        }
-        
-        return getDefaultConnectionAnchor();
-    }
-    
-    /**
-     * @return The default connection anchor to use for source and target connections if nothing else is set in
-     *         getConnectionAnchor(ConnectionEditPart)
+     * @return The default connection anchor to use for source and target connections
      *         Default is a Chopbox connection anchor
      */
     protected ConnectionAnchor getDefaultConnectionAnchor() {
