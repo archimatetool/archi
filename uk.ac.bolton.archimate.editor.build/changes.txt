@@ -15,6 +15,7 @@ Version 2.4 December 03 2012
 * Fixed bug where Navigator View didn't update in response to some model changes
 * Relationship rule added - Deliverable Realises Plateau
 * Canvas Editor locked text controls are selectable/scrollable
+* Fix Outline view not updating on Mac
 
 
 
