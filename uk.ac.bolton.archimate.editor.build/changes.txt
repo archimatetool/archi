@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.4 December 03 2012
+Version 2.4 December 05 2012
 ----------------------------
 + Added new Visualiser Window
 + When creating a new connection between two elements, if there is an existing relationship of the same type, offer to reference that one
