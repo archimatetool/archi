@@ -936,7 +936,7 @@
 			<target element="BusinessFunction" relations="fotu" />
 			<target element="BusinessInteraction" relations="ou" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="ou" />
+			<target element="BusinessService" relations="iou" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />

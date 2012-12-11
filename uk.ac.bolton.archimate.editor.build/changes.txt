@@ -1,6 +1,12 @@
 Archi Changes
 -------------
 
+Version 2.4.1 January XX 2013
+------------------------------
+* Relationship rule added - Application Interface Assigned to Business Service
+
+
+
 Version 2.4 December 05 2012
 ----------------------------
 + Added new Visualiser Window
