@@ -4,6 +4,7 @@ Archi Changes
 Version 2.4.1 January XX 2013
 ------------------------------
 * Relationship rule added - Application Interface Assigned to Business Service
+* Fix connection label not located properly when in parent figure (fix by Jaiguru)
 
 
 

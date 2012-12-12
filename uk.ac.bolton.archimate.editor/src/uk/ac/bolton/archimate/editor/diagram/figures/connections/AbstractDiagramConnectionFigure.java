@@ -6,7 +6,6 @@
 package uk.ac.bolton.archimate.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -113,13 +112,13 @@ extends PolylineConnection implements IDiagramConnectionFigure {
 
         switch(position) {
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_SOURCE:
-                locator = new ConnectionEndpointLocator(this, false);
+                locator = new ArchiConnectionEndpointLocator(this, false);
                 break;
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_MIDDLE:
                 locator = new ConnectionLocator(this, ConnectionLocator.MIDDLE);
                 break;
             case IDiagramModelConnection.CONNECTION_TEXT_POSITION_TARGET:
-                locator = new ConnectionEndpointLocator(this, true);
+                locator = new ArchiConnectionEndpointLocator(this, true);
                 break;
         }
         
