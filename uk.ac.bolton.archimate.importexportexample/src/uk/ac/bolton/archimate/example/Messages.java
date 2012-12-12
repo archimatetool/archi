@@ -12,10 +12,8 @@ public class Messages extends NLS {
     private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.example.messages"; //$NON-NLS-1$
 
     public static String MyExporter_0;
-
     public static String MyExporter_1;
 
-    public static String MyImporter_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
