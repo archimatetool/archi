@@ -41,6 +41,7 @@ import uk.ac.bolton.archimate.model.IRelationship;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class MyImporter implements IModelImporter {
 
     String MY_EXTENSION_WILDCARD = "*.mex"; //$NON-NLS-1$
@@ -56,8 +57,8 @@ public class MyImporter implements IModelImporter {
         }
         
         // Load in the file and get its information here.
-        // Assuming you load in the data in some way, perhaps with JDOM, or a SAX Parser then you will have a representation of it in memory
-        // Which you need to map to Archi elements.
+        // Assuming you load in the data in some way, perhaps with JDOM, or a SAX Parser ot text reader then you will
+        // have a representation of it in memory that you need to map to Archi elements.
         
         
         // Here is some example raw data in String format. This is a very simple example so the data
@@ -66,42 +67,42 @@ public class MyImporter implements IModelImporter {
         // Elements
         String[] elements = {
                 // Type, Name, ID
-                "BusinessActor", "Actor", "elementID1",  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                "BusinessRole", "Client", "elementID2",  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                "BusinessFunction", "My Function", "elementID3"  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                "BusinessActor", "Actor", "elementID1",
+                "BusinessRole", "Client", "elementID2",
+                "BusinessFunction", "My Function", "elementID3"
         };
         
         // Relationships
         String[] relations = {
                 // Type, Name, ID, sourceID, targetID
-                "AssignmentRelationship", "Assigned to", "relID1", "elementID1", "elementID2", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                "UsedByRelationship", "", "relID2", "elementID1", "elementID3", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                "AssociationRelationship", "", "relID3", "elementID2", "elementID3" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                "AssignmentRelationship", "Assigned to", "relID1", "elementID1", "elementID2",
+                "UsedByRelationship", "", "relID2", "elementID1", "elementID3",
+                "AssociationRelationship", "", "relID3", "elementID2", "elementID3"
         };
         
         // Views
         String[] views = {
                 // Name, ID
-                "A View", "view1", //$NON-NLS-1$ //$NON-NLS-2$
-                "Another View", "view2" //$NON-NLS-1$ //$NON-NLS-2$
+                "A View", "view1",
+                "Another View", "view2"
         };
         
         // View elements
         String[] viewElements = {
                 // ID of parent View, ID of referenced element, x, y, width, height
-                "view1", "elementID1", "10", "10", "-1", "-1", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                "view1", "elementID2", "310", "10", "-1", "-1", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                "view1", "elementID3", "310", "110", "-1", "-1", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                "view2", "elementID2", "10", "10", "-1", "-1", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                "view2", "elementID3", "10", "110", "-1", "-1" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                "view1", "elementID1", "10", "10", "-1", "-1",
+                "view1", "elementID2", "310", "10", "-1", "-1",
+                "view1", "elementID3", "310", "110", "-1", "-1",
+                "view2", "elementID2", "10", "10", "-1", "-1",
+                "view2", "elementID3", "10", "110", "-1", "-1"
         };
         
         // View connections
         String[] viewConnections = {
                 // ID of parent View, ID of relationship
-                "view1", "relID1", //$NON-NLS-1$ //$NON-NLS-2$
-                "view1", "relID2", //$NON-NLS-1$ //$NON-NLS-2$
-                "view2", "relID3", //$NON-NLS-1$ //$NON-NLS-2$
+                "view1", "relID1",
+                "view1", "relID2",
+                "view2", "relID3",
         };
 
         // Create the model...
@@ -109,14 +110,12 @@ public class MyImporter implements IModelImporter {
         // Create a new Archimate Model and set its defaults
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
-        model.setName("My Model"); //$NON-NLS-1$
+        model.setName("My Model");
         
         // Create and add elements matching imported data
-        // If id is null a unique one will be generated, otherwise you can use your own IDs
-        // If you don't provide the IDs you will need to create a lookup table to map ID to object.
-        // If you are importing relationships you will need to have IDs for elements so you know the source and target IDs for the relationship
-        
-        // So let's use an ID -> EObject table
+        // If an ID is not provided for an element then a unique ID will be generated when the model element is added to a parent
+        // model element, otherwise you can use your own IDs provided in the input data.
+        // Let's use an ID -> EObject mapping table for convenience
         idLookup = new HashMap<String, EObject>();
         
         // Create and add model elements
@@ -136,7 +135,7 @@ public class MyImporter implements IModelImporter {
             String targetID = relations[i++];
             IRelationship relationship = createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type), name, id);
             
-            // Find source and target elements from their IDs
+            // Find source and target elements from their IDs in the lookup table
             IArchimateElement source = (IArchimateElement)idLookup.get(sourceID);
             IArchimateElement target = (IArchimateElement)idLookup.get(targetID);
             relationship.setSource(source);
@@ -150,7 +149,7 @@ public class MyImporter implements IModelImporter {
             createAndAddView(model, name, id);
         }
 
-        // Add elements to views
+        // Add diagram elements to views
         for(int i = 0; i < viewElements.length;) {
             String viewID = viewElements[i++];
             String refID = viewElements[i++];
@@ -164,7 +163,7 @@ public class MyImporter implements IModelImporter {
             createAndAddElementToView(diagramModel, element, x, y, width, height);
         }
         
-        // Add connections to views
+        // Add diagram connections to views
         for(int i = 0; i < viewConnections.length;) {
             String viewID = viewConnections[i++];
             String relationshipID = viewConnections[i++];
@@ -185,9 +184,9 @@ public class MyImporter implements IModelImporter {
         for(IDiagramModelComponent dmcSource : sources) {
             for(IDiagramModelComponent dmcTarget : targets) {
                 IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                idLookup.put(dmc.getId(), dmc);
                 dmc.setRelationship(relationship);
                 dmc.connect((IDiagramModelObject)dmcSource, (IDiagramModelObject)dmcTarget);
+                idLookup.put(dmc.getId(), dmc);
             }
         }
     }
@@ -213,7 +212,7 @@ public class MyImporter implements IModelImporter {
     
     protected IRelationship createAndAddArchimateRelationship(IArchimateModel model, EClass type, String name, String id) {
         if(!IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(type)) {
-            throw new IllegalArgumentException("Eclass type should be of relationship type"); //$NON-NLS-1$
+            throw new IllegalArgumentException("Eclass type should be of relationship type");
         }
         
         return (IRelationship)createAndAddArchimateElement(model, type, name, id);
@@ -221,7 +220,7 @@ public class MyImporter implements IModelImporter {
     
     protected IArchimateElement createAndAddArchimateElement(IArchimateModel model, EClass type, String name, String id) {
         if(!IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(type)) {
-            throw new IllegalArgumentException("Eclass type should be of archimate element type"); //$NON-NLS-1$
+            throw new IllegalArgumentException("Eclass type should be of archimate element type");
         }
 
         IArchimateElement element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(type);
