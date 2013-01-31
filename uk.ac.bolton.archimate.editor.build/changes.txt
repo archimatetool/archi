@@ -1,9 +1,18 @@
 Archi Changes
 -------------
 
-Version 2.4.1 January XX 2013
-------------------------------
-* Relationship rule added - Application Interface Assigned to Business Service
+Version 2.4.1 March XX 2013
+---------------------------
+* Relationship rules changed:
+  Application Interface -> Business Service: "iou" (was "ou")
+  Node -> Node: "acfgostu" (was "cfgostu")
+  Node -> Device: "acfgostu" (was "cfgostu")
+  Node -> Network: "aiou" (was "o")
+  Node -> CommunicationPath: "aioru" (was "o")
+  Device -> Node: "acfgostu" (was "cfgostu")
+  Device -> Device: "acfgostu" (was "cfgostu")
+  Device -> Network: "aiou" (was "o")
+  Device -> CommunicationPath: "aioru" (was "o")
 * Fix connection label not located properly when in parent figure (fix by Jaiguru)
 
 

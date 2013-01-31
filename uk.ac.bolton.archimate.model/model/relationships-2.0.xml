@@ -1210,12 +1210,12 @@
 			<target element="ApplicationService" relations="aoru" />
 			<target element="DataObject" relations="aoru" />
 
-			<target element="Node" relations="cfgostu" />
-			<target element="Device" relations="cfgostu" />
+			<target element="Node" relations="acfgostu" />
+			<target element="Device" relations="acfgostu" />
 			<target element="SystemSoftware" relations="cfgostu" />
 			<target element="InfrastructureInterface" relations="cfgotu" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
+			<target element="Network" relations="aiou" />
+			<target element="CommunicationPath" relations="aioru" />
 			<target element="InfrastructureFunction" relations="iou" />
 			<target element="InfrastructureService" relations="ioru" />
 			<target element="Artifact" relations="aiou" />
@@ -1262,12 +1262,12 @@
 			<target element="ApplicationService" relations="aoru" />
 			<target element="DataObject" relations="aoru" />
 
-			<target element="Node" relations="cfgostu" />
-			<target element="Device" relations="cfgostu" />
+			<target element="Node" relations="acfgostu" />
+			<target element="Device" relations="acfgostu" />
 			<target element="SystemSoftware" relations="cfgiostu" />
 			<target element="InfrastructureInterface" relations="cfgotu" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
+			<target element="Network" relations="aiou" />
+			<target element="CommunicationPath" relations="aioru" />
 			<target element="InfrastructureFunction" relations="iou" />
 			<target element="InfrastructureService" relations="ioru" />
 			<target element="Artifact" relations="aiou" />
