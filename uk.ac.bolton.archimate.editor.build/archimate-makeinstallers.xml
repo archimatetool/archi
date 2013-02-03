@@ -17,8 +17,9 @@
 	<!-- Init some stuff -->
 	<target name="init">
 	    
-		<!-- EDIT THESE TWO VALUES FOR A BUILD -->
-	    <property name="jre.sourcedir"          location="D:\dev\jre6"/>
+		<!-- EDIT THESE VALUES FOR A BUILD -->
+	    <property name="jre.win32.dir"          location="D:\dev\jre6"/>
+		<property name="jre.mac64.zip"    		location="D:\dev\jre-mac64.zip"/>
 		<property name="version" 				value="2.4.0"/>
 		
 		<property name="app.name" 				value="Archi"/>
@@ -50,7 +51,7 @@
 		
 		<!-- copy jre -->
 		<copy todir="${tmp.dir}/jre" >
-			  <fileset dir="${jre.sourcedir}"/>
+			  <fileset dir="${jre.win32.dir}"/>
 		</copy>
 		
 		<!-- rename folder -->
@@ -107,17 +108,27 @@
 		<property name="mac.launcher.dir"       value="${mac.contents.dir}/MacOS"/>
 		<property name="mac.new.launcher.dir"   value="${mac.contents.dir}/MacOS/launcher"/>
 		<property name="mac.launcher"           value="${mac.launcher.dir}/${app.name}"/>
-		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>		
+		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>
 	
+		<!-- 32-bit Mac version -->
     	<antcall target="make_mac">
     		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac32-${version}.zip"/>
         	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86"/>
     	</antcall>
 
+   		<!-- 64-bit Mac version -->
     	<antcall target="make_mac">
         	<param name="mac.zip"      		value="${output.dir}/${app.name}-mac64-${version}.zip"/>
         	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86_64"/>
     	</antcall>
+
+		<!-- Bundled JRE 64-bit Mac version -->
+		<property name="mac64-full.zip"   value="${output.dir}/${app.name}-mac64-full-${version}.zip"/>
+		<copy file="${output.dir}/${app.name}-mac64-${version}.zip" tofile="${mac64-full.zip}" overwrite="true"/>
+		<zip destfile="${mac64-full.zip}" update="true">
+			<zipfileset src="${jre.mac64.zip}" prefix="${folder.name}/${mac.app}"/>
+		</zip>
+
     </target>
 	
 	<!-- Make Mac version -->
