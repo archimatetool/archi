@@ -1,11 +1,11 @@
 ; Archi Windows Build Script for Inno Setup
 ; Assumes that the source files are located at D:\Archi\Archi_win\
+; And the outputted exe file will be generated to D:\Archi\
 
 #define VERSION "2.4.1"
 #define APPNAME "Archi"
 #define APP_EXE "Archi.exe"
 #define SOURCE_DIR "D:\Archi\Archi_win\"
-#define OUTPUT_DIR "D:\Archi\"
 
 ; Registry entries
 #define FILE_EXT ".archimate"
@@ -27,10 +27,13 @@ AppUpdatesURL=http://www.archimatetool.com
 DefaultDirName={pf}\{#APPNAME}
 DefaultGroupName={#APPNAME}
 OutputBaseFilename={#APPNAME}-win32-Setup-{#VERSION}
-OutputDir={#OUTPUT_DIR}
+OutputDir={#SOURCE_DIR}\..
 Compression=lzma
 SolidCompression=yes
 UninstallDisplayIcon={app}\{#APP_EXE},0
+AllowNoIcons=yes
+WizardImageFile=compiler:WizModernImage-IS.BMP
+WizardSmallImageFile=compiler:WizModernSmallImage-IS.BMP
 
 ; Updates Shell icons
 ChangesAssociations=yes
@@ -48,7 +51,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "{#SOURCE_DIR}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{group}\{#APPNAME}"; Filename: "{app}\{#APP_EXE}"
