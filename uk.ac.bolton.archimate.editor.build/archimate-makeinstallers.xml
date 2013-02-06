@@ -18,7 +18,7 @@
 	<target name="init">
 	    
 		<!-- EDIT THESE VALUES FOR A BUILD -->
-	    <property name="jre.win32.dir"          location="D:\dev\jre6"/>
+	    <property name="jre.win32.dir"          location="D:\dev\jre7"/>
 		<property name="jre.mac64.zip"    		location="D:\dev\jre-mac64.zip"/>
 		<property name="version" 				value="2.4.0"/>
 		
