@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 
 /**
@@ -133,8 +134,13 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     private void handleCustomDialog() {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.ExportJasperReportsWizardPage2_5);
-        dialog.setFilterExtensions(new String[] { "main.jrxml", "*.jrxml", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        dialog.setFileName("main.jrxml"); //$NON-NLS-1$
+        if(!PlatformUtils.isMac()) { // Single file filtering in the Open dialog doesn't work on Mac
+            dialog.setFilterExtensions(new String[] { "main.jrxml", "*.jrxml", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            dialog.setFileName("main.jrxml"); //$NON-NLS-1$
+        }
+        else {
+            dialog.setFilterExtensions(new String[] { "*.jrxml", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$
+        }
         String path = dialog.open();
         if(path != null) {
             File file = new File(path);
