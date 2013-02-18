@@ -233,6 +233,9 @@ public class ExportJasperReportsWizard extends Wizard {
         params.put("REPORT_TITLE", fReportTitle); //$NON-NLS-1$
         //params.put(JRParameter.REPORT_LOCALE, Locale.US);
         
+        // Path to main.jrxml
+        params.put("REPORT_PATH", fMainTemplateFile.getParent() + File.separator); //$NON-NLS-1$
+        
         monitor.worked(1);
         
         // Compile Main Report
