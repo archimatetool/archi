@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.Viewport;
+import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
