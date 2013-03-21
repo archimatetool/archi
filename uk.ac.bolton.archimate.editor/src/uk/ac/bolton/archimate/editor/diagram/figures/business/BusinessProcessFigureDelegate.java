@@ -73,7 +73,7 @@ public class BusinessProcessFigureDelegate extends AbstractFigureDelegate {
         points.addPoint(bounds.x, bounds.y + (bounds.height / 5));
         points.addPoint(bounds.x + (int)(bounds.width * 0.7), points.getPoint(0).y);
         points.addPoint(points.getPoint(1).x, bounds.y);
-        points.addPoint(bounds.x + bounds.width - 1, bounds.y + (bounds.height / 2));
+        points.addPoint(bounds.x + bounds.width, bounds.y + (bounds.height / 2));
         points.addPoint(points.getPoint(2).x, bounds.y + bounds.height);
         points.addPoint(points.getPoint(2).x, bounds.y + bounds.height - (bounds.height / 5));
         points.addPoint(points.getPoint(0).x, points.getPoint(5).y);
