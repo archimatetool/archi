@@ -1,9 +1,9 @@
 Archi Changes
 -------------
 
-Version 2.4.1 March XX 2013
+Version 2.4.1 April XX 2013
 ---------------------------
-+ The Java version shipped with the Windows installer is now version 1.7.0_13
++ The Java version shipped with the Windows installer is now version 1.7.0_17
 + New Innno Setup Installer for Windows version
 * Relationship rules changed:
   Application Interface -> Business Service: "iou" (was "ou")
