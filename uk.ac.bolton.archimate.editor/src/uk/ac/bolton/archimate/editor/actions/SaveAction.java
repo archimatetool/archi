@@ -76,7 +76,7 @@ public class SaveAction extends AbstractModelSelectionAction {
     }
     
     @Override
-    protected void updateState() {
+    public void updateState() {
         IArchimateModel model = getActiveArchimateModel();
         setEnabled(IEditorModelManager.INSTANCE.isModelDirty(model));
     }
@@ -95,7 +95,6 @@ public class SaveAction extends AbstractModelSelectionAction {
     @Override
     public void dispose() {
         super.dispose();
-        workbenchWindow.getPartService().removePartListener(this);
         IEditorModelManager.INSTANCE.removePropertyChangeListener(commandStackListener);
     }
 }

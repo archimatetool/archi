@@ -45,9 +45,4 @@ public class SaveAsAction extends AbstractModelSelectionAction {
             }
         }
     }
-    
-    @Override
-    protected void updateState() {
-        setEnabled(getActiveArchimateModel() != null);
-    }
 }

@@ -2,25 +2,16 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="uk.ac.bolton.archimate.templates.actionSet"
-            label="Templates"
-            visible="true">
-         <action
-               class="uk.ac.bolton.archimate.templates.impl.SaveAsTemplateAction"
-               id="uk.ac.bolton.archimate.templates.saveAsTemplate"
-               label="%action.label.0"
-               menubarPath="file/save.ext">
-         </action>
-      </actionSet>
-   </extension>
-   <extension
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="uk.ac.bolton.archimate.templates.impl.NewArchimateModelFromTemplateHandler"
             id="uk.ac.bolton.archimate.templates.modelFromTemplate"
             name="New Model From Template">
+      </command>
+      <command
+            defaultHandler="uk.ac.bolton.archimate.templates.impl.SaveAsTemplateHandler"
+            id="uk.ac.bolton.archimate.templates.saveAsTemplate"
+            name="Save As Template">
       </command>
    </extension>
    <extension
@@ -42,6 +33,15 @@
                commandId="uk.ac.bolton.archimate.templates.modelFromTemplate"
                icon="img/newfile.gif"
                label="%action.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:file?after=save.ext">
+         <command
+               commandId="uk.ac.bolton.archimate.templates.saveAsTemplate"
+               label="%action.label.0"
                style="push">
          </command>
       </menuContribution>

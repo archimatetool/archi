@@ -16,7 +16,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Activator
- * Implement IStartup so that Action Delegates are initialised
+ * Implement IStartup so that Menu Items are initialised
  * 
  * @author Phillip Beauvoir
  */

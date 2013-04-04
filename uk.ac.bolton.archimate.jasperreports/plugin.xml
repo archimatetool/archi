@@ -2,23 +2,29 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="uk.ac.bolton.archimate.jasperreports.actionSet"
-            label="Reports"
-            visible="true">
-         <action
-               class="uk.ac.bolton.archimate.jasperreports.JasperReportsAction"
-               id="uk.ac.bolton.archimate.reports.reportJasper"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:report_menu?before=report_ext">
+         <command
+               commandId="uk.ac.bolton.archimate.jasperreports.command.Jasper"
+               id="uk.ac.bolton.archimate.jasperreports.menuItem.Jasper"
                label="Jasper..."
-               menubarPath="file/report_menu/report_ext">
-         </action>
-      </actionSet>
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.bolton.archimate.jasperreports.JasperReportsHandler"
+            id="uk.ac.bolton.archimate.jasperreports.command.Jasper"
+            name="Jasper">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup>
-      </startup>
+      <startup></startup>
    </extension>
 
 </plugin>

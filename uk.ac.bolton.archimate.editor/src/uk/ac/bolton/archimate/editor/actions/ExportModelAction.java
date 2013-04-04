@@ -41,9 +41,4 @@ public class ExportModelAction extends AbstractModelSelectionAction {
             }
         }
     }
-    
-    @Override
-    protected void updateState() {
-        setEnabled(getActiveArchimateModel() != null);
-    }
 }

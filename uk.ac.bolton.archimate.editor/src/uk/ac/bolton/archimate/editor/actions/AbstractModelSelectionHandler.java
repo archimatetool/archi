@@ -5,20 +5,20 @@
  */
 package uk.ac.bolton.archimate.editor.actions;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
+import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.actions.ModelSelectionHandler.IModelSelectionHandlerListener;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
- * Global Action for current selection in either the Tree Model View or an Editor.
- * This is the Action counterpart of AbstractModelSelectionHandler<br>
+ * Global Menu Handler for current selection in either the Tree Model View or an Editor.
+ * This is the AbstractHandler counterpart of AbstractModelSelectionAction<br>
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractModelSelectionAction extends Action implements IWorkbenchAction, IModelSelectionHandlerListener {
+public abstract class AbstractModelSelectionHandler extends AbstractHandler implements IModelSelectionHandlerListener {
     
     /**
      * The Model Selection Handler
@@ -30,29 +30,18 @@ public abstract class AbstractModelSelectionAction extends Action implements IWo
      */
     protected IWorkbenchWindow workbenchWindow;
     
-    /**
-     * Default Constructor
-     * @param text
-     * @param window
-     */
-    protected AbstractModelSelectionAction(String text, IWorkbenchWindow window) {
-        super(text);
-        setWorkbenchWindow(window);
-        setEnabled(false);
+    protected AbstractModelSelectionHandler() {
+        workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        
+        fModelSelectionHandler = new ModelSelectionHandler(this, workbenchWindow);
+        
+        // Update enabled state on current active part (if any)
+        fModelSelectionHandler.refresh();
     }
-    
-    /**
-     * Set the WorkbenchWindow and register this Action with the Part Service Part Listener
-     * @param window
-     */
-    public void setWorkbenchWindow(IWorkbenchWindow window) {
-        workbenchWindow = window;
-        fModelSelectionHandler = new ModelSelectionHandler(this, window);
-    }
-    
+
     @Override
     public void updateState() {
-        setEnabled(getActiveArchimateModel() != null);
+        setBaseEnabled(getActiveArchimateModel() != null);
     }
     
     /**
@@ -62,6 +51,7 @@ public abstract class AbstractModelSelectionAction extends Action implements IWo
         return fModelSelectionHandler.getActiveArchimateModel();
     }
 
+    @Override
     public void dispose() {
         fModelSelectionHandler.dispose();
     }

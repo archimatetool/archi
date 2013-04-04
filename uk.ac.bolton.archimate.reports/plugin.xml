@@ -2,18 +2,25 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="uk.ac.bolton.archimate.reports.actionSet"
-            label="Reports"
-            visible="true">
-         <action
-               class="uk.ac.bolton.archimate.reports.html.HTMLReportAction"
-               id="uk.ac.bolton.archimate.reports.reportHTML"
-               label="%action.label"
-               menubarPath="file/report_menu/report_ext">
-         </action>
-      </actionSet>
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:report_menu?after=report_ext">
+         <command
+               commandId="uk.ac.bolton.archimate.reports.command.HTML"
+               id="uk.ac.bolton.archimate.reports.menuItem.HTML"
+               label="HTML..."
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.bolton.archimate.reports.html.HTMLReportHandler"
+            id="uk.ac.bolton.archimate.reports.command.HTML"
+            name="%action.label">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.startup">
