@@ -6,6 +6,10 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.zest.messages"; //$NON-NLS-1$
 
+    public static String CopyZestViewAsImageToClipboardAction_0;
+
+    public static String CopyZestViewAsImageToClipboardAction_1;
+
     public static String DrillDownManager_0;
 
     public static String DrillDownManager_1;
@@ -15,6 +19,10 @@ public class Messages extends NLS {
     public static String DrillDownManager_3;
 
     public static String DrillDownManager_4;
+
+    public static String ExportAsImageAction_0;
+
+    public static String ExportAsImageAction_1;
 
     public static String IZestView_0;
 

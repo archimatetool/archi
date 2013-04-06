@@ -69,7 +69,12 @@ implements IZestView, ISelectionListener {
     private IAction fActionLayout;
     private IViewerAction fActionProperties;
     private IAction fActionPinContent;
+    private IAction fActionCopyImageToClipboard;
+    private IAction fActionExportImageToFile;
     
+    // Depth Actions
+    private IAction[] fDepthActions;
+
     private DrillDownManager fDrillDownManager;
     
     @Override
@@ -80,7 +85,7 @@ implements IZestView, ISelectionListener {
         layout.verticalSpacing = 0;
         parent.setLayout(layout);
         
-        fLabel = new CLabel(parent, SWT.SHADOW_OUT);
+        fLabel = new CLabel(parent, SWT.NONE);
         fLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         fGraphViewer = new ZestGraphViewer(parent, SWT.NONE);
@@ -205,10 +210,13 @@ implements IZestView, ISelectionListener {
         
         final IMenuManager menuManager = bars.getMenuManager();
 
+        IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
+        menuManager.add(depthMenuManager); 
+
         // Depth Actions
-        IAction[] depthActions = new Action[6];
-        for(int i = 0; i < 6; i++) {
-            depthActions[i] = new Action(Messages.ZestView_3 + " " + (i + 1), IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
+        fDepthActions = new Action[6];
+        for(int i = 0; i < fDepthActions.length; i++) {
+            fDepthActions[i] = new Action(Messages.ZestView_3 + " " + (i + 1), IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
                 @Override
                 public void run() {
                     IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
@@ -224,14 +232,18 @@ implements IZestView, ISelectionListener {
                 }
             };
             
-            depthActions[i].setId(Integer.toString(i));
-            menuManager.add(depthActions[i]);
+            fDepthActions[i].setId(Integer.toString(i));
+            depthMenuManager.add(fDepthActions[i]);
         }
         
         // Set depth from prefs
         int depth = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
         ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
-        depthActions[depth].setChecked(true);
+        fDepthActions[depth].setChecked(true);
+        
+        menuManager.add(new Separator());
+        menuManager.add(fActionCopyImageToClipboard);
+        menuManager.add(fActionExportImageToFile);
     }
 
     @Override
@@ -276,6 +288,9 @@ implements IZestView, ISelectionListener {
                 setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PIN_16));
             }
         };
+        
+        fActionCopyImageToClipboard = new CopyZestViewAsImageToClipboardAction(fGraphViewer);
+        fActionExportImageToFile = new ExportAsImageAction(fGraphViewer);
     }
 
     /**
@@ -318,6 +333,18 @@ implements IZestView, ISelectionListener {
         fDrillDownManager.addNavigationActions(manager);
         manager.add(new Separator());
         manager.add(fActionLayout);
+        
+        manager.add(new Separator());
+        IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
+        manager.add(depthMenuManager); 
+        
+        for(int i = 0; i < fDepthActions.length; i++) {
+            depthMenuManager.add(fDepthActions[i]);
+        }
+        
+        manager.add(new Separator());
+        manager.add(fActionCopyImageToClipboard);
+        manager.add(fActionExportImageToFile);
         
         if(!isEmpty) {
             manager.add(new Separator());
