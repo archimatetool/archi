@@ -13,6 +13,7 @@ import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.ImageTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
@@ -43,11 +44,14 @@ public class ExportAsImageToClipboardAction extends Action {
             @Override
             public void run() {
                 Image image = null;
+                Clipboard cb = null;
                 
                 try {
                     image = DiagramUtils.createImage(fDiagramViewer);
-                    Clipboard cb = new Clipboard(Display.getDefault());
-                    cb.setContents(new Object[] { image.getImageData() }, new Transfer[] { ImageTransfer.getInstance() });
+                    ImageData imageData = image.getImageData();
+                    
+                    cb = new Clipboard(Display.getDefault());
+                    cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
                     
                     MessageDialog.openInformation(Display.getDefault().getActiveShell(),
                             Messages.ExportAsImageToClipboardAction_1,
@@ -62,12 +66,15 @@ public class ExportAsImageToClipboardAction extends Action {
                             Messages.ExportAsImageToClipboardAction_3 + " " + ex.getMessage()); //$NON-NLS-1$
                 }
                 finally {
-                    if(image != null) {
+                    if(image != null && !image.isDisposed()) {
                         image.dispose();
+                    }
+                    
+                    if(cb != null) {
+                        cb.dispose(); // If memory is low this will crash the JVM
                     }
                 }
             }
-        });
-                
+        });          
     }
 }

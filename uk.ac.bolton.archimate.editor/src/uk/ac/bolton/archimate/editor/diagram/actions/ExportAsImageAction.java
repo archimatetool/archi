@@ -54,8 +54,10 @@ public class ExportAsImageAction extends Action {
                 
                 try {
                     image = DiagramUtils.createImage(fDiagramViewer);
+                    ImageData imageData = image.getImageData();
+                    
                     ImageLoader loader = new ImageLoader();
-                    loader.data = new ImageData[] { image.getImageData() };
+                    loader.data = new ImageData[] { imageData };
 
                     if(file.endsWith(".bmp")) { //$NON-NLS-1$
                         loader.save(file, SWT.IMAGE_BMP);

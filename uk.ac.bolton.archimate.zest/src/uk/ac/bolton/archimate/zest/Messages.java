@@ -10,6 +10,8 @@ public class Messages extends NLS {
 
     public static String CopyZestViewAsImageToClipboardAction_1;
 
+    public static String CopyZestViewAsImageToClipboardAction_2;
+
     public static String DrillDownManager_0;
 
     public static String DrillDownManager_1;
@@ -23,6 +25,8 @@ public class Messages extends NLS {
     public static String ExportAsImageAction_0;
 
     public static String ExportAsImageAction_1;
+
+    public static String ExportAsImageAction_2;
 
     public static String IZestView_0;
 

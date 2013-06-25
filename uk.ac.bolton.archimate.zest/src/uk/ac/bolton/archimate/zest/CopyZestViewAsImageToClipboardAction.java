@@ -7,10 +7,12 @@ package uk.ac.bolton.archimate.zest;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.ImageTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 
@@ -30,14 +32,43 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
 
     @Override
     public void run() {
-        Image image = fGraphViewer.createImage();
-        Clipboard cb = new Clipboard(Display.getDefault());
-        cb.setContents(new Object[] { image.getImageData() }, new Transfer[] { ImageTransfer.getInstance() });
-        image.dispose();
         
-        MessageDialog.openInformation(Display.getDefault().getActiveShell(),
-                Messages.CopyZestViewAsImageToClipboardAction_0,
-                Messages.CopyZestViewAsImageToClipboardAction_1);
+        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+            @Override
+            public void run() {
+                Image image = null;
+                Clipboard cb = null;
+                
+                try {
+                    image = fGraphViewer.createImage();
+                    ImageData imageData = image.getImageData();
+                            
+                    cb = new Clipboard(Display.getDefault());
+                    cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
+                    
+                    MessageDialog.openInformation(Display.getDefault().getActiveShell(),
+                            Messages.CopyZestViewAsImageToClipboardAction_0,
+                            Messages.CopyZestViewAsImageToClipboardAction_1);
+
+                }
+                catch(Throwable ex) { // Catch Throwable for SWT errors
+                    ex.printStackTrace();
+                    
+                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                            Messages.CopyZestViewAsImageToClipboardAction_0,
+                            Messages.CopyZestViewAsImageToClipboardAction_2 + " " + ex.getMessage()); //$NON-NLS-1$
+                }
+                finally {
+                    if(image != null && !image.isDisposed()) {
+                        image.dispose();
+                    }
+                    
+                    if(cb != null) {
+                        cb.dispose(); // If memory is low this will crash the JVM
+                    }
+                }
+            }
+        });
     }
     
     @Override
