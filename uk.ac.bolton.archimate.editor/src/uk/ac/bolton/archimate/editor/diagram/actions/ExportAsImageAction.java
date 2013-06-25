@@ -12,6 +12,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
@@ -41,40 +42,48 @@ public class ExportAsImageAction extends Action {
 
     @Override
     public void run() {
-        String file = askSaveFile();
+        final String file = askSaveFile();
         if(file == null) {
             return;
         }
 
-        Image image = null;
-        
-        try {
-            image = DiagramUtils.createImage(fDiagramViewer);
-            ImageLoader loader = new ImageLoader();
-            loader.data = new ImageData[]{ image.getImageData() };
+        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+            @Override
+            public void run() {
+                Image image = null;
+                
+                try {
+                    image = DiagramUtils.createImage(fDiagramViewer);
+                    ImageLoader loader = new ImageLoader();
+                    loader.data = new ImageData[] { image.getImageData() };
 
-            if(file.endsWith(".bmp")) { //$NON-NLS-1$
-                loader.save(file, SWT.IMAGE_BMP);
+                    if(file.endsWith(".bmp")) { //$NON-NLS-1$
+                        loader.save(file, SWT.IMAGE_BMP);
+                    }
+                    else if(file.endsWith(".jpg") || file.endsWith(".jpeg")) { //$NON-NLS-1$ //$NON-NLS-2$
+                        loader.save(file, SWT.IMAGE_JPEG);
+                    }
+                    else if(file.endsWith(".png")) { //$NON-NLS-1$
+                        loader.save(file, SWT.IMAGE_PNG);
+                    }
+                    else {
+                        loader.save(file + ".png", SWT.IMAGE_PNG); //$NON-NLS-1$
+                    }
+                }
+                catch(Throwable ex) { // Catch Throwable for SWT errors
+                    ex.printStackTrace();
+                    
+                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                            Messages.ExportAsImageAction_2,
+                            Messages.ExportAsImageAction_4 + " " + ex.getMessage()); //$NON-NLS-1$
+                }
+                finally {
+                    if(image != null) {
+                        image.dispose();
+                    }
+                }
             }
-            else if(file.endsWith(".jpg") || file.endsWith(".jpeg")) { //$NON-NLS-1$ //$NON-NLS-2$
-                loader.save(file, SWT.IMAGE_JPEG);
-            }
-            else if(file.endsWith(".png")) { //$NON-NLS-1$
-                loader.save(file, SWT.IMAGE_PNG);
-            }
-            else {
-                file = file + ".png"; //$NON-NLS-1$
-                loader.save(file, SWT.IMAGE_PNG);
-            }
-        }
-        catch(Exception ex) {
-            MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.ExportAsImageAction_1, ex.getMessage());
-        }
-        finally {
-            if(image != null) {
-                image.dispose();
-            }
-        }
+        });
     }
     
     /**
@@ -117,7 +126,7 @@ public class ExportAsImageAction extends Action {
         File file = new File(path);
         if(file.exists()) {
             boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                    Messages.ExportAsImageAction_1,
+                    Messages.ExportAsImageAction_2,
                     NLS.bind(Messages.ExportAsImageAction_3, file));
             if(!result) {
                 return null;

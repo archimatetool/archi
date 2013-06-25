@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.actions;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.ImageTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -38,13 +39,35 @@ public class ExportAsImageToClipboardAction extends Action {
 
     @Override
     public void run() {
-        Image image = DiagramUtils.createImage(fDiagramViewer);
-        Clipboard cb = new Clipboard(Display.getDefault());
-        cb.setContents(new Object[] { image.getImageData() }, new Transfer[] { ImageTransfer.getInstance() });
-        image.dispose();
-        
-        MessageDialog.openInformation(Display.getDefault().getActiveShell(),
-                Messages.ExportAsImageToClipboardAction_1,
-                Messages.ExportAsImageToClipboardAction_2);
+        BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
+            @Override
+            public void run() {
+                Image image = null;
+                
+                try {
+                    image = DiagramUtils.createImage(fDiagramViewer);
+                    Clipboard cb = new Clipboard(Display.getDefault());
+                    cb.setContents(new Object[] { image.getImageData() }, new Transfer[] { ImageTransfer.getInstance() });
+                    
+                    MessageDialog.openInformation(Display.getDefault().getActiveShell(),
+                            Messages.ExportAsImageToClipboardAction_1,
+                            Messages.ExportAsImageToClipboardAction_2);
+
+                }
+                catch(Throwable ex) { // Catch Throwable for SWT errors
+                    ex.printStackTrace();
+                    
+                    MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                            Messages.ExportAsImageToClipboardAction_1,
+                            Messages.ExportAsImageToClipboardAction_3 + " " + ex.getMessage()); //$NON-NLS-1$
+                }
+                finally {
+                    if(image != null) {
+                        image.dispose();
+                    }
+                }
+            }
+        });
+                
     }
 }
