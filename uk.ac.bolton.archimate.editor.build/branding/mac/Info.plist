@@ -18,9 +18,9 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>launcher/Archi</string>
-	<key>CFBundleGetInfoString</key>
 	<string>Archi</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Archi 2.4.1</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
