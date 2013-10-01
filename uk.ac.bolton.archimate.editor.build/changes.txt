@@ -1,10 +1,10 @@
 Archi Changes
 -------------
 
-Version 2.4.1 April XX 2013
----------------------------
+Version 2.4.1 Beta
+------------------
 + A Visualiser diagram can now be exported as an image to file, or copied to the clipboard
-+ The Java version shipped with the Windows installer is now version 1.7.0_17
++ The Java version shipped with the Windows installer is now version 1.7.0_40
 + New Innno Setup Installer for Windows version
 * Relationship rules changed:
   Application Interface -> Business Service: "iou" (was "ou")

@@ -31,6 +31,8 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 /**
  * The Heap Status control, which shows the heap usage statistics.
  * Rejigged from org.eclipse.ui.internal.HeapStatus
+ * 
+ * To show this set System Property to VM arguments as "-Dshowheap=true"
  */
 public class HeapStatusWidget extends Composite {
     

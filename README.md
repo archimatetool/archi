@@ -1,4 +1,5 @@
 
+
 # Archi - ArchiMate Modelling Editor
 
 Archi is a free, open source, cross-platform tool and editor to create ArchiMate models.
@@ -9,17 +10,16 @@ Archi is targeted toward all levels of Enterprise Architects and Enterprise Mode
 
 For more information on ArchiMate see:
 
-http://www3.opengroup.org/subjectareas/enterprise/archimate
+[http://www3.opengroup.org/subjectareas/enterprise/archimate](http://www3.opengroup.org/subjectareas/enterprise/archimate)
 
 The main Archi website:
 
-http://archi.cetis.ac.uk
-
+[http://www.archimatetool.com](http://www.archimatetool.com)
 
 
 ## Building and running the code
 
 All developer resources are here:
 
-http://archi.cetis.ac.uk/developer.html
+[http://www.archimatetool.com/developer.html](http://www.archimatetool.com/developer.html)
 
