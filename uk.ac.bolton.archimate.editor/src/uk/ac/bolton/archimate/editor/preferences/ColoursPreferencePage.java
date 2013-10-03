@@ -5,13 +5,18 @@
  */
 package uk.ac.bolton.archimate.editor.preferences;
 
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.preference.ColorSelector;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
@@ -19,6 +24,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -27,6 +33,7 @@ import org.eclipse.ui.PlatformUI;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
+import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 /**
@@ -100,6 +107,39 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             createColorSelector(client3, eClass);
         }
         
+        Composite client4 = new Composite(parent, SWT.NULL);
+        client4.setLayout(new GridLayout(2, false));
+        gd = new GridData(SWT.RIGHT, SWT.NULL, false, false);
+        client4.setLayoutData(gd);
+        
+        Button importButton = new Button(client4, SWT.PUSH);
+        importButton.setText(Messages.ColoursPreferencePage_2);
+        importButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                try {
+                    importUserDefaults();
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
+        Button exportButton = new Button(client4, SWT.PUSH);
+        exportButton.setText(Messages.ColoursPreferencePage_3);
+        exportButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                try {
+                    exportUserDefaults();
+                }
+                catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
         return client;
     }
     
@@ -115,20 +155,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
-        for(Entry<ColorSelector, EClass> entry : fDefaultFillColorsLookup.entrySet()) {
-            RGB rgbNew = entry.getKey().getColorValue();
-            RGB rgbOld = ColorFactory.getInbuiltDefaultColor(entry.getValue()).getRGB();
-            String key = DEFAULT_FILL_COLOR_PREFIX + entry.getValue().getName();
-            if(rgbNew.equals(rgbOld)) {
-                getPreferenceStore().setToDefault(key);
-            }
-            else {
-                getPreferenceStore().setValue(key, ColorFactory.convertRGBToString(rgbNew));
-            }
-        }
-        
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_FILL_COLOR, fPersistUserDefaultFillColors.getSelection());
-        
+        saveColors(getPreferenceStore());        
         return true;
     }
     
@@ -141,6 +169,60 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(Entry<ColorSelector, EClass> entry : fDefaultFillColorsLookup.entrySet()) {
             RGB rgb = ColorFactory.getInbuiltDefaultColor(entry.getValue()).getRGB();
             entry.getKey().setColorValue(rgb);
+        }
+    }
+    
+    private void importUserDefaults() throws IOException {
+        FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
+        dialog.setText(Messages.ColoursPreferencePage_4);
+        dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
+        String path = dialog.open();
+        if(path == null) {
+            return;
+        }
+        
+        PreferenceStore store = new PreferenceStore(path);
+        store.load();
+
+        for(Entry<ColorSelector, EClass> entry : fDefaultFillColorsLookup.entrySet()) {
+            String key = IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + entry.getValue().getName();
+            String value = store.getString(key);
+            if(StringUtils.isSet(value)) {
+                getPreferenceStore().setValue(key, value);
+                RGB rgbNew = ColorFactory.convertStringToRGB(value);
+                entry.getKey().setColorValue(rgbNew);
+            }
+            else {
+                getPreferenceStore().setToDefault(key);
+            }
+        }
+    }
+    
+    private void exportUserDefaults() throws IOException {
+        FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+        dialog.setText(Messages.ColoursPreferencePage_5);
+        dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
+        String path = dialog.open();
+        if(path == null) {
+            return;
+        }
+
+        PreferenceStore store = new PreferenceStore(path);
+        saveColors(store);
+        store.save();
+    }
+    
+    private void saveColors(IPreferenceStore store) {
+        for(Entry<ColorSelector, EClass> entry : fDefaultFillColorsLookup.entrySet()) {
+            RGB rgbNew = entry.getKey().getColorValue();
+            RGB rgbDefault = ColorFactory.getInbuiltDefaultColor(entry.getValue()).getRGB();
+            String key = DEFAULT_FILL_COLOR_PREFIX + entry.getValue().getName();
+            if(rgbNew.equals(rgbDefault)) {
+                store.setToDefault(key);
+            }
+            else {
+                store.setValue(key, ColorFactory.convertRGBToString(rgbNew));
+            }
         }
     }
     
