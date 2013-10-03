@@ -116,7 +116,8 @@ public class ArchiveManager implements IArchiveManager {
         if(entryName == null) {
             // Is this actually a valid Image file? Test it...
             try {
-                new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
+                Image img = new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
+                img.dispose();
             }
             catch(Throwable ex) {
                 throw new IOException("Not a supported image file", ex); //$NON-NLS-1$
