@@ -60,9 +60,9 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
         if(newImageDescriptor == null) {
             ImageDescriptor originalImageDescriptor = IArchimateImages.ImageFactory.getImageDescriptor(imageName);
             
-            Color color = ColorFactory.getDefaultFillColor(providerFor());
+            Color color = ColorFactory.getUserDefaultFillColor(providerFor());
 
-            // No default color
+            // No user default color
             if(color == null) {
                 return originalImageDescriptor;
             }
