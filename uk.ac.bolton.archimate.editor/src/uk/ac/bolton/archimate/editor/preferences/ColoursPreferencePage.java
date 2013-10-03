@@ -50,6 +50,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Hashtable<ColorSelector, EClass> fDefaultFillColorsLookup = new Hashtable<ColorSelector, EClass>();
     
     private Button fPersistUserDefaultFillColors;
+    private Button fShowUserDefaultFillColorsInApplication;
     
 	public ColoursPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -74,6 +75,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fPersistUserDefaultFillColors.setText(Messages.ColoursPreferencePage_1);
         fPersistUserDefaultFillColors.setLayoutData(gd);
         fPersistUserDefaultFillColors.setSelection(getPreferenceStore().getBoolean(SAVE_USER_DEFAULT_FILL_COLOR));
+        
+        fShowUserDefaultFillColorsInApplication = new Button(client, SWT.CHECK);
+        fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursPreferencePage_6);
+        fShowUserDefaultFillColorsInApplication.setLayoutData(gd);
+        fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getBoolean(SHOW_FILL_COLORS_IN_GUI));
         
         Composite client1 = new Composite(client, SWT.NULL);
         client1.setLayout(new GridLayout(2, false));
@@ -156,6 +162,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_FILL_COLOR, fPersistUserDefaultFillColors.getSelection());
+        getPreferenceStore().setValue(SHOW_FILL_COLORS_IN_GUI, fShowUserDefaultFillColorsInApplication.getSelection());
         saveColors(getPreferenceStore());        
         return true;
     }
@@ -165,6 +172,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         super.performDefaults();
         
         fPersistUserDefaultFillColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_FILL_COLOR));
+        fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_FILL_COLORS_IN_GUI));
 
         for(Entry<ColorSelector, EClass> entry : fDefaultFillColorsLookup.entrySet()) {
             RGB rgb = ColorFactory.getInbuiltDefaultColor(entry.getValue()).getRGB();

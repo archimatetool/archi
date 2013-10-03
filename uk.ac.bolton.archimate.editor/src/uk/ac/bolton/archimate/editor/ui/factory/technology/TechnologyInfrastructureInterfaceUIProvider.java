@@ -41,12 +41,12 @@ public class TechnologyInfrastructureInterfaceUIProvider extends AbstractTechnol
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_TECHNOLOGY_INFRASTRUCTURE_INTERFACE_16);
+        return getImageWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_INFRASTRUCTURE_INTERFACE_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_TECHNOLOGY_INFRASTRUCTURE_INTERFACE_16);
+        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_INFRASTRUCTURE_INTERFACE_16);
     }
     
     @Override

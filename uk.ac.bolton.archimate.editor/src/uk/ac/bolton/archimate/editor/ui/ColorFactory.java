@@ -129,6 +129,14 @@ public class ColorFactory {
 
         return eClass;
     }
+    
+    /**
+     * @param rgb
+     * @return integer pixel value of RGB
+     */
+    public static int getPixelValue(RGB rgb) {
+        return (rgb.red << 16) | (rgb.green << 8) | rgb.blue;
+    }
 
     /**
      * @param rgb

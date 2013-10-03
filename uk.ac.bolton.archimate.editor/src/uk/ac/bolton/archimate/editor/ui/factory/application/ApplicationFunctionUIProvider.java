@@ -43,11 +43,11 @@ public class ApplicationFunctionUIProvider extends AbstractApplicationUIProvider
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APPLICATION_FUNCTION_16);
+        return getImageWithUserFillColor(IArchimateImages.ICON_APPLICATION_FUNCTION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_APPLICATION_FUNCTION_16);
+        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_APPLICATION_FUNCTION_16);
     }
 }
