@@ -86,7 +86,8 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     }
 
     /**
-     * Create a new Image substituting the user's preference for fill color
+     * Get a new Image substituting the user's preference for fill color.
+     * If there is no user fill color or preference not set, then
      * 
      * We can't dispose of any previous Image as it will still be referenced elsewhere in the application
      */
@@ -99,9 +100,14 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
         Image image = fImageRegistry.get(imageName);
         
         if(image == null) {
-            // Create ImageDescriptor and try again
+            // Create local ImageDescriptor and try again
             getImageDescriptorWithUserFillColor(imageName);
             image = fImageRegistry.get(imageName);
+            
+            // If image is still null then we didn't make a new one and so need the default image
+            if(image == null) {
+                return IArchimateImages.ImageFactory.getImage(imageName);
+            }
         }
 
         return image;
