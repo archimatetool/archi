@@ -38,11 +38,11 @@ public class TechnologyNetworkUIProvider extends AbstractTechnologyUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_TECHNOLOGY_NETWORK_16);
+        return getImageWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_NETWORK_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_TECHNOLOGY_NETWORK_16);
+        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_NETWORK_16);
     }
 }

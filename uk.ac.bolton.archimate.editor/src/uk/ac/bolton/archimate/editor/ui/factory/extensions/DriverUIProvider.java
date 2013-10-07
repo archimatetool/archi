@@ -41,12 +41,12 @@ public class DriverUIProvider extends AbstractElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DRIVER_FILLED_16);
+        return getImageWithUserFillColor(IArchimateImages.ICON_DRIVER_FILLED_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DRIVER_FILLED_16);
+        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_DRIVER_FILLED_16);
     }
 
     @Override

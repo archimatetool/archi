@@ -4,6 +4,9 @@ Archi Changes
 Version 2.4.1 Beta
 ------------------
 + A Visualiser diagram can now be exported as an image to file, or copied to the clipboard
++ Colours Preferences - can now Import/Export user-defined fill colour schemes
++ Colours Preferences - Added an option to show user-defined fill colours in the model tree, palette and elsewhere
++ Colours Preferences - Can reset an individual fill colour to its default value by holding Ctrl/Command key when clicking on colour button
 + The Java version shipped with the Windows installer is now version 1.7.0_40
 + New Innno Setup Installer for Windows version
 * Relationship rules changed:
