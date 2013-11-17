@@ -15,6 +15,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.IRelationship;
+import uk.ac.bolton.archimate.model.util.Logger;
 
 /**
  * <!-- begin-user-doc -->
@@ -103,6 +104,10 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * @generated NOT
      */
     public IRelationship getRelationship() {
+        if(fRelationship == null) {
+            Logger.logError("getRelationship() returning null", new Throwable()); //$NON-NLS-1$
+        }
+        
         return fRelationship;
     }
 
@@ -112,6 +117,10 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * @generated NOT
      */
     public void setRelationship(IRelationship relationship) {
+        if(relationship == null) {
+            Logger.logError("setRelationship() setting null", new Throwable()); //$NON-NLS-1$
+        }
+        
         fRelationship = relationship;
     }
 

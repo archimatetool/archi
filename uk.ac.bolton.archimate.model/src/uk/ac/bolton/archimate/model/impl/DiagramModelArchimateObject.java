@@ -23,6 +23,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IFolder;
+import uk.ac.bolton.archimate.model.util.Logger;
 
 /**
  * <!-- begin-user-doc -->
@@ -127,6 +128,10 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * @generated NOT
      */
     public IArchimateElement getArchimateElement() {
+        if(fArchimateElement == null) {
+            Logger.logError("getArchimateElement() returning null", new Throwable()); //$NON-NLS-1$
+        }
+        
         return fArchimateElement;
     }
 
@@ -136,6 +141,10 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * @generated NOT
      */
     public void setArchimateElement(IArchimateElement archimateElement) {
+        if(archimateElement == null) {
+            Logger.logError("setArchimateElement() setting null", new Throwable()); //$NON-NLS-1$
+        }
+
         fArchimateElement = archimateElement;
     }
 
