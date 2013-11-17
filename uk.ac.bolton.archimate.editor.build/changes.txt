@@ -1,8 +1,8 @@
 Archi Changes
 -------------
 
-Version 2.4.1 Beta
-------------------
+Version 2.4.1 November 17 2013
+------------------------------
 + A Visualiser diagram can now be exported as an image to file, or copied to the clipboard
 + Colours Preferences - can now Import/Export user-defined fill colour schemes
 + Colours Preferences - Added an option to show user-defined fill colours in the model tree, palette and elsewhere
