@@ -224,11 +224,15 @@ public class TreeModelViewerDragDropHandler {
         
         IStructuredSelection selection = (IStructuredSelection)LocalSelectionTransfer.getTransfer().getSelection();
         for(Object object : selection.toArray()) {
-            if(object instanceof IFolder && !newParent.getFolders().contains(object)) {
-                compoundCommand.add(new MoveFolderCommand(newParent, (IFolder)object));
+            if(object instanceof IFolder) { // This first - folders go in folders
+                if(!newParent.getFolders().contains(object)) {
+                    compoundCommand.add(new MoveFolderCommand(newParent, (IFolder)object));
+                }
             }
-            else if(object instanceof INameable && !newParent.getElements().contains(object)) {
-                compoundCommand.add(new MoveObjectCommand(newParent, (INameable)object));
+            else if(object instanceof INameable) {
+                if(!newParent.getElements().contains(object)) {
+                    compoundCommand.add(new MoveObjectCommand(newParent, (INameable)object));                    
+                }
             }
         }
         

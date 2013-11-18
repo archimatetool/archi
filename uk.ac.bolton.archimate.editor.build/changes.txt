@@ -1,7 +1,7 @@
 Archi Changes
 -------------
 
-Version 2.4.1 November 17 2013
+Version 2.4.1 November 18 2013
 ------------------------------
 + A Visualiser diagram can now be exported as an image to file, or copied to the clipboard
 + Colours Preferences - can now Import/Export user-defined fill colour schemes
@@ -9,6 +9,8 @@ Version 2.4.1 November 17 2013
 + Colours Preferences - Can reset an individual fill colour to its default value by holding Ctrl/Command key when clicking on colour button
 + The Java version shipped with the Windows installer is now version 1.7.0_45
 + New Innno Setup Installer for Windows version
+* Fixed a bug where drag and dropping a folder in the model tree could orphan diagram elements
+* Fixed connection label not located properly when in parent figure (fix by Jaiguru)
 * Relationship rules changed:
   Application Interface -> Business Service: "iou" (was "ou")
   Node -> Node: "acfgostu" (was "cfgostu")
@@ -19,7 +21,6 @@ Version 2.4.1 November 17 2013
   Device -> Device: "acfgostu" (was "cfgostu")
   Device -> Network: "aiou" (was "o")
   Device -> CommunicationPath: "aioru" (was "o")
-* Fix connection label not located properly when in parent figure (fix by Jaiguru)
 
 
 
