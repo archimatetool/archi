@@ -71,7 +71,7 @@ implements IPreferenceConstants {
         store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
         
         store.setDefault(SAVE_USER_DEFAULT_FILL_COLOR, false);
-        store.setDefault(SHOW_FILL_COLORS_IN_GUI, true);
+        store.setDefault(SHOW_FILL_COLORS_IN_GUI, false);
         
         store.setDefault(USE_ORTHOGONAL_ANCHOR, false);
         
