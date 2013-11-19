@@ -46,20 +46,6 @@ public class PlatformUtils {
     }
 
     /**
-     * @return True if we're running on Mac OS X Cocoa
-     */
-    public static boolean isMacCocoa() {
-        return Platform.WS_COCOA.equals(Platform.getWS());
-    }
-
-    /**
-     * @return True if we're running on Mac OS X Carbon
-     */
-    public static boolean isMacCarbon() {
-        return Platform.WS_CARBON.equals(Platform.getWS());
-    }
-    
-    /**
      * @return Trus if the platform support Full Screen mode (Mac 10.7 or greater)
      */
     public static boolean supportsMacFullScreen() {

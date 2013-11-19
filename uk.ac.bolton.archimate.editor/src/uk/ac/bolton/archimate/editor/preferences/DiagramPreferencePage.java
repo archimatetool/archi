@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -29,7 +28,6 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
 /**
  * Diagram Preferences Page
@@ -228,17 +226,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     private void setValues() {
-        // Bug on Mac OS X Carbon - field is initially empty unless we thread this
-        if(PlatformUtils.isMacCarbon()) {
-            Display.getCurrent().asyncExec(new Runnable() {
-                public void run() {
-                    setSpinnerValues();
-                }
-            });
-        }
-        else {
-            setSpinnerValues();
-        }
+        setSpinnerValues();
         
         fDoAnimationButton.setSelection(getPreferenceStore().getBoolean(ANIMATE));
         
