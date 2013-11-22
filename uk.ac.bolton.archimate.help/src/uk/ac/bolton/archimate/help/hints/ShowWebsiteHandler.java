@@ -28,7 +28,7 @@ public class ShowWebsiteHandler extends AbstractHandler {
         try {
             IWebBrowser browser = support.getExternalBrowser();
             if(browser != null) {
-                URL url = new URL("http://archi.cetis.ac.uk"); //$NON-NLS-1$
+                URL url = new URL("http://www.archimatetool.com"); //$NON-NLS-1$
                 browser.openURL(url);
             }
         }
