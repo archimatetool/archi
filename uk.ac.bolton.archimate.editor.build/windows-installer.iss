@@ -2,7 +2,7 @@
 ; Assumes that the source files are located at D:\Archi\Archi_win\
 ; And the outputted exe file will be generated to D:\Archi\
 
-#define VERSION "2.4.1"
+#define VERSION "2.5.0"
 #define APPNAME "Archi"
 #define APP_EXE "Archi.exe"
 #define SOURCE_DIR "D:\Archi\Archi_win\"
