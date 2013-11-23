@@ -11,6 +11,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.RectangleFigureDelegate;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
@@ -24,7 +26,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 public class BusinessProductFigure
 extends AbstractTextFlowFigure {
     
-    protected int flangeFactor = 14;
+    protected static final int flangeFactor = 14;
 
     public BusinessProductFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -37,19 +39,25 @@ extends AbstractTextFlowFigure {
                 
                 Rectangle bounds = getBounds();
                 
+                boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+                
                 if(isEnabled()) {
                     // Shadow
-                    graphics.setAlpha(100);
-                    graphics.setBackgroundColor(ColorConstants.black);
-                    graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
-                    graphics.setAlpha(255);
+                    if(drawShadows) {
+                        graphics.setAlpha(100);
+                        graphics.setBackgroundColor(ColorConstants.black);
+                        graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+                        graphics.setAlpha(255);
+                    }
                 }
                 else {
                     setDisabledState(graphics);
                 }
                 
-                bounds.width -= SHADOW_OFFSET;
-                bounds.height -= SHADOW_OFFSET;
+                int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+                
+                bounds.width -= shadow_offset;
+                bounds.height -= shadow_offset;
                 
                 // Top bit
                 int middle = bounds.width / 2;

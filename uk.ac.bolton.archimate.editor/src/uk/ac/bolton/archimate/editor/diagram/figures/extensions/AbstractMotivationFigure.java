@@ -13,6 +13,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 /**
@@ -23,9 +25,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 public abstract class AbstractMotivationFigure
 extends AbstractTextFlowFigure {
     
-    protected int SHADOW_OFFSET = 3;
-    protected int FLANGE = 10;
-    protected int TEXT_INDENT = 20;
+    protected static final int SHADOW_OFFSET = 3;
+    protected static final int FLANGE = 10;
+    protected static final int TEXT_INDENT = 20;
     
     public AbstractMotivationFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -37,12 +39,15 @@ extends AbstractTextFlowFigure {
         
         Rectangle bounds = getBounds();
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 1;
+
         PointList points = new PointList();
  
         int x = bounds.x;
         int y = bounds.y;
-        int width = bounds.width - SHADOW_OFFSET;
-        int height = bounds.height - SHADOW_OFFSET;
+        int width = bounds.width - shadow_offset;
+        int height = bounds.height - shadow_offset;
         
         points.addPoint(x + FLANGE, y);
         points.addPoint(x + width - FLANGE, y);
@@ -52,15 +57,17 @@ extends AbstractTextFlowFigure {
         points.addPoint(x + FLANGE, y + height);
         points.addPoint(x, y + height - FLANGE);
         points.addPoint(x, y + FLANGE);
-
+        
         if(isEnabled()) {
             // Shadow
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            points.translate(SHADOW_OFFSET, SHADOW_OFFSET);
-            graphics.fillPolygon(points);
-            points.translate(-SHADOW_OFFSET, -SHADOW_OFFSET);
-            graphics.setAlpha(255);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                points.translate(SHADOW_OFFSET, SHADOW_OFFSET);
+                graphics.fillPolygon(points);
+                points.translate(-SHADOW_OFFSET, -SHADOW_OFFSET);
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);
@@ -84,8 +91,11 @@ extends AbstractTextFlowFigure {
     
     @Override
     public Rectangle calculateTextControlBounds() {
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+        
         Rectangle bounds = getBounds().getCopy();
-        bounds.x += TEXT_INDENT - SHADOW_OFFSET;
+        bounds.x += TEXT_INDENT - shadow_offset;
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;

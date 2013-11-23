@@ -21,6 +21,8 @@ import org.eclipse.swt.SWT;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.ISketchModelSticky;
@@ -32,8 +34,8 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
  */
 public class StickyFigure extends AbstractContainerFigure {
     
-    protected int SHADOW_OFFSET = 3;
-    protected int TEXT_INDENT = 10;
+    protected static final int SHADOW_OFFSET = 3;
+    protected static final int TEXT_INDENT = 10;
     
     static Dimension DEFAULT_SIZE = new Dimension(135, 70);
     
@@ -45,8 +47,6 @@ public class StickyFigure extends AbstractContainerFigure {
     
     @Override
     protected void setUI() {
-        //setToolTip(new ToolTipFigure("Double-click to edit"));
-        
         setLayoutManager(new DelegatingLayout());
         
         Locator textLocator = new Locator() {
@@ -122,27 +122,31 @@ public class StickyFigure extends AbstractContainerFigure {
     protected void drawFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
         
+        int shadow_offset = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS) ? SHADOW_OFFSET : 0;
+        
         Rectangle bounds = getBounds().getCopy();
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+        graphics.fillRectangle(new Rectangle(bounds.x + shadow_offset, bounds.y + shadow_offset, bounds.width - shadow_offset, bounds.height - shadow_offset));
 
         graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+        graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset));
         
         // Outline
         graphics.setForegroundColor(ColorConstants.darkGray);
-        graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1));
     }
 
     @Override
     protected void drawTargetFeedback(Graphics graphics) {
+        int shadow_offset = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS) ? SHADOW_OFFSET : 1;
+        
         Rectangle bounds = getBounds().getCopy();
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
-        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - SHADOW_OFFSET - 1, bounds.height - SHADOW_OFFSET - 1));
+        graphics.drawRectangle(new Rectangle(bounds.x + 1, bounds.y + 1, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1));
         graphics.popState();
     }
     

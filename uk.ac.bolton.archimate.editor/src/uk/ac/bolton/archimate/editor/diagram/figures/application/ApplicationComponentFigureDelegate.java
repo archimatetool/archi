@@ -13,6 +13,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 
 /**
@@ -22,9 +24,9 @@ import uk.ac.bolton.archimate.editor.ui.ColorFactory;
  */
 public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
     
-    protected int SHADOW_OFFSET = 2;
-    protected int INDENT = 10;
-    protected int TEXT_INDENT = 25;
+    protected static final int SHADOW_OFFSET = 2;
+    protected static final int INDENT = 10;
+    protected static final int TEXT_INDENT = 25;
     
     public ApplicationComponentFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
@@ -36,26 +38,32 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         
         Rectangle bounds = getBounds();
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        
         if(isEnabled()) {
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            
-            // Main Shadow
-            graphics.fillRectangle(bounds.x + INDENT + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET - INDENT, bounds.height - SHADOW_OFFSET);
-
-            // Nubs Shadow
-            graphics.fillRectangle(bounds.x + SHADOW_OFFSET, bounds.y + 10 + SHADOW_OFFSET, INDENT, 12);
-            graphics.fillRectangle(bounds.x + SHADOW_OFFSET, bounds.y + 30 + SHADOW_OFFSET, INDENT, 12);
-            
-            graphics.setAlpha(255);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                
+                // Main Shadow
+                graphics.fillRectangle(bounds.x + INDENT + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET - INDENT, bounds.height - SHADOW_OFFSET);
+    
+                // Nubs Shadow
+                graphics.fillRectangle(bounds.x + SHADOW_OFFSET, bounds.y + 10 + SHADOW_OFFSET, INDENT, 12);
+                graphics.fillRectangle(bounds.x + SHADOW_OFFSET, bounds.y + 30 + SHADOW_OFFSET, INDENT, 12);
+                
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);
         }
         
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+        
         // Main Fill
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - SHADOW_OFFSET - INDENT, bounds.height - SHADOW_OFFSET);
+        graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - shadow_offset - INDENT, bounds.height - shadow_offset);
         
         // Outline
         graphics.setForegroundColor(ColorConstants.black);
@@ -64,9 +72,9 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         points.addPoint(pt1);
         Point pt2 = new Point(pt1.x, bounds.y);
         points.addPoint(pt2);
-        Point pt3 = new Point(bounds.x + bounds.width - SHADOW_OFFSET - 1, bounds.y);
+        Point pt3 = new Point(bounds.x + bounds.width - shadow_offset - 1, bounds.y);
         points.addPoint(pt3);
-        Point pt4 = new Point(pt3.x, bounds.y + bounds.height - SHADOW_OFFSET - 1);
+        Point pt4 = new Point(pt3.x, bounds.y + bounds.height - shadow_offset - 1);
         points.addPoint(pt4);
         Point pt5 = new Point(pt1.x, pt4.y);
         points.addPoint(pt5);

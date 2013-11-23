@@ -13,6 +13,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Path;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
@@ -25,7 +27,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 public class DeliverableFigure
 extends AbstractTextFlowFigure {
     
-    protected int SHADOW_OFFSET = 3;
+    protected static final int SHADOW_OFFSET = 3;
 
     public DeliverableFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -37,46 +39,51 @@ extends AbstractTextFlowFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        
         int offset = 11;
         int curve_y = bounds.y + bounds.height - offset;
         
         if(isEnabled()) {
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            
             // Shadow fill
-            Path path = new Path(null);
-            path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
-            path.lineTo(bounds.x + SHADOW_OFFSET, curve_y);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                Path path = new Path(null);
+                path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
+                path.lineTo(bounds.x + SHADOW_OFFSET, curve_y);
 
-            path.quadTo(bounds.x + SHADOW_OFFSET + (bounds.width / 4), bounds.y + bounds.height + offset - 2,
-                    bounds.x + bounds.width / 2 + SHADOW_OFFSET, curve_y);
+                path.quadTo(bounds.x + SHADOW_OFFSET + (bounds.width / 4), bounds.y + bounds.height + offset - 2,
+                        bounds.x + bounds.width / 2 + SHADOW_OFFSET, curve_y);
 
-            path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
-                    bounds.x + bounds.width, curve_y);
+                path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
+                        bounds.x + bounds.width, curve_y);
 
-            path.lineTo(bounds.x + bounds.width, bounds.y + SHADOW_OFFSET);
-            graphics.fillPath(path);
-            path.dispose();
-            
-            graphics.setAlpha(255);
+                path.lineTo(bounds.x + bounds.width, bounds.y + SHADOW_OFFSET);
+                graphics.fillPath(path);
+                path.dispose();
+                
+                graphics.setAlpha(255);
+            }            
         }
         else {
             setDisabledState(graphics);
         }
         
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 1;
+        
         // Main Fill
         Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x, curve_y - SHADOW_OFFSET);
+        path.lineTo(bounds.x, curve_y - shadow_offset);
         
-        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset - SHADOW_OFFSET,
-                bounds.x + bounds.width / 2 + SHADOW_OFFSET, curve_y - SHADOW_OFFSET);
+        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset - shadow_offset,
+                bounds.x + bounds.width / 2 + shadow_offset, curve_y - shadow_offset);
         
         path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
-                bounds.x + bounds.width - SHADOW_OFFSET, curve_y - SHADOW_OFFSET);
+                bounds.x + bounds.width - shadow_offset, curve_y - shadow_offset);
         
-        path.lineTo(bounds.x + bounds.width - SHADOW_OFFSET, bounds.y);
+        path.lineTo(bounds.x + bounds.width - shadow_offset, bounds.y);
         
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPath(path);

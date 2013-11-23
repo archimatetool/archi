@@ -11,6 +11,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
@@ -22,7 +24,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
  */
 public class BusinessEventFigure extends AbstractTextFlowFigure {
 
-    protected int SHADOW_OFFSET = 3;
+    protected static final int SHADOW_OFFSET = 3;
     
     public BusinessEventFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -38,35 +40,42 @@ public class BusinessEventFigure extends AbstractTextFlowFigure {
         int centre_y = bounds.y + bounds.height / 2 - 1;
         int arc_startx = bounds.x + bounds.width - indent;
         
-        // Shadow fill
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        
         if(isEnabled()) {
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-
-            Path path = new Path(null);
-            path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
-            path.lineTo(bounds.x + indent + SHADOW_OFFSET, centre_y + SHADOW_OFFSET);
-            path.lineTo(bounds.x + SHADOW_OFFSET, bounds.y + bounds.height);
-            path.lineTo(arc_startx, bounds.y + bounds.height);
-            path.addArc(arc_startx - indent - SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
-                    indent * 2 + 2, bounds.height - SHADOW_OFFSET, -90, 180);
-            graphics.fillPath(path);
-            path.dispose();
-            
-            graphics.setAlpha(255);
+            // Shadow fill
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+    
+                Path path = new Path(null);
+                path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
+                path.lineTo(bounds.x + indent + SHADOW_OFFSET, centre_y + SHADOW_OFFSET);
+                path.lineTo(bounds.x + SHADOW_OFFSET, bounds.y + bounds.height);
+                path.lineTo(arc_startx, bounds.y + bounds.height);
+                path.addArc(arc_startx - indent - SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
+                        indent * 2 + 2, bounds.height - SHADOW_OFFSET, -90, 180);
+                graphics.fillPath(path);
+                path.dispose();
+                
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);
         }
         
+        int x_offset = drawShadows ? SHADOW_OFFSET : 2;
+        int y_offset = drawShadows ? SHADOW_OFFSET : 1;
+        
         // Main Fill
         Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
         path.lineTo(bounds.x + indent, centre_y);
-        path.lineTo(bounds.x, bounds.y + bounds.height - SHADOW_OFFSET);
-        path.lineTo(arc_startx, bounds.y + bounds.height - SHADOW_OFFSET);
-        path.addArc(arc_startx - indent - SHADOW_OFFSET, bounds.y,
-                indent * 2 + 1, bounds.height - SHADOW_OFFSET, -90, 180);
+        path.lineTo(bounds.x, bounds.y + bounds.height - y_offset);
+        path.lineTo(arc_startx, bounds.y + bounds.height - y_offset);
+        path.addArc(arc_startx - indent - x_offset, bounds.y,
+                indent * 2 + 1, bounds.height - y_offset, -90, 180);
         
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPath(path);

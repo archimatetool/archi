@@ -75,4 +75,6 @@ public interface IPreferenceConstants {
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
     
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
+    
+    String SHOW_SHADOWS = "showShadows"; //$NON-NLS-1$
 }

@@ -12,6 +12,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 
 
@@ -23,8 +25,8 @@ import uk.ac.bolton.archimate.editor.ui.ColorFactory;
  */
 public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
 
-    protected int SHADOW_OFFSET = 2;
-    protected int INDENT = 15;
+    protected static final int SHADOW_OFFSET = 2;
+    protected static final int INDENT = 15;
 
     public TechnologyDeviceFigureDelegate1(IDiagramModelObjectFigure owner) {
         super(owner);
@@ -38,47 +40,61 @@ public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
         
         int height_indent = bounds.height / 6;
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        
         if(isEnabled()) {
             // Shadow
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            
-            graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
-                    bounds.width - SHADOW_OFFSET, bounds.height - height_indent - SHADOW_OFFSET), 30, 30);
-            
-            int[] points = new int[] {
-                    bounds.x + SHADOW_OFFSET, bounds.y + bounds.height,
-                    bounds.x + INDENT, bounds.y + bounds.height - height_indent - 3,
-                    bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 3,
-                    bounds.x + bounds.width, bounds.y + bounds.height
-            };
-            graphics.fillPolygon(points);
-            
-            graphics.setAlpha(255);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                
+                graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
+                        bounds.width - SHADOW_OFFSET, bounds.height - height_indent - SHADOW_OFFSET), 30, 30);
+                
+                int[] points = new int[] {
+                        bounds.x + SHADOW_OFFSET, bounds.y + bounds.height,
+                        bounds.x + INDENT, bounds.y + bounds.height - height_indent - 3,
+                        bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 3,
+                        bounds.x + bounds.width, bounds.y + bounds.height
+                };
+                graphics.fillPolygon(points);
+                
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);
         }
         
-        graphics.setBackgroundColor(getFillColor());
-        graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y,
-                bounds.width - SHADOW_OFFSET, bounds.height - height_indent - SHADOW_OFFSET), 30, 30);
-    
-        PointList points = new PointList();
-        points.addPoint(bounds.x, bounds.y + bounds.height - SHADOW_OFFSET);
-        points.addPoint(bounds.x + INDENT - SHADOW_OFFSET, bounds.y + bounds.height - height_indent - 3);
-        points.addPoint(bounds.x + bounds.width - INDENT - SHADOW_OFFSET, bounds.y + bounds.height - height_indent - 3);
-        points.addPoint(bounds.x + bounds.width - 4, bounds.y + bounds.height - SHADOW_OFFSET);
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+        
+        // Bottom part
+        PointList points1 = new PointList();
+        points1.addPoint(bounds.x, bounds.y + bounds.height - 1 - shadow_offset);
+        points1.addPoint(bounds.x + INDENT , bounds.y + bounds.height - height_indent - 3);
+        points1.addPoint(bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 3);
+        points1.addPoint(bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset);
                 
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-        graphics.fillPolygon(points);
-
+        graphics.fillPolygon(points1);
+        
         graphics.setBackgroundColor(ColorConstants.black);
-        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y,
-                bounds.width - 3, bounds.height - height_indent - 3), 30, 30);
-        graphics.drawLine(points.getPoint(0), points.getPoint(1));
-        graphics.drawLine(points.getPoint(2), points.getPoint(3));
-        graphics.drawLine(points.getPoint(0), points.getPoint(3));
+        graphics.drawLine(bounds.x, bounds.y + bounds.height - 1 - shadow_offset,
+                bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset);
+        graphics.drawLine(bounds.x, bounds.y + bounds.height - 1 - shadow_offset,
+                bounds.x + INDENT, bounds.y + bounds.height - height_indent - 3);
+        graphics.drawLine(bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset,
+                bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 3);
+
+        // Top part
+        Rectangle rect = new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - height_indent);
+
+        graphics.setBackgroundColor(getFillColor());
+        graphics.fillRoundRectangle(rect, 30, 30);
+        
+        graphics.setBackgroundColor(ColorConstants.black);
+        rect = new Rectangle(bounds.x, bounds.y, bounds.width - 1 - shadow_offset, bounds.height - height_indent - 1);
+        graphics.drawRoundRectangle(rect, 30, 30);
         
         graphics.popState();
     }

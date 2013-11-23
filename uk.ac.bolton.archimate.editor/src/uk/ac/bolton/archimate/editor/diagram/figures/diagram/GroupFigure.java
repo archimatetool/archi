@@ -19,6 +19,8 @@ import org.eclipse.swt.SWT;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractLabelContainerFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
@@ -30,9 +32,9 @@ import uk.ac.bolton.archimate.model.IDiagramModelObject;
 public class GroupFigure
 extends AbstractLabelContainerFigure {
     
-    protected static Dimension DEFAULT_SIZE = new Dimension(400, 140);
-    protected static int FOLD_HEIGHT = 18;
-    protected static int SHADOW_OFFSET = 2;
+    protected static final Dimension DEFAULT_SIZE = new Dimension(400, 140);
+    protected static final int FOLD_HEIGHT = 18;
+    protected static final int SHADOW_OFFSET = 2;
     
     /**
      * Connection Anchor adjusts for Group shape
@@ -69,11 +71,14 @@ extends AbstractLabelContainerFigure {
         
         Locator locator = new Locator() {
             public void relocate(IFigure target) {
+                boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+                int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+                
                 Rectangle bounds = getBounds().getCopy();
                 bounds.x = 0;
                 bounds.y = FOLD_HEIGHT;
-                bounds.width -= SHADOW_OFFSET;
-                bounds.height -= FOLD_HEIGHT + SHADOW_OFFSET;
+                bounds.width -= shadow_offset;
+                bounds.height -= FOLD_HEIGHT + shadow_offset;
                 target.setBounds(bounds);
             }
         };
@@ -129,14 +134,17 @@ extends AbstractLabelContainerFigure {
         
         graphics.setAntialias(SWT.ON);
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+        
         // Shadow fill
         int[] points1 = new int[] {
-                bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET,
-                bounds.x + SHADOW_OFFSET + (bounds.width / 2), bounds.y + SHADOW_OFFSET,
-                bounds.x + SHADOW_OFFSET + (bounds.width / 2), bounds.y + SHADOW_OFFSET + FOLD_HEIGHT,
-                bounds.x + bounds.width, bounds.y + SHADOW_OFFSET + FOLD_HEIGHT,
+                bounds.x + shadow_offset, bounds.y + shadow_offset,
+                bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset,
+                bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset + FOLD_HEIGHT,
+                bounds.x + bounds.width, bounds.y + shadow_offset + FOLD_HEIGHT,
                 bounds.x + bounds.width, bounds.y + bounds.height,
-                bounds.x + SHADOW_OFFSET, bounds.y + bounds.height
+                bounds.x + shadow_offset, bounds.y + bounds.height
         };
         graphics.setAlpha(100);
         graphics.setBackgroundColor(ColorConstants.black);
@@ -155,9 +163,9 @@ extends AbstractLabelContainerFigure {
        
         int[] points3 = new int[] {
                 bounds.x, bounds.y + FOLD_HEIGHT,
-                bounds.x + bounds.width - SHADOW_OFFSET - 1, bounds.y + FOLD_HEIGHT,
-                bounds.x + bounds.width - SHADOW_OFFSET - 1, bounds.y + bounds.height - SHADOW_OFFSET - 1,
-                bounds.x, bounds.y + bounds.height - SHADOW_OFFSET - 1
+                bounds.x + bounds.width - shadow_offset - 1, bounds.y + FOLD_HEIGHT,
+                bounds.x + bounds.width - shadow_offset - 1, bounds.y + bounds.height - shadow_offset - 1,
+                bounds.x, bounds.y + bounds.height - shadow_offset - 1
         };
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPolygon(points3);
@@ -174,7 +182,7 @@ extends AbstractLabelContainerFigure {
         graphics.pushState();
         graphics.setForegroundColor(ColorConstants.blue);
         graphics.setLineWidth(2);
-        bounds.x++;
+        bounds.shrink(1, 1);
         translateToParent(bounds);
         graphics.drawRectangle(bounds);
         graphics.popState();

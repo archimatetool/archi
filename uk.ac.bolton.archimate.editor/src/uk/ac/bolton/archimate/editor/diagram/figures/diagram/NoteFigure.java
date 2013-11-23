@@ -23,6 +23,8 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 
@@ -34,7 +36,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelNote;
 public class NoteFigure
 extends AbstractDiagramModelObjectFigure {
     
-    static Dimension DEFAULT_SIZE = new Dimension(185, 80);
+    protected static final Dimension DEFAULT_SIZE = new Dimension(185, 80);
     
     private TextFlow fTextFlow;
     
@@ -50,6 +52,9 @@ extends AbstractDiagramModelObjectFigure {
 
             @Override
             public void paint(IFigure figure, Graphics graphics, Insets insets) {
+                boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+                int shadow_offset = drawShadows ? 2 : 0;
+                
                 tempRect.setBounds(getPaintRectangle(figure, insets));
                 if(getWidth() % 2 == 1) {
                     tempRect.width--;
@@ -62,10 +67,10 @@ extends AbstractDiagramModelObjectFigure {
 
                 PointList list = new PointList();
                 list.addPoint(tempRect.x, tempRect.y);
-                list.addPoint(tempRect.x + tempRect.width - 2, tempRect.y);
-                list.addPoint(tempRect.x + tempRect.width - 2, tempRect.y + tempRect.height - 12);
-                list.addPoint(tempRect.x + tempRect.width - 12, tempRect.y + tempRect.height - 2);
-                list.addPoint(tempRect.x, tempRect.y + tempRect.height - 2);
+                list.addPoint(tempRect.x + tempRect.width - shadow_offset, tempRect.y);
+                list.addPoint(tempRect.x + tempRect.width - shadow_offset, tempRect.y + tempRect.height - 12);
+                list.addPoint(tempRect.x + tempRect.width - 12, tempRect.y + tempRect.height - shadow_offset);
+                list.addPoint(tempRect.x, tempRect.y + tempRect.height - shadow_offset);
                 graphics.drawPolygon(list);
             }
         }, new MarginBorder(3)));
@@ -126,23 +131,30 @@ extends AbstractDiagramModelObjectFigure {
     protected void paintFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        int shadow_offset = drawShadows ? 3 : 0;
+        
         Rectangle tempRect = getBounds().getCopy();
         PointList list = new PointList();
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        list.addPoint(tempRect.x, tempRect.y);
-        list.addPoint(tempRect.x + tempRect.width, tempRect.y + 2);
-        list.addPoint(tempRect.x + tempRect.width, tempRect.y + tempRect.height - 12);
-        list.addPoint(tempRect.x + tempRect.width - 12, tempRect.y + tempRect.height);
-        list.addPoint(tempRect.x + 2, tempRect.y + tempRect.height);
-        graphics.fillPolygon(list);
+        
+        if(drawShadows) {
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            list.addPoint(tempRect.x, tempRect.y);
+            list.addPoint(tempRect.x + tempRect.width, tempRect.y + 2);
+            list.addPoint(tempRect.x + tempRect.width, tempRect.y + tempRect.height - 12);
+            list.addPoint(tempRect.x + tempRect.width - 12, tempRect.y + tempRect.height);
+            list.addPoint(tempRect.x + 2, tempRect.y + tempRect.height);
+            graphics.fillPolygon(list);
+        }
         
         list.removeAllPoints();
         list.addPoint(tempRect.x, tempRect.y);
-        list.addPoint(tempRect.x + tempRect.width - 3, tempRect.y);
-        list.addPoint(tempRect.x + tempRect.width - 3, tempRect.y + tempRect.height - 13);
-        list.addPoint(tempRect.x + tempRect.width - 13, tempRect.y + tempRect.height - 3);
-        list.addPoint(tempRect.x, tempRect.y + tempRect.height - 3);
+        list.addPoint(tempRect.x + tempRect.width - shadow_offset, tempRect.y);
+        list.addPoint(tempRect.x + tempRect.width - shadow_offset, tempRect.y + tempRect.height - 13);
+        list.addPoint(tempRect.x + tempRect.width - 13, tempRect.y + tempRect.height - shadow_offset);
+        list.addPoint(tempRect.x, tempRect.y + tempRect.height - shadow_offset);
+        
         graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPolygon(list);

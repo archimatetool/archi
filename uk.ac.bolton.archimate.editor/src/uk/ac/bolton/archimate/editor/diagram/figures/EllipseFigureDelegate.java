@@ -9,6 +9,9 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
+
 
 /**
  * Ellipse Figure Delegate
@@ -17,7 +20,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class EllipseFigureDelegate extends AbstractFigureDelegate {
     
-    protected int SHADOW_OFFSET = 2;
+    protected static final int SHADOW_OFFSET = 2;
     
     public EllipseFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
@@ -28,19 +31,25 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         graphics.pushState();
         
         Rectangle bounds = getBounds();
+        
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
 
         if(isEnabled()) {
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            graphics.fillOval(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
-            graphics.setAlpha(255);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                graphics.fillOval(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);
         }
         
-        bounds.width -= SHADOW_OFFSET;
-        bounds.height -= SHADOW_OFFSET;
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+        
+        bounds.width -= shadow_offset;
+        bounds.height -= shadow_offset;
             
         graphics.setBackgroundColor(getFillColor());
         graphics.fillOval(bounds);

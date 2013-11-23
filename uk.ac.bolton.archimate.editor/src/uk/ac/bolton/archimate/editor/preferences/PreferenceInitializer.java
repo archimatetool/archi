@@ -76,5 +76,7 @@ implements IPreferenceConstants {
         store.setDefault(USE_ORTHOGONAL_ANCHOR, false);
         
         store.setDefault(ANIMATE_VISUALISER_NODES, true);
+        
+        store.setDefault(SHOW_SHADOWS, false);
     }
 }

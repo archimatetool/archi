@@ -12,6 +12,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 
 
 
@@ -30,14 +32,16 @@ public class BusinessProcessFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        
         if(isEnabled()) {
             // Shadow
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            
-            graphics.fillPolygon(getPointList(true));
-            
-            graphics.setAlpha(255);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                graphics.fillPolygon(getPointList(true));
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);

@@ -49,6 +49,9 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(event.getProperty())) {
             refreshFigure();
         }
+        else if(IPreferenceConstants.SHOW_SHADOWS.equals(event.getProperty())) {
+            getFigure().repaint();
+        }
     }
     
     @Override

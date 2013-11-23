@@ -14,6 +14,8 @@ import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 
 
@@ -25,8 +27,8 @@ import uk.ac.bolton.archimate.editor.ui.ColorFactory;
  */
 public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
 
-    protected int FOLD_HEIGHT = 14;
-    protected int SHADOW_OFFSET = 2;
+    protected static final int FOLD_HEIGHT = 14;
+    protected static final int SHADOW_OFFSET = 2;
     
     private Image fImage;
 
@@ -40,57 +42,55 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
         
         Rectangle bounds = getBounds();
         
+        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        
         if(isEnabled()) {
             // Shadow
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            
-            int[] points = new int[] {
-                    bounds.x + SHADOW_OFFSET, bounds.y + FOLD_HEIGHT,
-                    bounds.x + FOLD_HEIGHT, bounds.y + SHADOW_OFFSET,
-                    bounds.x + bounds.width, bounds.y + SHADOW_OFFSET,
-                    bounds.x + bounds.width, bounds.y + bounds.height - FOLD_HEIGHT,
-                    bounds.x + bounds.width - FOLD_HEIGHT + SHADOW_OFFSET - 1, bounds.y + bounds.height,
-                    bounds.x + SHADOW_OFFSET, bounds.y + bounds.height
-            };
-            graphics.fillPolygon(points);
-            
-            graphics.setAlpha(255);
+            if(drawShadows) {
+                graphics.setAlpha(100);
+                graphics.setBackgroundColor(ColorConstants.black);
+                
+                int[] points = new int[] {
+                        bounds.x + SHADOW_OFFSET, bounds.y + FOLD_HEIGHT,
+                        bounds.x + FOLD_HEIGHT, bounds.y + SHADOW_OFFSET,
+                        bounds.x + bounds.width, bounds.y + SHADOW_OFFSET,
+                        bounds.x + bounds.width, bounds.y + bounds.height - FOLD_HEIGHT,
+                        bounds.x + bounds.width - FOLD_HEIGHT + SHADOW_OFFSET - 1, bounds.y + bounds.height,
+                        bounds.x + SHADOW_OFFSET, bounds.y + bounds.height
+                };
+                graphics.fillPolygon(points);
+                
+                graphics.setAlpha(255);
+            }
         }
         else {
             setDisabledState(graphics);
         }
         
+        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
+        
+        // Outer shape
+        PointList shape = new PointList();
+        shape.addPoint(bounds.x, bounds.y + bounds.height - shadow_offset - 1);
+        shape.addPoint(bounds.x, bounds.y + FOLD_HEIGHT);
+        shape.addPoint(bounds.x + FOLD_HEIGHT, bounds.y);
+        shape.addPoint(bounds.x + bounds.width - 1, bounds.y);
+        shape.addPoint(bounds.x + bounds.width - 1, bounds.y + bounds.height - FOLD_HEIGHT - shadow_offset - 1);
+        shape.addPoint(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + bounds.height - shadow_offset - 1);
+        
+        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        graphics.fillPolygon(shape);
+
         // Fill front rectangle
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT - SHADOW_OFFSET);
+        graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT - shadow_offset);
 
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-
-        // Angle 1
-        PointList points1 = new PointList();
-        points1.addPoint(bounds.x, bounds.y + FOLD_HEIGHT);
-        points1.addPoint(bounds.x + FOLD_HEIGHT, bounds.y);
-        points1.addPoint(bounds.x + bounds.width - SHADOW_OFFSET, bounds.y);
-        points1.addPoint(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
-        graphics.fillPolygon(points1);
-        
-        // Angle 2
-        PointList points2 = new PointList();
-        points2.addPoint(bounds.x + bounds.width - SHADOW_OFFSET, bounds.y);
-        points2.addPoint(bounds.x + bounds.width - SHADOW_OFFSET, bounds.y + bounds.height - FOLD_HEIGHT - SHADOW_OFFSET - 1);
-        points2.addPoint(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + bounds.height - SHADOW_OFFSET - 1);
-        points2.addPoint(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
-        graphics.fillPolygon(points2);
-
-        // Line
+        // Outline
         graphics.setBackgroundColor(ColorConstants.black);
-        graphics.drawRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT - 1, bounds.height - FOLD_HEIGHT - 3);
-        graphics.drawLine(points1.getPoint(0), points1.getPoint(1));
-        graphics.drawLine(points1.getPoint(1), points1.getPoint(2));
-        graphics.drawLine(points1.getPoint(2), points1.getPoint(3));
-        graphics.drawLine(points2.getPoint(0), points2.getPoint(1));
-        graphics.drawLine(points2.getPoint(1), points2.getPoint(2));
+        graphics.drawPolygon(shape);
+        graphics.drawLine(bounds.x, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
+        graphics.drawLine(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - 1, bounds.y);
+        graphics.drawLine(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT, bounds.x + - FOLD_HEIGHT + bounds.width - 1, bounds.y + bounds.height - shadow_offset - 1);
         
         // Image icon
         if(getImage() != null) {
