@@ -71,8 +71,8 @@ public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
         // Bottom part
         PointList points1 = new PointList();
         points1.addPoint(bounds.x, bounds.y + bounds.height - 1 - shadow_offset);
-        points1.addPoint(bounds.x + INDENT , bounds.y + bounds.height - height_indent - 3);
-        points1.addPoint(bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 3);
+        points1.addPoint(bounds.x + INDENT , bounds.y + bounds.height - height_indent - 1);
+        points1.addPoint(bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 1);
         points1.addPoint(bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset);
                 
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
@@ -82,9 +82,9 @@ public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
         graphics.drawLine(bounds.x, bounds.y + bounds.height - 1 - shadow_offset,
                 bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset);
         graphics.drawLine(bounds.x, bounds.y + bounds.height - 1 - shadow_offset,
-                bounds.x + INDENT, bounds.y + bounds.height - height_indent - 3);
+                bounds.x + INDENT, bounds.y + bounds.height - height_indent - 1);
         graphics.drawLine(bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset,
-                bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 3);
+                bounds.x + bounds.width - INDENT, bounds.y + bounds.height - height_indent - 1);
 
         // Top part
         Rectangle rect = new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - height_indent);
