@@ -7,6 +7,8 @@ package uk.ac.bolton.archimate.editor.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 
@@ -77,6 +79,11 @@ implements IPreferenceConstants {
         
         store.setDefault(ANIMATE_VISUALISER_NODES, true);
         
+        // Show shadows
         store.setDefault(SHOW_SHADOWS, false);
+        
+        // Eclipse traditional tabs
+        IPreferenceStore eclipseStore = PlatformUI.getPreferenceStore();
+        eclipseStore.setDefault(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
     }
 }
