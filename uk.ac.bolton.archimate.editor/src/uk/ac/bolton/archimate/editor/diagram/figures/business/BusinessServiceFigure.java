@@ -43,7 +43,7 @@ extends AbstractTextFlowFigure {
                 graphics.setAlpha(100);
                 graphics.setBackgroundColor(ColorConstants.black);
                 graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height  - SHADOW_OFFSET),
-                        bounds.width / 2, bounds.height);
+                        Math.min(bounds.height, bounds.width * 8/10), bounds.height);
                 graphics.setAlpha(255);
             }
         }
@@ -55,12 +55,12 @@ extends AbstractTextFlowFigure {
         
         graphics.setBackgroundColor(getFillColor());
         graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset),
-                bounds.width / 2, bounds.height);
+                Math.min(bounds.height, bounds.width * 8/10), bounds.height);
         
         // Outline
         graphics.setForegroundColor(ColorConstants.black);
         graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1),
-                        bounds.width / 2, bounds.height);
+                Math.min(bounds.height, bounds.width * 8/10), bounds.height);
         
         graphics.popState();
     }
