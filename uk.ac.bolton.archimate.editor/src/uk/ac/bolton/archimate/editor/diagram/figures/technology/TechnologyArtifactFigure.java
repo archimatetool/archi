@@ -39,6 +39,7 @@ public class TechnologyArtifactFigure extends AbstractTextFlowFigure {
         Rectangle bounds = getBounds();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             // Shadow
@@ -75,7 +76,7 @@ public class TechnologyArtifactFigure extends AbstractTextFlowFigure {
         graphics.fillPolygon(points2);
         
         // Line
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawPolygon(points1);
         graphics.drawLine(points1.getPoint(1), points1.getPoint(3));
         

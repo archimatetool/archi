@@ -43,6 +43,7 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
         Rectangle bounds = getBounds();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             // Shadow
@@ -86,7 +87,7 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT - shadow_offset);
 
         // Outline
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawPolygon(shape);
         graphics.drawLine(bounds.x, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
         graphics.drawLine(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - 1, bounds.y);

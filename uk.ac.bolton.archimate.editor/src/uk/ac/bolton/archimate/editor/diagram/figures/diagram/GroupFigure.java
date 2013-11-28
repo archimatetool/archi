@@ -135,6 +135,7 @@ extends AbstractLabelContainerFigure {
         graphics.setAntialias(SWT.ON);
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
         
         // Shadow fill
@@ -171,7 +172,7 @@ extends AbstractLabelContainerFigure {
         graphics.fillPolygon(points3);
         
         // Line
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawPolygon(points2);
         graphics.drawPolygon(points3);
     }

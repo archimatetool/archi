@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Image;
 
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 
 
 /**
@@ -38,6 +39,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         Rectangle bounds = getBounds();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             // Shadow
@@ -64,7 +66,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         // Outline
         bounds.width--;
         bounds.height--;
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawRectangle(bounds);
         
         // Image icon

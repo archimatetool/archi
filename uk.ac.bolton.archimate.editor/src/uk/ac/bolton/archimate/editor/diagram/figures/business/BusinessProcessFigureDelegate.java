@@ -14,6 +14,7 @@ import uk.ac.bolton.archimate.editor.diagram.figures.AbstractFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 
 
 
@@ -33,6 +34,7 @@ public class BusinessProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.pushState();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             // Shadow
@@ -52,7 +54,7 @@ public class BusinessProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.fillPolygon(points);
         
         // Line
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         for(int i = 0; i < points.size() - 1; i++) {
             graphics.drawLine(points.getPoint(i), points.getPoint(i + 1));
         }

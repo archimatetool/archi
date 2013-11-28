@@ -12,6 +12,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
@@ -37,6 +38,7 @@ extends AbstractTextFlowFigure {
         Rectangle bounds = getBounds().getCopy();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             if(drawShadows) {
@@ -58,7 +60,7 @@ extends AbstractTextFlowFigure {
                 Math.min(bounds.height, bounds.width * 8/10), bounds.height);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1),
                 Math.min(bounds.height, bounds.width * 8/10), bounds.height);
         

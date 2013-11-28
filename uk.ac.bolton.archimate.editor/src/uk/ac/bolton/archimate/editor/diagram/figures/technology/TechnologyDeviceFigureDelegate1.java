@@ -41,6 +41,7 @@ public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
         int height_indent = bounds.height / 6;
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             // Shadow
@@ -78,7 +79,7 @@ public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         graphics.fillPolygon(points1);
         
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawLine(bounds.x, bounds.y + bounds.height - 1 - shadow_offset,
                 bounds.x + bounds.width, bounds.y + bounds.height - 1 - shadow_offset);
         graphics.drawLine(bounds.x, bounds.y + bounds.height - 1 - shadow_offset,
@@ -92,7 +93,7 @@ public class TechnologyDeviceFigureDelegate1 extends AbstractFigureDelegate {
         graphics.setBackgroundColor(getFillColor());
         graphics.fillRoundRectangle(rect, 30, 30);
         
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         rect = new Rectangle(bounds.x, bounds.y, bounds.width - 1 - shadow_offset, bounds.height - height_indent - 1);
         graphics.drawRoundRectangle(rect, 30, 30);
         

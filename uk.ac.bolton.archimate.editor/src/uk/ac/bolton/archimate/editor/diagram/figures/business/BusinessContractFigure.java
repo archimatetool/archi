@@ -37,6 +37,7 @@ extends AbstractTextFlowFigure {
             Rectangle bounds = getBounds();
             
             boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+            float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
             
             if(isEnabled()) {
                 // Shadow
@@ -65,10 +66,11 @@ extends AbstractTextFlowFigure {
             graphics.fillRectangle(bounds.x, bounds.y + flangeFactor - 1, bounds.width, bounds.height - flangeFactor + 1);
             
             // Outline
+            graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));	
+            graphics.drawLine(bounds.x, bounds.y + flangeFactor - 1, bounds.x + bounds.width, bounds.y + flangeFactor - 1);
+            
             bounds.width--;
             bounds.height--;
-            graphics.drawLine(bounds.x, bounds.y + flangeFactor - 1, bounds.x + bounds.width, bounds.y + flangeFactor - 1);
-            graphics.setForegroundColor(ColorConstants.black);
             graphics.drawRectangle(bounds);
             
             graphics.popState();

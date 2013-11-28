@@ -39,6 +39,7 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         Rectangle bounds = getBounds();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             if(drawShadows) {
@@ -66,7 +67,7 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - shadow_offset - INDENT, bounds.height - shadow_offset);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         PointList points = new PointList();
         Point pt1 = new Point(bounds.x + INDENT, bounds.y + 10);
         points.addPoint(pt1);
@@ -89,7 +90,7 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x, bounds.y + 30, INDENT * 2 + 1, 13);
         
         // Nubs Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 12);
         graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 12);
         

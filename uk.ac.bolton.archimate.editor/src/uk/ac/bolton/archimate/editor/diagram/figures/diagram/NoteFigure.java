@@ -25,6 +25,7 @@ import org.eclipse.swt.SWT;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 
@@ -53,6 +54,7 @@ extends AbstractDiagramModelObjectFigure {
             @Override
             public void paint(IFigure figure, Graphics graphics, Insets insets) {
                 boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+                float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
                 int shadow_offset = drawShadows ? 2 : 0;
                 
                 tempRect.setBounds(getPaintRectangle(figure, insets));
@@ -63,7 +65,7 @@ extends AbstractDiagramModelObjectFigure {
                 tempRect.shrink(getWidth() / 2, getWidth() / 2);
                 graphics.setLineWidth(getWidth());
 
-                graphics.setForegroundColor(ColorConstants.black);
+                graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
 
                 PointList list = new PointList();
                 list.addPoint(tempRect.x, tempRect.y);
