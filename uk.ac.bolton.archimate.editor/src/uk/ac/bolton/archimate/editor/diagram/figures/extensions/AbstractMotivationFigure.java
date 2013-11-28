@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 /**
@@ -40,6 +41,7 @@ extends AbstractTextFlowFigure {
         Rectangle bounds = getBounds();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         int shadow_offset = drawShadows ? SHADOW_OFFSET : 1;
 
         PointList points = new PointList();
@@ -78,7 +80,7 @@ extends AbstractTextFlowFigure {
         graphics.fillPolygon(points);
         
         // Line
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawPolygon(points);
         
         // Image icon

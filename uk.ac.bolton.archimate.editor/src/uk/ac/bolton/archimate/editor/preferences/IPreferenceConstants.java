@@ -77,4 +77,6 @@ public interface IPreferenceConstants {
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
     
     String SHOW_SHADOWS = "showShadows"; //$NON-NLS-1$
+    
+    String OUTLINE_CONTRAST = "outlineContrast"; //$NON-NLS-1$
 }

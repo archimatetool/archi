@@ -11,6 +11,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 
 
 
@@ -38,6 +39,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
         Rectangle bounds = getBounds();
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             if(drawShadows) {
@@ -64,7 +66,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
         // Outline
         bounds.width--;
         bounds.height--;
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         graphics.drawRoundRectangle(bounds, fArc, fArc);
 
         // Image icon

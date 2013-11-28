@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Path;
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
@@ -40,6 +41,7 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
         int curve_y = bounds.y + bounds.height - offset;
         
         boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
+        float outlineContrast = Preferences.STORE.getInt(IPreferenceConstants.OUTLINE_CONTRAST) / 100.0f;
         
         if(isEnabled()) {
             // Shadow fill
@@ -87,7 +89,7 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
         graphics.fillPath(path);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(ColorFactory.getDarkerColor(getFillColor(), outlineContrast));
         path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);
         path.dispose();
