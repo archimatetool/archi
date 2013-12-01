@@ -35,6 +35,7 @@ import org.eclipse.gef.handles.BendpointHandle;
 /**
  * A BendpointHandle that is used to create a new bendpoint.
  */
+@SuppressWarnings("all")
 public class BendpointCreationHandle extends BendpointHandle {
 
 	{

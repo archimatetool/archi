@@ -34,6 +34,7 @@ import org.eclipse.gef.handles.BendpointHandle;
 /**
  * A BendpointHandle that is used to move an existing bendpoint.
  */
+@SuppressWarnings("all")
 public class BendpointMoveHandle extends BendpointHandle {
 
 	{
