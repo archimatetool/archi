@@ -17,8 +17,11 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.factory.ElementUIFactory;
 import uk.ac.bolton.archimate.editor.ui.factory.IElementUIProvider;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**
@@ -62,20 +65,38 @@ public class ColorFactory {
     }
     
     /**
+     * @param dmo
+     * Set user default colors as set in prefs for a model object
+     */
+    public static void setDefaultColors(IDiagramModelObject dmo) {
+        // Fill
+        Color fillColor = getDefaultFillColor(dmo);
+        if(fillColor != null) {
+            dmo.setFillColor(convertColorToString(fillColor));
+        }
+        // Line
+        Color lineColor = getDefaultLineColor(dmo);
+        if(lineColor != null) {
+            dmo.setLineColor(convertColorToString(lineColor));
+        }
+    }
+
+    /**
      * @param object
-     * @return A default fill Color for an object with reference to the user's preferences. This is used when a fillColor is set to null
+     * @return A default fill Color for an object with reference to the user's preferences.
+     * This is used when a fillColor is set to null
      */
     public static Color getDefaultFillColor(Object object) {
         Color color = getUserDefaultFillColor(object);
         if(color == null) {
-            color = getInbuiltDefaultColor(object);
+            color = getInbuiltDefaultFillColor(object);
         }
         
         return color;
     }
     
     /**
-     * @return A fill Color for a new object with reference to the user's preferences 
+     * @return A fill Color for an object with reference to the user's preferences or null if not set
      */
     public static Color getUserDefaultFillColor(Object object) {
         EClass eClass = getEClassForObject(object);
@@ -95,7 +116,7 @@ public class ColorFactory {
      * @param object
      * @return A default fill Color for an object that is inbuilt in the App
      */
-    public static Color getInbuiltDefaultColor(Object object) {
+    public static Color getInbuiltDefaultFillColor(Object object) {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
@@ -108,6 +129,61 @@ public class ColorFactory {
         return ColorConstants.white;
     }
     
+    /**
+     * @param object
+     * @return A default line Color for an object with reference to the user's preferences.
+     * This is used when a lineColor is set to null
+     */
+    public static Color getDefaultLineColor(Object object) {
+        // Connections
+        if(object instanceof IDiagramModelConnection) {
+            return getInbuiltDefaultLineColor(object);
+        }
+        
+        // Other objects
+        Color color = getUserDefaultElementLineColor(object);
+        if(color == null) {
+            color = getInbuiltDefaultLineColor(object);
+        }
+        
+        return color;
+    }
+
+    /**
+     * @return A line Color for an element with reference to the user's preferences or null if not set
+     */
+    public static Color getUserDefaultElementLineColor(Object object) {
+        // User preference
+        String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
+        if(StringUtils.isSet(value)) {
+            return get(value);
+        }
+            
+        return null;
+    }
+
+    /**
+     * @param object
+     * @return A default line Color for an object that is inbuilt in the App
+     */
+    public static Color getInbuiltDefaultLineColor(Object object) {
+        // Use default line color for any Archimate object
+        if(object == null) {
+            object = IArchimatePackage.eINSTANCE.getBusinessActor();
+        }
+        
+        EClass eClass = getEClassForObject(object);
+        
+        if(eClass != null) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+            if(provider != null) {
+                return provider.getDefaultLineColor() == null ? ColorConstants.black : provider.getDefaultLineColor();
+            }
+        }
+        
+        return ColorConstants.black;
+    }
+
     /*
      * Get at the EClass for an Object
      */
@@ -137,10 +213,21 @@ public class ColorFactory {
     public static int getPixelValue(RGB rgb) {
         return (rgb.red << 16) | (rgb.green << 8) | rgb.blue;
     }
+    
+    /**
+     * @param color
+     * @return A String representation of color such as #00FF2D
+     */
+    public static String convertColorToString(Color color) {
+        if(color == null) {
+            return ""; //$NON-NLS-1$
+        }
+        return convertRGBToString(color.getRGB());
+    }
 
     /**
      * @param rgb
-     * @return A String representation of RGB such as #00FF2D
+     * @return A String representation of rgb such as #00FF2D
      */
     public static String convertRGBToString(RGB rgb) {
         if(rgb == null) {
@@ -211,4 +298,5 @@ public class ColorFactory {
         
         return get(convertRGBToString(rgb));
     }
+
 }

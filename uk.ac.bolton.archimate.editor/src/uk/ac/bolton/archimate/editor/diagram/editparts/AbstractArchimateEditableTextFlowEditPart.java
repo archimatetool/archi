@@ -30,7 +30,7 @@ import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateEditableTextFlowEditPart
-extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditPart {
+extends AbstractArchimateEditPart implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
     
     @Override
     protected void refreshFigure() {

@@ -57,6 +57,9 @@ public abstract class AbstractLabelContainerFigure extends AbstractContainerFigu
         
         // Font Color
         setFontColor();
+        
+        // Line Color
+        setLineColor();
     }
     
     protected void setText() {

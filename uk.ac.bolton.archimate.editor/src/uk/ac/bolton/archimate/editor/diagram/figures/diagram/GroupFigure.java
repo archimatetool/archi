@@ -138,17 +138,20 @@ extends AbstractLabelContainerFigure {
         int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
         
         // Shadow fill
-        int[] points1 = new int[] {
-                bounds.x + shadow_offset, bounds.y + shadow_offset,
-                bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset,
-                bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset + FOLD_HEIGHT,
-                bounds.x + bounds.width, bounds.y + shadow_offset + FOLD_HEIGHT,
-                bounds.x + bounds.width, bounds.y + bounds.height,
-                bounds.x + shadow_offset, bounds.y + bounds.height
-        };
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillPolygon(points1);
+        if(drawShadows) {
+            int[] points1 = new int[] {
+                    bounds.x + shadow_offset, bounds.y + shadow_offset,
+                    bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset,
+                    bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset + FOLD_HEIGHT,
+                    bounds.x + bounds.width, bounds.y + shadow_offset + FOLD_HEIGHT,
+                    bounds.x + bounds.width, bounds.y + bounds.height,
+                    bounds.x + shadow_offset, bounds.y + bounds.height
+            };
+            graphics.setAlpha(100);
+            graphics.setBackgroundColor(ColorConstants.black);
+            graphics.fillPolygon(points1);
+            graphics.setAlpha(255);    
+        }
         
         // Fill
         int[] points2 = new int[] {
@@ -157,7 +160,7 @@ extends AbstractLabelContainerFigure {
                 bounds.x + (bounds.width / 2) - 1, bounds.y + FOLD_HEIGHT,
                 bounds.x, bounds.y + FOLD_HEIGHT,
         };
-        graphics.setAlpha(255);
+
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         graphics.fillPolygon(points2);
        
@@ -171,7 +174,7 @@ extends AbstractLabelContainerFigure {
         graphics.fillPolygon(points3);
         
         // Line
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points2);
         graphics.drawPolygon(points3);
     }

@@ -21,6 +21,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.ILinedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
 import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
@@ -44,7 +45,7 @@ import uk.ac.bolton.archimate.model.ISketchModelSticky;
  * @author Phillip Beauvoir
  */
 public class StickyEditPart extends AbstractConnectedEditPart
-implements IColoredEditPart, ITextAlignedEditPart  {
+implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart  {
     
     @Override
     protected List<?> getModelChildren() {

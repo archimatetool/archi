@@ -135,7 +135,7 @@ public class HTMLReportExporter {
     
     private void writeBusinessElements() throws IOException {
         IFolder businessFolder = fModel.getFolder(FolderType.BUSINESS);
-        String color = ColorFactory.convertRGBToString(ColorFactory.COLOR_BUSINESS.getRGB());
+        String color = ColorFactory.convertColorToString(ColorFactory.COLOR_BUSINESS);
         
         // Business Actors
         List<EObject> list = new ArrayList<EObject>();
@@ -176,7 +176,7 @@ public class HTMLReportExporter {
     
     private void writeApplicationElements() throws IOException {
         IFolder applicationFolder = fModel.getFolder(FolderType.APPLICATION);
-        String color = ColorFactory.convertRGBToString(ColorFactory.COLOR_APPLICATION.getRGB());
+        String color = ColorFactory.convertColorToString(ColorFactory.COLOR_APPLICATION);
         
         // Applications
         List<EObject> list = new ArrayList<EObject>();
@@ -196,7 +196,7 @@ public class HTMLReportExporter {
     
     private void writeTechnologyElements() throws IOException {
         IFolder technologyFolder = fModel.getFolder(FolderType.TECHNOLOGY);
-        String color = ColorFactory.convertRGBToString(ColorFactory.COLOR_TECHNOLOGY.getRGB());
+        String color = ColorFactory.convertColorToString(ColorFactory.COLOR_TECHNOLOGY);
         
         // Infrastructures
         List<EObject> list = new ArrayList<EObject>();

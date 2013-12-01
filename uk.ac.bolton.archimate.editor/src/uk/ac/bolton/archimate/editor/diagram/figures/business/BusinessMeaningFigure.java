@@ -65,7 +65,7 @@ extends AbstractTextFlowFigure {
         graphics.fillOval(bounds.x + bounds.width / 3, bounds.y + bounds.height / 4, bounds.width / 5 * 3 - shadow_offset, bounds.height / 3 * 2 - shadow_offset);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawArc(bounds.x, bounds.y, bounds.width / 3 * 2, bounds.height / 3 * 2, 60, 147);
         graphics.drawArc(bounds.x + bounds.width / 3 - 1, bounds.y, bounds.width / 3 * 2 - 1, bounds.height / 3 * 2, -40, 159);
         graphics.drawArc(bounds.x, bounds.y + bounds.height / 3, bounds.width / 5 * 3 - 1, bounds.height / 3 * 2 - shadow_offset - 1, -43, -167);

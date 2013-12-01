@@ -56,7 +56,7 @@ extends AbstractTextFlowFigure {
         graphics.fillOval(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1);
         
         graphics.popState();

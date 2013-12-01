@@ -45,6 +45,11 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
         return ColorConstants.white;
     }
     
+    @Override
+    public Color getDefaultLineColor() {
+        return ColorConstants.gray;
+    }
+
     /**
      * Create a new ImageDescriptor substituting the user's preference for fill color
      */

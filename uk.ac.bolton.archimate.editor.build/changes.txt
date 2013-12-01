@@ -1,6 +1,16 @@
 Archi Changes
 -------------
 
+
+Version 2.6
+----------------------------
++ Can now set line colour of diagram elements
++ Improved Preference page for default colours
++ Added default preference for element line colour
++ Default fill and line colours for elements are now saved in the model file
+
+
+
 Version 2.5 November 25 2013
 ----------------------------
 + New application icons and branding

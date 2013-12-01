@@ -70,8 +70,11 @@ implements IArchimateEditPart {
             refreshSourceConnections();
             refreshTargetConnections();
         }
-        // Default fill colour preference changed
+        // Default colour preferences changed
         else if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX)) {
+            getFigure().repaint();
+        }
+        else if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR)) {
             getFigure().repaint();
         }
         else {

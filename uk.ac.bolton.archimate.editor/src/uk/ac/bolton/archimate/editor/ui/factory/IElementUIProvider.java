@@ -60,4 +60,9 @@ public interface IElementUIProvider {
      * @return The default colour to use for this object (usually a fill color)
      */
     Color getDefaultColor();
+
+    /**
+     * @return The default line colour to use for this object
+     */
+    Color getDefaultLineColor();
 }

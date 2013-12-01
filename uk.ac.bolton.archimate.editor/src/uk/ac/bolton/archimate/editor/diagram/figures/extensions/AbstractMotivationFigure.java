@@ -78,7 +78,7 @@ extends AbstractTextFlowFigure {
         graphics.fillPolygon(points);
         
         // Line
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
         
         // Image icon

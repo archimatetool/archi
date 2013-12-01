@@ -63,7 +63,7 @@ extends AbstractDiagramModelObjectFigure {
                 tempRect.shrink(getWidth() / 2, getWidth() / 2);
                 graphics.setLineWidth(getWidth());
 
-                graphics.setForegroundColor(ColorConstants.black);
+                graphics.setForegroundColor(getLineColor());
 
                 PointList list = new PointList();
                 list.addPoint(tempRect.x, tempRect.y);
@@ -100,6 +100,9 @@ extends AbstractDiagramModelObjectFigure {
         
         // Font Color
         setFontColor();
+        
+        // Line Color
+        setLineColor();
 
         // Alignment
         ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());

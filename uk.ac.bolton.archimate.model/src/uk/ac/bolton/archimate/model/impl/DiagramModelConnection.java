@@ -23,6 +23,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IDocumentable;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILineObject;
 import uk.ac.bolton.archimate.model.IProperties;
 import uk.ac.bolton.archimate.model.IProperty;
 
@@ -39,12 +40,12 @@ import uk.ac.bolton.archimate.model.IProperty;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getProperties <em>Properties</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getDocumentation <em>Documentation</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getLineWidth <em>Line Width</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getText <em>Text</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getSource <em>Source</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getTarget <em>Target</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getLineWidth <em>Line Width</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelConnection#getType <em>Type</em>}</li>
  * </ul>
  * </p>
@@ -163,6 +164,46 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     protected String documentation = DOCUMENTATION_EDEFAULT;
 
     /**
+     * The default value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineWidth()
+     * @generated
+     * @ordered
+     */
+    protected static final int LINE_WIDTH_EDEFAULT = 1;
+
+    /**
+     * The cached value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineWidth()
+     * @generated
+     * @ordered
+     */
+    protected int lineWidth = LINE_WIDTH_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineColor()
+     * @generated
+     * @ordered
+     */
+    protected static final String LINE_COLOR_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineColor()
+     * @generated
+     * @ordered
+     */
+    protected String lineColor = LINE_COLOR_EDEFAULT;
+
+    /**
      * The default value of the '{@link #getText() <em>Text</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -211,46 +252,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @ordered
      */
     protected EList<IDiagramModelBendpoint> bendpoints;
-
-    /**
-     * The default value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getLineWidth()
-     * @generated
-     * @ordered
-     */
-    protected static final int LINE_WIDTH_EDEFAULT = 1;
-
-    /**
-     * The cached value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getLineWidth()
-     * @generated
-     * @ordered
-     */
-    protected int lineWidth = LINE_WIDTH_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getLineColor()
-     * @generated
-     * @ordered
-     */
-    protected static final String LINE_COLOR_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getLineColor()
-     * @generated
-     * @ordered
-     */
-    protected String lineColor = LINE_COLOR_EDEFAULT;
 
     /**
      * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -649,6 +650,10 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
                 return getDocumentation();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
+                return getLineWidth();
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
+                return getLineColor();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return getText();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
@@ -657,10 +662,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return getTarget();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 return getBendpoints();
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
-                return getLineWidth();
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
-                return getLineColor();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE:
                 return getType();
         }
@@ -695,6 +696,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
                 setDocumentation((String)newValue);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
+                setLineWidth((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
+                setLineColor((String)newValue);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText((String)newValue);
                 return;
@@ -707,12 +714,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 getBendpoints().clear();
                 getBendpoints().addAll((Collection<? extends IDiagramModelBendpoint>)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
-                setLineWidth((Integer)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
-                setLineColor((String)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE:
                 setType((Integer)newValue);
@@ -747,6 +748,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
+                setLineWidth(LINE_WIDTH_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
+                setLineColor(LINE_COLOR_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 setText(TEXT_EDEFAULT);
                 return;
@@ -758,12 +765,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 getBendpoints().clear();
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
-                setLineWidth(LINE_WIDTH_EDEFAULT);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
-                setLineColor(LINE_COLOR_EDEFAULT);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE:
                 setType(TYPE_EDEFAULT);
@@ -792,6 +793,10 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
+                return lineWidth != LINE_WIDTH_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
+                return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT:
                 return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
@@ -800,10 +805,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return target != null;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 return bendpoints != null && !bendpoints.isEmpty();
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH:
-                return lineWidth != LINE_WIDTH_EDEFAULT;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR:
-                return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TYPE:
                 return type != TYPE_EDEFAULT;
         }
@@ -838,6 +839,13 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 default: return -1;
             }
         }
+        if (baseClass == ILineObject.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH: return IArchimatePackage.LINE_OBJECT__LINE_WIDTH;
+                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR: return IArchimatePackage.LINE_OBJECT__LINE_COLOR;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -869,6 +877,13 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 default: return -1;
             }
         }
+        if (baseClass == ILineObject.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.LINE_OBJECT__LINE_WIDTH: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH;
+                case IArchimatePackage.LINE_OBJECT__LINE_COLOR: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__LINE_COLOR;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -892,12 +907,12 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         result.append(textPosition);
         result.append(", documentation: "); //$NON-NLS-1$
         result.append(documentation);
-        result.append(", text: "); //$NON-NLS-1$
-        result.append(text);
         result.append(", lineWidth: "); //$NON-NLS-1$
         result.append(lineWidth);
         result.append(", lineColor: "); //$NON-NLS-1$
         result.append(lineColor);
+        result.append(", text: "); //$NON-NLS-1$
+        result.append(text);
         result.append(", type: "); //$NON-NLS-1$
         result.append(type);
         result.append(')');

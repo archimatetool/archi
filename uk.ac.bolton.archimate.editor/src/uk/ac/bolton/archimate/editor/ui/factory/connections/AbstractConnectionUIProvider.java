@@ -22,4 +22,10 @@ public abstract class AbstractConnectionUIProvider extends AbstractElementUIProv
     public Color getDefaultColor() {
         return ColorConstants.black;
     }
+    
+    @Override
+    public Color getDefaultLineColor() {
+        return ColorConstants.black;
+    }
+
 }

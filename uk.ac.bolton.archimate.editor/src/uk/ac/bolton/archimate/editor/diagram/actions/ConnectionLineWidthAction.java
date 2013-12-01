@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
-import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineWidthCommand;
+import uk.ac.bolton.archimate.editor.diagram.commands.LineWidthCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
 import uk.ac.bolton.archimate.editor.propertysections.DiagramConnectionSection;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
@@ -87,7 +87,7 @@ public class ConnectionLineWidthAction extends SelectionAction {
                 Object model = editPart.getModel();
                 if(model instanceof IDiagramModelConnection) {
                     IDiagramModelConnection diagramConnection = (IDiagramModelConnection)model;
-                    Command cmd = new ConnectionLineWidthCommand(diagramConnection, newLineWidth);
+                    Command cmd = new LineWidthCommand(diagramConnection, newLineWidth);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }

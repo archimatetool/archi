@@ -11,13 +11,13 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**
- * Connection Line Width Command
+ * Line Width Command
  *
  * @author Phillip Beauvoir
  */
-public class ConnectionLineWidthCommand extends EObjectFeatureCommand {
+public class LineWidthCommand extends EObjectFeatureCommand {
     
-    public ConnectionLineWidthCommand(IDiagramModelConnection connection, int lineWidth) {
-        super(Messages.ConnectionLineWidthCommand_0, connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH, lineWidth);
+    public LineWidthCommand(IDiagramModelConnection connection, int lineWidth) {
+        super(Messages.LineWidthCommand_0, connection, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH, lineWidth);
     }
 }

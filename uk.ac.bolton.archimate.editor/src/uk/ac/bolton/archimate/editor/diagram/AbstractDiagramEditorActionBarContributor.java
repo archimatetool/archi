@@ -35,7 +35,7 @@ import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
 import uk.ac.bolton.archimate.editor.diagram.actions.BorderColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringForwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringToFrontAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionLineColorAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.LineColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionLineWidthAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionRouterAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.DefaultEditPartSizeAction;
@@ -122,7 +122,7 @@ extends ActionBarContributor {
         // Fill color, line width, font, color
         addRetargetAction(new RetargetAction(FillColorAction.ID, FillColorAction.TEXT));
         addRetargetAction(new RetargetAction(ConnectionLineWidthAction.ID, ConnectionLineWidthAction.TEXT));
-        addRetargetAction(new RetargetAction(ConnectionLineColorAction.ID, ConnectionLineColorAction.TEXT));
+        addRetargetAction(new RetargetAction(LineColorAction.ID, LineColorAction.TEXT));
         addRetargetAction(new RetargetAction(FontAction.ID, FontAction.TEXT));
         addRetargetAction(new RetargetAction(FontColorAction.ID, FontColorAction.TEXT));
         
@@ -267,7 +267,7 @@ extends ActionBarContributor {
         
         // Connection Line Width and Color
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(ConnectionLineWidthAction.ID));
-        editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(ConnectionLineColorAction.ID));
+        editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(LineColorAction.ID));
 
         // Font
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FontAction.ID));

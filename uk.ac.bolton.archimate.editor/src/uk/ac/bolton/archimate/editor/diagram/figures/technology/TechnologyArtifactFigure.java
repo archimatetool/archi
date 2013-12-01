@@ -75,7 +75,7 @@ public class TechnologyArtifactFigure extends AbstractTextFlowFigure {
         graphics.fillPolygon(points2);
         
         // Line
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points1);
         graphics.drawLine(points1.getPoint(1), points1.getPoint(3));
         

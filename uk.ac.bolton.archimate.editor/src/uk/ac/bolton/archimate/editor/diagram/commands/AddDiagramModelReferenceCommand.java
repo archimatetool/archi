@@ -7,6 +7,7 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;
@@ -31,6 +32,8 @@ public class AddDiagramModelReferenceCommand extends Command {
         fReference = IArchimateFactory.eINSTANCE.createDiagramModelReference();
         fReference.setReferencedModel(diagramModel);
         fReference.setBounds(x, y, -1, -1);
+        
+        ColorFactory.setDefaultColors(fReference);
     }
 
     @Override

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineWidthCommand;
+import uk.ac.bolton.archimate.editor.diagram.commands.LineWidthCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionTextPositionCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
@@ -45,7 +45,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) {
                 refreshTextPositionCombo();
             }
-            else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH) {
+            else if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH) {
                 refreshLineWidthCombo();
             }
             else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
@@ -113,7 +113,7 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new ConnectionLineWidthCommand(fConnection, fComboLineWidth.getSelectionIndex() + 1));
+                    getCommandStack().execute(new LineWidthCommand(fConnection, fComboLineWidth.getSelectionIndex() + 1));
                     fIsExecutingCommand = false;
                 }
             }

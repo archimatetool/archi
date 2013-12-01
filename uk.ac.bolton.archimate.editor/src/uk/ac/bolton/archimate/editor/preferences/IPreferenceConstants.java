@@ -69,9 +69,10 @@ public interface IPreferenceConstants {
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject"; //$NON-NLS-1$
     
     String DEFAULT_FILL_COLOR_PREFIX = "defaultFillColour_"; //$NON-NLS-1$
-    String SAVE_USER_DEFAULT_FILL_COLOR = "saveUserDefaultFillColorInFile"; //$NON-NLS-1$
     String SHOW_FILL_COLORS_IN_GUI = "showFillColorsInGui"; //$NON-NLS-1$
     
+    String DEFAULT_ELEMENT_LINE_COLOR = "defaultElementLineColor"; //$NON-NLS-1$
+
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
     
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$

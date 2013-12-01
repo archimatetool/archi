@@ -72,7 +72,6 @@ implements IPreferenceConstants {
         
         store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
         
-        store.setDefault(SAVE_USER_DEFAULT_FILL_COLOR, false);
         store.setDefault(SHOW_FILL_COLORS_IN_GUI, false);
         
         store.setDefault(USE_ORTHOGONAL_ANCHOR, false);
@@ -85,5 +84,8 @@ implements IPreferenceConstants {
         // Eclipse traditional tabs
         IPreferenceStore eclipseStore = PlatformUI.getPreferenceStore();
         eclipseStore.setDefault(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
+        
+        // Default Element line colour
+        store.setDefault(DEFAULT_ELEMENT_LINE_COLOR, "#808080"); //$NON-NLS-1$
     }
 }

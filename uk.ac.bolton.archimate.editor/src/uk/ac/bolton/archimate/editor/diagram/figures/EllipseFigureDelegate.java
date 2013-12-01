@@ -57,7 +57,7 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         // Outline
         bounds.width--;
         bounds.height--;
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawOval(bounds);
         
         graphics.popState();

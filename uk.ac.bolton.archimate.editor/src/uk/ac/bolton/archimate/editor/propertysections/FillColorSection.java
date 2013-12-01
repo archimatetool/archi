@@ -15,6 +15,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -109,6 +110,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
         fColorSelector.addListener(colorListener);
 
+        // Set to default colour
         fDefaultColorButton = new Button(client, SWT.PUSH);
         getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
         fDefaultColorButton.setText(Messages.FillColorSection_1);
@@ -119,7 +121,9 @@ public class FillColorSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, null));
+                    Color color = ColorFactory.getDefaultFillColor(fDiagramModelObject);
+                    String rgbValue = ColorFactory.convertColorToString(color);
+                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, rgbValue));
                 }
             }
         });
@@ -151,7 +155,9 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         
         boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
         fColorSelector.setEnabled(enabled);
-        fDefaultColorButton.setEnabled(colorValue != null && enabled);
+        
+        boolean isDefaultColor = rgb.equals(ColorFactory.getDefaultFillColor(fDiagramModelObject).getRGB());
+        fDefaultColorButton.setEnabled(!isDefaultColor && enabled);
     }
     
     @Override

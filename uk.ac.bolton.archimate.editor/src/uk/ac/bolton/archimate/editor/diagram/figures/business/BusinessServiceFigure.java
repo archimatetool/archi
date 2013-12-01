@@ -58,7 +58,7 @@ extends AbstractTextFlowFigure {
                 Math.min(bounds.height, bounds.width * 8/10), bounds.height);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1),
                 Math.min(bounds.height, bounds.width * 8/10), bounds.height);
         

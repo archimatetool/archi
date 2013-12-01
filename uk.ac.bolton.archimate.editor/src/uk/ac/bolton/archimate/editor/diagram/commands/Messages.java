@@ -19,11 +19,7 @@ public class Messages extends NLS {
 
     public static String BorderColorCommand_0;
 
-    public static String ConnectionLineColorCommand_0;
-
     public static String ConnectionLineTypeCommand_0;
-
-    public static String ConnectionLineWidthCommand_0;
 
     public static String ConnectionRouterTypeCommand_0;
 
@@ -46,6 +42,10 @@ public class Messages extends NLS {
     public static String FontCompoundCommand_0;
 
     public static String FontStyleCommand_0;
+
+    public static String LineColorCommand_0;
+
+    public static String LineWidthCommand_0;
 
     public static String LockObjectCommand_0;
 

@@ -12,6 +12,7 @@ import org.eclipse.gef.RequestConstants;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.ILinedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
 import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.diagram.DiagramModelReferenceFigure;
@@ -28,7 +29,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelReference;
  * @author Phillip Beauvoir
  */
 public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart
-implements IColoredEditPart, ITextAlignedEditPart {
+implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
 
     @Override
     protected void addECoreAdapter() {

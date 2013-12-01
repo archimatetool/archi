@@ -64,7 +64,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         // Outline
         bounds.width--;
         bounds.height--;
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds);
         
         // Image icon

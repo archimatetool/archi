@@ -92,6 +92,9 @@ public class StickyFigure extends AbstractContainerFigure {
         // Font Color
         setFontColor();
         
+        // Line Color
+        setLineColor();
+        
         // Alignment
         ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
     }
@@ -134,7 +137,7 @@ public class StickyFigure extends AbstractContainerFigure {
         graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset));
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.darkGray);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1));
     }
 

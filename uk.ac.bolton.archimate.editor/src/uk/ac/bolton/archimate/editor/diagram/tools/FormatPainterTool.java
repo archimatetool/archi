@@ -12,11 +12,11 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.BorderColorCommand;
-import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineColorCommand;
-import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineWidthCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FillColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FontColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.FontStyleCommand;
+import uk.ac.bolton.archimate.editor.diagram.commands.LineColorCommand;
+import uk.ac.bolton.archimate.editor.diagram.commands.LineWidthCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.TextAlignmentCommand;
 import uk.ac.bolton.archimate.editor.diagram.commands.TextPositionCommand;
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.PaintFormat;
@@ -111,6 +111,10 @@ public class FormatPainterTool extends AbstractTool {
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
+            cmd = new LineColorCommand(target, source.getLineColor());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
             
             // Optional Border
             if(source instanceof IBorderObject && target instanceof IBorderObject) {
@@ -124,7 +128,7 @@ public class FormatPainterTool extends AbstractTool {
             IDiagramModelConnection source = (IDiagramModelConnection)pf.sourceComponent;
             IDiagramModelConnection target = (IDiagramModelConnection)targetObject;
             
-            Command cmd = new ConnectionLineColorCommand(target, source.getLineColor());
+            Command cmd = new LineColorCommand(target, source.getLineColor());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
@@ -136,7 +140,7 @@ public class FormatPainterTool extends AbstractTool {
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new ConnectionLineWidthCommand(target, source.getLineWidth());
+            cmd = new LineWidthCommand(target, source.getLineWidth());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }

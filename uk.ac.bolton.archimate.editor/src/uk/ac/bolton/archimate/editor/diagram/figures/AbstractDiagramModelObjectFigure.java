@@ -36,6 +36,8 @@ implements IDiagramModelObjectFigure {
     
     private Color fFillColor;
     private Color fFontColor;
+    private Color fLineColor;
+    
     
     // Delegate to do drawing
     private IFigureDelegate fFigureDelegate;
@@ -140,6 +142,29 @@ implements IDiagramModelObjectFigure {
         }
     }
     
+    
+    /**
+     * Set the line color to that in the model, or failing that, as per default
+     */
+    protected void setLineColor() {
+        String val = fDiagramModelObject.getLineColor();
+        Color c = ColorFactory.get(val);
+        if(c != fLineColor) {
+            fLineColor = c;
+            repaint();
+        }            
+    }
+    
+    /**
+     * @return The Line Color to use
+     */
+    public Color getLineColor() {
+        if(fLineColor == null) {
+            return ColorFactory.getDefaultLineColor(getDiagramModelObject());
+        }
+        return fLineColor;
+    }
+
     @Override
     public IFigure getToolTip() {
         ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
