@@ -32,7 +32,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractDiagramConnectionFigure
-extends PolylineConnection implements IDiagramConnectionFigure {
+extends RoundedPolylineConnection implements IDiagramConnectionFigure {
+//extends PolylineConnection implements IDiagramConnectionFigure {
 
     private Label fConnectionLabel;
     

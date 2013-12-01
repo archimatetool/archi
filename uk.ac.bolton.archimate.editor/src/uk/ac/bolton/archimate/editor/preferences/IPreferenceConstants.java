@@ -73,6 +73,8 @@ public interface IPreferenceConstants {
     String SHOW_FILL_COLORS_IN_GUI = "showFillColorsInGui"; //$NON-NLS-1$
     
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
+    // rounded-connection patch
+    String USE_ROUNDED_CONNECTION = "roundedConnection"; //$NON-NLS-1$
     
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
     

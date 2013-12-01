@@ -47,6 +47,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fAllowCircularConnectionsButton;
     private Button fUseOrthogonalAnchorButton;
+    // rounded-connection patch
+    private Button fUseRoundedConnectionButton;
     
     private Button fUseNestedConnectionsButton;
     private Button fCreateRelationWhenAddingNewElementButton;
@@ -107,6 +109,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setText(Messages.ConnectionsPreferencePage_13);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseOrthogonalAnchorButton.setLayoutData(gd);
+        
+        // rounded-connection patch
+        fUseRoundedConnectionButton = new Button(connectorGroup, SWT.CHECK);
+        fUseRoundedConnectionButton.setText(Messages.ConnectionsPreferencePage_14);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fUseRoundedConnectionButton.setLayoutData(gd);
 
         // Nested Connections (ARM)
         Group nestedConnectionsGroup = new Group(client, SWT.NULL);
@@ -242,6 +250,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getBoolean(ALLOW_CIRCULAR_CONNECTIONS));
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
+        // rounded-connection patch
+        fUseRoundedConnectionButton.setSelection(getPreferenceStore().getBoolean(USE_ROUNDED_CONNECTION));
         
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
@@ -261,6 +271,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         getPreferenceStore().setValue(ALLOW_CIRCULAR_CONNECTIONS, fAllowCircularConnectionsButton.getSelection());
         getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
+        // rounded-connection patch
+        getPreferenceStore().setValue(USE_ROUNDED_CONNECTION, fUseRoundedConnectionButton.getSelection());
         
         getPreferenceStore().setValue(USE_NESTED_CONNECTIONS, fUseNestedConnectionsButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingNewElementButton.getSelection());
@@ -293,6 +305,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(ALLOW_CIRCULAR_CONNECTIONS));
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
+        // rounded-connection patch
+        fUseRoundedConnectionButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ROUNDED_CONNECTION));
         
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
