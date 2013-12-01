@@ -47,7 +47,7 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     
     @Override
     public Color getDefaultLineColor() {
-        return ColorConstants.gray;
+        return ColorFactory.get(92, 92, 92);
     }
 
     /**
