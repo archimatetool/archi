@@ -50,8 +50,10 @@ import org.eclipse.gef.requests.BendpointRequest;
  * {@link org.eclipse.draw2d.Connection} figure. If the number of bends in the
  * <code>Connection</code> changes, the handles will be updated.
  */
+@SuppressWarnings("all")
 public abstract class BendpointEditPolicy extends SelectionHandlesEditPolicy
 		implements PropertyChangeListener {
+
 
 	private static final List NULL_CONSTRAINT = new ArrayList();
 

@@ -46,6 +46,7 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
  * 
  * @author hudsonr
  */
+@SuppressWarnings("all")
 public class ConnectionBendpointTracker extends SimpleDragTracker {
 
 	private Object type;
