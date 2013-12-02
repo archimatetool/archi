@@ -79,9 +79,13 @@ public class SketchModelFactory implements ICreationFactory {
         
         // Connection
         else if(object instanceof IDiagramModelConnection) {
+            IDiagramModelConnection connection = (IDiagramModelConnection)object;
+            
             if(fParam instanceof Integer) {
-                ((IDiagramModelConnection)object).setType((Integer)fParam);
+                connection.setType((Integer)fParam);
             }
+            
+            ColorFactory.setDefaultColors(connection);
         }
         
         return object;

@@ -8,6 +8,7 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.osgi.util.NLS;
 
+import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -33,6 +34,7 @@ public class AddDiagramArchimateConnectionCommand extends Command {
         fTarget = tgt;
         fConnection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         fConnection.setRelationship(relationship);
+        ColorFactory.setDefaultColors(fConnection);
     }
 
     @Override

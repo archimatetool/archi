@@ -20,8 +20,9 @@ import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import uk.ac.bolton.archimate.model.ILineObject;
 
 
 /**
@@ -65,24 +66,31 @@ public class ColorFactory {
     }
     
     /**
-     * @param dmo
+     * @param component
      * Set user default colors as set in prefs for a model object
      */
-    public static void setDefaultColors(IDiagramModelObject dmo) {
+    public static void setDefaultColors(IDiagramModelComponent component) {
         // If user Prefs is to *not* save default colours in file
         if(!Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
             return;
         }
         
-        // Fill
-        Color fillColor = getDefaultFillColor(dmo);
-        if(fillColor != null) {
-            dmo.setFillColor(convertColorToString(fillColor));
+        // Fill color
+        if(component instanceof IDiagramModelObject) {
+            IDiagramModelObject dmo = (IDiagramModelObject)component;
+            Color fillColor = getDefaultFillColor(dmo);
+            if(fillColor != null) {
+                dmo.setFillColor(convertColorToString(fillColor));
+            }
         }
-        // Line
-        Color lineColor = getDefaultLineColor(dmo);
-        if(lineColor != null) {
-            dmo.setLineColor(convertColorToString(lineColor));
+        
+        // Line color
+        if(component instanceof ILineObject) {
+            ILineObject lo = (ILineObject)component;
+            Color lineColor = getDefaultLineColor(lo);
+            if(lineColor != null) {
+                lo.setLineColor(convertColorToString(lineColor));
+            }
         }
     }
 
@@ -134,19 +142,14 @@ public class ColorFactory {
         return ColorConstants.white;
     }
     
+    ///-------------------------------------------------------------------------
+    
     /**
      * @param object
      * @return A default line Color for an object with reference to the user's preferences.
-     * This is used when a lineColor is set to null
      */
     public static Color getDefaultLineColor(Object object) {
-        // Connections
-        if(object instanceof IDiagramModelConnection) {
-            return getInbuiltDefaultLineColor(object);
-        }
-        
-        // Other objects
-        Color color = getUserDefaultElementLineColor(object);
+        Color color = getUserDefaultLineColor(object);
         if(color == null) {
             color = getInbuiltDefaultLineColor(object);
         }
@@ -154,16 +157,25 @@ public class ColorFactory {
         return color;
     }
 
-    /**
-     * @return A line Color for an element with reference to the user's preferences or null if not set
-     */
-    public static Color getUserDefaultElementLineColor(Object object) {
-        // User preference
-        String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
-        if(StringUtils.isSet(value)) {
-            return get(value);
+    public static Color getUserDefaultLineColor(Object object) {
+        EClass eClass = getEClassForObject(object);
+        
+        if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
+                IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(eClass)) {
+            // User preference
+            String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
+            if(StringUtils.isSet(value)) {
+                return get(value);
+            }
         }
-            
+        else {
+            // User preference
+            String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
+            if(StringUtils.isSet(value)) {
+                return get(value);
+            }
+        }
+       
         return null;
     }
 
@@ -172,11 +184,6 @@ public class ColorFactory {
      * @return A default line Color for an object that is inbuilt in the App
      */
     public static Color getInbuiltDefaultLineColor(Object object) {
-        // Use default line color for any Archimate object
-        if(object == null) {
-            object = IArchimatePackage.eINSTANCE.getBusinessActor();
-        }
-        
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {

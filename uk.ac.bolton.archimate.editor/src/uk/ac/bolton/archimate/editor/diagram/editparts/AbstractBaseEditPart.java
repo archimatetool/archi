@@ -52,6 +52,13 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         else if(IPreferenceConstants.SHOW_SHADOWS.equals(event.getProperty())) {
             getFigure().repaint();
         }
+        // Default colour preferences changed
+        else if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX)) {
+            getFigure().repaint();
+        }
+        else if(event.getProperty().equals(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR)) {
+            getFigure().repaint();
+        }
     }
     
     @Override

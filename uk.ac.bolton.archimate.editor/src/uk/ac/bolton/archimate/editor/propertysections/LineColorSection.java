@@ -89,7 +89,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
+            if(event.getProperty().equals(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
                     event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                 refreshControls();
             }

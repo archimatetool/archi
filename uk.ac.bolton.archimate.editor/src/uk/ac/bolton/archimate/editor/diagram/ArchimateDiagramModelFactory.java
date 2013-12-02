@@ -15,6 +15,7 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
 import uk.ac.bolton.archimate.model.IDiagramModelNote;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
@@ -70,6 +71,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         if(object instanceof IRelationship) {
             IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
             connection.setRelationship((IRelationship)object);
+            ColorFactory.setDefaultColors(connection);
             return connection;
         }
         
@@ -90,6 +92,11 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Note
         else if(object instanceof IDiagramModelNote) {
             ColorFactory.setDefaultColors((IDiagramModelObject)object);
+        }
+        
+        // Connection
+        else if(object instanceof IDiagramModelConnection) {
+            ColorFactory.setDefaultColors((IDiagramModelConnection)object);
         }
                 
         return object;
