@@ -69,6 +69,7 @@ public interface IPreferenceConstants {
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject"; //$NON-NLS-1$
     
     String DEFAULT_FILL_COLOR_PREFIX = "defaultFillColour_"; //$NON-NLS-1$
+    String SAVE_USER_DEFAULT_COLOR = "saveUserDefaultFillColorInFile"; //$NON-NLS-1$
     String SHOW_FILL_COLORS_IN_GUI = "showFillColorsInGui"; //$NON-NLS-1$
     
     String DEFAULT_ELEMENT_LINE_COLOR = "defaultElementLineColor"; //$NON-NLS-1$

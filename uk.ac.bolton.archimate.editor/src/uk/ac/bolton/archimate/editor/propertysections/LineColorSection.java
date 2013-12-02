@@ -89,7 +89,8 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR)) {
+            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
+                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                 refreshControls();
             }
         }
@@ -122,6 +123,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
         fColorSelector.addListener(colorListener);
 
+        // Set to default colour
         fDefaultColorButton = new Button(client, SWT.PUSH);
         fDefaultColorButton.setText(Messages.LineColorSection_1);
         gd = new GridData(SWT.NONE, SWT.NONE, true, false);
@@ -132,8 +134,12 @@ public class LineColorSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    Color color = ColorFactory.getDefaultLineColor(fLineObject);
-                    String rgbValue = ColorFactory.convertColorToString(color);
+                    // If user pref to save color is set then save the value, otherwise save as null
+                    String rgbValue = null;
+                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                        Color color = ColorFactory.getDefaultLineColor(fLineObject);
+                        rgbValue = ColorFactory.convertColorToString(color);
+                    }
                     getCommandStack().execute(new LineColorCommand(fLineObject, rgbValue));
                 }
             }
@@ -167,8 +173,12 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
         fColorSelector.setEnabled(enabled);
         
-        boolean isDefaultColor = rgb.equals(ColorFactory.getDefaultLineColor(fLineObject).getRGB());
-        fDefaultColorButton.setEnabled(!isDefaultColor && enabled);
+        // If user pref is to save the color then it's a different meaning of default
+        boolean isDefaultColor = (colorValue == null);
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(fLineObject).getRGB());
+        }
+        fDefaultColorButton.setEnabled(!isDefaultColor && enabled);    
     }
     
     @Override

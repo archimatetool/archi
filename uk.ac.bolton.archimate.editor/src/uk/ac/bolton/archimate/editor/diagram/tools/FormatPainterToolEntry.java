@@ -15,6 +15,7 @@ import org.eclipse.gef.palette.ToolEntry;
 
 import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.model.IDiagramModelComponent;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
@@ -39,11 +40,11 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     public Tool createTool() {
         tool = new FormatPainterTool() {
             @Override
-            protected CompoundCommand createCommand(PaintFormat pf, Object targetObject) {
-                CompoundCommand result = super.createCommand(pf, targetObject);
+            protected CompoundCommand createCommand(PaintFormat pf, IDiagramModelComponent targetComponent) {
+                CompoundCommand result = super.createCommand(pf, targetComponent);
                 
                 // Add any additional commands from Sub-classes
-                Command extraCommand = FormatPainterToolEntry.this.getCommand(pf.sourceComponent, targetObject);
+                Command extraCommand = FormatPainterToolEntry.this.getCommand(pf.getSourceComponent(), targetComponent);
                 if(extraCommand != null && extraCommand.canExecute()) {
                     result.add(extraCommand);
                 }
@@ -57,10 +58,10 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     
     /**
      * Sub-classes can add additional commands to the Main Command that will be executed when the format paint is applied
-     * @param targetObject 
-     * @param sourceObject 
+     * @param sourceComponent 
+     * @param targetComponent 
      */
-    public Command getCommand(Object sourceObject, Object targetObject) {
+    public Command getCommand(IDiagramModelComponent sourceComponent, IDiagramModelComponent targetComponent) {
         return null;
     }
 
@@ -80,7 +81,7 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
             
             String description1 = Messages.FormatPainterToolEntry_1;
             String description2 = Messages.FormatPainterToolEntry_2;
-            String description = (FormatPainterInfo.INSTANCE.getPaintFormat().sourceComponent instanceof IDiagramModelConnection) ?
+            String description = (FormatPainterInfo.INSTANCE.getPaintFormat().getSourceComponent() instanceof IDiagramModelConnection) ?
                     description1 : description2;
             
             description += "\n" + Messages.FormatPainterToolEntry_3; //$NON-NLS-1$

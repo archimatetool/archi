@@ -69,6 +69,11 @@ public class ColorFactory {
      * Set user default colors as set in prefs for a model object
      */
     public static void setDefaultColors(IDiagramModelObject dmo) {
+        // If user Prefs is to *not* save default colours in file
+        if(!Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+            return;
+        }
+        
         // Fill
         Color fillColor = getDefaultFillColor(dmo);
         if(fillColor != null) {

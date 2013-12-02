@@ -77,7 +77,8 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX)) {
+            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX) ||
+                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                 refreshControls();
             }
         }
@@ -121,8 +122,12 @@ public class FillColorSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    Color color = ColorFactory.getDefaultFillColor(fDiagramModelObject);
-                    String rgbValue = ColorFactory.convertColorToString(color);
+                    // If user pref to save color is set then save the value, otherwise save as null
+                    String rgbValue = null;
+                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                        Color color = ColorFactory.getDefaultFillColor(fDiagramModelObject);
+                        rgbValue = ColorFactory.convertColorToString(color);
+                    }
                     getCommandStack().execute(new FillColorCommand(fDiagramModelObject, rgbValue));
                 }
             }
@@ -156,7 +161,11 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
         fColorSelector.setEnabled(enabled);
         
-        boolean isDefaultColor = rgb.equals(ColorFactory.getDefaultFillColor(fDiagramModelObject).getRGB());
+        // If user pref is to save the color then it's a different meaning of default
+        boolean isDefaultColor = (colorValue == null);
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultFillColor(fDiagramModelObject).getRGB());
+        }
         fDefaultColorButton.setEnabled(!isDefaultColor && enabled);
     }
     

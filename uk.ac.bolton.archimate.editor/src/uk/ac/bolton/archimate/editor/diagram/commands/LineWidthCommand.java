@@ -7,7 +7,7 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILineObject;
 
 
 /**
@@ -17,7 +17,7 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  */
 public class LineWidthCommand extends EObjectFeatureCommand {
     
-    public LineWidthCommand(IDiagramModelConnection connection, int lineWidth) {
-        super(Messages.LineWidthCommand_0, connection, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH, lineWidth);
+    public LineWidthCommand(ILineObject object, int lineWidth) {
+        super(Messages.LineWidthCommand_0, object, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH, lineWidth);
     }
 }

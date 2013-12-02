@@ -72,6 +72,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private ImageRegistry fImageRegistry;
     
     // Buttons
+    private Button fPersistUserDefaultColors;
     private Button fShowUserDefaultFillColorsInApplication;
     private Button fEditFillColorButton;
     private Button fResetFillColorButton;
@@ -165,7 +166,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                             new TreeGrouping(Messages.ColoursPreferencePage_9, ArchimateModelUtils.getTechnologyClasses()),
                             new TreeGrouping(Messages.ColoursPreferencePage_10, ArchimateModelUtils.getMotivationClasses()),
                             new TreeGrouping(Messages.ColoursPreferencePage_11, ArchimateModelUtils.getImplementationMigrationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_1,
+                            new TreeGrouping(Messages.ColoursPreferencePage_17,
                                     new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
                                                    IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
                             DEFAULT_ELEMENT_LINE_COLOR
@@ -326,10 +327,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fShowUserDefaultFillColorsInApplication = new Button(client, SWT.CHECK);
-        fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursPreferencePage_6);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
+
+        // Persist user default colours
+        fPersistUserDefaultColors = new Button(client, SWT.CHECK);
+        fPersistUserDefaultColors.setText(Messages.ColoursPreferencePage_1);
+        fPersistUserDefaultColors.setLayoutData(gd);
+        fPersistUserDefaultColors.setSelection(getPreferenceStore().getBoolean(SAVE_USER_DEFAULT_COLOR));
+        
+        // Use colours in application
+        fShowUserDefaultFillColorsInApplication = new Button(client, SWT.CHECK);
+        fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursPreferencePage_6);
         fShowUserDefaultFillColorsInApplication.setLayoutData(gd);
         fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getBoolean(SHOW_FILL_COLORS_IN_GUI));
         
@@ -468,6 +477,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
+        getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
         getPreferenceStore().setValue(SHOW_FILL_COLORS_IN_GUI, fShowUserDefaultFillColorsInApplication.getSelection());
         saveColors(getPreferenceStore());        
         return true;
@@ -477,6 +487,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected void performDefaults() {
         super.performDefaults();
         
+        fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
         fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_FILL_COLORS_IN_GUI));
 
         // Set color cache to inbuilt defaults
