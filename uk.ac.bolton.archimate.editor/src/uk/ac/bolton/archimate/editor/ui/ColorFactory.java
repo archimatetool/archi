@@ -290,6 +290,11 @@ public class ColorFactory {
         if(color == null) {
             return null;
         }
+        
+        if(factor > 1 || factor < 0) {
+            factor = 1;
+        }
+        
         RGB rgb = new RGB((int)(color.getRed() * factor), (int)(color.getGreen() * factor), (int)(color.getBlue() * factor));
         return get(convertRGBToString(rgb));
     }

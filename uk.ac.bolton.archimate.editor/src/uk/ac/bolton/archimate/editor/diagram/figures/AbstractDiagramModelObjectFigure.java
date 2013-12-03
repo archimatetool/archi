@@ -13,6 +13,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
@@ -147,6 +148,10 @@ implements IDiagramModelObjectFigure {
      * Set the line color to that in the model, or failing that, as per default
      */
     protected void setLineColor() {
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+            
+        }
+        
         String val = fDiagramModelObject.getLineColor();
         Color c = ColorFactory.get(val);
         if(c != fLineColor) {
@@ -159,6 +164,12 @@ implements IDiagramModelObjectFigure {
      * @return The Line Color to use
      */
     public Color getLineColor() {
+        // User preference to derive element line colour
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+            return ColorFactory.getDarkerColor(getFillColor(),
+                    Preferences.STORE.getInt(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR_FACTOR) / 10f);
+        }
+        
         if(fLineColor == null) {
             return ColorFactory.getDefaultLineColor(getDiagramModelObject());
         }

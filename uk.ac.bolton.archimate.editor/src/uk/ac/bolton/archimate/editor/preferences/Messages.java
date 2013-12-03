@@ -33,7 +33,13 @@ public class Messages extends NLS {
 
     public static String ColoursPreferencePage_18;
 
+    public static String ColoursPreferencePage_19;
+
     public static String ColoursPreferencePage_2;
+
+    public static String ColoursPreferencePage_20;
+
+    public static String ColoursPreferencePage_21;
 
     public static String ColoursPreferencePage_3;
 

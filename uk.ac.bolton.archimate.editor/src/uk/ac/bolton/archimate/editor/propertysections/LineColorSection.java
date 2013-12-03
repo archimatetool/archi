@@ -90,7 +90,8 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
             if(event.getProperty().equals(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
-                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR) ||
+                    event.getProperty().equals(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
                 refreshControls();
             }
         }
@@ -171,6 +172,10 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         fColorSelector.setColorValue(rgb);
 
         boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
+        
+        // Also disabled if user prefs for derived color
+        enabled ^= Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+        
         fColorSelector.setEnabled(enabled);
         
         // If user pref is to save the color then it's a different meaning of default
