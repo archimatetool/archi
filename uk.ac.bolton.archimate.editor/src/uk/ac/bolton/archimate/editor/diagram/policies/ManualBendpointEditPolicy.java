@@ -8,7 +8,10 @@ package uk.ac.bolton.archimate.editor.diagram.policies;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.BendpointEditPolicy;
+// snap-to-grid patch by Jean-Baptiste Sarrodie (aka Jaiguru)
+// Use alternate BendpointEditPolicy
+//import org.eclipse.gef.editpolicies.BendpointEditPolicy;
+import uk.ac.bolton.archimate.editor.diagram.policies.snaptogrid.BendpointEditPolicy;
 import org.eclipse.gef.requests.BendpointRequest;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.BendpointCommand;
@@ -29,7 +32,7 @@ public class ManualBendpointEditPolicy extends BendpointEditPolicy {
         CreateBendpointCommand command = new CreateBendpointCommand();
         Point p = request.getLocation();
         Connection conn = getConnection();
-
+        
         conn.translateToRelative(p);
 
         command.setLocation(p);
@@ -63,7 +66,7 @@ public class ManualBendpointEditPolicy extends BendpointEditPolicy {
         MoveBendpointCommand command = new MoveBendpointCommand();
         Point p = request.getLocation();
         Connection conn = getConnection();
-
+        
         conn.translateToRelative(p);
 
         command.setLocation(p);
