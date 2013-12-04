@@ -366,6 +366,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fElementLineColorContrastSpinner.setMinimum(1);
         fElementLineColorContrastSpinner.setMaximum(10);
         fElementLineColorContrastSpinner.setSelection(getPreferenceStore().getInt(DERIVE_ELEMENT_LINE_COLOR_FACTOR));
+        
+        label = new Label(elementColorGroup, SWT.NULL);
+        label.setText(Messages.ColoursPreferencePage_22);
 
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;

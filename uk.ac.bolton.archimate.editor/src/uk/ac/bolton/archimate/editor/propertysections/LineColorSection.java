@@ -11,6 +11,7 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.preference.ColorSelector;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IFilter;
@@ -23,6 +24,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.LineColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ILinedEditPart;
@@ -102,6 +107,8 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     private ColorSelector fColorSelector;
     private Button fDefaultColorButton;
     
+    private Hyperlink fLineColorExplanationLabel;
+    
     @Override
     protected void createControls(Composite parent) {
         createColorControl(parent);
@@ -115,7 +122,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.LineColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        Composite client = createComposite(parent, 2);
+        Composite client = createComposite(parent, 3);
 
         fColorSelector = new ColorSelector(client);
         GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
@@ -142,6 +149,22 @@ public class LineColorSection extends AbstractArchimatePropertySection {
                         rgbValue = ColorFactory.convertColorToString(color);
                     }
                     getCommandStack().execute(new LineColorCommand(fLineObject, rgbValue));
+                }
+            }
+        });
+        
+        // Enable line text hyperlink
+        fLineColorExplanationLabel = new Hyperlink(client, SWT.NONE);
+        fLineColorExplanationLabel.setUnderlined(true);
+        getWidgetFactory().adapt(fLineColorExplanationLabel, true, true);
+        fLineColorExplanationLabel.setText(Messages.LineColorSection_2);
+        fLineColorExplanationLabel.addHyperlinkListener(new HyperlinkAdapter() {
+            @Override
+            public void linkActivated(HyperlinkEvent e) {
+                PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getPart().getSite().getShell(),
+                        "uk.ac.bolton.archimate.editor.prefsColours", null, null); //$NON-NLS-1$
+                if(dialog != null) {
+                    dialog.open();
                 }
             }
         });
@@ -177,6 +200,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         enabled ^= Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
         
         fColorSelector.setEnabled(enabled);
+        fLineColorExplanationLabel.setVisible(!enabled);
         
         // If user pref is to save the color then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);

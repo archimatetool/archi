@@ -173,6 +173,8 @@ public class Messages extends NLS {
 
     public static String LineColorSection_1;
 
+    public static String LineColorSection_2;
+
     public static String LockedSection_0;
 
     public static String NameSection_0;
