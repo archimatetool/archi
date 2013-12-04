@@ -20,8 +20,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getSource <em>Source</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getTarget <em>Target</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineWidth <em>Line Width</em>}</li>
- *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getType <em>Type</em>}</li>
  * </ul>
  * </p>
@@ -30,7 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAttribute, IProperties, IDocumentable {
+public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAttribute, IProperties, IDocumentable, ILineObject {
     
     /**
      * Text Position at source
@@ -158,59 +156,6 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * @generated
      */
     EList<IDiagramModelBendpoint> getBendpoints();
-
-    /**
-     * Returns the value of the '<em><b>Line Width</b></em>' attribute.
-     * The default value is <code>"1"</code>.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Line Width</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Line Width</em>' attribute.
-     * @see #setLineWidth(int)
-     * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelConnection_LineWidth()
-     * @model default="1"
-     * @generated
-     */
-    int getLineWidth();
-
-    /**
-     * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineWidth <em>Line Width</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Line Width</em>' attribute.
-     * @see #getLineWidth()
-     * @generated
-     */
-    void setLineWidth(int value);
-
-    /**
-     * Returns the value of the '<em><b>Line Color</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Line Color</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Line Color</em>' attribute.
-     * @see #setLineColor(String)
-     * @see uk.ac.bolton.archimate.model.IArchimatePackage#getDiagramModelConnection_LineColor()
-     * @model
-     * @generated
-     */
-    String getLineColor();
-
-    /**
-     * Sets the value of the '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineColor <em>Line Color</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Line Color</em>' attribute.
-     * @see #getLineColor()
-     * @generated
-     */
-    void setLineColor(String value);
 
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute.

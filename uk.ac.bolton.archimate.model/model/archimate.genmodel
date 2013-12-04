@@ -191,8 +191,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/target"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelConnection/bendpoints"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/lineWidth"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/lineColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelConnection/type"/>
       <genOperations ecoreOperation="archimate.ecore#//DiagramModelConnection/connect">
         <genParameters ecoreParameter="archimate.ecore#//DiagramModelConnection/connect/source"/>
@@ -206,6 +204,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/startY"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/endX"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelBendpoint/endY"/>
+    </genClasses>
+    <genClasses ecoreClass="archimate.ecore#//LineObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//LineObject/lineWidth"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//LineObject/lineColor"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//FontAttribute">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//FontAttribute/font"/>

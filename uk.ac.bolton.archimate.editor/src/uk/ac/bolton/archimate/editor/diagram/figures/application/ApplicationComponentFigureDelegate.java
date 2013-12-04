@@ -66,7 +66,7 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x + INDENT, bounds.y, bounds.width - shadow_offset - INDENT, bounds.height - shadow_offset);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         PointList points = new PointList();
         Point pt1 = new Point(bounds.x + INDENT, bounds.y + 10);
         points.addPoint(pt1);
@@ -89,7 +89,7 @@ public class ApplicationComponentFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x, bounds.y + 30, INDENT * 2 + 1, 13);
         
         // Nubs Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds.x, bounds.y + 10, INDENT * 2, 12);
         graphics.drawRectangle(bounds.x, bounds.y + 30, INDENT * 2, 12);
         

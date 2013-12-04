@@ -7,12 +7,14 @@ package uk.ac.bolton.archimate.editor.diagram.editparts.connections;
 
 import org.eclipse.gef.ConnectionEditPart;
 
+import uk.ac.bolton.archimate.editor.diagram.editparts.ILinedEditPart;
+
 
 /**
  * IDiagramConnectionEditPart
  * 
  * @author Phillip Beauvoir
  */
-public interface IDiagramConnectionEditPart extends ConnectionEditPart {
+public interface IDiagramConnectionEditPart extends ConnectionEditPart, ILinedEditPart {
 
 }

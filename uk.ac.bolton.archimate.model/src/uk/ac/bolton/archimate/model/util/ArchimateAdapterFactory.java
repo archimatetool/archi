@@ -82,6 +82,7 @@ import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.IJunction;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.ILineObject;
 import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IMeaning;
@@ -523,6 +524,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDiagramModelBendpoint(IDiagramModelBendpoint object) {
                 return createDiagramModelBendpointAdapter();
+            }
+            @Override
+            public Adapter caseLineObject(ILineObject object) {
+                return createLineObjectAdapter();
             }
             @Override
             public Adapter caseFontAttribute(IFontAttribute object) {
@@ -1313,6 +1318,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDiagramModelBendpointAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.ILineObject <em>Line Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see uk.ac.bolton.archimate.model.ILineObject
+     * @generated
+     */
+    public Adapter createLineObjectAdapter() {
         return null;
     }
 

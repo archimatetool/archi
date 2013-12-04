@@ -8,7 +8,6 @@ package uk.ac.bolton.archimate.editor.diagram.tools;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
@@ -37,30 +36,47 @@ public class FormatPainterInfo {
     
     protected static Cursor coloredCursor;
     
+    /**
+     * Paint format information containing cursor color and source component
+     */
     public static class PaintFormat {
-        public IDiagramModelComponent sourceComponent;
-        public String fillColor;
+        private IDiagramModelComponent sourceComponent;
+        private RGB cursorColor;
         
-        public PaintFormat(IDiagramModelConnection connection) {
-            sourceComponent = connection;
-            fillColor = connection.getLineColor();
-        }
-        
-        PaintFormat(IDiagramModelObject object) {
-            sourceComponent = object;
+        public PaintFormat(IDiagramModelComponent component) {
+            sourceComponent = component;
             
-            fillColor = object.getFillColor();
-            if(fillColor == null) { // If null it's a default color for a IDiagramModelObject
-                Color c = ColorFactory.getDefaultFillColor(object);
-                fillColor = ColorFactory.convertRGBToString(c.getRGB());
+            if(sourceComponent instanceof IDiagramModelConnection) {
+                // Line color
+                String colorValue = ((IDiagramModelConnection)sourceComponent).getLineColor();
+                cursorColor = ColorFactory.convertStringToRGB(colorValue);
+                if(cursorColor == null) {
+                    cursorColor = ColorFactory.getDefaultLineColor(sourceComponent).getRGB();
+                }
+            }
+            else if(sourceComponent instanceof IDiagramModelObject) {
+                // Fill color
+                String colorValue = ((IDiagramModelObject)sourceComponent).getFillColor();
+                cursorColor = ColorFactory.convertStringToRGB(colorValue);
+                if(cursorColor == null) {
+                    cursorColor = ColorFactory.getDefaultFillColor(sourceComponent).getRGB();
+                }
+            }
+            else {
+                cursorColor = new RGB(255, 255, 255);
             }
         }
+                
+        public IDiagramModelComponent getSourceComponent() {
+            return sourceComponent;
+        }
         
+        public IDiagramModelComponent getFillColor() {
+            return sourceComponent;
+        }
+                
         public RGB getCursorColor() {
-            if(fillColor == null) {
-                return new RGB(255, 255, 255);
-            }
-            return ColorFactory.convertStringToRGB(fillColor);
+            return cursorColor;
         }
     }
     
@@ -71,18 +87,15 @@ public class FormatPainterInfo {
      */
     private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-    protected PaintFormat pf;
+    private PaintFormat pf;
     
     public PaintFormat getPaintFormat() {
         return pf;
     }
     
-    public void updatePaintFormat(Object object) {
-        if(object instanceof IDiagramModelObject) {
-            pf = new PaintFormat((IDiagramModelObject)object);
-        }
-        else if(object instanceof IDiagramModelConnection) {
-            pf = new PaintFormat((IDiagramModelConnection)object);
+    public void updatePaintFormat(IDiagramModelComponent component) {
+        if(component != null) {
+            pf = new PaintFormat(component);
         }
         else {
             pf = null;

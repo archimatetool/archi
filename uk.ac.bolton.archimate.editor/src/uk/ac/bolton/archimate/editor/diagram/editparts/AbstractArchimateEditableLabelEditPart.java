@@ -22,7 +22,7 @@ import uk.ac.bolton.archimate.editor.diagram.policies.PartDirectEditTitlePolicy;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateEditableLabelEditPart
-extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart {
+extends AbstractArchimateEditPart implements IColoredEditPart, ITextEditPart, ILinedEditPart {
 
     @Override
     protected void refreshFigure() {

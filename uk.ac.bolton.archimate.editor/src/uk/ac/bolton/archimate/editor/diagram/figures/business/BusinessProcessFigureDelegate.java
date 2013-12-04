@@ -52,7 +52,7 @@ public class BusinessProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.fillPolygon(points);
         
         // Line
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         for(int i = 0; i < points.size() - 1; i++) {
             graphics.drawLine(points.getPoint(i), points.getPoint(i + 1));
         }

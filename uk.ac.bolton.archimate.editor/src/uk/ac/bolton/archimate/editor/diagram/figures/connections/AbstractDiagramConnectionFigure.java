@@ -164,10 +164,15 @@ extends PolylineConnection implements IDiagramConnectionFigure {
      */
     protected void setLineColor() {
         String val = fDiagramModelConnection.getLineColor();
-        Color c = ColorFactory.get(val);
-        if(c != fLineColor) {
-            fLineColor = c;
-            setForegroundColor(c);
+        Color color = ColorFactory.get(val);
+        
+        if(color == null) {
+            color = ColorFactory.getDefaultLineColor(fDiagramModelConnection);
+        }
+        
+        if(color != fLineColor) {
+            fLineColor = color;
+            setForegroundColor(color);
         }
     }
     

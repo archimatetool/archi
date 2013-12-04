@@ -347,14 +347,12 @@
          <propertySection
                afterSection="fontColorSection2"
                class="uk.ac.bolton.archimate.editor.propertysections.LineColorSection"
+               filter="uk.ac.bolton.archimate.editor.propertysections.LineColorSection$Filter"
                id="lineColorSection"
                tab="appearance.tab">
-            <input
-                  type="uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart">
-            </input>
          </propertySection>
          <propertySection
-               afterSection="fontSection2"
+               afterSection="lineColorSection"
                class="uk.ac.bolton.archimate.editor.propertysections.TextAlignmentSection"
                id="textAlignmentSection"
                tab="appearance.tab">

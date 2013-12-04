@@ -85,7 +85,7 @@ import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 import uk.ac.bolton.archimate.editor.diagram.actions.BorderColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringForwardAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.BringToFrontAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionLineColorAction;
+import uk.ac.bolton.archimate.editor.diagram.actions.LineColorAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionLineWidthAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.ConnectionRouterAction;
 import uk.ac.bolton.archimate.editor.diagram.actions.CopyAction;
@@ -654,7 +654,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Connection Line Color
-        action = new ConnectionLineColorAction(this);
+        action = new LineColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);

@@ -55,7 +55,7 @@ public class CanvasModelFactory implements ICreationFactory {
             ICanvasModelSticky sticky = (ICanvasModelSticky)object;
             sticky.setTextPosition(IFontAttribute.TEXT_POSITION_MIDDLE_CENTRE);
             if(fParam instanceof Color) {
-                String color = ColorFactory.convertRGBToString(((Color)fParam).getRGB());
+                String color = ColorFactory.convertColorToString((Color)fParam);
                 sticky.setFillColor(color);
             }
             sticky.setBorderColor("#C0C0C0"); //$NON-NLS-1$

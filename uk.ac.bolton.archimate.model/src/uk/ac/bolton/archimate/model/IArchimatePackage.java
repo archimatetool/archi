@@ -5136,7 +5136,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 95;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 96;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -5282,7 +5282,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 94;
+    int ARCHIMATE_DIAGRAM_MODEL = 95;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5348,13 +5348,31 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_OBJECT__TEXT_POSITION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
 
     /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
+
+    /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__BOUNDS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_OBJECT__BOUNDS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
@@ -5363,7 +5381,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Target Connections</b></em>' reference list.
@@ -5372,7 +5390,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -5381,7 +5399,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__FILL_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_OBJECT__FILL_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
 
     /**
      * The number of structural features of the '<em>Diagram Model Object</em>' class.
@@ -5390,7 +5408,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.
@@ -5464,6 +5482,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_REFERENCE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_REFERENCE__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_REFERENCE__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -5591,6 +5627,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_GROUP__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -5738,6 +5792,24 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
 
     /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5863,6 +5935,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_IMAGE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -6019,49 +6109,13 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_CONNECTION__DOCUMENTATION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
 
     /**
-     * The feature id for the '<em><b>Text</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__TEXT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
-
-    /**
-     * The feature id for the '<em><b>Source</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__SOURCE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
-
-    /**
-     * The feature id for the '<em><b>Target</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__TARGET = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
-
-    /**
-     * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
+    int DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -6070,7 +6124,43 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 11;
+    int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
+
+    /**
+     * The feature id for the '<em><b>Text</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__TEXT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__SOURCE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
+
+    /**
+     * The feature id for the '<em><b>Target</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__TARGET = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
+
+    /**
+     * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 11;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -6098,7 +6188,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 96;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 97;
 
     /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -6156,6 +6246,43 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_BENDPOINT_FEATURE_COUNT = CLONEABLE_FEATURE_COUNT + 4;
 
     /**
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.LineObject <em>Line Object</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see uk.ac.bolton.archimate.model.impl.LineObject
+     * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLineObject()
+     * @generated
+     */
+    int LINE_OBJECT = 89;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINE_OBJECT__LINE_WIDTH = 0;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINE_OBJECT__LINE_COLOR = 1;
+
+    /**
+     * The number of structural features of the '<em>Line Object</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINE_OBJECT_FEATURE_COUNT = 2;
+
+    /**
      * The meta object id for the '{@link uk.ac.bolton.archimate.model.IFontAttribute <em>Font Attribute</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6163,7 +6290,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 89;
+    int FONT_ATTRIBUTE = 90;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -6218,7 +6345,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
-    int BORDER_OBJECT = 90;
+    int BORDER_OBJECT = 91;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -6246,7 +6373,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getDiagramModelImageProvider()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE_PROVIDER = 91;
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 92;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -6274,7 +6401,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 92;
+    int BOUNDS = 93;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -6329,7 +6456,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 93;
+    int LOCKABLE = 94;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -6503,6 +6630,24 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
 
     /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6656,6 +6801,24 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__DOCUMENTATION = DIAGRAM_MODEL_CONNECTION__DOCUMENTATION;
 
     /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_CONNECTION__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_CONNECTION__LINE_COLOR;
+
+    /**
      * The feature id for the '<em><b>Text</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6692,24 +6855,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__BENDPOINTS = DIAGRAM_MODEL_CONNECTION__BENDPOINTS;
 
     /**
-     * The feature id for the '<em><b>Line Width</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_CONNECTION__LINE_WIDTH;
-
-    /**
-     * The feature id for the '<em><b>Line Color</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_CONNECTION__LINE_COLOR;
-
-    /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6744,7 +6889,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 97;
+    int SKETCH_MODEL = 98;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -6844,7 +6989,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 98;
+    int SKETCH_MODEL_STICKY = 99;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6908,6 +7053,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_STICKY__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -6989,7 +7152,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 99;
+    int SKETCH_MODEL_ACTOR = 100;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7053,6 +7216,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_ACTOR__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_ACTOR__LINE_WIDTH = DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_ACTOR__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -7125,7 +7306,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 100;
+    int FOLDER_TYPE = 101;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -7135,7 +7316,7 @@ public interface IArchimatePackage extends EPackage {
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 101;
+    int FILE = 102;
 
 
     /**
@@ -8402,28 +8583,6 @@ public interface IArchimatePackage extends EPackage {
     EReference getDiagramModelConnection_Bendpoints();
 
     /**
-     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineWidth <em>Line Width</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Line Width</em>'.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineWidth()
-     * @see #getDiagramModelConnection()
-     * @generated
-     */
-    EAttribute getDiagramModelConnection_LineWidth();
-
-    /**
-     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineColor <em>Line Color</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Line Color</em>'.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelConnection#getLineColor()
-     * @see #getDiagramModelConnection()
-     * @generated
-     */
-    EAttribute getDiagramModelConnection_LineColor();
-
-    /**
      * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection#getType <em>Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8508,6 +8667,38 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EAttribute getDiagramModelBendpoint_EndY();
+
+    /**
+     * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.ILineObject <em>Line Object</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Line Object</em>'.
+     * @see uk.ac.bolton.archimate.model.ILineObject
+     * @generated
+     */
+    EClass getLineObject();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.ILineObject#getLineWidth <em>Line Width</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Line Width</em>'.
+     * @see uk.ac.bolton.archimate.model.ILineObject#getLineWidth()
+     * @see #getLineObject()
+     * @generated
+     */
+    EAttribute getLineObject_LineWidth();
+
+    /**
+     * Returns the meta object for the attribute '{@link uk.ac.bolton.archimate.model.ILineObject#getLineColor <em>Line Color</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Line Color</em>'.
+     * @see uk.ac.bolton.archimate.model.ILineObject#getLineColor()
+     * @see #getLineObject()
+     * @generated
+     */
+    EAttribute getLineObject_LineColor();
 
     /**
      * Returns the meta object for class '{@link uk.ac.bolton.archimate.model.IFontAttribute <em>Font Attribute</em>}'.
@@ -9929,22 +10120,6 @@ public interface IArchimatePackage extends EPackage {
         EReference DIAGRAM_MODEL_CONNECTION__BENDPOINTS = eINSTANCE.getDiagramModelConnection_Bendpoints();
 
         /**
-         * The meta object literal for the '<em><b>Line Width</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = eINSTANCE.getDiagramModelConnection_LineWidth();
-
-        /**
-         * The meta object literal for the '<em><b>Line Color</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute DIAGRAM_MODEL_CONNECTION__LINE_COLOR = eINSTANCE.getDiagramModelConnection_LineColor();
-
-        /**
          * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -10011,6 +10186,32 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EAttribute DIAGRAM_MODEL_BENDPOINT__END_Y = eINSTANCE.getDiagramModelBendpoint_EndY();
+
+        /**
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.LineObject <em>Line Object</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see uk.ac.bolton.archimate.model.impl.LineObject
+         * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLineObject()
+         * @generated
+         */
+        EClass LINE_OBJECT = eINSTANCE.getLineObject();
+
+        /**
+         * The meta object literal for the '<em><b>Line Width</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute LINE_OBJECT__LINE_WIDTH = eINSTANCE.getLineObject_LineWidth();
+
+        /**
+         * The meta object literal for the '<em><b>Line Color</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute LINE_OBJECT__LINE_COLOR = eINSTANCE.getLineObject_LineColor();
 
         /**
          * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IFontAttribute <em>Font Attribute</em>}' class.

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
-    nsURI="http://www.bolton.ac.uk/archimate" nsPrefix="archimate">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.bolton.ac.uk/archimate" nsPrefix="archimate">
   <eClassifiers xsi:type="ecore:EDataType" name="File" instanceClassName="java.io.File"
       serializable="false"/>
   <eClassifiers xsi:type="ecore:EClass" name="Adapter" abstract="true" interface="true">
@@ -229,7 +227,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelObject" abstract="true"
-      eSuperTypes="#//DiagramModelComponent #//FontAttribute">
+      eSuperTypes="#//DiagramModelComponent #//FontAttribute #//LineObject">
     <eOperations name="addConnection">
       <eParameters name="connection" eType="#//DiagramModelConnection"/>
     </eOperations>
@@ -266,7 +264,7 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute #//Properties #//Documentable">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute #//Properties #//Documentable #//LineObject">
     <eOperations name="connect">
       <eParameters name="source" eType="#//DiagramModelObject"/>
       <eParameters name="target" eType="#//DiagramModelObject"/>
@@ -286,9 +284,6 @@
         <details key="kind" value="element"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="1"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelBendpoint" eSuperTypes="#//Cloneable">
@@ -296,6 +291,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="endY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LineObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FontAttribute" abstract="true" interface="true">
     <eOperations name="getDefaultTextAlignment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

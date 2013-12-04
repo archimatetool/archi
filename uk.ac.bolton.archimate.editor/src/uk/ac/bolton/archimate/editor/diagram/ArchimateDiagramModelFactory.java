@@ -6,10 +6,8 @@
 package uk.ac.bolton.archimate.editor.diagram;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IEditorPart;
 
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
@@ -17,7 +15,10 @@ import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelGroup;
+import uk.ac.bolton.archimate.model.IDiagramModelNote;
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IRelationship;
 
 
@@ -38,14 +39,9 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         dmo.setArchimateElement(element);
         dmo.setType(Preferences.getDefaultFigureType(dmo));
         
-        // Set user fill color
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_FILL_COLOR)) {
-            Color fillColor = ColorFactory.getDefaultFillColor(dmo);
-            if(fillColor != null) {
-                dmo.setFillColor(ColorFactory.convertRGBToString(fillColor.getRGB()));
-            }
-        }
-        
+        // Set user default colors as set in prefs
+        ColorFactory.setDefaultColors(dmo);
+ 
         return dmo;
     }
 
@@ -75,6 +71,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         if(object instanceof IRelationship) {
             IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
             connection.setRelationship((IRelationship)object);
+            ColorFactory.setDefaultColors(connection);
             return connection;
         }
         
@@ -87,9 +84,21 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Group
         else if(object instanceof IDiagramModelGroup) {
-            ((IDiagramModelGroup)object).setName(Messages.ArchimateDiagramModelFactory_0);
+            IDiagramModelGroup group = (IDiagramModelGroup)object;
+            group.setName(Messages.ArchimateDiagramModelFactory_0);
+            ColorFactory.setDefaultColors(group);
         }
         
+        // Note
+        else if(object instanceof IDiagramModelNote) {
+            ColorFactory.setDefaultColors((IDiagramModelObject)object);
+        }
+        
+        // Connection
+        else if(object instanceof IDiagramModelConnection) {
+            ColorFactory.setDefaultColors((IDiagramModelConnection)object);
+        }
+                
         return object;
     }
 

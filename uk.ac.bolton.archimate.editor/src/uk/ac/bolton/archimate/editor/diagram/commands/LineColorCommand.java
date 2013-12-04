@@ -7,17 +7,17 @@ package uk.ac.bolton.archimate.editor.diagram.commands;
 
 import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILineObject;
 
 
 /**
- * Connection Line Width Command
+ * Line Color Command
  *
  * @author Phillip Beauvoir
  */
-public class ConnectionLineWidthCommand extends EObjectFeatureCommand {
+public class LineColorCommand extends EObjectFeatureCommand {
     
-    public ConnectionLineWidthCommand(IDiagramModelConnection connection, int lineWidth) {
-        super(Messages.ConnectionLineWidthCommand_0, connection, IArchimatePackage.Literals.DIAGRAM_MODEL_CONNECTION__LINE_WIDTH, lineWidth);
+    public LineColorCommand(ILineObject lineObject, String rgb) {
+        super(Messages.LineColorCommand_0, lineObject, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR, rgb);
     }
 }

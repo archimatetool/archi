@@ -15,23 +15,23 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
-import uk.ac.bolton.archimate.editor.diagram.commands.ConnectionLineColorCommand;
-import uk.ac.bolton.archimate.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
+import uk.ac.bolton.archimate.editor.diagram.commands.LineColorCommand;
+import uk.ac.bolton.archimate.editor.diagram.editparts.ILinedEditPart;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import uk.ac.bolton.archimate.model.ILineObject;
 
 
 /**
- * Connection Color Action
+ * Line Color Action
  * 
  * @author Phillip Beauvoir
  */
-public class ConnectionLineColorAction extends SelectionAction {
+public class LineColorAction extends SelectionAction {
     
-    public static final String ID = "ConnectionLineColorAction"; //$NON-NLS-1$
-    public static final String TEXT = Messages.ConnectionLineColorAction_0;
+    public static final String ID = "LineColorAction"; //$NON-NLS-1$
+    public static final String TEXT = Messages.LineColorAction_0;
     
-    public ConnectionLineColorAction(IWorkbenchPart part) {
+    public LineColorAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
@@ -53,7 +53,7 @@ public class ConnectionLineColorAction extends SelectionAction {
     }
     
     private boolean isValidEditPart(Object object) {
-        return object instanceof IDiagramConnectionEditPart;
+        return object instanceof ILinedEditPart;
     }
     
     @Override
@@ -67,8 +67,8 @@ public class ConnectionLineColorAction extends SelectionAction {
         EditPart firstPart = getFirstSelectedEditPart(selection);
         if(firstPart != null) {
             Object model = firstPart.getModel();
-            if(model instanceof IDiagramModelConnection) {
-                String s = ((IDiagramModelConnection)model).getLineColor();
+            if(model instanceof ILineObject) {
+                String s = ((ILineObject)model).getLineColor();
                 if(s != null) {
                     defaultRGB = ColorFactory.convertStringToRGB(s);
                 }
@@ -89,15 +89,14 @@ public class ConnectionLineColorAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand(Messages.ConnectionLineColorAction_1);
+        CompoundCommand result = new CompoundCommand(Messages.LineColorAction_1);
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 EditPart editPart = (EditPart)object;
                 Object model = editPart.getModel();
-                if(model instanceof IDiagramModelConnection) {
-                    IDiagramModelConnection connection = (IDiagramModelConnection)model;
-                    Command cmd = new ConnectionLineColorCommand(connection, ColorFactory.convertRGBToString(newColor));
+                if(model instanceof ILineObject) {
+                    Command cmd = new LineColorCommand((ILineObject)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }

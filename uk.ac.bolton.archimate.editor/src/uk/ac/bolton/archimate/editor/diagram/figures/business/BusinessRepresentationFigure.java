@@ -87,7 +87,7 @@ public class BusinessRepresentationFigure extends AbstractTextFlowFigure {
         graphics.fillPath(path);
         
         // Outline
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         path.lineTo(bounds.x, bounds.y);
         graphics.drawPath(path);
         path.dispose();

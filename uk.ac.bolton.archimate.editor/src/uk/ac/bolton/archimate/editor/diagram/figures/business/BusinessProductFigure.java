@@ -59,6 +59,8 @@ extends AbstractTextFlowFigure {
                 bounds.width -= shadow_offset;
                 bounds.height -= shadow_offset;
                 
+                graphics.setForegroundColor(getLineColor());
+
                 // Top bit
                 int middle = bounds.width / 2;
                 graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
@@ -75,7 +77,6 @@ extends AbstractTextFlowFigure {
                         
                 bounds.width--;
                 bounds.height--;
-                graphics.setForegroundColor(ColorConstants.black);
                 graphics.drawRectangle(bounds);
                 
                 graphics.popState();

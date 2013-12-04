@@ -73,6 +73,9 @@ implements IDiagramConnectionEditPart {
             if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(event.getProperty())) {
                 refreshVisuals();
             }
+            else if(event.getProperty().equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
+                refreshVisuals();
+            }
         }
     };
     

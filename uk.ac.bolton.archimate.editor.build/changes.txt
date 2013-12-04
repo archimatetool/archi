@@ -1,6 +1,17 @@
 Archi Changes
 -------------
 
+
+Version 2.6
+----------------------------
++ Can now set line colour of diagram elements to user colour or derived from fill colour
++ Improved Colours Preference page
++ Added new user default colour preferences for line colours, group and note fill colours
++ Improved functionality for saving user default colours in the model file
++ Improved Format Painter - can copy between connections and objects
+
+
+
 Version 2.5 November 25 2013
 ----------------------------
 + New application icons and branding

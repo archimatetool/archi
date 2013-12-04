@@ -24,6 +24,7 @@ import uk.ac.bolton.archimate.model.IBounds;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.IFontAttribute;
+import uk.ac.bolton.archimate.model.ILineObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,6 +37,8 @@ import uk.ac.bolton.archimate.model.IFontAttribute;
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getFontColor <em>Font Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getTextPosition <em>Text Position</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getLineWidth <em>Line Width</em>}</li>
+ *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link uk.ac.bolton.archimate.model.impl.DiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
@@ -125,6 +128,46 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
      * @ordered
      */
     protected int textPosition = TEXT_POSITION_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineWidth()
+     * @generated
+     * @ordered
+     */
+    protected static final int LINE_WIDTH_EDEFAULT = 1;
+
+    /**
+     * The cached value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineWidth()
+     * @generated
+     * @ordered
+     */
+    protected int lineWidth = LINE_WIDTH_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineColor()
+     * @generated
+     * @ordered
+     */
+    protected static final String LINE_COLOR_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineColor()
+     * @generated
+     * @ordered
+     */
+    protected String lineColor = LINE_COLOR_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getBounds() <em>Bounds</em>}' containment reference.
@@ -374,6 +417,48 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
+     */
+    public int getLineWidth() {
+        return lineWidth;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setLineWidth(int newLineWidth) {
+        int oldLineWidth = lineWidth;
+        lineWidth = newLineWidth;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH, oldLineWidth, lineWidth));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getLineColor() {
+        return lineColor;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setLineColor(String newLineColor) {
+        String oldLineColor = lineColor;
+        lineColor = newLineColor;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR, oldLineColor, lineColor));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated NOT
      */
     public void addConnection(IDiagramModelConnection connection) {
@@ -474,6 +559,10 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
                 return getTextPosition();
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
+                return getLineWidth();
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
+                return getLineColor();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return getBounds();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
@@ -506,6 +595,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
                 setTextPosition((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
+                setLineWidth((Integer)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
+                setLineColor((String)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)newValue);
@@ -545,6 +640,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
                 setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
+                setLineWidth(LINE_WIDTH_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
+                setLineColor(LINE_COLOR_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)null);
                 return;
@@ -577,6 +678,10 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION:
                 return textPosition != TEXT_POSITION_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
+                return lineWidth != LINE_WIDTH_EDEFAULT;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
+                return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return bounds != null;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
@@ -605,6 +710,13 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 default: return -1;
             }
         }
+        if (baseClass == ILineObject.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH: return IArchimatePackage.LINE_OBJECT__LINE_WIDTH;
+                case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR: return IArchimatePackage.LINE_OBJECT__LINE_COLOR;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -621,6 +733,13 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR;
                 case IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
                 case IArchimatePackage.FONT_ATTRIBUTE__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
+                default: return -1;
+            }
+        }
+        if (baseClass == ILineObject.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.LINE_OBJECT__LINE_WIDTH: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
+                case IArchimatePackage.LINE_OBJECT__LINE_COLOR: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR;
                 default: return -1;
             }
         }
@@ -645,6 +764,10 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         result.append(textAlignment);
         result.append(", textPosition: "); //$NON-NLS-1$
         result.append(textPosition);
+        result.append(", lineWidth: "); //$NON-NLS-1$
+        result.append(lineWidth);
+        result.append(", lineColor: "); //$NON-NLS-1$
+        result.append(lineColor);
         result.append(", fillColor: "); //$NON-NLS-1$
         result.append(fillColor);
         result.append(')');

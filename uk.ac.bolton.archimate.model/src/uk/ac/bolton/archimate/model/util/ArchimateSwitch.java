@@ -81,6 +81,7 @@ import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IInterfaceElement;
 import uk.ac.bolton.archimate.model.IJunction;
 import uk.ac.bolton.archimate.model.IJunctionElement;
+import uk.ac.bolton.archimate.model.ILineObject;
 import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.ILockable;
 import uk.ac.bolton.archimate.model.IMeaning;
@@ -1294,6 +1295,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(diagramModelReference);
                 if (result == null) result = caseDiagramModelComponent(diagramModelReference);
                 if (result == null) result = caseFontAttribute(diagramModelReference);
+                if (result == null) result = caseLineObject(diagramModelReference);
                 if (result == null) result = caseIdentifier(diagramModelReference);
                 if (result == null) result = caseCloneable(diagramModelReference);
                 if (result == null) result = caseAdapter(diagramModelReference);
@@ -1306,6 +1308,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseDiagramModelObject(diagramModelObject);
                 if (result == null) result = caseDiagramModelComponent(diagramModelObject);
                 if (result == null) result = caseFontAttribute(diagramModelObject);
+                if (result == null) result = caseLineObject(diagramModelObject);
                 if (result == null) result = caseIdentifier(diagramModelObject);
                 if (result == null) result = caseCloneable(diagramModelObject);
                 if (result == null) result = caseAdapter(diagramModelObject);
@@ -1322,6 +1325,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(diagramModelGroup);
                 if (result == null) result = caseDiagramModelComponent(diagramModelGroup);
                 if (result == null) result = caseFontAttribute(diagramModelGroup);
+                if (result == null) result = caseLineObject(diagramModelGroup);
                 if (result == null) result = caseIdentifier(diagramModelGroup);
                 if (result == null) result = caseCloneable(diagramModelGroup);
                 if (result == null) result = caseAdapter(diagramModelGroup);
@@ -1336,6 +1340,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseTextContent(diagramModelNote);
                 if (result == null) result = caseDiagramModelComponent(diagramModelNote);
                 if (result == null) result = caseFontAttribute(diagramModelNote);
+                if (result == null) result = caseLineObject(diagramModelNote);
                 if (result == null) result = caseIdentifier(diagramModelNote);
                 if (result == null) result = caseCloneable(diagramModelNote);
                 if (result == null) result = caseAdapter(diagramModelNote);
@@ -1351,6 +1356,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelImageProvider(diagramModelImage);
                 if (result == null) result = caseDiagramModelComponent(diagramModelImage);
                 if (result == null) result = caseFontAttribute(diagramModelImage);
+                if (result == null) result = caseLineObject(diagramModelImage);
                 if (result == null) result = caseIdentifier(diagramModelImage);
                 if (result == null) result = caseCloneable(diagramModelImage);
                 if (result == null) result = caseAdapter(diagramModelImage);
@@ -1365,6 +1371,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseFontAttribute(diagramModelConnection);
                 if (result == null) result = caseProperties(diagramModelConnection);
                 if (result == null) result = caseDocumentable(diagramModelConnection);
+                if (result == null) result = caseLineObject(diagramModelConnection);
                 if (result == null) result = caseIdentifier(diagramModelConnection);
                 if (result == null) result = caseCloneable(diagramModelConnection);
                 if (result == null) result = caseAdapter(diagramModelConnection);
@@ -1376,6 +1383,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IDiagramModelBendpoint diagramModelBendpoint = (IDiagramModelBendpoint)theEObject;
                 T result = caseDiagramModelBendpoint(diagramModelBendpoint);
                 if (result == null) result = caseCloneable(diagramModelBendpoint);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.LINE_OBJECT: {
+                ILineObject lineObject = (ILineObject)theEObject;
+                T result = caseLineObject(lineObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1432,6 +1445,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelContainer(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelComponent(diagramModelArchimateObject);
                 if (result == null) result = caseFontAttribute(diagramModelArchimateObject);
+                if (result == null) result = caseLineObject(diagramModelArchimateObject);
                 if (result == null) result = caseIdentifier(diagramModelArchimateObject);
                 if (result == null) result = caseCloneable(diagramModelArchimateObject);
                 if (result == null) result = caseAdapter(diagramModelArchimateObject);
@@ -1447,6 +1461,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseFontAttribute(diagramModelArchimateConnection);
                 if (result == null) result = caseProperties(diagramModelArchimateConnection);
                 if (result == null) result = caseDocumentable(diagramModelArchimateConnection);
+                if (result == null) result = caseLineObject(diagramModelArchimateConnection);
                 if (result == null) result = caseIdentifier(diagramModelArchimateConnection);
                 if (result == null) result = caseCloneable(diagramModelArchimateConnection);
                 if (result == null) result = caseAdapter(diagramModelArchimateConnection);
@@ -1479,6 +1494,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(sketchModelSticky);
                 if (result == null) result = caseDiagramModelComponent(sketchModelSticky);
                 if (result == null) result = caseFontAttribute(sketchModelSticky);
+                if (result == null) result = caseLineObject(sketchModelSticky);
                 if (result == null) result = caseIdentifier(sketchModelSticky);
                 if (result == null) result = caseCloneable(sketchModelSticky);
                 if (result == null) result = caseAdapter(sketchModelSticky);
@@ -1494,6 +1510,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(sketchModelActor);
                 if (result == null) result = caseDiagramModelComponent(sketchModelActor);
                 if (result == null) result = caseFontAttribute(sketchModelActor);
+                if (result == null) result = caseLineObject(sketchModelActor);
                 if (result == null) result = caseIdentifier(sketchModelActor);
                 if (result == null) result = caseCloneable(sketchModelActor);
                 if (result == null) result = caseAdapter(sketchModelActor);
@@ -2282,6 +2299,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDiagramModelBendpoint(IDiagramModelBendpoint object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Line Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Line Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseLineObject(ILineObject object) {
         return null;
     }
 

@@ -86,7 +86,7 @@ public class TechnologyNodeFigureDelegate extends AbstractFigureDelegate {
         graphics.fillRectangle(bounds.x, bounds.y + FOLD_HEIGHT, bounds.width - FOLD_HEIGHT, bounds.height - FOLD_HEIGHT - shadow_offset);
 
         // Outline
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(shape);
         graphics.drawLine(bounds.x, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT);
         graphics.drawLine(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - 1, bounds.y);

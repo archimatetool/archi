@@ -64,7 +64,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
         // Outline
         bounds.width--;
         bounds.height--;
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(bounds, fArc, fArc);
 
         // Image icon

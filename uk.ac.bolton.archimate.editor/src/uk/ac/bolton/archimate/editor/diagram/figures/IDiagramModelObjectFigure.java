@@ -57,4 +57,9 @@ public interface IDiagramModelObjectFigure extends IFigure {
      * @return The Fill Color if any
      */
     Color getFillColor();
+
+    /**
+     * @return The Line Color if any
+     */
+    Color getLineColor();
 }

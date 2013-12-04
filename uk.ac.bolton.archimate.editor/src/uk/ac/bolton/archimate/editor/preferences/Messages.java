@@ -15,7 +15,31 @@ public class Messages extends NLS {
 
     public static String ColoursPreferencePage_1;
 
+    public static String ColoursPreferencePage_10;
+
+    public static String ColoursPreferencePage_11;
+
+    public static String ColoursPreferencePage_12;
+
+    public static String ColoursPreferencePage_13;
+
+    public static String ColoursPreferencePage_14;
+
+    public static String ColoursPreferencePage_15;
+
+    public static String ColoursPreferencePage_16;
+
+    public static String ColoursPreferencePage_17;
+
+    public static String ColoursPreferencePage_18;
+
+    public static String ColoursPreferencePage_19;
+
     public static String ColoursPreferencePage_2;
+
+    public static String ColoursPreferencePage_20;
+
+    public static String ColoursPreferencePage_21;
 
     public static String ColoursPreferencePage_3;
 
@@ -26,6 +50,10 @@ public class Messages extends NLS {
     public static String ColoursPreferencePage_6;
 
     public static String ColoursPreferencePage_7;
+
+    public static String ColoursPreferencePage_8;
+
+    public static String ColoursPreferencePage_9;
 
     public static String ConnectionsPreferencePage_0;
 

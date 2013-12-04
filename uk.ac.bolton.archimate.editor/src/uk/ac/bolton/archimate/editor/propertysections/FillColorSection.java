@@ -15,6 +15,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -76,7 +77,8 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX)) {
+            if(event.getProperty().startsWith(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX) ||
+                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
                 refreshControls();
             }
         }
@@ -109,6 +111,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
         fColorSelector.addListener(colorListener);
 
+        // Set to default colour
         fDefaultColorButton = new Button(client, SWT.PUSH);
         getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
         fDefaultColorButton.setText(Messages.FillColorSection_1);
@@ -119,7 +122,13 @@ public class FillColorSection extends AbstractArchimatePropertySection {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
-                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, null));
+                    // If user pref to save color is set then save the value, otherwise save as null
+                    String rgbValue = null;
+                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                        Color color = ColorFactory.getDefaultFillColor(fDiagramModelObject);
+                        rgbValue = ColorFactory.convertColorToString(color);
+                    }
+                    getCommandStack().execute(new FillColorCommand(fDiagramModelObject, rgbValue));
                 }
             }
         });
@@ -151,7 +160,13 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         
         boolean enabled = fDiagramModelObject instanceof ILockable ? !((ILockable)fDiagramModelObject).isLocked() : true;
         fColorSelector.setEnabled(enabled);
-        fDefaultColorButton.setEnabled(colorValue != null && enabled);
+        
+        // If user pref is to save the color then it's a different meaning of default
+        boolean isDefaultColor = (colorValue == null);
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+            isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultFillColor(fDiagramModelObject).getRGB());
+        }
+        fDefaultColorButton.setEnabled(!isDefaultColor && enabled);
     }
     
     @Override

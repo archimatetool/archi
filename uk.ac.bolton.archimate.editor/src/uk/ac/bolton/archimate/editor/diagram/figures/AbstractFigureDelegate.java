@@ -68,6 +68,13 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     }
     
     /**
+     * @return The owner's line color
+     */
+    protected Color getLineColor() {
+        return getOwner().getLineColor();
+    }
+
+    /**
      * Set the drawing state when disabled
      * @param graphics
      */
