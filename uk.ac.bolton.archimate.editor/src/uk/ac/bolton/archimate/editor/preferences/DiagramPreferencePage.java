@@ -49,6 +49,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fDoAntiAliasButton;
     private Button fPaletteStateButton;
     
+    private Button fUseOrthogonalAnchorButton;
+    
     private Label fDefaultFontLabel;
     private Button fDefaultFontButton;
 
@@ -64,8 +66,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewpointsHideMagicConnectorElementsButton;
     
     private Button fEditNameOnNewObjectButton;
-    
-    private Button fShowShadowsButton;
     
     private Combo fDefaultSketchBackgroundCombo;
     
@@ -119,11 +119,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         viewGroup.setLayout(new GridLayout(1, false));
         viewGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fDoAntiAliasButton = new Button(viewGroup, SWT.CHECK);
-        fDoAntiAliasButton.setText(Messages.DiagramPreferencePage_5);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fDoAntiAliasButton.setLayoutData(gd);
-        
         fPaletteStateButton = new Button(viewGroup, SWT.CHECK);
         fPaletteStateButton.setText(Messages.DiagramPreferencePage_6);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -139,10 +134,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fEditNameOnNewObjectButton.setLayoutData(gd);
         
-        fShowShadowsButton = new Button(viewGroup, SWT.CHECK);
-        fShowShadowsButton.setText(Messages.DiagramPreferencePage_25);
+        // Connections
+        Group connectorGroup = new Group(client, SWT.NULL);
+        connectorGroup.setText(Messages.DiagramPreferencePage_25);
+        connectorGroup.setLayout(new GridLayout());
+        connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fDoAntiAliasButton = new Button(connectorGroup, SWT.CHECK);
+        fDoAntiAliasButton.setText(Messages.DiagramPreferencePage_5);
         gd = new GridData(GridData.FILL_HORIZONTAL);
-        fShowShadowsButton.setLayoutData(gd);
+        fDoAntiAliasButton.setLayoutData(gd);
+        
+        fUseOrthogonalAnchorButton = new Button(connectorGroup, SWT.CHECK);
+        fUseOrthogonalAnchorButton.setText(Messages.DiagramPreferencePage_26);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fUseOrthogonalAnchorButton.setLayoutData(gd);
         
         Group fontGroup = new Group(client, SWT.NULL);
         fontGroup.setText(Messages.DiagramPreferencePage_8);
@@ -248,10 +254,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
+        fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
+        
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
-        fShowShadowsButton.setSelection(getPreferenceStore().getBoolean(SHOW_SHADOWS));
     }
     
     private void setSpinnerValues() {
@@ -292,10 +299,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
         
+        getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
+        
         getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
         getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
-        getPreferenceStore().setValue(SHOW_SHADOWS, fShowShadowsButton.getSelection());
         
         return true;
     }
@@ -321,10 +329,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
+        fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
+        
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
-        fShowShadowsButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SHADOWS));
         
         super.performDefaults();
     }

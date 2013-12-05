@@ -67,8 +67,6 @@ public class Messages extends NLS {
 
     public static String ConnectionsPreferencePage_12;
 
-    public static String ConnectionsPreferencePage_13;
-
     public static String ConnectionsPreferencePage_2;
 
     public static String ConnectionsPreferencePage_3;
@@ -100,6 +98,10 @@ public class Messages extends NLS {
     public static String DiagramFiguresPreferencePage_6;
 
     public static String DiagramFiguresPreferencePage_7;
+
+    public static String DiagramFiguresPreferencePage_8;
+
+    public static String DiagramFiguresPreferencePage_9;
 
     public static String DiagramPreferencePage_0;
 
@@ -138,6 +140,8 @@ public class Messages extends NLS {
     public static String DiagramPreferencePage_24;
 
     public static String DiagramPreferencePage_25;
+
+    public static String DiagramPreferencePage_26;
 
     public static String DiagramPreferencePage_3;
 

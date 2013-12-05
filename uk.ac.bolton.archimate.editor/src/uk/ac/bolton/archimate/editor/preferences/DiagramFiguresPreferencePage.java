@@ -23,8 +23,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -43,6 +46,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsFigures"; //$NON-NLS-1$
     
     private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
+    
+    private Button fShowShadowsButton;
     
     private TableViewer fTableViewer;
     
@@ -74,7 +79,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
 	 */
 	public DiagramFiguresPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
-		setDescription(Messages.DiagramFiguresPreferencePage_0);
 	}
 
     @Override
@@ -84,17 +88,34 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         
         loadFigures();
         
+        Composite client = new Composite(parent, SWT.NULL);
+        client.setLayout(new GridLayout());
+        
+        Group figuresGroup = new Group(client, SWT.NULL);
+        figuresGroup.setText(Messages.DiagramFiguresPreferencePage_8);
+        figuresGroup.setLayout(new GridLayout());
+        figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fShowShadowsButton = new Button(figuresGroup, SWT.CHECK);
+        fShowShadowsButton.setText(Messages.DiagramFiguresPreferencePage_9);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        fShowShadowsButton.setLayoutData(gd);
+        
         GridLayout gridLayout = new GridLayout();
         gridLayout.marginWidth = 0;
         gridLayout.marginHeight = 0;
         
-        Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(gridLayout);
-
-        Composite client2 = new Composite(client, SWT.NULL);
+        Composite tableClient = new Composite(client, SWT.NULL);
+        tableClient.setLayout(gridLayout);
+        tableClient.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        Label label = new Label(tableClient, SWT.NULL);
+        label.setText(Messages.DiagramFiguresPreferencePage_0);
+        
+        Composite client2 = new Composite(tableClient, SWT.NULL);
         client2.setLayout(new TableColumnLayout());
         
-        GridData gd = new GridData(GridData.FILL_BOTH);
+        gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 80; // need this to set a smaller height
         gd.widthHint = 80;  // need this to stop it getting larger when the splitter is resized in the Prefs dialog
         client2.setLayoutData(gd);
@@ -174,6 +195,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     }
     
     private void setValues() {
+        fShowShadowsButton.setSelection(getPreferenceStore().getBoolean(SHOW_SHADOWS));
+        
         for(ImageChoice choice : fChoices) {
             choice.type = getPreferenceStore().getInt(choice.key);
         }
@@ -181,6 +204,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     
     @Override
     public boolean performOk() {
+        getPreferenceStore().setValue(SHOW_SHADOWS, fShowShadowsButton.getSelection());
+
         for(ImageChoice choice : fChoices) {
             getPreferenceStore().setValue(choice.key, choice.type);
         }
@@ -190,6 +215,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     
     @Override
     protected void performDefaults() {
+        fShowShadowsButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SHADOWS));
+
         for(ImageChoice choice : fChoices) {
             choice.type = 0;
         }
