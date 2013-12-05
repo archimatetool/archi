@@ -35,6 +35,7 @@ import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
+import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.ILineObject;
 import uk.ac.bolton.archimate.model.ILockable;
 
@@ -153,7 +154,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
             }
         });
         
-        // Enable line text hyperlink
+        // Line text hyperlink
         fLineColorExplanationLabel = new Hyperlink(client, SWT.NONE);
         fLineColorExplanationLabel.setUnderlined(true);
         getWidgetFactory().adapt(fLineColorExplanationLabel, true, true);
@@ -194,15 +195,22 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         
         fColorSelector.setColorValue(rgb);
 
+        // Locked
         boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
         
-        // Also disabled if user prefs for derived color
-        enabled ^= Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+        // Enable/disable line text hyperlink and controls if this is an element line
+        if(fLineObject instanceof IDiagramModelObject) {
+            // Disabled if user prefs are set for derived line color
+            enabled ^= Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+            fLineColorExplanationLabel.setVisible(!enabled);
+        }
+        else {
+            fLineColorExplanationLabel.setVisible(false);
+        }
         
         fColorSelector.setEnabled(enabled);
-        fLineColorExplanationLabel.setVisible(!enabled);
         
-        // If user pref is to save the color then it's a different meaning of default
+        // If the user pref is to save the color in the file, then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
             isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(fLineObject).getRGB());
