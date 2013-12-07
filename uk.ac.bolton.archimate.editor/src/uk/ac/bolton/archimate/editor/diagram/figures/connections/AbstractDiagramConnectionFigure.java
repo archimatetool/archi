@@ -11,12 +11,15 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.PolygonDecoration;
-import org.eclipse.draw2d.PolylineConnection;
+// line-curves patch by Jean-Baptiste Sarrodie (aka Jaiguru)
+// Use alternate PolylineConnection
+//import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 import uk.ac.bolton.archimate.editor.diagram.figures.ToolTipFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.connections.roundedbendpoint.RoundedPolylineConnection;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
@@ -32,7 +35,8 @@ import uk.ac.bolton.archimate.model.IDiagramModelConnection;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractDiagramConnectionFigure
-extends PolylineConnection implements IDiagramConnectionFigure {
+extends RoundedPolylineConnection implements IDiagramConnectionFigure {
+//extends PolylineConnection implements IDiagramConnectionFigure {
 
     private Label fConnectionLabel;
     
