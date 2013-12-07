@@ -122,7 +122,7 @@ public final class FontFactory {
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("LucidaGrande", 12, SWT.NORMAL); //$NON-NLS-1$
+            fd = new FontData("Lucida Grande", 12, SWT.NORMAL); //$NON-NLS-1$
         }
 
         return fd;
