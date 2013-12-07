@@ -11,6 +11,7 @@ Version 2.6
 + Improved functionality for saving user default colours in the model file
 + Improved Format Painter - can copy between connections and objects
 + Improved controls in Property | Appearance section
++ Connection bend-points can now snap to grid (provided by Jaiguru)
 
 
 
