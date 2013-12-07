@@ -38,6 +38,9 @@ public class Messages extends NLS {
     public static String ConnectionsPreferencePage_12;
 
     public static String ConnectionsPreferencePage_13;
+    
+    // rounded-connection patch
+    public static String ConnectionsPreferencePage_14;
 
     public static String ConnectionsPreferencePage_2;
 

@@ -76,6 +76,8 @@ implements IPreferenceConstants {
         store.setDefault(SHOW_FILL_COLORS_IN_GUI, false);
         
         store.setDefault(USE_ORTHOGONAL_ANCHOR, false);
+        // rounded-connection patch
+        store.setDefault(USE_ROUNDED_CONNECTION, false);
         
         store.setDefault(ANIMATE_VISUALISER_NODES, true);
         
