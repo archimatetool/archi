@@ -40,6 +40,8 @@ public interface IArchimateImages {
     String ECLIPSE_IMAGE_FILE = IMGPATH + "file_obj.gif"; //$NON-NLS-1$
     String ECLIPSE_IMAGE_FOLDER = IMGPATH + "fldr_obj.gif"; //$NON-NLS-1$
     
+    String MENU_ARROW = IMGPATH + "menu-arrow.png"; //$NON-NLS-1$
+    
     
     // ARCHIMATE IMAGES
     

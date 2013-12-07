@@ -11,6 +11,12 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.editor.ui.components.messages"; //$NON-NLS-1$
 
+    public static String ColorChooser_0;
+
+    public static String ColorChooser_1;
+
+    public static String ColorChooser_2;
+
     public static String StyledTextControl_0;
 
     public static String StyledTextControl_1;

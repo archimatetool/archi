@@ -10,21 +10,19 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.preference.ColorSelector;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.BorderColorCommand;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
+import uk.ac.bolton.archimate.editor.ui.components.ColorChooser;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.ILockable;
@@ -70,7 +68,7 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
             if(isAlive()) {
-                RGB rgb = fColorSelector.getColorValue();
+                RGB rgb = fColorChooser.getColorValue();
                 String newColor = ColorFactory.convertRGBToString(rgb);
                 if(!newColor.equals(fBorderObject.getBorderColor())) {
                     getCommandStack().execute(new BorderColorCommand(fBorderObject, newColor));
@@ -81,8 +79,9 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     
     private IBorderObject fBorderObject;
 
-    private ColorSelector fColorSelector;
-    private Button fNoBorderButton;
+    private ColorChooser fColorChooser;
+    
+    private IAction fNoBorderAction;
     
     @Override
     protected void createControls(Composite parent) {
@@ -95,29 +94,23 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.BorderColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        Composite client = createComposite(parent, 2);
-
-        fColorSelector = new ColorSelector(client);
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = ITabbedLayoutConstants.BUTTON_WIDTH;
-        fColorSelector.getButton().setLayoutData(gd);
-        getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
-        fColorSelector.addListener(colorListener);
-
-        fNoBorderButton = new Button(client, SWT.PUSH);
-        fNoBorderButton.setText(Messages.BorderColorSection_1);
-        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
-        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
-        fNoBorderButton.setLayoutData(gd);
-        getWidgetFactory().adapt(fNoBorderButton, true, true); // Need to do it this way for Mac
-        fNoBorderButton.addSelectionListener(new SelectionAdapter() {
+        fColorChooser = new ColorChooser(parent);
+        fColorChooser.setDoShowDefaultMenuItem(false);
+        fColorChooser.setDoShowPreferencesMenuItem(false);
+        
+        // No border action
+        fNoBorderAction = new Action(Messages.BorderColorSection_1) {
             @Override
-            public void widgetSelected(SelectionEvent e) {
+            public void run() {
                 if(isAlive()) {
                     getCommandStack().execute(new BorderColorCommand(fBorderObject, null));
                 }
             }
-        });
+        };
+        fColorChooser.addMenuAction(fNoBorderAction);
+        
+        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
+        fColorChooser.addListener(colorListener);
     }
     
     @Override
@@ -135,26 +128,26 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     
     protected void refreshControls() {
         String colorValue = fBorderObject.getBorderColor();
-        if(colorValue != null) {
-            RGB rgb = ColorFactory.convertStringToRGB(colorValue);
-            fColorSelector.setColorValue(rgb);
-        }
-        else {
-            // No color
-            fColorSelector.setColorValue(new RGB(255, 255, 255));
+        RGB rgb = ColorFactory.convertStringToRGB(colorValue);
+        if(rgb == null) {
+            rgb = new RGB(0, 0, 0);
         }
         
+        fColorChooser.setColorValue(rgb);
+        
         boolean enabled = fBorderObject instanceof ILockable ? !((ILockable)fBorderObject).isLocked() : true;
-        fColorSelector.setEnabled(enabled);
-        fNoBorderButton.setEnabled(colorValue != null && enabled);
+        fColorChooser.setEnabled(enabled);
+        
+        fNoBorderAction.setEnabled(colorValue != null);
+        fColorChooser.setDoShowColorImage(colorValue != null);
     }
     
     @Override
     public void dispose() {
         super.dispose();
         
-        if(fColorSelector != null) {
-            fColorSelector.removeListener(colorListener);
+        if(fColorChooser != null) {
+            fColorChooser.removeListener(colorListener);
         }
     }
 
