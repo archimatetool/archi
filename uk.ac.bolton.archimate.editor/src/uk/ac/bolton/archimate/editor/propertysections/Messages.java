@@ -139,16 +139,6 @@ public class Messages extends NLS {
 
     public static String FontSection_0;
 
-    public static String FontSection_1;
-
-    public static String FontSection_2;
-
-    public static String FontSection_3;
-
-    public static String FontSection_4;
-
-    public static String FontSection_5;
-
     public static String GroupSection_0;
 
     public static String GroupSection_1;

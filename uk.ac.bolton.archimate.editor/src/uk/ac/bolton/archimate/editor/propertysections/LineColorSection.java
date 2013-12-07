@@ -10,30 +10,21 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.preference.ColorSelector;
-import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.PreferencesUtil;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.Hyperlink;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.LineColorCommand;
 import uk.ac.bolton.archimate.editor.diagram.editparts.ILinedEditPart;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
+import uk.ac.bolton.archimate.editor.ui.components.ColorChooser;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IDiagramModelObject;
 import uk.ac.bolton.archimate.model.ILineObject;
@@ -80,10 +71,21 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
             if(isAlive()) {
-                RGB rgb = fColorSelector.getColorValue();
-                String newColor = ColorFactory.convertRGBToString(rgb);
-                if(!newColor.equals(fLineObject.getLineColor())) {
-                    getCommandStack().execute(new LineColorCommand(fLineObject, newColor));
+                if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
+                    RGB rgb = fColorChooser.getColorValue();
+                    String newColor = ColorFactory.convertRGBToString(rgb);
+                    if(!newColor.equals(fLineObject.getLineColor())) {
+                        getCommandStack().execute(new LineColorCommand(fLineObject, newColor));
+                    }
+                }
+                else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
+                    // If user pref to save color is set then save the value, otherwise save as null
+                    String rgbValue = null;
+                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
+                        Color color = ColorFactory.getDefaultLineColor(fLineObject);
+                        rgbValue = ColorFactory.convertColorToString(color);
+                    }
+                    getCommandStack().execute(new LineColorCommand(fLineObject, rgbValue));
                 }
             }
         }
@@ -96,8 +98,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         @Override
         public void propertyChange(PropertyChangeEvent event) {
             if(event.getProperty().equals(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR) ||
-                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR) ||
-                    event.getProperty().equals(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+                    event.getProperty().equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR) ||
+                    event.getProperty().equals(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR) ||
+                    event.getProperty().equals(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) { // This will affect the "Default" menu in color chooser
                 refreshControls();
             }
         }
@@ -105,10 +108,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
 
     private ILineObject fLineObject;
 
-    private ColorSelector fColorSelector;
-    private Button fDefaultColorButton;
-    
-    private Hyperlink fLineColorExplanationLabel;
+    private ColorChooser fColorChooser;
     
     @Override
     protected void createControls(Composite parent) {
@@ -123,52 +123,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.LineColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        Composite client = createComposite(parent, 3);
-
-        fColorSelector = new ColorSelector(client);
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = ITabbedLayoutConstants.BUTTON_WIDTH;
-        fColorSelector.getButton().setLayoutData(gd);
-        getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
-        fColorSelector.addListener(colorListener);
-
-        // Set to default colour
-        fDefaultColorButton = new Button(client, SWT.PUSH);
-        fDefaultColorButton.setText(Messages.LineColorSection_1);
-        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
-        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
-        fDefaultColorButton.setLayoutData(gd);
-        getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
-        fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    // If user pref to save color is set then save the value, otherwise save as null
-                    String rgbValue = null;
-                    if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
-                        Color color = ColorFactory.getDefaultLineColor(fLineObject);
-                        rgbValue = ColorFactory.convertColorToString(color);
-                    }
-                    getCommandStack().execute(new LineColorCommand(fLineObject, rgbValue));
-                }
-            }
-        });
-        
-        // Line text hyperlink
-        fLineColorExplanationLabel = new Hyperlink(client, SWT.NONE);
-        fLineColorExplanationLabel.setUnderlined(true);
-        getWidgetFactory().adapt(fLineColorExplanationLabel, true, true);
-        fLineColorExplanationLabel.setText(Messages.LineColorSection_2);
-        fLineColorExplanationLabel.addHyperlinkListener(new HyperlinkAdapter() {
-            @Override
-            public void linkActivated(HyperlinkEvent e) {
-                PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getPart().getSite().getShell(),
-                        "uk.ac.bolton.archimate.editor.prefsColours", null, null); //$NON-NLS-1$
-                if(dialog != null) {
-                    dialog.open();
-                }
-            }
-        });
+        fColorChooser = new ColorChooser(parent);
+        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
+        fColorChooser.addListener(colorListener);
     }
     
     @Override
@@ -193,37 +150,39 @@ public class LineColorSection extends AbstractArchimatePropertySection {
             rgb = ColorFactory.getDefaultLineColor(fLineObject).getRGB();
         }
         
-        fColorSelector.setColorValue(rgb);
+        fColorChooser.setColorValue(rgb);
 
         // Locked
         boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
-        
-        // Enable/disable line text hyperlink and controls if this is an element line
-        if(fLineObject instanceof IDiagramModelObject) {
-            // Disabled if user prefs are set for derived line color
-            enabled ^= Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
-            fLineColorExplanationLabel.setVisible(!enabled);
-        }
-        else {
-            fLineColorExplanationLabel.setVisible(false);
-        }
-        
-        fColorSelector.setEnabled(enabled);
+        fColorChooser.setEnabled(enabled);
         
         // If the user pref is to save the color in the file, then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR)) {
             isDefaultColor = (colorValue != null) && rgb.equals(ColorFactory.getDefaultLineColor(fLineObject).getRGB());
         }
-        fDefaultColorButton.setEnabled(!isDefaultColor && enabled);    
+        fColorChooser.setIsDefaultColor(isDefaultColor);
+        
+        // If this is an element line disable some things
+        if(fLineObject instanceof IDiagramModelObject) {
+            boolean deriveElementLineColor = Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+            fColorChooser.setDoShowColorImage(!deriveElementLineColor);
+            fColorChooser.getColorButton().setEnabled(!deriveElementLineColor);
+            fColorChooser.setDoShowDefaultMenuItem(!deriveElementLineColor);
+        }
+        else {
+            fColorChooser.setDoShowColorImage(true);
+            fColorChooser.getColorButton().setEnabled(true);
+            fColorChooser.setDoShowDefaultMenuItem(true);
+        }
     }
     
     @Override
     public void dispose() {
         super.dispose();
         
-        if(fColorSelector != null) {
-            fColorSelector.removeListener(colorListener);
+        if(fColorChooser != null) {
+            fColorChooser.removeListener(colorListener);
         }
         
         Preferences.STORE.removePropertyChangeListener(prefsListener);

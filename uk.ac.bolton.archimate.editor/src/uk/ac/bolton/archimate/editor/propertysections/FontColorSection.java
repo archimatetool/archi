@@ -10,20 +10,16 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.commands.FontColorCommand;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
+import uk.ac.bolton.archimate.editor.ui.components.ColorChooser;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IFontAttribute;
 import uk.ac.bolton.archimate.model.ILockable;
@@ -59,10 +55,15 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     private IPropertyChangeListener colorListener = new IPropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent event) {
             if(isAlive()) {
-                RGB rgb = fColorSelector.getColorValue();
-                String newColor = ColorFactory.convertRGBToString(rgb);
-                if(!newColor.equals(fFontObject.getFontColor())) {
-                    getCommandStack().execute(new FontColorCommand(fFontObject, newColor));
+                if(event.getProperty() == ColorChooser.PROP_COLORCHANGE) {
+                    RGB rgb = fColorChooser.getColorValue();
+                    String newColor = ColorFactory.convertRGBToString(rgb);
+                    if(!newColor.equals(fFontObject.getFontColor())) {
+                        getCommandStack().execute(new FontColorCommand(fFontObject, newColor));
+                    }
+                }
+                else if(event.getProperty() == ColorChooser.PROP_COLORDEFAULT) {
+                    getCommandStack().execute(new FontColorCommand(fFontObject, null));
                 }
             }
         }
@@ -70,8 +71,7 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     
     private IFontAttribute fFontObject;
 
-    private ColorSelector fColorSelector;
-    private Button fDefaultColorButton;
+    private ColorChooser fColorChooser;
     
     @Override
     protected void createControls(Composite parent) {
@@ -84,29 +84,10 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     private void createColorControl(Composite parent) {
         createLabel(parent, Messages.FontColorSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        Composite client = createComposite(parent, 2);
-        
-        fColorSelector = new ColorSelector(client);
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        gd.widthHint = ITabbedLayoutConstants.BUTTON_WIDTH;
-        fColorSelector.getButton().setLayoutData(gd);
-        getWidgetFactory().adapt(fColorSelector.getButton(), true, true);
-        fColorSelector.addListener(colorListener);
-
-        fDefaultColorButton = new Button(client, SWT.PUSH);
-        fDefaultColorButton.setText(Messages.FontColorSection_1);
-        gd = new GridData(SWT.NONE, SWT.NONE, true, false);
-        gd.minimumWidth = ITabbedLayoutConstants.BUTTON_WIDTH;
-        fDefaultColorButton.setLayoutData(gd);
-        getWidgetFactory().adapt(fDefaultColorButton, true, true); // Need to do it this way for Mac
-        fDefaultColorButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    getCommandStack().execute(new FontColorCommand(fFontObject, null));
-                }
-            }
-        });
+        fColorChooser = new ColorChooser(parent);
+        fColorChooser.setDoShowPreferencesMenuItem(false);
+        getWidgetFactory().adapt(fColorChooser.getControl(), true, true);
+        fColorChooser.addListener(colorListener);
     }
     
     @Override
@@ -128,24 +109,24 @@ public class FontColorSection extends AbstractArchimatePropertySection {
         String colorValue = fFontObject.getFontColor();
         RGB rgb = ColorFactory.convertStringToRGB(colorValue);
         if(rgb != null) {
-            fColorSelector.setColorValue(rgb);
+            fColorChooser.setColorValue(rgb);
         }
         else {
             // Default color
-            fColorSelector.setColorValue(new RGB(0, 0, 0));
+            fColorChooser.setColorValue(new RGB(0, 0, 0));
         }
         
         boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
-        fColorSelector.setEnabled(enabled);
-        fDefaultColorButton.setEnabled(colorValue != null && enabled);
+        fColorChooser.setEnabled(enabled);
+        fColorChooser.setIsDefaultColor(colorValue == null);
     }
     
     @Override
     public void dispose() {
         super.dispose();
         
-        if(fColorSelector != null) {
-            fColorSelector.removeListener(colorListener);
+        if(fColorChooser != null) {
+            fColorChooser.removeListener(colorListener);
         }
     }
 
