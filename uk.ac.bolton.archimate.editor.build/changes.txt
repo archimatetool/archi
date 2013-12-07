@@ -10,6 +10,7 @@ Version 2.6
 + More logical placement of some preferences
 + Improved functionality for saving user default colours in the model file
 + Improved Format Painter - can copy between connections and objects
++ Improved controls in Property | Appearance section
 
 
 

@@ -82,7 +82,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         Composite client = createComposite(parent, 3);
         
         for(int i = 0; i < fAlignmentButtons.length; i++) {
-            fAlignmentButtons[i] = new Button(client, SWT.TOGGLE);
+            fAlignmentButtons[i] = new Button(client, SWT.TOGGLE | SWT.FLAT);
             getWidgetFactory().adapt(fAlignmentButtons[i], true, true); // Need to do it this way for Mac
             fAlignmentButtons[i].addSelectionListener(adapter);
         }
