@@ -148,10 +148,6 @@ implements IDiagramModelObjectFigure {
      * Set the line color to that in the model, or failing that, as per default
      */
     protected void setLineColor() {
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
-            
-        }
-        
         String val = fDiagramModelObject.getLineColor();
         Color c = ColorFactory.get(val);
         if(c != fLineColor) {
