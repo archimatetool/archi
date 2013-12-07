@@ -6246,10 +6246,10 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_BENDPOINT_FEATURE_COUNT = CLONEABLE_FEATURE_COUNT + 4;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.LineObject <em>Line Object</em>}' class.
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.ILineObject <em>Line Object</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.impl.LineObject
+     * @see uk.ac.bolton.archimate.model.ILineObject
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLineObject()
      * @generated
      */
@@ -6338,10 +6338,10 @@ public interface IArchimatePackage extends EPackage {
     int FONT_ATTRIBUTE_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.model.impl.BorderObject <em>Border Object</em>}' class.
+     * The meta object id for the '{@link uk.ac.bolton.archimate.model.IBorderObject <em>Border Object</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.model.impl.BorderObject
+     * @see uk.ac.bolton.archimate.model.IBorderObject
      * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
@@ -10188,10 +10188,10 @@ public interface IArchimatePackage extends EPackage {
         EAttribute DIAGRAM_MODEL_BENDPOINT__END_Y = eINSTANCE.getDiagramModelBendpoint_EndY();
 
         /**
-         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.LineObject <em>Line Object</em>}' class.
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.ILineObject <em>Line Object</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see uk.ac.bolton.archimate.model.impl.LineObject
+         * @see uk.ac.bolton.archimate.model.ILineObject
          * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getLineObject()
          * @generated
          */
@@ -10256,10 +10256,10 @@ public interface IArchimatePackage extends EPackage {
         EAttribute FONT_ATTRIBUTE__TEXT_POSITION = eINSTANCE.getFontAttribute_TextPosition();
 
         /**
-         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.impl.BorderObject <em>Border Object</em>}' class.
+         * The meta object literal for the '{@link uk.ac.bolton.archimate.model.IBorderObject <em>Border Object</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see uk.ac.bolton.archimate.model.impl.BorderObject
+         * @see uk.ac.bolton.archimate.model.IBorderObject
          * @see uk.ac.bolton.archimate.model.impl.ArchimatePackage#getBorderObject()
          * @generated
          */

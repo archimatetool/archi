@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see uk.ac.bolton.archimate.model.IArchimatePackage#getLineObject()
- * @model
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface ILineObject extends EObject {

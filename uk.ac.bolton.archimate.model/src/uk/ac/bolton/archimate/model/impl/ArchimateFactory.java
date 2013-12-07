@@ -67,7 +67,6 @@ import uk.ac.bolton.archimate.model.IInfrastructureFunction;
 import uk.ac.bolton.archimate.model.IInfrastructureInterface;
 import uk.ac.bolton.archimate.model.IInfrastructureService;
 import uk.ac.bolton.archimate.model.IJunction;
-import uk.ac.bolton.archimate.model.ILineObject;
 import uk.ac.bolton.archimate.model.ILocation;
 import uk.ac.bolton.archimate.model.IMeaning;
 import uk.ac.bolton.archimate.model.INetwork;
@@ -202,7 +201,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.DIAGRAM_MODEL_IMAGE: return createDiagramModelImage();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION: return createDiagramModelConnection();
             case IArchimatePackage.DIAGRAM_MODEL_BENDPOINT: return createDiagramModelBendpoint();
-            case IArchimatePackage.LINE_OBJECT: return createLineObject();
             case IArchimatePackage.BOUNDS: return createBounds();
             case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL: return createArchimateDiagramModel();
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: return createDiagramModelArchimateObject();
@@ -793,16 +791,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IDiagramModelBendpoint createDiagramModelBendpoint() {
         DiagramModelBendpoint diagramModelBendpoint = new DiagramModelBendpoint();
         return diagramModelBendpoint;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ILineObject createLineObject() {
-        LineObject lineObject = new LineObject();
-        return lineObject;
     }
 
     /**

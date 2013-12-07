@@ -521,15 +521,6 @@ public interface IArchimateFactory extends EFactory {
     IDiagramModelBendpoint createDiagramModelBendpoint();
 
     /**
-     * Returns a new object of class '<em>Line Object</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Line Object</em>'.
-     * @generated
-     */
-    ILineObject createLineObject();
-
-    /**
      * Returns a new object of class '<em>Bounds</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

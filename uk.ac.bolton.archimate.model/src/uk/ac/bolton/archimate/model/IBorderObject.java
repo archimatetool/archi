@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see uk.ac.bolton.archimate.model.IArchimatePackage#getBorderObject()
- * @model abstract="true"
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface IBorderObject extends EObject {
