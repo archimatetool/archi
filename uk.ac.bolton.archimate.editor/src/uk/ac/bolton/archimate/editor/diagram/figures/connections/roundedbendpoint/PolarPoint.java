@@ -132,7 +132,7 @@ public class PolarPoint {
 		
 		double r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 		
-		double theta = Math.acos((double)x/r);
+		double theta = Math.acos(x/r);
 		if(y >0)
 			theta = 2*Math.PI - theta;
 		return new PolarPoint(r, theta);
@@ -152,6 +152,6 @@ public class PolarPoint {
 	
 	@Override
 	public String toString() {
-		return "(" + r + ", " + theta * 180.0/Math.PI + ")";
+		return "(" + r + ", " + theta * 180.0/Math.PI + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 }
