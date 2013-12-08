@@ -70,11 +70,15 @@ implements IDiagramConnectionEditPart {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(org.eclipse.jface.util.PropertyChangeEvent event) {
-            if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(event.getProperty())) {
+            String property = event.getProperty();
+            if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(property)) {
                 refreshVisuals();
             }
-            else if(event.getProperty().equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
+            else if(property.equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
                 refreshVisuals();
+            }
+            else if(IPreferenceConstants.USE_ROUNDED_CONNECTION.equals(property)) {
+                getFigure().repaint();
             }
         }
     };
