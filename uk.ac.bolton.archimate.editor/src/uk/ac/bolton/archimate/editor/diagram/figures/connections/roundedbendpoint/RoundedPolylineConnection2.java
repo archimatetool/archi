@@ -38,8 +38,11 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
  * Base on a example found on http://www.eclipse.org/forums/index.php/t/33583/
  * fully rewritten for Archi to work in all cases (any angle).
  */
-public class RoundedPolylineConnection extends PolylineConnection {
-	private double radius = 20;
+public class RoundedPolylineConnection2 extends PolylineConnection {
+	private double radius = 12;
+	private double max_iter = 6;
+	private double r2 = Math.sqrt(2.0);
+	private double pi34 = 3.0 * Math.PI / 4.0;
 
 	@Override
 	protected void outlineShape(Graphics g) {
@@ -79,54 +82,56 @@ public class RoundedPolylineConnection extends PolylineConnection {
 			// and be sure that arc angle is positive
 			double arc = tgt_p.theta - src_p.theta;
 			arc = (arc + 4.0*Math.PI) % (2.0*Math.PI);
+			
 			// Do we have to go from source to target or the opposite
 			boolean src2tgt = arc < (Math.PI) ? true : false;
 			arc = src2tgt ? arc : 2.0*Math.PI - arc;
 			
 			// Check dist against source and target
 			double dist = radius;
-			//dist = dist * (2 - 2 * arc / Math.PI);
-			dist = Math.min(dist, src_p.r / 2.0);
-			dist = Math.min(dist, tgt_p.r / 2.0);
-			
-			// Create ellipse approximation
-			PolarPoint s_p;
-			if (src2tgt) {
-				s_p = src_p;
-			} else {
-				s_p = tgt_p;
-			}
-		
-			// Find center of bendpoint arc
-			PolarPoint center_p = new PolarPoint(dist, s_p.theta + arc / 2.0);
+			dist = dist * (2 - 2 * arc / Math.PI);
+			dist = Math.min(dist, src_p.r / 2);
+			dist = Math.min(dist, tgt_p.r / 2);
 			
 			// Compute source and target of bendpoint arc
-			PolarPoint bpsrc_p = new PolarPoint(dist * Math.cos(arc / 2.0), src_p.theta);
-			PolarPoint bptgt_p = new PolarPoint(dist * Math.cos(arc / 2.0), tgt_p.theta);
+			PolarPoint bpsrc_p = new PolarPoint((int) dist, src_p.theta);
+			PolarPoint bptgt_p = new PolarPoint((int) dist, tgt_p.theta);
  
 			// Switch back to rectangular coordinates
-			Point center = center_p.toPoint().translate(bp);
 			Point bpsrc = bpsrc_p.toPoint().translate(bp);
 			Point bptgt = bptgt_p.toPoint().translate(bp);
 			
 			// Draw line
 			g.drawLine(src, bpsrc);
 			
-			// Draw arc
-			double arc_radius = dist * Math.sin(arc / 2.0);
-			g.drawArc((int) Math.round(center.x - arc_radius),
-					(int) Math.round(center.y - arc_radius),
-					(int) Math.round(arc_radius * 2.0),
-					(int) Math.round(arc_radius * 2.0), 
-					(int) Math.round(to_deg((Math.PI + arc) / 2.0 + center_p.theta)),
-					(int) Math.round(to_deg(Math.PI - arc)));
-			
+			// Create ellipse approximation
+			PolarPoint s_p;
+			Point s;
+			Point t;
+			if (src2tgt) {
+				s_p = bpsrc_p;
+				s = bpsrc;
+				t = bptgt;
+			} else {
+				s_p = bptgt_p;
+				s = bptgt;
+				t = bpsrc;
+			}
+		
+			Point p = s;
+			for (double a = 1; a < max_iter; a++) {
+				Point tmp = (new PolarPoint((int) (dist * get_r(Math.PI/2.0 * a/max_iter)), s_p.theta + arc * a/max_iter)).toPoint().translate(bp);
+				g.drawLine(p, tmp);
+				// Prepare next iteration
+				p = tmp;
+			}
+			g.drawLine(p, t);
 			// Prepare next iteration
 			src = bptgt;
 		}
 	}
 
-	private double to_deg(double rad) {
-		return (rad * 180.0 / Math.PI);
+	private double get_r(double angle) {
+		return (0 - r2 * Math.cos(angle + pi34) - Math.sqrt(1.0 - 2.0 * Math.pow(Math.sin(angle + pi34), 2)));
 	}
 }

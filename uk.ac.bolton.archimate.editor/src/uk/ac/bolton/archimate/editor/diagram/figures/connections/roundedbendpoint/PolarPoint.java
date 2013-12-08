@@ -12,6 +12,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * A polar point in a standard polar coordinates system.
+ * Adapted by Jaiguru to use double instead of int for r.
  * 
  * @author Xihui Chen
  *
@@ -21,7 +22,7 @@ public class PolarPoint {
 	/**
 	 * The radial coordinate 
 	 */
-	public int r;
+	public double r;
 	
 	
 	/**
@@ -33,7 +34,7 @@ public class PolarPoint {
 	 * @param r The radial coordinate 
 	 * @param theta The angular coordinate in radians
 	 */
-	public PolarPoint(int r, double theta) {
+	public PolarPoint(double r, double theta) {
 		this.r = r;
 		this.theta = theta;
 	}
@@ -54,13 +55,12 @@ public class PolarPoint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + r;
+		result = (int) (prime * result + r);
 		long temp;
 		temp = Double.doubleToLongBits(theta);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
-
 
 
 
@@ -83,15 +83,14 @@ public class PolarPoint {
 
 
 
-
 	/**
 	 * Transform the polar point to the {@link Point} in rectangular coordinates. 
 	 * The rectangular coordinates has the same origin as the polar coordinates.
 	 * @return the point in rectangular coordinates
 	 */
 	public Point toPoint() {
-		int x = (int) (r * Math.cos(theta));
-		int y = (int) (-r * Math.sin(theta));
+		int x = (int) Math.round(r * Math.cos(theta));
+		int y = (int) Math.round(-r * Math.sin(theta));
 		return new Point(x, y);		
 	}	
 	
@@ -136,7 +135,7 @@ public class PolarPoint {
 		double theta = Math.acos((double)x/r);
 		if(y >0)
 			theta = 2*Math.PI - theta;
-		return new PolarPoint((int) r, theta);
+		return new PolarPoint(r, theta);
 	}
 	
 	/**rotate the x axis of the polar coordinate system to the axisDirection
