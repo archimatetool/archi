@@ -50,6 +50,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fPaletteStateButton;
     
     private Button fUseOrthogonalAnchorButton;
+    private Button fUseRoundedConnectionButton;
     
     private Label fDefaultFontLabel;
     private Button fDefaultFontButton;
@@ -149,6 +150,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setText(Messages.DiagramPreferencePage_26);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseOrthogonalAnchorButton.setLayoutData(gd);
+        
+        fUseRoundedConnectionButton = new Button(connectorGroup, SWT.CHECK);
+        fUseRoundedConnectionButton.setText(Messages.DiagramPreferencePage_27);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fUseRoundedConnectionButton.setLayoutData(gd);
         
         Group fontGroup = new Group(client, SWT.NULL);
         fontGroup.setText(Messages.DiagramPreferencePage_8);
@@ -255,6 +261,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
+        fUseRoundedConnectionButton.setSelection(getPreferenceStore().getBoolean(USE_ROUNDED_CONNECTION));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));
         
@@ -300,6 +307,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
         
         getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
+        getPreferenceStore().setValue(USE_ROUNDED_CONNECTION, fUseRoundedConnectionButton.getSelection());
         
         getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
@@ -330,6 +338,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
+        fUseRoundedConnectionButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ROUNDED_CONNECTION));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
         
