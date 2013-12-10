@@ -47,7 +47,7 @@ public class RelationshipsMatrix {
     /**
      * The Relationships XML file
      */
-    static final String RELATIONSHIPS_FILE = "model/relationships-2.0.xml"; //$NON-NLS-1$
+    static final String RELATIONSHIPS_FILE = "model/relationships.xml"; //$NON-NLS-1$
     
     /*
      * XML element and attribute names
