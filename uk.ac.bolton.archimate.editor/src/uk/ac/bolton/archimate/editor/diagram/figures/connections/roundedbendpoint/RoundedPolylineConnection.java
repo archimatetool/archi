@@ -76,7 +76,9 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	protected void outlineShapeRounded(Graphics g) {
 		// ps contains original list of bendpoints
 		PointList ps = getPoints();
-		// 
+		// ps_refined will contains list of bendpoints and points added to simulate an arc
+		PointList ps_refined = new PointList();
+				
 		ArrayList connections = collectConnections();
 
 		if (ps.size() == 0) {
@@ -89,7 +91,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		
 		for (int i = 1; i < ps.size(); i++) {
 			// ps_refined will contains list of bendpoints and points added to simulate an arc
-			PointList ps_refined = new PointList();
+			//PointList ps_refined = new PointList();
 			
 			// Current bendpoint
 			Point bp = ps.getPoint(i);
@@ -97,7 +99,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 			// If last bendpoint, add it to the list and stop
 			if (i == ps.size() - 1) {
 				//ps_refined.addPoint(bp);
-				drawLine(g, src, bp, connections);
+				drawLine(g, src, bp, connections, ps_refined);
 				continue;
 			}
 
@@ -130,11 +132,11 @@ public class RoundedPolylineConnection extends PolylineConnection {
 			Point bpsrc = bpsrc_p.toPoint().translate(bp);
 			Point bptgt = bptgt_p.toPoint().translate(bp);
 			
-			drawLine(g, src, bpsrc, connections);
+			drawLine(g, src, bpsrc, connections, ps_refined);
 			
 			// Create ellipse approximation
 			// based on generic polar equation of circle with r=1 and center(Sqrt(2), PI/4)
-			ps_refined.addPoint(bpsrc);
+			//ps_refined.addPoint(bpsrc);
 			for (double a = 1; a < MAX_ITER; a++) {
 				Point tmp;
 				if (src2tgt)
@@ -143,13 +145,13 @@ public class RoundedPolylineConnection extends PolylineConnection {
 					tmp = (new PolarPoint(bp_radius * get_r(PI12 - PI12 * a/MAX_ITER), src_p.theta - arc * a/MAX_ITER)).toPoint().translate(bp);
 				ps_refined.addPoint(tmp);
 			}
-			ps_refined.addPoint(bptgt);
-			// Finally draw the polyLine
-			g.drawPolyline(ps_refined);
+			//ps_refined.addPoint(bptgt);
 			
 			// Prepare next iteration
 			src = bptgt;
 		}
+		// Finally draw the polyLine
+		g.drawPolyline(ps_refined);
 	}
 
 	private double get_r(double angle) {
@@ -159,17 +161,19 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	}
 	
 	@SuppressWarnings({ "rawtypes" })
-	private void drawLine(Graphics g, Point pp, Point p1, ArrayList connections)
+	private void drawLine(Graphics g, Point pp, Point p1, ArrayList connections, PointList ps_ref)
 	{
-		ArrayList segments = new ArrayList();
+
 		// ps contains list of jump points
 		//PointList ps = new PointList();
 		ArrayList<Point> ps = new ArrayList<Point>();
 		//
 		int radius = 5;
 		
-		PolarPoint line = PolarPoint.point2PolarPoint(pp, p1);
+		PolarPoint line = PolarPoint.point2PolarPoint(pp, p1);	
 		double line_angle = line.theta % Math.PI;
+		boolean reverse = (line.theta != line_angle);
+		
 		
 		for (Iterator I = connections.iterator(); I.hasNext();) {
 			RoundedPolylineConnection conn = (RoundedPolylineConnection) I.next();
@@ -189,7 +193,9 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		}
 
 		if (ps.size() == 0) {
-			g.drawLine(pp, p1);
+			//g.drawLine(pp, p1);
+			ps_ref.addPoint(pp);
+			ps_ref.addPoint(p1);
 			return;
 		}
 			
@@ -198,19 +204,19 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		ps.add(pp);
 		
 		Collections.sort(ps, new PointCompare());
+		if (ps.get(0) == p1) Collections.reverse(ps);
 		Point curr = ps.get(0);
+		ps_ref.addPoint(curr);
 		for (int i = 1; i < ps.size()-1; i++ ) {
-			PolarPoint bp1 = PolarPoint.point2PolarPoint(curr, ps.get(i));
-			PolarPoint bp2 = PolarPoint.point2PolarPoint(curr, ps.get(i));
-			bp1.r -= radius;
-			bp2.r += radius;
-			g.drawLine(curr, bp1.toPoint().translate(curr));
-			curr=bp2.toPoint().translate(curr);
-			g.drawArc(ps.get(i).x - radius, ps.get(i).y - radius,
-					radius * 2, radius * 2,
-					(int) (bp1.theta * 180 / Math.PI), 180);
+			for (double a = 0; a <= MAX_ITER; a++) {
+				if (reverse)
+					ps_ref.addPoint((new PolarPoint(radius, line_angle - a*Math.PI/MAX_ITER)).toPoint().translate(ps.get(i)));
+				else
+					ps_ref.addPoint((new PolarPoint(radius, line_angle - Math.PI + a*Math.PI/MAX_ITER)).toPoint().translate(ps.get(i)));
+			}
 		}
-		g.drawLine(curr, ps.get(ps.size()-1));
+		ps_ref.addPoint(ps.get(ps.size()-1));
+		//g.drawLine(curr, ps.get(ps.size()-1));
 	}
 
 	@SuppressWarnings("rawtypes")
