@@ -77,7 +77,10 @@ implements IDiagramConnectionEditPart {
             else if(property.equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
                 refreshVisuals();
             }
-            else if(IPreferenceConstants.USE_ROUNDED_CONNECTION.equals(property)) {
+            else if(IPreferenceConstants.USE_LINE_CURVES.equals(property)) {
+                getFigure().repaint();
+            }
+            else if(IPreferenceConstants.USE_LINE_JUMPS.equals(property)) {
                 getFigure().repaint();
             }
         }
