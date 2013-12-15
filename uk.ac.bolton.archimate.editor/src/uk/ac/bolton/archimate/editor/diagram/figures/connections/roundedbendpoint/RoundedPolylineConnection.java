@@ -31,110 +31,274 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * @author Jean-Baptiste Sarrodie (aka Jaiguru)
+ * Implementation of a connection which can draw curved bendpoints
+ * and jumps at crossing points. Base on a example found on
+ * http://www.eclipse.org/forums/index.php/t/33583/
+ * Fully rewritten for Archi to work in all cases (any angle)
+ * and use properties.
  * 
- * Base on a example found on http://www.eclipse.org/forums/index.php/t/33583/
- * fully rewritten for Archi to work in all cases (any angle).
+ * @author Jean-Baptiste Sarrodie (aka Jaiguru)
  */
 public class RoundedPolylineConnection extends PolylineConnection {
-	// radius is the maximum radius length
-	final double RADIUS = 12;
-	// max_iter is the number of intermediate points to add
-	final double MAX_ITER = 10;
-	// some 
+	// Maximum radius length from line-curves
+	final double CURVE_MAX_RADIUS = 12;
+	// Radius from line-jumps
+	final double JUMP_MAX_RADIUS = 5;
+	// Number of intermediate points for circle and ellipse approximation
+	final double MAX_ITER = 20;
+	// Constants
 	final double SQRT2 = Math.sqrt(2.0);
 	final double PI34 = Math.PI * 3.0 / 4.0;
 	final double PI2 = Math.PI * 2.0;
 	final double PI12 = Math.PI * 1.0 / 2.0;
 
 	@Override
-	protected void outlineShape(Graphics g) {
-		boolean enabled = Preferences.STORE.getBoolean(IPreferenceConstants.USE_ROUNDED_CONNECTION);
-		if (!enabled)
-			super.outlineShape(g);
+	public Rectangle getBounds() {
+		if (Preferences.STORE.getBoolean(IPreferenceConstants.USE_LINE_JUMPS))
+			return super.getBounds().getCopy().expand(10, 10);
 		else
-			outlineShapeRounded(g);
-	}	
+			return super.getBounds();
+	}
+	
+	@Override
+	@SuppressWarnings("rawtypes")
+	protected void outlineShape(Graphics g) {
+		// Original list of bendpoints
+		PointList bendpoints = getPoints();
+		// List of bendpoints and points added to draw line-curves and line-jumps
+		PointList linepoints = new PointList();
+		// List of all connections on current diagram
+		ArrayList connections = getAllConnections();
 
-	protected void outlineShapeRounded(Graphics g) {
-		// ps contains original list of bendpoints
-		PointList ps = getPoints();
-		// ps_refined will contains list of bendpoints and points added to simulate an arc
-		PointList ps_refined = new PointList();
-
-		if (ps.size() == 0) {
+		if (bendpoints.size() == 0) {
 			return;
 		}
 		
-		// Start (bend)point
-		Point src = ps.getPoint(0);
-		ps_refined.addPoint(src);
+		// Start point is the first "previous" point
+		Point prev = bendpoints.getPoint(0);
 		
-		for (int i = 1; i < ps.size(); i++) {
+		// Main loop: check all bendpoints and add curve is needed 
+		for (int i = 1; i < bendpoints.size(); i++) {
 			// Current bendpoint
-			Point bp = ps.getPoint(i);
+			Point bp = bendpoints.getPoint(i);
 
-			// If last bendpoint, add it to the list and stop
-			if (i == ps.size() - 1) {
-				ps_refined.addPoint(bp);
+			// If last bendpoint, define points for line segment
+			// and then draw polyline
+			if (i == bendpoints.size() - 1) {
+				addSegment(g, prev, bp, connections, linepoints);
 				continue;
 			}
 
-			// target bendpoint
-			Point tgt = ps.getPoint(i + 1);
+			// Next bendpoint
+			Point next = bendpoints.getPoint(i + 1);
 			
-			// Switch to polar coordinates
-			PolarPoint src_p = PolarPoint.point2PolarPoint(bp, src);
-			PolarPoint tgt_p = PolarPoint.point2PolarPoint(bp, tgt);
-			
-			// Calculate arc angle between source and target
-			// and be sure that arc angle is positive and less than PI
-			double arc = tgt_p.theta - src_p.theta;
-			arc = (arc + PI2) % (PI2);
-			// Do we have to go from source to target or the opposite
-			boolean src2tgt = arc < Math.PI ? true : false;
-			arc = src2tgt ? arc : PI2 - arc;
-			
-			// Check bendpoint radius against source and target
-			double bp_radius = RADIUS;
-			bp_radius = bp_radius * (2.0 - 2.0 * arc / Math.PI);
-			bp_radius = Math.min(bp_radius, src_p.r / 2.0);
-			bp_radius = Math.min(bp_radius, tgt_p.r / 2.0);
-			
-			// Compute source and target of bendpoint arc
-			PolarPoint bpsrc_p = new PolarPoint(bp_radius, src_p.theta);
-			PolarPoint bptgt_p = new PolarPoint(bp_radius, tgt_p.theta);
- 
-			// Switch back to rectangular coordinates
-			Point bpsrc = bpsrc_p.toPoint().translate(bp);
-			Point bptgt = bptgt_p.toPoint().translate(bp);
-			
-			// Create ellipse approximation
-			// based on generic polar equation of circle with r=1 and center(Sqrt(2), PI/4)
-			ps_refined.addPoint(bpsrc);
-			for (double a = 1; a < MAX_ITER; a++) {
-				Point tmp;
-				if (src2tgt)
-					tmp = (new PolarPoint(bp_radius * get_r(PI12 * a/MAX_ITER), src_p.theta + arc * a/MAX_ITER)).toPoint().translate(bp);
-				else
-					tmp = (new PolarPoint(bp_radius * get_r(PI12 - PI12 * a/MAX_ITER), src_p.theta - arc * a/MAX_ITER)).toPoint().translate(bp);
-				ps_refined.addPoint(tmp);
+			// If line-curves are enabled draw bendpoints using ellipse approximation
+			if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_LINE_CURVES)) {
+				// Switch to polar coordinates
+				PolarPoint prev_p = new PolarPoint(bp, prev);
+				PolarPoint next_p = new PolarPoint(bp, next);
+				
+				// Compute arc angle between source and target
+				// and be sure that arc angle is positive and less than PI
+				double arc = next_p.theta - prev_p.theta;
+				arc = (arc + PI2) % (PI2);
+				// Do we have to go from previous to next or the opposite
+				boolean prev2next = arc < Math.PI ? true : false;
+				arc = prev2next ? arc : PI2 - arc;
+				
+				// Check bendpoint radius against source and target
+				// Very simplified approximation (could/should be changed) 
+				double bp_radius = CURVE_MAX_RADIUS;
+				bp_radius *= Math.sqrt((Math.pow(1.0+Math.cos(arc), 2) + Math.pow(Math.sin(arc), 2) ) / 2.0);
+				//bp_radius = bp_radius * (2.0 - 2.0 * arc / Math.PI);
+				bp_radius = Math.min(bp_radius, prev_p.r / 2.0);
+				bp_radius = Math.min(bp_radius, next_p.r / 2.0);
+				
+				// Compute source and target of bendpoint arc
+				PolarPoint bpprev_p = new PolarPoint(bp_radius, prev_p.theta);
+				PolarPoint bpnext_p = new PolarPoint(bp_radius, next_p.theta);
+	 
+				// Switch back to rectangular coordinates
+				Point bpprev = bpprev_p.toAbsolutePoint(bp);
+				Point bpnext = bpnext_p.toAbsolutePoint(bp);
+				
+				// Now that bendpoint position has been refined we can add line segment
+				addSegment(g, prev, bpprev, connections, linepoints);
+				
+				// Create ellipse approximation
+				for (double a = 1; a < MAX_ITER; a++) {
+					if (prev2next)
+						linepoints.addPoint((new PolarPoint(bp_radius * get_r(PI12 * a/MAX_ITER), prev_p.theta + arc * a/MAX_ITER)).toAbsolutePoint(bp));
+					else
+						linepoints.addPoint((new PolarPoint(bp_radius * get_r(PI12 - PI12 * a/MAX_ITER), prev_p.theta - arc * a/MAX_ITER)).toAbsolutePoint(bp));
+				}
+				
+				// Prepare next iteration
+				prev = bpnext;
+			} else {
+				// Add line segment
+				addSegment(g, prev, bp, connections, linepoints);
+				// Prepare next iteration
+				prev = bp;
 			}
-			ps_refined.addPoint(bptgt);
-			
-			// Prepare next iteration
-			src = bptgt;
 		}
 		
 		// Finally draw the polyLine
-		g.drawPolyline(ps_refined);
+		g.drawPolyline(linepoints);
 	}
 
 	private double get_r(double angle) {
-		// return r value for defined angle (should be between 0 and PI/2)
-		// based on generic polar equation of circle with r=1 and center(Sqrt(2), PI/4)
+		// Return r value for defined angle (should be between 0 and PI/2)
+		// Based on generic polar equation of circle with r=1 and center(Sqrt(2), PI/4)
+		// In case of performance issue we could imagine creating an array and use it as a cache
 		return - SQRT2 * Math.cos(angle + PI34) - Math.sqrt(1.0 - 2.0 * Math.pow(Math.sin(angle + PI34), 2));
+	}
+	
+	@SuppressWarnings({ "rawtypes" })
+	private void addSegment(Graphics g, Point start, Point end, ArrayList connections, PointList linepoints){
+		// List of crossing points
+		ArrayList<Point> crosspoints = new ArrayList<Point>();
+		//
+		int radius = (int) JUMP_MAX_RADIUS;
+		
+		// Add start point to the list
+		linepoints.addPoint(start);
+		
+		// If line-jumps are enabled, draw them using half circles
+		if (Preferences.STORE.getBoolean(IPreferenceConstants.USE_LINE_JUMPS)) {
+			// Compute angle between line segment and horizontal line
+			PolarPoint end_p = new PolarPoint(start, end);
+			double angle = end_p.theta % Math.PI;
+			boolean reverse = (end_p.theta != angle);
+			
+			// For each other connection, check if a crossing point exist.
+			// If yes, add it to the list
+			for (Iterator I = connections.iterator(); I.hasNext();) {
+				RoundedPolylineConnection conn = (RoundedPolylineConnection) I.next();
+				PointList bendpoints = conn.getPoints();
+				
+				// Iterate on connection segments
+				for (int j = 0; j < bendpoints.size() - 1; j++) {
+					Point bp = bendpoints.getPoint(j);
+					Point next = bendpoints.getPoint(j + 1);
+					Point crosspoint = lineIntersect(start, end, bp, next);
+					if (crosspoint != null) {
+						double con_angle = ((new PolarPoint(bp, next)).theta % Math.PI);
+						if (angle > con_angle)
+							crosspoints.add(crosspoint);
+					}
+				}
+			}
+	
+			// If crossing points found, render them using a half circle
+			if (crosspoints.size() != 0) {
+				// Sort crosspoints from start to end
+				crosspoints.add(start);
+				Collections.sort(crosspoints, new PointCompare());
+				if (crosspoints.get(0) != start) Collections.reverse(crosspoints);
+				// Do not add start point to the list a second time, so start at i=1
+				for (int i = 1; i < crosspoints.size(); i++ ) {
+					for (double a = 0; a <= MAX_ITER; a++) {
+						if (reverse)
+							linepoints.addPoint((new PolarPoint(radius, angle - a*Math.PI/MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+						else
+							linepoints.addPoint((new PolarPoint(radius, angle - Math.PI + a*Math.PI/MAX_ITER)).toAbsolutePoint(crosspoints.get(i)));
+					}
+				}
+			}
+		}
+		
+		// Add end point to the list
+		linepoints.addPoint(end);
+	}
+
+	@SuppressWarnings("rawtypes")
+	private ArrayList getAllConnections() {
+		ArrayList result = new ArrayList();
+		getAllConnections(getRoot(), result);
+		return result;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void getAllConnections(IFigure figure, ArrayList list) {
+		for (Iterator I = figure.getChildren().iterator(); I.hasNext();) {
+			IFigure child = (IFigure) I.next();
+			if (child == this)
+				continue;
+			getAllConnections(child, list);
+
+			if (!(child instanceof RoundedPolylineConnection))
+				continue;
+			list.add(child);
+		}
+	}
+
+	private IFigure getRoot() {
+		IFigure figure = this;
+		while (figure.getParent() != null)
+			figure = figure.getParent();
+		return figure;
+	}
+	
+	/**
+	 * Calculation of intersection between line segments
+	 * Based on this thread:
+	 * http://stackoverflow.com/questions/16314069/calculation-of-intersections-between-line-segments 
+	 */
+	private static Point lineIntersect(Point p1, Point p2, Point p3, Point p4) {
+		double denom = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
+		if (denom == 0.0) { // Lines are parallel.
+			return null;
+		}
+		double ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x))/denom;
+		double ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x))/denom;
+		if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+			// Get the intersection point.
+			Point c = new Point((int) (p1.x + ua*(p2.x - p1.x)), (int) (p1.y + ua*(p2.y - p1.y)));
+			Rectangle r1 = new Rectangle(p1, p2);
+			Rectangle r2 = new Rectangle(p3, p4);
+			if (r1.contains(c) && r2.contains(c)
+					&& !c.equals(p1.x, p1.y)
+					&& !c.equals(p2.x, p2.y)
+					&& !c.equals(p3.x, p3.y)
+					&& !c.equals(p4.x, p4.y))
+				return c;
+			else
+				return null;
+		}
+
+		return null;
+	}
+	
+	/**
+	 * Allow points comparison (works only for aligned points) 
+	 * Based on this thread:
+	 * http://stackoverflow.com/questions/4199509/java-how-to-sort-an-arraylist-of-point-objects
+	 */
+	private static class PointCompare implements Comparator<Point> {
+		@Override
+		public int compare(final Point a, final Point b) {
+		    if (a.x < b.x) {
+		        return -1;
+		    }
+		    else if (a.x > b.x) {
+		        return 1;
+		    }
+		    else if (a.y < b.y) {
+		        return -1;
+		    }
+		    else if (a.y > b.y) {
+		        return 1;
+		    } else
+		    	return 0;
+		}
 	}
 }

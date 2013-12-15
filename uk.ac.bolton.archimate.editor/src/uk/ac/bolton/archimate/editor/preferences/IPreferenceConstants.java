@@ -78,7 +78,8 @@ public interface IPreferenceConstants {
     String DEFAULT_CONNECTION_LINE_COLOR = "defaultConnectionLineColor"; //$NON-NLS-1$
 
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
-    String USE_ROUNDED_CONNECTION = "roundedConnection"; //$NON-NLS-1$
+    String USE_LINE_CURVES = "lineCurves"; //$NON-NLS-1$
+    String USE_LINE_JUMPS = "lineJumps"; //$NON-NLS-1$
     
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
     
