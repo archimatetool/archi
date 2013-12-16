@@ -190,7 +190,12 @@ public class RoundedPolylineConnection extends PolylineConnection {
 					Point bp = bendpoints.getPoint(j);
 					Point next = bendpoints.getPoint(j + 1);
 					Point crosspoint = lineIntersect(start, end, bp, next);
-					if (crosspoint != null) {
+					// Check if crossing point found and not too close from ends
+					if (crosspoint != null
+						&& (new PolarPoint(crosspoint, start)).r > JUMP_MAX_RADIUS
+						&& (new PolarPoint(crosspoint, end)).r > JUMP_MAX_RADIUS
+						&& (new PolarPoint(crosspoint, bp)).r > JUMP_MAX_RADIUS
+						&& (new PolarPoint(crosspoint, next)).r > JUMP_MAX_RADIUS) {
 						double con_angle = ((new PolarPoint(bp, next)).theta % Math.PI);
 						if (angle > con_angle)
 							crosspoints.add(crosspoint);
