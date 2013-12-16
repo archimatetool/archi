@@ -12,7 +12,8 @@ Version 2.6
 + Improved Format Painter - can copy between connections and objects
 + Improved controls in Property | Appearance section
 + Connection bend-points can now snap to grid (provided by Jaiguru)
-+ Connection bend-points now use rounded curves as default preference (provided by Jaiguru)
++ Connections can now use rounded curves (provided by Jaiguru)
++ Connections can now use line jumps (provided by Jaiguru)
 + Relationship rules have been updated to comply with ArchiMate 2.1 (provided by Jaiguru)
 
 
