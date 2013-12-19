@@ -47,4 +47,5 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 10. Run the Inno Setup installer for Windows version from Inno Setup (windows-installer.iss).
 11. Check that the builds run on each platform
 12. If all is OK, tag all files in the git repo as version "release_X.X.X"
-13. Upload all files to the public download website
+13. Upload all files to the download website
+14. Change version.txt on website to the latest version

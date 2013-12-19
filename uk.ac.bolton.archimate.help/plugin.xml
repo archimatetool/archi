@@ -10,11 +10,6 @@
             name="%command.name">
       </command>
       <command
-            defaultHandler="uk.ac.bolton.archimate.help.hints.ShowWebsiteHandler"
-            id="uk.ac.bolton.archimate.help.command.website"
-            name="%command.name.0">
-      </command>
-      <command
             defaultHandler="uk.ac.bolton.archimate.help.hints.ShowCheatSheetsHandler"
             id="uk.ac.bolton.archimate.help.command.showCheatSheets"
             name="%command.name.1">
@@ -51,16 +46,6 @@
                commandId="uk.ac.bolton.archimate.help.command.showCheatSheets"
                id="uk.ac.bolton.archimate.help.menuitem.showCheatSheets"
                label="%command.label.1"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:help?after=uk.ac.bolton.archimate.help.menuitem.showCheatSheets">
-         <command
-               commandId="uk.ac.bolton.archimate.help.command.website"
-               id="uk.ac.bolton.archimate.help.menuitem.website"
-               label="%command.label.2"
                style="push">
          </command>
       </menuContribution>

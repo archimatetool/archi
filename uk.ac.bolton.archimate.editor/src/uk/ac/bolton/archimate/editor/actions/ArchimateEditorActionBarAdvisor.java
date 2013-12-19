@@ -87,6 +87,9 @@ extends ActionBarAdvisor {
     private IAction fShowPaletteView;
     
     private IAction fActionShowRelationsMatrix;
+    
+    private IAction fArchiWebsiteAction;
+    private IAction fActionCheckForNewVersion;
 
     
     /**
@@ -230,7 +233,13 @@ extends ActionBarAdvisor {
                 dialog.open();
             }
         };
-    }
+        
+        // Archi website
+        fArchiWebsiteAction = new ArchiWebsiteAction();
+        
+        // Check for new Version
+        fActionCheckForNewVersion = new CheckForNewVersionAction();
+     }
     
     @Override
     protected void fillMenuBar(IMenuManager menuBar) {
@@ -447,6 +456,9 @@ extends ActionBarAdvisor {
         menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
         menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         
+        menu.add(fArchiWebsiteAction);
+        menu.add(fActionCheckForNewVersion);
+
         /*
          * On a Mac, Eclipse adds an "About" menu item under the application menu bar.
          * However, it does nothing unless you add the About menu item manually elsewhere.
