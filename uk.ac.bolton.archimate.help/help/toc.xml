@@ -122,6 +122,8 @@
        <topic href="help/templates_managing.html" label="Managing your Templates">
        </topic>
     </topic>
+    <topic href="help/relations_rules.html" label="Relationships">
+    </topic>
     <topic href="help/derived_rels.html" label="Derived Relationships">
     </topic>
     <topic href="help/sketch_view.html" label="The Sketch View">
@@ -162,8 +164,6 @@
        <topic href="help/prefs_general.html" label="General">
        </topic>
        <topic href="help/prefs_help.html" label="Help">
-       </topic>
-       <topic href="help/prefs_relations.html" label="Relations">
        </topic>
     </topic>
     <topic href="help/appendix.html" label="Appendix">

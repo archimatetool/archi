@@ -104,10 +104,6 @@
        <description>Edit the General Preferences.</description>
        <topic href="help/prefs_general.html" label="General Preferences"/>
     </context>
-    <context id="prefsRelations" title="Relationships Preferences">
-       <description>Show the allowed ArchiMate relationships.</description>
-       <topic href="help/prefs_relations.html" label="Relationships Preferences"/>
-    </context>
     <context id="userProperties" title="User Properties">
        <description>Edit User Properties</description>
        <topic href="help/properties_user_properties.html" label="User Properties"/>
@@ -164,6 +160,10 @@
     <context id="CanvasTemplateManagerDialog" title="Managing your Canvas Templates">
        <description>Manage your Canvas Templates</description>
        <topic href="help/canvas_templates_managing.html" label="Managing your Canvas Templates"/>
+    </context>
+    <context id="RelationshipsMatrixDialog">
+       <description>View the allowed ArchiMate relationships</description>
+       <topic href="help/relations_rules.html" label="Relationships Matrix"/>
     </context>
     
 </contexts>

@@ -68,6 +68,7 @@ templates_new.html
 templates_new_model.html
 templates_managing.html
 
+relations_rules.html
 derived_rels.html
 
 sketch_view.html
@@ -92,7 +93,6 @@ prefs_diagram.html
 prefs_figures.html
 prefs_general.html
 prefs_help.html
-prefs_relations.html
 
 appendix.html
 

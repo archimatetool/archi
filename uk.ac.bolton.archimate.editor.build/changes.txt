@@ -7,7 +7,8 @@ Version 2.6
 + Can now set line colour of diagram elements to user colour or derived from fill colour
 + Added new user default colour preferences for line colours, group and note fill colours
 + Improved Colours Preference page
-+ More logical placement of some preferences
++ Preferences Panes rationalised
++ ArchiMate Relationships matrix moved from Preferences to a dialog accessible from Help menu
 + Improved functionality for saving user default colours in the model file
 + Improved Format Painter - can copy between connections and objects
 + Improved controls in Property | Appearance section

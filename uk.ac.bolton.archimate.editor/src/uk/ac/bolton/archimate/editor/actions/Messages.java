@@ -29,6 +29,8 @@ public class Messages extends NLS {
 
     public static String ArchimateEditorActionBarAdvisor_16;
 
+    public static String ArchimateEditorActionBarAdvisor_17;
+
     public static String ArchimateEditorActionBarAdvisor_2;
 
     public static String ArchimateEditorActionBarAdvisor_3;

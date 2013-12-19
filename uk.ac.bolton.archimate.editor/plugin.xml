@@ -93,14 +93,6 @@
          </keywordReference>
       </page>
       <page
-            class="uk.ac.bolton.archimate.editor.preferences.RelationsPreferencePage"
-            id="uk.ac.bolton.archimate.editor.prefsRelations"
-            name="%prefsRelationships">
-         <keywordReference
-               id="keywords.prefsRelations">
-         </keywordReference>
-      </page>
-      <page
             class="uk.ac.bolton.archimate.editor.preferences.ColoursPreferencePage"
             id="uk.ac.bolton.archimate.editor.prefsColours"
             name="%prefsColours">
