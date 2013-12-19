@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
+import uk.ac.bolton.archimate.editor.preferences.ColoursFontsPreferencePage;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
@@ -180,8 +181,10 @@ public class FontChooser extends EventManager {
                 @Override
                 public void run() {
                     PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getControl().getShell(),
-                            "uk.ac.bolton.archimate.editor.prefsDiagram", null, null); //$NON-NLS-1$
+                            ColoursFontsPreferencePage.ID, null, null);
                     if(dialog != null) {
+                        ColoursFontsPreferencePage page = (ColoursFontsPreferencePage)dialog.getSelectedPage();
+                        page.selectFontsTab();
                         dialog.open();
                     }
                 }

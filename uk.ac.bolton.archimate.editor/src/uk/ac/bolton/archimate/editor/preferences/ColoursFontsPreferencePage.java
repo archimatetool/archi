@@ -72,6 +72,8 @@ public class ColoursFontsPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
     
+    public static String ID = "uk.ac.bolton.archimate.editor.prefsColoursFonts"; //$NON-NLS-1$
+    
     public static String HELPID = "uk.ac.bolton.archimate.help.prefsColoursFonts"; //$NON-NLS-1$
     
     // Cache of objects' colours
@@ -104,6 +106,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Font fTempFont;
     
+    private TabFolder fTabfolder;
     
     
     // Convenience model class for Tree
@@ -130,12 +133,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         resetColorsCache(false);
         fImageRegistry = new ImageRegistry();
         
-        TabFolder folder = new TabFolder(parent, SWT.NONE);
+        fTabfolder = new TabFolder(parent, SWT.NONE);
         
-        Composite client = new Composite(folder, SWT.NULL);
+        Composite client = new Composite(fTabfolder, SWT.NULL);
         client.setLayout(new GridLayout(2, false));
         
-        TabItem item = new TabItem(folder, SWT.NONE);
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
         item.setText(Messages.ColoursFontsPreferencePage_23);
         item.setControl(client);
         
@@ -411,10 +414,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Fonts
         
-        Composite client2 = new Composite(folder, SWT.NULL);
+        Composite client2 = new Composite(fTabfolder, SWT.NULL);
         client2.setLayout(new GridLayout(2, false));
     
-        TabItem item2 = new TabItem(folder, SWT.NONE);
+        TabItem item2 = new TabItem(fTabfolder, SWT.NONE);
         item2.setText(Messages.ColoursFontsPreferencePage_24);
         item2.setControl(client2);
         
@@ -446,18 +449,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fontPreviewGroup.setLayoutData(gd);
         
         fFontPreviewLabel = new CLabel(fontPreviewGroup, SWT.NONE);
-        gd = new GridData(GridData.FILL_BOTH);
-        //gd.horizontalSpan = 1;
-        gd.widthHint = 400;
-        //fFontPreviewLabel.setLayoutData(gd);
         
         fDefaultFontData = FontFactory.getDefaultUserViewFontData();
         setDefaultFontValues();
         
-        
+        return fTabfolder;
+    }
 
-        
-        return folder;
+    public void selectColoursTab() {
+        fTabfolder.setSelection(0);
+    }
+
+    public void selectFontsTab() {
+        fTabfolder.setSelection(1);
     }
     
     /**
