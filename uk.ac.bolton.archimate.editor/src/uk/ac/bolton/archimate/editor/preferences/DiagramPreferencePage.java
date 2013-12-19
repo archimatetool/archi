@@ -46,12 +46,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fDoAnimationButton;
     private Spinner fAnimationSpeedSpinner;
     
-    private Button fDoAntiAliasButton;
     private Button fPaletteStateButton;
-    
-    private Button fUseOrthogonalAnchorButton;
-    private Button fUseLineCurvesButton;
-    private Button fUseLineJumpsButton;
     
     private Label fDefaultFontLabel;
     private Button fDefaultFontButton;
@@ -91,11 +86,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
         
+        // -------------- Layout ----------------------------
+        
         Group layoutGroup = new Group(client, SWT.NULL);
         layoutGroup.setText(Messages.DiagramPreferencePage_0);
         layoutGroup.setLayout(new GridLayout(2, false));
         layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        // Grid Size
         label = new Label(layoutGroup, SWT.NULL);
         label.setText(Messages.DiagramPreferencePage_1);
         
@@ -103,12 +101,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fGridSizeSpinner.setMinimum(5);
         fGridSizeSpinner.setMaximum(100);
         
+        // Animate Layout
         fDoAnimationButton = new Button(layoutGroup, SWT.CHECK);
         fDoAnimationButton.setText(Messages.DiagramPreferencePage_2);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDoAnimationButton.setLayoutData(gd);
 
+        // Animation Speed
         label = new Label(layoutGroup, SWT.NULL);
         label.setText(Messages.DiagramPreferencePage_3);
 
@@ -116,6 +116,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fAnimationSpeedSpinner.setMinimum(10);
         fAnimationSpeedSpinner.setMaximum(500);
         
+        // -------------- View ----------------------------
+
         Group viewGroup = new Group(client, SWT.NULL);
         viewGroup.setText(Messages.DiagramPreferencePage_4);
         viewGroup.setLayout(new GridLayout(1, false));
@@ -136,32 +138,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fEditNameOnNewObjectButton.setLayoutData(gd);
         
-        // Connections
-        Group connectorGroup = new Group(client, SWT.NULL);
-        connectorGroup.setText(Messages.DiagramPreferencePage_25);
-        connectorGroup.setLayout(new GridLayout());
-        connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fDoAntiAliasButton = new Button(connectorGroup, SWT.CHECK);
-        fDoAntiAliasButton.setText(Messages.DiagramPreferencePage_5);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fDoAntiAliasButton.setLayoutData(gd);
-        
-        fUseOrthogonalAnchorButton = new Button(connectorGroup, SWT.CHECK);
-        fUseOrthogonalAnchorButton.setText(Messages.DiagramPreferencePage_26);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fUseOrthogonalAnchorButton.setLayoutData(gd);
-        
-        fUseLineCurvesButton = new Button(connectorGroup, SWT.CHECK);
-        fUseLineCurvesButton.setText(Messages.DiagramPreferencePage_27);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fUseLineCurvesButton.setLayoutData(gd);
+        // -------------- Font ----------------------------
 
-        fUseLineJumpsButton = new Button(connectorGroup, SWT.CHECK);
-        fUseLineJumpsButton.setText(Messages.DiagramPreferencePage_28);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fUseLineJumpsButton.setLayoutData(gd);
-        
         Group fontGroup = new Group(client, SWT.NULL);
         fontGroup.setText(Messages.DiagramPreferencePage_8);
         fontGroup.setLayout(new GridLayout(2, false));
@@ -196,6 +174,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.widthHint = 400;
         fFontPreviewLabel.setLayoutData(gd);
         
+        // -------------- Viewpoints ----------------------------
+
         Group viewpointsGroup = new Group(client, SWT.NULL);
         viewpointsGroup.setText(Messages.DiagramPreferencePage_13);
         viewpointsGroup.setLayout(new GridLayout(2, false));
@@ -229,6 +209,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsHideDiagramElementsButton.setLayoutData(gd);
         
+        // -------------- Sketch ----------------------------
+
         Group sketchGroup = new Group(client, SWT.NULL);
         sketchGroup.setLayout(new GridLayout(2, false));
         sketchGroup.setText(Messages.DiagramPreferencePage_19);
@@ -252,7 +234,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fDoAnimationButton.setSelection(getPreferenceStore().getBoolean(ANIMATE));
         
-        fDoAntiAliasButton.setSelection(getPreferenceStore().getBoolean(ANTI_ALIAS));
         fPaletteStateButton.setSelection(getPreferenceStore().getBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
         
@@ -265,10 +246,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
-        
-        fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
-        fUseLineCurvesButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_CURVES));
-        fUseLineJumpsButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_JUMPS));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));
         
@@ -302,7 +279,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(ANIMATE, fDoAnimationButton.getSelection());
         getPreferenceStore().setValue(ANIMATION_SPEED, fAnimationSpeedSpinner.getSelection());
         
-        getPreferenceStore().setValue(ANTI_ALIAS, fDoAntiAliasButton.getSelection());
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
         
@@ -312,10 +288,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
-        
-        getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
-        getPreferenceStore().setValue(USE_LINE_CURVES, fUseLineCurvesButton.getSelection());
-        getPreferenceStore().setValue(USE_LINE_JUMPS, fUseLineJumpsButton.getSelection());
         
         getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
@@ -331,7 +303,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fDoAnimationButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE));
         fAnimationSpeedSpinner.setSelection(getPreferenceStore().getDefaultInt(ANIMATION_SPEED));
         
-        fDoAntiAliasButton.setSelection(getPreferenceStore().getDefaultBoolean(ANTI_ALIAS));
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
         
@@ -344,10 +315,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
-        
-        fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
-        fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));
-        fUseLineJumpsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_JUMPS));
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
         
