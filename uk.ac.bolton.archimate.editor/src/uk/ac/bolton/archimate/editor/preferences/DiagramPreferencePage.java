@@ -10,17 +10,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-
-import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
 
 /**
  * Diagram Preferences Page
@@ -49,7 +48,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private Button fEditNameOnNewObjectButton;
     
-    private Combo fDefaultSketchBackgroundCombo;
+    private TabFolder fTabfolder;
+    
+    private DiagramFiguresPreferenceTab fDiagramFiguresPreferenceTab;
+    private DiagramAppearancePreferenceTab fDiagramAppearancePreferenceTab;
+    
     
 	/**
 	 * Constructor
@@ -65,39 +68,57 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
 
+        fTabfolder = new TabFolder(parent, SWT.NONE);
+
+        createGeneralTab();
+        createAppearanceTab();
+        createDefaultElementsTab();
+        
+        return fTabfolder;
+    }
+    
+    private void createGeneralTab() {
         GridData gd;
         Label label;
         
-        Composite client = new Composite(parent, SWT.NULL);
+        Composite client = new Composite(fTabfolder, SWT.NULL);
         client.setLayout(new GridLayout());
         
-        // -------------- Layout ----------------------------
-        
-        Group layoutGroup = new Group(client, SWT.NULL);
-        layoutGroup.setText(Messages.DiagramPreferencePage_0);
-        layoutGroup.setLayout(new GridLayout(2, false));
-        layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
+        item.setText(Messages.DiagramPreferencePage_5);
+        item.setControl(client);
+
+        Composite c = new Composite(client, SWT.NULL);
+        c.setLayout(new GridLayout(2, false));
+        c.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         // Grid Size
-        label = new Label(layoutGroup, SWT.NULL);
+        label = new Label(c, SWT.NULL);
         label.setText(Messages.DiagramPreferencePage_1);
         
-        fGridSizeSpinner = new Spinner(layoutGroup, SWT.BORDER);
+        fGridSizeSpinner = new Spinner(c, SWT.BORDER);
         fGridSizeSpinner.setMinimum(5);
         fGridSizeSpinner.setMaximum(100);
         
+        // -------------- Animation ----------------------------
+        
+        Group animationGroup = new Group(client, SWT.NULL);
+        animationGroup.setText(Messages.DiagramPreferencePage_0);
+        animationGroup.setLayout(new GridLayout(2, false));
+        animationGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
         // Animate Layout
-        fDoAnimationButton = new Button(layoutGroup, SWT.CHECK);
+        fDoAnimationButton = new Button(animationGroup, SWT.CHECK);
         fDoAnimationButton.setText(Messages.DiagramPreferencePage_2);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDoAnimationButton.setLayoutData(gd);
 
         // Animation Speed
-        label = new Label(layoutGroup, SWT.NULL);
+        label = new Label(animationGroup, SWT.NULL);
         label.setText(Messages.DiagramPreferencePage_3);
 
-        fAnimationSpeedSpinner = new Spinner(layoutGroup, SWT.BORDER);
+        fAnimationSpeedSpinner = new Spinner(animationGroup, SWT.BORDER);
         fAnimationSpeedSpinner.setMinimum(10);
         fAnimationSpeedSpinner.setMaximum(500);
         
@@ -158,24 +179,25 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsHideDiagramElementsButton.setLayoutData(gd);
         
-        // -------------- Sketch ----------------------------
-
-        Group sketchGroup = new Group(client, SWT.NULL);
-        sketchGroup.setLayout(new GridLayout(2, false));
-        sketchGroup.setText(Messages.DiagramPreferencePage_19);
-        sketchGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-        // Default Sketch background
-        label = new Label(sketchGroup, SWT.NULL);
-        label.setText(Messages.DiagramPreferencePage_20);
-        fDefaultSketchBackgroundCombo = new Combo(sketchGroup, SWT.READ_ONLY);
-        fDefaultSketchBackgroundCombo.setItems(ISketchEditor.BACKGROUNDS);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fDefaultSketchBackgroundCombo.setLayoutData(gd);
-        
         setValues();
-        
-        return client;
+    }
+    
+    private void createDefaultElementsTab() {
+        fDiagramFiguresPreferenceTab = new DiagramFiguresPreferenceTab();
+        Composite client = fDiagramFiguresPreferenceTab.createContents(fTabfolder);
+
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
+        item.setText(Messages.DiagramPreferencePage_8);
+        item.setControl(client);
+    }
+    
+    private void createAppearanceTab() {
+        fDiagramAppearancePreferenceTab = new DiagramAppearancePreferenceTab();
+        Composite client = fDiagramAppearancePreferenceTab.createContents(fTabfolder);
+
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
+        item.setText(Messages.DiagramPreferencePage_9);
+        item.setControl(client);        
     }
     
     private void setValues() {
@@ -192,8 +214,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
-        
-        fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
     }
@@ -218,15 +238,37 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
         
-        getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
-        
         getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
+        
+        fDiagramFiguresPreferenceTab.performOk();
+        fDiagramAppearancePreferenceTab.performOk();
         
         return true;
     }
     
     @Override
     protected void performDefaults() {
+        switch(fTabfolder.getSelectionIndex()) {
+            case 0:
+                performGeneralDefaults();
+                break;
+
+            case 1:
+                fDiagramAppearancePreferenceTab.performDefaults();
+                break;
+                
+            case 2:
+                fDiagramFiguresPreferenceTab.performDefaults();
+                break;
+           
+            default:
+                break;
+        }
+        
+        super.performDefaults();
+    }
+    
+    private void performGeneralDefaults() {
         fGridSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(GRID_SIZE));
 
         fDoAnimationButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE));
@@ -242,11 +284,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
         
-        fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
-        
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
-        
-        super.performDefaults();
     }
 
     public void init(IWorkbench workbench) {

@@ -115,6 +115,8 @@ public class Messages extends NLS {
 
     public static String ConnectionsPreferencePage_9;
 
+    public static String DiagramAppearancePreferenceTab_0;
+
     public static String DiagramFiguresPreferencePage_0;
 
     public static String DiagramFiguresPreferencePage_1;
@@ -163,9 +165,15 @@ public class Messages extends NLS {
 
     public static String DiagramPreferencePage_4;
 
+    public static String DiagramPreferencePage_5;
+
     public static String DiagramPreferencePage_6;
 
     public static String DiagramPreferencePage_7;
+
+    public static String DiagramPreferencePage_8;
+
+    public static String DiagramPreferencePage_9;
 
     public static String GeneralPreferencePage_0;
 

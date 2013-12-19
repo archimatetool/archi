@@ -69,14 +69,6 @@
          </keywordReference>
       </page>
       <page
-            class="uk.ac.bolton.archimate.editor.preferences.DiagramFiguresPreferencePage"
-            id="uk.ac.bolton.archimate.editor.prefsDiagramFigures"
-            name="%prefsDiagramFigures">
-         <keywordReference
-               id="keywords.prefsFigures">
-         </keywordReference>
-      </page>
-      <page
             class="uk.ac.bolton.archimate.editor.preferences.GeneralPreferencePage"
             id="uk.ac.bolton.archimate.editor.prefsGeneral"
             name="%prefsGeneral">
@@ -595,10 +587,6 @@
       <keyword
             id="keywords.prefsGeneral"
             label="%keyword.label">
-      </keyword>
-      <keyword
-            id="keywords.prefsFigures"
-            label="%keyword.label.0">
       </keyword>
       <keyword
             id="keywords.prefsDiagram"

@@ -59,6 +59,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fCreateRelationWhenMovingElement;
     
     private CheckboxTableViewer fTableViewerNewRelations, fTableViewerHiddenRelations;
+
+    private TabFolder fTabFolder;
     
     public ConnectionsPreferencePage() {
         setPreferenceStore(Preferences.STORE);
@@ -73,12 +75,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
         
-        TabFolder folder = new TabFolder(parent, SWT.NONE);
+        fTabFolder = new TabFolder(parent, SWT.NONE);
         
-        Composite client = new Composite(folder, SWT.NULL);
+        Composite client = new Composite(fTabFolder, SWT.NULL);
         client.setLayout(new GridLayout());
         
-        TabItem item = new TabItem(folder, SWT.NONE);
+        TabItem item = new TabItem(fTabFolder, SWT.NONE);
         item.setText(Messages.ConnectionsPreferencePage_4);
         item.setControl(client);
         
@@ -143,10 +145,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // ARM
         
-        Composite client2 = new Composite(folder, SWT.NULL);
+        Composite client2 = new Composite(fTabFolder, SWT.NULL);
         client2.setLayout(new GridLayout());
     
-        TabItem item2 = new TabItem(folder, SWT.NONE);
+        TabItem item2 = new TabItem(fTabFolder, SWT.NONE);
         item2.setText(Messages.ConnectionsPreferencePage_19);
         item2.setControl(client2);
         
@@ -208,7 +210,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         setValues();
 
-        return folder;
+        return fTabFolder;
     }
     
     private CheckboxTableViewer createRelationsTable(Composite parent) {
@@ -333,6 +335,23 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     @Override
     protected void performDefaults() {
+        switch(fTabFolder.getSelectionIndex()) {
+            case 0:
+                performConnectionsDefaults();
+                break;
+
+            case 1:
+                performARMDefaults();
+                break;
+                
+            default:
+                break;
+        }
+
+        super.performDefaults();
+    }
+    
+    private void performConnectionsDefaults() {
         fDoAnimateMagicConnectorButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_MAGIC_CONNECTOR));
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
@@ -342,7 +361,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
         fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));
         fUseLineJumpsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_JUMPS));
-                
+    }
+    
+    private void performARMDefaults() {
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
         fCreateRelationWhenAddingModelTreeElementButton.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER));
@@ -352,7 +373,5 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTableViewerHiddenRelations.setInput(getPreferenceStore().getDefaultInt(HIDDEN_RELATIONS_TYPES));
         
         enableNestedConnectionComponents();
-        
-        super.performDefaults();
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -23,31 +23,19 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 /**
- * Diagram Figures Preferences Page
+ * Default Figures Preferences Tab panel
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramFiguresPreferencePage
-extends PreferencePage
-implements IWorkbenchPreferencePage, IPreferenceConstants
-{
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsFigures"; //$NON-NLS-1$
+public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     
     private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
-    
-    private Button fShowShadowsButton;
     
     private TableViewer fTableViewer;
     
@@ -74,32 +62,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         }
     }
     
-	/**
-	 * Constructor
-	 */
-	public DiagramFiguresPreferencePage() {
-		setPreferenceStore(Preferences.STORE);
-	}
-
-    @Override
-    protected Control createContents(Composite parent) {
-        // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
-        
+    public Composite createContents(Composite parent) {
         loadFigures();
         
         Composite client = new Composite(parent, SWT.NULL);
         client.setLayout(new GridLayout());
-        
-        Group figuresGroup = new Group(client, SWT.NULL);
-        figuresGroup.setText(Messages.DiagramFiguresPreferencePage_8);
-        figuresGroup.setLayout(new GridLayout());
-        figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fShowShadowsButton = new Button(figuresGroup, SWT.CHECK);
-        fShowShadowsButton.setText(Messages.DiagramFiguresPreferencePage_9);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        fShowShadowsButton.setLayoutData(gd);
         
         GridLayout gridLayout = new GridLayout();
         gridLayout.marginWidth = 0;
@@ -115,7 +82,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         Composite client2 = new Composite(tableClient, SWT.NULL);
         client2.setLayout(new TableColumnLayout());
         
-        gd = new GridData(GridData.FILL_BOTH);
+        GridData gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 80; // need this to set a smaller height
         gd.widthHint = 80;  // need this to stop it getting larger when the splitter is resized in the Prefs dialog
         client2.setLayoutData(gd);
@@ -195,17 +162,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
     }
     
     private void setValues() {
-        fShowShadowsButton.setSelection(getPreferenceStore().getBoolean(SHOW_SHADOWS));
-        
         for(ImageChoice choice : fChoices) {
             choice.type = getPreferenceStore().getInt(choice.key);
         }
     }
     
-    @Override
-    public boolean performOk() {
-        getPreferenceStore().setValue(SHOW_SHADOWS, fShowShadowsButton.getSelection());
+    private IPreferenceStore getPreferenceStore() {
+        return Preferences.STORE;
+    }
 
+    public boolean performOk() {
         for(ImageChoice choice : fChoices) {
             getPreferenceStore().setValue(choice.key, choice.type);
         }
@@ -213,19 +179,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants
         return true;
     }
     
-    @Override
     protected void performDefaults() {
-        fShowShadowsButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SHADOWS));
-
         for(ImageChoice choice : fChoices) {
             choice.type = 0;
         }
         
         fTableViewer.refresh();
-        
-        super.performDefaults();
-    }
-
-    public void init(IWorkbench workbench) {
     }
 }

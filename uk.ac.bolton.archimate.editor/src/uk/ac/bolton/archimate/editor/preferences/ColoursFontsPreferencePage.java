@@ -129,11 +129,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
         
+        fTabfolder = new TabFolder(parent, SWT.NONE);
+        
+        createColoursTab();
+        createFontsTab();
+        
+        return fTabfolder;
+    }
+
+    private void createColoursTab() {
         // Reset everything
         resetColorsCache(false);
         fImageRegistry = new ImageRegistry();
-        
-        fTabfolder = new TabFolder(parent, SWT.NONE);
         
         Composite client = new Composite(fTabfolder, SWT.NULL);
         client.setLayout(new GridLayout(2, false));
@@ -410,21 +417,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursFontsPreferencePage_6);
         fShowUserDefaultFillColorsInApplication.setLayoutData(gd);
         fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getBoolean(SHOW_FILL_COLORS_IN_GUI));
-        
-        
-        // Fonts
-        
-        Composite client2 = new Composite(fTabfolder, SWT.NULL);
-        client2.setLayout(new GridLayout(2, false));
+    }
     
-        TabItem item2 = new TabItem(fTabfolder, SWT.NONE);
-        item2.setText(Messages.ColoursFontsPreferencePage_24);
-        item2.setControl(client2);
+    private void createFontsTab() {
+        Composite client = new Composite(fTabfolder, SWT.NULL);
+        client.setLayout(new GridLayout(2, false));
+    
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
+        item.setText(Messages.ColoursFontsPreferencePage_24);
+        item.setControl(client);
         
-        fDefaultFontLabel = new Label(client2, SWT.NULL);
+        fDefaultFontLabel = new Label(client, SWT.NULL);
         fDefaultFontLabel.setText(Messages.ColoursFontsPreferencePage_25);
         
-        fDefaultFontButton = new Button(client2, SWT.PUSH);
+        fDefaultFontButton = new Button(client, SWT.PUSH);
         fDefaultFontButton.setText(Messages.ColoursFontsPreferencePage_26);
         fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -441,10 +447,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        Group fontPreviewGroup = new Group(client2, SWT.NULL);
+        Group fontPreviewGroup = new Group(client, SWT.NULL);
         fontPreviewGroup.setText(Messages.ColoursFontsPreferencePage_28);
         fontPreviewGroup.setLayout(new GridLayout());
-        gd = new GridData(GridData.FILL_HORIZONTAL);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fontPreviewGroup.setLayoutData(gd);
         
@@ -452,10 +458,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fDefaultFontData = FontFactory.getDefaultUserViewFontData();
         setDefaultFontValues();
-        
-        return fTabfolder;
     }
-
+    
     public void selectColoursTab() {
         fTabfolder.setSelection(0);
     }
@@ -622,6 +626,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected void performDefaults() {
         super.performDefaults();
         
+        switch(fTabfolder.getSelectionIndex()) {
+            case 0:
+                performColoursDefaults();
+                break;
+
+            case 1:
+                performFontsDefaults();
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    private void performColoursDefaults() {
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(DERIVE_ELEMENT_LINE_COLOR));
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
         fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_FILL_COLORS_IN_GUI));
@@ -639,12 +658,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(Entry<Object, Color> entry : fColorsCache.entrySet()) {
             fTreeViewer.update(entry.getKey(), null);
         }
-        
-        // Fonts
+    }
+    
+    private void performFontsDefaults() {
         fDefaultFontData = FontFactory.getDefaultViewOSFontData();
         setDefaultFontValues();
     }
-    
+
     /**
      * @throws IOException
      * Import a User color scheme
