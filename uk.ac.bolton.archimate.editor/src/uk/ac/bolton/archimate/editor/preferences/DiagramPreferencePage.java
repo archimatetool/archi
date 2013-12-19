@@ -7,18 +7,12 @@ package uk.ac.bolton.archimate.editor.preferences;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
@@ -27,7 +21,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.diagram.sketch.ISketchEditor;
-import uk.ac.bolton.archimate.editor.ui.FontFactory;
 
 /**
  * Diagram Preferences Page
@@ -47,15 +40,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Spinner fAnimationSpeedSpinner;
     
     private Button fPaletteStateButton;
-    
-    private Label fDefaultFontLabel;
-    private Button fDefaultFontButton;
-
-    private CLabel fFontPreviewLabel;
-    private FontData fDefaultFontData;
-    
-    private Font fTempFont;
-    
+        
     private Button fViewpointsFilterModelTreeButton;
     private Button fViewpointsHidePaletteElementsButton;
     private Button fViewpointsGhostDiagramElementsButton;
@@ -138,42 +123,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fEditNameOnNewObjectButton.setLayoutData(gd);
         
-        // -------------- Font ----------------------------
-
-        Group fontGroup = new Group(client, SWT.NULL);
-        fontGroup.setText(Messages.DiagramPreferencePage_8);
-        fontGroup.setLayout(new GridLayout(2, false));
-        fontGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fDefaultFontLabel = new Label(fontGroup, SWT.NULL);
-        fDefaultFontLabel.setText(Messages.DiagramPreferencePage_9);
-        
-        fDefaultFontButton = new Button(fontGroup, SWT.PUSH);
-        fDefaultFontButton.setText(Messages.DiagramPreferencePage_10);
-        fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                FontDialog dialog = new FontDialog(getShell());
-                dialog.setText(Messages.DiagramPreferencePage_11);
-                dialog.setFontList(new FontData[] { fDefaultFontData });
-                
-                FontData fd = dialog.open();
-                if(fd != null) {
-                    fDefaultFontData = fd;
-                    setDefaultFontValues();
-                }
-            }
-        });
-        
-        label = new Label(fontGroup, SWT.NULL);
-        label.setText(Messages.DiagramPreferencePage_12);
-        
-        fFontPreviewLabel = new CLabel(fontGroup, SWT.BORDER);
-        gd = new GridData(GridData.FILL_BOTH);
-        gd.horizontalSpan = 2;
-        gd.widthHint = 400;
-        fFontPreviewLabel.setLayoutData(gd);
-        
         // -------------- Viewpoints ----------------------------
 
         Group viewpointsGroup = new Group(client, SWT.NULL);
@@ -237,9 +186,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fPaletteStateButton.setSelection(getPreferenceStore().getBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
         
-        fDefaultFontData = FontFactory.getDefaultUserViewFontData();
-        setDefaultFontValues();
-        
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
         fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
@@ -257,21 +203,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fAnimationSpeedSpinner.setSelection(getPreferenceStore().getInt(ANIMATION_SPEED));
     }
     
-    private void setDefaultFontValues() {
-        fFontPreviewLabel.setText(fDefaultFontData.getName() + " " + //$NON-NLS-1$
-                fDefaultFontData.getHeight() + " " + //$NON-NLS-1$
-                ((fDefaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.DiagramPreferencePage_21 : "") + " " +  //$NON-NLS-1$ //$NON-NLS-2$
-                ((fDefaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.DiagramPreferencePage_22 : "") + " " +  //$NON-NLS-1$ //$NON-NLS-2$
-                "\n" + Messages.DiagramPreferencePage_23); //$NON-NLS-1$
-        
-        disposeTempFont();
-        fTempFont = new Font(null, fDefaultFontData);
-        fFontPreviewLabel.setFont(fTempFont);
-        
-        fFontPreviewLabel.getParent().getParent().layout();
-        fFontPreviewLabel.getParent().getParent().redraw();
-    }
-    
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(GRID_SIZE, fGridSizeSpinner.getSelection());
@@ -281,8 +212,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
-        
-        FontFactory.setDefaultUserViewFont(fDefaultFontData);
         
         getPreferenceStore().setValue(VIEWPOINTS_FILTER_MODEL_TREE, fViewpointsFilterModelTreeButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
@@ -306,9 +235,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
         
-        fDefaultFontData = FontFactory.getDefaultViewOSFontData();
-        setDefaultFontValues();
-        
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
         fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
@@ -326,16 +252,4 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public void init(IWorkbench workbench) {
     }
     
-    @Override
-    public void dispose() {
-        super.dispose();
-        disposeTempFont();
-    }
-    
-    private void disposeTempFont() {
-        if(fTempFont != null && !fTempFont.isDisposed()) {
-            fTempFont.dispose();
-            fTempFont = null;
-        }
-    }
 }

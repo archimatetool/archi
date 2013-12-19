@@ -93,11 +93,11 @@
          </keywordReference>
       </page>
       <page
-            class="uk.ac.bolton.archimate.editor.preferences.ColoursPreferencePage"
-            id="uk.ac.bolton.archimate.editor.prefsColours"
-            name="%prefsColours">
+            class="uk.ac.bolton.archimate.editor.preferences.ColoursFontsPreferencePage"
+            id="uk.ac.bolton.archimate.editor.prefsColoursFonts"
+            name="%prefsColoursFonts">
          <keywordReference
-               id="keywords.prefsColours">
+               id="keywords.prefsColoursFonts">
          </keywordReference>
       </page>
    </extension>
@@ -613,7 +613,7 @@
             label="%keyword.label.3">
       </keyword>
       <keyword
-            id="keywords.prefsColours"
+            id="keywords.prefsColoursFonts"
             label="%keyword.label.4">
       </keyword>
    </extension>

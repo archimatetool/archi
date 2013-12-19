@@ -23,6 +23,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -71,8 +73,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
         
-        Composite client = new Composite(parent, SWT.NULL);
+        TabFolder folder = new TabFolder(parent, SWT.NONE);
+        
+        Composite client = new Composite(folder, SWT.NULL);
         client.setLayout(new GridLayout());
+        
+        TabItem item = new TabItem(folder, SWT.NONE);
+        item.setText(Messages.ConnectionsPreferencePage_4);
+        item.setControl(client);
         
         // Magic Connector
         Group magicConnectorGroup = new Group(client, SWT.NULL);
@@ -95,16 +103,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fMagicConnectorPolarity2Button.setLayoutData(gd);
         
-        // Connections
+        // Drawing
         Group connectorGroup = new Group(client, SWT.NULL);
-        connectorGroup.setText(Messages.ConnectionsPreferencePage_4);
+        connectorGroup.setText(Messages.ConnectionsPreferencePage_17);
         connectorGroup.setLayout(new GridLayout());
         connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fAllowCircularConnectionsButton = new Button(connectorGroup, SWT.CHECK);
-        fAllowCircularConnectionsButton.setText(Messages.ConnectionsPreferencePage_5);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fAllowCircularConnectionsButton.setLayoutData(gd);
         
         fDoAntiAliasButton = new Button(connectorGroup, SWT.CHECK);
         fDoAntiAliasButton.setText(Messages.ConnectionsPreferencePage_13);
@@ -126,13 +129,32 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseLineJumpsButton.setLayoutData(gd);
         
-        // Nested Connections (ARM)
-        Group nestedConnectionsGroup = new Group(client, SWT.NULL);
-        nestedConnectionsGroup.setText(Messages.ConnectionsPreferencePage_6);
-        nestedConnectionsGroup.setLayout(new GridLayout());
-        nestedConnectionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        // Rules
+        Group rulesGroup = new Group(client, SWT.NULL);
+        rulesGroup.setText(Messages.ConnectionsPreferencePage_18);
+        rulesGroup.setLayout(new GridLayout());
+        rulesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fAllowCircularConnectionsButton = new Button(rulesGroup, SWT.CHECK);
+        fAllowCircularConnectionsButton.setText(Messages.ConnectionsPreferencePage_5);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fAllowCircularConnectionsButton.setLayoutData(gd);
+        
+        
+        // ARM
+        
+        Composite client2 = new Composite(folder, SWT.NULL);
+        client2.setLayout(new GridLayout());
+    
+        TabItem item2 = new TabItem(folder, SWT.NONE);
+        item2.setText(Messages.ConnectionsPreferencePage_19);
+        item2.setControl(client2);
+        
+        // Nested Connections
+        Label label = new Label(client2, SWT.NONE);
+        label.setText(Messages.ConnectionsPreferencePage_6);
 
-        fUseNestedConnectionsButton = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fUseNestedConnectionsButton = new Button(client2, SWT.CHECK);
         fUseNestedConnectionsButton.setText(Messages.ConnectionsPreferencePage_7);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseNestedConnectionsButton.setLayoutData(gd);
@@ -143,7 +165,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fCreateRelationWhenAddingNewElementButton = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fCreateRelationWhenAddingNewElementButton = new Button(client2, SWT.CHECK);
         fCreateRelationWhenAddingNewElementButton.setText(Messages.ConnectionsPreferencePage_8);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenAddingNewElementButton.setLayoutData(gd);
@@ -154,7 +176,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fCreateRelationWhenAddingModelTreeElementButton = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fCreateRelationWhenAddingModelTreeElementButton = new Button(client2, SWT.CHECK);
         fCreateRelationWhenAddingModelTreeElementButton.setText(Messages.ConnectionsPreferencePage_9);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenAddingModelTreeElementButton.setLayoutData(gd);
@@ -165,7 +187,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fCreateRelationWhenMovingElement = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fCreateRelationWhenMovingElement = new Button(client2, SWT.CHECK);
         fCreateRelationWhenMovingElement.setText(Messages.ConnectionsPreferencePage_10);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenMovingElement.setLayoutData(gd);
@@ -176,17 +198,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        Label label = new Label(nestedConnectionsGroup, SWT.NONE);
+        label = new Label(client2, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_11);
-        fTableViewerNewRelations = createRelationsTable(nestedConnectionsGroup);
+        fTableViewerNewRelations = createRelationsTable(client2);
         
-        label = new Label(nestedConnectionsGroup, SWT.NONE);
+        label = new Label(client2, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_12);
-        fTableViewerHiddenRelations = createRelationsTable(nestedConnectionsGroup);
+        fTableViewerHiddenRelations = createRelationsTable(client2);
         
         setValues();
 
-        return client;
+        return folder;
     }
     
     private CheckboxTableViewer createRelationsTable(Composite parent) {

@@ -88,8 +88,8 @@
        <description>Edit the Connections Preferences.</description>
        <topic href="help/prefs_connections.html" label="Connections Preferences"/>
     </context>
-    <context id="prefsColours" title="Colours Preferences">
-       <topic href="help/prefs_colours.html" label="Colours Preferences"/>
+    <context id="prefsColoursFonts" title="Colours and Fonts Preferences">
+       <topic href="help/prefs_colours_fonts.html" label="Colours and Fonts Preferences"/>
        <description>Edit the application colours</description>
     </context>
     <context id="prefsDiagram" title="Diagram Preferences">
