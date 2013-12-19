@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.editor.preferences;
+package uk.ac.bolton.archimate.editor.ui.dialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -28,49 +28,61 @@ import org.eclipse.nebula.jface.gridviewer.internal.CellSelection;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
+import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
+import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 import uk.ac.bolton.archimate.model.util.RelationshipsMatrix;
 import uk.ac.bolton.archimate.model.util.RelationshipsMatrix.TargetMatrix;
 
+
 /**
- * Relations Preferences Page
+ * Relationships matrix Dialog
  * 
  * @author Phillip Beauvoir
  */
-public class RelationsPreferencePage
-extends PreferencePage
-implements IWorkbenchPreferencePage, IPreferenceConstants {
+public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.prefsRelations"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.RelationshipsMatrixDialog"; //$NON-NLS-1$
     
     private List<EClass> fAllClasses;
     
-	public RelationsPreferencePage() {
-		setPreferenceStore(Preferences.STORE);
-	}
-	
-    @Override
-    protected Control createContents(Composite parent) {
-        // Help
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
-        
-        Label rubric = new Label(parent, SWT.NULL);
-        rubric.setText(Messages.RelationsPreferencePage_0);
+    public RelationshipsMatrixDialog(Shell parentShell) {
+        super(parentShell, "RelationshipsMatrixDialog"); //$NON-NLS-1$
+        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setShellStyle(getShellStyle() | SWT.RESIZE);
+    }
 
-        Composite client = new Composite(parent, SWT.NULL);
-        client.setLayout(new GridLayout(2, false));
+    @Override
+    protected void configureShell(Shell shell) {
+        super.configureShell(shell);
+        shell.setText(Messages.RelationshipsMatrixDialog_0);
+    }
+
+    @Override
+    protected Control createDialogArea(Composite parent) {
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
+
+        setTitle(Messages.RelationshipsMatrixDialog_0);
+        setMessage(Messages.RelationshipsMatrixDialog_1);
+        Composite composite = (Composite)super.createDialogArea(parent);
+
+        Composite client = new Composite(composite, SWT.NULL);
+        GridLayout layout = new GridLayout(2, false);
+        client.setLayout(layout);
+        client.setLayoutData(new GridData(GridData.FILL_BOTH));
         
         GridData gd;
         
@@ -97,7 +109,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         for(EClass eClass : getData()) {
             GridColumn column = new GridColumn(viewer.getGrid(), SWT.NONE);
-            column.setWidth(60);
+            column.setWidth(70);
             column.setImage(ArchimateLabelProvider.INSTANCE.getImage(eClass));
             column.setHeaderTooltip(ArchimateLabelProvider.INSTANCE.getDefaultName(eClass));
         }
@@ -131,7 +143,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(text);
         label.setLayoutData(new GridData(SWT.TOP, SWT.TOP, false, true));
         
-        return client;
+        return composite;
     }
     
     @SuppressWarnings("unused")
@@ -217,15 +229,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     }
     
     @Override
-    public boolean performOk() {
-        return true;
+    protected Point getDefaultDialogSize() {
+        return new Point(1000, 700);
     }
     
     @Override
-    protected void performDefaults() {
-        super.performDefaults();
+    protected void createButtonsForButtonBar(Composite parent) {
+        // create OK button
+        createButton(parent, IDialogConstants.OK_ID, Messages.RelationshipsMatrixDialog_2, true);
     }
     
-    public void init(IWorkbench workbench) {
-    }
 }

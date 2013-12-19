@@ -11,51 +11,69 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.editor.preferences.messages"; //$NON-NLS-1$
 
-    public static String ColoursPreferencePage_0;
+    public static String ColoursFontsPreferencePage_0;
 
-    public static String ColoursPreferencePage_1;
+    public static String ColoursFontsPreferencePage_1;
 
-    public static String ColoursPreferencePage_10;
+    public static String ColoursFontsPreferencePage_10;
 
-    public static String ColoursPreferencePage_11;
+    public static String ColoursFontsPreferencePage_11;
 
-    public static String ColoursPreferencePage_12;
+    public static String ColoursFontsPreferencePage_12;
 
-    public static String ColoursPreferencePage_13;
+    public static String ColoursFontsPreferencePage_13;
 
-    public static String ColoursPreferencePage_14;
+    public static String ColoursFontsPreferencePage_14;
 
-    public static String ColoursPreferencePage_15;
+    public static String ColoursFontsPreferencePage_15;
 
-    public static String ColoursPreferencePage_16;
+    public static String ColoursFontsPreferencePage_16;
 
-    public static String ColoursPreferencePage_17;
+    public static String ColoursFontsPreferencePage_17;
 
-    public static String ColoursPreferencePage_18;
+    public static String ColoursFontsPreferencePage_18;
 
-    public static String ColoursPreferencePage_19;
+    public static String ColoursFontsPreferencePage_19;
 
-    public static String ColoursPreferencePage_2;
+    public static String ColoursFontsPreferencePage_2;
 
-    public static String ColoursPreferencePage_20;
+    public static String ColoursFontsPreferencePage_20;
 
-    public static String ColoursPreferencePage_21;
+    public static String ColoursFontsPreferencePage_21;
 
-    public static String ColoursPreferencePage_22;
+    public static String ColoursFontsPreferencePage_22;
 
-    public static String ColoursPreferencePage_3;
+    public static String ColoursFontsPreferencePage_23;
 
-    public static String ColoursPreferencePage_4;
+    public static String ColoursFontsPreferencePage_24;
 
-    public static String ColoursPreferencePage_5;
+    public static String ColoursFontsPreferencePage_25;
 
-    public static String ColoursPreferencePage_6;
+    public static String ColoursFontsPreferencePage_26;
 
-    public static String ColoursPreferencePage_7;
+    public static String ColoursFontsPreferencePage_27;
 
-    public static String ColoursPreferencePage_8;
+    public static String ColoursFontsPreferencePage_28;
 
-    public static String ColoursPreferencePage_9;
+    public static String ColoursFontsPreferencePage_29;
+
+    public static String ColoursFontsPreferencePage_3;
+
+    public static String ColoursFontsPreferencePage_30;
+
+    public static String ColoursFontsPreferencePage_31;
+
+    public static String ColoursFontsPreferencePage_4;
+
+    public static String ColoursFontsPreferencePage_5;
+
+    public static String ColoursFontsPreferencePage_6;
+
+    public static String ColoursFontsPreferencePage_7;
+
+    public static String ColoursFontsPreferencePage_8;
+
+    public static String ColoursFontsPreferencePage_9;
 
     public static String ConnectionsPreferencePage_0;
 
@@ -66,6 +84,20 @@ public class Messages extends NLS {
     public static String ConnectionsPreferencePage_11;
 
     public static String ConnectionsPreferencePage_12;
+
+    public static String ConnectionsPreferencePage_13;
+
+    public static String ConnectionsPreferencePage_14;
+
+    public static String ConnectionsPreferencePage_15;
+
+    public static String ConnectionsPreferencePage_16;
+
+    public static String ConnectionsPreferencePage_17;
+
+    public static String ConnectionsPreferencePage_18;
+
+    public static String ConnectionsPreferencePage_19;
 
     public static String ConnectionsPreferencePage_2;
 
@@ -82,6 +114,8 @@ public class Messages extends NLS {
     public static String ConnectionsPreferencePage_8;
 
     public static String ConnectionsPreferencePage_9;
+
+    public static String DiagramAppearancePreferenceTab_0;
 
     public static String DiagramFiguresPreferencePage_0;
 
@@ -107,12 +141,6 @@ public class Messages extends NLS {
 
     public static String DiagramPreferencePage_1;
 
-    public static String DiagramPreferencePage_10;
-
-    public static String DiagramPreferencePage_11;
-
-    public static String DiagramPreferencePage_12;
-
     public static String DiagramPreferencePage_13;
 
     public static String DiagramPreferencePage_14;
@@ -131,21 +159,7 @@ public class Messages extends NLS {
 
     public static String DiagramPreferencePage_20;
 
-    public static String DiagramPreferencePage_21;
-
-    public static String DiagramPreferencePage_22;
-
-    public static String DiagramPreferencePage_23;
-
     public static String DiagramPreferencePage_24;
-
-    public static String DiagramPreferencePage_25;
-
-    public static String DiagramPreferencePage_26;
-    
-    public static String DiagramPreferencePage_27;
-    
-    public static String DiagramPreferencePage_28;
 
     public static String DiagramPreferencePage_3;
 
@@ -177,7 +191,6 @@ public class Messages extends NLS {
 
     public static String GeneralPreferencePage_7;
 
-    public static String RelationsPreferencePage_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

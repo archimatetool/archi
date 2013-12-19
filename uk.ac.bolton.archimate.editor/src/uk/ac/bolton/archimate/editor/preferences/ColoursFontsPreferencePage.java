@@ -28,9 +28,12 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
@@ -42,30 +45,36 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
+import uk.ac.bolton.archimate.editor.ui.FontFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 /**
- * Default Colours Preferences Page
+ * Colours and Fonts Preferences Page
  * 
  * @author Phillip Beauvoir
  */
-public class ColoursPreferencePage
+public class ColoursFontsPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.prefsColours"; //$NON-NLS-1$
+    public static String ID = "uk.ac.bolton.archimate.editor.prefsColoursFonts"; //$NON-NLS-1$
+    
+    public static String HELPID = "uk.ac.bolton.archimate.help.prefsColoursFonts"; //$NON-NLS-1$
     
     // Cache of objects' colours
     private Hashtable<Object, Color> fColorsCache = new Hashtable<Object, Color>();
@@ -88,6 +97,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private Label fContrastFactorLabel;
     
+
+    private Label fDefaultFontLabel;
+    private Button fDefaultFontButton;
+
+    private CLabel fFontPreviewLabel;
+    private FontData fDefaultFontData;
+    
+    private Font fTempFont;
+    
+    private TabFolder fTabfolder;
+    
+    
     // Convenience model class for Tree
     private static class TreeGrouping {
         public String title;
@@ -99,7 +120,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
     
-	public ColoursPreferencePage() {
+	public ColoursFontsPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
 	}
 	
@@ -108,16 +129,28 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELPID);
         
+        fTabfolder = new TabFolder(parent, SWT.NONE);
+        
+        createColoursTab();
+        createFontsTab();
+        
+        return fTabfolder;
+    }
+
+    private void createColoursTab() {
         // Reset everything
         resetColorsCache(false);
         fImageRegistry = new ImageRegistry();
         
-        // Layout client
-        Composite client = new Composite(parent, SWT.NULL);
+        Composite client = new Composite(fTabfolder, SWT.NULL);
         client.setLayout(new GridLayout(2, false));
         
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
+        item.setText(Messages.ColoursFontsPreferencePage_23);
+        item.setControl(client);
+        
         Label label = new Label(client, SWT.NULL);
-        label.setText(Messages.ColoursPreferencePage_0);
+        label.setText(Messages.ColoursFontsPreferencePage_0);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         label.setLayoutData(gd);
@@ -169,12 +202,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             public Object[] getElements(Object inputElement) {
                 if(inputElement instanceof String) {
                     return new Object[] {
-                            new TreeGrouping(Messages.ColoursPreferencePage_7, ArchimateModelUtils.getBusinessClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_8, ArchimateModelUtils.getApplicationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_9, ArchimateModelUtils.getTechnologyClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_10, ArchimateModelUtils.getMotivationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_11, ArchimateModelUtils.getImplementationMigrationClasses()),
-                            new TreeGrouping(Messages.ColoursPreferencePage_17,
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_7, ArchimateModelUtils.getBusinessClasses()),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_8, ArchimateModelUtils.getApplicationClasses()),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_9, ArchimateModelUtils.getTechnologyClasses()),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_10, ArchimateModelUtils.getMotivationClasses()),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_11, ArchimateModelUtils.getImplementationMigrationClasses()),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_17,
                                     new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
                                                    IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
                             DEFAULT_ELEMENT_LINE_COLOR,
@@ -219,10 +252,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 if(element instanceof String) {
                     String s = (String)element;
                     if(s.equals(DEFAULT_ELEMENT_LINE_COLOR)) {
-                        return Messages.ColoursPreferencePage_12;
+                        return Messages.ColoursFontsPreferencePage_12;
                     }
                     if(s.equals(DEFAULT_CONNECTION_LINE_COLOR)) {
-                        return Messages.ColoursPreferencePage_18;
+                        return Messages.ColoursFontsPreferencePage_18;
                     }
                 }
                 
@@ -272,7 +305,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Edit...
         fEditFillColorButton = new Button(buttonClient, SWT.PUSH);
-        fEditFillColorButton.setText(Messages.ColoursPreferencePage_13);
+        fEditFillColorButton.setText(Messages.ColoursFontsPreferencePage_13);
         fEditFillColorButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fEditFillColorButton.setEnabled(false);
         fEditFillColorButton.addSelectionListener(new SelectionAdapter() {
@@ -292,7 +325,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         // Reset
         fResetFillColorButton = new Button(buttonClient, SWT.PUSH);
-        fResetFillColorButton.setText(Messages.ColoursPreferencePage_14);
+        fResetFillColorButton.setText(Messages.ColoursFontsPreferencePage_14);
         fResetFillColorButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fResetFillColorButton.setEnabled(false);
         fResetFillColorButton.addSelectionListener(new SelectionAdapter() {
@@ -309,7 +342,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Import Scheme
         Button importButton = new Button(buttonClient, SWT.PUSH);
-        importButton.setText(Messages.ColoursPreferencePage_2);
+        importButton.setText(Messages.ColoursFontsPreferencePage_2);
         importButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         importButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -325,7 +358,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Export Scheme
         Button exportButton = new Button(buttonClient, SWT.PUSH);
-        exportButton.setText(Messages.ColoursPreferencePage_3);
+        exportButton.setText(Messages.ColoursFontsPreferencePage_3);
         exportButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         exportButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -342,11 +375,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Group elementColorGroup = new Group(client, SWT.NULL);
         elementColorGroup.setLayout(new GridLayout(2, false));
         elementColorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        elementColorGroup.setText(Messages.ColoursPreferencePage_20);
+        elementColorGroup.setText(Messages.ColoursFontsPreferencePage_20);
         
         // Derive element line colours
         fDeriveElementLineColorsButton = new Button(elementColorGroup, SWT.CHECK);
-        fDeriveElementLineColorsButton.setText(Messages.ColoursPreferencePage_19);
+        fDeriveElementLineColorsButton.setText(Messages.ColoursFontsPreferencePage_19);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fDeriveElementLineColorsButton.setLayoutData(gd);
@@ -360,7 +393,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         });
         
         fContrastFactorLabel = new Label(elementColorGroup, SWT.NULL);
-        fContrastFactorLabel.setText(Messages.ColoursPreferencePage_21);
+        fContrastFactorLabel.setText(Messages.ColoursFontsPreferencePage_21);
         
         fElementLineColorContrastSpinner = new Spinner(elementColorGroup, SWT.BORDER);
         fElementLineColorContrastSpinner.setMinimum(1);
@@ -368,24 +401,71 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fElementLineColorContrastSpinner.setSelection(getPreferenceStore().getInt(DERIVE_ELEMENT_LINE_COLOR_FACTOR));
         
         label = new Label(elementColorGroup, SWT.NULL);
-        label.setText(Messages.ColoursPreferencePage_22);
+        label.setText(Messages.ColoursFontsPreferencePage_22);
 
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
 
         // Persist user default colours
         fPersistUserDefaultColors = new Button(client, SWT.CHECK);
-        fPersistUserDefaultColors.setText(Messages.ColoursPreferencePage_1);
+        fPersistUserDefaultColors.setText(Messages.ColoursFontsPreferencePage_1);
         fPersistUserDefaultColors.setLayoutData(gd);
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getBoolean(SAVE_USER_DEFAULT_COLOR));
         
         // Use colours in application
         fShowUserDefaultFillColorsInApplication = new Button(client, SWT.CHECK);
-        fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursPreferencePage_6);
+        fShowUserDefaultFillColorsInApplication.setText(Messages.ColoursFontsPreferencePage_6);
         fShowUserDefaultFillColorsInApplication.setLayoutData(gd);
         fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getBoolean(SHOW_FILL_COLORS_IN_GUI));
+    }
+    
+    private void createFontsTab() {
+        Composite client = new Composite(fTabfolder, SWT.NULL);
+        client.setLayout(new GridLayout(2, false));
+    
+        TabItem item = new TabItem(fTabfolder, SWT.NONE);
+        item.setText(Messages.ColoursFontsPreferencePage_24);
+        item.setControl(client);
         
-        return client;
+        fDefaultFontLabel = new Label(client, SWT.NULL);
+        fDefaultFontLabel.setText(Messages.ColoursFontsPreferencePage_25);
+        
+        fDefaultFontButton = new Button(client, SWT.PUSH);
+        fDefaultFontButton.setText(Messages.ColoursFontsPreferencePage_26);
+        fDefaultFontButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                FontDialog dialog = new FontDialog(getShell());
+                dialog.setText(Messages.ColoursFontsPreferencePage_27);
+                dialog.setFontList(new FontData[] { fDefaultFontData });
+                
+                FontData fd = dialog.open();
+                if(fd != null) {
+                    fDefaultFontData = fd;
+                    setDefaultFontValues();
+                }
+            }
+        });
+        
+        Group fontPreviewGroup = new Group(client, SWT.NULL);
+        fontPreviewGroup.setText(Messages.ColoursFontsPreferencePage_28);
+        fontPreviewGroup.setLayout(new GridLayout());
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fontPreviewGroup.setLayoutData(gd);
+        
+        fFontPreviewLabel = new CLabel(fontPreviewGroup, SWT.NONE);
+        
+        fDefaultFontData = FontFactory.getDefaultUserViewFontData();
+        setDefaultFontValues();
+    }
+    
+    public void selectColoursTab() {
+        fTabfolder.setSelection(0);
+    }
+
+    public void selectFontsTab() {
+        fTabfolder.setSelection(1);
     }
     
     /**
@@ -534,7 +614,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR_FACTOR, fElementLineColorContrastSpinner.getSelection());
         getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
         getPreferenceStore().setValue(SHOW_FILL_COLORS_IN_GUI, fShowUserDefaultFillColorsInApplication.getSelection());
+        
         saveColors(getPreferenceStore());        
+        
+        FontFactory.setDefaultUserViewFont(fDefaultFontData);
+        
         return true;
     }
     
@@ -542,6 +626,21 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected void performDefaults() {
         super.performDefaults();
         
+        switch(fTabfolder.getSelectionIndex()) {
+            case 0:
+                performColoursDefaults();
+                break;
+
+            case 1:
+                performFontsDefaults();
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    private void performColoursDefaults() {
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(DERIVE_ELEMENT_LINE_COLOR));
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
         fShowUserDefaultFillColorsInApplication.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_FILL_COLORS_IN_GUI));
@@ -561,13 +660,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
     
+    private void performFontsDefaults() {
+        fDefaultFontData = FontFactory.getDefaultViewOSFontData();
+        setDefaultFontValues();
+    }
+
     /**
      * @throws IOException
      * Import a User color scheme
      */
     private void importUserColors() throws IOException {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-        dialog.setText(Messages.ColoursPreferencePage_4);
+        dialog.setText(Messages.ColoursFontsPreferencePage_4);
         dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
         String path = dialog.open();
         if(path == null) {
@@ -608,7 +712,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      */
     private void exportUserColors() throws IOException {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-        dialog.setText(Messages.ColoursPreferencePage_5);
+        dialog.setText(Messages.ColoursFontsPreferencePage_5);
         dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
         String path = dialog.open();
         if(path == null) {
@@ -619,8 +723,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         File file = new File(path);
         if(file.exists()) {
             boolean result = MessageDialog.openQuestion(getShell(),
-                    Messages.ColoursPreferencePage_15,
-                    NLS.bind(Messages.ColoursPreferencePage_16, file));
+                    Messages.ColoursFontsPreferencePage_15,
+                    NLS.bind(Messages.ColoursFontsPreferencePage_16, file));
             if(!result) {
                 return;
             }
@@ -670,6 +774,28 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
     }
     
+    private void setDefaultFontValues() {
+        fFontPreviewLabel.setText(fDefaultFontData.getName() + " " + //$NON-NLS-1$
+                fDefaultFontData.getHeight() + " " + //$NON-NLS-1$
+                ((fDefaultFontData.getStyle() & SWT.BOLD) == SWT.BOLD ? Messages.ColoursFontsPreferencePage_29 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
+                ((fDefaultFontData.getStyle() & SWT.ITALIC) == SWT.ITALIC ? Messages.ColoursFontsPreferencePage_30 : "") + " " +  //$NON-NLS-1$//$NON-NLS-2$
+                "\n" + Messages.ColoursFontsPreferencePage_31); //$NON-NLS-1$
+        
+        disposeTempFont();
+        fTempFont = new Font(null, fDefaultFontData);
+        fFontPreviewLabel.setFont(fTempFont);
+        
+        fFontPreviewLabel.getParent().getParent().layout();
+        fFontPreviewLabel.getParent().getParent().redraw();
+    }
+    
+    private void disposeTempFont() {
+        if(fTempFont != null && !fTempFont.isDisposed()) {
+            fTempFont.dispose();
+            fTempFont = null;
+        }
+    }
+    
     public void init(IWorkbench workbench) {
     }
     
@@ -686,5 +812,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fImageRegistry.dispose();
         fImageRegistry = null;
+        
+        disposeTempFont();
     }
 }

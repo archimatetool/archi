@@ -35,6 +35,7 @@ import uk.ac.bolton.archimate.editor.model.IModelExporter;
 import uk.ac.bolton.archimate.editor.model.IModelImporter;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.components.HeapStatusWidget.HeapStatusWidgetToolBarContributionItem;
+import uk.ac.bolton.archimate.editor.ui.dialog.RelationshipsMatrixDialog;
 import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.views.navigator.INavigatorView;
@@ -84,6 +85,8 @@ extends ActionBarAdvisor {
     private IAction fShowOutlineView;
     private IAction fShowNavigatorView;
     private IAction fShowPaletteView;
+    
+    private IAction fActionShowRelationsMatrix;
 
     
     /**
@@ -218,6 +221,15 @@ extends ActionBarAdvisor {
             };
         };
         register(fShowPaletteView);
+        
+        // Show Relationships matrix dialog
+        fActionShowRelationsMatrix = new Action(Messages.ArchimateEditorActionBarAdvisor_17) {
+            @Override
+            public void run() {
+                RelationshipsMatrixDialog dialog = new RelationshipsMatrixDialog(window.getShell());
+                dialog.open();
+            }
+        };
     }
     
     @Override
@@ -446,6 +458,8 @@ extends ActionBarAdvisor {
         
         menu.add(new Separator());
         menu.add(item);
+        
+        menu.add(fActionShowRelationsMatrix);
 
         return menu;
     }

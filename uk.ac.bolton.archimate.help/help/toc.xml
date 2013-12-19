@@ -122,6 +122,8 @@
        <topic href="help/templates_managing.html" label="Managing your Templates">
        </topic>
     </topic>
+    <topic href="help/relations_rules.html" label="Relationships">
+    </topic>
     <topic href="help/derived_rels.html" label="Derived Relationships">
     </topic>
     <topic href="help/sketch_view.html" label="The Sketch View">
@@ -151,19 +153,15 @@
     <topic href="help/preferences.html" label="Preferences">
        <topic href="help/prefs_canvas.html" label="Canvas Toolkit">
        </topic>
-       <topic href="help/prefs_colours.html" label="Colours">
+       <topic href="help/prefs_colours_fonts.html" label="Colours and Fonts">
        </topic>
        <topic href="help/prefs_connections.html" label="Connections">
        </topic>
        <topic href="help/prefs_diagram.html" label="Diagram">
        </topic>
-       <topic href="help/prefs_figures.html" label="Figures">
-       </topic>
        <topic href="help/prefs_general.html" label="General">
        </topic>
        <topic href="help/prefs_help.html" label="Help">
-       </topic>
-       <topic href="help/prefs_relations.html" label="Relations">
        </topic>
     </topic>
     <topic href="help/appendix.html" label="Appendix">

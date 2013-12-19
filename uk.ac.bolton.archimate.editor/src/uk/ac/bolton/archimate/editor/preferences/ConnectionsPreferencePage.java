@@ -23,6 +23,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -46,13 +48,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fMagicConnectorPolarity2Button;
     
     private Button fAllowCircularConnectionsButton;
-    
+    private Button fDoAntiAliasButton;
+    private Button fUseOrthogonalAnchorButton;
+    private Button fUseLineCurvesButton;
+    private Button fUseLineJumpsButton;
+
     private Button fUseNestedConnectionsButton;
     private Button fCreateRelationWhenAddingNewElementButton;
     private Button fCreateRelationWhenAddingModelTreeElementButton;
     private Button fCreateRelationWhenMovingElement;
     
     private CheckboxTableViewer fTableViewerNewRelations, fTableViewerHiddenRelations;
+
+    private TabFolder fTabFolder;
     
     public ConnectionsPreferencePage() {
         setPreferenceStore(Preferences.STORE);
@@ -67,8 +75,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
         
-        Composite client = new Composite(parent, SWT.NULL);
+        fTabFolder = new TabFolder(parent, SWT.NONE);
+        
+        Composite client = new Composite(fTabFolder, SWT.NULL);
         client.setLayout(new GridLayout());
+        
+        TabItem item = new TabItem(fTabFolder, SWT.NONE);
+        item.setText(Messages.ConnectionsPreferencePage_4);
+        item.setControl(client);
         
         // Magic Connector
         Group magicConnectorGroup = new Group(client, SWT.NULL);
@@ -91,24 +105,58 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fMagicConnectorPolarity2Button.setLayoutData(gd);
         
-        // Connections
+        // Drawing
         Group connectorGroup = new Group(client, SWT.NULL);
-        connectorGroup.setText(Messages.ConnectionsPreferencePage_4);
+        connectorGroup.setText(Messages.ConnectionsPreferencePage_17);
         connectorGroup.setLayout(new GridLayout());
         connectorGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        fAllowCircularConnectionsButton = new Button(connectorGroup, SWT.CHECK);
+        fDoAntiAliasButton = new Button(connectorGroup, SWT.CHECK);
+        fDoAntiAliasButton.setText(Messages.ConnectionsPreferencePage_13);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fDoAntiAliasButton.setLayoutData(gd);
+        
+        fUseOrthogonalAnchorButton = new Button(connectorGroup, SWT.CHECK);
+        fUseOrthogonalAnchorButton.setText(Messages.ConnectionsPreferencePage_14);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fUseOrthogonalAnchorButton.setLayoutData(gd);
+        
+        fUseLineCurvesButton = new Button(connectorGroup, SWT.CHECK);
+        fUseLineCurvesButton.setText(Messages.ConnectionsPreferencePage_15);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fUseLineCurvesButton.setLayoutData(gd);
+
+        fUseLineJumpsButton = new Button(connectorGroup, SWT.CHECK);
+        fUseLineJumpsButton.setText(Messages.ConnectionsPreferencePage_16);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fUseLineJumpsButton.setLayoutData(gd);
+        
+        // Rules
+        Group rulesGroup = new Group(client, SWT.NULL);
+        rulesGroup.setText(Messages.ConnectionsPreferencePage_18);
+        rulesGroup.setLayout(new GridLayout());
+        rulesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fAllowCircularConnectionsButton = new Button(rulesGroup, SWT.CHECK);
         fAllowCircularConnectionsButton.setText(Messages.ConnectionsPreferencePage_5);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fAllowCircularConnectionsButton.setLayoutData(gd);
         
-        // Nested Connections (ARM)
-        Group nestedConnectionsGroup = new Group(client, SWT.NULL);
-        nestedConnectionsGroup.setText(Messages.ConnectionsPreferencePage_6);
-        nestedConnectionsGroup.setLayout(new GridLayout());
-        nestedConnectionsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        // ARM
+        
+        Composite client2 = new Composite(fTabFolder, SWT.NULL);
+        client2.setLayout(new GridLayout());
+    
+        TabItem item2 = new TabItem(fTabFolder, SWT.NONE);
+        item2.setText(Messages.ConnectionsPreferencePage_19);
+        item2.setControl(client2);
+        
+        // Nested Connections
+        Label label = new Label(client2, SWT.NONE);
+        label.setText(Messages.ConnectionsPreferencePage_6);
 
-        fUseNestedConnectionsButton = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fUseNestedConnectionsButton = new Button(client2, SWT.CHECK);
         fUseNestedConnectionsButton.setText(Messages.ConnectionsPreferencePage_7);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fUseNestedConnectionsButton.setLayoutData(gd);
@@ -119,7 +167,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fCreateRelationWhenAddingNewElementButton = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fCreateRelationWhenAddingNewElementButton = new Button(client2, SWT.CHECK);
         fCreateRelationWhenAddingNewElementButton.setText(Messages.ConnectionsPreferencePage_8);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenAddingNewElementButton.setLayoutData(gd);
@@ -130,7 +178,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fCreateRelationWhenAddingModelTreeElementButton = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fCreateRelationWhenAddingModelTreeElementButton = new Button(client2, SWT.CHECK);
         fCreateRelationWhenAddingModelTreeElementButton.setText(Messages.ConnectionsPreferencePage_9);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenAddingModelTreeElementButton.setLayoutData(gd);
@@ -141,7 +189,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fCreateRelationWhenMovingElement = new Button(nestedConnectionsGroup, SWT.CHECK);
+        fCreateRelationWhenMovingElement = new Button(client2, SWT.CHECK);
         fCreateRelationWhenMovingElement.setText(Messages.ConnectionsPreferencePage_10);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fCreateRelationWhenMovingElement.setLayoutData(gd);
@@ -152,17 +200,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        Label label = new Label(nestedConnectionsGroup, SWT.NONE);
+        label = new Label(client2, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_11);
-        fTableViewerNewRelations = createRelationsTable(nestedConnectionsGroup);
+        fTableViewerNewRelations = createRelationsTable(client2);
         
-        label = new Label(nestedConnectionsGroup, SWT.NONE);
+        label = new Label(client2, SWT.NONE);
         label.setText(Messages.ConnectionsPreferencePage_12);
-        fTableViewerHiddenRelations = createRelationsTable(nestedConnectionsGroup);
+        fTableViewerHiddenRelations = createRelationsTable(client2);
         
         setValues();
 
-        return client;
+        return fTabFolder;
     }
     
     private CheckboxTableViewer createRelationsTable(Composite parent) {
@@ -235,6 +283,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getBoolean(MAGIC_CONNECTOR_POLARITY));
         
         fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getBoolean(ALLOW_CIRCULAR_CONNECTIONS));
+        fDoAntiAliasButton.setSelection(getPreferenceStore().getBoolean(ANTI_ALIAS));
+        fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getBoolean(USE_ORTHOGONAL_ANCHOR));
+        fUseLineCurvesButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_CURVES));
+        fUseLineJumpsButton.setSelection(getPreferenceStore().getBoolean(USE_LINE_JUMPS));
         
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
@@ -253,7 +305,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(MAGIC_CONNECTOR_POLARITY, fMagicConnectorPolarity1Button.getSelection());
         
         getPreferenceStore().setValue(ALLOW_CIRCULAR_CONNECTIONS, fAllowCircularConnectionsButton.getSelection());
-        
+        getPreferenceStore().setValue(ANTI_ALIAS, fDoAntiAliasButton.getSelection());
+        getPreferenceStore().setValue(USE_ORTHOGONAL_ANCHOR, fUseOrthogonalAnchorButton.getSelection());
+        getPreferenceStore().setValue(USE_LINE_CURVES, fUseLineCurvesButton.getSelection());
+        getPreferenceStore().setValue(USE_LINE_JUMPS, fUseLineJumpsButton.getSelection());
+                
         getPreferenceStore().setValue(USE_NESTED_CONNECTIONS, fUseNestedConnectionsButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingNewElementButton.getSelection());
         getPreferenceStore().setValue(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER, fCreateRelationWhenAddingModelTreeElementButton.getSelection());
@@ -279,12 +335,35 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     @Override
     protected void performDefaults() {
+        switch(fTabFolder.getSelectionIndex()) {
+            case 0:
+                performConnectionsDefaults();
+                break;
+
+            case 1:
+                performARMDefaults();
+                break;
+                
+            default:
+                break;
+        }
+
+        super.performDefaults();
+    }
+    
+    private void performConnectionsDefaults() {
         fDoAnimateMagicConnectorButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_MAGIC_CONNECTOR));
         fMagicConnectorPolarity1Button.setSelection(getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         fMagicConnectorPolarity2Button.setSelection(!getPreferenceStore().getDefaultBoolean(MAGIC_CONNECTOR_POLARITY));
         
         fAllowCircularConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(ALLOW_CIRCULAR_CONNECTIONS));
-        
+        fDoAntiAliasButton.setSelection(getPreferenceStore().getDefaultBoolean(ANTI_ALIAS));
+        fUseOrthogonalAnchorButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_ORTHOGONAL_ANCHOR));
+        fUseLineCurvesButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_CURVES));
+        fUseLineJumpsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LINE_JUMPS));
+    }
+    
+    private void performARMDefaults() {
         fUseNestedConnectionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_NESTED_CONNECTIONS));
         fCreateRelationWhenAddingNewElementButton.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_ADDING_NEW_ELEMENT_TO_CONTAINER));
         fCreateRelationWhenAddingModelTreeElementButton.setSelection(getPreferenceStore().getDefaultBoolean(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER));
@@ -294,7 +373,5 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTableViewerHiddenRelations.setInput(getPreferenceStore().getDefaultInt(HIDDEN_RELATIONS_TYPES));
         
         enableNestedConnectionComponents();
-        
-        super.performDefaults();
     }
 }
