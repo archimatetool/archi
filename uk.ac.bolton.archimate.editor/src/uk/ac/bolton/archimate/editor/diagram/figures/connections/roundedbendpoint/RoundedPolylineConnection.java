@@ -49,11 +49,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class RoundedPolylineConnection extends PolylineConnection {
 	// Maximum radius length from line-curves
-	final double CURVE_MAX_RADIUS = 12;
+	final double CURVE_MAX_RADIUS = 14.0;
 	// Radius from line-jumps
-	final double JUMP_MAX_RADIUS = 5;
+	final double JUMP_MAX_RADIUS = 5.0;
 	// Number of intermediate points for circle and ellipse approximation
-	final double MAX_ITER = 20;
+	final double MAX_ITER = 15.0;
 	// Constants
 	final double SQRT2 = Math.sqrt(2.0);
 	final double PI34 = Math.PI * 3.0 / 4.0;
@@ -110,35 +110,44 @@ public class RoundedPolylineConnection extends PolylineConnection {
 				// and be sure that arc angle is positive and less than PI
 				double arc = next_p.theta - prev_p.theta;
 				arc = (arc + PI2) % (PI2);
+				
 				// Do we have to go from previous to next or the opposite
 				boolean prev2next = arc < Math.PI ? true : false;
 				arc = prev2next ? arc : PI2 - arc;
 				
 				// Check bendpoint radius against source and target
-				// Very simplified approximation (could/should be changed) 
 				double bp_radius = CURVE_MAX_RADIUS;
-				bp_radius *= Math.sqrt((Math.pow(1.0+Math.cos(arc), 2) + Math.pow(Math.sin(arc), 2) ) / 2.0);
-				//bp_radius = bp_radius * (2.0 - 2.0 * arc / Math.PI);
 				bp_radius = Math.min(bp_radius, prev_p.r / 2.0);
 				bp_radius = Math.min(bp_radius, next_p.r / 2.0);
 				
+				// Find center of bendpoint arc
+				PolarPoint center_p = new PolarPoint(bp_radius, (prev2next ? prev_p.theta : next_p.theta) + arc / 2.0);
+				Point center = center_p.toAbsolutePoint(bp);
+				
 				// Compute source and target of bendpoint arc
-				PolarPoint bpprev_p = new PolarPoint(bp_radius, prev_p.theta);
-				PolarPoint bpnext_p = new PolarPoint(bp_radius, next_p.theta);
-	 
-				// Switch back to rectangular coordinates
-				Point bpprev = bpprev_p.toAbsolutePoint(bp);
-				Point bpnext = bpnext_p.toAbsolutePoint(bp);
+				double arc_radius = bp_radius * Math.sin(arc / 2.0);
+				double start_angle = (Math.PI + arc) / 2.0 + center_p.theta;
+				double full_angle = Math.PI - arc;
+
+				Point bpprev;
+				Point bpnext;
+				if (!prev2next) {
+					bpprev = new PolarPoint(arc_radius, start_angle).toAbsolutePoint(center);
+					bpnext = new PolarPoint(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
+				} else {
+					bpprev = new PolarPoint(arc_radius, start_angle + full_angle).toAbsolutePoint(center);
+					bpnext = new PolarPoint(arc_radius, start_angle).toAbsolutePoint(center);
+				}
 				
 				// Now that bendpoint position has been refined we can add line segment
 				addSegment(g, prev, bpprev, connections, linepoints);
 				
-				// Create ellipse approximation
+				// Create circle approximation
 				for (double a = 1; a < MAX_ITER; a++) {
 					if (prev2next)
-						linepoints.addPoint((new PolarPoint(bp_radius * get_r(PI12 * a/MAX_ITER), prev_p.theta + arc * a/MAX_ITER)).toAbsolutePoint(bp));
+						linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * (1 - a/ MAX_ITER)).toAbsolutePoint(center));
 					else
-						linepoints.addPoint((new PolarPoint(bp_radius * get_r(PI12 - PI12 * a/MAX_ITER), prev_p.theta - arc * a/MAX_ITER)).toAbsolutePoint(bp));
+						linepoints.addPoint(new PolarPoint(arc_radius, start_angle + full_angle * a / MAX_ITER).toAbsolutePoint(center));
 				}
 				
 				// Prepare next iteration
@@ -153,13 +162,6 @@ public class RoundedPolylineConnection extends PolylineConnection {
 		
 		// Finally draw the polyLine
 		g.drawPolyline(linepoints);
-	}
-
-	private double get_r(double angle) {
-		// Return r value for defined angle (should be between 0 and PI/2)
-		// Based on generic polar equation of circle with r=1 and center(Sqrt(2), PI/4)
-		// In case of performance issue we could imagine creating an array and use it as a cache
-		return - SQRT2 * Math.cos(angle + PI34) - Math.sqrt(1.0 - 2.0 * Math.pow(Math.sin(angle + PI34), 2));
 	}
 	
 	@SuppressWarnings({ "rawtypes" })
