@@ -1,39 +1,38 @@
 body, table {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
+	line-height: 14pt;
 }
 
-.font14 {
-	font-size: 14pt;
-}
-
-.font12 {
-	font-size: 12pt;
-}
-
-
-H1 {
+h1 {
     font-size: 16pt;
+    margin-bottom: 0;
 }
 
-H2 {
+h2 {
     font-size: 14pt;
+    margin-bottom: 0;
 }
 
-H3 {
+h3 {
 	font-size: 12pt;
+	margin-bottom: 0;
 }
 
-A {
+p {
+    margin-top: 5pt;
+}
+
+a {
 	text-decoration:none;
 }
-A:link {
+a:link {
 	color:#0033CC;
 }
-A:visited {
+a:visited {
 	color:#025999;
 }
-A:hover	{
+a:hover	{
 	color:#ff9900;
 }
 
@@ -47,6 +46,14 @@ td.border {
 	padding: 4px;
 }
 
+.font12 {
+	font-size: 12pt;
+}
+
+.font14 {
+	font-size: 14pt;
+}
+
 .caption {
 	font-style: italic;
 	font-size: 9pt;
@@ -55,7 +62,7 @@ td.border {
 }
 
 .boxout {
-	border: 1px solid #000;
+	border: 1px solid black;
 	background-color: #CBDBF8;
 	padding: 12px;
 	margin-left: 15%;

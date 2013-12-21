@@ -2,14 +2,11 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 <toc label="ArchiMate Resources">
     
+    <topic href="http://www.archimatetool.com" label="Archi Website">
+    </topic>
     <topic href="http://www.archimate.org" label="ArchiMate Website">
     </topic>
     <topic href="http://pubs.opengroup.org/architecture/archimate2-doc/toc.html" label="ArchiMate Specification">
     </topic>
-    <topic href="https://doc.novay.nl/dsweb/Get/Document-43839/" label="ArchiMate Language Primer (PDF)">
-    </topic>
-    <topic href="http://www.archimatetool.com" label="Archi Website">
-    </topic>
-    <topic href="https://groups.google.com/forum/#!forum/archi-users" label="Archi Forum">
-    </topic>
+
 </toc>
