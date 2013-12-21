@@ -1,22 +1,36 @@
 <html>
 <head>
-<title>Colours Preferences</title>
+<title>Colours and Fonts Preferences</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <h1>Colours Preferences</h1>
+    <h1>Colours and Fonts Preferences</h1>
+    
+    <br/>
 
-    <p class="caption"><img src="img/prefs_fillcolors.png"><br/>Colours Preferences</p>
-	<p>&nbsp;</p>
-	<h2>Default Fill Colours</h2>
-	<p>Choose the default fill colours to use for ArchiMate elements. These are the colours that will be displayed when the fill colour is set to "Default" in the Properties window for a diagram element. The default fill colours can be set differently for each installation of Archi so, for example, one user can have a completely different set of default fill colours than another user. The colours will not be saved in the .archimate model file unless the option to "Save the default fill colour for a new element in the .archimate file" is ticked.
+	<h2>Colours</h2>
+
+    <p class="caption"><img src="img/prefs_colours.png"><br/>Colours Preferences</p>
 	
-	<p><strong>Save the default fill colour for a new element in the .archimate file</strong><br/>
-    If this is checked a diagram element's default fill colour is saved in the .archimate file and will then be "fixed" in the file. This ensures that if the file is shared the recipient will see these colours.</p>    
+	<br/>
+	
+	<p>Choose the default colours to use for elements and connections. These are the colours that will be displayed when a fill or line colour is set to "Default" in the Properties window for a diagram element or connection. The default colours can be set differently for each installation of Archi so, for example, one user can have a completely different set of default fill colours than another user. The colours will not be saved in the .archimate model file unless the option to "Save the default fill colour for a new element in the .archimate file" is ticked.
+	
+	<p><strong>Derive element line colours from fill colours</strong><br/>
+    If this is checked a diagram element's line colour is derived as a darker shade of its fill colour. You can adjust the amount of contrast with the "Contrast factor" control. If this option is set, user line colours are ignored.</p>    
+
+	<p><strong>Save the default fill colour for elements in the model file</strong><br/>
+    If this is checked an element's default colour is saved in the model file and will then be "fixed" in the file. This ensures that if the file is shared with another user they will see these colours.</p>    
 
     <p><strong>Use these fill colours in the model tree and editor palette</strong><br/>
-    If this is checked then these fill colours are used in the application in the model tree and editor pallete. This requires restarting the application for full effect.</p>    
+    If this is checked then the default fill colours are used in the application in the model tree and editor palette. This requires restarting the application for full effect.</p>    
+
+    <p><strong>Edit</strong><br/>
+    Edit the selected colour(s).</p>    
+
+    <p><strong>Reset</strong><br/>
+    Reset the selected colour(s) to default value.</p>    
 
     <p><strong>Import Scheme</strong><br/>
     Import a colour scheme that has previously been exported.</p>    
@@ -24,8 +38,24 @@
     <p><strong>Export Scheme</strong><br/>
     Export a colour scheme to share with other users.</p>
     
-    <p>To set an individual colour to its default, hold the Ctrl/Command key down when clicking on it.</p>
+    <br/>
 
+	<h2>Fonts</h2>
+
+    <p class="caption"><img src="img/prefs_fonts.png"><br/>Fonts Preferences</p>
+	
+	<br/>
+
+    <p>
+        <strong>Default Font</strong>
+        <br/>Sets the default font to use for text in elements and connections.
+    </p>
+    <p>
+        <strong>Preview</strong>
+        <br/>Previews the selected default font.
+    </p>
+    
     <p>&nbsp;</p>
+
 </body>
 </html>

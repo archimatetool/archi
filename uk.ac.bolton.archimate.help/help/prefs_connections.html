@@ -5,35 +5,70 @@
 </head>
 
 <body>
+
 	<h1>Connections Preferences</h1>
-	<p class="caption"><img src="img/prefs_connections.png"><br/>Connections Preferences</p>
-	<p>&nbsp;</p>
 	
-	<h2>Magic Connector</h2>
+	<br/>
+
+	<h2>Connections</h2>
+
+	<p class="caption"><img src="img/prefs_connections.png"/><br/>Connections Preferences</p>
+	
+	<br/>
+	
+	<h3>Magic Connector</h3>
 	<p><strong>Show Animation on Undo/Redo</strong><br/>
-	Choose to show the "puff" animation when undo/redo is performed for an element drawn with the Magic Connector.</p>
+	Select this option to enable the "puff" animation when undo/redo is performed for an element drawn with the Magic Connector.</p>
 	
-	<p><strong>Show Elements first (Use the Ctrl key to swap)</strong><br/>
+	<p><strong>Show Elements first (Use the Ctrl/Command key to swap)</strong><br/>
 	When clicking from the Magic Connector onto the empty View canvas show Elements first then Connections in the popup menus. Holding the Ctrl / Command key at the same time will reverse this.</p>
 
-	<p><strong>Show Connections first (Use the Ctrl key to swap)</strong><br/>
+	<p><strong>Show Connections first (Use the Ctrl/Command key to swap)</strong><br/>
 	When clicking from the Magic Connector onto the empty View canvas show Connections first then Elements in the popup menus. Holding the Ctrl/Command key at the same time will reverse this.</p>
-	<p>&nbsp;</p>
 	
-	<h2>Connections</h2>
-	<p><strong>Allow circular connections</strong><br/>
-	Choose to allow connections that start and end with the same element. See <a href="view_addnew.html">here</a> for more information.</p>
+	<br/>
+	
+	<h2>Drawing</h2>
+    
+    <p>
+        <strong>Use anti-aliasing on connections</strong>
+        <br/>On Windows and Linux operating systems ensures that connections are drawn more smoothly.
+    </p>
 	
 	<p><strong>Use orthogonal connection anchors</strong><br/>
 	If this is ticked then a new method to calculate the anchor point for a connection is used (the position where a connection connects to a figure). By default (option not ticked), the anchor point is computed as the intersection of the figure's border and the connection targeting the figure's centre. With this option, the anchor point is computed to make the connection either a vertical or horizontal line (if this not possible, it connects to one of the figure's corners). It is possible to move this anchor point just by moving the figure or by creating a bend point in the connection and moving that.</p>
 	<p>For example if not ticked (default) the connections appear as follows:</p>
-	<img src="img/orthogonal1.png" alt="Orthogonal 1">
+	<img src="img/orthogonal1.png" alt="Orthogonal 1"/>
 	<p>&nbsp;</p>
 	<p>If ticked the connections appear as follows:</p>
-	<img src="img/orthogonal2.png" alt="Orthogonal 2" border="0">
-	<p>&nbsp;</p>
+	
+	<img src="img/orthogonal2.png" alt="Orthogonal 2"/>
+	
+	<p>
+        <strong>Use line curves</strong>
+        <br/>If this is enabled, connections are shown with curves at bend-points.
+    </p>
+	
+	<p>
+        <strong>Use line jumps for intersecting relations</strong>
+        <br/>If this is enabled, a jump curve is shown when one connection crosses another.
+    </p>
 
-	<h2>Automatic Relationship Management (ARM)</h2>
+	<br/>
+	
+	<h3>Rules</h3>
+	<p><strong>Allow circular connections</strong><br/>
+	Choose to allow connections that start and end with the same element. See <a href="view_addnew.html">here</a> for more information.</p>
+
+    <br/>
+
+	<h2>ARM</h2>
+
+	<p class="caption"><img src="img/prefs_connections2.png"/><br/>ARM Preferences</p>
+	
+	<br/>
+
+	<h3>Automatic Relationship Management</h3>
 	<p>For more information see <a href="view_container_nested.html">Container Elements and Nested Element Relationships</a>.</p>
 	
 	<p><strong>Enable implicit connections in Views for nested elements</strong><br/>
@@ -55,5 +90,6 @@
 	Select the types of relationship connection that will be hidden in a View when there are nested parent and child elements. The default is Composition, Aggregation and Assignment types.</p>
 
 	<p>&nbsp;</p>
+
 </body>
 </html>

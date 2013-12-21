@@ -27,7 +27,7 @@
        <topic href="help/canvas.html" label="Canvas Modelling Toolkit"/>
     </context>
     <context id="diagramEditorHelp" title="Diagram View">
-       <description>The elements and relationships that constitute an ArchiMate model as represented in the Model Tree can be arranged into one or more &quot;Views&quot; or visual diagrams.</description>
+       <description>The elements and relationships that constitute an ArchiMate model as represented in the Model Tree can be arranged into one or more "Views" or visual diagrams.</description>
        <topic href="help/views.html" label="Views"/>
        <topic href="help/viewpoints.html" label="Viewpoints"/>
     </context>
