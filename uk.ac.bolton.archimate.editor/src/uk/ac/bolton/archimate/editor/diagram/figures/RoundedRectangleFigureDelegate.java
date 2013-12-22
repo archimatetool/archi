@@ -7,6 +7,7 @@ package uk.ac.bolton.archimate.editor.diagram.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
@@ -19,16 +20,13 @@ import uk.ac.bolton.archimate.editor.preferences.Preferences;
  * 
  * @author Phillip Beauvoir
  */
-public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
+public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate
+implements IRoundedRectangleFigure {
 
-    protected int fArc = 20;
+    private Dimension fArc = new Dimension(20, 20);
     
     public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
-    }
-    
-    public void setArc(int arc) {
-        fArc = arc;
     }
     
     @Override
@@ -44,7 +42,7 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
                 graphics.setAlpha(100);
                 graphics.setBackgroundColor(ColorConstants.black);
                 graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET),
-                    fArc, fArc);
+                        fArc.width, fArc.height);
                 graphics.setAlpha(255);
             }
         }
@@ -59,13 +57,13 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
         
         // Fill
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillRoundRectangle(bounds, fArc, fArc);
+        graphics.fillRoundRectangle(bounds, fArc.width, fArc.height);
         
         // Outline
         bounds.width--;
         bounds.height--;
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(bounds, fArc, fArc);
+        graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
 
         // Image icon
         if(getImage() != null) {
@@ -74,4 +72,14 @@ public class RoundedRectangleFigureDelegate extends RectangleFigureDelegate {
         
         graphics.popState();
     }
+    
+    public void setArc(Dimension arc) {
+        fArc.width = arc.width;
+        fArc.height = arc.height;
+    }
+    
+    public Dimension getArc() {
+        return fArc.getCopy();
+    }
+
 }

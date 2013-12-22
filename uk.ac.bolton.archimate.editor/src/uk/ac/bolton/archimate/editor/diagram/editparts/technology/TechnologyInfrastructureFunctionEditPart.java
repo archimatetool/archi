@@ -5,9 +5,12 @@
  */
 package uk.ac.bolton.archimate.editor.diagram.editparts.technology;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.RoundedRectangleAnchor;
+import uk.ac.bolton.archimate.editor.diagram.figures.IRoundedRectangleFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.technology.TechnologyFunctionFigure;
 
 /**
@@ -23,4 +26,9 @@ extends AbstractArchimateEditableTextFlowEditPart {
         return new TechnologyFunctionFigure(getModel());
     }
  
+    @Override
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
+        IRoundedRectangleFigure figureDelegate = (IRoundedRectangleFigure)((TechnologyFunctionFigure)getFigure()).getFigureDelegate();
+        return new RoundedRectangleAnchor(getFigure(), figureDelegate.getArc());
+    }
 }
