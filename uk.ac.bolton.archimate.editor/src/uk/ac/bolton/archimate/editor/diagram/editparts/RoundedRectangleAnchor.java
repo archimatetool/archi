@@ -100,25 +100,29 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 			return new Point(location.x, location.y);
 		case TOP | LEFT:
 			return ellipseAnchorGetLocation(location, new Rectangle(r.x, r.y,
-					corner.width, corner.height), getOwner().getBounds()
-					.getCenter())[0];
+					corner.width, corner.height),
+					r.getCenter() // getOwner().getBounds().getCenter() // Jaiguru fix
+					)[0];
 		case TOP | RIGHT:
 			return ellipseAnchorGetLocation(location,
 					new Rectangle(r.x + r.width - corner.width, r.y,
-							corner.width, corner.height), getOwner()
-							.getBounds().getCenter())[1];
+							corner.width, corner.height),
+							r.getCenter() // getOwner().getBounds().getCenter() // Jaiguru fix
+							)[1];
 		case CENTER | MIDDLE:
 			// default for reference inside Figure
 			return new Point(r.x, r.y + r.height / 2);
 		case BOTTOM | LEFT:
 			return ellipseAnchorGetLocation(location, new Rectangle(r.x, r.y
 					+ r.height - corner.height, corner.width, corner.height),
-					getOwner().getBounds().getCenter())[0];
+					r.getCenter() // getOwner().getBounds().getCenter() // Jaiguru fix
+					)[0];
 		case BOTTOM | RIGHT:
 			return ellipseAnchorGetLocation(location, new Rectangle(r.x
 					+ r.width - corner.width, r.y + r.height - corner.height,
-					corner.width, corner.height), getOwner().getBounds()
-					.getCenter())[1];
+					corner.width, corner.height),
+					r.getCenter() // getOwner().getBounds().getCenter() // Jaiguru fix
+					)[1];
 		default:
 			throw new IllegalStateException(
 					"Calculation of RoundedRectangleAnchor missed. Rect: " + r //$NON-NLS-1$
