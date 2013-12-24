@@ -5,9 +5,13 @@
  */
 package uk.ac.bolton.archimate.editor.diagram.editparts.business;
 
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 
 import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
+import uk.ac.bolton.archimate.editor.diagram.editparts.RoundedRectangleAnchor;
+import uk.ac.bolton.archimate.editor.diagram.figures.IRoundedRectangleFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessProcessFigure;
 
 /**
@@ -23,4 +27,17 @@ extends AbstractArchimateEditableTextFlowEditPart {
         return new BusinessProcessFigure(getModel());
     }
  
+    @Override
+    protected ConnectionAnchor getDefaultConnectionAnchor() {
+        switch(getModel().getType()) {
+            case 1:
+                return new ChopboxAnchor(getFigure());
+
+            default:
+                IRoundedRectangleFigure figureDelegate = (IRoundedRectangleFigure)((BusinessProcessFigure)getFigure()).getFigureDelegate();
+                return new RoundedRectangleAnchor(getFigure(), figureDelegate.getArc());
+        }
+    }
+
 }
+

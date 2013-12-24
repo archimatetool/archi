@@ -5,6 +5,8 @@
  */
 package uk.ac.bolton.archimate.editor.diagram.figures.extensions;
 
+import org.eclipse.draw2d.geometry.Dimension;
+
 import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -24,7 +26,7 @@ extends AbstractTextFlowFigure {
         
         // Use a Rounded Rectangle Figure Delegate to Draw
         RoundedRectangleFigureDelegate figureDelegate = new RoundedRectangleFigureDelegate(this);
-        figureDelegate.setArc(10);
+        figureDelegate.setArc(new Dimension(10, 10));
         setFigureDelegate(figureDelegate);
     }
 }
