@@ -15,6 +15,7 @@ Version 2.6
 + Connection bend-points can now snap to grid (provided by Jaiguru)
 + Connections can now use rounded curves (provided by Jaiguru)
 + Connections can now use line jumps (provided by Jaiguru)
++ Improved connection anchors on some figures (rounded rectangles)
 + Relationship rules have been updated to comply with ArchiMate 2.1 (provided by Jaiguru)
 + Added "Check for New Version" menu item to Help menu
 
