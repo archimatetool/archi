@@ -28,8 +28,15 @@ package uk.ac.bolton.archimate.editor.diagram.editparts;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.RoundedRectangle;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+
+import uk.ac.bolton.archimate.editor.diagram.figures.AbstractTextFlowFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.IFigureDelegate;
+import uk.ac.bolton.archimate.editor.diagram.figures.IRoundedRectangleFigure;
+import uk.ac.bolton.archimate.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessInterfaceFigure;
 import uk.ac.bolton.archimate.editor.diagram.figures.business.BusinessValueFigure;
 import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
@@ -45,19 +52,31 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * connection whenever possible.
  * 
  * For this anchor to work, it has to be used for all
- * figures (handle rectangle and ellipse cases).
+ * figures. Handles (rounded)rectangle and ellipse cases.
  * 
  * @author Jean-Baptiste Sarrodie (aka Jaiguru)
  */
 public class OrthogonalAnchor extends ChopboxAnchor {
 	// Some constants
-	final int RECONREQ_SRC = 1;
-	final int RECONREQ_TGT = 2;
-	final int CRCONREQ_SRC = 3;
-	final int CRCONREQ_TGT = 4;
-	final int CONNECTION_SRC = 5;
-	final int CONNECTION_TGT = 6;
-	final double COSPI4 = Math.cos(Math.PI / 4);
+	private static final int RECONREQ_SRC = 1;
+	private static final int RECONREQ_TGT = 2;
+	private static final int CRCONREQ_SRC = 3;
+	private static final int CRCONREQ_TGT = 4;
+	private static final int CONNECTION_SRC = 5;
+	private static final int CONNECTION_TGT = 6;
+	
+	private static final int LEFT = 1;
+	private static final int LEFT_CORNER = 2;
+	private static final int MIDDLE = 4;
+	private static final int RIGHT_CORNER = 8;
+	private static final int RIGHT = 16;
+	private static final int TOP = 32;
+	private static final int TOP_CORNER = 64;
+	private static final int CENTER = 128;
+	private static final int BOTTOM_CORNER = 256;
+	private static final int BOTTOM = 512;
+	
+	private static final double COSPI4 = Math.cos(Math.PI / 4);
 	
     // If known, connection owning this anchor
     private ConnectionEditPart fAnchorConnection = null;
@@ -110,7 +129,6 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		}
 	}
 
-
 	/**
 	 * Define the figure used during a ReconnectRequest.
 	 * 
@@ -144,8 +162,10 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		Rectangle remoteFigBBox = new Rectangle();
 		Rectangle figureBBox = new Rectangle();
 		boolean inFigure = false;
-		double anchorX;
-		double anchorY;
+		
+		// figureBBox contains the current figure bounding box
+		figureBBox.setBounds(getBox());
+		getOwner().translateToAbsolute(figureBBox);
 		
 		// Anchor will be determined differently if the reference point is a BendPoint or a Figure
 		// Gets remote figure and check if it contains the reference point
@@ -181,79 +201,110 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 			inFigure = remoteFigCenter.contains(reference);
 		}
        
-		// figureBBox contains the current figure bounding box
-		figureBBox.setBounds(getBox());
-		getOwner().translateToAbsolute(figureBBox);
-		figureBBox = isEllipse(getOwner()) ? figureBBox.shrink(figureBBox.width * (1-COSPI4)/2, figureBBox.height * (1-COSPI4)/2): figureBBox;
-		
 		if(inFigure) {
 			// Figure to Figure case: compute a new reference point if it is contained in a figure.
-			// remoteFigBBox contains the remote figure bounding box.
-			// (in case of Ellipse, shrink it to get inner box)
-			remoteFigBBox = isEllipse(remoteFig) ? remoteFigBBox.shrink(remoteFigBBox.width * (1-COSPI4)/2, remoteFigBBox.height * (1-COSPI4)/2): remoteFigBBox;
-
-			anchorX = (Math.max(remoteFigBBox.x, figureBBox.x) + 
+			reference.x = (Math.max(remoteFigBBox.x, figureBBox.x) + 
 					Math.min(remoteFigBBox.x + remoteFigBBox.width, figureBBox.x + figureBBox.width)) / 2;
-			anchorY = (Math.max(remoteFigBBox.y, figureBBox.y) + 
+			reference.y = (Math.max(remoteFigBBox.y, figureBBox.y) + 
 					Math.min(remoteFigBBox.y + remoteFigBBox.height, figureBBox.y + figureBBox.height)) / 2;
 		}
-		else {
-			// Figure to BendPoint case: copy reference point in the (to be computed) anchor
-			anchorX = reference.x;
-			anchorY = reference.y;
+		
+		// Find reference point relative position
+		int pos = 0;
+		Dimension corner = getCornerDimensions(getOwner());
+		// Check X axis
+		if (reference.x < figureBBox.x)
+			pos = LEFT;
+		else if (reference.x < figureBBox.x + corner.width / 2)
+			pos = LEFT_CORNER;
+		else if (reference.x < figureBBox.x + figureBBox.width - corner.width / 2)
+			pos = MIDDLE;
+		else if (reference.x < figureBBox.x + figureBBox.width)
+			pos = RIGHT_CORNER;
+		else
+			pos = RIGHT;
+		// Check Y axis
+		if (reference.y < figureBBox.y)
+			pos |= TOP;
+		else if (reference.y < figureBBox.y + corner.height / 2)
+			pos |= TOP_CORNER;
+		else if (reference.y < figureBBox.y + figureBBox.height - corner.height / 2)
+			pos |= CENTER;
+		else if (reference.y < figureBBox.y + figureBBox.height)
+			pos |= BOTTOM_CORNER;
+		else
+			pos |= BOTTOM;
+		
+		// Now compute anchor's position
+		switch (pos) {
+		case LEFT | TOP:
+			return (new Point(figureBBox.x + corner.width / 2 -
+					(int) (COSPI4 * (corner.width / 2.0)),
+					figureBBox.y + corner.height / 2 -
+					(int) (COSPI4 * (corner.height / 2.0))
+					));
+		case LEFT_CORNER | TOP:
+			return (new Point(reference.x, figureBBox.y + corner.height / 2 -
+					(int) (Math.sin(Math.acos((figureBBox.x + corner.width / 2.0 - reference.x) / (corner.width / 2.0))) * (corner.height / 2.0))
+					));
+		case MIDDLE | TOP:
+			return (new Point(reference.x, figureBBox.y));
+		case RIGHT_CORNER | TOP:
+			return (new Point(reference.x, figureBBox.y + corner.height / 2 -
+					(int) (Math.sin(Math.acos((figureBBox.x + figureBBox.width - corner.width / 2.0 - reference.x) / (corner.width / 2.0))) * (corner.height / 2.0))
+					));
+		case RIGHT | TOP:
+			return (new Point(figureBBox.x + figureBBox.width - corner.width / 2 +
+					(int) (COSPI4 * (corner.width / 2.0)),
+					figureBBox.y + corner.height / 2 -
+					(int) (COSPI4 * (corner.height / 2.0))
+					));
+		case LEFT | TOP_CORNER:
+			return (new Point(figureBBox.x + corner.width / 2 -
+					(int) (Math.cos(Math.asin((figureBBox.y + corner.height / 2.0 - reference.y) / (corner.height / 2.0))) * (corner.width / 2.0)),
+					reference.y));
+		case RIGHT | TOP_CORNER:
+			return (new Point(figureBBox.x + figureBBox.width - corner.width / 2 +
+					(int) (Math.cos(Math.asin((figureBBox.y + corner.height / 2.0 - reference.y) / (corner.height / 2.0))) * (corner.width / 2.0)),
+					reference.y));
+		case LEFT | CENTER:
+			return (new Point(figureBBox.x, reference.y));
+		case RIGHT | CENTER:
+			return (new Point(figureBBox.x + figureBBox.width, reference.y));
+		case LEFT | BOTTOM_CORNER:
+			return (new Point(figureBBox.x + corner.width / 2 -
+					(int) (Math.cos(Math.asin((figureBBox.y + figureBBox.height - corner.height / 2.0 - reference.y) / (corner.height / 2.0))) * (corner.width / 2.0)),
+					reference.y));
+		case RIGHT | BOTTOM_CORNER:
+			return (new Point(figureBBox.x + figureBBox.width - corner.width / 2 +
+					(int) (Math.cos(Math.asin((figureBBox.y + figureBBox.height - corner.height / 2.0 - reference.y) / (corner.height / 2.0))) * (corner.width / 2.0)),
+					reference.y));
+		case LEFT | BOTTOM:
+			return (new Point(figureBBox.x + corner.width / 2 -
+					(int) (COSPI4 * (corner.width / 2.0)),
+					figureBBox.y + figureBBox.height - corner.height / 2 +
+					(int) (COSPI4 * (corner.height / 2.0))
+					));
+		case LEFT_CORNER | BOTTOM:
+			return (new Point(reference.x, figureBBox.y + figureBBox.height - corner.height / 2 +
+					(int) (Math.sin(Math.acos((figureBBox.x + corner.width / 2.0 - reference.x) / (corner.width / 2.0))) * (corner.height / 2.0))
+					));
+		case MIDDLE | BOTTOM:
+			return (new Point(reference.x, figureBBox.y + figureBBox.height));
+		case RIGHT_CORNER | BOTTOM:
+			return (new Point(reference.x, figureBBox.y + figureBBox.height - corner.height / 2 +
+					(int) (Math.sin(Math.acos((figureBBox.x + figureBBox.width - corner.width / 2.0 - reference.x) / (corner.width / 2.0))) * (corner.height / 2.0))
+					));
+		case RIGHT | BOTTOM:
+			return (new Point(figureBBox.x + figureBBox.width - corner.width / 2 +
+					(int) (COSPI4 * (corner.width / 2.0)),
+					figureBBox.y + figureBBox.height - corner.height / 2 +
+					(int) (COSPI4 * (corner.height / 2.0))
+					));
+		default:
+			return figureBBox.getCenter();
 		}
-		
-		// Just a little bit of Math...
-		anchorX = Math.max(anchorX, figureBBox.x);
-		anchorX = Math.min(anchorX, figureBBox.x + figureBBox.width);
-		anchorY = Math.max(anchorY, figureBBox.y);
-		anchorY = Math.min(anchorY, figureBBox.y + figureBBox.height);
-		
-		// ...and a bit of Trigonometry for the Ellipse Case
-		if(isEllipse(getOwner())) {
-			// offsetX and offsetY will be use to get coordinates relative to ellipse center
-			double offsetX = figureBBox.x + figureBBox.width/2.0;
-			double offsetY = figureBBox.y + figureBBox.height/2.0;
-			if(Math.abs(anchorX - offsetX) == figureBBox.width/2.0) {
-				// Right or left ellipse side: have to fix anchorX
-				anchorX =  (int) (offsetX + Math.signum(anchorX - offsetX) *
-					Math.cos(
-						Math.asin((anchorY - offsetY) / ((figureBBox.height/2.0) / COSPI4))
-					) * ((figureBBox.width/2.0) / COSPI4)
-				);
-			} else {
-				// Top or bottom ellipse side: have to fix anchorY
-				anchorY = (int) (offsetY + Math.signum(anchorY - offsetY) *
-						Math.sin(
-							Math.acos((anchorX - offsetX) / ((figureBBox.width/2.0) / COSPI4))
-						) * ((figureBBox.height/2.0) / COSPI4)
-				);
-			}
-		}
-		
-		// That's it
-		return new Point((int)anchorX, (int)anchorY);
 	}
-	
-	/**
-	 * Checks if a figure is an ellipse. Have to be updated
-	 * each time a new case is introduced in Archi.
-	 * 
-	 * @param figure
-	 *            a figure
-	 * @return true if figure is an ellipse
-	 */
-    private boolean isEllipse(IFigure figure) {
-        if(figure instanceof BusinessValueFigure) {
-            return true;
-        }
-
-        if(figure instanceof BusinessInterfaceFigure) {
-            return (((IDiagramModelArchimateObject)((BusinessInterfaceFigure)figure).getDiagramModelObject()).getType() != 0);
-        }
-
-        return false;
-    }
 	
 	/**
 	 * Gets the remote figure. 
@@ -303,4 +354,42 @@ public class OrthogonalAnchor extends ChopboxAnchor {
                 break;
         }
     }
+	
+	/**
+	 * Checks anchor's owner and find its corner dimensions.
+	 * this is possible for roundedRectangles but also
+	 * rectangle (null corner) and ellipse (full corner).
+	 * 
+	 * @return corner dimension
+	 */
+	private Dimension getCornerDimensions(IFigure figure) {
+		// Default is pure rectangle
+		Dimension corner = new Dimension(0, 0);
+		IFigureDelegate figureDelegate = null;
+		
+		try {
+			figureDelegate = ((AbstractTextFlowFigure)figure).getFigureDelegate();
+		} catch (Exception e) {
+		}
+		
+		if (figureDelegate instanceof RoundedRectangleFigureDelegate) {
+			// roundedRectangle case
+			corner = ((IRoundedRectangleFigure) figureDelegate).getArc();
+		} else if (figure instanceof IRoundedRectangleFigure) {
+			// roundedRectangle case
+            corner = ((IRoundedRectangleFigure) figure).getArc();
+        } else if (figure instanceof RoundedRectangle) {
+        	// roundedRectangle case
+			corner = ((RoundedRectangle) figure).getCornerDimensions();
+		} else if(figure instanceof BusinessValueFigure) {
+			// ellipse case
+            corner = figure.getSize();
+        } else if(figure instanceof BusinessInterfaceFigure) {
+        	// ellipse case
+            if (((IDiagramModelArchimateObject)((BusinessInterfaceFigure)figure).getDiagramModelObject()).getType() != 0);
+            	corner = figure.getSize();
+        }
+		
+		return corner;
+	}
 }
