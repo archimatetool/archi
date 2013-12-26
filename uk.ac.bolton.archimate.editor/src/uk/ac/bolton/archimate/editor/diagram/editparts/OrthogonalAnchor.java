@@ -386,7 +386,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
             corner = figure.getSize();
         } else if(figure instanceof BusinessInterfaceFigure) {
         	// ellipse case
-            if (((IDiagramModelArchimateObject)((BusinessInterfaceFigure)figure).getDiagramModelObject()).getType() != 0);
+            if (((IDiagramModelArchimateObject)((BusinessInterfaceFigure)figure).getDiagramModelObject()).getType() != 0)
             	corner = figure.getSize();
         }
 		
