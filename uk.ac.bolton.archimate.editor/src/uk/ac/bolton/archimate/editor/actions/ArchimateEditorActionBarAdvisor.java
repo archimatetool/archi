@@ -458,6 +458,9 @@ extends ActionBarAdvisor {
         
         menu.add(fArchiWebsiteAction);
         menu.add(fActionCheckForNewVersion);
+        
+        menu.add(new Separator());
+        menu.add(fActionShowRelationsMatrix);
 
         /*
          * On a Mac, Eclipse adds an "About" menu item under the application menu bar.
@@ -470,8 +473,6 @@ extends ActionBarAdvisor {
         
         menu.add(new Separator());
         menu.add(item);
-        
-        menu.add(fActionShowRelationsMatrix);
 
         return menu;
     }
