@@ -21,5 +21,5 @@ The main Archi website:
 
 All developer resources are here:
 
-[http://www.archimatetool.com/developer.html](http://www.archimatetool.com/developer.html)
+[http://www.archimatetool.com/developer/developer.html](http://www.archimatetool.com/developer/developer.html)
 
