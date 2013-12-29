@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="view_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
+	<subDataset name="PropertiesDataset">
+		<field name="this" class="uk.ac.bolton.archimate.model.IProperty"/>
+		<field name="key" class="java.lang.String"/>
+		<field name="value" class="java.lang.String"/>
+		<variable name="NON_REPORT_ENTRIES" class="java.lang.Integer">
+			<variableExpression><![CDATA[$F{key}.startsWith("Report:") ? $V{NON_REPORT_ENTRIES} : $V{NON_REPORT_ENTRIES}+ 1]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<parameter name="properties_report" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="diagram_object_report" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="HIDE_VIEW_NUMBERING" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="elements_report" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="REPORT_PATH" class="java.lang.String"/>
+	<field name="this" class="uk.ac.bolton.archimate.model.IDiagramModel"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="documentation" class="java.lang.String"/>
+	<field name="viewpoint" class="java.lang.String"/>
+	<field name="imagePath" class="java.lang.String"/>
+	<variable name="VIEW_HIDE" class="java.lang.String" calculation="System">
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
+	<variable name="VIEW_DETAILED" class="java.lang.String" calculation="System">
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
+	<variable name="VIEW_HIDE_DIAGRAM" class="java.lang.String" calculation="System">
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
+	<variable name="NON_REPORT_ENTRIES" class="java.lang.Integer" calculation="System">
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="REPORT_ENTRY" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{VIEW_HIDE}.equals("true") ? $V{REPORT_ENTRY} : $V{REPORT_ENTRY}+ 1]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="30">
+			<subreport>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="30" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="PROPERTY_1">
+					<subreportParameterExpression><![CDATA["Report:View:Hide"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PROPERTY_2">
+					<subreportParameterExpression><![CDATA["Report:View:Detailed"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PROPERTY_3">
+					<subreportParameterExpression><![CDATA["Report:View:Hide:Diagram"]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[((uk.ac.bolton.archimate.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
+				<returnValue subreportVariable="RETURNED_VALUE_1" toVariable="VIEW_HIDE"/>
+				<returnValue subreportVariable="RETURNED_VALUE_2" toVariable="VIEW_DETAILED"/>
+				<returnValue subreportVariable="RETURNED_VALUE_3" toVariable="VIEW_HIDE_DIAGRAM"/>
+				<returnValue subreportVariable="NON_REPORT_ENTRIES" toVariable="NON_REPORT_ENTRIES"/>
+				<subreportExpression><![CDATA[$P{properties_report}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+			<break>
+				<reportElement x="0" y="0" width="1" height="1">
+					<printWhenExpression><![CDATA[$V{REPORT_ENTRY} != 1]]></printWhenExpression>
+				</reportElement>
+			</break>
+			<textField>
+				<reportElement style="Title 2" x="0" y="1" width="515" height="19"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{HIDE_VIEW_NUMBERING}.equals("true") ? $F{name}.replaceAll("^[0-9.]*  *", "") : $F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="20">
+			<printWhenExpression><![CDATA[$F{viewpoint} != null
+&& !$V{VIEW_HIDE}.equals("true")
+&& !$V{VIEW_HIDE_DIAGRAM}.equals("true")]]></printWhenExpression>
+			<textField>
+				<reportElement style="Italic" x="0" y="0" width="515" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{viewpoint}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="100">
+			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")
+&& !$V{VIEW_HIDE_DIAGRAM}.equals("true")]]></printWhenExpression>
+			<image scaleImage="RealSize">
+				<reportElement x="0" y="0" width="515" height="100"/>
+				<imageExpression><![CDATA[$F{imagePath}]]></imageExpression>
+			</image>
+		</band>
+		<band height="54" splitType="Prevent">
+			<printWhenExpression><![CDATA[$F{documentation} != null
+&& !$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+			<staticText>
+				<reportElement style="Title 3" x="0" y="0" width="515" height="35"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Documentation]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Documentation" x="0" y="38" width="515" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{documentation}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="55" splitType="Prevent">
+			<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0
+&& !$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+			<staticText>
+				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<box bottomPadding="0"/>
+				<textElement verticalAlignment="Bottom" markup="none"/>
+				<text><![CDATA[Properties]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="39" width="515" height="16" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0]]></printWhenExpression>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="PropertiesDataset">
+						<dataSourceExpression><![CDATA[((uk.ac.bolton.archimate.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="515">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true">
+								<printWhenExpression><![CDATA[!$F{key}.startsWith("Report:")]]></printWhenExpression>
+							</reportElement>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16">
+								<printWhenExpression><![CDATA[!$F{key}.startsWith("Report:")]]></printWhenExpression>
+							</reportElement>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<band height="120">
+			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+			<subreport>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="70" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true") && !$V{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="VIEW_DETAILED">
+					<subreportParameterExpression><![CDATA[$V{VIEW_DETAILED}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_PATH">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[((uk.ac.bolton.archimate.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getChildElementsDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{diagram_object_report}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="70" width="515" height="50" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true") && $V{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="VIEW_DETAILED">
+					<subreportParameterExpression><![CDATA[$V{VIEW_DETAILED}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_PATH">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TITLE">
+					<subreportParameterExpression><![CDATA["Elements"]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[((uk.ac.bolton.archimate.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getChildElementsDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
