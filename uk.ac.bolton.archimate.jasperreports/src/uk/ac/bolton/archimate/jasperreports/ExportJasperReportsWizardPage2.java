@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
+import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
+import uk.ac.bolton.archimate.editor.preferences.Preferences;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 
@@ -59,7 +61,27 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
     
     private static List<Template> fTemplates = new ArrayList<Template>();
     static {
-        fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_0, INBUILT_STANDARD_REPORT));
+    	// report-folder patch by Jean-Baptiste Sarrodie (aka Jaiguru)
+        //fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_0, INBUILT_STANDARD_REPORT));
+    	File[] reportFolders = INBUILT_REPORTS_FOLDER.listFiles();
+    	for (int i = 0; i < reportFolders.length; i++) {
+    		if (reportFolders[i].isDirectory()) {
+    			File report = new File(reportFolders[i], "main.jrxml");
+    			if (report.exists() && report.canRead())
+    				fTemplates.add(new Template(reportFolders[i].getName(), report));
+    		}
+    	}
+    	File userReports = new File(Preferences.STORE.getString(IPreferenceConstants.USER_DATA_FOLDER), "reports");
+    	if (userReports.exists()) {
+	    	reportFolders = userReports.listFiles();
+	    	for (int i = 0; i < reportFolders.length; i++) {
+	    		if (reportFolders[i].isDirectory()) {
+	    			File report = new File(reportFolders[i], "main.jrxml");
+	    			if (report.exists() && report.canRead())
+	    				fTemplates.add(new Template(reportFolders[i].getName(), report));
+	    		}
+	    	}
+    	}
         fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_1, null));
     }
     

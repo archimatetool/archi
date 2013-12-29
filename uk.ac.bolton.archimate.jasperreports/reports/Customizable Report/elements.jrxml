@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="elements_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
+	<subDataset name="PropertiesDataset">
+		<field name="this" class="uk.ac.bolton.archimate.model.IProperty"/>
+		<field name="key" class="java.lang.String"/>
+		<field name="value" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="properties_report" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="TITLE" class="java.lang.String"/>
+	<parameter name="VIEW_DETAILED" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="REPORT_PATH" class="java.lang.String"/>
+	<field name="this" class="uk.ac.bolton.archimate.model.IArchimateElement"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="documentation" class="java.lang.String"/>
+	<field name="relation_source" class="java.lang.String"/>
+	<field name="relation_target" class="java.lang.String"/>
+	<title>
+		<band height="38">
+			<printWhenExpression><![CDATA[$P{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
+			<staticText>
+				<reportElement style="Title 3" positionType="Float" x="1" y="0" width="514" height="35"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Elements]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="34">
+			<textField>
+				<reportElement style="Normal" positionType="Float" x="0" y="0" width="515" height="16">
+					<property name="net.sf.jasperreports.export.pdf.tag.h2"/>
+				</reportElement>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Table row" positionType="Float" x="150" y="18" width="365" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="18" width="150" height="16" isRemoveLineWhenBlank="true"/>
+				<textElement markup="none"/>
+				<text><![CDATA[Type]]></text>
+			</staticText>
+		</band>
+		<band height="32">
+			<printWhenExpression><![CDATA[$F{relation_source} != null]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table row" positionType="Float" x="150" y="0" width="365" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{relation_source}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table row" positionType="Float" x="150" y="16" width="365" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{relation_target}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true"/>
+				<textElement markup="none"/>
+				<text><![CDATA[Source]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="16" width="150" height="16" isRemoveLineWhenBlank="true"/>
+				<textElement markup="none"/>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+		</band>
+		<band height="16" splitType="Prevent">
+			<printWhenExpression><![CDATA[!$P{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="0" width="515" height="16" isRemoveLineWhenBlank="true"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="PropertiesDataset">
+						<dataSourceExpression><![CDATA[((uk.ac.bolton.archimate.jasperreports.data.ElementsDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="515">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16" isRemoveLineWhenBlank="true"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<band height="16" splitType="Prevent">
+			<printWhenExpression><![CDATA[$P{VIEW_DETAILED}.equals("true")]]></printWhenExpression>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="0" width="515" height="16" isRemoveLineWhenBlank="true"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="PropertiesDataset">
+						<dataSourceExpression><![CDATA[((uk.ac.bolton.archimate.jasperreports.data.ViewChildrenDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="515">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="150" height="16" isRemoveLineWhenBlank="true"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{key}]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="150" y="0" width="365" height="16" isRemoveLineWhenBlank="true"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<band height="26">
+			<printWhenExpression><![CDATA[$F{documentation} != null]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Documentation" positionType="Float" x="1" y="8" width="514" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{documentation}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="16"/>
+	</detail>
+</jasperReport>
