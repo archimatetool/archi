@@ -3,14 +3,16 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.canvas.templates.wizard;
+package com.archimatetool.templates.impl.wizard;
 
 import java.io.File;
 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -26,45 +28,50 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.TemplateManager;
+import com.archimatetool.templates.wizard.ModelViewsTreeViewer;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.canvas.model.ICanvasModel;
-import uk.ac.bolton.archimate.canvas.templates.model.CanvasTemplateManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.editor.ui.UIUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import uk.ac.bolton.archimate.model.FolderType;
+import uk.ac.bolton.archimate.model.IArchimateModel;
+import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**
- * Save Canvas As Template Wizard Page 1
+ * Save Archimate Model As Template Wizard Page
  * 
  * @author Phillip Beauvoir
  */
-public class SaveCanvasAsTemplateWizardPage extends WizardPage {
+public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateWizardPage"; //$NON-NLS-1$
 
-    private ICanvasModel fCanvasModel;
+    private IArchimateModel fModel;
 
     private Text fFileTextField;
     private Text fNameTextField;
     private Text fDescriptionTextField;
+    private ModelViewsTreeViewer fModelViewsTreeViewer;
     private Label fPreviewLabel;
-    private Button fButtonIncludeThumbnail;
+    private Button fButtonIncludeThumbs;
 
     private TemplateManager fTemplateManager;
     
     static File CURRENT_FOLDER = new File(System.getProperty("user.home")); //$NON-NLS-1$
     
-    public SaveCanvasAsTemplateWizardPage(ICanvasModel canvasModel, TemplateManager templateManager) {
-        super("SaveCanvasAsTemplateWizardPage"); //$NON-NLS-1$
-        setTitle(Messages.SaveCanvasAsTemplateWizardPage_0);
-        setDescription(Messages.SaveCanvasAsTemplateWizardPage_1);
+    public SaveArchimateModelAsTemplateWizardPage(IArchimateModel model, TemplateManager templateManager) {
+        super("SaveModelAsTemplateWizardPage"); //$NON-NLS-1$
+        setTitle(Messages.SaveArchimateModelAsTemplateWizardPage_2);
+        setDescription(Messages.SaveArchimateModelAsTemplateWizardPage_3);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
-        fCanvasModel = canvasModel;
+        fModel = model;
         fTemplateManager = templateManager;
     }
 
@@ -85,11 +92,11 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         fileComposite.setLayout(layout);
         
         label = new Label(fileComposite, SWT.NULL);
-        label.setText(Messages.SaveCanvasAsTemplateWizardPage_2);
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_4);
         
         fFileTextField = new Text(fileComposite, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        File newFile = new File(CURRENT_FOLDER, Messages.SaveCanvasAsTemplateWizardPage_3 + CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION);
+        File newFile = new File(CURRENT_FOLDER, Messages.SaveArchimateModelAsTemplateWizardPage_5 + ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION);
         fFileTextField.setText(newFile.getPath());
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFileTextField);
@@ -100,7 +107,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         });
         
         Button fileButton = new Button(fileComposite, SWT.PUSH);
-        fileButton.setText(Messages.SaveCanvasAsTemplateWizardPage_4);
+        fileButton.setText(Messages.SaveArchimateModelAsTemplateWizardPage_6);
         fileButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -118,12 +125,12 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         fieldGroup.setLayout(layout);
         
         label = new Label(fieldGroup, SWT.NULL);
-        label.setText(Messages.SaveCanvasAsTemplateWizardPage_5);
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_7);
 
         fNameTextField = new Text(fieldGroup, SWT.BORDER | SWT.SINGLE);
         fNameTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        if(StringUtils.isSet(fCanvasModel.getName())) {
-            fNameTextField.setText(fCanvasModel.getName());
+        if(StringUtils.isSet(fModel.getName())) {
+            fNameTextField.setText(fModel.getName());
         }
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fNameTextField);
@@ -134,7 +141,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         });
         
         label = new Label(fieldGroup, SWT.NULL);
-        label.setText(Messages.SaveCanvasAsTemplateWizardPage_6);
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_8);
         gd = new GridData(SWT.NULL, SWT.TOP, false, false);
         label.setLayoutData(gd);
         
@@ -142,37 +149,49 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         fDescriptionTextField.setLayoutData(gd);
-        if(StringUtils.isSet(fCanvasModel.getDocumentation())) {
-            fDescriptionTextField.setText(fCanvasModel.getDocumentation());
+        if(StringUtils.isSet(fModel.getPurpose())) {
+            fDescriptionTextField.setText(fModel.getPurpose());
         }
         
-        // Thumbnail
+        // Thumbnails
+        boolean thumbsEnabled = !fModel.getDiagramModels().isEmpty();
         
         Group thumbsGroup = new Group(container, SWT.NULL);
         thumbsGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-        layout = new GridLayout(2, false);
+        layout = new GridLayout();
         thumbsGroup.setLayout(layout);
         
-        fButtonIncludeThumbnail = new Button(thumbsGroup, SWT.CHECK);
-        fButtonIncludeThumbnail.setText(Messages.SaveCanvasAsTemplateWizardPage_7);
-        fButtonIncludeThumbnail.setSelection(true);
-        fButtonIncludeThumbnail.addSelectionListener(new SelectionAdapter() {
+        fButtonIncludeThumbs = new Button(thumbsGroup, SWT.CHECK);
+        fButtonIncludeThumbs.setText(Messages.SaveArchimateModelAsTemplateWizardPage_9);
+        fButtonIncludeThumbs.setSelection(thumbsEnabled);
+        fButtonIncludeThumbs.setEnabled(thumbsEnabled);
+        fButtonIncludeThumbs.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                fPreviewLabel.setEnabled(fButtonIncludeThumbnail.getSelection());
+                fModelViewsTreeViewer.getControl().setEnabled(fButtonIncludeThumbs.getSelection());
+                fPreviewLabel.setEnabled(fButtonIncludeThumbs.getSelection());
             }
         });
         
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = 2;
-        fButtonIncludeThumbnail.setLayoutData(gd);
-        
         label = new Label(thumbsGroup, SWT.NULL);
-        label.setText(Messages.SaveCanvasAsTemplateWizardPage_8 + "  "); //$NON-NLS-1$
-        gd = new GridData(SWT.NULL, SWT.TOP, false, false);
-        label.setLayoutData(gd);
+        label.setText(Messages.SaveArchimateModelAsTemplateWizardPage_10);
+        label.setEnabled(thumbsEnabled);
 
-        fPreviewLabel = new Label(thumbsGroup, SWT.BORDER);
+        Composite thumbContainer = new Composite(thumbsGroup, SWT.NULL);
+        thumbContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
+        layout = new GridLayout(2, false);
+        layout.marginWidth = 0;
+        thumbContainer.setLayout(layout);
+        
+        fModelViewsTreeViewer = new ModelViewsTreeViewer(thumbContainer, SWT.NONE);
+        fModelViewsTreeViewer.setInput(fModel.getFolder(FolderType.DIAGRAMS));
+        gd = new GridData(GridData.FILL_BOTH);
+        gd.heightHint = 120;
+        //gd.widthHint = 140;
+        fModelViewsTreeViewer.getControl().setLayoutData(gd);
+        fModelViewsTreeViewer.getControl().setEnabled(thumbsEnabled);
+        
+        fPreviewLabel = new Label(thumbContainer, SWT.BORDER);
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
         gd.widthHint = 150;
@@ -187,23 +206,33 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
             }
         });
         
-        Display.getCurrent().asyncExec(new Runnable() {
+        fModelViewsTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
-            public void run() {
-                TemplateUtils.createThumbnailPreviewImage(fCanvasModel, fPreviewLabel);
+            public void selectionChanged(SelectionChangedEvent event) {
+                disposePreviewImage();
+
+                Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(o instanceof IDiagramModel) {
+                    TemplateUtils.createThumbnailPreviewImage((IDiagramModel)o, fPreviewLabel);
+                }
+                else {
+                    fPreviewLabel.setImage(null);
+                }
             }
         });
         
-        fPreviewLabel.addControlListener(new ControlAdapter() {
-            int oldTime;
-            
+        // Select first Template item on tree (on a thread so that thumbnail preview is right size)
+        fModelViewsTreeViewer.expandAll();
+        Display.getCurrent().asyncExec(new Runnable() {
             @Override
-            public void controlResized(ControlEvent e) {
-                if(e.time - oldTime > 10) {
-                    disposePreviewImage();
-                    TemplateUtils.createThumbnailPreviewImage(fCanvasModel, fPreviewLabel);
+            public void run() {
+                for(TreeItem item : fModelViewsTreeViewer.getTree().getItems()) {
+                    Object o = item.getData();
+                    if(o instanceof IDiagramModel) {
+                        fModelViewsTreeViewer.setSelection(new StructuredSelection(o));
+                        break;
+                    }
                 }
-                oldTime = e.time;
             }
         });
         
@@ -231,19 +260,30 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         return fDescriptionTextField.getText();
     }
     
-    public boolean includeThumbnail() {
-        return fButtonIncludeThumbnail.getSelection();
+    public boolean includeThumbnails() {
+        return fButtonIncludeThumbs.getSelection();
+    }
+    
+    /**
+     * @return The Selected Diagram Model for the key thumbnail
+     */
+    public IDiagramModel getSelectedDiagramModel() {
+        Object o = ((IStructuredSelection)fModelViewsTreeViewer.getSelection()).getFirstElement();
+        if(o instanceof IDiagramModel) {
+            return (IDiagramModel)o;
+        }
+        return null;
     }
     
     private File chooseFile() {
         FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-        dialog.setText(Messages.SaveCanvasAsTemplateWizardPage_9);
+        dialog.setText(Messages.SaveArchimateModelAsTemplateWizardPage_11);
         dialog.setFilterExtensions(new String[] { "*" + fTemplateManager.getTemplateFileExtension(), "*.*" } ); //$NON-NLS-1$ //$NON-NLS-2$
         String path = dialog.open();
         if(path != null) {
             // Only Windows adds the extension by default
-            if(dialog.getFilterIndex() == 0 && !path.endsWith(CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION)) {
-                path += CanvasTemplateManager.CANVAS_TEMPLATE_FILE_EXTENSION;
+            if(dialog.getFilterIndex() == 0 && !path.endsWith(ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION)) {
+                path += ArchimateTemplateManager.ARCHIMATE_TEMPLATE_FILE_EXTENSION;
             }
             return new File(path);
         }
@@ -253,13 +293,13 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
     private void validateFields() {
         String fileName = getFileName();
         if(!StringUtils.isSetAfterTrim(fileName)) {
-            updateStatus(Messages.SaveCanvasAsTemplateWizardPage_10);
+            updateStatus(Messages.SaveArchimateModelAsTemplateWizardPage_14);
             return;
         }
         
         String name = getTemplateName();
         if(!StringUtils.isSetAfterTrim(name)) {
-            updateStatus(Messages.SaveCanvasAsTemplateWizardPage_11);
+            updateStatus(Messages.SaveArchimateModelAsTemplateWizardPage_15);
             return;
         }
         

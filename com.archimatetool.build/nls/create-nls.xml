@@ -152,8 +152,8 @@
     	</antcall>
 		
 
-		<!-- uk.ac.bolton.archimate.templates -->
-		<property name="templates.prj.src"    		value="uk.ac.bolton.archimate.templates"/>
+		<!-- com.archimatetool.templates -->
+		<property name="templates.prj.src"    		value="com.archimatetool.templates"/>
 		<property name="templates.prj.tgt"    		value="${templates.prj.src}.${lang_code}"/>
 		<property name="templates.loc.src"    		location="../../${templates.prj.src}"/>
 		<property name="templates.loc.tgt"    		location="../../${main.dir}/${templates.prj.tgt}"/>

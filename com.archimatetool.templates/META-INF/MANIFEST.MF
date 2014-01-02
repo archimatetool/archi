@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Archi Templates
+Bundle-SymbolicName: com.archimatetool.templates;singleton:=true
+Bundle-Version: 2.6.0.qualifier
+Bundle-Vendor: Phillip Beauvoir
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ uk.ac.bolton.archimate.editor,
+ com.archimatetool.jdom,
+ com.archimatetool.widgets
+Bundle-ClassPath: com.archimatetool.templates.jar
+Bundle-Activator: com.archimatetool.templates.ArchimateEditorTemplatesPlugin
+Bundle-ActivationPolicy: lazy
+Export-Package: com.archimatetool.templates.dialog,
+ com.archimatetool.templates.model,
+ com.archimatetool.templates.wizard

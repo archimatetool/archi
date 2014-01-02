@@ -9,8 +9,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
-import uk.ac.bolton.archimate.templates.dialog.TemplateManagerDialog;
-import uk.ac.bolton.archimate.templates.model.TemplateManager;
+import com.archimatetool.templates.dialog.TemplateManagerDialog;
+import com.archimatetool.templates.model.TemplateManager;
+
 
 
 /**

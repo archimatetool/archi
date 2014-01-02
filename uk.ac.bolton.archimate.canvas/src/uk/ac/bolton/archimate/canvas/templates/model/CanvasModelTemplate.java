@@ -7,8 +7,9 @@ package uk.ac.bolton.archimate.canvas.templates.model;
 
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.templates.model.AbstractTemplate;
+
 import uk.ac.bolton.archimate.canvas.ICanvasImages;
-import uk.ac.bolton.archimate.templates.model.AbstractTemplate;
 
 
 /**

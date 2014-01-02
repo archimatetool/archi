@@ -19,6 +19,10 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.templates.model.ITemplate;
+import com.archimatetool.templates.model.TemplateManager;
+import com.archimatetool.templates.wizard.TemplateUtils;
+
 import uk.ac.bolton.archimate.canvas.model.ICanvasModel;
 import uk.ac.bolton.archimate.canvas.templates.model.CanvasTemplateManager;
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
@@ -31,9 +35,6 @@ import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
-import uk.ac.bolton.archimate.templates.model.ITemplate;
-import uk.ac.bolton.archimate.templates.model.TemplateManager;
-import uk.ac.bolton.archimate.templates.wizard.TemplateUtils;
 
 
 /**

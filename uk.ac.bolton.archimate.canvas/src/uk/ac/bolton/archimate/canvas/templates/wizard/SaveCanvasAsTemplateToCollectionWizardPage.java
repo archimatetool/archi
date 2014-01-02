@@ -5,8 +5,8 @@
  */
 package uk.ac.bolton.archimate.canvas.templates.wizard;
 
-import uk.ac.bolton.archimate.templates.model.TemplateManager;
-import uk.ac.bolton.archimate.templates.wizard.SaveModelAsTemplateToCollectionWizardPage;
+import com.archimatetool.templates.model.TemplateManager;
+import com.archimatetool.templates.wizard.SaveModelAsTemplateToCollectionWizardPage;
 
 
 /**

@@ -5,12 +5,13 @@
  */
 package uk.ac.bolton.archimate.canvas.templates.wizard;
 
+import com.archimatetool.templates.dialog.TemplateManagerDialog;
+import com.archimatetool.templates.model.TemplateManager;
+import com.archimatetool.templates.wizard.NewModelFromTemplateWizardPage;
+
 import uk.ac.bolton.archimate.canvas.templates.dialog.CanvasTemplateManagerDialog;
 import uk.ac.bolton.archimate.canvas.templates.model.CanvasTemplateManager;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.templates.dialog.TemplateManagerDialog;
-import uk.ac.bolton.archimate.templates.model.TemplateManager;
-import uk.ac.bolton.archimate.templates.wizard.NewModelFromTemplateWizardPage;
 
 
 /**
