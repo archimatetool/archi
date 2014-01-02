@@ -20,15 +20,14 @@
    <windowImages i16="/uk.ac.bolton.archimate.editor/img/app-16.png" i32="/uk.ac.bolton.archimate.editor/img/app-32.png" i48="/uk.ac.bolton.archimate.editor/img/app-48.png" i64="/uk.ac.bolton.archimate.editor/img/app-64.png" i128="/uk.ac.bolton.archimate.editor/img/app-128.png"/>
 
    <launcher name="Archi">
-      <linux icon="/uk.ac.bolton.archimate.editor.build/branding/linux/icon.xpm"/>
-      <macosx icon="/uk.ac.bolton.archimate.editor.build/branding/mac/icon.icns"/>
+      <linux icon="/com.archimatetool.build/branding/linux/icon.xpm"/>
+      <macosx icon="/com.archimatetool.build/branding/mac/icon.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/uk.ac.bolton.archimate.editor.build/branding/windows/icon.ico"/>
+         <ico path="/com.archimatetool.build/branding/windows/icon.ico"/>
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

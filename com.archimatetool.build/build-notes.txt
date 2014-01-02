@@ -13,7 +13,7 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 7.  Ensure all changes are committed to the git repo.
 8.  Open the "archimate.product" file and click on the "Eclipse Product export wizard" link and set the following settings:
 	
-	Configuration:						              /uk.ac.bolton.archimate.editor.build/archimate.product
+	Configuration:						              /com.archimatetool.build/archimate.product
 	Root directory:						              (leave blank)
 	Synchronize before exporting:		              ticked
 	Directory:							              /Archi
