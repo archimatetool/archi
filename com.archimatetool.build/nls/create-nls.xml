@@ -67,8 +67,8 @@
     	</antcall>
 		
 		
-		<!-- uk.ac.bolton.archimate.editor -->
-		<property name="editor.prj.src"    			value="uk.ac.bolton.archimate.editor"/>
+		<!-- com.archimatetool.editor -->
+		<property name="editor.prj.src"    			value="com.archimatetool.editor"/>
 		<property name="editor.prj.tgt"    			value="${editor.prj.src}.${lang_code}"/>
 		<property name="editor.loc.src"    			location="../../${editor.prj.src}"/>
 		<property name="editor.loc.tgt"    			location="../../${main.dir}/${editor.prj.tgt}"/>

@@ -9,7 +9,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.help.ui,
  org.eclipse.ui,
- uk.ac.bolton.archimate.editor,
+ com.archimatetool.editor,
  com.archimatetool.jdom,
  com.archimatetool.help,
  com.archimatetool.templates

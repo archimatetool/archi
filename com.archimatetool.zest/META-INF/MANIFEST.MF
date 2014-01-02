@@ -10,7 +10,7 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help.ui,
- uk.ac.bolton.archimate.editor,
+ com.archimatetool.editor,
  org.eclipse.zest.core,
  org.eclipse.zest.layouts
 Bundle-Activator: com.archimatetool.zest.ArchimateZestPlugin

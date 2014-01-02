@@ -17,6 +17,6 @@ Bundle-ClassPath: lib/commons-beanutils-1.8.0.jar,
  com.archimatetool.jasperreports.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- uk.ac.bolton.archimate.editor
+ com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.archimatetool.jasperreports.JasperReportsPlugin

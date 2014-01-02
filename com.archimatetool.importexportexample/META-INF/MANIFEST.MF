@@ -8,4 +8,4 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- uk.ac.bolton.archimate.editor
+ com.archimatetool.editor

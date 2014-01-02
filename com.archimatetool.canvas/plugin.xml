@@ -28,14 +28,14 @@
       </parser>
    </extension>
    <extension
-         point="uk.ac.bolton.archimate.editor.diagramEditorFactory">
+         point="com.archimatetool.editor.diagramEditorFactory">
       <diagramEditorFactory
             class="com.archimatetool.canvas.CanvasEditorFactory"
             id="com.archimatetool.canvas.canvasEditorFactory">
       </diagramEditorFactory>
    </extension>
    <extension
-         point="uk.ac.bolton.archimate.editor.labelProvider">
+         point="com.archimatetool.editor.labelProvider">
       <labelProvider
             class="com.archimatetool.canvas.CanvasLabelProvider"
             id="com.archimatetool.canvas.labelProvider">
@@ -44,7 +44,7 @@
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs
-            contributorId="uk.ac.bolton.archimate.editor">
+            contributorId="com.archimatetool.editor">
          <propertyTab
                afterTab="properties.tab"
                category="main.category"
@@ -64,7 +64,7 @@
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections
-            contributorId="uk.ac.bolton.archimate.editor">
+            contributorId="com.archimatetool.editor">
          <propertySection
                class="com.archimatetool.canvas.propertysections.IconSection"
                filter="com.archimatetool.canvas.propertysections.IconSection$Filter"

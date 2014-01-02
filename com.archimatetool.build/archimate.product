@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="%appName" id="uk.ac.bolton.archimate.editor.product" application="uk.ac.bolton.archimate.editor.app" useFeatures="false" includeLaunchers="true">
+<product name="%appName" id="com.archimatetool.editor.product" application="uk.ac.bolton.archimate.editor.app" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.bolton.archimate.editor/img/app-128.png"/>
@@ -35,6 +35,7 @@
    <plugins>
       <plugin id="com.archimatetool.canvas"/>
       <plugin id="com.archimatetool.csv"/>
+      <plugin id="com.archimatetool.editor"/>
       <plugin id="com.archimatetool.editor.fullscreen.macos" fragment="true"/>
       <plugin id="com.archimatetool.editor.launch.macos" fragment="true"/>
       <plugin id="com.archimatetool.editor.launch.win32" fragment="true"/>
@@ -119,7 +120,6 @@
       <plugin id="org.eclipse.zest.core"/>
       <plugin id="org.eclipse.zest.layouts"/>
       <plugin id="org.hamcrest.core"/>
-      <plugin id="uk.ac.bolton.archimate.editor"/>
    </plugins>
 
    <features>

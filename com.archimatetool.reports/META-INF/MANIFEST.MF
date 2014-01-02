@@ -8,7 +8,7 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- uk.ac.bolton.archimate.editor
+ com.archimatetool.editor
 Bundle-ClassPath: com.archimatetool.reports.jar
 Bundle-Activator: com.archimatetool.reports.ArchimateEditorReportsPlugin
 Bundle-ActivationPolicy: lazy
