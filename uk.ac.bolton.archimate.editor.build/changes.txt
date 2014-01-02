@@ -2,8 +2,8 @@ Archi Changes
 -------------
 
 
-Version 2.6
-----------------------------
+Version 2.6 January XX 2014
+---------------------------
 + Can now set line colour of diagram elements to user colour or derived from fill colour
 + Added new user default colour preferences for line colours, group and note fill colours
 + Improved Colours Preference page
@@ -18,6 +18,8 @@ Version 2.6
 + Improved connection anchors on some figures (rounded rectangles)
 + Relationship rules have been updated to comply with ArchiMate 2.1 (provided by Jaiguru)
 + Added "Check for New Version" menu item to Help menu
++ Can now add custom Jasper Reports to "reports" folder in Archi user directory (provided by Jaiguru)
++ New Jasper "Customizable Report" added (provided by Jaiguru)
 
 
 

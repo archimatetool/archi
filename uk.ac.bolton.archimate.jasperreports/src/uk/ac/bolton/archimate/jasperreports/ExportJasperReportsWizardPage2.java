@@ -40,9 +40,6 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
  */
 public class ExportJasperReportsWizardPage2 extends WizardPage {
 
-    static File INBUILT_REPORTS_FOLDER = JasperReportsPlugin.INSTANCE.getJasperReportsFolder();
-    static File INBUILT_STANDARD_REPORT = new File(INBUILT_REPORTS_FOLDER, "standard/main.jrxml"); //$NON-NLS-1$
-
     private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage2"; //$NON-NLS-1$
     
     private ComboViewer fComboTemplateViewer;
@@ -59,37 +56,41 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         }
     }
     
-    private static List<Template> fTemplates = new ArrayList<Template>();
-    static {
-    	// report-folder patch by Jean-Baptiste Sarrodie (aka Jaiguru)
-        //fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_0, INBUILT_STANDARD_REPORT));
-    	File[] reportFolders = INBUILT_REPORTS_FOLDER.listFiles();
-    	for (int i = 0; i < reportFolders.length; i++) {
-    		if (reportFolders[i].isDirectory()) {
-    			File report = new File(reportFolders[i], "main.jrxml");
-    			if (report.exists() && report.canRead())
-    				fTemplates.add(new Template(reportFolders[i].getName(), report));
-    		}
-    	}
-    	File userReports = new File(Preferences.STORE.getString(IPreferenceConstants.USER_DATA_FOLDER), "reports");
-    	if (userReports.exists()) {
-	    	reportFolders = userReports.listFiles();
-	    	for (int i = 0; i < reportFolders.length; i++) {
-	    		if (reportFolders[i].isDirectory()) {
-	    			File report = new File(reportFolders[i], "main.jrxml");
-	    			if (report.exists() && report.canRead())
-	    				fTemplates.add(new Template(reportFolders[i].getName(), report));
-	    		}
-	    	}
-    	}
-        fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_1, null));
-    }
+    private List<Template> fTemplates = new ArrayList<Template>();
     
     public ExportJasperReportsWizardPage2() {
         super("ExportJasperReportsWizardPage2"); //$NON-NLS-1$
         setTitle(Messages.ExportJasperReportsWizardPage2_2);
         setDescription(Messages.ExportJasperReportsWizardPage2_3);
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+    
+        discoverReports();
+    }
+    
+    // report-folder patch by Jean-Baptiste Sarrodie (aka Jaiguru)
+    private void discoverReports() {
+        File inbuiltReportsFolder = JasperReportsPlugin.INSTANCE.getJasperReportsFolder();
+        scanFolder(inbuiltReportsFolder);
+
+        File userReportsFolder = new File(Preferences.STORE.getString(IPreferenceConstants.USER_DATA_FOLDER), "reports"); //$NON-NLS-1$
+        scanFolder(userReportsFolder);
+        
+        // Null terminator for custom selection
+        fTemplates.add(new Template(Messages.ExportJasperReportsWizardPage2_1, null));        
+    }
+    
+    // Scan a folder looking for reports
+    private void scanFolder(File folder) {
+        if(folder.exists()) {
+            for(File file : folder.listFiles()) {
+                if(file.isDirectory()) {
+                    File report = new File(file, "main.jrxml"); //$NON-NLS-1$
+                    if(report.exists() && report.canRead()) {
+                        fTemplates.add(new Template(file.getName(), report));
+                    }
+                }
+            }
+        }        
     }
 
     @Override
