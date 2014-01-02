@@ -4,8 +4,8 @@
    <extension
          point="uk.ac.bolton.archimate.editor.exportHandler">
       <exportHandler
-            class="uk.ac.bolton.archimate.csv.CSVExporter"
-            id="uk.ac.bolton.archimate.csv.exportHandler"
+            class="com.archimatetool.csv.CSVExporter"
+            id="com.archimatetool.csv.exportHandler"
             label="%exportLabel">
       </exportHandler>
    </extension>

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
-Bundle-SymbolicName: uk.ac.bolton.archimate.csv;singleton:=true
+Bundle-SymbolicName: com.archimatetool.csv;singleton:=true
 Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin

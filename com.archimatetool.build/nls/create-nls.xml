@@ -53,8 +53,8 @@
 		</copy>
 		
 		
-		<!-- uk.ac.bolton.archimate.csv -->
-		<property name="csv.prj.src"    			value="uk.ac.bolton.archimate.csv"/>
+		<!-- com.archimatetool.csv -->
+		<property name="csv.prj.src"    			value="com.archimatetool.csv"/>
 		<property name="csv.prj.tgt"    			value="${csv.prj.src}.${lang_code}"/>
 		<property name="csv.loc.src"    			location="../../${csv.prj.src}"/>
 		<property name="csv.loc.tgt"    			location="../../${main.dir}/${csv.prj.tgt}"/>

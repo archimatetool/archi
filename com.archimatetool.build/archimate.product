@@ -33,6 +33,7 @@
    </vm>
 
    <plugins>
+      <plugin id="com.archimatetool.csv"/>
       <plugin id="com.archimatetool.editor.fullscreen.macos" fragment="true"/>
       <plugin id="com.archimatetool.editor.launch.macos" fragment="true"/>
       <plugin id="com.archimatetool.editor.launch.win32" fragment="true"/>
@@ -114,7 +115,6 @@
       <plugin id="org.eclipse.zest.layouts"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="uk.ac.bolton.archimate.canvas"/>
-      <plugin id="uk.ac.bolton.archimate.csv"/>
       <plugin id="uk.ac.bolton.archimate.editor"/>
       <plugin id="uk.ac.bolton.archimate.help"/>
       <plugin id="uk.ac.bolton.archimate.model"/>
