@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.editor;
+package com.archimatetool.editor;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import uk.ac.bolton.archimate.editor.IPlatformLauncher;
 import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
 
 public class PlatformLauncher implements IPlatformLauncher {

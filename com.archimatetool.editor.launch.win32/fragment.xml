@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="uk.ac.bolton.archimate.editor.WindowsStartup">
+            class="com.archimatetool.editor.WindowsStartup">
       </startup>
    </extension>
 

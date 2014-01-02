@@ -33,6 +33,7 @@
    </vm>
 
    <plugins>
+      <plugin id="com.archimatetool.editor.launch.win32" fragment="true"/>
       <plugin id="com.archimatetool.jdom"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.el"/>
@@ -112,7 +113,6 @@
       <plugin id="uk.ac.bolton.archimate.editor"/>
       <plugin id="uk.ac.bolton.archimate.editor.fullscreen.macos" fragment="true"/>
       <plugin id="uk.ac.bolton.archimate.editor.launch.macos" fragment="true"/>
-      <plugin id="uk.ac.bolton.archimate.editor.launch.win32" fragment="true"/>
       <plugin id="uk.ac.bolton.archimate.help"/>
       <plugin id="uk.ac.bolton.archimate.jasperreports"/>
       <plugin id="uk.ac.bolton.archimate.model"/>
