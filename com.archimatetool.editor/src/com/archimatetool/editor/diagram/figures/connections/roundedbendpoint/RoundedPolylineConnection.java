@@ -200,7 +200,7 @@ public class RoundedPolylineConnection extends PolylineConnection {
 						&& (new PolarPoint(crosspoint, bp)).r > JUMP_MAX_RADIUS
 						&& (new PolarPoint(crosspoint, next)).r > JUMP_MAX_RADIUS) {
 						double con_angle = ((new PolarPoint(bp, next)).theta % Math.PI);
-						if (angle > con_angle)
+						if (angle > con_angle && !crosspoints.contains(crosspoint))
 							crosspoints.add(crosspoint);
 					}
 				}
