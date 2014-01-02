@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IIdentifier;
 
 
 /**

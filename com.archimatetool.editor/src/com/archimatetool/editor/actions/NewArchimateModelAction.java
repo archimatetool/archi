@@ -13,8 +13,8 @@ import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
  * New ArchiMate Model Action

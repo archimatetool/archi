@@ -25,8 +25,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.ISketchModelSticky;
 
-import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
 /**
  * Sticky Figure

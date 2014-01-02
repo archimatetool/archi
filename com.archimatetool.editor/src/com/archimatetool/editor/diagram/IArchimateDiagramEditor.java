@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
+import com.archimatetool.model.IArchimateElement;
 
 
 /**

@@ -41,11 +41,11 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.util.RelationshipsMatrix;
+import com.archimatetool.model.util.RelationshipsMatrix.TargetMatrix;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
-import uk.ac.bolton.archimate.model.util.RelationshipsMatrix;
-import uk.ac.bolton.archimate.model.util.RelationshipsMatrix.TargetMatrix;
 
 
 /**

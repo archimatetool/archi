@@ -5,8 +5,8 @@
  */
 package com.archimatetool.canvas.model;
 
-import uk.ac.bolton.archimate.model.IDiagramModelImageProvider;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IDiagramModelObject;
 
 
 /**

@@ -20,8 +20,9 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.zest.core.widgets.GraphNode;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IRelationship;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IRelationship;
+
 
 
 /**

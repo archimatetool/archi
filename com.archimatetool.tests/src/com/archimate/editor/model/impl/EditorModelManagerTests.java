@@ -24,12 +24,12 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.impl.EditorModelManager;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 @SuppressWarnings("nls")
@@ -43,7 +43,7 @@ public class EditorModelManagerTests {
      * Determine if model has an ECoreAdapter added
      */
     boolean hasECoreAdapter(IArchimateModel model) {
-        Class<?> clazz = Testing.getMemberClass(EditorModelManager.class, "uk.ac.bolton.archimate.editor.model.impl.EditorModelManager$ECoreAdapter");
+        Class<?> clazz = Testing.getMemberClass(EditorModelManager.class, "com.archimatetool.editor.model.impl.EditorModelManager$ECoreAdapter");
         for(Adapter a : model.eAdapters()) {
             if(clazz.isInstance(a)) {
                 return true;

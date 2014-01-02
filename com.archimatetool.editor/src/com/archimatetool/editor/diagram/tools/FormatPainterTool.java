@@ -20,17 +20,17 @@ import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IJunction;
+import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelComponent;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.IJunction;
-import uk.ac.bolton.archimate.model.ILineObject;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

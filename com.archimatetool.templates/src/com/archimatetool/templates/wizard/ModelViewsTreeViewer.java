@@ -19,9 +19,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
 
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.INameable;
 
 /**
  * Tree Viewer to Preview Model Views

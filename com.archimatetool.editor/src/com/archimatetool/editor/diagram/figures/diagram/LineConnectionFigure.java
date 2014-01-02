@@ -15,8 +15,8 @@ import org.eclipse.swt.SWT;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IDiagramModelConnection;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**

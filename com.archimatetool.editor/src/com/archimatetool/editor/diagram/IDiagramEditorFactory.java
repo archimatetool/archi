@@ -8,7 +8,8 @@ package com.archimatetool.editor.diagram;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.ui.IEditorInput;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModel;
+
 
 
 /**

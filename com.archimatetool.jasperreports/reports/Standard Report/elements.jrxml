@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Sub-report to display fields of an ArchiMate Element -->
 <!-- The Data Source is of type com.archimatetool.jasperreports.data.ElementsDataSource -->
-<!-- The Element is of type uk.ac.bolton.archimate.model.IArchimateElement accessed by field "this" -->
+<!-- The Element is of type com.archimatetool.model.IArchimateElement accessed by field "this" -->
 <!-- Example to get documentation value - $F{this}.getDocumentation() -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,7 +18,7 @@
     
     <parameter name="TITLE" class="java.lang.String"/>
     
-    <field name="this" class="uk.ac.bolton.archimate.model.IArchimateElement"/>
+    <field name="this" class="com.archimatetool.model.IArchimateElement"/>
     <field name="name" class="java.lang.String"/>
     <field name="type" class="java.lang.String"/>
     <field name="documentation" class="java.lang.String"/>

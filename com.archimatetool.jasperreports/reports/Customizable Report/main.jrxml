@@ -5,12 +5,12 @@
 	<property name="ireport.y" value="64"/>
 	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
 	<subDataset name="PropertiesDataset">
-		<field name="this" class="uk.ac.bolton.archimate.model.IProperty"/>
+		<field name="this" class="com.archimatetool.model.IProperty"/>
 		<field name="key" class="java.lang.String"/>
 		<field name="value" class="java.lang.String"/>
 	</subDataset>
 	<subDataset name="ElementsDataset">
-		<field name="this" class="uk.ac.bolton.archimate.model.IArchimateElement"/>
+		<field name="this" class="com.archimatetool.model.IArchimateElement"/>
 		<field name="name" class="java.lang.String"/>
 		<field name="type" class="java.lang.String"/>
 		<field name="documentation" class="java.lang.String"/>
@@ -26,7 +26,7 @@
 		<defaultValueExpression><![CDATA[(new java.text.SimpleDateFormat("d MMM yyyy HH:mm:ss")).format(new java.util.Date())]]></defaultValueExpression>
 	</parameter>
 	<parameter name="REPORT_PATH" class="java.lang.String"/>
-	<field name="this" class="uk.ac.bolton.archimate.model.IArchimateModel"/>
+	<field name="this" class="com.archimatetool.model.IArchimateModel"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="purpose" class="java.lang.String"/>
 	<variable name="MODEL_HIDE_BUSINESS" class="java.lang.String" calculation="System">

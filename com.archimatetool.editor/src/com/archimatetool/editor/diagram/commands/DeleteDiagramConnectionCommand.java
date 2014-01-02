@@ -7,7 +7,8 @@ package com.archimatetool.editor.diagram.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelConnection;
+
 
 
 /**

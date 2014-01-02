@@ -17,8 +17,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
  * Global Save Action.<br>

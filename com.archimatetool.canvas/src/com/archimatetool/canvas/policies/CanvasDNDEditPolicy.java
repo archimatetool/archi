@@ -26,8 +26,8 @@ import com.archimatetool.editor.diagram.commands.AddDiagramObjectCommand;
 import com.archimatetool.editor.diagram.dnd.AbstractDNDEditPolicy;
 import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
 import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

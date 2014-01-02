@@ -8,8 +8,8 @@ package com.archimatetool.editor.diagram.figures.extensions;
 import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
 import com.archimatetool.editor.diagram.figures.technology.TechnologyDeviceFigureDelegate2;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 

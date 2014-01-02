@@ -17,9 +17,9 @@ import org.eclipse.emf.ecore.xmi.XMIException;
 import org.xml.sax.SAXParseException;
 
 import com.archimatetool.editor.Logger;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.ModelVersion;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.ModelVersion;
 
 
 /**

@@ -18,9 +18,9 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.diagram.editparts.ITextPositionedEditPart;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

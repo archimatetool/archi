@@ -30,12 +30,12 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
-import uk.ac.bolton.archimate.model.IDiagramModelImageProvider;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

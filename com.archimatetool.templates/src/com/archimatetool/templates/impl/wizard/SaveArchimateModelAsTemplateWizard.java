@@ -25,6 +25,8 @@ import org.jdom.Element;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.templates.impl.model.ArchimateModelTemplate;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.ITemplateGroup;
@@ -33,8 +35,6 @@ import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.SaveModelAsTemplateToCollectionWizardPage;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

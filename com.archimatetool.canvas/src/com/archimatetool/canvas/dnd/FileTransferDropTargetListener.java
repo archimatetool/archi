@@ -12,8 +12,8 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 
 import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**
  * File DnD listener

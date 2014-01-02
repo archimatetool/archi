@@ -7,7 +7,8 @@ package com.archimatetool.editor.model.viewpoints;
 
 import org.eclipse.emf.ecore.EClass;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
+import com.archimatetool.model.IArchimatePackage;
+
 
 /**
  * Service Realisation Viewpoint

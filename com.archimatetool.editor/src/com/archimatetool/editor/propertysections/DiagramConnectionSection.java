@@ -20,10 +20,10 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

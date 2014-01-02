@@ -29,10 +29,10 @@ import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
 /**

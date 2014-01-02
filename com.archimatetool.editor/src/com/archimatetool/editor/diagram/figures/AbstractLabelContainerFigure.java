@@ -12,8 +12,8 @@ import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**

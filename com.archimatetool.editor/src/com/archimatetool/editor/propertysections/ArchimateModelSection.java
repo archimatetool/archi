@@ -18,9 +18,9 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.components.StyledTextControl;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

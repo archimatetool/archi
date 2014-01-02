@@ -18,9 +18,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

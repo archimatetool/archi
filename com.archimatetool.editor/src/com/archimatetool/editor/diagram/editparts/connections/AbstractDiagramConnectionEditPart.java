@@ -42,12 +42,12 @@ import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.ViewManager;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelBendpoint;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.IProperties;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.IProperties;
 
 
 /**

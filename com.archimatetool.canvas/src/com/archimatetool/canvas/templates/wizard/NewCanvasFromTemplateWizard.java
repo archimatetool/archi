@@ -27,14 +27,14 @@ import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
 
 
 /**

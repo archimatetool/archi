@@ -6,9 +6,9 @@
 package com.archimatetool.editor.diagram.commands;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

@@ -28,12 +28,12 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.views.tree.commands.MoveFolderCommand;
 import com.archimatetool.editor.views.tree.commands.MoveObjectCommand;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.INameable;
 
 
 

@@ -23,10 +23,10 @@ import com.archimatetool.editor.diagram.editparts.ITextPositionedEditPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.propertysections.AbstractArchimatePropertySection;
 import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

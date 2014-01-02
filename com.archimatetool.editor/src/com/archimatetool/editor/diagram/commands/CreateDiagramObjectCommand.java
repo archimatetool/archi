@@ -18,9 +18,9 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**

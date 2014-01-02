@@ -10,12 +10,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IBounds;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 
 /**

@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
-import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
+import com.archimatetool.model.IDiagramModelBendpoint;
 
 /**
  * DeleteBendpointCommand

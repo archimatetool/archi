@@ -43,9 +43,9 @@ import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.propertysections.DiagramModelImageSection;
 import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

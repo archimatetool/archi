@@ -11,8 +11,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
 /**

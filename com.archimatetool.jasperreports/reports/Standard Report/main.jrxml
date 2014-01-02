@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Main report to display fields of an ArchiMate Model -->
 <!-- The Data Source is of type com.archimatetool.jasperreports.data.ArchimateModelDataSource -->
-<!-- The Element is of type uk.ac.bolton.archimate.model.IArchimateModel accessed by field "this" -->
+<!-- The Element is of type com.archimatetool.model.IArchimateModel accessed by field "this" -->
 <!-- Example to get purpose value - $F{this}.getPurpose() -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -24,7 +24,7 @@
         <defaultValueExpression>(new java.text.SimpleDateFormat("d MMM yyyy HH:mm:ss")).format(new java.util.Date())</defaultValueExpression>
     </parameter>
     
-    <field name="this" class="uk.ac.bolton.archimate.model.IArchimateModel"/>
+    <field name="this" class="com.archimatetool.model.IArchimateModel"/>
     <field name="name" class="java.lang.String"/>
     <field name="purpose" class="java.lang.String"/>
     

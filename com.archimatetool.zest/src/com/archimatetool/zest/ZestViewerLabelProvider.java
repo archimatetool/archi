@@ -32,20 +32,20 @@ import com.archimatetool.editor.diagram.figures.connections.SpecialisationConnec
 import com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.UsedByConnectionFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IAccessRelationship;
+import com.archimatetool.model.IAggregationRelationship;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IAssignmentRelationship;
+import com.archimatetool.model.ICompositionRelationship;
+import com.archimatetool.model.IFlowRelationship;
+import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IRealisationRelationship;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.ISpecialisationRelationship;
+import com.archimatetool.model.ITriggeringRelationship;
+import com.archimatetool.model.IUsedByRelationship;
 
-import uk.ac.bolton.archimate.model.IAccessRelationship;
-import uk.ac.bolton.archimate.model.IAggregationRelationship;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IAssignmentRelationship;
-import uk.ac.bolton.archimate.model.ICompositionRelationship;
-import uk.ac.bolton.archimate.model.IFlowRelationship;
-import uk.ac.bolton.archimate.model.IInfluenceRelationship;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IRealisationRelationship;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.ISpecialisationRelationship;
-import uk.ac.bolton.archimate.model.ITriggeringRelationship;
-import uk.ac.bolton.archimate.model.IUsedByRelationship;
 
 /**
  * Label Provider

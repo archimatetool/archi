@@ -12,8 +12,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.views.tree.commands.SortFolderCommand;
+import com.archimatetool.model.IFolder;
 
-import uk.ac.bolton.archimate.model.IFolder;
 
 
 /**

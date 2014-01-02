@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.business;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 

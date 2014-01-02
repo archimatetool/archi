@@ -13,7 +13,8 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
+import com.archimatetool.model.IArchimatePackage;
+
 
 
 

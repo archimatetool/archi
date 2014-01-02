@@ -24,9 +24,9 @@ import com.archimatetool.editor.diagram.figures.diagram.NoteFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelNote;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelNote;
 
 
 /**

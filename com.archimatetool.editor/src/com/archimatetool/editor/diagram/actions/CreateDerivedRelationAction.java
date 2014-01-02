@@ -47,16 +47,16 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.DerivedRelationsUtils;
+import com.archimatetool.model.util.DerivedRelationsUtils.TooComplicatedException;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils;
-import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils.TooComplicatedException;
 
 
 /**

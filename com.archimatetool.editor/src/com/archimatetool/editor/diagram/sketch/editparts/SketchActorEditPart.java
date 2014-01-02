@@ -21,8 +21,8 @@ import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
 import com.archimatetool.editor.diagram.sketch.figures.SketchActorFigure;
 import com.archimatetool.editor.diagram.sketch.policies.SketchConnectionPolicy;
+import com.archimatetool.model.ISketchModelActor;
 
-import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 
 /**

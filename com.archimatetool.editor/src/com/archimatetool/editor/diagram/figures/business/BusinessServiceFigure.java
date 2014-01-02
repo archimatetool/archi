@@ -14,8 +14,8 @@ import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 

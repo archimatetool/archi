@@ -15,9 +15,9 @@ import org.eclipse.gef.palette.ToolEntry;
 
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
 
-import uk.ac.bolton.archimate.model.IDiagramModelComponent;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**

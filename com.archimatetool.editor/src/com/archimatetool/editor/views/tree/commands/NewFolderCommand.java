@@ -12,8 +12,8 @@ import org.eclipse.jface.viewers.Viewer;
 import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.editor.views.tree.TreeSelectionRequest;
+import com.archimatetool.model.IFolder;
 
-import uk.ac.bolton.archimate.model.IFolder;
 
 
 /**

@@ -7,7 +7,8 @@ package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.PolylineDecoration;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+
 
 
 /**

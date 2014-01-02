@@ -26,8 +26,8 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.model.IDiagramModelConnection;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**

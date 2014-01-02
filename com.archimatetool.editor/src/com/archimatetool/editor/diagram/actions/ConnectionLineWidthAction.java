@@ -23,8 +23,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
 import com.archimatetool.editor.propertysections.DiagramConnectionSection;
+import com.archimatetool.model.IDiagramModelConnection;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**

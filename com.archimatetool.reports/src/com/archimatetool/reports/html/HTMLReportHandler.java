@@ -12,8 +12,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
 /**

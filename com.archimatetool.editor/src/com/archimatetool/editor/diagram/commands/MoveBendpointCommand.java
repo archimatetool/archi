@@ -7,8 +7,9 @@ package com.archimatetool.editor.diagram.commands;
 
 import org.eclipse.draw2d.geometry.Dimension;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelBendpoint;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModelBendpoint;
+
 
 /**
  * Move Bendpoint Command

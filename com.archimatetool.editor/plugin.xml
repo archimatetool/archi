@@ -192,7 +192,7 @@
                id="archimateModelSection"
                tab="main.tab">
             <input
-                  type="uk.ac.bolton.archimate.model.IArchimateModel">
+                  type="com.archimatetool.model.IArchimateModel">
             </input>
          </propertySection>
          <propertySection
@@ -218,7 +218,7 @@
                id="diagramModelSection"
                tab="main.tab">
             <input
-                  type="uk.ac.bolton.archimate.model.IDiagramModel">
+                  type="com.archimatetool.model.IDiagramModel">
             </input>
             <input
                   type="com.archimatetool.editor.diagram.editparts.AbstractDiagramPart">
@@ -229,7 +229,7 @@
                id="diagramModelConnectionSection"
                tab="appearance.tab">
             <input
-                  type="uk.ac.bolton.archimate.model.IDiagramModel">
+                  type="com.archimatetool.model.IDiagramModel">
             </input>
             <input
                   type="com.archimatetool.editor.diagram.editparts.AbstractDiagramPart">
@@ -356,7 +356,7 @@
                id="folderSection"
                tab="main.tab">
             <input
-                  type="uk.ac.bolton.archimate.model.IFolder">
+                  type="com.archimatetool.model.IFolder">
             </input>
          </propertySection>
          <propertySection
@@ -613,23 +613,23 @@
          <command
                commandId="com.archimatetool.editor.action.newModel"
                icon="img/newfile.gif"
-               id="uk.ac.bolton.archimate.menu.newDropdown"
+               id="com.archimatetool.menu.newDropdown"
                label="%command.label"
                style="pulldown">
          </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:uk.ac.bolton.archimate.menu.newDropdown">
+            locationURI="menu:com.archimatetool.menu.newDropdown">
          <command
                commandId="com.archimatetool.editor.action.newModel"
                icon="img/newfile.gif"
-               id="uk.ac.bolton.archimate.menu.newModel"
+               id="com.archimatetool.menu.newModel"
                label="%command.label.0"
                style="push">
          </command>
          <separator
-               name="uk.ac.bolton.archimate.menu.separatorNewDropdown"
+               name="com.archimatetool.menu.separatorNewDropdown"
                visible="false">
          </separator>
       </menuContribution>

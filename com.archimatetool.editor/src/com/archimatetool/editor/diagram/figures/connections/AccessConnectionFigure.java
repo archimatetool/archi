@@ -11,9 +11,9 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IAccessRelationship;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 
-import uk.ac.bolton.archimate.model.IAccessRelationship;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
 
 /**
  * Access Connection Figure class

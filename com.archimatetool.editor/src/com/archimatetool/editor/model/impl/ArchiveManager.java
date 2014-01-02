@@ -33,11 +33,11 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.ZipUtils;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelImageProvider;
-import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
 
 
 /**

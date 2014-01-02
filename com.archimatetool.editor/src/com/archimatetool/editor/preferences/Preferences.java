@@ -8,9 +8,9 @@ package com.archimatetool.editor.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 /**

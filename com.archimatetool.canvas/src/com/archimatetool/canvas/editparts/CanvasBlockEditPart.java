@@ -37,8 +37,8 @@ import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
 import com.archimatetool.editor.diagram.policies.ContainerHighlightEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

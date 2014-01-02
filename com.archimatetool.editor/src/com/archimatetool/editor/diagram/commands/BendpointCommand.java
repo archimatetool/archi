@@ -9,7 +9,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelConnection;
+
 
 /**
  * Bendpoint Command

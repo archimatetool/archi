@@ -14,8 +14,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.views.IModelSelectionView;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
  * Handler for tracking the current selection and model in either the Tree Model Views or Archimate Editors.

@@ -35,9 +35,9 @@ import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelConnection;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 
 /**

@@ -24,8 +24,8 @@ import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
+import com.archimatetool.model.INameable;
 
-import uk.ac.bolton.archimate.model.INameable;
 
 
 /**

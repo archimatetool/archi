@@ -7,8 +7,9 @@ package com.archimatetool.editor.views.tree.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.INameable;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
+
 
 /**
  * Move Object Command

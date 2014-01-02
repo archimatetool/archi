@@ -9,11 +9,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IRelationship;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**

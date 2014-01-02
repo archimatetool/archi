@@ -33,7 +33,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -46,6 +45,7 @@ import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.business.BusinessInterfaceFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessValueFigure;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**

@@ -13,10 +13,10 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.business.BusinessInterfaceEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBusinessInterface;
+import com.archimatetool.model.IInterfaceElement;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IBusinessInterface;
-import uk.ac.bolton.archimate.model.IInterfaceElement;
 
 
 /**

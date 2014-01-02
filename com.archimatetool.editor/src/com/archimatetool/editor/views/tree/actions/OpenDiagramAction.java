@@ -9,8 +9,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

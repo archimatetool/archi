@@ -8,11 +8,11 @@ package com.archimatetool.editor.diagram.commands;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelReference;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
 
 
 /**

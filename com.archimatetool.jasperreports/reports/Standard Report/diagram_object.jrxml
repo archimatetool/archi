@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Sub-report to display tabular fields of a Diagram Object's referenced ArchiMate Element -->
 <!-- The Data Source is of type com.archimatetool.jasperreports.data.ViewChildrenDataSource -->
-<!-- The Element is of type uk.ac.bolton.archimate.model.IArchimateElement accessed by field "this" -->
+<!-- The Element is of type com.archimatetool.model.IArchimateElement accessed by field "this" -->
 <!-- Example to get documentation value - $F{this}.getDocumentation() -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -14,7 +14,7 @@
     <style name="Sans_Normal_sm" fontSize="10" fontName="DejaVu Sans"/>
     <style name="Sans_Bold_sm" fontSize="10" fontName="DejaVu Sans" isBold="true"/>
 	
-    <field name="this" class="uk.ac.bolton.archimate.model.IArchimateElement"/>
+    <field name="this" class="com.archimatetool.model.IArchimateElement"/>
     <field name="name" class="java.lang.String"/>
     <field name="type" class="java.lang.String"/>
     

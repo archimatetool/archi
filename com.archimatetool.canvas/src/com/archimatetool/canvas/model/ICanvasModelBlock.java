@@ -6,12 +6,12 @@
 package com.archimatetool.canvas.model;
 
 import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.ITextContent;
 
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.ITextContent;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +20,7 @@ import uk.ac.bolton.archimate.model.ITextContent;
  *
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getCanvasModelBlock()
- * @model superTypes="com.archimatetool.canvas.model.Iconic uk.ac.bolton.archimate.model.DiagramModelContainer uk.ac.bolton.archimate.model.Properties uk.ac.bolton.archimate.model.Lockable uk.ac.bolton.archimate.model.BorderObject com.archimatetool.canvas.model.HelpHintProvider com.archimatetool.canvas.model.HintProvider uk.ac.bolton.archimate.model.TextContent"
+ * @model superTypes="com.archimatetool.canvas.model.Iconic com.archimatetool.model.DiagramModelContainer com.archimatetool.model.Properties com.archimatetool.model.Lockable com.archimatetool.model.BorderObject com.archimatetool.canvas.model.HelpHintProvider com.archimatetool.canvas.model.HintProvider com.archimatetool.model.TextContent"
  * @generated
  */
 public interface ICanvasModelBlock extends IIconic, IDiagramModelContainer, IProperties, ILockable, IBorderObject, IHelpHintProvider, IHintProvider, ITextContent {

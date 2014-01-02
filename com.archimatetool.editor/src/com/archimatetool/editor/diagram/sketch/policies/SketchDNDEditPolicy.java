@@ -16,8 +16,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import com.archimatetool.editor.diagram.commands.AddDiagramModelReferenceCommand;
 import com.archimatetool.editor.diagram.dnd.AbstractDNDEditPolicy;
 import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

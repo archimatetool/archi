@@ -15,8 +15,8 @@ import com.archimatetool.editor.diagram.editparts.extensions.StakeholderEditPart
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

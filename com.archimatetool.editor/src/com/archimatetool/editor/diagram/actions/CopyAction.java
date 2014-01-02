@@ -16,8 +16,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ILockable;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILockable;
+
 
 
 /**

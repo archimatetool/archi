@@ -18,13 +18,13 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IFolderContainer;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IProperty;
 
-import uk.ac.bolton.archimate.model.IDocumentable;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IFolderContainer;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.IProperty;
 
 /**
  * Search Filter

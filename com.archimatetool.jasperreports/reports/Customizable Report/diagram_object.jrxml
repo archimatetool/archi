@@ -8,7 +8,7 @@
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="REPORT_PATH" class="java.lang.String"/>
-	<field name="this" class="uk.ac.bolton.archimate.model.IArchimateElement"/>
+	<field name="this" class="com.archimatetool.model.IArchimateElement"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="type" class="java.lang.String"/>
 	<field name="documentation" class="java.lang.String"/>

@@ -5,10 +5,10 @@
  */
 package com.archimatetool.canvas.model;
 
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.ITextContent;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.ITextContent;
 
 /**
  * <!-- begin-user-doc -->

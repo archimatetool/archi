@@ -22,11 +22,11 @@ import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.ISketchModel;
 
-import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**

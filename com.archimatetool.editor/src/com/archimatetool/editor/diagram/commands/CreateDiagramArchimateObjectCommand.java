@@ -12,9 +12,9 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 /**

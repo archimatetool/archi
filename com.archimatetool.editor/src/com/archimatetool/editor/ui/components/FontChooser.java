@@ -37,8 +37,8 @@ import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IFontAttribute;
 
-import uk.ac.bolton.archimate.model.IFontAttribute;
 
 
 

@@ -8,8 +8,9 @@ package com.archimatetool.editor.diagram.dnd;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModel;
+
 
 /**
  * Archimate Diagram Native DnD listener

@@ -6,8 +6,8 @@
 package com.archimatetool.editor.diagram.figures.technology;
 
 import com.archimatetool.editor.diagram.figures.business.BusinessServiceFigure;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 

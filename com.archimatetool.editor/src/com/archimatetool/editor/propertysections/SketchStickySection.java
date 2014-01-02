@@ -13,7 +13,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
+import com.archimatetool.model.IArchimatePackage;
+
 
 
 /**

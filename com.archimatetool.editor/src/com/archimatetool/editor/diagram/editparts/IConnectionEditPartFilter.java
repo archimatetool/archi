@@ -7,7 +7,8 @@ package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.gef.EditPart;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelConnection;
+
 
 
 

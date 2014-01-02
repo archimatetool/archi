@@ -15,7 +15,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelObject;
+
 
 
 /**

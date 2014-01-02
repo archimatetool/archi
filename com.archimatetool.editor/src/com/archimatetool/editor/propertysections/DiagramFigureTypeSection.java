@@ -27,19 +27,19 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IApplicationComponent;
+import com.archimatetool.model.IApplicationInterface;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBusinessInterface;
+import com.archimatetool.model.IBusinessProcess;
+import com.archimatetool.model.IDevice;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IInfrastructureInterface;
+import com.archimatetool.model.IInterfaceElement;
+import com.archimatetool.model.INode;
 
-import uk.ac.bolton.archimate.model.IApplicationComponent;
-import uk.ac.bolton.archimate.model.IApplicationInterface;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IBusinessInterface;
-import uk.ac.bolton.archimate.model.IBusinessProcess;
-import uk.ac.bolton.archimate.model.IDevice;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IInfrastructureInterface;
-import uk.ac.bolton.archimate.model.IInterfaceElement;
-import uk.ac.bolton.archimate.model.INode;
 
 
 /**

@@ -11,12 +11,12 @@ import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.ISketchModelActor;
+import com.archimatetool.model.ISketchModelSticky;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelGroup;
-import uk.ac.bolton.archimate.model.ISketchModelActor;
-import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
 
 /**

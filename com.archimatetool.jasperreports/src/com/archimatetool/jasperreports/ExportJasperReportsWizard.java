@@ -37,9 +37,9 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jasperreports.data.ArchimateModelDataSource;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

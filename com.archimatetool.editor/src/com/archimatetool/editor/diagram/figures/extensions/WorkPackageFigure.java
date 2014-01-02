@@ -9,8 +9,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 
 

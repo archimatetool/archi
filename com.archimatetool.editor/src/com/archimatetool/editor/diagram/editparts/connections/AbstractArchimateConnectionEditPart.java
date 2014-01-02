@@ -13,14 +13,14 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.DerivedRelationsUtils;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils;
 
 /**
  * Abstract class for all implementations of Archimate Connection parts

@@ -26,8 +26,8 @@ import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDiagramModelNote;
 
-import uk.ac.bolton.archimate.model.IDiagramModelNote;
 
 /**
  * Note Figure

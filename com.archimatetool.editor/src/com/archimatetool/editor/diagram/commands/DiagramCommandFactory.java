@@ -18,13 +18,13 @@ import com.archimatetool.editor.diagram.dialog.NewNestedRelationDialog;
 import com.archimatetool.editor.diagram.dialog.NewNestedRelationsDialog;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
 /**

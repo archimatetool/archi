@@ -23,10 +23,10 @@ import com.archimatetool.editor.diagram.commands.FontStyleCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.FontChooser;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

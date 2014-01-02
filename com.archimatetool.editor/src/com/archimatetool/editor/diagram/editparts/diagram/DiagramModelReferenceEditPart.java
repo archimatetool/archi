@@ -19,9 +19,9 @@ import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFig
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelReference;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
 
 
 /**

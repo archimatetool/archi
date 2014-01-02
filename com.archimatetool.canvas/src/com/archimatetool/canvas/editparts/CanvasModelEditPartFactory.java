@@ -14,9 +14,9 @@ import com.archimatetool.canvas.model.ICanvasModelConnection;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelReference;
 
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
 
 /**
  * Factory for creating Edit Parts based on graphical domain model objects

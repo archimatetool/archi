@@ -13,8 +13,8 @@ import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IHintProvider;
 import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.impl.DiagramModel;
 
-import uk.ac.bolton.archimate.model.impl.DiagramModel;
 
 /**
  * <!-- begin-user-doc -->

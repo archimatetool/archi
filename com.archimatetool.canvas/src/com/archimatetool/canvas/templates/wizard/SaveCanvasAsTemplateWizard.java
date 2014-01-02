@@ -30,16 +30,16 @@ import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.ModelVersion;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.ModelVersion;
 
 
 /**

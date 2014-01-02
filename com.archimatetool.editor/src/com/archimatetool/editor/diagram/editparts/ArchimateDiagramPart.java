@@ -12,9 +12,9 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramLayoutPolicy;
 import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

@@ -34,14 +34,14 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.ModelViewsTreeViewer;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

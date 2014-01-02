@@ -14,8 +14,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.model.impl.ArchiveManager;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
  * IArchiveManager

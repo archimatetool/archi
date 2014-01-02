@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.archimatetool.editor.model.impl.EditorModelManager;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
 /**

@@ -12,26 +12,26 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.canvas.model.*;
 import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.ICloneable;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.ITextContent;
 
-import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.ICloneable;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelComponent;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
-import uk.ac.bolton.archimate.model.IDiagramModelImageProvider;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IDocumentable;
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.IIdentifier;
-import uk.ac.bolton.archimate.model.ILineObject;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.ITextContent;
 
 /**
  * <!-- begin-user-doc -->
@@ -292,13 +292,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelImageProvider <em>Diagram Model Image Provider</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelImageProvider
+     * @see com.archimatetool.model.IDiagramModelImageProvider
      * @generated
      */
     public Adapter createDiagramModelImageProviderAdapter() {
@@ -348,13 +348,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IAdapter <em>Adapter</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IAdapter <em>Adapter</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IAdapter
+     * @see com.archimatetool.model.IAdapter
      * @generated
      */
     public Adapter createAdapterAdapter() {
@@ -362,13 +362,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IArchimateModelElement <em>Model Element</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateModelElement <em>Model Element</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IArchimateModelElement
+     * @see com.archimatetool.model.IArchimateModelElement
      * @generated
      */
     public Adapter createArchimateModelElementAdapter() {
@@ -376,13 +376,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IIdentifier <em>Identifier</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IIdentifier <em>Identifier</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IIdentifier
+     * @see com.archimatetool.model.IIdentifier
      * @generated
      */
     public Adapter createIdentifierAdapter() {
@@ -390,13 +390,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.ICloneable <em>Cloneable</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ICloneable <em>Cloneable</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.ICloneable
+     * @see com.archimatetool.model.ICloneable
      * @generated
      */
     public Adapter createCloneableAdapter() {
@@ -404,13 +404,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.INameable <em>Nameable</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.INameable <em>Nameable</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.INameable
+     * @see com.archimatetool.model.INameable
      * @generated
      */
     public Adapter createNameableAdapter() {
@@ -418,13 +418,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModelComponent <em>Diagram Model Component</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelComponent <em>Diagram Model Component</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelComponent
+     * @see com.archimatetool.model.IDiagramModelComponent
      * @generated
      */
     public Adapter createDiagramModelComponentAdapter() {
@@ -432,13 +432,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModelContainer <em>Diagram Model Container</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelContainer <em>Diagram Model Container</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelContainer
+     * @see com.archimatetool.model.IDiagramModelContainer
      * @generated
      */
     public Adapter createDiagramModelContainerAdapter() {
@@ -446,13 +446,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDocumentable <em>Documentable</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDocumentable <em>Documentable</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDocumentable
+     * @see com.archimatetool.model.IDocumentable
      * @generated
      */
     public Adapter createDocumentableAdapter() {
@@ -460,13 +460,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IProperties <em>Properties</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IProperties <em>Properties</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IProperties
+     * @see com.archimatetool.model.IProperties
      * @generated
      */
     public Adapter createPropertiesAdapter() {
@@ -474,13 +474,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModel <em>Diagram Model</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModel <em>Diagram Model</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModel
+     * @see com.archimatetool.model.IDiagramModel
      * @generated
      */
     public Adapter createDiagramModelAdapter() {
@@ -488,13 +488,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IFontAttribute <em>Font Attribute</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IFontAttribute <em>Font Attribute</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IFontAttribute
+     * @see com.archimatetool.model.IFontAttribute
      * @generated
      */
     public Adapter createFontAttributeAdapter() {
@@ -502,13 +502,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.ILineObject <em>Line Object</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ILineObject <em>Line Object</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.ILineObject
+     * @see com.archimatetool.model.ILineObject
      * @generated
      */
     public Adapter createLineObjectAdapter() {
@@ -516,13 +516,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModelObject <em>Diagram Model Object</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelObject <em>Diagram Model Object</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelObject
+     * @see com.archimatetool.model.IDiagramModelObject
      * @generated
      */
     public Adapter createDiagramModelObjectAdapter() {
@@ -530,13 +530,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.ITextContent <em>Text Content</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITextContent <em>Text Content</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.ITextContent
+     * @see com.archimatetool.model.ITextContent
      * @generated
      */
     public Adapter createTextContentAdapter() {
@@ -544,13 +544,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.ILockable <em>Lockable</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ILockable <em>Lockable</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.ILockable
+     * @see com.archimatetool.model.ILockable
      * @generated
      */
     public Adapter createLockableAdapter() {
@@ -558,13 +558,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IBorderObject <em>Border Object</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IBorderObject <em>Border Object</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IBorderObject
+     * @see com.archimatetool.model.IBorderObject
      * @generated
      */
     public Adapter createBorderObjectAdapter() {
@@ -572,13 +572,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModelImage <em>Diagram Model Image</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelImage <em>Diagram Model Image</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelImage
+     * @see com.archimatetool.model.IDiagramModelImage
      * @generated
      */
     public Adapter createDiagramModelImageAdapter() {
@@ -586,13 +586,13 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link uk.ac.bolton.archimate.model.IDiagramModelConnection <em>Diagram Model Connection</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelConnection <em>Diagram Model Connection</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see uk.ac.bolton.archimate.model.IDiagramModelConnection
+     * @see com.archimatetool.model.IDiagramModelConnection
      * @generated
      */
     public Adapter createDiagramModelConnectionAdapter() {

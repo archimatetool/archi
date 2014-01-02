@@ -16,14 +16,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
-import uk.ac.bolton.archimate.model.util.DerivedRelationsUtils;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.util.DerivedRelationsUtils;
+
 
 
 /**

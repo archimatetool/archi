@@ -30,8 +30,8 @@ import com.archimatetool.editor.diagram.editparts.ITextPositionedEditPart;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

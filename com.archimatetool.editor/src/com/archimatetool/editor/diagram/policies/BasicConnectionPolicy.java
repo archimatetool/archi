@@ -13,9 +13,9 @@ import org.eclipse.gef.requests.ReconnectRequest;
 
 import com.archimatetool.editor.diagram.commands.CreateDiagramConnectionCommand;
 import com.archimatetool.editor.diagram.commands.ReconnectDiagramConnectionCommand;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 /**
  * A policy which allows a component to be connected to another component via a connection

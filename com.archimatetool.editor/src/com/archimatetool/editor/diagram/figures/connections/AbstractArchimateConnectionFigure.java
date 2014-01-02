@@ -10,9 +10,9 @@ import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IRelationship;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
-import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**

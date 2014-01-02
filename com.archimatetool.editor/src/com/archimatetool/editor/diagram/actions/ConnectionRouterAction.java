@@ -14,9 +14,9 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.ConnectionRouterTypeCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

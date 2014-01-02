@@ -12,8 +12,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateObjectCommand;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

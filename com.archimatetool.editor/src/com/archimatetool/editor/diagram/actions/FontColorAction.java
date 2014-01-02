@@ -17,9 +17,9 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

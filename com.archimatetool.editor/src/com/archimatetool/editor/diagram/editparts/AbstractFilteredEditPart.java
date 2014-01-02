@@ -11,8 +11,9 @@ import java.util.List;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
+
 
 
 /**

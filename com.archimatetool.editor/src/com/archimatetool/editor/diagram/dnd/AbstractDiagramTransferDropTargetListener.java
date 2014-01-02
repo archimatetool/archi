@@ -13,9 +13,10 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IDiagramModel;
+
 
 /**
  * Native DnD listener

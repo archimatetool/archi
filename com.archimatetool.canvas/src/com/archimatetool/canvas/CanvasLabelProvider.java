@@ -18,8 +18,8 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.IEditorLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.INameable;
 
-import uk.ac.bolton.archimate.model.INameable;
 
 
 /**

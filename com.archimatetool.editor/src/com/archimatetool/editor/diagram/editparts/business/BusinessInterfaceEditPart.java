@@ -13,8 +13,8 @@ import org.eclipse.emf.common.notify.Notification;
 
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import com.archimatetool.editor.diagram.figures.business.BusinessInterfaceFigure;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**
  * Business Interface Edit Part

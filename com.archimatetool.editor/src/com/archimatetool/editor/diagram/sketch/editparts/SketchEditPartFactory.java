@@ -10,13 +10,13 @@ import org.eclipse.gef.EditPartFactory;
 
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.LineConnectionEditPart;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.ISketchModel;
+import com.archimatetool.model.ISketchModelActor;
+import com.archimatetool.model.ISketchModelSticky;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelGroup;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
-import uk.ac.bolton.archimate.model.ISketchModel;
-import uk.ac.bolton.archimate.model.ISketchModelActor;
-import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
 /**
  * Factory for creating Edit Parts based on graphical domain model objects

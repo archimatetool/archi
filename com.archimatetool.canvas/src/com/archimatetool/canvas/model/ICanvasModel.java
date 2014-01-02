@@ -6,8 +6,8 @@
 package com.archimatetool.canvas.model;
 
 import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,7 +16,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  *
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getCanvasModel()
- * @model superTypes="uk.ac.bolton.archimate.model.DiagramModel com.archimatetool.canvas.model.HintProvider com.archimatetool.canvas.model.HelpHintProvider"
+ * @model superTypes="com.archimatetool.model.DiagramModel com.archimatetool.canvas.model.HintProvider com.archimatetool.canvas.model.HelpHintProvider"
  * @generated
  */
 public interface ICanvasModel extends IDiagramModel, IHintProvider, IHelpHintProvider {

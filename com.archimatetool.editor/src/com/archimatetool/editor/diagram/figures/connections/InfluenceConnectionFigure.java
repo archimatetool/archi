@@ -8,7 +8,8 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+
 
 
 /**

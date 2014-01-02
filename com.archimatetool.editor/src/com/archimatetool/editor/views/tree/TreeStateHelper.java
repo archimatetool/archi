@@ -17,11 +17,11 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.ui.IMemento;
 
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
-import uk.ac.bolton.archimate.model.IIdentifier;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
 /**

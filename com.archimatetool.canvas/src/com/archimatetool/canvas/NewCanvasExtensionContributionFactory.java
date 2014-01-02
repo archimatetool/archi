@@ -29,10 +29,10 @@ import com.archimatetool.canvas.preferences.IPreferenceConstants;
 import com.archimatetool.canvas.templates.wizard.NewCanvasFromTemplateWizard;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IFolder;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IFolder;
 
 
 /**

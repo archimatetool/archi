@@ -30,8 +30,8 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
 /**

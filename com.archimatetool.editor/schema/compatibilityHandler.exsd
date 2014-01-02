@@ -64,10 +64,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of a class that implements uk.ac.bolton.archimate.compatibility.ICompatibilityHandler
+                  The name of a class that implements com.archimatetool.editor.model.compatibility.ICompatibilityHandler
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":uk.ac.bolton.archimate.compatibility.ICompatibilityHandler"/>
+                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.model.compatibility.ICompatibilityHandler"/>
                </appinfo>
             </annotation>
          </attribute>

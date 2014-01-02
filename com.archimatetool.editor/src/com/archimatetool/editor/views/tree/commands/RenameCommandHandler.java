@@ -8,12 +8,12 @@ package com.archimatetool.editor.views.tree.commands;
 import org.eclipse.gef.commands.CommandStack;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.INameable;
 
 
 /**

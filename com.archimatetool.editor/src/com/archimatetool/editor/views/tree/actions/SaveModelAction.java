@@ -13,8 +13,8 @@ import org.eclipse.ui.IWorkbenchCommandConstants;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
 /**

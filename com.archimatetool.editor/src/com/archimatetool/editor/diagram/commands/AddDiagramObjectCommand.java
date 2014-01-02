@@ -8,8 +8,9 @@ package com.archimatetool.editor.diagram.commands;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.osgi.util.NLS;
 
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
+
 
 
 /**

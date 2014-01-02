@@ -106,7 +106,7 @@
       <menuContribution
             allPopups="false"
             class="com.archimatetool.canvas.NewModelWithCanvasExtensionContributionFactory"
-            locationURI="menu:uk.ac.bolton.archimate.menu.newDropdown?endof=uk.ac.bolton.archimate.menu.separatorNewDropdown">
+            locationURI="menu:com.archimatetool.menu.newDropdown?endof=com.archimatetool.menu.separatorNewDropdown">
       </menuContribution>
    </extension>
    <extension

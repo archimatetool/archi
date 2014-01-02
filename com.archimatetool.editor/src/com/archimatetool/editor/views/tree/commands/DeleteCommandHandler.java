@@ -23,19 +23,19 @@ import com.archimatetool.editor.model.commands.DeleteDiagramModelCommand;
 import com.archimatetool.editor.model.commands.DeleteElementCommand;
 import com.archimatetool.editor.model.commands.DeleteFolderCommand;
 import com.archimatetool.editor.views.tree.TreeModelViewer;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IFolderContainer;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelComponent;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IDiagramModelReference;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IFolderContainer;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 
 /**

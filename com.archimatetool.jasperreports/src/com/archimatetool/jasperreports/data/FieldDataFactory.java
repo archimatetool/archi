@@ -9,12 +9,12 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IRelationship;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDocumentable;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IRelationship;
 
 
 /**

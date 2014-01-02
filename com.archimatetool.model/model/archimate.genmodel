@@ -9,8 +9,8 @@
     editPluginID="com.archimatetool.model.edit" editorPluginID="com.archimatetool.editor2"
     language="" interfaceNamePattern="I{0}" classNamePattern="{0}" runtimePlatform="RCP">
   <foreignModel>archimate.ecore</foreignModel>
-  <genPackages prefix="Archimate" basePackage="uk.ac.bolton.archimate" resource="XML"
-      disposableProviderFactory="true" ecorePackage="archimate.ecore#/">
+  <genPackages prefix="Archimate" basePackage="com.archimatetool" resource="XML" disposableProviderFactory="true"
+      ecorePackage="archimate.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="archimate.ecore#//FolderType">
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/user"/>
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/business"/>

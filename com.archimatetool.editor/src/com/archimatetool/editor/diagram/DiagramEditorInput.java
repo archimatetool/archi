@@ -12,8 +12,8 @@ import org.eclipse.ui.IPersistableElement;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

@@ -26,11 +26,11 @@ import com.archimatetool.canvas.preferences.IPreferenceConstants;
 import com.archimatetool.canvas.templates.wizard.NewCanvasFromTemplateWizard;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFolder;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IFolder;
 
 
 /**

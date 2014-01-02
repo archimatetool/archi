@@ -24,8 +24,8 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.model.IDiagramModelImage;
 
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
 
 /**
  * Diagram Image Figure

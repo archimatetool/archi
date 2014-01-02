@@ -28,7 +28,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:uk.ac.bolton.archimate.menu.newDropdown">
+            locationURI="menu:com.archimatetool.menu.newDropdown">
          <command
                commandId="com.archimatetool.templates.modelFromTemplate"
                icon="img/newfile.gif"

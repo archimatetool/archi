@@ -12,9 +12,9 @@ import org.eclipse.ui.IElementFactory;
 import org.eclipse.ui.IMemento;
 
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

@@ -8,9 +8,9 @@ package com.archimatetool.editor.model.commands;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IFolder;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IFolder;
 
 
 /**

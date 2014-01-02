@@ -128,292 +128,292 @@
    <extension
          point="com.archimatetool.help.hints">
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessActor"
+            class="com.archimatetool.model.IBusinessActor"
             file="hints/business_actor.html"
             title="%hint.title">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessRole"
+            class="com.archimatetool.model.IBusinessRole"
             file="hints/business_role.html"
             title="%hint.title.0">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessCollaboration"
+            class="com.archimatetool.model.IBusinessCollaboration"
             file="hints/business_collaboration.html"
             title="%hint.title.1">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessInterface"
+            class="com.archimatetool.model.IBusinessInterface"
             file="hints/business_interface.html"
             title="%hint.title.2">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessObject"
+            class="com.archimatetool.model.IBusinessObject"
             file="hints/business_object.html"
             title="%hint.title.3">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessProcess"
+            class="com.archimatetool.model.IBusinessProcess"
             file="hints/business_process.html"
             title="%hint.title.4">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessActivity"
+            class="com.archimatetool.model.IBusinessActivity"
             file="hints/business_activity.html"
             title="%hint.title.5">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessFunction"
+            class="com.archimatetool.model.IBusinessFunction"
             file="hints/business_function.html"
             title="%hint.title.6">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessInteraction"
+            class="com.archimatetool.model.IBusinessInteraction"
             file="hints/business_interaction.html"
             title="%hint.title.7">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessEvent"
+            class="com.archimatetool.model.IBusinessEvent"
             file="hints/business_event.html"
             title="%hint.title.8">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IBusinessService"
+            class="com.archimatetool.model.IBusinessService"
             file="hints/business_service.html"
             title="%hint.title.9">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IRepresentation"
+            class="com.archimatetool.model.IRepresentation"
             file="hints/representation.html"
             title="%hint.title.10">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IMeaning"
+            class="com.archimatetool.model.IMeaning"
             file="hints/meaning.html"
             title="%hint.title.11">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IValue"
+            class="com.archimatetool.model.IValue"
             file="hints/value.html"
             title="%hint.title.12">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IProduct"
+            class="com.archimatetool.model.IProduct"
             file="hints/product.html"
             title="%hint.title.13">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IContract"
+            class="com.archimatetool.model.IContract"
             file="hints/contract.html"
             title="%hint.title.14">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ILocation"
+            class="com.archimatetool.model.ILocation"
             file="hints/location.html"
             title="%hint.title.15">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IApplicationComponent"
+            class="com.archimatetool.model.IApplicationComponent"
             file="hints/application_component.html"
             title="%hint.title.16">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IApplicationCollaboration"
+            class="com.archimatetool.model.IApplicationCollaboration"
             file="hints/application_collaboration.html"
             title="%hint.title.17">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IApplicationInterface"
+            class="com.archimatetool.model.IApplicationInterface"
             file="hints/application_interface.html"
             title="%hint.title.18">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDataObject"
+            class="com.archimatetool.model.IDataObject"
             file="hints/data_object.html"
             title="%hint.title.19">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IApplicationFunction"
+            class="com.archimatetool.model.IApplicationFunction"
             file="hints/application_function.html"
             title="%hint.title.20">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IApplicationInteraction"
+            class="com.archimatetool.model.IApplicationInteraction"
             file="hints/application_interaction.html"
             title="%hint.title.21">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IApplicationService"
+            class="com.archimatetool.model.IApplicationService"
             file="hints/application_service.html"
             title="%hint.title.22">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.INode"
+            class="com.archimatetool.model.INode"
             file="hints/node.html"
             title="%hint.title.23">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDevice"
+            class="com.archimatetool.model.IDevice"
             file="hints/device.html"
             title="%hint.title.24">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IInfrastructureInterface"
+            class="com.archimatetool.model.IInfrastructureInterface"
             file="hints/infrastructure_interface.html"
             title="%hint.title.25">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.INetwork"
+            class="com.archimatetool.model.INetwork"
             file="hints/network.html"
             title="%hint.title.26">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ICommunicationPath"
+            class="com.archimatetool.model.ICommunicationPath"
             file="hints/communication_path.html"
             title="%hint.title.27">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IInfrastructureService"
+            class="com.archimatetool.model.IInfrastructureService"
             file="hints/infrastructure_service.html"
             title="%hint.title.28">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IInfrastructureFunction"
+            class="com.archimatetool.model.IInfrastructureFunction"
             file="hints/infrastructure_function.html"
             title="%hint.title.29">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ISystemSoftware"
+            class="com.archimatetool.model.ISystemSoftware"
             file="hints/system_software.html"
             title="%hint.title.30">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IArtifact"
+            class="com.archimatetool.model.IArtifact"
             file="hints/artifact.html"
             title="%hint.title.31">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ICompositionRelationship"
+            class="com.archimatetool.model.ICompositionRelationship"
             file="hints/composition.html"
             title="%hint.title.32">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IAggregationRelationship"
+            class="com.archimatetool.model.IAggregationRelationship"
             file="hints/aggregation.html"
             title="%hint.title.33">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IAssignmentRelationship"
+            class="com.archimatetool.model.IAssignmentRelationship"
             file="hints/assignment.html"
             title="%hint.title.34">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IRealisationRelationship"
+            class="com.archimatetool.model.IRealisationRelationship"
             file="hints/realisation.html"
             title="%hint.title.35">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IUsedByRelationship"
+            class="com.archimatetool.model.IUsedByRelationship"
             file="hints/used_by.html"
             title="%hint.title.36">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IAccessRelationship"
+            class="com.archimatetool.model.IAccessRelationship"
             file="hints/access.html"
             title="%hint.title.37">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IAssociationRelationship"
+            class="com.archimatetool.model.IAssociationRelationship"
             file="hints/association.html"
             title="%hint.title.38">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ITriggeringRelationship"
+            class="com.archimatetool.model.ITriggeringRelationship"
             file="hints/triggering.html"
             title="%hint.title.39">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IFlowRelationship"
+            class="com.archimatetool.model.IFlowRelationship"
             file="hints/flow.html"
             title="%hint.title.40">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ISpecialisationRelationship"
+            class="com.archimatetool.model.ISpecialisationRelationship"
             file="hints/specialisation.html"
             title="%hint.title.41">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IInfluenceRelationship"
+            class="com.archimatetool.model.IInfluenceRelationship"
             file="hints/influence.html"
             title="%hint.title.42">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IJunction"
+            class="com.archimatetool.model.IJunction"
             file="hints/junction.html"
             title="%hint.title.43">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IAndJunction"
+            class="com.archimatetool.model.IAndJunction"
             file="hints/and_junction.html"
             title="%hint.title.44">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IOrJunction"
+            class="com.archimatetool.model.IOrJunction"
             file="hints/or_junction.html"
             title="%hint.title.45">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IStakeholder"
+            class="com.archimatetool.model.IStakeholder"
             file="hints/stakeholder.html"
             title="%hint.title.46">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDriver"
+            class="com.archimatetool.model.IDriver"
             file="hints/driver.html"
             title="%hint.title.47">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IAssessment"
+            class="com.archimatetool.model.IAssessment"
             file="hints/assessment.html"
             title="%hint.title.48">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IGoal"
+            class="com.archimatetool.model.IGoal"
             file="hints/goal.html"
             title="%hint.title.49">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IRequirement"
+            class="com.archimatetool.model.IRequirement"
             file="hints/requirement.html"
             title="%hint.title.50">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IConstraint"
+            class="com.archimatetool.model.IConstraint"
             file="hints/constraint.html"
             title="%hint.title.51">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IPrinciple"
+            class="com.archimatetool.model.IPrinciple"
             file="hints/principle.html"
             title="%hint.title.52">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IWorkPackage"
+            class="com.archimatetool.model.IWorkPackage"
             file="hints/workpackage.html"
             title="%hint.title.53">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDeliverable"
+            class="com.archimatetool.model.IDeliverable"
             file="hints/deliverable.html"
             title="%hint.title.54">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IPlateau"
+            class="com.archimatetool.model.IPlateau"
             file="hints/plateau.html"
             title="%hint.title.55">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IGap"
+            class="com.archimatetool.model.IGap"
             file="hints/gap.html"
             title="%hint.title.56">
       </hint>
@@ -421,57 +421,57 @@
    <extension
          point="com.archimatetool.help.hints">
       <hint
-            class="uk.ac.bolton.archimate.model.IDiagramModelGroup"
+            class="com.archimatetool.model.IDiagramModelGroup"
             file="hints/group.html"
             title="%hint.title.57">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDiagramModel"
+            class="com.archimatetool.model.IDiagramModel"
             file="hints/view.html"
             title="%hint.title.58">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDiagramModelNote"
+            class="com.archimatetool.model.IDiagramModelNote"
             file="hints/note.html"
             title="%hint.title.59">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDiagramModelReference"
+            class="com.archimatetool.model.IDiagramModelReference"
             file="hints/view_ref.html"
             title="%hint.title.60">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IFolder"
+            class="com.archimatetool.model.IFolder"
             file="hints/folder.html"
             title="%hint.title.61">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IArchimateModel"
+            class="com.archimatetool.model.IArchimateModel"
             file="hints/model.html"
             title="%hint.title.62">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDiagramModelConnection"
+            class="com.archimatetool.model.IDiagramModelConnection"
             file="hints/connection.html"
             title="%hint.title.63">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ISketchModel"
+            class="com.archimatetool.model.ISketchModel"
             file="hints/sketch.html"
             title="%hint.title.64">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ISketchModelActor"
+            class="com.archimatetool.model.ISketchModelActor"
             file="hints/sketch_actor.html"
             title="%hint.title.65">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.ISketchModelSticky"
+            class="com.archimatetool.model.ISketchModelSticky"
             file="hints/sketch_sticky.html"
             title="%hint.title.66">
       </hint>
       <hint
-            class="uk.ac.bolton.archimate.model.IDiagramModelImage"
+            class="com.archimatetool.model.IDiagramModelImage"
             file="hints/diagram_image.html"
             title="%hint.title.67">
       </hint>

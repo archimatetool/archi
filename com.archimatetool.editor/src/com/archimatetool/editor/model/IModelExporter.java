@@ -7,7 +7,8 @@ package com.archimatetool.editor.model;
 
 import java.io.IOException;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModel;
+
 
 /**
  * Exporter interface

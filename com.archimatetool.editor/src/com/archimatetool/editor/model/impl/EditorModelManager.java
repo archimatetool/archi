@@ -49,13 +49,13 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jdom.JDOMUtils;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.ModelVersion;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.ModelVersion;
-import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
 
 
 /**

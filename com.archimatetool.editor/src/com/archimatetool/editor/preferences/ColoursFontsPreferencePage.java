@@ -60,9 +60,9 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
 
 /**
  * Colours and Fonts Preferences Page

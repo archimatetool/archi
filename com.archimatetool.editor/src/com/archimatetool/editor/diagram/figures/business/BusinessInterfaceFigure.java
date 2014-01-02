@@ -13,9 +13,9 @@ import com.archimatetool.editor.diagram.figures.EllipseFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IInterfaceElement;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IInterfaceElement;
 
 /**
  * Figure for a Business Interface

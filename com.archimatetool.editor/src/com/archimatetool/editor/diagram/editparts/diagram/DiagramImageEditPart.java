@@ -20,9 +20,9 @@ import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigure;
 import com.archimatetool.editor.diagram.policies.BasicConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelImage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
 
 
 /**

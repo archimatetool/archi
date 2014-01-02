@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Sub-report to display fields of a diagram View -->
 <!-- The Data Source is of type com.archimatetool.jasperreports.data.ViewModelDataSource -->
-<!-- The Element is of type uk.ac.bolton.archimate.model.IDiagramModel accessed by field "this" -->
+<!-- The Element is of type com.archimatetool.model.IDiagramModel accessed by field "this" -->
 <!-- Example to get documentation value - $F{this}.getDocumentation() -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -17,7 +17,7 @@
     <parameter name="properties_report" class="net.sf.jasperreports.engine.JasperReport"/>
     <parameter name="diagram_object_report" class="net.sf.jasperreports.engine.JasperReport"/>
     
-    <field name="this" class="uk.ac.bolton.archimate.model.IDiagramModel"/>
+    <field name="this" class="com.archimatetool.model.IDiagramModel"/>
     <field name="name" class="java.lang.String"/>
     <field name="documentation" class="java.lang.String"/>
     <field name="viewpoint" class="java.lang.String"/>

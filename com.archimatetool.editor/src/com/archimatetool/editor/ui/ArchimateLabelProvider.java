@@ -14,13 +14,13 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.ISketchModel;
 
-import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IRelationship;
-import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**

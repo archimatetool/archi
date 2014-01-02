@@ -17,10 +17,10 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.components.StyledTextControl;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextContent;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.ITextContent;
 
 
 /**

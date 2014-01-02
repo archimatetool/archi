@@ -20,10 +20,10 @@ import org.eclipse.ui.actions.RetargetAction;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

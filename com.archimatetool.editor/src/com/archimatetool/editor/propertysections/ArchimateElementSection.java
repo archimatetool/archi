@@ -16,9 +16,9 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.diagram.editparts.connections.IArchimateConnectionEditPart;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

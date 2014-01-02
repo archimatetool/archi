@@ -8,7 +8,7 @@
 	<parameter name="PROPERTY_3" class="java.lang.String"/>
 	<parameter name="PROPERTY_4" class="java.lang.String"/>
 	<parameter name="PROPERTY_5" class="java.lang.String"/>
-	<field name="this" class="uk.ac.bolton.archimate.model.IProperty"/>
+	<field name="this" class="com.archimatetool.model.IProperty"/>
 	<field name="key" class="java.lang.String"/>
 	<field name="value" class="java.lang.String"/>
 	<variable name="RETURNED_VALUE_1" class="java.lang.String">

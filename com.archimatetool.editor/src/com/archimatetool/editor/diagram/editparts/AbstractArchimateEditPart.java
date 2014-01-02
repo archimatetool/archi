@@ -11,10 +11,10 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IProperties;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
-import uk.ac.bolton.archimate.model.IProperties;
 
 /**
  * Abstract Archimate Edit Part with connections

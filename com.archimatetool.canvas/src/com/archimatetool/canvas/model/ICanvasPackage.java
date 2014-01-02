@@ -9,7 +9,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
+import com.archimatetool.model.IArchimatePackage;
+
 
 /**
  * <!-- begin-user-doc -->

@@ -58,10 +58,10 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IProperty;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.IProperty;
 
 
 /**

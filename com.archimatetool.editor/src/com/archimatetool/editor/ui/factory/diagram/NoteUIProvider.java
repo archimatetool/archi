@@ -13,8 +13,8 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

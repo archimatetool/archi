@@ -11,9 +11,9 @@ import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 /**
  * Policy for directly Editing Parts' titles

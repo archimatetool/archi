@@ -6,8 +6,8 @@
 package com.archimatetool.editor.diagram.figures.application;
 
 import com.archimatetool.editor.diagram.figures.business.BusinessObjectFigure;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
 
 /**
  * Application Data Object Figure

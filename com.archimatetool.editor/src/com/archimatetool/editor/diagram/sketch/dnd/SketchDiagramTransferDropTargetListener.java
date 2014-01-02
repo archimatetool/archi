@@ -9,8 +9,8 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
 
 import com.archimatetool.editor.diagram.dnd.AbstractDiagramTransferDropTargetListener;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**
  * Native DnD listener for Sketch View

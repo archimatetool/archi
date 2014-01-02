@@ -21,17 +21,17 @@ import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IHintProvider;
 import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IProperty;
+import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.impl.DiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelImageProvider;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.IProperty;
-import uk.ac.bolton.archimate.model.ITextContent;
-import uk.ac.bolton.archimate.model.impl.DiagramModelObject;
 
 /**
  * <!-- begin-user-doc -->

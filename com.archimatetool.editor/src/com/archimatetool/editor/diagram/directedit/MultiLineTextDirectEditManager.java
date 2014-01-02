@@ -11,9 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextContent;
 
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.ITextContent;
 
 
 /**

@@ -18,8 +18,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
 import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.ILineObject;
 
-import uk.ac.bolton.archimate.model.ILineObject;
 
 
 /**

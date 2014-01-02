@@ -10,9 +10,9 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ILockable;
 
 /**
  * Policy for Deleting and Orphaning Parts

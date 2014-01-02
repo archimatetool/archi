@@ -15,9 +15,9 @@ import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
 import com.archimatetool.editor.diagram.policies.DiagramLayoutPolicy;
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
 import com.archimatetool.editor.diagram.sketch.policies.SketchDNDEditPolicy;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ISketchModel;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 

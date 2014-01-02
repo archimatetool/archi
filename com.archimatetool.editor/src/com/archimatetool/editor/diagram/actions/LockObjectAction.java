@@ -15,8 +15,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LockObjectCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.ILockable;
 
 /**
  * Action to Lock an Element

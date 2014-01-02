@@ -9,7 +9,8 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
 
-import uk.ac.bolton.archimate.model.IFontAttribute;
+import com.archimatetool.model.IFontAttribute;
+
 
 /**
  * Delegate class to handle setting of text position

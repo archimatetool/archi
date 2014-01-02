@@ -7,7 +7,8 @@ package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.gef.GraphicalEditPart;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+
 
 
 /**

@@ -18,9 +18,9 @@ import org.eclipse.draw2d.text.TextFlow;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IFontAttribute;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IFontAttribute;
 
 
 /**

@@ -13,7 +13,8 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModel;
+
 
 
 /**

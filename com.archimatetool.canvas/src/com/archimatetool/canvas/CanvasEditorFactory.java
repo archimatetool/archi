@@ -12,8 +12,8 @@ import com.archimatetool.canvas.editparts.CanvasModelEditPartFactory;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.editor.diagram.DiagramEditorInput;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 

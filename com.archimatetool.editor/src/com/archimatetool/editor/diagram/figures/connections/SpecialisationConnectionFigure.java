@@ -9,7 +9,8 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+
 
 
 /**

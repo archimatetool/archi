@@ -21,9 +21,9 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchDiagramPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ISketchModel;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**

@@ -16,10 +16,10 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.editparts.connections.IArchimateConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

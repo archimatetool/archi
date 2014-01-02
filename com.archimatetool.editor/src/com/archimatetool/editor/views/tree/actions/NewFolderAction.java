@@ -12,10 +12,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.views.tree.commands.NewFolderCommand;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IFolder;
 
-import uk.ac.bolton.archimate.model.FolderType;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IFolder;
 
 
 /**

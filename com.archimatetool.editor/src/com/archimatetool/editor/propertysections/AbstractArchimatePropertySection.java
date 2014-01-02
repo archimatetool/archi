@@ -24,10 +24,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.StyledTextControl;
+import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 
-import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimateModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
 /**

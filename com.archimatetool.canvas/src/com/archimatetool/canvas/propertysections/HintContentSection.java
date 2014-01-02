@@ -23,9 +23,9 @@ import com.archimatetool.editor.propertysections.AbstractArchimatePropertySectio
 import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
 import com.archimatetool.editor.propertysections.PropertySectionTextControl;
 import com.archimatetool.editor.ui.components.StyledTextControl;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

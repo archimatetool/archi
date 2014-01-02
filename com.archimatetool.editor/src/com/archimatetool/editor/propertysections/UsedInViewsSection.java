@@ -31,9 +31,9 @@ import com.archimatetool.editor.diagram.editparts.connections.IArchimateConnecti
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

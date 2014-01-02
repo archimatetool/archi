@@ -11,8 +11,8 @@ import org.eclipse.jface.wizard.WizardDialog;
 
 import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 
 /**

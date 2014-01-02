@@ -8,10 +8,11 @@ package com.archimatetool.editor.diagram.commands;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.model.IArchimateElement;
-import uk.ac.bolton.archimate.model.IArchimateFactory;
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IRelationship;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IRelationship;
+
 
 
 /**

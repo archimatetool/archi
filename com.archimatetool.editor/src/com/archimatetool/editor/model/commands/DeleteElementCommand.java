@@ -8,9 +8,9 @@ package com.archimatetool.editor.model.commands;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
 
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.INameable;
 
 
 /**

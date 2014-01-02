@@ -15,10 +15,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
+import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
 
-import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModel;
 
 
 /**

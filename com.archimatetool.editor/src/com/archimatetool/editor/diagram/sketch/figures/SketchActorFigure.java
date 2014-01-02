@@ -14,8 +14,8 @@ import org.eclipse.swt.SWT;
 import com.archimatetool.editor.diagram.figures.AbstractLabelFigure;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.ISketchModelActor;
 
-import uk.ac.bolton.archimate.model.ISketchModelActor;
 
 
 /**

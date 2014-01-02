@@ -5,8 +5,8 @@
  */
 package com.archimatetool.canvas.model;
 
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
-import uk.ac.bolton.archimate.model.ILockable;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.ILockable;
 
 /**
  * <!-- begin-user-doc -->

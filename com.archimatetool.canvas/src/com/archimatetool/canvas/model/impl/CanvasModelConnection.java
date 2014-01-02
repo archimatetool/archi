@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.archimatetool.canvas.model.ICanvasModelConnection;
 import com.archimatetool.canvas.model.ICanvasPackage;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.impl.DiagramModelConnection;
 
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.ILockable;
 
-import uk.ac.bolton.archimate.model.impl.DiagramModelConnection;
 
 /**
  * <!-- begin-user-doc -->

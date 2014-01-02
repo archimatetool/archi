@@ -11,26 +11,26 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.archimatetool.canvas.model.*;
 import com.archimatetool.help.hints.IHelpHintProvider;
+import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.ICloneable;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IDiagramModelImageProvider;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDocumentable;
+import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.ILockable;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.ITextContent;
 
-import uk.ac.bolton.archimate.model.IAdapter;
-import uk.ac.bolton.archimate.model.IArchimateModelElement;
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.ICloneable;
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelComponent;
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.IDiagramModelImage;
-import uk.ac.bolton.archimate.model.IDiagramModelImageProvider;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.IDocumentable;
-import uk.ac.bolton.archimate.model.IFontAttribute;
-import uk.ac.bolton.archimate.model.IIdentifier;
-import uk.ac.bolton.archimate.model.ILineObject;
-import uk.ac.bolton.archimate.model.ILockable;
-import uk.ac.bolton.archimate.model.INameable;
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.ITextContent;
 
 /**
  * <!-- begin-user-doc -->

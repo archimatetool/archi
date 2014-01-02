@@ -15,10 +15,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IBounds;
+import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IBounds;
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
-import uk.ac.bolton.archimate.model.ILockable;
 
 /**
  * Action to set the size of an Edit Part to default.

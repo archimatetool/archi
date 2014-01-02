@@ -7,8 +7,9 @@ package com.archimatetool.editor.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import uk.ac.bolton.archimate.model.IFolder;
-import uk.ac.bolton.archimate.model.IFolderContainer;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IFolderContainer;
+
 
 
 /**

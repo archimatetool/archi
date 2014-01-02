@@ -10,7 +10,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+
 
 
 /**

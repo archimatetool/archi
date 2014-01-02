@@ -23,10 +23,10 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBorderObject;
+import com.archimatetool.model.ILockable;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IBorderObject;
-import uk.ac.bolton.archimate.model.ILockable;
 
 
 /**

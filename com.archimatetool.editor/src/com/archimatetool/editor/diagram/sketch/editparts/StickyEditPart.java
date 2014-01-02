@@ -34,10 +34,10 @@ import com.archimatetool.editor.diagram.sketch.figures.StickyFigure;
 import com.archimatetool.editor.diagram.sketch.policies.SketchConnectionPolicy;
 import com.archimatetool.editor.diagram.sketch.policies.SketchDNDEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.ISketchModelSticky;
 
-import uk.ac.bolton.archimate.model.IArchimatePackage;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
-import uk.ac.bolton.archimate.model.ISketchModelSticky;
 
 
 /**

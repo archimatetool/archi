@@ -14,9 +14,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.AbstractEditPolicy;
 
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelContainer;
 
-import uk.ac.bolton.archimate.model.IDiagramModel;
-import uk.ac.bolton.archimate.model.IDiagramModelContainer;
 
 
 /**

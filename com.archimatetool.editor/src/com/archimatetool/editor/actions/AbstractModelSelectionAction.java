@@ -10,8 +10,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
 import com.archimatetool.editor.actions.ModelSelectionHandler.IModelSelectionHandlerListener;
+import com.archimatetool.model.IArchimateModel;
 
-import uk.ac.bolton.archimate.model.IArchimateModel;
 
 /**
  * Global Action for current selection in either the Tree Model View or an Editor.

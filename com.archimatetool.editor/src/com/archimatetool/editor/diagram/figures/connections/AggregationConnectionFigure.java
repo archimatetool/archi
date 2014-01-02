@@ -10,7 +10,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
-import uk.ac.bolton.archimate.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+
 
 
 /**

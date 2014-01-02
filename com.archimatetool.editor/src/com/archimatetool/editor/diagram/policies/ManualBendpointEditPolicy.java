@@ -18,8 +18,8 @@ import com.archimatetool.editor.diagram.commands.CreateBendpointCommand;
 import com.archimatetool.editor.diagram.commands.DeleteBendpointCommand;
 import com.archimatetool.editor.diagram.commands.MoveBendpointCommand;
 import com.archimatetool.editor.diagram.policies.snaptogrid.BendpointEditPolicy;
+import com.archimatetool.model.IDiagramModelConnection;
 
-import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 /**
  * BendPoint Edit Policy

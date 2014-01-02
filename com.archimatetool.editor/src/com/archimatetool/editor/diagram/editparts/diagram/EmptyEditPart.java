@@ -12,8 +12,8 @@ import org.eclipse.gef.EditPolicy;
 import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
 import com.archimatetool.editor.diagram.figures.diagram.EmptyFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
+import com.archimatetool.model.IDiagramModelObject;
 
-import uk.ac.bolton.archimate.model.IDiagramModelObject;
 
 /**
  * Dead Edit Part - used in case of emergency

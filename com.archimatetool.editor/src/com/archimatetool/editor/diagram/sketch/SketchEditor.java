@@ -24,8 +24,8 @@ import com.archimatetool.editor.diagram.sketch.dnd.SketchDiagramTransferDropTarg
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.ISketchModel;
 
-import uk.ac.bolton.archimate.model.ISketchModel;
 
 
 /**

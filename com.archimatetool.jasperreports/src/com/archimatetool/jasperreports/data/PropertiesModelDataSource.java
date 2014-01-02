@@ -11,8 +11,9 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 import org.eclipse.emf.common.util.EList;
 
-import uk.ac.bolton.archimate.model.IProperties;
-import uk.ac.bolton.archimate.model.IProperty;
+import com.archimatetool.model.IProperties;
+import com.archimatetool.model.IProperty;
+
 
 
 /**
