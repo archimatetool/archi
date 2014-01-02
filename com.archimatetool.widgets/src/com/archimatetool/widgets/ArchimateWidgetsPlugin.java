@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.widgets;
+package com.archimatetool.widgets;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -14,7 +14,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class ArchimateWidgetsPlugin extends AbstractUIPlugin {
     
-    public static final String PLUGIN_ID = "uk.ac.bolton.archimate.widgets"; //$NON-NLS-1$
+    public static final String PLUGIN_ID = "com.archimatetool.widgets"; //$NON-NLS-1$
 
     /**
      * The shared instance

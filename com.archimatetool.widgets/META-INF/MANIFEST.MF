@@ -1,14 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Widgets
-Bundle-SymbolicName: uk.ac.bolton.archimate.widgets;singleton:=true
+Bundle-SymbolicName: com.archimatetool.widgets;singleton:=true
 Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: uk.ac.bolton.archimate.widgets.jar,
+Bundle-ClassPath: com.archimatetool.widgets.jar,
  lib/org.eclipse.nebula.widgets.gallery_0.5.3.201111151116.jar,
  lib/org.eclipse.nebula.widgets.grid_1.0.0.201112231516.jar
-Export-Package: org.eclipse.nebula.animation,
+Export-Package: com.archimatetool.widgets,
+ org.eclipse.nebula.animation,
  org.eclipse.nebula.animation.effects,
  org.eclipse.nebula.animation.movement,
  org.eclipse.nebula.jface.galleryviewer,
@@ -16,9 +17,8 @@ Export-Package: org.eclipse.nebula.animation,
  org.eclipse.nebula.jface.gridviewer.internal,
  org.eclipse.nebula.widgets.gallery,
  org.eclipse.nebula.widgets.grid,
- org.eclipse.nebula.widgets.grid.internal,
- uk.ac.bolton.archimate.widgets
+ org.eclipse.nebula.widgets.grid.internal
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
-Bundle-Activator: uk.ac.bolton.archimate.widgets.ArchimateWidgetsPlugin
+Bundle-Activator: com.archimatetool.widgets.ArchimateWidgetsPlugin
