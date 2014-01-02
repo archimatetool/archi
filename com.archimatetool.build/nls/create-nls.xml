@@ -104,8 +104,8 @@
 		</copy>
 
 		
-		<!-- uk.ac.bolton.archimate.jasperreports -->
-		<property name="jasperreports.prj.src"    	value="uk.ac.bolton.archimate.jasperreports"/>
+		<!-- com.archimatetool.jasperreports -->
+		<property name="jasperreports.prj.src"    	value="com.archimatetool.jasperreports"/>
 		<property name="jasperreports.prj.tgt"    	value="${jasperreports.prj.src}.${lang_code}"/>
 		<property name="jasperreports.loc.src"    	location="../../${jasperreports.prj.src}"/>
 		<property name="jasperreports.loc.tgt"    	location="../../${main.dir}/${jasperreports.prj.tgt}"/>
@@ -172,8 +172,8 @@
 		</copy>
 
 
-		<!-- uk.ac.bolton.archimate.zest -->
-		<property name="zest.prj.src"    			value="uk.ac.bolton.archimate.zest"/>
+		<!-- com.archimatetool.zest -->
+		<property name="zest.prj.src"    			value="com.archimatetool.zest"/>
 		<property name="zest.prj.tgt"    			value="${zest.prj.src}.${lang_code}"/>
 		<property name="zest.loc.src"    			location="../../${zest.prj.src}"/>
 		<property name="zest.loc.tgt"    			location="../../${main.dir}/${zest.prj.tgt}"/>

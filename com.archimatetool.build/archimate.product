@@ -36,6 +36,7 @@
       <plugin id="com.archimatetool.editor.fullscreen.macos" fragment="true"/>
       <plugin id="com.archimatetool.editor.launch.macos" fragment="true"/>
       <plugin id="com.archimatetool.editor.launch.win32" fragment="true"/>
+      <plugin id="com.archimatetool.jasperreports"/>
       <plugin id="com.archimatetool.jdom"/>
       <plugin id="com.archimatetool.widgets"/>
       <plugin id="com.archimatetool.zest"/>
@@ -116,7 +117,6 @@
       <plugin id="uk.ac.bolton.archimate.csv"/>
       <plugin id="uk.ac.bolton.archimate.editor"/>
       <plugin id="uk.ac.bolton.archimate.help"/>
-      <plugin id="uk.ac.bolton.archimate.jasperreports"/>
       <plugin id="uk.ac.bolton.archimate.model"/>
       <plugin id="uk.ac.bolton.archimate.reports"/>
       <plugin id="uk.ac.bolton.archimate.templates"/>
