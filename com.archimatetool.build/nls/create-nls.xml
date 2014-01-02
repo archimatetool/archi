@@ -32,8 +32,8 @@
 	
 	<target name="create_archi_projects">
 		
-		<!-- uk.ac.bolton.archimate.canvas -->
-		<property name="canvas.prj.src"    			value="uk.ac.bolton.archimate.canvas"/>
+		<!-- com.archimatetool.canvas -->
+		<property name="canvas.prj.src"    			value="com.archimatetool.canvas"/>
 		<property name="canvas.prj.tgt"    			value="${canvas.prj.src}.${lang_code}"/>
 		<property name="canvas.loc.src"    			location="../../${canvas.prj.src}"/>
 		<property name="canvas.loc.tgt"    			location="../../${main.dir}/${canvas.prj.tgt}"/>

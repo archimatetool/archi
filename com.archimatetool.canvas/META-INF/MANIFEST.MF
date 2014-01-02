@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Canvas Model Toolkit
+Bundle-SymbolicName: com.archimatetool.canvas;singleton:=true
+Bundle-Version: 2.6.0.qualifier
+Bundle-Vendor: Phillip Beauvoir
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.help.ui,
+ org.eclipse.ui,
+ uk.ac.bolton.archimate.editor,
+ com.archimatetool.jdom,
+ uk.ac.bolton.archimate.help,
+ com.archimatetool.templates
+Bundle-ClassPath: com.archimatetool.canvas.jar
+Bundle-Activator: com.archimatetool.canvas.CanvasEditorPlugin
+Bundle-ActivationPolicy: lazy
+Export-Package: com.archimatetool.canvas,
+ com.archimatetool.canvas.dnd,
+ com.archimatetool.canvas.editparts,
+ com.archimatetool.canvas.figures,
+ com.archimatetool.canvas.model,
+ com.archimatetool.canvas.model.impl,
+ com.archimatetool.canvas.model.util,
+ com.archimatetool.canvas.policies
