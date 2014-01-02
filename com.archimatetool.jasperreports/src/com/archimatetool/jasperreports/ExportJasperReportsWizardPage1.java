@@ -28,8 +28,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.UIUtils;
+
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 

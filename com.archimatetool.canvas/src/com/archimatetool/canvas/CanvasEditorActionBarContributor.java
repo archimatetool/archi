@@ -10,12 +10,13 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 
-import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionFactory;
-import uk.ac.bolton.archimate.editor.diagram.AbstractDiagramEditorActionBarContributor;
-import uk.ac.bolton.archimate.editor.diagram.actions.BorderColorAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.LockObjectAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.ResetAspectRatioAction;
-import uk.ac.bolton.archimate.editor.diagram.actions.TextPositionAction;
+import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
+import com.archimatetool.editor.diagram.AbstractDiagramEditorActionBarContributor;
+import com.archimatetool.editor.diagram.actions.BorderColorAction;
+import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
+import com.archimatetool.editor.diagram.actions.TextPositionAction;
+
 
 
 /**

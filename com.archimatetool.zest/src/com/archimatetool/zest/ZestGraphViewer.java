@@ -19,8 +19,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
+
 
 
 /**

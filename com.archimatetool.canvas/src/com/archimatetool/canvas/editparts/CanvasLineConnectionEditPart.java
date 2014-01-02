@@ -9,8 +9,8 @@ import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.canvas.figures.CanvasLineConnectionFigure;
 import com.archimatetool.canvas.model.ICanvasModelConnection;
+import com.archimatetool.editor.diagram.editparts.diagram.LineConnectionEditPart;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.LineConnectionEditPart;
 
 
 /**

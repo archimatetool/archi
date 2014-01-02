@@ -10,7 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import com.archimatetool.editor.utils.StringUtils;
+
 
 
 

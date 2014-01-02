@@ -11,9 +11,9 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.templates.impl.wizard.NewArchimateModelFromTemplateWizard;
 
-import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 
 
 /**

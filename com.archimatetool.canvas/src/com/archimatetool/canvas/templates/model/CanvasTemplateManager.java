@@ -16,6 +16,8 @@ import org.jdom.JDOMException;
 
 import com.archimatetool.canvas.CanvasEditorPlugin;
 import com.archimatetool.canvas.ICanvasImages;
+import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
@@ -23,8 +25,6 @@ import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateGroup;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 
 
 

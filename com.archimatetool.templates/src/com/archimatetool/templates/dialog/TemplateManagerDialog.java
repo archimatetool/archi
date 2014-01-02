@@ -40,15 +40,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.TemplateGroup;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.UIUtils;
-import uk.ac.bolton.archimate.editor.ui.components.ExtendedTitleAreaDialog;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 
 /**

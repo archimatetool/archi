@@ -21,16 +21,16 @@ import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
+import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
+import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
+import com.archimatetool.editor.model.compatibility.ModelCompatibility;
+import com.archimatetool.editor.utils.ZipUtils;
+import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.compatibility.CompatibilityHandlerException;
-import uk.ac.bolton.archimate.editor.model.compatibility.IncompatibleModelException;
-import uk.ac.bolton.archimate.editor.model.compatibility.ModelCompatibility;
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
-import uk.ac.bolton.archimate.editor.views.tree.commands.NewDiagramCommand;
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IFolder;

@@ -27,10 +27,11 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.preferences.IPreferenceConstants;
-import uk.ac.bolton.archimate.editor.preferences.Preferences;
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.utils.PlatformUtils;
+
 
 
 /**

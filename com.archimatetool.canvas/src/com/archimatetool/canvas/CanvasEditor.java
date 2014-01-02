@@ -20,9 +20,9 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.canvas.dnd.CanvasDiagramTransferDropTargetListener;
 import com.archimatetool.canvas.dnd.FileTransferDropTargetListener;
 import com.archimatetool.canvas.editparts.CanvasModelEditPartFactory;
+import com.archimatetool.editor.diagram.AbstractDiagramEditor;
+import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 
-import uk.ac.bolton.archimate.editor.diagram.AbstractDiagramEditor;
-import uk.ac.bolton.archimate.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 
 
 /**

@@ -5,7 +5,7 @@
  */
 package com.archimatetool.canvas;
 
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
+import com.archimatetool.editor.ui.ImageFactory;
 
 
 

@@ -27,14 +27,14 @@ import org.jdom.Element;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasModelTemplate;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
+import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;

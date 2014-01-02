@@ -7,9 +7,9 @@ package com.archimatetool.templates.impl.model;
 
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.templates.model.AbstractTemplate;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
 /**

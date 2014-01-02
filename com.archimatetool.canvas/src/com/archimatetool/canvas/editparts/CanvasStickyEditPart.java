@@ -22,15 +22,15 @@ import com.archimatetool.canvas.figures.CanvasStickyFigure;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.policies.CanvasConnectionPolicy;
+import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
+import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
+import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
+import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
+import com.archimatetool.editor.diagram.editparts.ITextPositionedEditPart;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
+import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 
-import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineTextDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.ITextPositionedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 

@@ -30,7 +30,7 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="com.archimatetool.zest.action.showZestView"
-            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            schemeId="com.archimatetool.editor.keybindings"
             sequence="M3+6">
       </key>
    </extension>

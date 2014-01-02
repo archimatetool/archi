@@ -17,12 +17,12 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.INotesContent;
+import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.editor.propertysections.AbstractArchimatePropertySection;
+import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
+import com.archimatetool.editor.propertysections.PropertySectionTextControl;
+import com.archimatetool.editor.ui.components.StyledTextControl;
 
-import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.propertysections.AbstractArchimatePropertySection;
-import uk.ac.bolton.archimate.editor.propertysections.ITabbedLayoutConstants;
-import uk.ac.bolton.archimate.editor.propertysections.PropertySectionTextControl;
-import uk.ac.bolton.archimate.editor.ui.components.StyledTextControl;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.ILockable;
 

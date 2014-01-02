@@ -9,10 +9,10 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.wizard.WizardDialog;
 
+import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
+import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.templates.impl.wizard.SaveArchimateModelAsTemplateWizard;
 
-import uk.ac.bolton.archimate.editor.actions.AbstractModelSelectionHandler;
-import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 
 

@@ -1,0 +1,190 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
+package com.archimatetool.editor.preferences;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+
+import com.archimatetool.editor.ui.IArchimateImages;
+
+
+/**
+ * Default Figures Preferences Tab panel
+ * 
+ * @author Phillip Beauvoir
+ */
+public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
+    
+    private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
+    
+    private TableViewer fTableViewer;
+    
+    private class ImageChoice {
+        String name;
+        String key;
+        int type = 0;
+        Image img1, img2;
+        
+        ImageChoice(String name, String key, String image1, String image2) {
+            this.name = name;
+            this.key = key;
+            
+            img1 = IArchimateImages.ImageFactory.getImage(image1);
+            img2 = IArchimateImages.ImageFactory.getImage(image2);
+        }
+        
+        Image getImage() {
+            return type == 0 ? img1 : img2;
+        }
+        
+        void flip() {
+            type = (type == 0) ? 1 : 0;
+        }
+    }
+    
+    public Composite createContents(Composite parent) {
+        loadFigures();
+        
+        Composite client = new Composite(parent, SWT.NULL);
+        client.setLayout(new GridLayout());
+        
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.marginWidth = 0;
+        gridLayout.marginHeight = 0;
+        
+        Composite tableClient = new Composite(client, SWT.NULL);
+        tableClient.setLayout(gridLayout);
+        tableClient.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        Label label = new Label(tableClient, SWT.NULL);
+        label.setText(Messages.DiagramFiguresPreferencePage_0);
+        
+        Composite client2 = new Composite(tableClient, SWT.NULL);
+        client2.setLayout(new TableColumnLayout());
+        
+        GridData gd = new GridData(GridData.FILL_BOTH);
+        gd.heightHint = 80; // need this to set a smaller height
+        gd.widthHint = 80;  // need this to stop it getting larger when the splitter is resized in the Prefs dialog
+        client2.setLayoutData(gd);
+        
+        createTable(client2);
+        
+        setValues();
+        
+        fTableViewer.setInput(fChoices);
+        
+        return client;
+    }
+    
+    private void loadFigures() {
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_1,
+                BUSINESS_INTERFACE_FIGURE, IArchimateImages.FIGURE_BUSINESS_INTERFACE1, IArchimateImages.FIGURE_BUSINESS_INTERFACE2));
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_7,
+                BUSINESS_PROCESS_FIGURE, IArchimateImages.FIGURE_BUSINESS_PROCESS1, IArchimateImages.FIGURE_BUSINESS_PROCESS2));
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_2,
+                APPLICATION_COMPONENT_FIGURE, IArchimateImages.FIGURE_APPLICATION_COMPONENT1, IArchimateImages.FIGURE_APPLICATION_COMPONENT2));
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_3,
+                APPLICATION_INTERFACE_FIGURE, IArchimateImages.FIGURE_APPLICATION_INTERFACE1, IArchimateImages.FIGURE_APPLICATION_INTERFACE2));
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_4,
+                TECHNOLOGY_DEVICE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE1, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE2));
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_5,
+                TECHNOLOGY_NODE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_NODE1, IArchimateImages.FIGURE_TECHNOLOGY_NODE2));
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_6,
+                TECHNOLOGY_INTERFACE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2));
+    }
+    
+    private void createTable(Composite parent) {
+        fTableViewer = new TableViewer(parent, SWT.BORDER);
+        
+        TableColumnLayout layout = (TableColumnLayout)parent.getLayout();
+        TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE);
+        layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
+        
+        fTableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
+            public void dispose() {
+            }
+
+            @Override
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+            }
+
+            @Override
+            public Object[] getElements(Object inputElement) {
+                return ((List<?>)inputElement).toArray();
+            }
+        });
+        
+        class TableLabelProvider extends LabelProvider {
+            @Override
+            public Image getImage(Object element) {
+                return ((ImageChoice)element).getImage();
+            }
+
+            @Override
+            public String getText(Object element) {
+                return ((ImageChoice)element).name;
+            }
+        }
+        
+        fTableViewer.setLabelProvider(new TableLabelProvider());
+        
+        fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                ImageChoice ic = (ImageChoice)((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(ic != null) {
+                    ic.flip();
+                    fTableViewer.update(ic, null);
+                }
+            }
+        });
+    }
+    
+    private void setValues() {
+        for(ImageChoice choice : fChoices) {
+            choice.type = getPreferenceStore().getInt(choice.key);
+        }
+    }
+    
+    private IPreferenceStore getPreferenceStore() {
+        return Preferences.STORE;
+    }
+
+    public boolean performOk() {
+        for(ImageChoice choice : fChoices) {
+            getPreferenceStore().setValue(choice.key, choice.type);
+        }
+
+        return true;
+    }
+    
+    protected void performDefaults() {
+        for(ImageChoice choice : fChoices) {
+            choice.type = 0;
+        }
+        
+        fTableViewer.refresh();
+    }
+}

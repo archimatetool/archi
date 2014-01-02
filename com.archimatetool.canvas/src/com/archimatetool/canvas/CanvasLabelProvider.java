@@ -15,10 +15,10 @@ import com.archimatetool.canvas.model.ICanvasModelConnection;
 import com.archimatetool.canvas.model.ICanvasModelImage;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.canvas.model.ICanvasPackage;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IEditorLabelProvider;
+import com.archimatetool.editor.utils.StringUtils;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.IEditorLabelProvider;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.INameable;
 
 

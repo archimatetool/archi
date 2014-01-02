@@ -18,7 +18,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
+
 import uk.ac.bolton.archimate.model.IFolder;
 import uk.ac.bolton.archimate.model.INameable;
 

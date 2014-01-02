@@ -30,12 +30,12 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
+import com.archimatetool.editor.diagram.AbstractPaletteRoot;
+import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
+import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
+import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.IArchimateImages;
 
-import uk.ac.bolton.archimate.editor.diagram.AbstractPaletteRoot;
-import uk.ac.bolton.archimate.editor.diagram.tools.FormatPainterToolEntry;
-import uk.ac.bolton.archimate.editor.diagram.tools.PanningSelectionExtendedTool;
-import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 import uk.ac.bolton.archimate.model.IDiagramModelConnection;
 
 

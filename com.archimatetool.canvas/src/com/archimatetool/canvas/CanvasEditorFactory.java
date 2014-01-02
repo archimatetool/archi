@@ -10,9 +10,9 @@ import org.eclipse.ui.IEditorInput;
 
 import com.archimatetool.canvas.editparts.CanvasModelEditPartFactory;
 import com.archimatetool.canvas.model.ICanvasModel;
+import com.archimatetool.editor.diagram.DiagramEditorInput;
+import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 
-import uk.ac.bolton.archimate.editor.diagram.DiagramEditorInput;
-import uk.ac.bolton.archimate.editor.diagram.IDiagramEditorFactory;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 

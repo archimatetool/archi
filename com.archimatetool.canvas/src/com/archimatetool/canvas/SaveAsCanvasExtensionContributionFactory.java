@@ -24,8 +24,8 @@ import org.eclipse.ui.services.IServiceLocator;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.preferences.IPreferenceConstants;
 import com.archimatetool.canvas.templates.wizard.SaveCanvasAsTemplateWizard;
+import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 
-import uk.ac.bolton.archimate.editor.ui.components.ExtendedWizardDialog;
 
 
 /**

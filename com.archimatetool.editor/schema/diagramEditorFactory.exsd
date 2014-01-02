@@ -64,10 +64,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of a Factory class that implements uk.ac.bolton.archimate.editor.diagram.IDiagramEditorFactory
+                  The name of a Factory class that implements com.archimatetool.editor.diagram.IDiagramEditorFactory
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":uk.ac.bolton.archimate.editor.diagram.IDiagramEditorFactory"/>
+                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.diagram.IDiagramEditorFactory"/>
                </appinfo>
             </annotation>
          </attribute>

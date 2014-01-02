@@ -11,7 +11,8 @@ import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 
-import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
+import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
+
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**

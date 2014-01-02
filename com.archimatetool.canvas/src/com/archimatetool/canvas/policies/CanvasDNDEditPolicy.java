@@ -21,12 +21,12 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.model.ICanvasFactory;
 import com.archimatetool.canvas.model.ICanvasModelImage;
+import com.archimatetool.editor.diagram.commands.AddDiagramModelReferenceCommand;
+import com.archimatetool.editor.diagram.commands.AddDiagramObjectCommand;
+import com.archimatetool.editor.diagram.dnd.AbstractDNDEditPolicy;
+import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
+import com.archimatetool.editor.model.IArchiveManager;
 
-import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramModelReferenceCommand;
-import uk.ac.bolton.archimate.editor.diagram.commands.AddDiagramObjectCommand;
-import uk.ac.bolton.archimate.editor.diagram.dnd.AbstractDNDEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.dnd.DiagramDropRequest;
-import uk.ac.bolton.archimate.editor.model.IArchiveManager;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 

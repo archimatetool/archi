@@ -7,8 +7,9 @@ package com.archimatetool.jasperreports.data;
 
 import org.eclipse.emf.ecore.EObject;
 
-import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.utils.StringUtils;
+
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDocumentable;

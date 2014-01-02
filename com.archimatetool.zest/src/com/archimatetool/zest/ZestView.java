@@ -41,13 +41,14 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.editor.views.AbstractModelView;
-import uk.ac.bolton.archimate.editor.views.tree.actions.IViewerAction;
-import uk.ac.bolton.archimate.editor.views.tree.actions.PropertiesAction;
+import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.editor.views.AbstractModelView;
+import com.archimatetool.editor.views.tree.actions.IViewerAction;
+import com.archimatetool.editor.views.tree.actions.PropertiesAction;
+
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;

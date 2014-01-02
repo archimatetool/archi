@@ -17,9 +17,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.IIdentifier;
 

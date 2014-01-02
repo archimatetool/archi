@@ -5,7 +5,7 @@
  */
 package com.archimatetool.zest;
 
-import uk.ac.bolton.archimate.editor.views.IModelView;
+import com.archimatetool.editor.views.IModelView;
 
 
 /**

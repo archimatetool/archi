@@ -9,8 +9,9 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IMenuManager;
 
-import uk.ac.bolton.archimate.editor.diagram.AbstractDiagramEditorContextMenuProvider;
-import uk.ac.bolton.archimate.editor.diagram.actions.ResetAspectRatioAction;
+import com.archimatetool.editor.diagram.AbstractDiagramEditorContextMenuProvider;
+import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
+
 
 /**
  * Provides a context menu.

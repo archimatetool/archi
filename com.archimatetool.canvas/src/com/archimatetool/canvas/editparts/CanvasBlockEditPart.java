@@ -25,19 +25,19 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.policies.CanvasBlockLayoutPolicy;
 import com.archimatetool.canvas.policies.CanvasConnectionPolicy;
 import com.archimatetool.canvas.policies.CanvasDNDEditPolicy;
+import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
+import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
+import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
+import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
+import com.archimatetool.editor.diagram.editparts.ITextPositionedEditPart;
+import com.archimatetool.editor.diagram.editparts.SnapEditPartAdapter;
+import com.archimatetool.editor.diagram.figures.IContainerFigure;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
+import com.archimatetool.editor.diagram.policies.ContainerHighlightEditPolicy;
+import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
+import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 
-import uk.ac.bolton.archimate.editor.diagram.directedit.MultiLineTextDirectEditManager;
-import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractConnectedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.IColoredEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.ITextAlignedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.ITextPositionedEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.SnapEditPartAdapter;
-import uk.ac.bolton.archimate.editor.diagram.figures.IContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.figures.IDiagramModelObjectFigure;
-import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.ContainerHighlightEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
-import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 

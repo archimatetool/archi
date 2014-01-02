@@ -17,9 +17,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 
-import uk.ac.bolton.archimate.editor.model.DiagramModelUtils;
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.model.IModelImporter;
+import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.model.IModelImporter;
+
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateFactory;
 import uk.ac.bolton.archimate.model.IArchimateModel;

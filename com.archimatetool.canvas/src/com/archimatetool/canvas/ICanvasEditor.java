@@ -5,7 +5,7 @@
  */
 package com.archimatetool.canvas;
 
-import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
+import com.archimatetool.editor.diagram.IDiagramModelEditor;
 
 
 /**

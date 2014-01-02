@@ -5,7 +5,7 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
-            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+M4+F">
       </key>
       <key

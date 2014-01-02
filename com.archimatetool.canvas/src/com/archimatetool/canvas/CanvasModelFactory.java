@@ -13,9 +13,9 @@ import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasModelConnection;
 import com.archimatetool.canvas.model.ICanvasModelImage;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
+import com.archimatetool.editor.diagram.ICreationFactory;
+import com.archimatetool.editor.ui.ColorFactory;
 
-import uk.ac.bolton.archimate.editor.diagram.ICreationFactory;
-import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.model.IFontAttribute;
 
 

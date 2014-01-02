@@ -7,11 +7,11 @@ package com.archimatetool.canvas.templates.wizard;
 
 import com.archimatetool.canvas.templates.dialog.CanvasTemplateManagerDialog;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
+import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.templates.dialog.TemplateManagerDialog;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.NewModelFromTemplateWizardPage;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
 /**

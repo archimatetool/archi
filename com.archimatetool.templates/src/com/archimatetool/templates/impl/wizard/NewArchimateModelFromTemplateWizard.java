@@ -13,14 +13,14 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.ui.services.UIRequestManager;
+import com.archimatetool.editor.utils.ZipUtils;
+import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
-import uk.ac.bolton.archimate.editor.ui.services.UIRequestManager;
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
-import uk.ac.bolton.archimate.editor.views.tree.TreeEditElementRequest;
 import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.ModelVersion;
 

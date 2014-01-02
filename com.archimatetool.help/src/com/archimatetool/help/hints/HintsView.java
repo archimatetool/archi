@@ -46,15 +46,15 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
+import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
+import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.services.ComponentSelectionManager;
+import com.archimatetool.editor.ui.services.IComponentSelectionListener;
+import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchimateEditorHelpPlugin;
 
-import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
-import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
-import uk.ac.bolton.archimate.editor.ui.services.IComponentSelectionListener;
-import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;

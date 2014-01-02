@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
+import com.archimatetool.editor.IPlatformLauncher;
+import com.archimatetool.editor.model.IEditorModelManager;
+
 
 public class PlatformLauncher implements IPlatformLauncher {
 

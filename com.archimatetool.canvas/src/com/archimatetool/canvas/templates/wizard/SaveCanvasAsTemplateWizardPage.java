@@ -30,12 +30,12 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.TemplateUtils;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.ui.UIUtils;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 
 /**

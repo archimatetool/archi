@@ -38,12 +38,12 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IIconic;
+import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.editor.propertysections.DiagramModelImageSection;
+import com.archimatetool.editor.propertysections.ITabbedLayoutConstants;
+import com.archimatetool.editor.ui.ImageFactory;
 
-import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.model.commands.EObjectFeatureCommand;
-import uk.ac.bolton.archimate.editor.propertysections.DiagramModelImageSection;
-import uk.ac.bolton.archimate.editor.propertysections.ITabbedLayoutConstants;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.ILockable;
 

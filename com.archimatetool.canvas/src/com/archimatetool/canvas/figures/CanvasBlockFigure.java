@@ -22,11 +22,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
+import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
+import com.archimatetool.editor.diagram.util.AnimationUtil;
+import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.utils.StringUtils;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.AbstractContainerFigure;
-import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
-import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 /**
  * Canvas Block Figure

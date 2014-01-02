@@ -24,12 +24,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.TemplateGroup;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
 
 
 /**

@@ -9,10 +9,10 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 
 import com.archimatetool.canvas.policies.CanvasDNDEditPolicy;
+import com.archimatetool.editor.diagram.editparts.AbstractDiagramPart;
+import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
+import com.archimatetool.editor.diagram.policies.DiagramLayoutPolicy;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.AbstractDiagramPart;
-import uk.ac.bolton.archimate.editor.diagram.policies.BasicContainerEditPolicy;
-import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
 
 
 

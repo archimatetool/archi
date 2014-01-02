@@ -15,10 +15,10 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
+import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
 
 
 /**

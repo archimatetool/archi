@@ -20,12 +20,12 @@ import org.eclipse.swt.graphics.Image;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.utils.FileUtils;
+import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
 
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.utils.FileUtils;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 
 
 

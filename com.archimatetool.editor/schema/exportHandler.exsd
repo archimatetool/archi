@@ -74,10 +74,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of a class that implements uk.ac.bolton.archimate.editor.model.IModelExporter
+                  The name of a class that implements com.archimatetool.editor.model.IModelExporter
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":uk.ac.bolton.archimate.editor.model.IModelExporter"/>
+                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.model.IModelExporter"/>
                </appinfo>
             </annotation>
          </attribute>

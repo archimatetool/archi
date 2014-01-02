@@ -5,7 +5,7 @@
  */
 package com.archimatetool.canvas.policies;
 
-import uk.ac.bolton.archimate.editor.diagram.policies.BasicConnectionPolicy;
+import com.archimatetool.editor.diagram.policies.BasicConnectionPolicy;
 
 /**
  * A policy which allows a component to be connected to another component via a connection

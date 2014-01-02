@@ -64,10 +64,10 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of a Java class that implements uk.ac.bolton.archimate.editor.ui.IEditorLabelProvider
+                  The name of a Java class that implements com.archimatetool.editor.ui.IEditorLabelProvider
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":uk.ac.bolton.archimate.editor.ui.IEditorLabelProvider"/>
+                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.ui.IEditorLabelProvider"/>
                </appinfo>
             </annotation>
          </attribute>

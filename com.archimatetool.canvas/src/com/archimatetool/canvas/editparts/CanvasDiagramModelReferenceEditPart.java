@@ -8,9 +8,9 @@ package com.archimatetool.canvas.editparts;
 import org.eclipse.gef.EditPolicy;
 
 import com.archimatetool.canvas.policies.CanvasConnectionPolicy;
+import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
+import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
-import uk.ac.bolton.archimate.editor.diagram.policies.PartComponentEditPolicy;
 
 
 /**

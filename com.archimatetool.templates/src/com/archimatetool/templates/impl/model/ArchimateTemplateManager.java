@@ -14,6 +14,9 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
+import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.templates.ArchimateEditorTemplatesPlugin;
 import com.archimatetool.templates.model.ITemplate;
@@ -22,9 +25,6 @@ import com.archimatetool.templates.model.ITemplateXMLTags;
 import com.archimatetool.templates.model.TemplateGroup;
 import com.archimatetool.templates.model.TemplateManager;
 
-import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
-import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
-import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 
 
 /**

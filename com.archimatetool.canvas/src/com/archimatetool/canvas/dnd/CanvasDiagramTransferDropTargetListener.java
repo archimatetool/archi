@@ -8,7 +8,8 @@ package com.archimatetool.canvas.dnd;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
 
-import uk.ac.bolton.archimate.editor.diagram.dnd.AbstractDiagramTransferDropTargetListener;
+import com.archimatetool.editor.diagram.dnd.AbstractDiagramTransferDropTargetListener;
+
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**

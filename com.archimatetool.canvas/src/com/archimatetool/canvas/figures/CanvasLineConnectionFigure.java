@@ -6,8 +6,8 @@
 package com.archimatetool.canvas.figures;
 
 import com.archimatetool.canvas.model.ICanvasModelConnection;
+import com.archimatetool.editor.diagram.figures.diagram.LineConnectionFigure;
 
-import uk.ac.bolton.archimate.editor.diagram.figures.diagram.LineConnectionFigure;
 
 /**
  * Connection Figure

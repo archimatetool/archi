@@ -12,9 +12,9 @@ import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasModelConnection;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
+import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
+import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
 
-import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.DiagramImageEditPart;
-import uk.ac.bolton.archimate.editor.diagram.editparts.diagram.EmptyEditPart;
 import uk.ac.bolton.archimate.model.IDiagramModelImage;
 import uk.ac.bolton.archimate.model.IDiagramModelReference;
 

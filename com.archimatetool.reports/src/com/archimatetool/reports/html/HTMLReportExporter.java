@@ -34,12 +34,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
-import uk.ac.bolton.archimate.editor.diagram.util.DiagramUtils;
-import uk.ac.bolton.archimate.editor.ui.ArchimateLabelProvider;
-import uk.ac.bolton.archimate.editor.ui.ColorFactory;
-import uk.ac.bolton.archimate.editor.utils.FileUtils;
-import uk.ac.bolton.archimate.editor.utils.HTMLUtils;
-import uk.ac.bolton.archimate.editor.utils.StringUtils;
+import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.utils.FileUtils;
+import com.archimatetool.editor.utils.HTMLUtils;
+import com.archimatetool.editor.utils.StringUtils;
+
 import uk.ac.bolton.archimate.model.FolderType;
 import uk.ac.bolton.archimate.model.IArchimateElement;
 import uk.ac.bolton.archimate.model.IArchimateModel;

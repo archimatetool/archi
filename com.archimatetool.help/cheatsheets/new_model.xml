@@ -27,7 +27,7 @@
       <action
       		required="false"
       		pluginId="com.archimatetool.editor"
-      		class="uk.ac.bolton.archimate.editor.actions.NewArchimateModelAction"/>
+      		class="com.archimatetool.editor.actions.NewArchimateModelAction"/>
    </item>
    <item
          title="Add Elements to the Model">

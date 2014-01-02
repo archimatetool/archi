@@ -11,9 +11,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.model.IIconic;
+import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.ui.ImageFactory;
 
-import uk.ac.bolton.archimate.editor.model.IArchiveManager;
-import uk.ac.bolton.archimate.editor.ui.ImageFactory;
 
 /**
  * Delegate class to handle drawing of iconic types

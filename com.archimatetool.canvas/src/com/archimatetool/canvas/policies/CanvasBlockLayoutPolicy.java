@@ -12,7 +12,8 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
-import uk.ac.bolton.archimate.editor.diagram.policies.DiagramLayoutPolicy;
+import com.archimatetool.editor.diagram.policies.DiagramLayoutPolicy;
+
 
 
 /**

@@ -14,7 +14,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.bolton.archimate.editor.model.IEditorModelManager;
+import com.archimatetool.editor.IPlatformLauncher;
+import com.archimatetool.editor.model.IEditorModelManager;
+
 
 /**
  * PlatformLauncher for Mac

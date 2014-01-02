@@ -15,7 +15,8 @@ import java.util.Properties;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 
-import uk.ac.bolton.archimate.editor.Logger;
+import com.archimatetool.editor.Logger;
+
 
 /**
  * Window State

@@ -9,7 +9,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
+import com.archimatetool.editor.ui.services.ViewManager;
+
 
 
 /**
