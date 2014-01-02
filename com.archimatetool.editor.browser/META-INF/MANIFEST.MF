@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Browser Component
-Bundle-SymbolicName: uk.ac.bolton.archimate.editor.browser;singleton:=true
+Bundle-SymbolicName: com.archimatetool.editor.browser;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Localization: plugin
-Bundle-Activator: uk.ac.bolton.archimate.editor.browser.BrowserPlugin
+Bundle-Activator: com.archimatetool.editor.browser.BrowserPlugin
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: uk.ac.bolton.archimate.editor.browser
+Export-Package: com.archimatetool.editor.browser

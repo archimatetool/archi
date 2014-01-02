@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.editor.browser;
+package com.archimatetool.editor.browser;
 
 import org.eclipse.ui.part.EditorActionBarContributor;
 

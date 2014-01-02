@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.editor.browser;
+package com.archimatetool.editor.browser;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -14,7 +14,7 @@ import org.osgi.framework.BundleContext;
 public class BrowserPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "uk.ac.bolton.archimate.editor.browser"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.archimatetool.editor.browser"; //$NON-NLS-1$
 
 	// The shared instance
 	private static BrowserPlugin plugin;

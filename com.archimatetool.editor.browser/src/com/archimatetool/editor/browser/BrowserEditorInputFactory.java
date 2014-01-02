@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.editor.browser;
+package com.archimatetool.editor.browser;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.ui.IElementFactory;
@@ -21,7 +21,7 @@ public class BrowserEditorInputFactory implements IElementFactory {
      * Factory id. The workbench plug-in registers a factory by this name
      * with the "org.eclipse.ui.elementFactories" extension point.
      */
-    public static final String ID_FACTORY = "uk.ac.bolton.archimate.editor.browser.BrowserEditorInputFactory"; //$NON-NLS-1$
+    public static final String ID_FACTORY = "com.archimatetool.editor.browser.BrowserEditorInputFactory"; //$NON-NLS-1$
     
     /**
      * Tag for URL

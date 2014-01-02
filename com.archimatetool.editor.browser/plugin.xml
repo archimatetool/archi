@@ -4,19 +4,19 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="uk.ac.bolton.archimate.editor.browser.BrowserEditor"
-            contributorClass="uk.ac.bolton.archimate.editor.browser.BrowserEditorActionBarContributor"
+            class="com.archimatetool.editor.browser.BrowserEditor"
+            contributorClass="com.archimatetool.editor.browser.BrowserEditorActionBarContributor"
             default="false"
             icon="img/browser-16.png"
-            id="uk.ac.bolton.archimate.editor.browser.browserEditor"
+            id="com.archimatetool.editor.browser.browserEditor"
             name="%editorBrowser">
       </editor>
    </extension>
    <extension
          point="org.eclipse.ui.elementFactories">
       <factory
-            class="uk.ac.bolton.archimate.editor.browser.BrowserEditorInputFactory"
-            id="uk.ac.bolton.archimate.editor.browser.BrowserEditorInputFactory">
+            class="com.archimatetool.editor.browser.BrowserEditorInputFactory"
+            id="com.archimatetool.editor.browser.BrowserEditorInputFactory">
       </factory>
    </extension>
 
