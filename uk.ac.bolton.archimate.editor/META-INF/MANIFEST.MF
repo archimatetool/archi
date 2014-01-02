@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.forms,
  org.eclipse.ui.views,
  org.eclipse.ui.views.properties.tabbed;visibility:=reexport,
- uk.ac.bolton.archimate.model;visibility:=reexport,
+ com.archimatetool.model;visibility:=reexport,
  com.archimatetool.jdom,
  com.archimatetool.widgets
 Bundle-ActivationPolicy: lazy

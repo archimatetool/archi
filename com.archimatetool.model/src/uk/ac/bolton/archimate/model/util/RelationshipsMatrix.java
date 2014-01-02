@@ -37,7 +37,7 @@ public class RelationshipsMatrix {
     /**
      * The Bundle ID
      */
-    static final String BUNDLE_ID = "uk.ac.bolton.archimate.model"; //$NON-NLS-1$
+    static final String BUNDLE_ID = "com.archimatetool.model"; //$NON-NLS-1$
 
     /**
      * The Key letters XML file

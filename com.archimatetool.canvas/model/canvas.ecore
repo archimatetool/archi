@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.bolton.ac.uk/archimate/canvas" nsPrefix="canvas">
   <eClassifiers xsi:type="ecore:EClass" name="Iconic" abstract="true" interface="true"
-      eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelObject ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelImageProvider">
+      eSuperTypes="../../com.archimatetool.model/model/archimate.ecore#//DiagramModelObject ../../com.archimatetool.model/model/archimate.ecore#//DiagramModelImageProvider">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="imagePosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="2"/>
   </eClassifiers>
@@ -26,9 +26,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CanvasModel" eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModel #//HintProvider #//HelpHintProvider"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelSticky" eSuperTypes="#//Iconic ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//TextContent #//NotesContent ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Properties ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//BorderObject"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelBlock" eSuperTypes="#//Iconic ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelContainer ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Properties ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//BorderObject #//HelpHintProvider #//HintProvider ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//TextContent"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelImage" eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelImage ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelConnection" eSuperTypes="../../uk.ac.bolton.archimate.model/model/archimate.ecore#//DiagramModelConnection ../../uk.ac.bolton.archimate.model/model/archimate.ecore#//Lockable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModel" eSuperTypes="../../com.archimatetool.model/model/archimate.ecore#//DiagramModel #//HintProvider #//HelpHintProvider"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelSticky" eSuperTypes="#//Iconic ../../com.archimatetool.model/model/archimate.ecore#//TextContent #//NotesContent ../../com.archimatetool.model/model/archimate.ecore#//Properties ../../com.archimatetool.model/model/archimate.ecore#//Lockable ../../com.archimatetool.model/model/archimate.ecore#//BorderObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelBlock" eSuperTypes="#//Iconic ../../com.archimatetool.model/model/archimate.ecore#//DiagramModelContainer ../../com.archimatetool.model/model/archimate.ecore#//Properties ../../com.archimatetool.model/model/archimate.ecore#//Lockable ../../com.archimatetool.model/model/archimate.ecore#//BorderObject #//HelpHintProvider #//HintProvider ../../com.archimatetool.model/model/archimate.ecore#//TextContent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelImage" eSuperTypes="../../com.archimatetool.model/model/archimate.ecore#//DiagramModelImage ../../com.archimatetool.model/model/archimate.ecore#//Lockable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CanvasModelConnection" eSuperTypes="../../com.archimatetool.model/model/archimate.ecore#//DiagramModelConnection ../../com.archimatetool.model/model/archimate.ecore#//Lockable"/>
 </ecore:EPackage>

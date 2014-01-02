@@ -41,6 +41,7 @@
       <plugin id="com.archimatetool.help"/>
       <plugin id="com.archimatetool.jasperreports"/>
       <plugin id="com.archimatetool.jdom"/>
+      <plugin id="com.archimatetool.model"/>
       <plugin id="com.archimatetool.reports"/>
       <plugin id="com.archimatetool.templates"/>
       <plugin id="com.archimatetool.widgets"/>
@@ -119,7 +120,6 @@
       <plugin id="org.eclipse.zest.layouts"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="uk.ac.bolton.archimate.editor"/>
-      <plugin id="uk.ac.bolton.archimate.model"/>
    </plugins>
 
    <features>

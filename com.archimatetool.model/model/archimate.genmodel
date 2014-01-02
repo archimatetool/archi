@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="This program and the accompanying materials&#xD;&#xA;are made available under the terms of the License&#xD;&#xA;which accompanies this distribution in the file LICENSE.txt"
-    modelDirectory="/uk.ac.bolton.archimate.model/src" editorDirectory="/uk.ac.bolton.archimate.editor2/src"
-    modelPluginID="uk.ac.bolton.archimate.model" modelName="Archimate" nonNLSMarkers="true"
+    modelDirectory="/com.archimatetool.model/src" editDirectory="/com.archimatetool.model.edit/src"
+    editorDirectory="/com.archimatetool.editor2/src" modelPluginID="com.archimatetool.model"
+    modelName="Archimate" editPluginClass="com.archimatetool.model.provider.ArchimateEditPlugin"
+    nonNLSMarkers="true" testSuiteClass="com.archimatetool.model.tests.ArchimateAllTests"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
-    editorPluginID="uk.ac.bolton.archimate.editor2" language="" interfaceNamePattern="I{0}"
-    classNamePattern="{0}" runtimePlatform="RCP">
+    editPluginID="com.archimatetool.model.edit" editorPluginID="com.archimatetool.editor2"
+    language="" interfaceNamePattern="I{0}" classNamePattern="{0}" runtimePlatform="RCP">
   <foreignModel>archimate.ecore</foreignModel>
   <genPackages prefix="Archimate" basePackage="uk.ac.bolton.archimate" resource="XML"
       disposableProviderFactory="true" ecorePackage="archimate.ecore#/">

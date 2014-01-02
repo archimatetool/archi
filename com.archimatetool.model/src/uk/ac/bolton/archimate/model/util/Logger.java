@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.Status;
  */
 public class Logger {
     
-    public static final String BUNDLE_ID = "uk.ac.bolton.archimate.model"; //$NON-NLS-1$
+    public static final String BUNDLE_ID = "com.archimatetool.model"; //$NON-NLS-1$
     
     /**
      * Convenience method to log an OK event

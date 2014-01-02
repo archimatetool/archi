@@ -124,8 +124,8 @@
 		</copy>
 		
 		
-		<!-- uk.ac.bolton.archimate.model -->
-		<property name="model.prj.src"    			value="uk.ac.bolton.archimate.model"/>
+		<!-- com.archimatetool.model -->
+		<property name="model.prj.src"    			value="com.archimatetool.model"/>
 		<property name="model.prj.tgt"    			value="${model.prj.src}.${lang_code}"/>
 		<property name="model.loc.src"    			location="../../${model.prj.src}"/>
 		<property name="model.loc.tgt"    			location="../../${main.dir}/${model.prj.tgt}"/>
