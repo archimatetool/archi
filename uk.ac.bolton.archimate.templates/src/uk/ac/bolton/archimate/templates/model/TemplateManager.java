@@ -15,7 +15,8 @@ import org.eclipse.swt.graphics.Image;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import uk.ac.bolton.jdom.JDOMUtils;
+import com.archimatetool.jdom.JDOMUtils;
+
 
 
 /**

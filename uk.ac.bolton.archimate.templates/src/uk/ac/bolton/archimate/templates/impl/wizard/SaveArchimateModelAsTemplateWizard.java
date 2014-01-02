@@ -22,6 +22,8 @@ import org.eclipse.swt.widgets.Display;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import com.archimatetool.jdom.JDOMUtils;
+
 import uk.ac.bolton.archimate.editor.model.IArchiveManager;
 import uk.ac.bolton.archimate.editor.utils.ZipUtils;
 import uk.ac.bolton.archimate.model.IArchimateModel;
@@ -33,7 +35,6 @@ import uk.ac.bolton.archimate.templates.model.ITemplateXMLTags;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
 import uk.ac.bolton.archimate.templates.wizard.SaveModelAsTemplateToCollectionWizardPage;
 import uk.ac.bolton.archimate.templates.wizard.TemplateUtils;
-import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**

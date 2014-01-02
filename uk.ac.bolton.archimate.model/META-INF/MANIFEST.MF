@@ -11,7 +11,7 @@ Export-Package: uk.ac.bolton.archimate.model,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- uk.ac.bolton.jdom
+ com.archimatetool.jdom
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: uk.ac.bolton.archimate.model.jar

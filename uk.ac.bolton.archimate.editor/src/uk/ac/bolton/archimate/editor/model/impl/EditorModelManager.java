@@ -35,6 +35,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
+import com.archimatetool.jdom.JDOMUtils;
+
 import uk.ac.bolton.archimate.editor.ArchimateEditorPlugin;
 import uk.ac.bolton.archimate.editor.Logger;
 import uk.ac.bolton.archimate.editor.diagram.util.AnimationUtil;
@@ -54,7 +56,6 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IDiagramModel;
 import uk.ac.bolton.archimate.model.ModelVersion;
 import uk.ac.bolton.archimate.model.util.ArchimateResourceFactory;
-import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**

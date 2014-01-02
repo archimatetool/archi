@@ -29,10 +29,12 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
    <plugins>
+      <plugin id="com.archimatetool.jdom"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.el"/>
       <plugin id="javax.servlet"/>
@@ -119,7 +121,6 @@
       <plugin id="uk.ac.bolton.archimate.templates"/>
       <plugin id="uk.ac.bolton.archimate.widgets"/>
       <plugin id="uk.ac.bolton.archimate.zest"/>
-      <plugin id="uk.ac.bolton.jdom"/>
    </plugins>
 
    <features>

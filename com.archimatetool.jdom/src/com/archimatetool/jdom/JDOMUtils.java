@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.jdom;
+package com.archimatetool.jdom;
 
 import java.io.File;
 import java.io.FileInputStream;

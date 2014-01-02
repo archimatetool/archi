@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Display;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import com.archimatetool.jdom.JDOMUtils;
+
 import uk.ac.bolton.archimate.canvas.model.ICanvasModel;
 import uk.ac.bolton.archimate.canvas.templates.model.CanvasModelTemplate;
 import uk.ac.bolton.archimate.canvas.templates.model.CanvasTemplateManager;
@@ -38,7 +40,6 @@ import uk.ac.bolton.archimate.templates.model.ITemplateGroup;
 import uk.ac.bolton.archimate.templates.model.ITemplateXMLTags;
 import uk.ac.bolton.archimate.templates.model.TemplateManager;
 import uk.ac.bolton.archimate.templates.wizard.TemplateUtils;
-import uk.ac.bolton.jdom.JDOMUtils;
 
 
 /**
