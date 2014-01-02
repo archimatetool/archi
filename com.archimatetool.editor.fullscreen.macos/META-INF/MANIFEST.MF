@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: LionFullScreen
-Bundle-SymbolicName: uk.ac.bolton.archimate.editor.fullscreen.macos;singleton:=true
+Bundle-Name: MacFullScreen
+Bundle-SymbolicName: com.archimatetool.editor.fullscreen.macos;singleton:=true
 Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Fragment-Host: org.eclipse.ui;bundle-version="3.7.1"
