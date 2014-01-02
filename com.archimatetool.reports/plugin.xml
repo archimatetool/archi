@@ -7,8 +7,8 @@
             allPopups="false"
             locationURI="menu:report_menu?after=report_ext">
          <command
-               commandId="uk.ac.bolton.archimate.reports.command.HTML"
-               id="uk.ac.bolton.archimate.reports.menuItem.HTML"
+               commandId="com.archimatetool.reports.command.HTML"
+               id="com.archimatetool.reports.menuItem.HTML"
                label="HTML..."
                style="push">
          </command>
@@ -17,8 +17,8 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="uk.ac.bolton.archimate.reports.html.HTMLReportHandler"
-            id="uk.ac.bolton.archimate.reports.command.HTML"
+            defaultHandler="com.archimatetool.reports.html.HTMLReportHandler"
+            id="com.archimatetool.reports.command.HTML"
             name="%action.label">
       </command>
    </extension>

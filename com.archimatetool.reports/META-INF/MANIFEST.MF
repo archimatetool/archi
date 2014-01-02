@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Reports
-Bundle-SymbolicName: uk.ac.bolton.archimate.reports;singleton:=true
+Bundle-SymbolicName: com.archimatetool.reports;singleton:=true
 Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
@@ -9,6 +9,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  uk.ac.bolton.archimate.editor
-Bundle-ClassPath: uk.ac.bolton.archimate.reports.jar
-Bundle-Activator: uk.ac.bolton.archimate.reports.ArchimateEditorReportsPlugin
+Bundle-ClassPath: com.archimatetool.reports.jar
+Bundle-Activator: com.archimatetool.reports.ArchimateEditorReportsPlugin
 Bundle-ActivationPolicy: lazy

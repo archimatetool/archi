@@ -138,8 +138,8 @@
     	</antcall>
 		
 		
-		<!-- uk.ac.bolton.archimate.reports -->
-		<property name="reports.prj.src"    		value="uk.ac.bolton.archimate.reports"/>
+		<!-- com.archimatetool.reports -->
+		<property name="reports.prj.src"    		value="com.archimatetool.reports"/>
 		<property name="reports.prj.tgt"    		value="${reports.prj.src}.${lang_code}"/>
 		<property name="reports.loc.src"    		location="../../${reports.prj.src}"/>
 		<property name="reports.loc.tgt"    		location="../../${main.dir}/${reports.prj.tgt}"/>
