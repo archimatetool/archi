@@ -7,9 +7,9 @@
             allPopups="false"
             locationURI="menu:window?after=show_view_append">
          <command
-               commandId="uk.ac.bolton.archimate.zest.action.showZestView"
+               commandId="com.archimatetool.zest.action.showZestView"
                icon="img/icon.png"
-               id="uk.ac.bolton.archimate.zest.menuitem.showZestView"
+               id="com.archimatetool.zest.menuitem.showZestView"
                label="%command.label"
                style="push">
          </command>
@@ -18,9 +18,9 @@
             allPopups="false"
             locationURI="toolbar:toolbar_views?after=append">
          <command
-               commandId="uk.ac.bolton.archimate.zest.action.showZestView"
+               commandId="com.archimatetool.zest.action.showZestView"
                icon="img/icon.png"
-               id="uk.ac.bolton.archimate.zest.menuitem.showZestView"
+               id="com.archimatetool.zest.menuitem.showZestView"
                label="%command.label.0"
                style="push">
          </command>
@@ -29,7 +29,7 @@
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="uk.ac.bolton.archimate.zest.action.showZestView"
+            commandId="com.archimatetool.zest.action.showZestView"
             schemeId="uk.ac.bolton.archimate.editor.keybindings"
             sequence="M3+6">
       </key>
@@ -37,17 +37,17 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="uk.ac.bolton.archimate.zest.ShowZestViewHandler"
-            id="uk.ac.bolton.archimate.zest.action.showZestView"
+            defaultHandler="com.archimatetool.zest.ShowZestViewHandler"
+            id="com.archimatetool.zest.action.showZestView"
             name="%command.name">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="uk.ac.bolton.archimate.zest.ZestView"
+            class="com.archimatetool.zest.ZestView"
             icon="img/icon.png"
-            id="uk.ac.bolton.archimate.zest.zestView"
+            id="com.archimatetool.zest.zestView"
             name="%view.name"
             restorable="true">
       </view>
@@ -57,7 +57,7 @@
       <perspectiveExtension
             targetID="*">
          <view
-               id="uk.ac.bolton.archimate.zest.zestView"
+               id="com.archimatetool.zest.zestView"
                minimized="false"
                relationship="stack"
                relative="uk.ac.bolton.archimate.editor.propertiesView">
@@ -67,7 +67,7 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="uk.ac.bolton.archimate.zest.PreferenceInitializer">
+            class="com.archimatetool.zest.PreferenceInitializer">
       </initializer>
    </extension>
 

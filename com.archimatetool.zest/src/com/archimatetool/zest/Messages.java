@@ -1,10 +1,10 @@
-package uk.ac.bolton.archimate.zest;
+package com.archimatetool.zest;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 
-    private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.zest.messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "com.archimatetool.zest.messages"; //$NON-NLS-1$
 
     public static String CopyZestViewAsImageToClipboardAction_0;
 
