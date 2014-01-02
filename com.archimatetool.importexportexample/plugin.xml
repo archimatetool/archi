@@ -4,16 +4,16 @@
    <extension
          point="uk.ac.bolton.archimate.editor.exportHandler">
       <exportHandler
-            class="uk.ac.bolton.archimate.example.MyExporter"
-            id="uk.ac.bolton.archimate.import_export_example.exportHandler"
+            class="com.archimatetool.example.MyExporter"
+            id="com.archimatetool.import_export_example.exportHandler"
             label="Model To My Format...">
       </exportHandler>
    </extension>
    <extension
          point="uk.ac.bolton.archimate.editor.importHandler">
       <importHandler
-            class="uk.ac.bolton.archimate.example.MyImporter"
-            id="uk.ac.bolton.archimate.import_export_example.importHandler"
+            class="com.archimatetool.example.MyImporter"
+            id="com.archimatetool.import_export_example.importHandler"
             label="My Model...">
       </importHandler>
    </extension>
