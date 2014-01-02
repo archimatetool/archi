@@ -15,6 +15,8 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.IPlatformLauncher;
+
 
 
 /**

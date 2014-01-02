@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Mac Launcher
-Bundle-SymbolicName: uk.ac.bolton.archimate.editor.launch.macos;singleton:=true
+Bundle-SymbolicName: com.archimatetool.editor.launch.macos;singleton:=true
 Bundle-Version: 2.6.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Fragment-Host: uk.ac.bolton.archimate.editor;bundle-version="1.2.0"

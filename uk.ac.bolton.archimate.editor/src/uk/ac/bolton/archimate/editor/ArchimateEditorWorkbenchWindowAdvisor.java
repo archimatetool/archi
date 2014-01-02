@@ -10,6 +10,8 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
+import com.archimatetool.editor.IPlatformLauncher;
+
 import uk.ac.bolton.archimate.editor.actions.ArchimateEditorActionBarAdvisor;
 
 /**

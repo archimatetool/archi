@@ -16,6 +16,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
+import com.archimatetool.editor.IPlatformLauncher;
+
 import uk.ac.bolton.archimate.editor.preferences.Preferences;
 
 /**
@@ -68,7 +70,7 @@ public class ArchimateEditorPlugin extends AbstractUIPlugin {
     public IPlatformLauncher getPlatformLauncher() {
         Bundle bundle = getBundle();
         try {
-            Class<?> clazz = bundle.loadClass("uk.ac.bolton.archimate.editor.PlatformLauncher"); //$NON-NLS-1$
+            Class<?> clazz = bundle.loadClass("com.archimatetool.editor.PlatformLauncher"); //$NON-NLS-1$
             if(IPlatformLauncher.class.isAssignableFrom(clazz)) {
                 return ((IPlatformLauncher) clazz.newInstance());
             }
