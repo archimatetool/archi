@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="uk.ac.bolton.archimate.help" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="com.archimatetool.help" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="uk.ac.bolton.archimate.help" id="uk.ac.bolton.archimate.help.hints" name="Hints"/>
+         <meta.schema plugin="com.archimatetool.help" id="com.archimatetool.help.hints" name="Hints"/>
       </appinfo>
       <documentation>
          Hints Extension Point

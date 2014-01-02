@@ -16,7 +16,7 @@ import com.archimatetool.templates.wizard.SaveModelAsTemplateToCollectionWizardP
  */
 public class SaveArchimateModelAsTemplateToCollectionWizardPage extends SaveModelAsTemplateToCollectionWizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.SaveArchimateModelAsTemplateToCollectionWizardPage"; //$NON-NLS-1$
 
     public SaveArchimateModelAsTemplateToCollectionWizardPage(TemplateManager templateManager) {
         super("SaveModelAsTemplateToCollectionWizardPage", templateManager); //$NON-NLS-1$

@@ -40,7 +40,7 @@ import uk.ac.bolton.archimate.model.ILockable;
  */
 public class DiagramConnectionLineStyleSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.elementPropertySection"; //$NON-NLS-1$
+    private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
     /**
      * Filter to show or reject this section depending on input value

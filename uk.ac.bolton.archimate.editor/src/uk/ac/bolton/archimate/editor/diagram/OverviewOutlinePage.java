@@ -40,7 +40,7 @@ public class OverviewOutlinePage extends Page implements IContentOutlinePage, IC
     private ScrollableThumbnail fThumbnail;
     private ScalableFreeformRootEditPart fEditPart;
 
-    public static String HELP_ID = "uk.ac.bolton.archimate.help.outlineViewHelp"; //$NON-NLS-1$
+    public static String HELP_ID = "com.archimatetool.help.outlineViewHelp"; //$NON-NLS-1$
     
     /**
      * Creates a new OverviewOutlinePage instance.

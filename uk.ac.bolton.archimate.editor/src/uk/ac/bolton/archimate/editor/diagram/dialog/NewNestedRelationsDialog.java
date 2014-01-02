@@ -52,7 +52,7 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements Listener {
     
-    private String HELP_ID = "uk.ac.bolton.archimate.help.NewNestedRelationsDialog"; //$NON-NLS-1$
+    private String HELP_ID = "com.archimatetool.help.NewNestedRelationsDialog"; //$NON-NLS-1$
 
     private TableViewer fTableViewer;
     

@@ -20,8 +20,8 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IHintProvider;
 import com.archimatetool.canvas.model.IIconic;
 import com.archimatetool.canvas.model.INotesContent;
+import com.archimatetool.help.hints.IHelpHintProvider;
 
-import uk.ac.bolton.archimate.help.hints.IHelpHintProvider;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 /**

@@ -29,7 +29,7 @@ public class CanvasPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsCanvas"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.prefsCanvas"; //$NON-NLS-1$
     
     private Button fCanvasEditorEnabledButton;
     

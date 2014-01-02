@@ -16,7 +16,7 @@ import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
  */
 public interface ISketchEditor extends IDiagramModelEditor {
     String ID = ArchimateEditorPlugin.PLUGIN_ID + ".sketchEditor"; //$NON-NLS-1$
-    String HELP_ID = "uk.ac.bolton.archimate.help.sketchEditorHelp"; //$NON-NLS-1$
+    String HELP_ID = "com.archimatetool.help.sketchEditorHelp"; //$NON-NLS-1$
     
     void updateBackgroundImage();
     

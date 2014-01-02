@@ -41,7 +41,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class ViewpointSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramModelSection"; //$NON-NLS-1$
+    private static final String HELP_ID = "com.archimatetool.help.diagramModelSection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value

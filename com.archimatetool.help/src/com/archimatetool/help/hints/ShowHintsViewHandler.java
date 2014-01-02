@@ -3,25 +3,25 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.help.hints;
+package com.archimatetool.help.hints;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.internal.cheatsheets.actions.CheatSheetCategoryBasedSelectionAction;
+
+import uk.ac.bolton.archimate.editor.ui.services.ViewManager;
 
 
 /**
- * Command Action Handler to show Cheat Sheet
+ * Command Action Handler to show Hints View
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("restriction")
-public class ShowCheatSheetsHandler extends AbstractHandler {
+public class ShowHintsViewHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        new CheatSheetCategoryBasedSelectionAction().run();
+        ViewManager.toggleViewPart(IHintsView.ID, false);
         return null;
     }
 

@@ -48,7 +48,7 @@ import uk.ac.bolton.archimate.model.INode;
  */
 public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
 
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.diagramFigureTypeSection"; //$NON-NLS-1$
+    private static final String HELP_ID = "com.archimatetool.help.diagramFigureTypeSection"; //$NON-NLS-1$
     
     /**
      * Filter to show or reject this section depending on input value

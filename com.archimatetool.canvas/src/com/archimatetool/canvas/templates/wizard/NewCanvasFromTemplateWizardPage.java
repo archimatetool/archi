@@ -21,7 +21,7 @@ import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
  */
 public class NewCanvasFromTemplateWizardPage extends NewModelFromTemplateWizardPage {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.NewCanvasFromTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.NewCanvasFromTemplateWizardPage"; //$NON-NLS-1$
 
     public NewCanvasFromTemplateWizardPage(TemplateManager templateManager) {
         super("NewCanvasFromTemplateWizardPage", templateManager); //$NON-NLS-1$

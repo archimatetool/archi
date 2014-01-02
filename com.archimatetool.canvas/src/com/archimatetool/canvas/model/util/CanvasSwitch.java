@@ -10,8 +10,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.archimatetool.canvas.model.*;
+import com.archimatetool.help.hints.IHelpHintProvider;
 
-import uk.ac.bolton.archimate.help.hints.IHelpHintProvider;
 import uk.ac.bolton.archimate.model.IAdapter;
 import uk.ac.bolton.archimate.model.IArchimateModelElement;
 import uk.ac.bolton.archimate.model.IBorderObject;

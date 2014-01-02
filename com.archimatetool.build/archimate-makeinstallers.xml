@@ -25,7 +25,7 @@
 		<property name="app.name" 				value="Archi"/>
 		
 		<property name="src.dir"     			location="."/>
-		<property name="help.dir"     			location="../uk.ac.bolton.archimate.help/docs"/>
+		<property name="help.dir"     			location="../com.archimatetool.help/docs"/>
 	    <property name="output.dir"             location="/${app.name}"/>
 	    <property name="folder.name"            value="${app.name}"/>
 	    <property name="tmp.dir"                location="${output.dir}/${folder.name}"/>

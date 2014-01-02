@@ -29,7 +29,7 @@ import uk.ac.bolton.archimate.model.IArchimatePackage;
  */
 public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
-    private static final String HELP_ID = "uk.ac.bolton.archimate.help.archimateModelSection"; //$NON-NLS-1$
+    private static final String HELP_ID = "com.archimatetool.help.archimateModelSection"; //$NON-NLS-1$
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)

@@ -1,4 +1,4 @@
-package uk.ac.bolton.archimate.help;
+package com.archimatetool.help;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

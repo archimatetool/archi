@@ -70,7 +70,7 @@ import uk.ac.bolton.archimate.model.IProperty;
  */
 public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.userProperties"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.userProperties"; //$NON-NLS-1$
 
     private static class KeyEntry {
         String newName;

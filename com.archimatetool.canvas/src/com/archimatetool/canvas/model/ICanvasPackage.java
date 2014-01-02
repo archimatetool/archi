@@ -312,10 +312,10 @@ public interface ICanvasPackage extends EPackage {
     int HINT_PROVIDER_FEATURE_COUNT = 2;
 
     /**
-     * The meta object id for the '{@link uk.ac.bolton.archimate.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}' class.
+     * The meta object id for the '{@link com.archimatetool.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see uk.ac.bolton.archimate.help.hints.IHelpHintProvider
+     * @see com.archimatetool.help.hints.IHelpHintProvider
      * @see com.archimatetool.canvas.model.impl.CanvasPackage#getHelpHintProvider()
      * @generated
      */
@@ -1261,12 +1261,12 @@ public interface ICanvasPackage extends EPackage {
     EAttribute getHintProvider_HintContent();
 
     /**
-     * Returns the meta object for class '{@link uk.ac.bolton.archimate.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}'.
+     * Returns the meta object for class '{@link com.archimatetool.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Help Hint Provider</em>'.
-     * @see uk.ac.bolton.archimate.help.hints.IHelpHintProvider
-     * @model instanceClass="uk.ac.bolton.archimate.help.hints.IHelpHintProvider"
+     * @see com.archimatetool.help.hints.IHelpHintProvider
+     * @model instanceClass="com.archimatetool.help.hints.IHelpHintProvider"
      * @generated
      */
     EClass getHelpHintProvider();
@@ -1409,10 +1409,10 @@ public interface ICanvasPackage extends EPackage {
         EAttribute HINT_PROVIDER__HINT_CONTENT = eINSTANCE.getHintProvider_HintContent();
 
         /**
-         * The meta object literal for the '{@link uk.ac.bolton.archimate.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}' class.
+         * The meta object literal for the '{@link com.archimatetool.help.hints.IHelpHintProvider <em>Help Hint Provider</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see uk.ac.bolton.archimate.help.hints.IHelpHintProvider
+         * @see com.archimatetool.help.hints.IHelpHintProvider
          * @see com.archimatetool.canvas.model.impl.CanvasPackage#getHelpHintProvider()
          * @generated
          */

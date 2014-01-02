@@ -28,7 +28,7 @@ import org.eclipse.ui.PlatformUI;
 public class GeneralPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsGeneral"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.prefsGeneral"; //$NON-NLS-1$
     
     private Button fOpenDiagramsOnLoadButton;
     private Button fBackupOnSaveButton;

@@ -45,7 +45,7 @@ import uk.ac.bolton.archimate.editor.utils.StringUtils;
  */
 public class SaveCanvasAsTemplateWizardPage extends WizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveCanvasAsTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.SaveCanvasAsTemplateWizardPage"; //$NON-NLS-1$
 
     private ICanvasModel fCanvasModel;
 

@@ -110,7 +110,7 @@
       </menuContribution>
    </extension>
    <extension
-         point="uk.ac.bolton.archimate.help.hints">
+         point="com.archimatetool.help.hints">
       <hint
             class="com.archimatetool.canvas.model.ICanvasModel"
             file="help/hints/canvas_diagram.html"

@@ -20,7 +20,7 @@ import uk.ac.bolton.archimate.editor.views.IModelView;
 public interface ITreeModelView extends IModelSelectionView, IModelView {
 
     String ID = ArchimateEditorPlugin.PLUGIN_ID + ".treeModelView"; //$NON-NLS-1$
-    String HELP_ID = "uk.ac.bolton.archimate.help.treeModelViewHelp"; //$NON-NLS-1$
+    String HELP_ID = "com.archimatetool.help.treeModelViewHelp"; //$NON-NLS-1$
     String NAME = Messages.ITreeModelView_0;
     ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MODELS_16);
 }

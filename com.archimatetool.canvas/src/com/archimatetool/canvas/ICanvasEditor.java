@@ -15,5 +15,5 @@ import uk.ac.bolton.archimate.editor.diagram.IDiagramModelEditor;
  */
 public interface ICanvasEditor extends IDiagramModelEditor {
     String ID = CanvasEditorPlugin.PLUGIN_ID + ".canvasEditor"; //$NON-NLS-1$
-    String HELP_ID = "uk.ac.bolton.archimate.help.canvasEditorHelp"; //$NON-NLS-1$
+    String HELP_ID = "com.archimatetool.help.canvasEditorHelp"; //$NON-NLS-1$
 }

@@ -51,7 +51,7 @@ import uk.ac.bolton.archimate.model.IDiagramModel;
  */
 public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.SaveArchimateModelAsTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.SaveArchimateModelAsTemplateWizardPage"; //$NON-NLS-1$
 
     private IArchimateModel fModel;
 

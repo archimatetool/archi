@@ -18,8 +18,8 @@ This cheat sheet can create one for you automatically, provided you have the Mod
       </description>
       <action
       		required="false"
-      		pluginId="uk.ac.bolton.archimate.help"
-      		class="uk.ac.bolton.archimate.help.cheatsheets.ShowViewCheatSheetAction" 
+      		pluginId="com.archimatetool.help"
+      		class="com.archimatetool.help.cheatsheets.ShowViewCheatSheetAction" 
             param1="uk.ac.bolton.archimate.editor.treeModelView"/>
             
    </item>
@@ -30,8 +30,8 @@ This cheat sheet can create one for you automatically, provided you have the Mod
       </description>
       <action
       		required="false"
-      		pluginId="uk.ac.bolton.archimate.help"
-      		class="uk.ac.bolton.archimate.help.cheatsheets.CreateMapViewCheatSheetAction"/>
+      		pluginId="com.archimatetool.help"
+      		class="com.archimatetool.help.cheatsheets.CreateMapViewCheatSheetAction"/>
    </item>
    <item
          title="Done!">

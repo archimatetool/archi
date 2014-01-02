@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.help.hints;
+package com.archimatetool.help.hints;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +46,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
+import com.archimatetool.help.ArchimateEditorHelpPlugin;
+
 import uk.ac.bolton.archimate.editor.model.viewpoints.ViewpointsManager;
 import uk.ac.bolton.archimate.editor.ui.ColorFactory;
 import uk.ac.bolton.archimate.editor.ui.IArchimateImages;
@@ -53,7 +55,6 @@ import uk.ac.bolton.archimate.editor.ui.services.ComponentSelectionManager;
 import uk.ac.bolton.archimate.editor.ui.services.IComponentSelectionListener;
 import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
 import uk.ac.bolton.archimate.editor.utils.StringUtils;
-import uk.ac.bolton.archimate.help.ArchimateEditorHelpPlugin;
 import uk.ac.bolton.archimate.model.IApplicationLayerElement;
 import uk.ac.bolton.archimate.model.IArchimateDiagramModel;
 import uk.ac.bolton.archimate.model.IArchimateElement;
@@ -211,7 +212,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
          * Need to do this otherwise we get a:
          * 
          * "java.lang.RuntimeException: WARNING: Prevented recursive attempt to activate part org.eclipse.ui.views.PropertySheet
-         * while still in the middle of activating part uk.ac.bolton.archimate.help.hintsView"
+         * while still in the middle of activating part com.archimatetool.help.hintsView"
          * 
          * But on Windows this leads to a SWTException if closing this View by shortcut key (Alt-4)
          */

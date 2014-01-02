@@ -40,7 +40,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
  */
 public class ExportJasperReportsWizardPage1 extends WizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage1"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.ExportJasperReportsWizardPage1"; //$NON-NLS-1$
     
     static String SAVE_DIR = System.getProperty("user.home"); //$NON-NLS-1$
     static String REPORT_FILENAME = "archi-report"; //$NON-NLS-1$

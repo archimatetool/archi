@@ -3,13 +3,13 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.help.hints;
+package com.archimatetool.help.hints;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 
-    private static final String BUNDLE_NAME = "uk.ac.bolton.archimate.help.hints.messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "com.archimatetool.help.hints.messages"; //$NON-NLS-1$
 
     public static String HintsView_0;
 

@@ -14,7 +14,7 @@
 	</target>
 	
 	<target name="make_html">
-		<java classname="uk.ac.bolton.archimate.help.HTMLMerger" classpath="${class.path}"/>
+		<java classname="com.archimatetool.help.HTMLMerger" classpath="${class.path}"/>
 	</target>
 
 </project>

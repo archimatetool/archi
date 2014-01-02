@@ -16,7 +16,7 @@ import com.archimatetool.templates.wizard.NewModelFromTemplateWizardPage;
  */
 public class NewArchimateModelFromTemplateWizardPage extends NewModelFromTemplateWizardPage {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.NewArchimateModelFromTemplateWizardPage"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.NewArchimateModelFromTemplateWizardPage"; //$NON-NLS-1$
 
     public NewArchimateModelFromTemplateWizardPage(TemplateManager templateManager) {
         super("NewArchimateModelFromTemplateWizardPage", templateManager); //$NON-NLS-1$

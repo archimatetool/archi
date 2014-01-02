@@ -12,8 +12,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IHintProvider;
+import com.archimatetool.help.hints.IHelpHintProvider;
 
-import uk.ac.bolton.archimate.help.hints.IHelpHintProvider;
 import uk.ac.bolton.archimate.model.impl.DiagramModel;
 
 /**

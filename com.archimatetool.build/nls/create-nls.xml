@@ -81,8 +81,8 @@
     	</antcall>
 		
 		
-		<!-- uk.ac.bolton.archimate.help -->
-		<property name="help.prj.src"    			value="uk.ac.bolton.archimate.help"/>
+		<!-- com.archimatetool.help -->
+		<property name="help.prj.src"    			value="com.archimatetool.help"/>
 		<property name="help.prj.tgt"    			value="${help.prj.src}.${lang_code}"/>
 		<property name="help.loc.src"    			location="../../${help.prj.src}"/>
 		<property name="help.loc.tgt"    			location="../../${main.dir}/${help.prj.tgt}"/>

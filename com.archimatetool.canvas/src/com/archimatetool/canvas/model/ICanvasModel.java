@@ -5,7 +5,8 @@
  */
 package com.archimatetool.canvas.model;
 
-import uk.ac.bolton.archimate.help.hints.IHelpHintProvider;
+import com.archimatetool.help.hints.IHelpHintProvider;
+
 import uk.ac.bolton.archimate.model.IDiagramModel;
 
 /**

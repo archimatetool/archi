@@ -29,7 +29,7 @@ import org.eclipse.ui.PlatformUI;
 public class DiagramPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage, IPreferenceConstants {
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.prefsDiagram"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
     private Spinner fGridSizeSpinner;
     

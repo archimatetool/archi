@@ -5,13 +5,13 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="uk.ac.bolton.archimate.help.hints.ShowHintsViewHandler"
-            id="uk.ac.bolton.archimate.help.command.showHintsView"
+            defaultHandler="com.archimatetool.help.hints.ShowHintsViewHandler"
+            id="com.archimatetool.help.command.showHintsView"
             name="%command.name">
       </command>
       <command
-            defaultHandler="uk.ac.bolton.archimate.help.hints.ShowCheatSheetsHandler"
-            id="uk.ac.bolton.archimate.help.command.showCheatSheets"
+            defaultHandler="com.archimatetool.help.hints.ShowCheatSheetsHandler"
+            id="com.archimatetool.help.command.showCheatSheets"
             name="%command.name.1">
       </command>
    </extension>
@@ -21,9 +21,9 @@
             allPopups="false"
             locationURI="menu:window?after=show_view_end">
          <command
-               commandId="uk.ac.bolton.archimate.help.command.showHintsView"
+               commandId="com.archimatetool.help.command.showHintsView"
                icon="img/hint-16.png"
-               id="uk.ac.bolton.archimate.help.menuitem.showHintsView"
+               id="com.archimatetool.help.menuitem.showHintsView"
                label="%command.label"
                style="push">
          </command>
@@ -32,9 +32,9 @@
             allPopups="false"
             locationURI="toolbar:toolbar_views?after=end">
          <command
-               commandId="uk.ac.bolton.archimate.help.command.showHintsView"
+               commandId="com.archimatetool.help.command.showHintsView"
                icon="img/hint-16.png"
-               id="uk.ac.bolton.archimate.help.toolbaritem.showHintsView"
+               id="com.archimatetool.help.toolbaritem.showHintsView"
                label="%command.label.0"
                style="push">
          </command>
@@ -43,8 +43,8 @@
             allPopups="false"
             locationURI="menu:help?after=additions">
          <command
-               commandId="uk.ac.bolton.archimate.help.command.showCheatSheets"
-               id="uk.ac.bolton.archimate.help.menuitem.showCheatSheets"
+               commandId="com.archimatetool.help.command.showCheatSheets"
+               id="com.archimatetool.help.menuitem.showCheatSheets"
                label="%command.label.1"
                style="push">
          </command>
@@ -53,9 +53,9 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="uk.ac.bolton.archimate.help.hints.HintsView"
+            class="com.archimatetool.help.hints.HintsView"
             icon="img/hint-16.png"
-            id="uk.ac.bolton.archimate.help.hintsView"
+            id="com.archimatetool.help.hintsView"
             name="%viewHints"
             restorable="true">
       </view>
@@ -65,7 +65,7 @@
       <perspectiveExtension
             targetID="*">
          <view
-               id="uk.ac.bolton.archimate.help.hintsView"
+               id="com.archimatetool.help.hintsView"
                minimized="false"
                relationship="stack"
                relative="org.eclipse.ui.views.ContentOutline">
@@ -75,24 +75,24 @@
    <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
-            id="uk.ac.bolton.archimate.help.cheatsheets"
+            id="com.archimatetool.help.cheatsheets"
             name="Archi Cheat Sheets">
       </category>
       <cheatsheet
-            category="uk.ac.bolton.archimate.help.cheatsheets"
+            category="com.archimatetool.help.cheatsheets"
             composite="false"
             contentFile="cheatsheets/new_model.xml"
-            id="uk.ac.bolton.archimate.help.cheatsheet1"
+            id="com.archimatetool.help.cheatsheet1"
             name="Create a New Model">
          <description>
             Create a new Model
          </description>
       </cheatsheet>
       <cheatsheet
-            category="uk.ac.bolton.archimate.help.cheatsheets"
+            category="com.archimatetool.help.cheatsheets"
             composite="false"
             contentFile="cheatsheets/create_map_view.xml"
-            id="uk.ac.bolton.archimate.help.cheatsheet2"
+            id="com.archimatetool.help.cheatsheet2"
             name="Create a Map View">
          <description>
             Create a Map View
@@ -120,13 +120,13 @@
          point="org.eclipse.ui.bindings">
          <!-- Removed for now - See Bug #3010717 -->
       <!-- key
-            commandId="uk.ac.bolton.archimate.help.action.showHintsView"
-            schemeId="uk.ac.bolton.archimate.editor.keybindings"
+            commandId="com.archimatetool.help.action.showHintsView"
+            schemeId="com.archimatetool.editor.keybindings"
             sequence="M3+4">
       </key -->
    </extension>
    <extension
-         point="uk.ac.bolton.archimate.help.hints">
+         point="com.archimatetool.help.hints">
       <hint
             class="uk.ac.bolton.archimate.model.IBusinessActor"
             file="hints/business_actor.html"
@@ -419,7 +419,7 @@
       </hint>
    </extension>
    <extension
-         point="uk.ac.bolton.archimate.help.hints">
+         point="com.archimatetool.help.hints">
       <hint
             class="uk.ac.bolton.archimate.model.IDiagramModelGroup"
             file="hints/group.html"
@@ -477,7 +477,7 @@
       </hint>
    </extension>
    <extension
-         point="uk.ac.bolton.archimate.help.hints">
+         point="com.archimatetool.help.hints">
       <hint
             class="uk.ac.bolton.archimate.editor.model.viewpoints.ActorCooperationViewpoint"
             file="hints/viewpoint_actorcooperation.html"

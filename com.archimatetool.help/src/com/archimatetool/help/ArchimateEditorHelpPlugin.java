@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package uk.ac.bolton.archimate.help;
+package com.archimatetool.help;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class ArchimateEditorHelpPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "uk.ac.bolton.archimate.help"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.archimatetool.help"; //$NON-NLS-1$
 
     /**
      * The shared instance

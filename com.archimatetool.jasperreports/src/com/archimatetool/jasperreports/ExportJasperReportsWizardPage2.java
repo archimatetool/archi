@@ -40,7 +40,7 @@ import uk.ac.bolton.archimate.editor.utils.PlatformUtils;
  */
 public class ExportJasperReportsWizardPage2 extends WizardPage {
 
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.ExportJasperReportsWizardPage2"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.ExportJasperReportsWizardPage2"; //$NON-NLS-1$
     
     private ComboViewer fComboTemplateViewer;
     

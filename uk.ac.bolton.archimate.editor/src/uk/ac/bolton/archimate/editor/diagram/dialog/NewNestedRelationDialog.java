@@ -50,7 +50,7 @@ import uk.ac.bolton.archimate.model.util.ArchimateModelUtils;
  */
 public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.NewNestedRelationDialog"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.NewNestedRelationDialog"; //$NON-NLS-1$
     
     private TableViewer fTableViewer;
     

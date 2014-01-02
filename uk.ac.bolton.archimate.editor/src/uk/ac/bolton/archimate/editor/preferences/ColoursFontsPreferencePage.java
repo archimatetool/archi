@@ -74,7 +74,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     public static String ID = "uk.ac.bolton.archimate.editor.prefsColoursFonts"; //$NON-NLS-1$
     
-    public static String HELPID = "uk.ac.bolton.archimate.help.prefsColoursFonts"; //$NON-NLS-1$
+    public static String HELPID = "com.archimatetool.help.prefsColoursFonts"; //$NON-NLS-1$
     
     // Cache of objects' colours
     private Hashtable<Object, Color> fColorsCache = new Hashtable<Object, Color>();

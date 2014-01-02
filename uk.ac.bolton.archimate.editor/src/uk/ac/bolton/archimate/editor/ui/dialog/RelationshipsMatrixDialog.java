@@ -54,7 +54,7 @@ import uk.ac.bolton.archimate.model.util.RelationshipsMatrix.TargetMatrix;
  */
 public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.RelationshipsMatrixDialog"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.RelationshipsMatrixDialog"; //$NON-NLS-1$
     
     private List<EClass> fAllClasses;
     

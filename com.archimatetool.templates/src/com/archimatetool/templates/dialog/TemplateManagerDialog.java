@@ -58,7 +58,7 @@ import uk.ac.bolton.archimate.editor.utils.StringUtils;
  */
 public class TemplateManagerDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.TemplateManagerDialog"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.TemplateManagerDialog"; //$NON-NLS-1$
 
     protected TemplatesTableViewer fTableViewer;
     protected TemplatesTreeViewer fTreeViewer;

@@ -20,8 +20,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.model.IHintProvider;
+import com.archimatetool.help.hints.IHelpHintProvider;
 
-import uk.ac.bolton.archimate.help.hints.IHelpHintProvider;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 import uk.ac.bolton.archimate.model.IBorderObject;
 import uk.ac.bolton.archimate.model.IDiagramModelContainer;

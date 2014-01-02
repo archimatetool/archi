@@ -14,8 +14,8 @@
       </description>
       <action
       		required="false"
-      		pluginId="uk.ac.bolton.archimate.help"
-      		class="uk.ac.bolton.archimate.help.cheatsheets.ShowViewCheatSheetAction" 
+      		pluginId="com.archimatetool.help"
+      		class="com.archimatetool.help.cheatsheets.ShowViewCheatSheetAction" 
             param1="uk.ac.bolton.archimate.editor.treeModelView"/>
             
    </item>

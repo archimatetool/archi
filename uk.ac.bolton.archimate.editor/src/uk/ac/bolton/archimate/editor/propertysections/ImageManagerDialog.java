@@ -70,7 +70,7 @@ import uk.ac.bolton.archimate.model.INameable;
  */
 public class ImageManagerDialog extends ExtendedTitleAreaDialog {
     
-    private static String HELP_ID = "uk.ac.bolton.archimate.help.ImageManagerDialog"; //$NON-NLS-1$
+    private static String HELP_ID = "com.archimatetool.help.ImageManagerDialog"; //$NON-NLS-1$
     
     protected static final String OPEN = Messages.ImageManagerDialog_0;
     
