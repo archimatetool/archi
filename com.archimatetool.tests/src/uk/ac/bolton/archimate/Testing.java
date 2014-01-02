@@ -20,7 +20,7 @@ public class Testing {
     /**
      * Temporary folder
      */
-    public static final String TESTS_TEMP_FOLDER = "uk.ac.bolton.tests.tmp"; //$NON-NLS-1$
+    public static final String TESTS_TEMP_FOLDER = "com.archimatetool.tests.tmp"; //$NON-NLS-1$
     
     /**
      * Test Folder in Temp dir
@@ -29,7 +29,7 @@ public class Testing {
     
     public static File TESTDATA_FOLDER = new File("testdata"); //$NON-NLS-1$
     
-    public static File TEST_MODEL_FILE = new File(TESTDATA_FOLDER, "Archisurance.archimate");
+    public static File TEST_MODEL_FILE = new File(TESTDATA_FOLDER, "Archisurance.archimate"); //$NON-NLS-1$
 
     
     /**

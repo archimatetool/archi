@@ -30,6 +30,7 @@ import uk.ac.bolton.archimate.model.IArchimateModel;
 import uk.ac.bolton.archimate.model.IArchimatePackage;
 
 
+@SuppressWarnings("nls")
 public class EditorModelManagerTests {
     
     public static junit.framework.Test suite() {
