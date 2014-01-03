@@ -2,7 +2,7 @@
 <!DOCTYPE jasperTemplate PUBLIC "-//JasperReports//DTD Template//EN" "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
 
 <jasperTemplate>
-	<style name="Normal" fontName="SansSerif" fontSize="12"/>
+	<style name="Normal" fontName="DejaVu Sans" fontSize="12"/>
 	<style name="Bold" style="Normal" isBold="true"/>
 	<style name="Title" style="Normal" fontSize="22"/>
 	<style name="Page footer" style="Normal" forecolor="#666666" fontSize="8"/>
