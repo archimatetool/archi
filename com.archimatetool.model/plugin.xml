@@ -12,6 +12,11 @@
       <package
             class="com.archimatetool.model.IArchimatePackage"
             genModel="model/archimate.genmodel"
+            uri="http://www.archimatetool.com/archimate">
+      </package>
+      <package
+            class="com.archimatetool.model.IArchimatePackage"
+            genModel="model/archimate.genmodel"
             uri="http://www.bolton.ac.uk/archimate">
       </package>
       <package

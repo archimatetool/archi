@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.bolton.ac.uk/archimate" name="Open Day" id="45a9ac5f" version="2.1.0">
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="Open Day" id="45a9ac5f" version="2.6.0">
   <folder name="Business" id="dbb73006" type="business">
     <element xsi:type="archimate:BusinessEvent" id="44e2d629" name="2 months prior to open day"/>
     <element xsi:type="archimate:BusinessProcess" id="b44eba60" name="Open Day Planning"/>

@@ -12,6 +12,7 @@ package com.archimatetool.model;
  * show down. Example, folders were introduced in version 1.3 of Archi but won't open on Archi 1.2.<p>
  * 
  * Note - THIS IS THE VERSION OF THE MODEL, NOT ARCHI.
+ * Although as from 2.6.0 I will try to keep the version number the same as Archi.
  * Only need to change the version number if there are changes that affect backwards compatibility.<p>
  * 
  * History:<br>
@@ -30,9 +31,10 @@ package com.archimatetool.model;
  * 2.2.0 - ArchiMate 2.0 elements.
  * 2.2.1 - Sketch Model Background attribute
  * 2.3.0 - Add ILineObject - implemented in IDiagramModelObject and IDiagramModelConnection
+ * 2.6.0 - Add new model namespace URIs
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "2.3.0"; //$NON-NLS-1$
+    String VERSION = "2.6.0"; //$NON-NLS-1$
 }

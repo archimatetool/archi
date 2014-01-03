@@ -42,7 +42,7 @@ public interface IArchimatePackage extends EPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    String eNS_URI = "http://www.bolton.ac.uk/archimate"; //$NON-NLS-1$
+    String eNS_URI = "http://www.archimatetool.com/archimate"; //$NON-NLS-1$
 
     /**
      * The package namespace name.

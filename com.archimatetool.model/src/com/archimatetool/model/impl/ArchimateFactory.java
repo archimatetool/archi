@@ -106,7 +106,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      */
     public static IArchimateFactory init() {
         try {
-            IArchimateFactory theArchimateFactory = (IArchimateFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.bolton.ac.uk/archimate"); //$NON-NLS-1$ 
+            IArchimateFactory theArchimateFactory = (IArchimateFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.archimatetool.com/archimate"); //$NON-NLS-1$ 
             if (theArchimateFactory != null) {
                 return theArchimateFactory;
             }

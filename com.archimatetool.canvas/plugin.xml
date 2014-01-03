@@ -17,6 +17,11 @@
       <package
             class="com.archimatetool.canvas.model.ICanvasPackage"
             genModel="model/canvas.genmodel"
+            uri="http://www.archimatetool.com/archimate/canvas">
+      </package>
+      <package
+            class="com.archimatetool.canvas.model.ICanvasPackage"
+            genModel="model/canvas.genmodel"
             uri="http://www.bolton.ac.uk/archimate/canvas">
       </package>
    </extension>
