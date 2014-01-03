@@ -191,8 +191,8 @@
 	<target name="create_archi_project">
 		<mkdir dir="${loc.tgt}/nl"/>
 		
-		<copy todir="${loc.tgt}" file="${project.dir}/.project" overwrite="true" />
-		<copy todir="${loc.tgt}" file="${project.dir}/.classpath" overwrite="true" />
+		<copy tofile="${loc.tgt}/.project" file="${project.dir}/project" overwrite="true" />
+		<copy tofile="${loc.tgt}/.classpath" file="${project.dir}/classpath" overwrite="true" />
 		<copy todir="${loc.tgt}" file="${project.dir}/build.properties" overwrite="true" />
 		<copy todir="${loc.tgt}/META-INF" file="${project.dir}/MANIFEST.MF" overwrite="true" />
 		
