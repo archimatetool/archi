@@ -14,7 +14,7 @@ import com.archimatetool.model.IArchimateElement;
  * @author Phillip Beauvoir
  */
 public interface IArchimateDiagramEditor extends IDiagramModelEditor {
-    String ID = "uk.ac.bolton.editor.diagramEditor"; //$NON-NLS-1$
+    String ID = "uk.ac.bolton.archimate.editor.diagramEditor"; //$NON-NLS-1$
     String HELP_ID = "com.archimatetool.help.diagramEditorHelp"; //$NON-NLS-1$
     String PALETTE_HELP_ID = "com.archimatetool.help.diagramEditorPaletteHelp"; //$NON-NLS-1$
     

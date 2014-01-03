@@ -14,7 +14,7 @@ import com.archimatetool.editor.views.IModelView;
  * @author Phillip Beauvoir
  */
 public interface IZestView extends IModelView {
-    String ID = ArchimateZestPlugin.PLUGIN_ID + ".zestView"; //$NON-NLS-1$
+    String ID = "uk.ac.bolton.archimate.zest.zestView"; //$NON-NLS-1$
     String HELP_ID = "com.archimatetool.help.zestViewHelp"; //$NON-NLS-1$
     String NAME = Messages.IZestView_0;
 }

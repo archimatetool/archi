@@ -100,7 +100,7 @@
             contributorClass="com.archimatetool.editor.diagram.ArchimateDiagramEditorActionBarContributor"
             default="false"
             icon="img/diagram-16.png"
-            id="uk.ac.bolton.editor.diagramEditor"
+            id="uk.ac.bolton.archimate.editor.diagramEditor"
             name="%editorDiagram">
       </editor>
       <editor
@@ -108,7 +108,7 @@
             contributorClass="com.archimatetool.editor.diagram.sketch.SketchEditorActionBarContributor"
             default="false"
             icon="img/sketch-16.png"
-            id="uk.ac.bolton.editor.sketchEditor"
+            id="uk.ac.bolton.archimate.editor.sketchEditor"
             name="%editorSketch">
       </editor>
    </extension>

@@ -212,7 +212,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
          * Need to do this otherwise we get a:
          * 
          * "java.lang.RuntimeException: WARNING: Prevented recursive attempt to activate part org.eclipse.ui.views.PropertySheet
-         * while still in the middle of activating part com.archimatetool.help.hintsView"
+         * while still in the middle of activating part *.hintsView"
          * 
          * But on Windows this leads to a SWTException if closing this View by shortcut key (Alt-4)
          */

@@ -14,7 +14,7 @@ import com.archimatetool.editor.diagram.IDiagramModelEditor;
  * @author Phillip Beauvoir
  */
 public interface ISketchEditor extends IDiagramModelEditor {
-    String ID = "uk.ac.bolton.editor.sketchEditor"; //$NON-NLS-1$
+    String ID = "uk.ac.bolton.archimate.editor.sketchEditor"; //$NON-NLS-1$
     String HELP_ID = "com.archimatetool.help.sketchEditorHelp"; //$NON-NLS-1$
     
     void updateBackgroundImage();

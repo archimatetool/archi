@@ -8,7 +8,7 @@
             contributorClass="com.archimatetool.canvas.CanvasEditorActionBarContributor"
             default="false"
             icon="img/canvas-16.png"
-            id="com.archimatetool.canvas.canvasEditor"
+            id="uk.ac.bolton.archimate.canvas.canvasEditor"
             name="%editorCanvas">
       </editor>
    </extension>

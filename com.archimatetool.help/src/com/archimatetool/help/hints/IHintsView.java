@@ -17,7 +17,7 @@ import com.archimatetool.help.ArchimateEditorHelpPlugin;
  */
 public interface IHintsView extends IViewPart {
 
-    String ID = ArchimateEditorHelpPlugin.PLUGIN_ID + ".hintsView"; //$NON-NLS-1$
+    String ID = "uk.ac.bolton.archimate.help.hintsView"; //$NON-NLS-1$
     String HELP_ID = ArchimateEditorHelpPlugin.PLUGIN_ID + ".hintsViewHelp"; //$NON-NLS-1$
     String NAME = Messages.IHintsView_0;
     
