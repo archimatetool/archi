@@ -12,15 +12,15 @@ Version 2.6 January XX 2014
 + Improved functionality for saving user default colours in the model file
 + Improved Format Painter - can copy between connections and objects
 + Improved controls in Property | Appearance section
-+ Connection bend-points can now snap to grid (provided by Jaiguru)
-+ Connections can now use rounded curves (provided by Jaiguru)
-+ Connections can now use line jumps (provided by Jaiguru)
++ Connection bend-points can now snap to grid (provided by Jean-Baptiste Sarrodie)
++ Connections can now use rounded curves (provided by Jean-Baptiste Sarrodie)
++ Connections can now use line jumps (provided by Jean-Baptiste Sarrodie)
 + Improved connection anchors on some figures (rounded rectangles)
-+ Relationship rules have been updated to comply with ArchiMate 2.1 (provided by Jaiguru)
++ Relationship rules have been updated to comply with ArchiMate 2.1 (provided by Jean-Baptiste Sarrodie)
 + Added "Check for New Version" menu item to Help menu
-+ Can now add custom Jasper Reports to "reports" folder in Archi user directory (provided by Jaiguru)
-+ New Jasper Report "Customizable Report" added (provided by Jaiguru)
-+ New Template for "Customizable Report" added (provided by Jaiguru)
++ Can now add custom Jasper Reports to "reports" folder in Archi user directory (provided by Jean-Baptiste Sarrodie)
++ New Jasper Report "Customizable Report" added (provided by Jean-Baptiste Sarrodie)
++ New Template for "Customizable Report" added (provided by Jean-Baptiste Sarrodie)
 
 
 
@@ -40,7 +40,7 @@ Version 2.4.1 November 18 2013
 + The Java version shipped with the Windows installer is now version 1.7.0_45
 + New Innno Setup Installer for Windows version
 * Fixed a bug where drag and dropping a folder in the model tree could orphan diagram elements
-* Fixed connection label not located properly when in parent figure (fix by Jaiguru)
+* Fixed connection label not located properly when in parent figure (fix by Jean-Baptiste Sarrodie)
 * Relationship rules changed:
   Application Interface -> Business Service: "iou" (was "ou")
   Node -> Node: "acfgostu" (was "cfgostu")
