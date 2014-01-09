@@ -2,7 +2,7 @@ Archi Changes
 -------------
 
 
-Version 2.6 January XX 2014
+Version 2.6 January 09 2014
 ---------------------------
 + Can now set line colour of diagram elements to user colour or derived from fill colour
 + Added new user default colour preferences for line colours, group and note fill colours
