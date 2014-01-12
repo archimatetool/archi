@@ -35,8 +35,7 @@ public class ViewManager {
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         IViewPart viewPart = null;
         try {
-            // viewPart = page.showView(viewID, null, activate ? IWorkbenchPage.VIEW_ACTIVATE : IWorkbenchPage.VIEW_VISIBLE);
-            viewPart = page.showView(viewID);
+            viewPart = page.showView(viewID, null, activate ? IWorkbenchPage.VIEW_ACTIVATE : IWorkbenchPage.VIEW_VISIBLE);
         }
         catch(PartInitException ex) {
             ex.printStackTrace();

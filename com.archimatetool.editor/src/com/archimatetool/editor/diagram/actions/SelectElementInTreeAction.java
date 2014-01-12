@@ -57,7 +57,7 @@ public class SelectElementInTreeAction extends SelectionAction {
             }
         }
         
-        ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, false);
+        ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, true);
         if(view != null) {
             view.getViewer().setSelection(new StructuredSelection(elements), true);
         }
