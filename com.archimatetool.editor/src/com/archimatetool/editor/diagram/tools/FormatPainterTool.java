@@ -20,6 +20,7 @@ import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -135,7 +136,13 @@ public class FormatPainterTool extends AbstractTool {
             IDiagramModelObject source = (IDiagramModelObject)pf.getSourceComponent();
             IDiagramModelObject target = (IDiagramModelObject)targetComponent;
             
-            Command cmd = new FillColorCommand(target, source.getFillColor());
+            // Source fill colour is null which is "default"
+            String fillColorString = source.getFillColor();
+            if(fillColorString == null) {
+                fillColorString = ColorFactory.convertColorToString(ColorFactory.getDefaultFillColor(source));
+            }
+            
+            Command cmd = new FillColorCommand(target, fillColorString);
             if(cmd.canExecute()) {
                 result.add(cmd);
             }

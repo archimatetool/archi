@@ -72,10 +72,6 @@ public class FormatPainterInfo {
             return sourceComponent;
         }
         
-        public IDiagramModelComponent getFillColor() {
-            return sourceComponent;
-        }
-                
         public RGB getCursorColor() {
             return cursorColor;
         }

@@ -2,6 +2,12 @@ Archi Changes
 -------------
 
 
+Version xxx
+-----------
+* Fixed Format Painter not applying fill colour if it was the "default" fill colour
+
+
+
 Version 2.6 January 09 2014
 ---------------------------
 + Can now set line colour of diagram elements to user colour or derived from fill colour
