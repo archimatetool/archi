@@ -6,6 +6,7 @@
 package com.archimatetool.editor;
 
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -61,4 +62,12 @@ extends WorkbenchAdvisor
 		return MainPerspective.ID;
 	}
 	
+    @Override
+    public void eventLoopIdle(Display display) {
+        // See if the user has opened files from the Desktop
+        // See http://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2Fproduct_open_file.htm
+        OpenDocumentHandler.getInstance().openQueuedFiles();
+        super.eventLoopIdle(display);
+    }
+    
 }

@@ -56,15 +56,20 @@ implements IApplication {
 	    // Create Main Display
 	    Display display = PlatformUI.createDisplay();
 	    
-	    // Tell the Launcher if needed (Mac)
+	    // Tell the Launcher that the display has been created
 	    if(launcher != null) {
 	        launcher.displayCreated(display);
 	    }
+	    
+	    // Hook into opening documents from the desktop
+	    OpenDocumentHandler.getInstance().hook(display);
 	    	    
 	    try {
-	        int code = PlatformUI.createAndRunWorkbench(display, new ArchimateEditorWorkbenchAdvisor());
-	        // Exit the application with an appropriate return code
-	        return code == PlatformUI.RETURN_RESTART ? EXIT_RESTART : EXIT_OK;
+	        int returnCode = PlatformUI.createAndRunWorkbench(display, new ArchimateEditorWorkbenchAdvisor());
+	        if(returnCode == PlatformUI.RETURN_RESTART) {
+                return EXIT_RESTART;
+            }
+	        return EXIT_OK;
 	    }
 	    finally {
 	        display.dispose();
