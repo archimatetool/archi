@@ -3,8 +3,9 @@ Archi Changes
 
 
 Version xxx
------------
+---------------------------
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
++ Windows Zip installation: added batch files to associate *.archimate files with Archi
 * Fixed Format Painter not applying fill colour if it was the "default" fill colour
 
 
