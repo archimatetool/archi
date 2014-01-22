@@ -25,8 +25,6 @@ import com.archimatetool.editor.Logger;
  */
 public class WindowState {
     public static final String K_PRIMARY_WINDOW = "PRIMARY_WINDOW"; //$NON-NLS-1$
-    public static final String K_OPENING_FILE = "OPENING_FILE"; //$NON-NLS-1$
-    public static final String OPENING = ".opening"; //$NON-NLS-1$
     public static final String WINDOW = ".window"; //$NON-NLS-1$
     
     private File file;

@@ -10,13 +10,13 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.IPlatformLauncher;
 import com.archimatetool.editor.model.IEditorModelManager;
 
 
@@ -24,71 +24,75 @@ public class PlatformLauncher implements IPlatformLauncher {
 
     @Override
     public void startup() {
-        logOpenFile();
     }
 
     @Override
-    public void displayCreated(Display display) {
+    public void displayCreated(final Display display) {
+        /*
+         * Add a listener to the main Display to monitor *.archimate files opened from the desktop.
+         * This will work on first application launch and thereafter.
+         */
+        display.addListener(SWT.OpenDocument, new Listener() {
+            public void handleEvent(Event paramEvent) {
+                if(!PlatformUI.isWorkbenchRunning()) {
+                    return;
+                }
+                
+                String str = paramEvent.text;
+
+                File localFile = new File(str);
+                try {
+                    str = localFile.getCanonicalPath();
+                }
+                catch(Exception ex) {
+                    str = localFile.getAbsolutePath();
+                }
+
+                final File file = new File(str);
+                
+                if(file.exists() && file.isFile()) {
+                    IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+
+                    // If the WorkbenchWindow has been created
+                    if(window != null) {
+                        // Restore the Shell even if we have the file open in case it is minimised
+                        window.getShell().setMinimized(false);
+
+                        // Force app to be active shell
+                        window.getShell().forceActive();
+                        
+                        // If user has a modal dialog open don't bother
+                        if(display.getActiveShell() != window.getShell()) {
+                            return;
+                        }
+                        
+                        // Open the file *not* on a thread
+                        display.syncExec(new Runnable() {
+                            public void run() {
+                                if(!IEditorModelManager.INSTANCE.isModelLoaded(file)) {
+                                    IEditorModelManager.INSTANCE.openModel(file);
+                                }
+                            };
+                        });
+                    }
+                    // Workbench not created, App is being launched from *.archimate file on desktop
+                    else {
+                        // Open the file *on* a thread so the Workbench can have time to open and then open any diagrams if set in Prefs
+                        display.asyncExec(new Runnable() {
+                            public void run() {
+                                if(!IEditorModelManager.INSTANCE.isModelLoaded(file)) {
+                                    IEditorModelManager.INSTANCE.openModel(file);
+                                }
+                            };
+                        });
+                    }                    
+                }
+            }
+        });
     }
 
     @Override
     public void postWindowOpen(IWorkbenchWindow window) {
-        /*
-         * See if there is a file to open that user opened from desktop
-         */
-        checkOpenFile();
-
-        /*
-         * When window is activated check if it was activated by opening from
-         * desktop file - notifyOpenedWindow()
-         */
-        if(window != null) {
-            Shell shell = window.getShell();
-            if(shell != null && !shell.isDisposed()) {
-                shell.addShellListener(new ShellAdapter() {
-
-                    @Override
-                    public void shellActivated(ShellEvent e) {
-                        checkOpenFile();
-                    }
-                });
-            }
-        }
-    }
-
-    /**
-     * Log the file the user launched to a temp file
-     */
-    private void logOpenFile() {
-        String[] args = Platform.getApplicationArgs();
-        if(args != null && args.length > 0) {
-            File file = new File(args[0]);
-            if(file.isFile()) {
-                WindowState state = WindowState.get(WindowState.OPENING);
-                state.getProperties().setProperty(WindowState.K_OPENING_FILE, file.toString());
-                state.saveProperties();
-            }
-        }
-    }
-
-    /**
-     * Open any user launched file
-     */
-    private void checkOpenFile() {
-        WindowState state = WindowState.get(WindowState.OPENING);
-        if(state.exists()) {
-            String s = state.getProperties().getProperty(WindowState.K_OPENING_FILE);
-            
-            // Delete this now before opening model, otherwise we might activate again
-            state.delete();
-            
-            if(s != null) {
-                File file = new File(s);
-                if(file.isFile() && !IEditorModelManager.INSTANCE.isModelLoaded(file)) {
-                    IEditorModelManager.INSTANCE.openModel(file);
-                }
-            }
-        }
     }
 
     @Override

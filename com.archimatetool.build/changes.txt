@@ -4,6 +4,7 @@ Archi Changes
 
 Version xxx
 -----------
++ Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 * Fixed Format Painter not applying fill colour if it was the "default" fill colour
 
 
