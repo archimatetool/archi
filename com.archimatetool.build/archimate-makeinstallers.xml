@@ -72,11 +72,18 @@
         <!-- copy extras -->
         <antcall target="copy_extra_files"/>
         
-    	<!-- copy our .ini files over -->
+    	<!-- copy the .ini files over -->
         <copy file="${src.dir}/branding/windows/Archi.ini" tofile="${tmp.dir}/Archi32.ini" overwrite="true"/>
         <copy file="${src.dir}/branding/windows/Archi.ini" tofile="${tmp.dir}/Archi64.ini" overwrite="true"/>
 
-        <!-- copy 32-bit build -->
+    	<!-- copy the .bat files over -->
+		<copy todir="${tmp.dir}" >
+			<fileset dir="${src.dir}/branding/windows">
+				<include name="**/*.bat"/>
+			</fileset>
+		</copy>
+    	
+    	<!-- copy 32-bit build -->
 		<copy todir="${tmp.dir}" >
 			<fileset dir="${output_win32.dir}"/>
 		</copy>
