@@ -1,8 +1,7 @@
-@REM Read the ReadMe.txt file.
-@REM THis batch file adds Windows Registry entries to associate *.archimate file types to Archi.
-@REM This batch file needs to be in the same directory as the Archi.exe file and you need to rename
-@REM Archi32.exe or Archi64.exe to Archi.exe and Archi32.ini or Archi64.ini to Archi.ini.
-@REM Note: *.archimate desktop icons will not show until you logout and log back in, or restart.
+
+@REM Please read the ReadMe.txt file before running this batch file.
+
+@REM This batch file adds Windows Registry entries to associate *.archimate file types to Archi.exe.
 @REM You need to right-click on this batch file and "Run as administrator".
 
 set APP_PATH=%~dp0Archi.exe
