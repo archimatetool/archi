@@ -76,10 +76,11 @@
         <copy file="${src.dir}/branding/windows/Archi.ini" tofile="${tmp.dir}/Archi32.ini" overwrite="true"/>
         <copy file="${src.dir}/branding/windows/Archi.ini" tofile="${tmp.dir}/Archi64.ini" overwrite="true"/>
 
-    	<!-- copy the .bat files over -->
+    	<!-- copy the .bat and .txt files over -->
 		<copy todir="${tmp.dir}" >
 			<fileset dir="${src.dir}/branding/windows">
 				<include name="**/*.bat"/>
+				<include name="**/*txt"/>
 			</fileset>
 		</copy>
     	
