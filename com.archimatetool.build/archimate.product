@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="%appName" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" useFeatures="false" includeLaunchers="true">
+<product name="Archi" uid="com.archimatool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="2.6.0" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.archimatetool.editor/img/app-128.png"/>
@@ -33,6 +33,7 @@
 
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="com.archimatetool.canvas"/>

@@ -8,7 +8,7 @@
    <extension-point id="compatibilityHandler" name="Model Compatibility Handler" schema="schema/compatibilityHandler.exsd"/>
    <extension
          id="app"
-         name="%appName"
+         name="Archi"
          point="org.eclipse.core.runtime.applications">
       <application
             cardinality="singleton-global"
@@ -23,10 +23,10 @@
 	<extension point="org.eclipse.core.runtime.products" id="product">
 		<product
         application="com.archimatetool.editor.app"
-        name="%appName">
+        name="Archi">
      <property
            name="appName"
-           value="%appName"/>
+           value="Archi"/>
      <property
            name="aboutText"
            value="%aboutText"/>
