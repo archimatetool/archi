@@ -17,7 +17,7 @@ import com.archimatetool.editor.diagram.commands.BendpointCommand;
 import com.archimatetool.editor.diagram.commands.CreateBendpointCommand;
 import com.archimatetool.editor.diagram.commands.DeleteBendpointCommand;
 import com.archimatetool.editor.diagram.commands.MoveBendpointCommand;
-import com.archimatetool.editor.diagram.policies.snaptogrid.BendpointEditPolicy;
+import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedBendpointEditPolicy;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -26,7 +26,7 @@ import com.archimatetool.model.IDiagramModelConnection;
  * 
  * @author Phillip Beauvoir
  */
-public class ManualBendpointEditPolicy extends BendpointEditPolicy {
+public class ManualBendpointEditPolicy extends ExtendedBendpointEditPolicy {
 
     @Override
     protected Command getCreateBendpointCommand(BendpointRequest request) {

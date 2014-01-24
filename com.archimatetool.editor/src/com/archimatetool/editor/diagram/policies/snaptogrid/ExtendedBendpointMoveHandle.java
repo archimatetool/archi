@@ -3,8 +3,8 @@ package com.archimatetool.editor.diagram.policies.snaptogrid;
 /**
  * snap-to-grid patch by Jean-Baptiste Sarrodie (aka Jaiguru)
  * 
- * This class has been fully copied/pasted to allow overriding
- * of classe ConnectionBendpointTracker
+ * This class has been extended to allow overriding
+ * of class ExtendedConnectionBendpointTracker
  */
 
 /*******************************************************************************
@@ -21,12 +21,10 @@ package com.archimatetool.editor.diagram.policies.snaptogrid;
 
 import org.eclipse.draw2d.BendpointLocator;
 import org.eclipse.draw2d.Locator;
-
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.SharedCursors;
-import org.eclipse.gef.handles.BendpointHandle;
+import org.eclipse.gef.handles.BendpointMoveHandle;
 // snap-to-grid patch
 // Use alternate ConnectionBendpointTracker 
 //import org.eclipse.gef.tools.ConnectionBendpointTracker;
@@ -34,17 +32,12 @@ import org.eclipse.gef.handles.BendpointHandle;
 /**
  * A BendpointHandle that is used to move an existing bendpoint.
  */
-@SuppressWarnings("all")
-public class BendpointMoveHandle extends BendpointHandle {
-
-	{
-		setCursor(SharedCursors.SIZEALL);
-	}
+public class ExtendedBendpointMoveHandle extends BendpointMoveHandle {
 
 	/**
 	 * Creates a new BendpointMoveHandle.
 	 */
-	public BendpointMoveHandle() {
+	public ExtendedBendpointMoveHandle() {
 	}
 
 	/**
@@ -57,10 +50,8 @@ public class BendpointMoveHandle extends BendpointHandle {
 	 * @param index
 	 *            the index
 	 */
-	public BendpointMoveHandle(ConnectionEditPart owner, int index) {
-		setOwner(owner);
-		setIndex(index);
-		setLocator(new BendpointLocator(getConnection(), index + 1));
+	public ExtendedBendpointMoveHandle(ConnectionEditPart owner, int index) {
+	    super(owner, index);
 	}
 
 	/**
@@ -75,11 +66,8 @@ public class BendpointMoveHandle extends BendpointHandle {
 	 * @param locatorIndex
 	 *            the index to use for the locator
 	 */
-	public BendpointMoveHandle(ConnectionEditPart owner, int index,
-			int locatorIndex) {
-		setOwner(owner);
-		setIndex(index);
-		setLocator(new BendpointLocator(getConnection(), locatorIndex));
+	public ExtendedBendpointMoveHandle(ConnectionEditPart owner, int index, int locatorIndex) {
+	    super(owner, index, locatorIndex);
 	}
 
 	/**
@@ -94,22 +82,18 @@ public class BendpointMoveHandle extends BendpointHandle {
 	 * @param locator
 	 *            the Locator
 	 */
-	public BendpointMoveHandle(ConnectionEditPart owner, int index,
-			Locator locator) {
-		setOwner(owner);
-		setIndex(index);
-		setLocator(locator);
+	public ExtendedBendpointMoveHandle(ConnectionEditPart owner, int index, Locator locator) {
+	    super(owner, index, locator);
 	}
 
 	/**
-	 * Creates and returns a new {@link ConnectionBendpointTracker}.
+	 * Creates and returns a new {@link ExtendedConnectionBendpointTracker}.
 	 * 
 	 * @return the new ConnectionBendpointTracker
 	 */
-	protected DragTracker createDragTracker() {
-		ConnectionBendpointTracker tracker;
-		tracker = new ConnectionBendpointTracker(
-				(ConnectionEditPart) getOwner(), getIndex());
+	@Override
+    protected DragTracker createDragTracker() {
+		ExtendedConnectionBendpointTracker tracker = new ExtendedConnectionBendpointTracker((ConnectionEditPart) getOwner(), getIndex());
 		tracker.setType(RequestConstants.REQ_MOVE_BENDPOINT);
 		tracker.setDefaultCursor(getCursor());
 		return tracker;

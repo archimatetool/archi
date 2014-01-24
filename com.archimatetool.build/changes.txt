@@ -4,6 +4,7 @@ Archi Changes
 
 Version xxx
 ---------------------------
++ Connection bend-points - added a key modifier for ignoring snap to grid while dragging (Alt key or Ctrl key on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + Windows Zip installation: added batch files to associate *.archimate files with Archi
 * Fixed Format Painter not applying fill colour if it was the "default" fill colour
