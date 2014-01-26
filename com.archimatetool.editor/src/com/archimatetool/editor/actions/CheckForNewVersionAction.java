@@ -12,7 +12,6 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Dictionary;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -21,7 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.Application;
 
 
 
@@ -59,8 +58,8 @@ public class CheckForNewVersionAction extends Action {
             
             String newVersion = s.toString();
             
-            Dictionary<String, String> dict = ArchimateEditorPlugin.INSTANCE.getBundle().getHeaders();
-            String thisVersion = dict.get("Bundle-Version"); //$NON-NLS-1$
+            // Get this app's main version number
+            String thisVersion = System.getProperty(Application.APPLICATION_BUILDID);
             thisVersion = thisVersion.substring(0, 5);
             
             if(newVersion.compareTo(thisVersion) > 0) {
