@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimate.editor.utils;
+package com.archimatetool.editor.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimate.Testing;
+import com.archimatetool.Testing;
 import com.archimatetool.editor.utils.FileUtils;
 
 
