@@ -185,7 +185,8 @@ public class TreeModelViewerDragDropHandler {
         if(isLocalTreeDragOperation(event.currentDataType)) {
             Object parent = getTargetParent(event);
             if(parent instanceof IFolder) {
-                moveTreeObjects((IFolder)parent);
+                IStructuredSelection selection = (IStructuredSelection)LocalSelectionTransfer.getTransfer().getSelection();
+                moveTreeObjects((IFolder)parent, selection.toArray());
             }
         }
         // File
@@ -213,7 +214,7 @@ public class TreeModelViewerDragDropHandler {
     /**
      * Move Tree Objects
      */
-    private void moveTreeObjects(IFolder newParent) {
+    private void moveTreeObjects(IFolder newParent, Object[] objects) {
         final CompoundCommand compoundCommand = new NonNotifyingCompoundCommand() {
             @Override
             public String getLabel() {
@@ -221,8 +222,7 @@ public class TreeModelViewerDragDropHandler {
             }
         };
         
-        IStructuredSelection selection = (IStructuredSelection)LocalSelectionTransfer.getTransfer().getSelection();
-        for(Object object : selection.toArray()) {
+        for(Object object :objects) {
             if(object instanceof IFolder) { // This first - folders go in folders
                 if(!newParent.getFolders().contains(object)) {
                     compoundCommand.add(new MoveFolderCommand(newParent, (IFolder)object));
