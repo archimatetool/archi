@@ -54,7 +54,7 @@ implements IPreferenceConstants {
         store.setDefault(PALETTE_STATE, true);
 
         store.setDefault(ANIMATE_MAGIC_CONNECTOR, true);
-        store.setDefault(MAGIC_CONNECTOR_POLARITY, true);
+        store.setDefault(MAGIC_CONNECTOR_POLARITY, false);
         
         store.setDefault(ALLOW_CIRCULAR_CONNECTIONS, false);
 
