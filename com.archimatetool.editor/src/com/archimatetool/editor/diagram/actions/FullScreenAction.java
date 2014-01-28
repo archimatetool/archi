@@ -38,6 +38,7 @@ import com.archimatetool.editor.diagram.FloatingPalette;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -81,7 +82,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         public void keyPressed(KeyEvent e) {
             // Escape pressed, close this Shell
             if(e.keyCode == SWT.ESC) {
-                e.doit = false; // Stop OS X Lion receiving this for its Full Screen
+                e.doit = false; // Consume key press
                 close();
             }
             
@@ -172,8 +173,8 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().addKeyListener(keyListener);
 
         // Create new Shell
-        // SWT.SHELL_TRIM is best option for all platforms. GTK needs it for a full-size shell
-        int style = SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
+        // SWT.SHELL_TRIM is needed for GTK for a full-size shell (tested on Ubuntu)
+        int style = PlatformUtils.isWindows() ? SWT.APPLICATION_MODAL : SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
         fNewShell = new Shell(Display.getCurrent(), style); 
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
@@ -199,9 +200,6 @@ public class FullScreenAction extends WorkbenchPartAction {
             fFloatingPalette.open();
         }
         
-        // Hide the old Shell
-        fOldParent.getShell().setVisible(false);
-        
         // Listen to Parts being closed
         getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
         
@@ -222,14 +220,13 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().setParent(fOldParent);
         fOldParent.layout();
         
-        fNewShell.dispose();
-        
         // Reset Property
         fGraphicalViewer.setProperty("full_screen", null); //$NON-NLS-1$
 
-        // Visible & Focus
-        fOldParent.getShell().setVisible(true);
+        // Focus
         getWorkbenchPart().getSite().getWorkbenchWindow().getShell().setFocus();
+
+        fNewShell.dispose(); // Doing this last fixes a redraw issue on Windows e4 (toolbar gets munged)
     }
 
     /**
