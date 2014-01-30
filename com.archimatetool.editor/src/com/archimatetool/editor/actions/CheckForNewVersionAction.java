@@ -41,7 +41,7 @@ public class CheckForNewVersionAction extends Action {
         HttpURLConnection connection = null;
 
         try {
-            url = new URL("http://www.archimatetool.com/download/version.txt"); //$NON-NLS-1$
+            url = new URL("http://www.archimatetool.com/archi-version.txt"); //$NON-NLS-1$
             connection = (HttpURLConnection)url.openConnection();
             connection.connect();
             InputStream is = connection.getInputStream();
@@ -72,7 +72,7 @@ public class CheckForNewVersionAction extends Action {
                     IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
                     IWebBrowser browser = support.getExternalBrowser();
                     if(browser != null) {
-                        URL url2 = new URL("http://www.archimatetool.com/download.html"); //$NON-NLS-1$
+                        URL url2 = new URL("http://www.archimatetool.com/download"); //$NON-NLS-1$
                         browser.openURL(url2);
                     }
                 }
