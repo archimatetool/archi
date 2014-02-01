@@ -18,8 +18,8 @@
 	<target name="init">
 	    
 		<!-- EDIT THESE THREE VALUES FOR A BUILD -->
-	    <property name="jre.win32.dir"          location="D:\dev\jre7"/>			<!-- Location of the bundled JRE for Windows -->
-		<property name="jre.mac64.zip"    		location="D:\dev\jre-mac64.zip"/>	<!-- Location of the bundled JRE for Mac -->
+	    <property name="jre.win32.dir"          location="c:\dev\jre7"/>			<!-- Location of the bundled JRE for Windows -->
+		<property name="jre.mac64.zip"    		location="c:\dev\jre-mac64.zip"/>	<!-- Location of the bundled JRE for Mac -->
 		<property name="version" 				value="2.6.0"/>						<!-- Version of the Build -->
 		
 		<property name="app.name" 				value="Archi"/>
