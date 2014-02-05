@@ -1,4 +1,4 @@
-body, table {
+body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	line-height: 14pt;
@@ -34,6 +34,11 @@ a:visited {
 }
 a:hover	{
 	color:#ff9900;
+}
+
+table {
+	font-size: 10pt;
+	line-height: 14pt;
 }
 
 table.border {
