@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="2.6.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="2.6.1.qualifier" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.archimatetool.editor/img/app-128.png"/>
@@ -19,7 +19,6 @@
 
    <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png" i64="/com.archimatetool.editor/img/app-64.png" i128="/com.archimatetool.editor/img/app-128.png"/>
 
-
    <launcher name="Archi">
       <linux icon="/com.archimatetool.build/branding/linux/icon.xpm"/>
       <macosx icon="/com.archimatetool.build/branding/mac/icon.icns"/>
@@ -30,10 +29,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.archimatetool.canvas"/>
