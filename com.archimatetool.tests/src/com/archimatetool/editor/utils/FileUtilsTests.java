@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.Testing;
+import com.archimatetool.TestSupport;
 import com.archimatetool.editor.utils.FileUtils;
 
 
@@ -52,7 +52,7 @@ public class FileUtilsTests {
     
     @AfterClass
     public static void runOnceAfterAllTests() throws IOException {
-        FileUtils.deleteFolder(Testing.TMP_FOLDER);
+        FileUtils.deleteFolder(TestSupport.TMP_FOLDER);
     }
     
     @Before
@@ -160,7 +160,7 @@ public class FileUtilsTests {
     @Test
     public void copyFolder_SameFolder() {
         try {
-            File folderSrc = Testing.getTempFolder("src"); //$NON-NLS-1$
+            File folderSrc = TestSupport.getTempFolder("src"); //$NON-NLS-1$
             FileUtils.copyFolder(folderSrc, folderSrc);
             // Shouldn't reach here
             fail("Should have thrown an Exception"); //$NON-NLS-1$
@@ -176,8 +176,8 @@ public class FileUtilsTests {
     @Test
     public void copyFolder_SubFolder() {
         try {
-            File folderSrc = Testing.getTempFolder("src"); //$NON-NLS-1$
-            File folderDest = Testing.getTempFolder("src/dest"); //$NON-NLS-1$
+            File folderSrc = TestSupport.getTempFolder("src"); //$NON-NLS-1$
+            File folderDest = TestSupport.getTempFolder("src/dest"); //$NON-NLS-1$
             FileUtils.copyFolder(folderSrc, folderDest);
             // Shouldn't reach here
             fail("Should have thrown an Exception"); //$NON-NLS-1$
@@ -192,8 +192,8 @@ public class FileUtilsTests {
      */
     @Test
     public void copyFolder_FilesValid() throws Exception {
-        File folderSrc = Testing.TESTDATA_FOLDER;
-        File folderTgt = Testing.getTempFolder("tgt"); //$NON-NLS-1$
+        File folderSrc = TestSupport.TESTDATA_FOLDER;
+        File folderTgt = TestSupport.getTempFolder("tgt"); //$NON-NLS-1$
         FileUtils.copyFolder(folderSrc, folderTgt);
         
         checkSourceAndTargetFolderSame(folderSrc, folderTgt);
@@ -206,7 +206,7 @@ public class FileUtilsTests {
     @Test
     public void copyFolder_NotExists() {
         File folderSrc = new File("absolutely_bogus/"); //$NON-NLS-1$
-        File folderTgt = Testing.getTempFolder("tgt"); //$NON-NLS-1$
+        File folderTgt = TestSupport.getTempFolder("tgt"); //$NON-NLS-1$
         try {
             FileUtils.copyFolder(folderSrc, folderTgt);
             // Shouldn't reach here
@@ -224,7 +224,7 @@ public class FileUtilsTests {
     @Test
     public void copyFile_SameFile() {
         try {
-            File fileSrc = Testing.getTempFile(".txt"); //$NON-NLS-1$
+            File fileSrc = TestSupport.getTempFile(".txt"); //$NON-NLS-1$
             FileUtils.copyFile(fileSrc, fileSrc, false);
             // Shouldn't reach here
             fail("Should have thrown an Exception"); //$NON-NLS-1$
@@ -239,8 +239,8 @@ public class FileUtilsTests {
      */
     @Test
     public void copyFile_FileValid() throws Exception {
-        File fileSrc = new File(Testing.TESTDATA_FOLDER, "readme.txt"); //$NON-NLS-1$
-        File fileTgt = Testing.getTempFile(".txt"); //$NON-NLS-1$
+        File fileSrc = new File(TestSupport.TESTDATA_FOLDER, "filetest/readme.txt"); //$NON-NLS-1$
+        File fileTgt = TestSupport.getTempFile(".txt"); //$NON-NLS-1$
         FileUtils.copyFile(fileSrc, fileTgt, false);
         
         checkSourceAndTargetFileSame(fileSrc, fileTgt);
@@ -253,7 +253,7 @@ public class FileUtilsTests {
     @Test
     public void copyFile_NotExists() throws Exception {
         File fileSrc = new File("absolutely_bogus.txt"); //$NON-NLS-1$
-        File fileTgt = Testing.getTempFile(".txt"); //$NON-NLS-1$
+        File fileTgt = TestSupport.getTempFile(".txt"); //$NON-NLS-1$
         try {
             FileUtils.copyFile(fileSrc, fileTgt, false);
             // Shouldn't reach here
@@ -267,13 +267,13 @@ public class FileUtilsTests {
 
     @Test
     public void moveFile() throws Exception {
-        File folderSrc = Testing.getTempFolder("src"); //$NON-NLS-1$
+        File folderSrc = TestSupport.getTempFolder("src"); //$NON-NLS-1$
         File srcFile = new File(folderSrc, "temp.xml"); //$NON-NLS-1$
         
-        File folderTgt = Testing.getTempFolder("tgt"); //$NON-NLS-1$
+        File folderTgt = TestSupport.getTempFolder("tgt"); //$NON-NLS-1$
         File tgtFile = new File(folderTgt, "temp.xml"); //$NON-NLS-1$
         
-        FileUtils.copyFile(new File(Testing.TESTDATA_FOLDER, "readme.txt"), srcFile, false); //$NON-NLS-1$
+        FileUtils.copyFile(new File(TestSupport.TESTDATA_FOLDER, "filetest/readme.txt"), srcFile, false); //$NON-NLS-1$
         assertTrue("Test Source File should exist", srcFile.exists()); //$NON-NLS-1$
         
         FileUtils.moveFile(srcFile, tgtFile);
@@ -285,8 +285,8 @@ public class FileUtilsTests {
     
     @Test
     public void deleteFolder() throws Exception {
-        File folder = Testing.getTempFolder("delete_folder"); //$NON-NLS-1$
-        FileUtils.copyFolder(new File("testdata", "testfolder"), folder, null); //$NON-NLS-1$ //$NON-NLS-2$
+        File folder = TestSupport.getTempFolder("delete_folder"); //$NON-NLS-1$
+        FileUtils.copyFolder(new File("testdata", "filetest/testfolder"), folder, null); //$NON-NLS-1$ //$NON-NLS-2$
         FileUtils.deleteFolder(folder);
         assertFalse("Deleted Folder should not exist", folder.exists()); //$NON-NLS-1$
     }
@@ -296,7 +296,7 @@ public class FileUtilsTests {
      */
     @Test
     public void deleteFolder_IfFile() throws Exception {
-        File file = Testing.getTempFile(".del"); //$NON-NLS-1$
+        File file = TestSupport.getTempFile(".del"); //$NON-NLS-1$
         assertTrue("Test File should exist", file.exists()); //$NON-NLS-1$
         
         FileUtils.deleteFolder(file);
@@ -321,7 +321,7 @@ public class FileUtilsTests {
     
     @Test
     public void testSortFiles() throws Exception {
-        File folder = Testing.getTempFolder("sort_folder"); //$NON-NLS-1$
+        File folder = TestSupport.getTempFolder("sort_folder"); //$NON-NLS-1$
         
         File file1 = new File(folder, "d.txt"); file1.createNewFile(); //$NON-NLS-1$
         File file2 = new File(folder, "a.txt"); file2.createNewFile(); //$NON-NLS-1$
