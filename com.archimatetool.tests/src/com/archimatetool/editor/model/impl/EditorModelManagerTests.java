@@ -32,7 +32,7 @@ import com.archimatetool.model.IArchimatePackage;
 
 
 
-@SuppressWarnings("nls")
+@SuppressWarnings({"nls", "restriction"})
 public class EditorModelManagerTests {
     
     public static junit.framework.Test suite() {
