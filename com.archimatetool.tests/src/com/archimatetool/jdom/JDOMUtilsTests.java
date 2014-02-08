@@ -16,6 +16,7 @@ import junit.framework.JUnit4TestAdapter;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.jdom.output.Format;
 import org.junit.Test;
 
 import com.archimatetool.TestSupport;
@@ -39,8 +40,8 @@ public class JDOMUtilsTests {
     @Test
     public void testWrite2XMLString() throws Exception {
         Document doc = createDocument();
-        String CR = System.getProperty("line.separator");
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + CR + "<root />" + CR + CR;
+        String lineSep = Format.getPrettyFormat().getLineSeparator();
+        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + lineSep + "<root />" + lineSep + lineSep;
         String result = JDOMUtils.write2XMLString(doc);
         assertEquals(expected, result);
     }
