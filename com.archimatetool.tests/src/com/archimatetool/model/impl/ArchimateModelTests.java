@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.model;
+package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -19,6 +19,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.util.IDAdapter;
 
 

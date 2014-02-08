@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.model;
+package com.archimatetool.model.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.archimatetool.TestSupport;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 
 @SuppressWarnings("nls")
