@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
  * 
  * @author Phillip Beauvoir
  */
-public class Testing {
+public class TestSupport {
 
     /**
      * Temporary folder
@@ -29,7 +29,7 @@ public class Testing {
     
     public static File TESTDATA_FOLDER = new File("testdata"); //$NON-NLS-1$
     
-    public static File TEST_MODEL_FILE = new File(TESTDATA_FOLDER, "Archisurance.archimate"); //$NON-NLS-1$
+    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(TESTDATA_FOLDER, "models/Archisurance.archimate"); //$NON-NLS-1$
 
     
     /**

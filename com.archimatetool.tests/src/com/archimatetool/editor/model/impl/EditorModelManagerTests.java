@@ -19,7 +19,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.junit.Test;
 
-import com.archimatetool.Testing;
+import com.archimatetool.TestSupport;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -32,7 +32,7 @@ import com.archimatetool.model.IArchimatePackage;
 
 
 
-@SuppressWarnings("nls")
+@SuppressWarnings({"nls", "restriction"})
 public class EditorModelManagerTests {
     
     public static junit.framework.Test suite() {
@@ -43,7 +43,7 @@ public class EditorModelManagerTests {
      * Determine if model has an ECoreAdapter added
      */
     boolean hasECoreAdapter(IArchimateModel model) {
-        Class<?> clazz = Testing.getMemberClass(EditorModelManager.class, "com.archimatetool.editor.model.impl.EditorModelManager$ECoreAdapter");
+        Class<?> clazz = TestSupport.getMemberClass(EditorModelManager.class, "com.archimatetool.editor.model.impl.EditorModelManager$ECoreAdapter");
         for(Adapter a : model.eAdapters()) {
             if(clazz.isInstance(a)) {
                 return true;
@@ -87,7 +87,7 @@ public class EditorModelManagerTests {
     
     @Test
     public void openModel_File() throws Exception {
-        File file = Testing.TEST_MODEL_FILE;
+        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
         
         IArchimateModel model = IEditorModelManager.INSTANCE.openModel(file);
         assertNotNull("Model was null", model);
@@ -117,7 +117,7 @@ public class EditorModelManagerTests {
 
     @Test
     public void loadModel_File() throws Exception {
-        File file = Testing.TEST_MODEL_FILE;
+        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
         
         IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file);
         assertNotNull("Model was null", model);
@@ -139,7 +139,7 @@ public class EditorModelManagerTests {
     
     @Test
     public void isModelLoaded_File() throws Exception {
-        File file = Testing.TEST_MODEL_FILE;
+        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
         assertFalse("Model Loaded", IEditorModelManager.INSTANCE.isModelLoaded(file));
         IArchimateModel model = IEditorModelManager.INSTANCE.loadModel(file);
         assertTrue("Model Not Loaded", IEditorModelManager.INSTANCE.isModelLoaded(file));
@@ -167,7 +167,7 @@ public class EditorModelManagerTests {
     public void createNewArchiveManager_Created() throws Exception {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         
-        IArchiveManager archiveManager = (IArchiveManager)Testing.invokePrivateMethod(IEditorModelManager.INSTANCE, "createNewArchiveManager",
+        IArchiveManager archiveManager = (IArchiveManager)TestSupport.invokePrivateMethod(IEditorModelManager.INSTANCE, "createNewArchiveManager",
                 new Class[] { IArchimateModel.class }, new Object[] { model });
         
         assertNotNull("Archive Manager was null", archiveManager);

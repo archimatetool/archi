@@ -3,7 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for Archi
 Bundle-SymbolicName: com.archimatetool.tests
 Bundle-Version: 1.0.0
-Fragment-Host: com.archimatetool.editor
 Bundle-Vendor: Phillip Beauvoir
-Require-Bundle: org.junit
+Require-Bundle: org.eclipse.core.runtime,
+ org.junit,
+ com.archimatetool.editor,
+ com.archimatetool.jdom,
+ com.archimatetool.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.Testing;
+import com.archimatetool.TestSupport;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
@@ -76,7 +76,7 @@ public class TreeModelViewerDragDropHandlerTests {
         assertTrue(parentFolder.getFolders().contains(childFolder));
 
         // Simulate Move child folder to the same parent folder
-        Testing.invokePrivateMethod(dragHandler, "moveTreeObjects",
+        TestSupport.invokePrivateMethod(dragHandler, "moveTreeObjects",
                 new Class[] { IFolder.class, Object[].class }, new Object[] { parentFolder, new Object[] { childFolder } });
         
         resetDirtyState(model);
@@ -103,7 +103,7 @@ public class TreeModelViewerDragDropHandlerTests {
         IFolder newParent = model.getFolder(FolderType.APPLICATION);
         
         // Simulate Move child folder to the different target parent folder
-        Testing.invokePrivateMethod(dragHandler, "moveTreeObjects",
+        TestSupport.invokePrivateMethod(dragHandler, "moveTreeObjects",
                 new Class[] { IFolder.class, Object[].class }, new Object[] { newParent, new Object[] { childFolder } });
         
         resetDirtyState(model);
@@ -128,7 +128,7 @@ public class TreeModelViewerDragDropHandlerTests {
         assertTrue(parentFolder.getElements().contains(childElement));
 
         // Simulate Move child element to the same parent folder
-        Testing.invokePrivateMethod(dragHandler, "moveTreeObjects",
+        TestSupport.invokePrivateMethod(dragHandler, "moveTreeObjects",
                 new Class[] { IFolder.class, Object[].class }, new Object[] { parentFolder, new Object[] { childElement } });
         
         resetDirtyState(model);
