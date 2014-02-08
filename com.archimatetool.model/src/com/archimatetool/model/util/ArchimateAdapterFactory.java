@@ -81,6 +81,7 @@ import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IMeaning;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.INetwork;
@@ -184,6 +185,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseProperties(IProperties object) {
                 return createPropertiesAdapter();
+            }
+            @Override
+            public Adapter caseMetadata(IMetadata object) {
+                return createMetadataAdapter();
             }
             @Override
             public Adapter caseNameable(INameable object) {
@@ -632,6 +637,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createPropertiesAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IMetadata <em>Metadata</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IMetadata
+     * @generated
+     */
+    public Adapter createMetadataAdapter() {
         return null;
     }
 

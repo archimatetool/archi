@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link com.archimatetool.model.IArchimateModel#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getFile <em>File</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getVersion <em>Version</em>}</li>
+ *   <li>{@link com.archimatetool.model.IArchimateModel#getMetadata <em>Metadata</em>}</li>
  * </ul>
  * </p>
  *
@@ -108,6 +109,32 @@ public interface IArchimateModel extends IFolderContainer, INameable, IIdentifie
      * @generated
      */
     void setVersion(String value);
+
+    /**
+     * Returns the value of the '<em><b>Metadata</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Metadata</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Metadata</em>' containment reference.
+     * @see #setMetadata(IMetadata)
+     * @see com.archimatetool.model.IArchimatePackage#getArchimateModel_Metadata()
+     * @model containment="true"
+     * @generated
+     */
+    IMetadata getMetadata();
+
+    /**
+     * Sets the value of the '{@link com.archimatetool.model.IArchimateModel#getMetadata <em>Metadata</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Metadata</em>' containment reference.
+     * @see #getMetadata()
+     * @generated
+     */
+    void setMetadata(IMetadata value);
 
     /**
      * <!-- begin-user-doc -->

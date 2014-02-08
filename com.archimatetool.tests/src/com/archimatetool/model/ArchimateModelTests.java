@@ -9,26 +9,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IFolder;
+import com.archimatetool.TestSupport;
+import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.model.util.IDAdapter;
 
 
 
+@SuppressWarnings("nls")
 public class ArchimateModelTests {
     
     /**
@@ -39,6 +43,8 @@ public class ArchimateModelTests {
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ArchimateModelTests.class);
     }
+    
+    IArchimateModel model;
     
     // ---------------------------------------------------------------------------------------------
     // BEFORE AND AFTER METHODS GO HERE 
@@ -54,6 +60,7 @@ public class ArchimateModelTests {
     
     @Before
     public void runBeforeEachTest() {
+        model = IArchimateFactory.eINSTANCE.createArchimateModel();
     }
     
     @After
@@ -65,9 +72,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void addDefaultFolders_Empty() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testDefaultFoldersIsEmpty() {
         EList<IFolder> list = model.getFolders();
         
         // No folders by default
@@ -76,8 +81,7 @@ public class ArchimateModelTests {
     }
 
     @Test
-    public void setDefaults_Folders_Populated() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+    public void testSetDefaults_IsCorrect() {
         model.setDefaults();
         
         EList<IFolder> list = model.getFolders();
@@ -98,8 +102,7 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void setDefaults_Folders_MoreThanOnce() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+    public void testSetDefaults_MoreThanOnce() {
         model.setDefaults();
         // Add Again
         model.setDefaults();
@@ -116,9 +119,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getDefaultFolderForElement() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testDefaultFolderForElementIsCorrect() {
         EObject element = IArchimateFactory.eINSTANCE.createBusinessEvent();
         IFolder folder = model.getDefaultFolderForElement(element);
         assertNotNull(folder);
@@ -155,9 +156,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getFolder() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testGetFolderIsCorrectFolderType() {
         IFolder folder = model.getFolder(FolderType.BUSINESS);
         assertNull(folder);
         
@@ -178,9 +177,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getDefaultDiagramModel() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testGetDefaultDiagramModel() {
         IDiagramModel dm = model.getDefaultDiagramModel();
         assertNull(dm);
         
@@ -198,9 +195,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getDiagramModels() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testGetDiagramModels() {
         EList<IDiagramModel> list = model.getDiagramModels();
         assertNotNull(list);
         assertTrue(list.isEmpty());
@@ -220,13 +215,11 @@ public class ArchimateModelTests {
    
     @Test
     public void testIDAdapterAddedToArchimateModel() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         assertTrue(model.eAdapters().get(0) instanceof IDAdapter);
     }
     
     @Test
     public void testIDAddedToModel() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         String id = model.getId();
         assertNull(model.getId());
         
@@ -238,8 +231,6 @@ public class ArchimateModelTests {
 
     @Test
     public void testIDAddedToChildElement() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
         IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationService();
         assertNull(element.getId());
         
@@ -249,4 +240,65 @@ public class ArchimateModelTests {
         assertEquals(8, id.length());
     }
 
+    // ---------------------------------------------------------------------------------------------
+    // Metadata
+    // ---------------------------------------------------------------------------------------------
+    
+    @Test
+    public void testMetadataCreated() throws Exception {
+        String key ="some_key", value = "some_value";
+        
+        // Metadata exists
+        IMetadata metadata = model.getMetadata();        
+        assertNotNull(metadata);
+        
+        // Add a metadata entry as a property key/value pair
+        IProperty property = IArchimateFactory.eINSTANCE.createProperty();
+        property.setKey(key);
+        property.setValue(value);
+        metadata.getEntries().add(property);
+
+        // Check entry is correct
+        EList<IProperty> entries = metadata.getEntries();
+        assertEquals(1, entries.size());
+        assertEquals(property, entries.get(0));
+        assertEquals(entries.get(0).getKey(), key);
+        assertEquals(entries.get(0).getValue(), value);
+        
+        // Save to file
+        File file = saveModel(model);
+        assertTrue(file.exists());
+        
+        // Load it in again
+        IArchimateModel model2 = loadModel(file);
+        
+        // Check it persisted
+        entries = model2.getMetadata().getEntries();
+        assertEquals(1, entries.size());
+        IProperty property2 = entries.get(0);
+        assertEquals(property2.getKey(), key);
+        assertEquals(property2.getValue(), value);
+    }
+    
+    // ---------------------------------------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------------------------------------
+
+    private File saveModel(IArchimateModel model) throws IOException {
+        File file = TestSupport.getTempFile(".archimate");
+        
+        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
+        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
+        resource.getContents().add(model);
+        resource.save(null);
+
+        return file;
+    }
+    
+    private IArchimateModel loadModel(File file) throws IOException {
+        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
+        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
+        resource.load(null);
+        return (IArchimateModel)resource.getContents().get(0);
+    }
 }

@@ -83,6 +83,7 @@ import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IMeaning;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.INetwork;
@@ -148,6 +149,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass propertiesEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass metadataEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -960,6 +968,24 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getMetadata() {
+        return metadataEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getMetadata_Entries() {
+        return (EReference)metadataEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getNameable() {
         return nameableEClass;
     }
@@ -1115,6 +1141,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     public EAttribute getArchimateModel_Version() {
         return (EAttribute)archimateModelEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getArchimateModel_Metadata() {
+        return (EReference)archimateModelEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -2354,6 +2389,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         propertiesEClass = createEClass(PROPERTIES);
         createEReference(propertiesEClass, PROPERTIES__PROPERTIES);
 
+        metadataEClass = createEClass(METADATA);
+        createEReference(metadataEClass, METADATA__ENTRIES);
+
         nameableEClass = createEClass(NAMEABLE);
         createEAttribute(nameableEClass, NAMEABLE__NAME);
 
@@ -2372,6 +2410,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(archimateModelEClass, ARCHIMATE_MODEL__PURPOSE);
         createEAttribute(archimateModelEClass, ARCHIMATE_MODEL__FILE);
         createEAttribute(archimateModelEClass, ARCHIMATE_MODEL__VERSION);
+        createEReference(archimateModelEClass, ARCHIMATE_MODEL__METADATA);
 
         archimateModelElementEClass = createEClass(ARCHIMATE_MODEL_ELEMENT);
         createEReference(archimateModelElementEClass, ARCHIMATE_MODEL_ELEMENT__ARCHIMATE_MODEL);
@@ -2780,6 +2819,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(propertiesEClass, IProperties.class, "Properties", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getProperties_Properties(), this.getProperty(), null, "properties", null, 0, -1, IProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
+        initEClass(metadataEClass, IMetadata.class, "Metadata", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEReference(getMetadata_Entries(), this.getProperty(), null, "entries", null, 0, -1, IMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
         initEClass(nameableEClass, INameable.class, "Nameable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getNameable_Name(), ecorePackage.getEString(), "name", "", 0, 1, INameable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -2800,6 +2842,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEAttribute(getArchimateModel_Purpose(), ecorePackage.getEString(), "purpose", null, 0, 1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getArchimateModel_File(), this.getFile(), "file", null, 0, 1, IArchimateModel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getArchimateModel_Version(), ecorePackage.getEString(), "version", "", 0, 1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+        initEReference(getArchimateModel_Metadata(), this.getMetadata(), null, "metadata", null, 0, 1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         addEOperation(archimateModelEClass, null, "setDefaults", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
@@ -3112,6 +3155,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
            source, 
            new String[] {
              "name", "property", //$NON-NLS-1$ //$NON-NLS-2$
+             "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
+           });		
+        addAnnotation
+          (getMetadata_Entries(), 
+           source, 
+           new String[] {
+             "name", "entry", //$NON-NLS-1$ //$NON-NLS-2$
              "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
            });		
         addAnnotation

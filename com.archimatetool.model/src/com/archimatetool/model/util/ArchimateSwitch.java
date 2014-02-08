@@ -81,6 +81,7 @@ import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IMeaning;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.INetwork;
@@ -190,6 +191,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.PROPERTIES: {
                 IProperties properties = (IProperties)theEObject;
                 T result = caseProperties(properties);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.METADATA: {
+                IMetadata metadata = (IMetadata)theEObject;
+                T result = caseMetadata(metadata);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1579,6 +1586,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseProperties(IProperties object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Metadata</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Metadata</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMetadata(IMetadata object) {
         return null;
     }
 
