@@ -2,11 +2,12 @@ Archi Changes
 -------------
 
 
-Version xxx
----------------------------
+Version 2.6.1 February XX 2014
+------------------------------
 + Connection bend-points - added a key modifier for ignoring snap to grid while dragging (Alt key or Ctrl key on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + Windows Zip installation: added batch files to associate *.archimate files with Archi
++ [Internal Model] Added support for arbitrary metadata key/value pairs
 * Fixed Format Painter not applying fill colour if it was the "default" fill colour
 * Fixed Full Screen mode not really being full screen on Windows 8
 
@@ -48,6 +49,7 @@ Version 2.4.1 November 18 2013
 + Colours Preferences - Added an option to show user-defined fill colours in the model tree, palette and elsewhere
 + Colours Preferences - Can reset an individual fill colour to its default value by holding Ctrl/Command key when clicking on colour button
 + The Java version shipped with the Windows installer is now version 1.7.0_45
++ Built on Eclipse 3.8.2 RCP
 + New Innno Setup Installer for Windows version
 * Fixed a bug where drag and dropping a folder in the model tree could orphan diagram elements
 * Fixed connection label not located properly when in parent figure (fix by Jean-Baptiste Sarrodie)
