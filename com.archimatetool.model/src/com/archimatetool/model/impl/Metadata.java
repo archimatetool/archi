@@ -5,6 +5,7 @@
  */
 package com.archimatetool.model.impl;
 
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IProperty;
@@ -77,6 +78,39 @@ public class Metadata extends EObjectImpl implements IMetadata {
         return entries;
     }
 
+    public IProperty addEntry(String key, String value) {
+        if(key == null) {
+            throw new IllegalArgumentException("key cannot be null"); //$NON-NLS-1$
+        }
+        
+        // If we already have an entry with this key set the value and return that property
+        IProperty property = getEntry(key);
+        if(property != null) {
+            property.setValue(value);
+            return property;
+        }
+        
+        property = IArchimateFactory.eINSTANCE.createProperty();
+        property.setKey(key);
+        property.setValue(value);
+        getEntries().add(property);
+        return property;
+    }
+
+    public IProperty getEntry(String key) {
+        if(key == null) {
+            throw new IllegalArgumentException("key cannot be null"); //$NON-NLS-1$
+        }
+        
+        for(IProperty p : getEntries()) {
+            if(p.getKey().equals(key)) {
+                return p;
+            }
+        }
+        
+        return null;
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

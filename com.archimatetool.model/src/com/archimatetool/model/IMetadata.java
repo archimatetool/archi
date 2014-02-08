@@ -43,4 +43,17 @@ public interface IMetadata extends EObject {
      */
     EList<IProperty> getEntries();
 
+    /**
+     * Convenience method to add an IProperty to the end of the list using key/value strings
+     * If an entry with key already exists, it will not be added.
+     * @return The newly created Property or the existing Property if key exists
+     */
+    IProperty addEntry(String key, String value);
+    
+    /**
+     * @param key
+     * @return An entry if it exists with the given key, otherwise returns null
+     */
+    IProperty getEntry(String key);
+
 } // IMetadata
