@@ -32,9 +32,10 @@ package com.archimatetool.model;
  * 2.2.1 - Sketch Model Background attribute
  * 2.3.0 - Add ILineObject - implemented in IDiagramModelObject and IDiagramModelConnection
  * 2.6.0 - Add new model namespace URIs
+ * 2.6.1 - Add Metadata to model
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "2.6.0"; //$NON-NLS-1$
+    String VERSION = "2.6.1"; //$NON-NLS-1$
 }

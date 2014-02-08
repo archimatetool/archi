@@ -33,6 +33,7 @@ import com.archimatetool.model.IBusinessLayerElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.IMotivationElement;
@@ -59,6 +60,7 @@ import com.archimatetool.model.util.IDAdapter;
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFile <em>File</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getVersion <em>Version</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getMetadata <em>Metadata</em>}</li>
  * </ul>
  * </p>
  *
@@ -175,6 +177,15 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @ordered
      */
     protected String version = VERSION_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getMetadata() <em>Metadata</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getMetadata()
+     * @generated
+     * @ordered
+     */
+    protected IMetadata metadata;
     /**
      * Adapter Map for arbitrary objects
      */
@@ -476,6 +487,52 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public IMetadata getMetadata() {
+        if(metadata == null) {
+            metadata = IArchimateFactory.eINSTANCE.createMetadata();
+        }
+        return metadata;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetMetadata(IMetadata newMetadata, NotificationChain msgs) {
+        IMetadata oldMetadata = metadata;
+        metadata = newMetadata;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IArchimatePackage.ARCHIMATE_MODEL__METADATA, oldMetadata, newMetadata);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setMetadata(IMetadata newMetadata) {
+        if (newMetadata != metadata) {
+            NotificationChain msgs = null;
+            if (metadata != null)
+                msgs = ((InternalEObject)metadata).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IArchimatePackage.ARCHIMATE_MODEL__METADATA, null, msgs);
+            if (newMetadata != null)
+                msgs = ((InternalEObject)newMetadata).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IArchimatePackage.ARCHIMATE_MODEL__METADATA, null, msgs);
+            msgs = basicSetMetadata(newMetadata, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.ARCHIMATE_MODEL__METADATA, newMetadata, newMetadata));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
     public String getPurpose() {
@@ -577,6 +634,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return ((InternalEList<?>)getFolders()).basicRemove(otherEnd, msgs);
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
+            case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
+                return basicSetMetadata(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -605,6 +664,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return getFile();
             case IArchimatePackage.ARCHIMATE_MODEL__VERSION:
                 return getVersion();
+            case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
+                return getMetadata();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -641,6 +702,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__VERSION:
                 setVersion((String)newValue);
                 return;
+            case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
+                setMetadata((IMetadata)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -674,6 +738,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
             case IArchimatePackage.ARCHIMATE_MODEL__VERSION:
                 setVersion(VERSION_EDEFAULT);
                 return;
+            case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
+                setMetadata((IMetadata)null);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -702,6 +769,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
             case IArchimatePackage.ARCHIMATE_MODEL__VERSION:
                 return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+            case IArchimatePackage.ARCHIMATE_MODEL__METADATA:
+                return metadata != null;
         }
         return super.eIsSet(featureID);
     }

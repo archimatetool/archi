@@ -69,6 +69,7 @@ import com.archimatetool.model.IInfrastructureService;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IMeaning;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.INetwork;
 import com.archimatetool.model.INode;
 import com.archimatetool.model.IOrJunction;
@@ -136,6 +137,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case IArchimatePackage.PROPERTY: return createProperty();
+            case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.FOLDER: return createFolder();
             case IArchimatePackage.JUNCTION: return createJunction();
@@ -252,6 +254,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IProperty createProperty() {
         Property property = new Property();
         return property;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IMetadata createMetadata() {
+        Metadata metadata = new Metadata();
+        return metadata;
     }
 
     /**

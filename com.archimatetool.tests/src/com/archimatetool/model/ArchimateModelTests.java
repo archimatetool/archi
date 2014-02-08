@@ -19,17 +19,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IFolder;
 import com.archimatetool.model.util.IDAdapter;
 
 
-
-public class ArchimateModelTests {
+public class ArchimateModelTests extends ModelTest {
     
     /**
      * This is required in order to run JUnit 4 tests with the old JUnit runner
@@ -39,6 +32,8 @@ public class ArchimateModelTests {
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ArchimateModelTests.class);
     }
+    
+    IArchimateModel model;
     
     // ---------------------------------------------------------------------------------------------
     // BEFORE AND AFTER METHODS GO HERE 
@@ -54,6 +49,7 @@ public class ArchimateModelTests {
     
     @Before
     public void runBeforeEachTest() {
+        model = IArchimateFactory.eINSTANCE.createArchimateModel();
     }
     
     @After
@@ -65,9 +61,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void addDefaultFolders_Empty() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testDefaultFoldersIsEmpty() {
         EList<IFolder> list = model.getFolders();
         
         // No folders by default
@@ -76,8 +70,7 @@ public class ArchimateModelTests {
     }
 
     @Test
-    public void setDefaults_Folders_Populated() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+    public void testSetDefaults_IsCorrect() {
         model.setDefaults();
         
         EList<IFolder> list = model.getFolders();
@@ -98,8 +91,7 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void setDefaults_Folders_MoreThanOnce() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+    public void testSetDefaults_MoreThanOnce() {
         model.setDefaults();
         // Add Again
         model.setDefaults();
@@ -116,9 +108,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getDefaultFolderForElement() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testDefaultFolderForElementIsCorrect() {
         EObject element = IArchimateFactory.eINSTANCE.createBusinessEvent();
         IFolder folder = model.getDefaultFolderForElement(element);
         assertNotNull(folder);
@@ -155,9 +145,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getFolder() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testGetFolderIsCorrectFolderType() {
         IFolder folder = model.getFolder(FolderType.BUSINESS);
         assertNull(folder);
         
@@ -178,9 +166,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getDefaultDiagramModel() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testGetDefaultDiagramModel() {
         IDiagramModel dm = model.getDefaultDiagramModel();
         assertNull(dm);
         
@@ -198,9 +184,7 @@ public class ArchimateModelTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void getDiagramModels() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
+    public void testGetDiagramModels() {
         EList<IDiagramModel> list = model.getDiagramModels();
         assertNotNull(list);
         assertTrue(list.isEmpty());
@@ -220,13 +204,11 @@ public class ArchimateModelTests {
    
     @Test
     public void testIDAdapterAddedToArchimateModel() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         assertTrue(model.eAdapters().get(0) instanceof IDAdapter);
     }
     
     @Test
     public void testIDAddedToModel() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         String id = model.getId();
         assertNull(model.getId());
         
@@ -238,8 +220,6 @@ public class ArchimateModelTests {
 
     @Test
     public void testIDAddedToChildElement() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        
         IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationService();
         assertNull(element.getId());
         
@@ -249,4 +229,14 @@ public class ArchimateModelTests {
         assertEquals(8, id.length());
     }
 
+    // ---------------------------------------------------------------------------------------------
+    // Metadata
+    // ---------------------------------------------------------------------------------------------
+    
+    @Test
+    public void testMetadataExists() throws Exception {
+        // Metadata exists
+        IMetadata metadata = model.getMetadata();        
+        assertNotNull(metadata);
+    }
 }

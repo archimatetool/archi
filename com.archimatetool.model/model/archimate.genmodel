@@ -43,6 +43,9 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//Properties">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Properties/properties"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//Metadata">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Metadata/entries"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//Nameable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Nameable/name"/>
     </genClasses>
@@ -62,6 +65,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/purpose"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/file"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/version"/>
+      <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateModel/metadata"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/setDefaults"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/addDerivedRelationsFolder"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/removeDerivedRelationsFolder"/>

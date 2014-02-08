@@ -35,6 +35,15 @@ public interface IArchimateFactory extends EFactory {
     IProperty createProperty();
 
     /**
+     * Returns a new object of class '<em>Metadata</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Metadata</em>'.
+     * @generated
+     */
+    IMetadata createMetadata();
+
+    /**
      * Returns a new object of class '<em>Model</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
