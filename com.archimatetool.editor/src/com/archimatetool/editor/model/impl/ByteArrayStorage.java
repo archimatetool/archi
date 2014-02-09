@@ -86,7 +86,8 @@ public class ByteArrayStorage {
     }
 
     void addByteContentEntry(String entryName, byte[] bytes) {
-        // If we have these bytes already, let's re-reference them
+        // If we have these bytes already, and if we have let's re-reference them
+        // We might be adding the same set of bytes but from a different file
         String key = getKey(bytes);
         if(key != null) {
             fdataTable.put(entryName, getEntry(key));

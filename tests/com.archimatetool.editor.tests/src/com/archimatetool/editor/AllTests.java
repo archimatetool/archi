@@ -7,6 +7,8 @@ package com.archimatetool.editor;
 
 import junit.framework.TestSuite;
 
+import com.archimatetool.editor.model.DiagramModelUtilsTests;
+import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 import com.archimatetool.editor.utils.FileUtilsTests;
 import com.archimatetool.editor.utils.HTMLUtilsTests;
@@ -20,6 +22,10 @@ public class AllTests {
 		TestSuite suite = new TestSuite("com.archimatetool.editor");
 
 		// model
+        suite.addTest(DiagramModelUtilsTests.suite());
+
+        // model.impl
+        suite.addTest(ByteArrayStorageTests.suite());
 		suite.addTest(EditorModelManagerTests.suite());
 		
         // utils
