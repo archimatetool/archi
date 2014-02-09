@@ -25,11 +25,12 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.TestSupport;
 
 
 
 @SuppressWarnings("nls")
-public class MetadataTests extends ModelTest {
+public class MetadataTests {
     
     /**
      * This is required in order to run JUnit 4 tests with the old JUnit runner
@@ -94,11 +95,11 @@ public class MetadataTests extends ModelTest {
         assertEquals(testProperty.getValue(), value);
                 
         // Save to file
-        File file = saveModel(model);
+        File file = TestSupport.saveModel(model);
         assertTrue(file.exists());
         
         // Load it in again
-        IArchimateModel testModel = loadModel(file);
+        IArchimateModel testModel = TestSupport.loadModel(file);
         
         // Check it persisted
         EList<IProperty> testEntries = testModel.getMetadata().getEntries();

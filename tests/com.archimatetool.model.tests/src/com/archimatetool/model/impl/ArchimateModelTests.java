@@ -29,7 +29,7 @@ import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.util.IDAdapter;
 
 
-public class ArchimateModelTests extends ModelTest {
+public class ArchimateModelTests {
     
     /**
      * This is required in order to run JUnit 4 tests with the old JUnit runner
