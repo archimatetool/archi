@@ -6,5 +6,5 @@ Bundle-Version: 1.0.0
 Fragment-Host: com.archimatetool.jdom
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.junit,
- com.archimatetool.tests
+ com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
