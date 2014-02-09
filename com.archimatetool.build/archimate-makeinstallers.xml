@@ -17,15 +17,15 @@
 	<!-- Init some stuff -->
 	<target name="init">
 	    
-		<!-- EDIT THESE THREE VALUES FOR A BUILD -->
+		<!-- USER DEPENDENT VALUES - EDIT THESE VALUES FOR A BUILD -->
 	    <property name="jre.win32.dir"          location="c:\dev\jre7"/>			<!-- Location of the bundled JRE for Windows -->
 		<property name="jre.mac64.zip"    		location="c:\dev\jre-mac64.zip"/>	<!-- Location of the bundled JRE for Mac -->
+		<property name="docs.dir"     			location="../../docs"/>				<!-- Location of the generated PDF docs -->
 		<property name="version" 				value="2.6.1"/>						<!-- Version of the Build -->
 		
 		<property name="app.name" 				value="Archi"/>
 		
 		<property name="src.dir"     			location="."/>
-		<property name="help.dir"     			location="../com.archimatetool.help/docs"/>
 	    <property name="output.dir"             location="/${app.name}"/>
 	    <property name="folder.name"            value="${app.name}"/>
 	    <property name="tmp.dir"                location="${output.dir}/${folder.name}"/>
@@ -264,7 +264,7 @@
 				<include name="changes.txt" />
 				<include name="LICENSE.txt" />
 			</fileset>
-			<fileset dir="${help.dir}">
+			<fileset dir="${docs.dir}">
 				<include name="Archi User Guide.pdf" />
                 <include name="What's New in Archi.pdf" />
 			</fileset>

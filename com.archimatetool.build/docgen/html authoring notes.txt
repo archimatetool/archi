@@ -7,17 +7,17 @@ HTML source notes
 * Have one only <p>&nbsp;</p> at the end of each HTML file
 
 
-Edit the source HTML files
---------------------------
+Edit the source HTML files in the com.archimatetool.help/help folder
+--------------------------------------------------------------------
 * Edit "front.html" for the Archi version number
-* Ensure "files.list" for the list of files that will be concatenated is up to date
 * Ensure "contexts.xml" is up to date
-* Ensure "toc.xml" is up to date and corresponds to "files.list"
+* Ensure "toc.xml" is up to date and corresponds to "html_contents.list"
 
 
 Create one monolithic HTML file to import into MS Word 2007 on Windows
 ----------------------------------------------------------------------
-* Run the "merge-html.xml" Ant script to output one HTML file, "Archi User Guide.html", to the "help" folder
+* Ensure "html_contents.list" for the list of files that will be concatenated is up to date
+* Run the "merge-html.xml" Ant script to output one HTML file, "Archi User Guide.html", to the "temp" folder
 * Open it in MS Word
 
 
@@ -31,18 +31,18 @@ In MS Word 2007 on Windows
 3. Insert Page Numbers at bottom right.
 4. From the same Insert Page Numbers menu choose "Format Page Numbers..." and "Start at" 0
 5. Double-click in the footer and tick "Different First Page" in the options.
-6. Save As Word Doc "Archi User Guide.docx" in the "docs" folder
-7. Save As PDF "Archi User Guide.pdf" in the "docs" folder (ensure that "Create bookmarks using Headings" is ticked in the 
+6. Save As Word Doc "Archi User Guide.docx" in the chosen "docs" folder
+7. Save As PDF "Archi User Guide.pdf" in the chosen "docs" folder (ensure that "Create bookmarks using Headings" is ticked in the 
    Save As PDF Options)
 
 
 Create the "What's New in Archi Document"
 -----------------------------------------
-1. Edit the "What's New in Archi.docx" document in the "docs" folder
+1. Edit the "What's New in Archi.docx" document in the chosen "docs" folder
 2. Copy and Paste sections from the "Archi User Guide.docx" document in the "docs" folder
 3. Click the Office button and select "Prepare -> Edit Links to Files". (This option will not be there if there are no linked pictures).
    Select all images and click the "Break link" button
-4. Save As PDF "What's New in Archi.pdf" in the "docs" folder (ensure that "Create bookmarks using Headings" is ticked in the 
+4. Save As PDF "What's New in Archi.pdf" in the chosen "docs" folder (ensure that "Create bookmarks using Headings" is ticked in the 
    Save As PDF Options)
 
 

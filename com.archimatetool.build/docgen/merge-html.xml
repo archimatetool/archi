@@ -1,0 +1,34 @@
+<project name="Archi Make Help HTML File Ant Script" default="run" basedir="..">
+  	
+	<description>
+	    Make one big HTML file from the smaller HTML files.
+	    This can then be imported into MS Word, formatted and exported as a PDF file.
+  	</description>
+	
+	<!-- Default/Start Target -->
+	<target name="run" depends="init, copy_files, merge_html" />
+	
+	<!-- Init some stuff -->
+	<target name="init">
+	    <property name="class.path" location="bin"/>
+		<property name="tmp.dir" location="temp"/>
+		<property name="src.dir" location="../com.archimatetool.help/help"/>
+	</target>
+	
+	<target name="copy_files">
+		<copy todir="${tmp.dir}" >
+			<fileset dir="${src.dir}">
+				<include name="**/*.css"/>
+			</fileset>
+		</copy>
+		<copy todir="${tmp.dir}/img" >
+			<fileset dir="${src.dir}/img">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="merge_html">
+		<java classname="com.archimatetool.build.HTMLMerger" classpath="${class.path}"/>
+	</target>
+
+</project>
