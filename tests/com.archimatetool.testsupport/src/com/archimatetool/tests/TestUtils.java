@@ -39,6 +39,7 @@ public class TestUtils {
     public static File createTempFolder(String folderName) {
         File tmp = new File(TMP_FOLDER, folderName);
         tmp.mkdirs();
+        tmp.deleteOnExit();
         return tmp;
     }
     
@@ -56,7 +57,11 @@ public class TestUtils {
      * It's best that Test routines that create folders delete this folder on tearDown()
      */
     public static File getMainTempFolder() {
-        TMP_FOLDER.mkdirs();
+        if(!TMP_FOLDER.exists()) {
+            TMP_FOLDER.mkdirs();
+            TMP_FOLDER.deleteOnExit();
+        }
+        
         return TMP_FOLDER;
     }
     

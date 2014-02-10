@@ -13,6 +13,7 @@ import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 import com.archimatetool.editor.utils.FileUtilsTests;
 import com.archimatetool.editor.utils.HTMLUtilsTests;
 import com.archimatetool.editor.utils.StringUtilsTests;
+import com.archimatetool.editor.utils.ZipUtilsTests;
 import com.archimatetool.editor.views.tree.TreeModelViewerDragDropHandlerTests;
 
 @SuppressWarnings("nls")
@@ -32,6 +33,7 @@ public class AllTests {
         suite.addTest(FileUtilsTests.suite());
         suite.addTest(HTMLUtilsTests.suite());
         suite.addTest(StringUtilsTests.suite());
+        suite.addTest(ZipUtilsTests.suite());
 
         // views
         suite.addTest(TreeModelViewerDragDropHandlerTests.suite());
