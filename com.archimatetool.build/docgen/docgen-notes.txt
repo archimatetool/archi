@@ -1,0 +1,40 @@
+PDF Documentation Generation Notes
+----------------------------------
+
+
+Create one monolithic HTML file
+-------------------------------
+* Ensure "html_contents.list" for the list of files that will be concatenated is up to date
+* Run the "merge-html.xml" Ant script to output one HTML file, "Archi User Guide.html", to the "temp" folder
+
+
+Open "Archi User Guide.html" in MS Word 2007 on Windows
+-------------------------------------------------------
+(In "Options, Advanced->General->Web Options...->Pictures" ensure "Pixels per Inch" is 144 so that images are sized properly (50%)).
+
+1. Check for blank pages, spacing and orphan issues.
+2. Click the Office button and select "Prepare -> Edit Links to Files".
+   (This option will not be there if there are no linked pictures).
+   Select all images and click the "Break link" button
+3. Insert Page Numbers at bottom right.
+4. From the same Insert Page Numbers menu choose "Format Page Numbers..." and "Start at" 0
+5. Double-click in the footer and tick "Different First Page" in the options.
+6. Save As Word Doc "Archi User Guide.docx" in the chosen "docs" folder
+7. Save As PDF "Archi User Guide.pdf" in the chosen "docs" folder
+   (ensure that "Create bookmarks using Headings" is ticked in the Save As PDF Options)
+
+
+Create the "What's New in Archi Document"
+-----------------------------------------
+1. Edit the "What's New in Archi.docx" document in the chosen "docs" folder
+2. Copy and Paste sections from the "Archi User Guide.docx" document in the "docs" folder
+3. Click the Office button and select "Prepare -> Edit Links to Files". (This option will not be there if there are no linked pictures).
+   Select all images and click the "Break link" button
+4. Save As PDF "What's New in Archi.pdf" in the chosen "docs" folder (ensure that "Create bookmarks using Headings" is ticked in the 
+   Save As PDF Options)
+
+
+Cleanup
+-------
+Delete the temp folder and the "Archi User Guide.html" file
+
