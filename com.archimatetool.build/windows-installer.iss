@@ -60,7 +60,7 @@ Name: "{group}\{cm:UninstallProgram,Archi}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#APPNAME}"; Filename: "{app}\{#APP_EXE}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\Archi.exe"; Description: "{cm:LaunchProgram,Archi}"; Flags: nowait postinstall skipifsilent unchecked
+Filename: "{app}\Archi.exe"; Description: "{cm:LaunchProgram,Archi}"; Flags: nowait postinstall skipifsilent
 
 [InstallDelete]
 Type: filesandordirs; Name: "{app}\configuration";
