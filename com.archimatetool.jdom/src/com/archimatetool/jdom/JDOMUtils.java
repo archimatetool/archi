@@ -83,13 +83,13 @@ public final class JDOMUtils {
 	/**
 	 * Reads and returns a JDOM Document from file with Schema validation
 	 * @param xmlFile The XML File
-	 * @param schemaFile The Schema File
+	 * @param schemaFile One or more Schema files
 	 * @return The JDOM Document or null if not found
 	 * @throws JDOMException
 	 * @throws IOException
 	 */
-	public static Document readXMLFile(File xmlFile, File schemaFile) throws IOException, JDOMException {
-		XMLReaderJDOMFactory factory = new XMLReaderXSDFactory(schemaFile);
+	public static Document readXMLFile(File xmlFile, File... schemaFiles) throws IOException, JDOMException {
+		XMLReaderJDOMFactory factory = new XMLReaderXSDFactory(schemaFiles);
 		SAXBuilder builder = new SAXBuilder(factory);
 		
 		// This allows UNC mapped locations to load
