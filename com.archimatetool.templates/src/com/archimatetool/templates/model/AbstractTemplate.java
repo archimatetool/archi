@@ -17,8 +17,8 @@ import java.util.zip.ZipOutputStream;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.utils.FileUtils;

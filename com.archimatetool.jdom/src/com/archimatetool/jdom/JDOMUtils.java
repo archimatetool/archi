@@ -7,19 +7,19 @@ package com.archimatetool.jdom;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaderJDOMFactory;
+import org.jdom2.input.sax.XMLReaderXSDFactory;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 
 /**
@@ -82,39 +82,31 @@ public final class JDOMUtils {
 	
 	/**
 	 * Reads and returns a JDOM Document from file with Schema validation
-	 * @param file The XML File
-	 * @param schemaNamespace The Schema Target Namespace
-	 * @param schemaLocation The Schema Location
+	 * @param xmlFile The XML File
+	 * @param schemaFile The Schema File
 	 * @return The JDOM Document or null if not found
-	 * @throws FileNotFoundException
 	 * @throws JDOMException
 	 * @throws IOException
 	 */
-	public static Document readXMLFile(File file, String schemaNamespace, String schemaLocation) throws IOException, JDOMException {
-		Document doc = null;
-		SAXBuilder builder = new SAXBuilder(true);
-		builder.setFeature("http://apache.org/xml/features/validation/schema", true); //$NON-NLS-1$
-		builder.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation", //$NON-NLS-1$
-				schemaNamespace + " " + schemaLocation); //$NON-NLS-1$
+	public static Document readXMLFile(File xmlFile, File schemaFile) throws IOException, JDOMException {
+		XMLReaderJDOMFactory factory = new XMLReaderXSDFactory(schemaFile);
+		SAXBuilder builder = new SAXBuilder(factory);
+		
 		// This allows UNC mapped locations to load
-		doc = builder.build(new FileInputStream(file));
-		return doc;
+		return builder.build(new FileInputStream(xmlFile));
 	}
 	
 	/**
 	 * Reads and returns a JDOM Document from file without Schema Validation
 	 * @param file The XML File
 	 * @return The JDOM Document or null if not found
-	 * @throws FileNotFoundException
 	 * @throws JDOMException
 	 * @throws IOException
 	 */
 	public static Document readXMLFile(File file) throws IOException, JDOMException {
-		Document doc = null;
 		SAXBuilder builder = new SAXBuilder();
 		// This allows UNC mapped locations to load
-		doc = builder.build(new FileInputStream(file));
-		return doc;
+		return builder.build(new FileInputStream(file));
 	}
 	
 	/**
@@ -128,20 +120,4 @@ public final class JDOMUtils {
 	    SAXBuilder builder = new SAXBuilder();
 	    return builder.build(new StringReader(xmlString));
 	}
-	
-    /**
-     * Recursively replace a given Namespace with another one.  This can be used for removing Namespace prefixes.
-     * This is recursive and traverses the whole JDOM tree.
-     * @param element The starting Element
-     */
-    public static void replaceNamespaces(Element root, Namespace oldNamespace, Namespace newNamespace) {
-        if(root.getNamespace().equals(oldNamespace)) {
-            root.setNamespace(newNamespace);
-        }
-    
-        for(Object element : root.getChildren()) {
-            replaceNamespaces((Element)element, oldNamespace, newNamespace);
-        }
-    }
-
 }

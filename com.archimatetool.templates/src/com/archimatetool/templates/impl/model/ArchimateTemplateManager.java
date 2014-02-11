@@ -9,10 +9,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.swt.graphics.Image;
-import org.jdom.Attribute;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.ui.IArchimateImages;

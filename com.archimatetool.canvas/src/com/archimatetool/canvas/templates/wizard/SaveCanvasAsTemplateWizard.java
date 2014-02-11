@@ -21,8 +21,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasModelTemplate;
