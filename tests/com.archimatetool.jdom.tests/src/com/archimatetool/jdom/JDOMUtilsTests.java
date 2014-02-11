@@ -13,10 +13,9 @@ import java.io.File;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.output.Format;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
 import org.junit.Test;
 
 import com.archimatetool.tests.TestUtils;
@@ -43,7 +42,7 @@ public class JDOMUtilsTests {
     public void testWrite2XMLString() throws Exception {
         Document doc = createDocument();
         String lineSep = Format.getPrettyFormat().getLineSeparator();
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + lineSep + "<root />" + lineSep + lineSep;
+        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + lineSep + "<root />" + lineSep;
         String result = JDOMUtils.write2XMLString(doc);
         assertEquals(expected, result);
     }
@@ -55,41 +54,28 @@ public class JDOMUtilsTests {
         return doc;
     }
 
-    // We don't use this yet
-    public void testReadXMLFile_FileStringString() {
+    @Test
+    public void testReadXMLFile_File_File() throws Exception {
+        File xmlFile = new File(TESTDATA_FOLDER, "validate_this.xml");
+        File schemaFile = new File(TESTDATA_FOLDER, "imscp_v1p2.xsd");
+        Document doc = JDOMUtils.readXMLFile(xmlFile, schemaFile);
+        assertNotNull(doc);
+        assertTrue(doc.hasRootElement());
     }
 
     @Test
     public void testReadXMLFile_File() throws Exception {
         File file = new File(TESTDATA_FOLDER, "imsmanifest.xml");
         Document doc = JDOMUtils.readXMLFile(file);
-        assertNotNull("Document was null", doc);
+        assertNotNull(doc);
+        assertTrue(doc.hasRootElement());
     }
 
     @Test
     public void testReadXMLString() throws Exception {
         String testString = "<root> <element att=\"hello\">Some text</element> </root>";
         Document doc = JDOMUtils.readXMLString(testString);
-        assertNotNull("Document was null", doc);
+        assertNotNull(doc);
+        assertTrue(doc.hasRootElement());
     }
-
-    @Test
-    public void testReplaceNamespaces() throws Exception {
-        File file = new File(TESTDATA_FOLDER, "imsmanifest.xml");
-        Document doc = JDOMUtils.readXMLFile(file);
-        
-        // Replace Metadata Namespace
-        Element root = doc.getRootElement();
-        Namespace oldNS = root.getNamespace("imsmd");
-        Namespace newNS = Namespace.getNamespace("reload", "http://www.reload.ac.uk");
-        JDOMUtils.replaceNamespaces(root, oldNS, newNS);
-        
-        // Now try to get an Element with that Namespace
-        Element mdElement = root.getChild("metadata", root.getNamespace());
-        Element lomElement = mdElement.getChild("lom", newNS);
-        
-        assertNotNull("Namespace should have been replaced", lomElement);
-    }
-
-
 }

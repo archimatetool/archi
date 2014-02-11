@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--This is a Reload version 1.2 Beta Content Package document-->
 <!--Spawned from the Reload Content Package Generator - http://www.reload.ac.uk-->
-<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_v1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="MANIFEST-3A0A8AE0-807D-2920-8DBB-F20EC79FEBE8" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p2.xsd">
+<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_v1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="MANIFEST-3A0A8AE0-807D-2920-8DBB-F20EC79FEBE8" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p2.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p2.xsd">
   <metadata>
     <schema>IMS Metadata</schema>
     <schemaversion>1.2.2</schemaversion>
@@ -465,7 +465,7 @@
       <organization identifier="ORG-B70B7039-78D3-F64C-085B-C4887A4A534A" structure="hierarchical">
         <title>SubManifest Organization</title>
         <item identifier="ITEM-CBBA5246-E3B7-709B-BBFD-C483A0CDA1E0" isvisible="true" identifierref="RES-9667DD2A-2250-FBAE-DDE5-5DB412F35516">
-          <title>Bolton Website</title>
+          <title>Website</title>
         </item>
         <item identifier="ITEM-F88CC028-BC72-2777-F628-0729B1754EC5" isvisible="true" identifierref="RES-ED2C9314-1E0D-557E-48C5-4E01FC7C2CA7">
           <title>Simulations</title>
@@ -473,7 +473,7 @@
       </organization>
     </organizations>
     <resources>
-      <resource identifier="RES-9667DD2A-2250-FBAE-DDE5-5DB412F35516" type="webcontent" href="www.bolton.ac.uk" />
+      <resource identifier="RES-9667DD2A-2250-FBAE-DDE5-5DB412F35516" type="webcontent" href="www.somewhere.ac.uk" />
       <resource identifier="RES-ED2C9314-1E0D-557E-48C5-4E01FC7C2CA7" type="webcontent" href="ball_ramp.htm">
         <file href="ball_ramp.htm" />
         <file href="ball-ramp.dcr" />
