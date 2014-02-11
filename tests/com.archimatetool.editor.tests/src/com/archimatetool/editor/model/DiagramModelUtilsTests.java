@@ -8,15 +8,11 @@ package com.archimatetool.editor.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +21,6 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.util.ArchimateModelUtils;
-import com.archimatetool.model.util.ArchimateResourceFactory;
 
 
 @SuppressWarnings("nls")
@@ -39,7 +34,7 @@ public class DiagramModelUtilsTests {
     
     @Before
     public void runBeforeEachTest() throws IOException {
-        model = loadModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        model = TestSupport.loadModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -68,14 +63,4 @@ public class DiagramModelUtilsTests {
         assertEquals("4165", list.get(4).getId());
         assertEquals("4224", list.get(5).getId());
     }
-    
-    
-
-    private IArchimateModel loadModel(File file) throws IOException {
-        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
-        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
-        resource.load(null);
-        return (IArchimateModel)resource.getContents().get(0);
-    }
-
 }

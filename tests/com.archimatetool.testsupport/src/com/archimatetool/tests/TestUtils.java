@@ -7,6 +7,7 @@ package com.archimatetool.tests;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 
@@ -110,5 +111,17 @@ public class TestUtils {
         }
         
         return null;
+    }
+    
+    /**
+     * @param object
+     * @param field
+     * @return A private field in an Object
+     * @throws Exception
+     */
+    public static Object getPrivateField(Object object, String field) throws Exception {
+        Field f = object.getClass().getDeclaredField(field);
+        f.setAccessible(true);
+        return f.get(object);
     }
 }
