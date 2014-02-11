@@ -8,6 +8,7 @@ Version 2.6.1 February XX 2014
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + Windows Zip installation: added batch files to associate *.archimate files with Archi
 + [Internal Model] Added support for arbitrary metadata key/value pairs
++ The Java version shipped with the Windows installer is now version 1.7.0_51
 * Fixed Format Painter not applying fill colour if it was the "default" fill colour
 * Fixed Full Screen mode not really being full screen on Windows 8
 
