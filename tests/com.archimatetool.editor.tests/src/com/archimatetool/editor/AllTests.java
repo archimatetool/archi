@@ -7,6 +7,8 @@ package com.archimatetool.editor;
 
 import junit.framework.TestSuite;
 
+import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
+import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
 import com.archimatetool.editor.model.DiagramModelUtilsTests;
 import com.archimatetool.editor.model.commands.CommandsTests;
 import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
@@ -22,6 +24,10 @@ public class AllTests {
 
     public static junit.framework.Test suite() {
 		TestSuite suite = new TestSuite("com.archimatetool.editor");
+		
+		// diagram.tools
+        suite.addTest(FormatPainterInfoTests.suite());
+		suite.addTest(FormatPainterToolTests.suite());
 
 		// model
         suite.addTest(DiagramModelUtilsTests.suite());

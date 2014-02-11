@@ -120,8 +120,25 @@ public class TestUtils {
      * @throws Exception
      */
     public static Object getPrivateField(Object object, String field) throws Exception {
-        Field f = object.getClass().getDeclaredField(field);
+        Field f = getField(object.getClass(), field);
         f.setAccessible(true);
         return f.get(object);
+    }
+    
+    // Get a private/protected field from a Class.
+    // If not found, search superclasses
+    private static Field getField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+        try {
+            return clazz.getDeclaredField(fieldName);
+        }
+        catch(NoSuchFieldException ex) {
+            Class<?> superClass = clazz.getSuperclass();
+            if(superClass == null) {
+                throw ex;
+            }
+            else {
+                return getField(superClass, fieldName);
+            }
+        }
     }
 }
