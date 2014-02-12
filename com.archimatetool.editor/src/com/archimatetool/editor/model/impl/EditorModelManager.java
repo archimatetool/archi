@@ -168,11 +168,17 @@ implements IEditorModelManager {
     
     @Override
     public IArchimateModel openModel(File file) {
-        if(file == null || !file.exists() || isModelLoaded(file)) {
+        if(file == null || !file.exists()) {
             return null;
         }
         
-        IArchimateModel model = loadModel(file);
+        // If it is already loaded return it
+        IArchimateModel model = locateLoadedModel(file);
+        if(model != null) {
+            return model;
+        }
+        
+        model = loadModel(file);
         if(model != null) {
             // Open Views of newly opened model if set in Preferences
             if(Preferences.doOpenDiagramsOnLoad()) {
@@ -189,6 +195,10 @@ implements IEditorModelManager {
     
     @Override
     public void openModel(IArchimateModel model) {
+        if(model == null) {
+            return;
+        }
+        
         // Add to Models
         getModels().add(model);
         
@@ -209,6 +219,12 @@ implements IEditorModelManager {
             return null;
         }
         
+        // If it is already loaded return it
+        IArchimateModel model = locateLoadedModel(file);
+        if(model != null) {
+            return model;
+        }
+
         // Ascertain if this is an archive file
         boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
@@ -258,7 +274,7 @@ implements IEditorModelManager {
         catch(CompatibilityHandlerException ex) {
         }
 
-        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
+        model = (IArchimateModel)resource.getContents().get(0);
         model.setFile(file);
         model.setDefaults();
         getModels().add(model);
@@ -393,15 +409,19 @@ implements IEditorModelManager {
     
     @Override
     public boolean isModelLoaded(File file) {
+        return locateLoadedModel(file) != null;
+    }
+    
+    private IArchimateModel locateLoadedModel(File file) {
         if(file != null) {
             for(IArchimateModel model : getModels()) {
                 if(file.equals(model.getFile())) {
-                    return true;
+                    return model;
                 }
             }
         }
         
-        return false;
+        return null;
     }
 
     @Override

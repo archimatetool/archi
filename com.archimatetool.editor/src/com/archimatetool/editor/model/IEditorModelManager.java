@@ -71,8 +71,8 @@ public interface IEditorModelManager {
     void registerModel(IArchimateModel model);
     
     /**
-     * Open a model by loading it and opening its Views
-     * @return The newly opened model or null
+     * Open a model by loading it and opening it in the model tree
+     * @return The newly opened model or null if the file cannot be opened
      */
     IArchimateModel openModel(File file);
     
