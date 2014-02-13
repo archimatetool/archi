@@ -5,13 +5,18 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
@@ -28,7 +33,40 @@ public class PasteAction extends SelectionAction {
     
     private GraphicalViewer fGraphicalViewer;
     
-    private int fXMousePos = -1, fYMousePos = -1;
+    private Point fMousePosition = null;
+    
+    private IWindowListener windowListener = new IWindowListener() {
+        public final void windowActivated(IWorkbenchWindow window) {
+            refresh();
+        }
+
+        public final void windowClosed(IWorkbenchWindow window) {
+        }
+
+        public final void windowDeactivated(IWorkbenchWindow window) {
+        }
+
+        public final void windowOpened(IWorkbenchWindow window) {
+        }
+    };
+    
+    private MouseListener mouseListener = new MouseListener() {
+        @Override
+        public void mousePressed(MouseEvent me) {
+            Point pt = new Point(me.x, me.y);
+            ((IFigure)me.getSource()).translateFromParent(pt);
+            fMousePosition = pt;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me) {
+        }
+
+        @Override
+        public void mouseDoubleClicked(MouseEvent me) {
+        }
+    };
+
     
     public PasteAction(IWorkbenchPart part, GraphicalViewer viewer) {
         super(part);
@@ -41,7 +79,16 @@ public class PasteAction extends SelectionAction {
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
         setEnabled(false);
-        addMouseListener();
+ 
+        /**
+         * Listen to window activation to udpate Paste Action if clipboard contents has changed
+         */
+        getWorkbenchPart().getSite().getWorkbenchWindow().getWorkbench().addWindowListener(windowListener);
+        
+        /**
+         * Listen to mouse click position so that the Paste Action can paste objects at that point
+         */
+        ((GraphicalEditPart)fGraphicalViewer.getRootEditPart()).getFigure().addMouseListener(mouseListener);
     }
     
     @Override
@@ -62,9 +109,14 @@ public class PasteAction extends SelectionAction {
         
         if(obj instanceof CopySnapshot) {
             CopySnapshot clipBoardCopy = (CopySnapshot)obj;
-            execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fXMousePos, fYMousePos));
-            setMouseClickPosition(-1, -1);
+            execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition));
+            fMousePosition = null;
         }
+    }
+    
+    void reset() {
+        update();
+        fMousePosition = null;
     }
     
     private IDiagramModel getTargetDiagramModel() {
@@ -75,34 +127,13 @@ public class PasteAction extends SelectionAction {
         return diagramModel;
     }
     
-    /**
-     * Set the context menu position so that we can paste at this origin
-     * @param x
-     * @param y
-     */
-    void setMouseClickPosition(int x, int y) {
-        fXMousePos = x;
-        fYMousePos = y;
-    }
-    
-    /**
-     * Listen to mouse click position so that the Paste Action can paste objects at that point
-     */
-    private void addMouseListener() {
-        // Context menu click
-//        viewer.getControl().addMenuDetectListener(new MenuDetectListener() {
-//            public void menuDetected(MenuDetectEvent e) {
-//                Point pt = viewer.getControl().toControl(e.x, e.y);
-//                setMouseClickPosition(e.x, e.y);
-//            }
-//        });
+    @Override
+    public void dispose() {
+        super.dispose();
         
-        // Mouse down
-        fGraphicalViewer.getControl().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseDown(MouseEvent e) {
-                setMouseClickPosition(e.x, e.y);
-            }
-        });
+        getWorkbenchPart().getSite().getWorkbenchWindow().getWorkbench().removeWindowListener(windowListener);
+        ((GraphicalEditPart)fGraphicalViewer.getRootEditPart()).getFigure().removeMouseListener(mouseListener);
+        
+        fGraphicalViewer = null;
     }
 }

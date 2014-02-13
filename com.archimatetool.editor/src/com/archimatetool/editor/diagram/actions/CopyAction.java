@@ -89,8 +89,7 @@ public class CopyAction extends SelectionAction {
         CopySnapshot clipBoardCopy = new CopySnapshot(modelObjectsSelected);
         Clipboard.getDefault().setContents(clipBoardCopy);
         
-        // Update Paste Action
-        fPasteAction.update();
-        fPasteAction.setMouseClickPosition(-1, -1);
+        // Reset Paste Action
+        fPasteAction.reset();
     }
 }

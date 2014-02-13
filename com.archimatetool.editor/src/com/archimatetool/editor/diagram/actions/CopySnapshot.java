@@ -13,7 +13,10 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -49,11 +52,27 @@ import com.archimatetool.model.IRelationship;
  * When the user comes to Paste the objects, a new copy is made from the Snapshot.
  * Then a set of Undoable Commands is created for each newly created object.
  * 
- * This is truly horrible code.
+ * This is truly horrible code. @FIXME !!!!!
  *
  * @author Phillip Beauvoir
  */
 public final class CopySnapshot {
+    
+    /**
+     * Bi-directional Hashtable
+     * Can get key from value
+     */
+    public static class BidiHashtable<K, V> extends Hashtable<K, V> {
+        public synchronized K getKey(Object value) {
+            for(Entry<K, V> entry : entrySet()) {
+                V v = entry.getValue();
+                if(v.equals(value)) {
+                    return entry.getKey();
+                }
+            }
+            return null;
+        }
+    }
     
     /**
      * A new Diagram Model container that contains a copy of all copied diagram model objects.
@@ -65,22 +84,12 @@ public final class CopySnapshot {
     /**
      * Mapping of original objects to new copied objects in the Snapshot
      */
-    private Hashtable<IDiagramModelObject, IDiagramModelObject> fOriginalToSnapshotObjectsMapping;
-    
-    /**
-     * Mapping of new copied objects in the snapshot to original objects
-     */
-    private Hashtable<IDiagramModelObject, IDiagramModelObject> fSnapshotToOriginalObjectsMapping;
-    
-    /**
-     * Mapping of new copied Snapshot connections to original connections in the Snapshot
-     */
-    private Hashtable<IDiagramModelConnection, IDiagramModelConnection> fSnapshotToOriginalConnectionsMapping;
+    private BidiHashtable<IDiagramModelObject, IDiagramModelObject> fOriginalToSnapshotObjectsMapping;
     
     /**
      * Mapping of original connections to new copied Snapshot connections
      */
-    private Hashtable<IDiagramModelConnection, IDiagramModelConnection> fOriginalToSnapshotConnectionsMapping;
+    private BidiHashtable<IDiagramModelConnection, IDiagramModelConnection> fOriginalToSnapshotConnectionsMapping;
     
     /**
      * x, y mouse click offset for pasting in same diagram
@@ -103,7 +112,8 @@ public final class CopySnapshot {
     private IArchimateModel fTargetArchimateModel;
     
     /**
-     * Clear the system Clipboard of any CopySnapshot object if the CopySnapshot references a model that is closed
+     * When a model is closed in the the app clear the system Clipboard of any CopySnapshot objects
+     * if the CopySnapshot references thta model that is closed
      */
     static {
         IEditorModelManager.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
@@ -128,12 +138,9 @@ public final class CopySnapshot {
      * @param modelObjectsSelected
      */
     public CopySnapshot(List<IDiagramModelObject> modelObjectsSelected) {
-        // Mappings
-        fOriginalToSnapshotObjectsMapping = new Hashtable<IDiagramModelObject, IDiagramModelObject>();
-        fSnapshotToOriginalObjectsMapping = new Hashtable<IDiagramModelObject, IDiagramModelObject>();
-        
-        fSnapshotToOriginalConnectionsMapping = new Hashtable<IDiagramModelConnection, IDiagramModelConnection>();
-        fOriginalToSnapshotConnectionsMapping = new Hashtable<IDiagramModelConnection, IDiagramModelConnection>();
+        // Mappings of original objects to snapshot objects
+        fOriginalToSnapshotObjectsMapping = new BidiHashtable<IDiagramModelObject, IDiagramModelObject>();
+        fOriginalToSnapshotConnectionsMapping = new BidiHashtable<IDiagramModelConnection, IDiagramModelConnection>();
         
         if(modelObjectsSelected == null || modelObjectsSelected.isEmpty()) {
             return;
@@ -174,7 +181,6 @@ public final class CopySnapshot {
             if(newSource != null && newTarget != null) {
                 IDiagramModelConnection newConnection = (IDiagramModelConnection)originalConnection.getCopy();
                 newConnection.connect(newSource, newTarget);
-                fSnapshotToOriginalConnectionsMapping.put(newConnection, originalConnection);
                 fOriginalToSnapshotConnectionsMapping.put(originalConnection, newConnection);
             }
         }
@@ -189,7 +195,6 @@ public final class CopySnapshot {
         
         // Add to mapping
         fOriginalToSnapshotObjectsMapping.put(originalObject, newObject);
-        fSnapshotToOriginalObjectsMapping.put(newObject, originalObject);
         
         if(newObject instanceof IDiagramModelContainer) {
             for(IDiagramModelObject child : ((IDiagramModelContainer)originalObject).getChildren()) {
@@ -234,7 +239,7 @@ public final class CopySnapshot {
     }
     
     /*
-     * Copy connections where both nodes are stored in Snapshot
+     * Copy connections where both nodes are stored in the Snapshot
      */
     private List<IDiagramModelConnection> getConnectionsToCopy() {
         List<IDiagramModelConnection> connections = new ArrayList<IDiagramModelConnection>();
@@ -282,8 +287,8 @@ public final class CopySnapshot {
             return false;
         }
         
-        for(IDiagramModelObject object : fSnapshotToOriginalObjectsMapping.keySet()) {
-            if(isValidPasteObject(targetDiagramModel, object)) { // at least one selected object is valid
+        for(Entry<IDiagramModelObject, IDiagramModelObject> entry : fOriginalToSnapshotObjectsMapping.entrySet()) {
+            if(isValidPasteObject(targetDiagramModel, entry.getValue())) { // at least one selected object is valid
                 return true;
             }
         }
@@ -344,12 +349,13 @@ public final class CopySnapshot {
     }
     
     /**
-     * @param targetDiagramModel
-     * @param viewer
-     * @return A Paste Command
+     * @param targetDiagramModel The diagram model to paste to
+     * @param viewer An optional GraphicalViewer to select the pasted object
+     * @param mousePosition position of mouse clicked in viewer or null if no mouse click
+     * @return A command or null if targetDiagramModel is null
      */
-    public Command getPasteCommand(IDiagramModel targetDiagramModel, GraphicalViewer viewer, int xMousePos, int yMousePos) {
-        if(targetDiagramModel == null || viewer == null) {
+    public Command getPasteCommand(IDiagramModel targetDiagramModel, GraphicalViewer viewer, Point mousePosition) {
+        if(targetDiagramModel == null) {
             return null;
         }
         
@@ -358,11 +364,8 @@ public final class CopySnapshot {
         // Create copies of Archimate Elements or not
         fDoCreateArchimateElementCopies = needsCopiedArchimateElements(targetDiagramModel);
 
-        // Find smallest x,y origin offset to paste at
-        // TODO Calculate offsets
-        fXOffSet += 20;
-        fYOffSet += 20;
-        //calculateXYOffset(xMousePos, yMousePos);
+        // Find x,y origin offset to paste at
+        calculateXYOffset(mousePosition);
         
         // Mapping of snapshot objects to new copy, used for connections
         Hashtable<IDiagramModelObject, IDiagramModelObject> tmpSnapshotToNewObjectMapping = new Hashtable<IDiagramModelObject, IDiagramModelObject>();
@@ -377,8 +380,8 @@ public final class CopySnapshot {
         }
 
         // Then Connections
-        for(IDiagramModelConnection connection : fSnapshotToOriginalConnectionsMapping.keySet()) {
-            createPasteConnectionCommand(connection, result, tmpSnapshotToNewObjectMapping);
+        for(Entry<IDiagramModelConnection, IDiagramModelConnection> entry : fOriginalToSnapshotConnectionsMapping.entrySet()) {
+            createPasteConnectionCommand(entry.getValue(), result, tmpSnapshotToNewObjectMapping);
         }
         
         return result; // Don't return unwrap() as we want the CompoundCommand to execute to select the objects
@@ -408,7 +411,7 @@ public final class CopySnapshot {
             }
             // Else re-use original ArchiMate element
             else {
-                IDiagramModelArchimateObject originalDiagramObject = (IDiagramModelArchimateObject)fSnapshotToOriginalObjectsMapping.get(snapshotObject);
+                IDiagramModelArchimateObject originalDiagramObject = (IDiagramModelArchimateObject)fOriginalToSnapshotObjectsMapping.getKey(snapshotObject);
                 IArchimateElement element = originalDiagramObject.getArchimateElement();
                 dmo.setArchimateElement(element);
             }
@@ -433,16 +436,18 @@ public final class CopySnapshot {
      */
     private void createPasteConnectionCommand(IDiagramModelConnection snapshotConnection, CompoundCommand result,
                                             Hashtable<IDiagramModelObject, IDiagramModelObject> tmpSnapshotToNewObjectMapping) {
+        
         // Check with mapping for original source and target
         IDiagramModelObject newSource = tmpSnapshotToNewObjectMapping.get(snapshotConnection.getSource());
         IDiagramModelObject newTarget = tmpSnapshotToNewObjectMapping.get(snapshotConnection.getTarget());
+        
         // Only add Connections that have both nodes copied as well
         if(newSource != null && newTarget != null) {
             IDiagramModelConnection newConnection = (IDiagramModelConnection)snapshotConnection.getCopy();
             
             // Re-use original Archimate relationship
             if(!fDoCreateArchimateElementCopies && snapshotConnection instanceof IDiagramModelArchimateConnection) {
-                IDiagramModelArchimateConnection originalDiagramConnection = (IDiagramModelArchimateConnection)fSnapshotToOriginalConnectionsMapping.get(snapshotConnection);
+                IDiagramModelArchimateConnection originalDiagramConnection = (IDiagramModelArchimateConnection)fOriginalToSnapshotConnectionsMapping.getKey(snapshotConnection);
                 IRelationship relationship = originalDiagramConnection.getRelationship();
                 ((IDiagramModelArchimateConnection)newConnection).setRelationship(relationship);
             }
@@ -450,38 +455,56 @@ public final class CopySnapshot {
             result.add(new PasteDiagramConnectionCommand(newConnection, newSource, newTarget, fDoCreateArchimateElementCopies));
         }
     }
-
+    
+    // ================================================================================================================
+    
     /**
-     * Find smallest x,y origin offset to paste at
-     * @param selected
+     * Calculate x,y origin offset based on mouse click for paste action.
+     * TODO: This is not really working for selections that contain a mixture of elements with various parent containers.
      */
-    @SuppressWarnings("unused")
-    private void calculateXYOffset(int xMousePos, int yMousePos) {
-        /*
-         * TODO - Get this calculation working
-         */
-        if(xMousePos == -1) {
-            fXOffSet = 0;
-            fYOffSet = 0;
+    private void calculateXYOffset(Point mousePosition) {
+        // No mouse click, so increment position by 10,10
+        // FIXME: If selected objects are child objects then the offset is relative to the diagram, not the parent objects
+        if(mousePosition == null) {
+            fXOffSet += 10;
+            fYOffSet += 10;
+            return;
         }
-        else {
-            int smallest_x = -1, smallest_y = -1;
+        
+        // Find leftmost and topmost origin of top level copied objects
+        Point ptSmallest = getMinimumPoint(fOriginalToSnapshotObjectsMapping.keySet());
 
-            for(IDiagramModelObject dmo : fOriginalToSnapshotObjectsMapping.keySet()) {
-                int x = dmo.getBounds().getX();
-                int y = dmo.getBounds().getY();
-                if(smallest_x == -1 || x < smallest_x) {
-                    smallest_x = x;
-                }
-                if(smallest_y == -1 || y < smallest_y) {
-                    smallest_y = y;
-                }
-            }
-
-            fXOffSet = xMousePos - smallest_x;
-            fYOffSet = yMousePos - smallest_y;
+        if(ptSmallest != null) {
+            fXOffSet = mousePosition.x - ptSmallest.x;
+            fYOffSet = mousePosition.y - ptSmallest.y;
         }
     }
+    
+    // Find leftmost and topmost origin of top level objects
+    private Point getMinimumPoint(Set<IDiagramModelObject> selectedObjects) {
+        int xOrigin = -99999, yOrigin = -99999; // flag values
+        
+        for(IDiagramModelObject dmo : selectedObjects) {
+            int x = dmo.getBounds().getX();
+            int y = dmo.getBounds().getY();
+            
+            // If this object has a parent that is also selected, ignore it
+            if(dmo.eContainer() instanceof IDiagramModelObject && selectedObjects.contains(dmo.eContainer())) {
+                continue;
+            }
+            
+            if(xOrigin == -99999 || x < xOrigin) {
+                xOrigin = x;
+            }
+            
+            if(yOrigin == -99999 || y < yOrigin) {
+                yOrigin = y;
+            }
+        }
+        
+        return (xOrigin == -99999 && yOrigin == -99999) ? null : new Point(xOrigin, yOrigin);
+    }
+    
     
     // ================================================================================================================
     // Commands
@@ -491,20 +514,20 @@ public final class CopySnapshot {
      * Compound Command
      */
     private static class PasteCompoundCommand extends NonNotifyingCompoundCommand {
-        private GraphicalViewer fViewer;
+        private GraphicalViewer graphicalViewer;
         private Hashtable<IDiagramModelObject, IDiagramModelObject> tempOriginalToNewMapping;
         
         public PasteCompoundCommand(String title,  Hashtable<IDiagramModelObject, IDiagramModelObject> tempOriginalToNewMapping, GraphicalViewer viewer) {
             super(title);
             this.tempOriginalToNewMapping = tempOriginalToNewMapping;
-            fViewer = viewer;
+            graphicalViewer = viewer;
         }
 
         @Override
         public void execute() {
             super.execute();
             
-            // Select the new objects
+            // Select the new objects if we are showing a viewer
             selectNewObjects();
         }
         
@@ -517,22 +540,24 @@ public final class CopySnapshot {
         }
         
         private void selectNewObjects() {
-            List<EditPart> selected = new ArrayList<EditPart>();
-            for(Enumeration<IDiagramModelObject> enm = tempOriginalToNewMapping.elements(); enm.hasMoreElements();) {
-                IDiagramModelObject object = enm.nextElement();
-                EditPart editPart = (EditPart)fViewer.getEditPartRegistry().get(object);
-                if(editPart != null && editPart.isSelectable()) {
-                    selected.add(editPart);
+            if(graphicalViewer != null) {
+                List<EditPart> selected = new ArrayList<EditPart>();
+                for(Enumeration<IDiagramModelObject> enm = tempOriginalToNewMapping.elements(); enm.hasMoreElements();) {
+                    IDiagramModelObject object = enm.nextElement();
+                    EditPart editPart = (EditPart)graphicalViewer.getEditPartRegistry().get(object);
+                    if(editPart != null && editPart.isSelectable()) {
+                        selected.add(editPart);
+                    }
                 }
+                
+                graphicalViewer.setSelection(new StructuredSelection(selected));
             }
-            
-            fViewer.setSelection(new StructuredSelection(selected));
         }
         
         @Override
         public void dispose() {
             super.dispose();
-            fViewer = null;
+            graphicalViewer = null;
             tempOriginalToNewMapping = null;
         }
     }
