@@ -482,7 +482,7 @@ public final class CopySnapshot {
     
     // Find leftmost and topmost origin of top level objects
     private Point getMinimumPoint(Set<IDiagramModelObject> selectedObjects) {
-        int xOrigin = -99999, yOrigin = -99999; // flag values
+        int xOrigin = 99999, yOrigin = 99999; // flag values
         
         for(IDiagramModelObject dmo : selectedObjects) {
             int x = dmo.getBounds().getX();
@@ -493,16 +493,16 @@ public final class CopySnapshot {
                 continue;
             }
             
-            if(xOrigin == -99999 || x < xOrigin) {
+            if(x < xOrigin) {
                 xOrigin = x;
             }
             
-            if(yOrigin == -99999 || y < yOrigin) {
+            if(y < yOrigin) {
                 yOrigin = y;
             }
         }
         
-        return (xOrigin == -99999 && yOrigin == -99999) ? null : new Point(xOrigin, yOrigin);
+        return (xOrigin == 99999 || yOrigin == 99999) ? null : new Point(xOrigin, yOrigin);
     }
     
     
