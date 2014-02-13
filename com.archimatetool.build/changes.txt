@@ -4,12 +4,13 @@ Archi Changes
 
 Version 2.6.1 February XX 2014
 ------------------------------
-+ Connection bend-points - added a key modifier for ignoring snap to grid while dragging (Alt key or Ctrl key on Mac)
++ Connection bendpoints - added a key modifier for ignoring snap to grid while dragging bendpoint (Alt key on Win/Lnx, Ctrl key on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
-+ Windows Zip installation: added batch files to associate *.archimate files with Archi
++ [Copy/Paste] Clicking on a point on a diagram sets that as the point to paste copied diagram objects
++ The Windows Zip installation includes batch files to associate *.archimate files with Archi
 + [Internal Model] Added support for arbitrary metadata key/value pairs
 + The Java version shipped with the Windows installer is now version 1.7.0_51
-* Fixed Format Painter not applying fill colour if it was the "default" fill colour
+* Fixed the Format Painter not applying fill colour if it was the "default" fill colour
 * Fixed Full Screen mode not really being full screen on Windows 8
 
 
