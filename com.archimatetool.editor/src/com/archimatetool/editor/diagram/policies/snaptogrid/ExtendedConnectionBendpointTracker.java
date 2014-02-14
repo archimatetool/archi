@@ -1,12 +1,3 @@
-package com.archimatetool.editor.diagram.policies.snaptogrid;
-
-/**
- * snap-to-grid patch  by Jean-Baptiste Sarrodie (aka Jaiguru)
- * 
- * This Class has been extended to allow change on
- * protected method updateSourceRequest
- */
-
 /*******************************************************************************
  * Copyright (c) 2000, 2010 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -17,18 +8,24 @@ package com.archimatetool.editor.diagram.policies.snaptogrid;
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-//package org.eclipse.gef.tools;
+
+package com.archimatetool.editor.diagram.policies.snaptogrid;
+
+/**
+ * snap-to-grid patch  by Jean-Baptiste Sarrodie (aka Jaiguru)
+ * 
+ * This Class has been extended to allow change on
+ * protected method updateSourceRequest
+ */
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.requests.BendpointRequest;
 import org.eclipse.gef.tools.ConnectionBendpointTracker;
 import org.eclipse.swt.SWT;
-
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
-// snap-to-grid patch
 
 /**
  * A tracker for creating new bendpoints or dragging existing ones. The
@@ -75,7 +72,16 @@ public class ExtendedConnectionBendpointTracker extends ConnectionBendpointTrack
 	    super(editpart, i);
 	}
 
-
+	// snap-to-grid patch
+    protected boolean isSnapToGridEnabled() {
+        return (Boolean)getCurrentViewer().getProperty(SnapToGrid.PROPERTY_GRID_ENABLED);
+    }
+    
+    // snap-to-grid patch
+    protected int getSnapGridSize() {
+        return ((Dimension)getCurrentViewer().getProperty(SnapToGrid.PROPERTY_GRID_SPACING)).width;
+    }
+    
 	/**
 	 * @see org.eclipse.gef.tools.SimpleDragTracker#updateSourceRequest()
 	 */
@@ -86,10 +92,9 @@ public class ExtendedConnectionBendpointTracker extends ConnectionBendpointTrack
         // snap-to-grid patch
 		Point p = getLocation();
 		
-		// Check prefs and whether user is holding down modifier key
-        boolean s2g = Preferences.STORE.getBoolean(IPreferenceConstants.GRID_SNAP);
-        if(s2g && !getCurrentInput().isModKeyDown(MODIFIER_NO_SNAPPING)) {
-            int gs = Preferences.STORE.getInt(IPreferenceConstants.GRID_SIZE);
+		// Check whether snap enabled and whether user is holding down modifier key
+        if(isSnapToGridEnabled() && !getCurrentInput().isModKeyDown(MODIFIER_NO_SNAPPING)) {
+            int gs = getSnapGridSize();
         	p.setX((p.x/gs) * gs);
             p.setY((p.y/gs) * gs);
         }
