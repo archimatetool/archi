@@ -15,10 +15,7 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.common.util.EList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
@@ -32,11 +29,6 @@ import com.archimatetool.model.TestSupport;
 @SuppressWarnings("nls")
 public class MetadataTests {
     
-    /**
-     * This is required in order to run JUnit 4 tests with the old JUnit runner
-     * 
-     * @return
-     */
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(MetadataTests.class);
     }
@@ -48,37 +40,25 @@ public class MetadataTests {
     // BEFORE AND AFTER METHODS GO HERE 
     // ---------------------------------------------------------------------------------------------
     
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-    }
-    
-    @AfterClass
-    public static void runOnceAfterAllTests() {
-    }
-    
     @Before
     public void runBeforeEachTest() {
         model = IArchimateFactory.eINSTANCE.createArchimateModel();
         metadata = model.getMetadata();
     }
     
-    @After
-    public void runAfterEachTest() {
-    }
-    
     // ---------------------------------------------------------------------------------------------
-    // Metadata
+    // Tests
     // ---------------------------------------------------------------------------------------------
     
     @Test
-    public void testGetEntries() throws Exception {
+    public void testGetEntries() {
         assertNotNull(metadata.getEntries());
         assertEquals(0, metadata.getEntries().size());
     }
     
     @Test
     public void testEntryCreated() throws Exception {
-        String key ="some_key", value = "some_value";
+        String key = "some_key", value = "some_value";
         
         // Add a metadata entry as a property key/value pair
         IProperty property = IArchimateFactory.eINSTANCE.createProperty();
@@ -111,7 +91,7 @@ public class MetadataTests {
     
     @Test
     public void testAddEntry() {
-        String key ="some_key", value = "some_value";
+        String key = "some_key", value = "some_value";
 
         IProperty property = metadata.addEntry(key, value);
         assertNotNull(property);
@@ -131,7 +111,7 @@ public class MetadataTests {
         
     @Test
     public void testGetEntry() {
-        String key ="some_key", value = "some_value";
+        String key = "some_key", value = "some_value";
         
         assertNull(metadata.getEntry("something"));
         
