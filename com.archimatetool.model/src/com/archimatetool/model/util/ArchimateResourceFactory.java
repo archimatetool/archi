@@ -44,12 +44,18 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
      * @return a Resource that allows saving and loading files with any type of file extension
      *          as registered in plugin.xml
      */
-    public static Resource createResource(File file) {
-        ResourceSet resourceSet = createResourceSet();
-        
+    public static Resource createNewResource(File file) {
+        return createNewResource(URI.createFileURI(file.getAbsolutePath()));
+    }
+
+    /**
+     * @return a Resource that allows saving and loading files with any type of file extension
+     *          as registered in plugin.xml
+     */
+    public static Resource createNewResource(URI uri) {
         // This will return an ArchimateResource as registered in plugin.xml
-        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
-        return resource;
+        ResourceSet resourceSet = createResourceSet();
+        return resourceSet.createResource(uri);
     }
 
     /**
@@ -57,7 +63,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
      */
     public static ResourceSet createResourceSet() {
         ResourceSet resourceSet = new ResourceSetImpl();
-        // Register the * extension on the ResourceSet to over-ride the ECore global one
+        // Register the * extension on the ResourceSet to over-ride the ECore global one (I'm not sure why we need to do this)
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ArchimateResourceFactory());  //$NON-NLS-1$
         return resourceSet;
     }

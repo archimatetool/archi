@@ -20,10 +20,8 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
@@ -260,8 +258,7 @@ public class ArchiveManager implements IArchiveManager {
      * Save the model to XML File format
      */
     private void saveModelToXMLFile(File file) throws IOException {
-        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
-        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
+        Resource resource = ArchimateResourceFactory.createNewResource(file);
         resource.getContents().add(fModel);
         resource.save(null);
     }

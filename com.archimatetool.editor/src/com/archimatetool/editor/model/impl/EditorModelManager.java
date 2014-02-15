@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
@@ -229,8 +228,7 @@ implements IEditorModelManager {
         boolean useArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
         // Create the Resource
-        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
-        Resource resource = resourceSet.createResource(useArchiveFormat ?
+        Resource resource = ArchimateResourceFactory.createNewResource(useArchiveFormat ?
                                                        IArchiveManager.FACTORY.createArchiveModelURI(file) :
                                                        URI.createFileURI(file.getAbsolutePath()));
 

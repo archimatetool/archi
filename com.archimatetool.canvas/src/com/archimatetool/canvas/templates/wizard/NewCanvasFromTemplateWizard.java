@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -113,8 +112,7 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         // Ascertain if this is a zip file
         boolean isArchiveFormat = IArchiveManager.FACTORY.isArchiveFile(file);
         
-        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
-        Resource resource = resourceSet.createResource(isArchiveFormat ?
+        Resource resource = ArchimateResourceFactory.createNewResource(isArchiveFormat ?
                                                        IArchiveManager.FACTORY.createArchiveModelURI(file) :
                                                        URI.createFileURI(file.getAbsolutePath()));
 
