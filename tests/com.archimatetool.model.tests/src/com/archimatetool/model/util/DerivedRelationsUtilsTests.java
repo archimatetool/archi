@@ -10,10 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.FolderType;
@@ -22,8 +18,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
-import com.archimatetool.model.util.DerivedRelationsUtils;
 
 
 
@@ -34,33 +28,8 @@ import com.archimatetool.model.util.DerivedRelationsUtils;
  */
 public class DerivedRelationsUtilsTests {
 
-    /**
-     * This is required in order to run JUnit 4 tests with the old JUnit runner
-     * 
-     * @return
-     */
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DerivedRelationsUtilsTests.class);
-    }
-    
-    // ---------------------------------------------------------------------------------------------
-    // BEFORE AND AFTER METHODS GO HERE 
-    // ---------------------------------------------------------------------------------------------
-    
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-    }
-    
-    @AfterClass
-    public static void runOnceAfterAllTests() {
-    }
-
-    @Before
-    public void runBeforeEachTest() {
-    }
-    
-    @After
-    public void runAfterEachTest() {
     }
     
     @Test
@@ -91,8 +60,6 @@ public class DerivedRelationsUtilsTests {
         assertEquals(2, ArchimateModelUtils.getRelationships(element1).size());
         assertEquals(2, ArchimateModelUtils.getRelationships(element2).size());
     }
-    
-    
     
     @Test
     public void isInDerivedChain1_TestForCircular() {
@@ -194,6 +161,5 @@ public class DerivedRelationsUtilsTests {
         assertTrue(DerivedRelationsUtils.isInDerivedChain(relation1));
         assertTrue(DerivedRelationsUtils.isInDerivedChain(relation2));
         assertTrue(DerivedRelationsUtils.isInDerivedChain(relation3));
-       
     }
 } 

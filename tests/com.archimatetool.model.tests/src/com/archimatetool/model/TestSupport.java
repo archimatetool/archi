@@ -8,9 +8,7 @@ package com.archimatetool.model;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.tests.TestUtils;
@@ -38,8 +36,7 @@ public class TestSupport {
     public static File saveModel(IArchimateModel model) throws IOException {
         File file = TestUtils.createTempFile(".archimate");
         
-        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
-        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
+        Resource resource = ArchimateResourceFactory.createNewResource(file);
         resource.getContents().add(model);
         resource.save(null);
     
@@ -47,8 +44,7 @@ public class TestSupport {
     }
 
     public static IArchimateModel loadModel(File file) throws IOException {
-        ResourceSet resourceSet = ArchimateResourceFactory.createResourceSet();
-        Resource resource = resourceSet.createResource(URI.createFileURI(file.getAbsolutePath()));
+        Resource resource = ArchimateResourceFactory.createNewResource(file);
         resource.load(null);
         return (IArchimateModel)resource.getContents().get(0);
     }
