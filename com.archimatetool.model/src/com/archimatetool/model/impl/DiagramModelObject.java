@@ -251,6 +251,16 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void setBounds(int x, int y, int width, int height) {
+        IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(x, y, width, height);
+        setBounds(bounds);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
     public NotificationChain basicSetBounds(IBounds newBounds, NotificationChain msgs) {
@@ -466,11 +476,8 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         if(connection == null) {
             throw new IllegalArgumentException("Connection was null"); //$NON-NLS-1$
         }
-        if(connection.getSource() == connection.getTarget()) {
-            //throw new IllegalArgumentException("Connection source is same as target!");
-        }
         
-        // This used to be "if/else if". This way it is possible for source == target (recursive) - just in case!
+        // This used to be "if/else if". This way it is possible for source == target (recursive)
         if(connection.getSource() == this) {
             getSourceConnections().add(connection);
         }
@@ -497,16 +504,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         if(connection.getTarget() == this) {
             getTargetConnections().remove(connection);
         }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public void setBounds(int x, int y, int width, int height) {
-        IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(x, y, width, height);
-        setBounds(bounds);
     }
 
     /**

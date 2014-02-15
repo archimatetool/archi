@@ -177,13 +177,17 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      */
     public void addArchimateElementToModel(IFolder parent) {
         IArchimateElement element = getArchimateElement();
-        if(element != null && element.eContainer() == null) {
-            // If parent is null use default folder
-            if(parent == null) {
-                parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(element);
-            }
-            parent.getElements().add(element);
+
+        if(element != null && element.eContainer() != null) {
+            throw new IllegalArgumentException("Element already has parent folder"); //$NON-NLS-1$
         }
+        
+        // If parent is null use default folder
+        if(parent == null) {
+            parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(element);
+        }
+
+        parent.getElements().add(element);
     }
 
     /**

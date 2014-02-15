@@ -132,13 +132,17 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      */
     public void addRelationshipToModel(IFolder parent) {
         IRelationship relationship = getRelationship();
-        if(relationship != null && relationship.eContainer() == null) {
-            // If parent is null use default folder
-            if(parent == null) {
-                parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(relationship);
-            }
-            parent.getElements().add(relationship);
+
+        if(relationship != null && relationship.eContainer() != null) {
+            throw new IllegalArgumentException("Relationship already has parent folder"); //$NON-NLS-1$
         }
+        
+        // If parent is null use default folder
+        if(parent == null) {
+            parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(relationship);
+        }
+        
+        parent.getElements().add(relationship);
     }
 
     /**
