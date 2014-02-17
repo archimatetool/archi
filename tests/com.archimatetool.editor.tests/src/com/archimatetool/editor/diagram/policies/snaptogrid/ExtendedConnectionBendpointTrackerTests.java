@@ -10,26 +10,43 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
+import org.eclipse.gef.GraphicalViewer;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
+import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.tests.TestUtils;
 
 public class ExtendedConnectionBendpointTrackerTests {
+    
+    private static IArchimateModel model;
+    private static IDiagramModel dm;
+    private static GraphicalViewer viewer;
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ExtendedConnectionBendpointTrackerTests.class);
     }
     
-    @Before
-    public void runBeforeEachTest() {
+    @BeforeClass
+    public static void runOnceBeforeAllTests() {
+        IEditorModelManager editorModeManager = new EditorModelManager();
+        model = editorModeManager.createNewModel();
+        dm = model.getDefaultDiagramModel();
+        IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
+        viewer = editor.getGraphicalViewer();
+    }
+
+    @AfterClass
+    public static void runOnceAfterAllTests() {
+        TestUtils.closeAllEditors();
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -38,12 +55,8 @@ public class ExtendedConnectionBendpointTrackerTests {
 
     @Test
     public void testIsSnapToGridEnabled() {
-        IArchimateModel model = new EditorModelManager().openModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
-        IDiagramModel dm = model.getDiagramModels().get(1);
-        IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
-        
         ExtendedConnectionBendpointTracker tracker = new ExtendedConnectionBendpointTracker();
-        tracker.setViewer(editor.getGraphicalViewer());
+        tracker.setViewer(viewer);
         
         Preferences.STORE.setValue(IPreferenceConstants.GRID_SNAP, true);
         assertTrue(tracker.isSnapToGridEnabled());
@@ -54,12 +67,8 @@ public class ExtendedConnectionBendpointTrackerTests {
 
     @Test
     public void testGetSnapGridSize() {
-        IArchimateModel model = new EditorModelManager().openModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
-        IDiagramModel dm = model.getDiagramModels().get(1);
-        IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
-        
         ExtendedConnectionBendpointTracker tracker = new ExtendedConnectionBendpointTracker();
-        tracker.setViewer(editor.getGraphicalViewer());
+        tracker.setViewer(viewer);
         
         Preferences.STORE.setValue(IPreferenceConstants.GRID_SIZE, 12);
         assertEquals(12, tracker.getSnapGridSize());

@@ -18,6 +18,7 @@ import junit.framework.JUnit4TestAdapter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +50,10 @@ public class EditorModelManagerTests {
         editorModelManager = new EditorModelManager();
     }
 
+    @AfterClass
+    public static void runOnceAfterAllTests() {
+        TestUtils.closeAllEditors();
+    }
     
     // ---------------------------------------------------------------------------------------------
     // Tests

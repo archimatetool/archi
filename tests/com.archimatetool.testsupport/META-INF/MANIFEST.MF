@@ -6,4 +6,5 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.archimatetool.tests
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui

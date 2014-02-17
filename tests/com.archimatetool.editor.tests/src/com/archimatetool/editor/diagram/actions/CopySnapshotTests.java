@@ -16,7 +16,7 @@ import java.util.List;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.commands.Command;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +32,7 @@ import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
 public class CopySnapshotTests {
@@ -53,8 +54,9 @@ public class CopySnapshotTests {
         model.getDefaultFolderForElement(targetDiagramModel).getElements().add(targetDiagramModel);
     }
 
-    @After
-    public void runAfterEachTest() {
+    @AfterClass
+    public static void runOnceAfterAllTests() {
+        TestUtils.closeAllEditors();
     }
 
     // ---------------------------------------------------------------------------------------------

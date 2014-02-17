@@ -81,26 +81,21 @@ public class FormatPainterToolTests {
         FormatPainterTool tool = new FormatPainterTool();
         
         IDiagramModelConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
-        boolean result = invokeIsPaintableObject(tool, dmc);
+        boolean result = tool.isPaintableObject(dmc);
         assertTrue(result);
         
         IDiagramModelObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelNote();
-        result = invokeIsPaintableObject(tool, dmo);
+        result = tool.isPaintableObject(dmo);
         assertTrue(result);
         
         IDiagramModelArchimateObject dmao = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         
         dmao.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
-        result = invokeIsPaintableObject(tool, dmao);
+        result = tool.isPaintableObject(dmao);
         assertTrue(result);
         
         dmao.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
-        result = invokeIsPaintableObject(tool, dmao);
+        result = tool.isPaintableObject(dmao);
         assertFalse(result);
-    }
-    
-    private boolean invokeIsPaintableObject(FormatPainterTool tool, Object obj) throws Exception {
-        return (Boolean)TestUtils.invokePrivateMethod(tool, "isPaintableObject",
-                new Class[] { Object.class }, new Object[] { obj });
     }
 }

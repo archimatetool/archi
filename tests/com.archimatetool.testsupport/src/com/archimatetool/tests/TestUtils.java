@@ -13,6 +13,8 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 
 
@@ -141,4 +143,16 @@ public class TestUtils {
             }
         }
     }
+    
+    /**
+     * Close all open Editor Parts
+     * @param model
+     */
+    public static void closeAllEditors() {
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        if(page != null) {
+            page.closeAllEditors(false);
+        }
+    }
+
 }
