@@ -5,11 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
@@ -36,17 +31,14 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
     public static Dimension DEFAULT_SIZE = new Dimension(200, 150);
     
-    private String fImagePath;
     private Image fImage;
+    private Dimension fOriginalImageSize, fCurrentImageSize;
     
     private Color fBorderColor;
     
-    /**
-     * Global Image cache of original images to improve rescaling speed
-     */
-    private static Map<String, Image> imageCache = new HashMap<String, Image>();
-    private static List<String> imageCacheTally = new ArrayList<String>();
-
+    // This is way faster than Draw2D re-drawing the original image at scale
+    private boolean useScaledImage = true;
+    
     public DiagramImageFigure(IDiagramModelImage diagramModelImage) {
         super(diagramModelImage);
     }
@@ -59,9 +51,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     @Override
     protected void setUI() {
         setLayoutManager(new GridLayout());
-        
         setOpaque(true);
-        
         setImage();
     }
     
@@ -69,17 +59,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
      * Update the image with new path
      */
     public void updateImage() {
-        disposeImage();
-        releaseOriginalImage();
-        
         setImage();
-        
         revalidate();
         repaint();
     }
     
     public void refreshVisuals() {
-        // Border Color
         setBorderColor();
     }
 
@@ -100,10 +85,10 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     }
 
     public Dimension getDefaultSize() {
-        Image originalImage = getOriginalImage();
-        if(originalImage != null) {
-            return new Dimension(originalImage.getBounds().width, originalImage.getBounds().height);
+        if(fOriginalImageSize != null) {
+            return fOriginalImageSize;
         }
+        
         return DEFAULT_SIZE;
     }
     
@@ -117,9 +102,16 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         graphics.setAntialias(SWT.ON);
         graphics.setInterpolation(SWT.HIGH);
         
-        if(fImagePath != null && fImage != null) {
-            rescaleImage();
-            graphics.drawImage(fImage, bounds.x, bounds.y);
+        if(fImage != null) {
+            if(useScaledImage) {
+                rescaleImage();
+                graphics.drawImage(fImage, bounds.x, bounds.y);
+            }
+            // This is way too slow
+            else {
+                graphics.drawImage(fImage, 0, 0, fImage.getBounds().width, fImage.getBounds().height,
+                        bounds.x, bounds.y, bounds.width, bounds.height);
+            }
         }
         else {
             super.paintFigure(graphics);
@@ -137,33 +129,39 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     /**
      * Set the image and store it
      */
-    private void setImage() {
-        fImagePath = getDiagramModelObject().getImagePath();
-        if(fImagePath != null) {
-            Image originalImage = imageCache.get(fImagePath);
-            
-            if(originalImage == null) {
-                IArchiveManager archiveManager = (IArchiveManager)getDiagramModelObject().getAdapter(IArchiveManager.class);
-                try {
-                    originalImage = archiveManager.createImage(fImagePath);
-                    imageCache.put(fImagePath, originalImage);
-                }
-                catch(Exception ex) {
-                    ex.printStackTrace();
-                    return;
-                }
-            }
-            
-            retainOriginalImage();
-
-            fImage = originalImage;
+    protected void setImage() {
+        disposeImage();
+        
+        fImage = getOriginalImage();
+        
+        if(fImage != null) {
+            fOriginalImageSize = new Dimension(fImage.getBounds().width, fImage.getBounds().height);
+            fCurrentImageSize = new Dimension(fOriginalImageSize);
         }
+    }
+    
+    protected Image getOriginalImage() {
+        Image image = null;
+        
+        String imagePath = getDiagramModelObject().getImagePath();
+        
+        if(imagePath != null) {
+            IArchiveManager archiveManager = (IArchiveManager)getDiagramModelObject().getAdapter(IArchiveManager.class);
+            try {
+                image = archiveManager.createImage(imagePath);
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return image;
     }
     
     /**
      * Use a re-usable rescaled image because drawing an image to scale in paintFigure(Graphics) is too slow
      */
-    private void rescaleImage() {
+    protected void rescaleImage() {
         int width = bounds.width;
         int height = bounds.height;
         
@@ -172,7 +170,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // If the image bounds are different to those in the current image, rescale the image
-        if(width != fImage.getBounds().width || height != fImage.getBounds().height) {
+        if(width != fCurrentImageSize.width || height != fCurrentImageSize.height) {
             disposeImage();
             
             Image originalImage = getOriginalImage();
@@ -181,37 +179,18 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
             if(width == originalImage.getBounds().width && height == originalImage.getBounds().height) {
                 fImage = originalImage;
             }
+            // Scaled image
             else {
                 fImage = ImageFactory.getScaledImage(originalImage, width, height);
+                originalImage.dispose();
             }
+
+            fCurrentImageSize = new Dimension(fImage.getBounds().width, fImage.getBounds().height);
         }
     }
     
-    private Image getOriginalImage() {
-        return fImagePath == null ? null : imageCache.get(fImagePath);
-    }
-
-    private void retainOriginalImage() {
-        if(fImagePath != null) {
-            imageCacheTally.add(fImagePath);
-        }
-    }
-
-    private void releaseOriginalImage() {
-        if(fImagePath != null) {
-            imageCacheTally.remove(fImagePath);
-            if(!imageCacheTally.contains(fImagePath)) {
-                Image image = imageCache.get(fImagePath);
-                if(image != null) {
-                    image.dispose();
-                    imageCache.remove(fImagePath);
-                }
-            }
-        }
-    }
-    
-    private void disposeImage() {
-        if(fImage != getOriginalImage() && fImage != null && !fImage.isDisposed()) {
+    protected void disposeImage() {
+        if(fImage != null && !fImage.isDisposed()) {
             fImage.dispose();
             fImage = null;
         }
@@ -225,7 +204,6 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     @Override
     public void dispose() {
         disposeImage();
-        releaseOriginalImage();
         fBorderColor = null;
     }
 }
