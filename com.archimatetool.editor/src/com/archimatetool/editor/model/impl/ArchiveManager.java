@@ -8,6 +8,7 @@ package com.archimatetool.editor.model.impl;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -106,30 +108,48 @@ public class ArchiveManager implements IArchiveManager {
 
     @Override
     public String addImageFromFile(File file) throws IOException {
+        if(file == null || !file.exists() || !file.canRead()) {
+            throw new FileNotFoundException("Cannot find file"); //$NON-NLS-1$
+        }
+        
         // Get bytes
         byte[] bytes = BYTE_ARRAY_STORAGE.getBytesFromFile(file);
+        if(bytes == null) {
+            throw new IOException("Could not get bytes from file"); //$NON-NLS-1$
+        }
         
         // Is this already in the cache?
         String entryName = BYTE_ARRAY_STORAGE.getKey(bytes);
+        
         // No, so create a new one
         if(entryName == null) {
             // Is this actually a valid Image file? Test it...
-            try {
-                Image img = new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
-                img.dispose();
-            }
-            catch(Throwable ex) {
-                throw new IOException("Not a supported image file", ex); //$NON-NLS-1$
-            }
+            testImageBytesValid(bytes);
             
             // OK, add the bytes
             entryName = createArchiveImagePathname(file);
             BYTE_ARRAY_STORAGE.addByteContentEntry(entryName, bytes);
         }
         
-        // (The image path will be added in the Model Adapter...)
+        // Once the imagepath has been returned, the caller should call IDiagramModelImageProvider.setImagePath(imagepath)
+        // And this in turn will add the image path to fLoadededImagePaths via the EContentAdapter
         
         return entryName;
+    }
+    
+    /**
+     * Test that a set of bytes from a file is actually a valid Image
+     * @param bytes
+     * @throws IOException
+     */
+    private void testImageBytesValid(byte[] bytes) throws IOException {
+        try {
+            Image img = new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
+            img.dispose();
+        }
+        catch(Throwable ex) {
+            throw new IOException("Not a supported image file", ex); //$NON-NLS-1$
+        }
     }
     
     @Override
@@ -156,6 +176,11 @@ public class ArchiveManager implements IArchiveManager {
         }
         
         return list;
+    }
+    
+    @Override
+    public List<String> getLoadedImagePaths() {
+        return fLoadedImagePaths;
     }
     
     /**
@@ -258,8 +283,18 @@ public class ArchiveManager implements IArchiveManager {
      * Save the model to XML File format
      */
     private void saveModelToXMLFile(File file) throws IOException {
-        Resource resource = ArchimateResourceFactory.createNewResource(file);
-        resource.getContents().add(fModel);
+        Resource resource = fModel.eResource();
+        
+        // No parent Resource set, so create a new one
+        if(resource == null) {
+            resource = ArchimateResourceFactory.createNewResource(file);
+            resource.getContents().add(fModel);
+        }
+        // We already have a Resource, re-use it but make sure the URI is updated in case the file path has changed
+        else {
+            resource.setURI(URI.createFileURI(file.getAbsolutePath()));
+        }
+        
         resource.save(null);
     }
     
@@ -307,6 +342,7 @@ public class ArchiveManager implements IArchiveManager {
         }
         
         fLoadedImagePaths = null;
+        fModel = null;
     }
     
     /**
