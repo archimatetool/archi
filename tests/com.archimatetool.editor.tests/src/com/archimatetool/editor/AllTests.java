@@ -14,7 +14,9 @@ import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBe
 import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
 import com.archimatetool.editor.model.DiagramModelUtilsTests;
+import com.archimatetool.editor.model.IArchiveManagerTests;
 import com.archimatetool.editor.model.commands.CommandsTests;
+import com.archimatetool.editor.model.impl.ArchiveManagerTests;
 import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
 import com.archimatetool.editor.utils.FileUtilsTests;
@@ -45,11 +47,13 @@ public class AllTests {
 
 		// model
         suite.addTest(DiagramModelUtilsTests.suite());
+        suite.addTest(IArchiveManagerTests.suite());
 
         // model.commands
         suite.addTest(CommandsTests.suite());
 
         // model.impl
+        suite.addTest(ArchiveManagerTests.suite());
         suite.addTest(ByteArrayStorageTests.suite());
 		suite.addTest(EditorModelManagerTests.suite());
 		

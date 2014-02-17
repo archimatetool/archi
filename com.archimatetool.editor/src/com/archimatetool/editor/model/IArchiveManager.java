@@ -100,9 +100,14 @@ public interface IArchiveManager {
     /**
      * Get a list of Image entry paths as used in the current state of the model.<br>
      * This will not include duplicates.
-     * @return the list of image path entries as used in the current state of the model
+     * @return A list of image path entries as used in the current state of the model
      */
     List<String> getImagePaths();
+    
+    /**
+     * @return A list of image path entries for loaded image data. These may or may not be referenced in the model.
+     */
+    List<String> getLoadedImagePaths();
 
     /**
      * Save the Model and any images to an archive file
