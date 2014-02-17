@@ -89,15 +89,21 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(0, 0, 512, 512);
         dmImage.setBounds(bounds);
         
-        AsyncTestRunner.yield();
+        AsyncTestRunner runner = new AsyncTestRunner() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Image image = getPrivateImageField();
+                    assertEquals(new Rectangle(0, 0, 512, 512), image.getBounds());
+                }
+                catch(Exception ex) {
+                    Assert.fail(ex.getMessage());
+                }
+            }
+        };
         
-        try {
-            image = getPrivateImageField();
-            assertEquals(new Rectangle(0, 0, 512, 512), image.getBounds());
-        }
-        catch(Exception ex) {
-            Assert.fail(ex.getMessage());
-        }
+        runner.start();
     }
     
     @Test
