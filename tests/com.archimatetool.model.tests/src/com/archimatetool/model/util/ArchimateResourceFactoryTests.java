@@ -10,6 +10,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.common.util.URI;
@@ -36,12 +39,10 @@ public class ArchimateResourceFactoryTests {
     
     @Test
     public void testCreateNewResource_File() {
-        Resource resource = ArchimateResourceFactory.createNewResource(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        Resource resource = ArchimateResourceFactory.createNewResource(file);
         
-        URI uri = URI.createFileURI(TestSupport.TEST_MODEL_FILE_ARCHISURANCE.getPath());
-        assertEquals(uri, resource.getURI());
-
-        assertEquals(uri, resource.getURI());
+        assertEquals(file, new File(resource.getURI().toFileString()));
         assertFalse(resource.isLoaded());
         assertNotNull(resource.getResourceSet());
         assertTrue(resource.getContents().isEmpty());
@@ -52,8 +53,6 @@ public class ArchimateResourceFactoryTests {
         URI uri = URI.createFileURI(TestSupport.TEST_MODEL_FILE_ARCHISURANCE.getPath());
         Resource resource = ArchimateResourceFactory.createNewResource(uri);
         
-        assertEquals(uri, resource.getURI());
-
         assertEquals(uri, resource.getURI());
         assertFalse(resource.isLoaded());
         assertNotNull(resource.getResourceSet());
