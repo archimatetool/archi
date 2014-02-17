@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.gef.GraphicalEditPart;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
@@ -29,16 +28,13 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     
 
     @Override
-    protected NoteFigure getFigure() {
+    protected NoteFigure createFigure() {
         // Add a DiagramModelNote
         dmNote = IArchimateFactory.eINSTANCE.createDiagramModelNote();
         dmNote.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dm.getChildren().add(dmNote);
         
-        // Get the EditPart and Figure
-        GraphicalEditPart editPart = (GraphicalEditPart)editor.getGraphicalViewer().getEditPartRegistry().get(dmNote);
-        figure = (NoteFigure)editPart.getFigure();
-        
+        figure = (NoteFigure)getFigureFromViewer(dmNote);
         return figure;
     }
     

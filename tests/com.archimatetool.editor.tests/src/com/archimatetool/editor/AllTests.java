@@ -8,8 +8,12 @@ package com.archimatetool.editor;
 import junit.framework.TestSuite;
 
 import com.archimatetool.editor.diagram.actions.CopySnapshotTests;
+import com.archimatetool.editor.diagram.figures.AllArchimateTypeFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
+import com.archimatetool.editor.diagram.figures.junctions.AndJunctionFigureTests;
+import com.archimatetool.editor.diagram.figures.junctions.JunctionFigureTests;
+import com.archimatetool.editor.diagram.figures.junctions.OrJunctionFigureTests;
 import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
@@ -38,8 +42,16 @@ public class AllTests {
         suite.addTest(CopySnapshotTests.suite());
         
         // diagram.figures
+        suite.addTest(AllArchimateTypeFigureTests.suite());
+        
+        // diagram.figures.diagram
         suite.addTest(DiagramImageFigureTests.suite());
         suite.addTest(NoteFigureTests.suite());
+
+        // diagram.figures.junctions
+        suite.addTest(JunctionFigureTests.suite());
+        suite.addTest(OrJunctionFigureTests.suite());
+        suite.addTest(AndJunctionFigureTests.suite());
 
         // diagram.tools
         suite.addTest(FormatPainterInfoTests.suite());
