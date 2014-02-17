@@ -46,6 +46,7 @@ import com.archimatetool.editor.ui.factory.connections.RealisationConnectionUIPr
 import com.archimatetool.editor.ui.factory.connections.SpecialisationConnectionUIProvider;
 import com.archimatetool.editor.ui.factory.connections.TriggeringConnectionUIProvider;
 import com.archimatetool.editor.ui.factory.connections.UsedByConnectionUIProvider;
+import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
 import com.archimatetool.editor.ui.factory.diagram.DiagramModelReferenceUIProvider;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
 import com.archimatetool.editor.ui.factory.diagram.NoteUIProvider;
@@ -156,6 +157,7 @@ public class ElementUIFactory {
         registerProvider(new GroupUIProvider());
         registerProvider(new DiagramModelReferenceUIProvider());
         registerProvider(new LineConnectionUIProvider());
+        registerProvider(new DiagramImageUIProvider());
         
         registerProvider(new SketchActorUIProvider());
         registerProvider(new SketchStickyUIProvider());

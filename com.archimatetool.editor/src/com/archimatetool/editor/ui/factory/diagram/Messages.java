@@ -11,6 +11,8 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.ui.factory.diagram.messages"; //$NON-NLS-1$
 
+    public static String DiagramImageUIProvider_0;
+
     public static String DiagramModelReferenceUIProvider_0;
 
     public static String GroupUIProvider_0;
