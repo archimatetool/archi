@@ -85,11 +85,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     }
 
     public Dimension getDefaultSize() {
-        if(fOriginalImageSize != null) {
-            return fOriginalImageSize;
-        }
-        
-        return DEFAULT_SIZE;
+        return fOriginalImageSize == null ? DEFAULT_SIZE : fOriginalImageSize;
     }
     
     @Override
@@ -135,8 +131,11 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         fImage = getOriginalImage();
         
         if(fImage != null) {
-            fOriginalImageSize = new Dimension(fImage.getBounds().width, fImage.getBounds().height);
+            fOriginalImageSize = new Dimension(fImage);
             fCurrentImageSize = new Dimension(fOriginalImageSize);
+        }
+        else {
+            fOriginalImageSize = null;
         }
     }
     
@@ -185,7 +184,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
                 originalImage.dispose();
             }
 
-            fCurrentImageSize = new Dimension(fImage.getBounds().width, fImage.getBounds().height);
+            fCurrentImageSize = new Dimension(fImage);
         }
     }
     
