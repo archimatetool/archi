@@ -59,6 +59,21 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     }
     
     @Test
+    public void testGetDefaultSize() throws Exception {
+        assertEquals(DiagramImageFigure.DEFAULT_SIZE, figure.getDefaultSize());
+        
+        // Add image
+        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
+        addImage(file);
+        Image image = getPrivateImageField();
+        assertEquals(new Dimension(image), figure.getDefaultSize());
+        
+        // Reset
+        dmImage.setImagePath(null);
+        assertEquals(DiagramImageFigure.DEFAULT_SIZE, figure.getDefaultSize());
+    }
+
+    @Test
     public void testBorderColor() {
         assertNull(figure.getBorderColor());
         

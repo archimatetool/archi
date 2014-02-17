@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import junit.framework.JUnit4TestAdapter;
 
@@ -41,6 +42,11 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         return figure;
     }
     
+    @Test
+    public void testGetDefaultSize() {
+        assertEquals(NoteFigure.DEFAULT_SIZE, figure.getDefaultSize());
+    }
+
     @Test
     public void testGetTextControl() {
         assertNotNull(figure.getTextControl());

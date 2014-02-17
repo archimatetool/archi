@@ -250,6 +250,6 @@ public class ArchiveManagerTests {
         archiveManager.dispose();
         
         assertEquals(1, model.eAdapters().size());
-        assertNull(archiveManager.getLoadedImagePaths());
+        assertTrue(archiveManager.getLoadedImagePaths().isEmpty());
     }
 }
