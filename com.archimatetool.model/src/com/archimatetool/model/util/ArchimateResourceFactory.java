@@ -63,8 +63,14 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
      */
     public static ResourceSet createResourceSet() {
         ResourceSet resourceSet = new ResourceSetImpl();
-        // Register the * extension on the ResourceSet to over-ride the ECore global one (I'm not sure why we need to do this)
+        
+        /*
+         * Register the * extension on the ResourceSet to over-ride the ECore global one 
+         * This is needed to create an ArchimateModel object from any file (thus pattern "*") without relying on its extension.
+         * Without this code it is impossible to load a model from file without extension (error "Class 'model' is not found or is abstract").
+         */
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ArchimateResourceFactory());  //$NON-NLS-1$
+        
         return resourceSet;
     }
 
