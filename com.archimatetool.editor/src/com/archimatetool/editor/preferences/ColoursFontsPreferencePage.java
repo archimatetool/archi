@@ -59,6 +59,7 @@ import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -673,7 +674,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void importUserColors() throws IOException {
         FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
         dialog.setText(Messages.ColoursFontsPreferencePage_4);
-        dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
+        
+        if(!PlatformUtils.isMac()) { // Single file filtering in the Open dialog doesn't work on Mac
+            dialog.setFilterExtensions(new String[] { "ArchiColours.prefs", "*.prefs", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            dialog.setFileName("ArchiColours.prefs"); //$NON-NLS-1$
+        }
+        else {
+            dialog.setFilterExtensions(new String[] { "*.prefs", "*.*" } );  //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
         String path = dialog.open();
         if(path == null) {
             return;
