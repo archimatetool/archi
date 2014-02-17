@@ -26,6 +26,7 @@ public class TestSupport {
     private static File testFolder;
     
     public static File TEST_MODEL_FILE_ARCHISURANCE = new File(getTestDataFolder(), "models/Archisurance.archimate"); //$NON-NLS-1$
+    public static File TEST_MODEL_FILE_ZIPPED = new File(getTestDataFolder(), "models/model_zipped.archimate"); //$NON-NLS-1$
 
     public static File getTestDataFolder() {
         if(testFolder == null) {
