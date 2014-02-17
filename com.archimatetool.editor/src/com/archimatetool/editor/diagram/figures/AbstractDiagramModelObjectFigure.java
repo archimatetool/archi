@@ -175,13 +175,15 @@ implements IDiagramModelObjectFigure {
 
     @Override
     public IFigure getToolTip() {
-        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
-        if(toolTipFigure == null && Preferences.doShowViewTooltips()) {
-            setToolTip(new ToolTipFigure());
+        if(!Preferences.doShowViewTooltips()) {
+            return null;
         }
         
-        if(toolTipFigure == null || !Preferences.doShowViewTooltips()) {
-            return null;
+        ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
+        
+        if(toolTipFigure == null) {
+            toolTipFigure = new ToolTipFigure();
+            setToolTip(toolTipFigure);
         }
 
         String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
