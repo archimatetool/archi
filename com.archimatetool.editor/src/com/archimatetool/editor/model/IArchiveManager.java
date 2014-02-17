@@ -98,14 +98,14 @@ public interface IArchiveManager {
     Image createImage(String path) throws Exception;
 
     /**
-     * Get a list of Image entry paths as used in the current state of the model.<br>
-     * This will not include duplicates.
+     * Get a live list of Image entry paths as used in the current state of the model.<br>
+     * This will not include duplicates. The list is re-calculated each time.
      * @return A list of image path entries as used in the current state of the model
      */
     List<String> getImagePaths();
     
     /**
-     * @return A list of image path entries for loaded image data. These may or may not be referenced in the model.
+     * @return A copy of the list of image path entries for loaded image data. These may or may not be referenced in the model.
      */
     List<String> getLoadedImagePaths();
 

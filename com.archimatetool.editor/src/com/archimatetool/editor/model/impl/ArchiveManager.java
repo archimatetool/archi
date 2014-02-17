@@ -180,7 +180,7 @@ public class ArchiveManager implements IArchiveManager {
     
     @Override
     public List<String> getLoadedImagePaths() {
-        return fLoadedImagePaths;
+        return new ArrayList<String>(fLoadedImagePaths);
     }
     
     /**
@@ -341,7 +341,7 @@ public class ArchiveManager implements IArchiveManager {
             unloadUnusedImages();
         }
         
-        fLoadedImagePaths = null;
+        fLoadedImagePaths.clear();
         fModel = null;
     }
     
