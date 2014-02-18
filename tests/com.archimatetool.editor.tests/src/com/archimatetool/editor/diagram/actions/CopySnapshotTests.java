@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.actions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -16,8 +17,9 @@ import java.util.List;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.commands.Command;
+import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
@@ -26,12 +28,16 @@ import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
 import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IRelationship;
 import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
@@ -41,17 +47,22 @@ public class CopySnapshotTests {
         return new JUnit4TestAdapter(CopySnapshotTests.class);
     }
     
-    IArchimateModel model;
-    IDiagramModel sourceDiagramModel;
-    IDiagramModel targetDiagramModel;
+    private static IArchimateModel model;
+    private static IDiagramModel sourceDiagramModel;
+    private static IDiagramModel targetDiagramModel;
     
-    @Before
-    public void runBeforeEachTest() {
+    @BeforeClass
+    public static void runOnceBeforeAllTests() {
         model = new EditorModelManager().openModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         sourceDiagramModel = model.getDiagramModels().get(1);
         
         targetDiagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         model.getDefaultFolderForElement(targetDiagramModel).getElements().add(targetDiagramModel);
+    }
+    
+    @After
+    public void runOnceAfterEachTest() {
+        targetDiagramModel.getChildren().clear();
     }
 
     @AfterClass
@@ -135,8 +146,6 @@ public class CopySnapshotTests {
         cmd = snapshot.getPasteCommand(targetDiagramModel, editor.getGraphicalViewer(), null);
         assertTrue(cmd.canExecute());
 
-        //CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-        //stack.execute(cmd);
         cmd.execute();
 
         // Same number of objects pasted
@@ -144,6 +153,53 @@ public class CopySnapshotTests {
 
         // Same number of connections pasted
         assertEquals(countConnections(selectedObjects), countConnections(targetDiagramModel.getChildren()));
+    }
+    
+    @Test
+    public void testNestedConnectionIsCopied() {
+        // Create parent object
+        IDiagramModelArchimateObject dmoParent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmoParent.setBounds(0, 0, 200, 200);
+        IArchimateElement elementParent = IArchimateFactory.eINSTANCE.createBusinessActor();
+        dmoParent.setArchimateElement(elementParent);
+        sourceDiagramModel.getChildren().add(dmoParent);
+        
+        // Create child object
+        IDiagramModelArchimateObject dmoChild = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmoChild.setBounds(0, 0, 100, 100);
+        IArchimateElement elementChild = IArchimateFactory.eINSTANCE.createBusinessRole();
+        dmoChild.setArchimateElement(elementChild);
+        dmoParent.getChildren().add(dmoChild);
+        
+        // Create relationship
+        IRelationship relationship = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        relationship.setSource(elementParent);
+        relationship.setTarget(elementChild);
+        
+        // Test that an explicit connection is copied
+        
+        // Create connection
+        IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        connection.setRelationship(relationship);
+        connection.connect(dmoParent, dmoChild);
+        
+        List<IDiagramModelObject> selectedObjects = new ArrayList<IDiagramModelObject>();
+        selectedObjects.add(dmoParent);
+        
+        CopySnapshot snapshot = new CopySnapshot(selectedObjects);
+        Command cmd = snapshot.getPasteCommand(targetDiagramModel, null, null);
+        assertNotNull(cmd);
+        cmd.execute();
+        assertEquals(1, countConnections(targetDiagramModel.getChildren()));
+        
+        // @TODO - need to redo implicit connection logic
+        // Now test that an implicit nested connection is copied
+//        connection.disconnect();
+//        targetDiagramModel.getChildren().clear();
+//        snapshot = new CopySnapshot(selectedObjects);
+//        cmd = snapshot.getPasteCommand(targetDiagramModel, null, null);
+//        cmd.execute();
+//        assertEquals(1, countConnections(targetDiagramModel.getChildren()));
     }
     
     /**
