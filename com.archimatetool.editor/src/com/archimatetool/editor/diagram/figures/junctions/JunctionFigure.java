@@ -26,7 +26,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class JunctionFigure extends AbstractDiagramModelObjectFigure {
     
-    private static final Dimension SIZE = new Dimension(15, 15);
+    protected static final Dimension SIZE = new Dimension(15, 15);
     
     public JunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

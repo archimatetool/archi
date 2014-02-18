@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.swt.graphics.Color;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -29,7 +30,6 @@ import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -43,7 +43,12 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     protected AbstractDiagramModelObjectFigure abstractFigure;
     protected IDiagramModelObject diagramModelObject;
     
-    protected abstract AbstractDiagramModelObjectFigure getFigure();
+    protected abstract AbstractDiagramModelObjectFigure createFigure();
+    
+    // Convenience method to find a Figure in an EditPart in a Viewer from the model object
+    protected IFigure getFigureFromViewer(Object modelObject) {
+        return ((GraphicalEditPart)editor.getGraphicalViewer().getEditPartRegistry().get(modelObject)).getFigure();
+    }
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {
@@ -57,7 +62,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     @Before
     public void runBeforeEachAbstractTest() {
         // Get the figure and its DiagramModelObject
-        abstractFigure = getFigure();
+        abstractFigure = createFigure();
         diagramModelObject = abstractFigure.getDiagramModelObject();
     }
 
@@ -126,7 +131,6 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testDidClickTestControl() {
-        AsyncTestRunner.yield();
         assertFalse(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 

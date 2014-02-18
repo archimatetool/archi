@@ -14,7 +14,6 @@ import java.io.IOException;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
@@ -44,17 +43,14 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     
 
     @Override
-    protected DiagramImageFigure getFigure() {
+    protected DiagramImageFigure createFigure() {
         // Add a DiagramModelImage
         dmImage = IArchimateFactory.eINSTANCE.createDiagramModelImage();
         dmImage.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dm = model.getDefaultDiagramModel();
         dm.getChildren().add(dmImage);
         
-        // Get the EditPart and Figure
-        GraphicalEditPart editPart = (GraphicalEditPart)editor.getGraphicalViewer().getEditPartRegistry().get(dmImage);
-        figure = (DiagramImageFigure)editPart.getFigure();
-        
+        figure = (DiagramImageFigure)getFigureFromViewer(dmImage);
         return figure;
     }
     

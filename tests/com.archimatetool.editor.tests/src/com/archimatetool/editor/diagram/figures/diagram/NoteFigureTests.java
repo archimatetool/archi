@@ -7,17 +7,19 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.draw2d.geometry.Point;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.tests.AsyncTestRunner;
 
 
-
+@SuppressWarnings("nls")
 public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     public static junit.framework.Test suite() {
@@ -29,16 +31,13 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     
 
     @Override
-    protected NoteFigure getFigure() {
+    protected NoteFigure createFigure() {
         // Add a DiagramModelNote
         dmNote = IArchimateFactory.eINSTANCE.createDiagramModelNote();
         dmNote.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dm.getChildren().add(dmNote);
         
-        // Get the EditPart and Figure
-        GraphicalEditPart editPart = (GraphicalEditPart)editor.getGraphicalViewer().getEditPartRegistry().get(dmNote);
-        figure = (NoteFigure)editPart.getFigure();
-        
+        figure = (NoteFigure)getFigureFromViewer(dmNote);
         return figure;
     }
     
@@ -52,4 +51,17 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         assertNotNull(figure.getTextControl());
     }
 
+    @Override
+    @Test
+    public void testDidClickTestControl() {
+        dmNote.setContent("Note Test");
+        AsyncTestRunner runner = new AsyncTestRunner() {
+            @Override
+            public void run() {
+                super.run();
+                assertTrue(abstractFigure.didClickTextControl(new Point(10, 10)));
+            }
+        };
+        runner.start();
+    }
 }
