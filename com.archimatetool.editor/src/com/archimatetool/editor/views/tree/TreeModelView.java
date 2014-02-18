@@ -524,20 +524,13 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     protected void eCoreChanged(Notification msg) {
         int type = msg.getEventType();
+        Object notifier = msg.getNotifier();
+        Object feature = msg.getFeature();
         
         // Attribute set
         if(type == Notification.SET) {
-            Object notifier = msg.getNotifier();
-            Object feature = msg.getFeature();
-
-            // Relationship/Connection changed - update element's name
-            if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE ||
-                                        feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
-                getViewer().update(notifier, null);
-            }
-            
             // Viewpoint changed
-            else if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
+            if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
                     if(notifier instanceof IDiagramModel) {
                         IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
@@ -545,7 +538,6 @@ implements ITreeModelView, IUIRequestListener {
                     }
                 }
             }
-            
             else {
                 super.eCoreChanged(msg);
             }
