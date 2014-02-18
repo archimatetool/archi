@@ -26,11 +26,14 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -160,42 +163,26 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     }
     
     /**
-     * React to ECore Model Changes
+     * React to ECore Model Changes to refresh the view
      * @param msg
      */
     protected void eCoreChanged(Notification msg) {
         int type = msg.getEventType();
-        Object notifier = msg.getNotifier();
-        Object feature = msg.getFeature();
         
-        // Add/Remove a new element
-        if(type == Notification.ADD || type == Notification.REMOVE) {
-            // Refresh parent node
-            Object parent = getParentToRefreshFromNotification(msg);
-            if(parent != null) {
-                getViewer().refresh(parent);
-            }
-            // Update element node
-            Object element = getElementToUpdateFromNotification(msg);
-            if(element != null) {
-                getViewer().update(element, null);
-            }
-        }
-        // Large structural model change
-        else if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
+        // Large structural model change - refresh the whole thing
+        if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
             getViewer().refresh();
+            return;
         }
-        // Set
-        else if(type == Notification.SET) {            
-            // Element Name - need to refresh parent node as well as update element because of using a ViewerSorter
-            if(feature == IArchimatePackage.Literals.NAMEABLE__NAME) {
-                getViewer().refresh(((EObject)notifier).eContainer());
-                getViewer().update(notifier, null);
-            }
-            // Interface type icon
-            else if(feature == IArchimatePackage.Literals.INTERFACE_ELEMENT__INTERFACE_TYPE) {
-                getViewer().update(notifier, null);
-            }
+        
+        // Update affected element node(s)
+        List<Object> elements = getElementsToUpdateFromNotification(msg);
+        getViewer().update(elements.toArray(), null);
+
+        // Refresh parent node
+        Object parent = getParentToRefreshFromNotification(msg);
+        if(parent != null) {
+            getViewer().refresh(parent);
         }
     }
     
@@ -216,14 +203,17 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             if(parent != null && !refreshElements.contains(parent)) {
                 refreshElements.add(parent);
             }
+            
             // Get elements to update
-            Object element = getElementToUpdateFromNotification(msg);
-            if(element != null && !updateElements.contains(element)) {
-                updateElements.add(element);
+            List<Object> elements = getElementsToUpdateFromNotification(msg);
+            for(Object object : elements) {
+                if(!updateElements.contains(object)) {
+                    updateElements.add(object);
+                }
             }
         }
         
-        // Refresh and update consolidated nodes
+        // Refresh and update nodes
         getViewer().getControl().setRedraw(false);
 
         for(Object object : refreshElements) {
@@ -255,6 +245,15 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
                 element = ((EObject)element).eContainer();
             }
         }
+        else if(type == Notification.SET) {
+            // Name changed - need to refresh parent node because of using a ViewerSorter to sort on name
+            if(msg.getFeature() == IArchimatePackage.Literals.NAMEABLE__NAME) {
+                element = msg.getNotifier();
+                if(element instanceof EObject) {
+                    element = ((EObject)element).eContainer();
+                }
+            }
+        }
         
         if(element instanceof IDiagramModelArchimateObject) {
             element = ((IDiagramModelArchimateObject)element).getArchimateElement();
@@ -268,10 +267,12 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     
     /**
      * @param msg
-     * @return The correct element node to update when it is changed
+     * @return The correct element nodes to update when a change occurs
      */
-    protected Object getElementToUpdateFromNotification(Notification msg) {
+    protected List<Object> getElementsToUpdateFromNotification(Notification msg) {
         int type = msg.getEventType();
+        
+        List<Object> list = new ArrayList<Object>();
         
         Object element = null;
         
@@ -281,6 +282,9 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         else if(type == Notification.ADD) {
             element = msg.getNewValue();
         }
+        else if(type == Notification.SET) {
+            element = msg.getNotifier();
+        }
         
         if(element instanceof IDiagramModelArchimateObject) {
             element = ((IDiagramModelArchimateObject)element).getArchimateElement();
@@ -289,7 +293,20 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             element = ((IDiagramModelArchimateConnection)element).getRelationship();
         }
         
-        return element;
+        if(element != null) {
+            list.add(element);
+            
+            // Also any attached relationships/elements
+
+            if(element instanceof IRelationship) {
+                // Not sure...
+            }
+            else if(element instanceof IArchimateElement) {
+                list.addAll(ArchimateModelUtils.getRelationships((IArchimateElement)element));
+            }
+        }
+        
+        return list;
     }
     
     // =================================================================================
