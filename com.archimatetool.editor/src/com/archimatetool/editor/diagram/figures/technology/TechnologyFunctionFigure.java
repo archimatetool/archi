@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.technology;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -19,7 +19,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class TechnologyFunctionFigure
-extends AbstractTextFlowFigure {
+extends AbstractArchimateFigure {
 
     public TechnologyFunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

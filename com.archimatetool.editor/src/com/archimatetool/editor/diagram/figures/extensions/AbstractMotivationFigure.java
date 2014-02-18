@@ -12,7 +12,7 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -24,7 +24,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractMotivationFigure
-extends AbstractTextFlowFigure {
+extends AbstractArchimateFigure {
     
     protected static final int SHADOW_OFFSET = 3;
     protected static final int FLANGE = 10;

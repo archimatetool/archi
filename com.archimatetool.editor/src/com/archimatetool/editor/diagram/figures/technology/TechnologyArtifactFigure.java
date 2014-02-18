@@ -10,7 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -24,7 +24,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyArtifactFigure extends AbstractTextFlowFigure {
+public class TechnologyArtifactFigure extends AbstractArchimateFigure {
 
     protected static final int FOLD_HEIGHT = 18;
     protected static final int SHADOW_OFFSET = 2;

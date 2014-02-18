@@ -26,13 +26,12 @@
 package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -45,7 +44,6 @@ import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.business.BusinessInterfaceFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessValueFigure;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -387,7 +385,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
             corner = figure.getSize();
         } else if(figure instanceof BusinessInterfaceFigure) {
         	// ellipse case
-            if (((IDiagramModelArchimateObject)((BusinessInterfaceFigure)figure).getDiagramModelObject()).getType() != 0)
+            if (((BusinessInterfaceFigure)figure).getDiagramModelObject().getType() != 0)
             	corner = figure.getSize();
         }
 		

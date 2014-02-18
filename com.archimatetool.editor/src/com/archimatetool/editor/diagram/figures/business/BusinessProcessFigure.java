@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.business;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IArchimateImages;
@@ -20,7 +20,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class BusinessProcessFigure
-extends AbstractTextFlowFigure {
+extends AbstractArchimateFigure {
     
     protected RoundedRectangleFigureDelegate fFigureDelegate1;
     protected BusinessProcessFigureDelegate fFigureDelegate2;
@@ -42,7 +42,7 @@ extends AbstractTextFlowFigure {
 
     @Override
     public IFigureDelegate getFigureDelegate() {
-        int type = ((IDiagramModelArchimateObject)getDiagramModelObject()).getType();
+        int type = getDiagramModelObject().getType();
         return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
     }
 

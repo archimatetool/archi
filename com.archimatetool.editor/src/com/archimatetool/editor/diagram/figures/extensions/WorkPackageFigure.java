@@ -7,7 +7,7 @@ package com.archimatetool.editor.diagram.figures.extensions;
 
 import org.eclipse.draw2d.geometry.Dimension;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -20,7 +20,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class WorkPackageFigure
-extends AbstractTextFlowFigure {
+extends AbstractArchimateFigure {
 
     public WorkPackageFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

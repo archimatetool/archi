@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.business;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -17,7 +17,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class BusinessActorFigure
-extends AbstractTextFlowFigure {
+extends AbstractArchimateFigure {
     
     public BusinessActorFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
