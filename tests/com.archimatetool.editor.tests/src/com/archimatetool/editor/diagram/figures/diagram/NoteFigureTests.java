@@ -7,16 +7,19 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.tests.AsyncTestRunner;
 
 
-
+@SuppressWarnings("nls")
 public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     public static junit.framework.Test suite() {
@@ -48,4 +51,17 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         assertNotNull(figure.getTextControl());
     }
 
+    @Override
+    @Test
+    public void testDidClickTestControl() {
+        dmNote.setContent("Note Test");
+        AsyncTestRunner runner = new AsyncTestRunner() {
+            @Override
+            public void run() {
+                super.run();
+                assertTrue(abstractFigure.didClickTextControl(new Point(10, 10)));
+            }
+        };
+        runner.start();
+    }
 }

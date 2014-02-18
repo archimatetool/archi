@@ -30,7 +30,6 @@ import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -132,7 +131,6 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testDidClickTestControl() {
-        AsyncTestRunner.yield();
         assertFalse(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 

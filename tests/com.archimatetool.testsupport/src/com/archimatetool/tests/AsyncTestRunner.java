@@ -31,19 +31,6 @@ import org.eclipse.swt.widgets.Display;
  */
 public abstract class AsyncTestRunner implements Runnable {
     
-    /**
-     * Simple version of AsyncTestRunner
-     * In most cases this is sufficient
-     */
-    public static void yield() {
-        int count = 0;
-        while(count++ < 5) {
-            if(!Display.getCurrent().readAndDispatch()) {
-                Display.getCurrent().sleep();
-            }
-        }
-    }
-
     boolean waiting = true;
     
     @Override

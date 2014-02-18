@@ -5,13 +5,16 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 
-
+@SuppressWarnings("nls")
 public abstract class AbstractTextFlowFigureTests extends AbstractContainerFigureTests {
     
     protected AbstractTextFlowFigure textFlowFigure;
@@ -24,12 +27,21 @@ public abstract class AbstractTextFlowFigureTests extends AbstractContainerFigur
     
     @Test
     public void testSetEnabled() {
-        // @TODO
+        assertTrue(textFlowFigure.isEnabled());
+        assertTrue(textFlowFigure.getTextControl().isEnabled());
+        
+        textFlowFigure.setEnabled(false);
+        
+        assertFalse(textFlowFigure.isEnabled());
+        assertFalse(textFlowFigure.getTextControl().isEnabled());
     }
     
     @Test
     public void testSetText() {
-        // @TODO
+        assertEquals(diagramModelObject.getName(), textFlowFigure.getTextControl().getText());
+        diagramModelObject.setName("Fido");
+        assertEquals("Fido", diagramModelObject.getName());
+        assertEquals(diagramModelObject.getName(), textFlowFigure.getTextControl().getText());
     }
 
     @Test

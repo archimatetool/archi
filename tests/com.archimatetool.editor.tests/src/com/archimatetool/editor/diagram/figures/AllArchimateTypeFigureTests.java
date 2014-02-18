@@ -5,21 +5,26 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.Collection;
 
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.tests.AsyncTestRunner;
 
 @SuppressWarnings("nls")
 @RunWith(Parameterized.class)
@@ -83,7 +88,6 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
     }
     
     private EClass eClass;
-    private static int x, y;
     
     public AllArchimateTypeFigureTests(EClass eClass) {
         this.eClass = eClass;
@@ -92,8 +96,7 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
     @Override
     protected AbstractDiagramModelObjectFigure createFigure() {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        x += 10; if(x > 500) {x = 0; y += 20;}
-        dmo.setBounds(IArchimateFactory.eINSTANCE.createBounds(x, y, -1, -1));
+        dmo.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
         dmo.setName("Hello World!");
         dm.getChildren().add(dmo);
@@ -101,4 +104,19 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
         return (AbstractDiagramModelObjectFigure)getFigureFromViewer(dmo);
     }
     
+    @Override
+    @Test
+    public void testDidClickTestControl() {
+        AsyncTestRunner runner = new AsyncTestRunner() {
+            @Override
+            public void run() {
+                super.run();
+                Rectangle bounds = abstractFigure.getTextControl().getBounds().getCopy();
+                abstractFigure.getTextControl().translateToAbsolute(bounds);
+                assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 3, bounds.y + 3)));
+            }
+        };
+        
+        runner.start();
+    }
 }
