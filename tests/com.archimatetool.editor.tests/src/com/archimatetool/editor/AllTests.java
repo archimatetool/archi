@@ -7,27 +7,10 @@ package com.archimatetool.editor;
 
 import junit.framework.TestSuite;
 
-import com.archimatetool.editor.diagram.actions.CopySnapshotTests;
-import com.archimatetool.editor.diagram.figures.AllArchimateTypeFigureTests;
-import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigureTests;
-import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
-import com.archimatetool.editor.diagram.figures.junctions.AndJunctionFigureTests;
-import com.archimatetool.editor.diagram.figures.junctions.JunctionFigureTests;
-import com.archimatetool.editor.diagram.figures.junctions.OrJunctionFigureTests;
-import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
-import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
-import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
-import com.archimatetool.editor.model.DiagramModelUtilsTests;
-import com.archimatetool.editor.model.IArchiveManagerTests;
-import com.archimatetool.editor.model.commands.CommandsTests;
-import com.archimatetool.editor.model.impl.ArchiveManagerTests;
-import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
-import com.archimatetool.editor.model.impl.EditorModelManagerTests;
-import com.archimatetool.editor.utils.FileUtilsTests;
-import com.archimatetool.editor.utils.HTMLUtilsTests;
-import com.archimatetool.editor.utils.StringUtilsTests;
-import com.archimatetool.editor.utils.ZipUtilsTests;
-import com.archimatetool.editor.views.tree.TreeModelViewerDragDropHandlerTests;
+import com.archimatetool.editor.diagram.AllDiagramTests;
+import com.archimatetool.editor.model.AllModelTests;
+import com.archimatetool.editor.utils.AllUtilsTests;
+import com.archimatetool.editor.views.AllViewsTests;
 
 @SuppressWarnings("nls")
 public class AllTests {
@@ -35,48 +18,17 @@ public class AllTests {
     public static junit.framework.Test suite() {
 		TestSuite suite = new TestSuite("com.archimatetool.editor");
 		
-        // diagram.policies.snaptogrid
-        suite.addTest(ExtendedConnectionBendpointTrackerTests.suite());
-
-        // diagram.actions
-        suite.addTest(CopySnapshotTests.suite());
-        
-        // diagram.figures
-        suite.addTest(AllArchimateTypeFigureTests.suite());
-        
-        // diagram.figures.diagram
-        suite.addTest(DiagramImageFigureTests.suite());
-        suite.addTest(NoteFigureTests.suite());
-
-        // diagram.figures.junctions
-        suite.addTest(JunctionFigureTests.suite());
-        suite.addTest(OrJunctionFigureTests.suite());
-        suite.addTest(AndJunctionFigureTests.suite());
-
-        // diagram.tools
-        suite.addTest(FormatPainterInfoTests.suite());
-		suite.addTest(FormatPainterToolTests.suite());
+        // diagram
+        suite.addTest(AllDiagramTests.suite());
 
 		// model
-        suite.addTest(DiagramModelUtilsTests.suite());
-        suite.addTest(IArchiveManagerTests.suite());
-
-        // model.commands
-        suite.addTest(CommandsTests.suite());
-
-        // model.impl
-        suite.addTest(ArchiveManagerTests.suite());
-        suite.addTest(ByteArrayStorageTests.suite());
-		suite.addTest(EditorModelManagerTests.suite());
+        suite.addTest(AllModelTests.suite());
 		
         // utils
-        suite.addTest(FileUtilsTests.suite());
-        suite.addTest(HTMLUtilsTests.suite());
-        suite.addTest(StringUtilsTests.suite());
-        suite.addTest(ZipUtilsTests.suite());
+        suite.addTest(AllUtilsTests.suite());
 
         // views
-        suite.addTest(TreeModelViewerDragDropHandlerTests.suite());
+        suite.addTest(AllViewsTests.suite());
 
         return suite;
 	}
