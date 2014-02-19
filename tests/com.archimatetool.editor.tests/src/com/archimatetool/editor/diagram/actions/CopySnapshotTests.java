@@ -19,7 +19,7 @@ import junit.framework.JUnit4TestAdapter;
 import org.eclipse.gef.commands.Command;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
@@ -47,12 +47,12 @@ public class CopySnapshotTests {
         return new JUnit4TestAdapter(CopySnapshotTests.class);
     }
     
-    private static IArchimateModel model;
-    private static IDiagramModel sourceDiagramModel;
-    private static IDiagramModel targetDiagramModel;
+    private IArchimateModel model;
+    private IDiagramModel sourceDiagramModel;
+    private IDiagramModel targetDiagramModel;
     
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
+    @Before
+    public void runOnceBeforeEachTest() {
         model = new EditorModelManager().openModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         sourceDiagramModel = model.getDiagramModels().get(1);
         
