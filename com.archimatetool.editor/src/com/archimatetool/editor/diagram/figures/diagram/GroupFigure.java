@@ -34,7 +34,7 @@ public class GroupFigure
 extends AbstractLabelContainerFigure {
     
     protected static final Dimension DEFAULT_SIZE = new Dimension(400, 140);
-    protected static final int FOLD_HEIGHT = 18;
+    public static final int TOPBAR_HEIGHT = 18;
     protected static final int SHADOW_OFFSET = 2;
     
     /**
@@ -52,7 +52,7 @@ extends AbstractLabelContainerFigure {
             Rectangle r = getBox().getCopy();
             getOwner().translateToAbsolute(r);
             
-            int shiftY = FOLD_HEIGHT - (pt.y - r.y) - 1;
+            int shiftY = TOPBAR_HEIGHT - (pt.y - r.y) - 1;
             
             if(pt.x > r.x + (r.width / 2) && shiftY > 0) {
                 pt.y += shiftY;
@@ -77,9 +77,9 @@ extends AbstractLabelContainerFigure {
                 
                 Rectangle bounds = getBounds().getCopy();
                 bounds.x = 0;
-                bounds.y = FOLD_HEIGHT;
+                bounds.y = TOPBAR_HEIGHT;
                 bounds.width -= shadow_offset;
-                bounds.height -= FOLD_HEIGHT + shadow_offset;
+                bounds.height -= TOPBAR_HEIGHT + shadow_offset;
                 target.setBounds(bounds);
             }
         };
@@ -143,8 +143,8 @@ extends AbstractLabelContainerFigure {
             int[] points1 = new int[] {
                     bounds.x + shadow_offset, bounds.y + shadow_offset,
                     bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset,
-                    bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset + FOLD_HEIGHT,
-                    bounds.x + bounds.width, bounds.y + shadow_offset + FOLD_HEIGHT,
+                    bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset + TOPBAR_HEIGHT,
+                    bounds.x + bounds.width, bounds.y + shadow_offset + TOPBAR_HEIGHT,
                     bounds.x + bounds.width, bounds.y + bounds.height,
                     bounds.x + shadow_offset, bounds.y + bounds.height
             };
@@ -158,16 +158,16 @@ extends AbstractLabelContainerFigure {
         int[] points2 = new int[] {
                 bounds.x, bounds.y,
                 bounds.x + (bounds.width / 2) - 1, bounds.y,
-                bounds.x + (bounds.width / 2) - 1, bounds.y + FOLD_HEIGHT,
-                bounds.x, bounds.y + FOLD_HEIGHT,
+                bounds.x + (bounds.width / 2) - 1, bounds.y + TOPBAR_HEIGHT,
+                bounds.x, bounds.y + TOPBAR_HEIGHT,
         };
 
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
         graphics.fillPolygon(points2);
        
         int[] points3 = new int[] {
-                bounds.x, bounds.y + FOLD_HEIGHT,
-                bounds.x + bounds.width - shadow_offset - 1, bounds.y + FOLD_HEIGHT,
+                bounds.x, bounds.y + TOPBAR_HEIGHT,
+                bounds.x + bounds.width - shadow_offset - 1, bounds.y + TOPBAR_HEIGHT,
                 bounds.x + bounds.width - shadow_offset - 1, bounds.y + bounds.height - shadow_offset - 1,
                 bounds.x, bounds.y + bounds.height - shadow_offset - 1
         };

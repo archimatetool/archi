@@ -25,6 +25,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 
+import com.archimatetool.editor.diagram.figures.diagram.GroupFigure;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
@@ -36,6 +37,7 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
@@ -397,9 +399,16 @@ public final class CopySnapshot {
         
         // Offset top level objects
         if(container instanceof IDiagramModel) {
-            IBounds bounds = newObject.getBounds();
-            bounds.setX(bounds.getX() + fXOffSet);
-            bounds.setY(bounds.getY() + fYOffSet);
+            IDiagramModelObject originalObject = fOriginalToSnapshotObjectsMapping.getKey(snapshotObject);
+            IBounds bounds = originalObject.getBounds().getCopy();
+            
+            Point pt = new Point(bounds.getX(), bounds.getY());
+            translateToAbsolute(originalObject, pt);
+            
+            bounds.setX(pt.x + fXOffSet);
+            bounds.setY(pt.y + fYOffSet);
+            
+            newObject.setBounds(bounds);
         }
         
         if(newObject instanceof IDiagramModelArchimateObject) {
@@ -460,11 +469,9 @@ public final class CopySnapshot {
     
     /**
      * Calculate x,y origin offset based on mouse click for paste action.
-     * TODO: This is not really working for selections that contain a mixture of elements with various parent containers.
      */
     private void calculateXYOffset(Point mousePosition) {
         // No mouse click, so increment position by 10,10
-        // FIXME: If selected objects are child objects then the offset is relative to the diagram, not the parent objects
         if(mousePosition == null) {
             fXOffSet += 10;
             fYOffSet += 10;
@@ -480,25 +487,45 @@ public final class CopySnapshot {
         }
     }
     
+    /**
+     * Translate an objects x,y position to absolute co-ordinates
+     * @param object
+     * @param pt
+     */
+    private void translateToAbsolute(IDiagramModelObject object, Point pt) {
+        if(object.eContainer() instanceof IDiagramModelContainer && !(object.eContainer() instanceof IDiagramModel)) {
+            IDiagramModelObject parent = (IDiagramModelObject)object.eContainer();
+            pt.performTranslate(parent.getBounds().getX(), parent.getBounds().getY());
+            translateToAbsolute(parent, pt);
+            
+            // This is a kludge that I hate with all my heart.
+            // Group figures co-ords are offset horizontally by the height of the top bar
+            // I wish it wasn't so but it is
+            if(parent instanceof IDiagramModelGroup) {
+                pt.translate(0, GroupFigure.TOPBAR_HEIGHT);
+            }
+        }
+    }
+    
     // Find leftmost and topmost origin of top level objects
     private Point getMinimumPoint(Set<IDiagramModelObject> selectedObjects) {
         int xOrigin = 99999, yOrigin = 99999; // flag values
         
         for(IDiagramModelObject dmo : selectedObjects) {
-            int x = dmo.getBounds().getX();
-            int y = dmo.getBounds().getY();
+            Point pt = new Point(dmo.getBounds().getX(), dmo.getBounds().getY());
+            translateToAbsolute(dmo, pt);
             
             // If this object has a parent that is also selected, ignore it
             if(dmo.eContainer() instanceof IDiagramModelObject && selectedObjects.contains(dmo.eContainer())) {
                 continue;
             }
             
-            if(x < xOrigin) {
-                xOrigin = x;
+            if(pt.x < xOrigin) {
+                xOrigin = pt.x;
             }
             
-            if(y < yOrigin) {
-                yOrigin = y;
+            if(pt.y < yOrigin) {
+                yOrigin = pt.y;
             }
         }
         
