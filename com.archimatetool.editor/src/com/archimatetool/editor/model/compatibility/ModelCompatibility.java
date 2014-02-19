@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.model.compatibility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -12,13 +15,13 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.xmi.ClassNotFoundException;
+import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
 import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.xml.sax.SAXParseException;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.ModelVersion;
 
 
 
@@ -29,40 +32,69 @@ import com.archimatetool.model.ModelVersion;
  */
 public class ModelCompatibility {
     
-    public static void checkErrors(Resource resource) throws IncompatibleModelException {
-        // Log errors first
-        for(Diagnostic diagnostic : resource.getErrors()) {
-            System.err.println(diagnostic);
-            if(isCatastrophicError(diagnostic)) {
-                Logger.logError(diagnostic.getMessage());
-            }
-            else {
-                Logger.logWarning(diagnostic.getMessage());
+    private Resource fResource;
+    
+    boolean doLog = true;
+    
+    public ModelCompatibility(Resource resource) {
+        fResource = resource;
+    }
+    
+    public void checkErrors() throws IncompatibleModelException {
+        // Log errors and warnings first before throwing an exception
+        if(doLog) {
+            for(Diagnostic diagnostic : fResource.getErrors()) {
+                if(isCatastrophicException(diagnostic)) {
+                    Logger.logError(diagnostic.getMessage());
+                }
+                else {
+                    Logger.logWarning(diagnostic.getMessage());
+                }
             }
         }
-
-        // Is it catastrophic? If it is, throw an exception
-        for(Diagnostic diagnostic : resource.getErrors()) {
-            if(isCatastrophicError(diagnostic)) {
+        
+        // Is it catastrophic? If it is, throw an IncompatibleModelException
+        for(Diagnostic diagnostic : fResource.getErrors()) {
+            if(isCatastrophicException(diagnostic)) {
                 IncompatibleModelException ex = new IncompatibleModelException(diagnostic.getMessage());
-                Logger.logError("Error opening model", ex); //$NON-NLS-1$
-                ex.printStackTrace();
+                if(doLog) {
+                    Logger.logError("Error opening model", ex); //$NON-NLS-1$
+                }
                 throw ex;
             }
         }
     }
     
-    public static void checkVersion(Resource resource) throws LaterModelVersionException {
-        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
+    /**
+     * Check a model version against another version number
+     * @param presentVersion The version to check against
+     */
+    public boolean isLaterModelVersion(String presentVersion)  {
+        IArchimateModel model = (IArchimateModel)fResource.getContents().get(0);
         String version = model.getVersion();
+        return version != null && version.compareTo(presentVersion) > 0;
+    }
+    
+    /**
+     * @return A list of Exceptions that should be non-catastrophic
+     */
+    public List<Diagnostic> getAcceptableExceptions() {
+        List<Diagnostic> list = new ArrayList<Diagnostic>();
         
-        // Loading a newer version model into older version of Archi might be OK
-        if(version != null && version.compareTo(ModelVersion.VERSION) > 0) {
-            throw new LaterModelVersionException(version);
+        for(Diagnostic diagnostic : fResource.getErrors()) {
+            if(isFeatureNotFoundException(diagnostic)) {
+                list.add(diagnostic);
+            }
         }
+        
+        return list;
+    }
+    
+    protected boolean isFeatureNotFoundException(Diagnostic diagnostic) {
+        return diagnostic instanceof FeatureNotFoundException;
     }
 
-    private static boolean isCatastrophicError(Diagnostic diagnostic) {
+    protected boolean isCatastrophicException(Diagnostic diagnostic) {
         // Package not found - total disaster
         if(diagnostic instanceof PackageNotFoundException) {
             return true;
@@ -90,16 +122,15 @@ public class ModelCompatibility {
     
     /**
      * Fix any compatibility issues in registered handlers
-     * @param resource The Resource to check
      * @throws CompatibilityHandlerException 
      */
-    public static void fixCompatibility(Resource resource) throws CompatibilityHandlerException {
+    public void fixCompatibility() throws CompatibilityHandlerException {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(ICompatibilityHandler.EXTENSION_ID)) {
             try {
                 ICompatibilityHandler handler = (ICompatibilityHandler)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
                 if(handler != null) {
-                    handler.fixCompatibility(resource);
+                    handler.fixCompatibility(fResource);
                 }
             } 
             catch(CoreException ex) {

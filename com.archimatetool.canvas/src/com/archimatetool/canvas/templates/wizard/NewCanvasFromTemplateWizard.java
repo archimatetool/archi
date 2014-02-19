@@ -116,6 +116,9 @@ public class NewCanvasFromTemplateWizard extends Wizard {
                                                        IArchiveManager.FACTORY.createArchiveModelURI(file) :
                                                        URI.createFileURI(file.getAbsolutePath()));
 
+        // Check model compatibility
+        ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
+        
         // Load the template file
         // Wrap in try/catch to load as much as possible
         try {
@@ -124,7 +127,7 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         catch(IOException ex) {
             // Error occured loading model. Was it a disaster?
             try {
-                ModelCompatibility.checkErrors(resource);
+                modelCompatibility.checkErrors();
             }
             // Incompatible
             catch(IncompatibleModelException ex1) {
@@ -136,7 +139,7 @@ public class NewCanvasFromTemplateWizard extends Wizard {
         
         // And then fix any backward compatibility issues
         try {
-            ModelCompatibility.fixCompatibility(resource);
+            modelCompatibility.fixCompatibility();
         }
         catch(CompatibilityHandlerException ex) {
         }

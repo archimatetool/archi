@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
@@ -41,7 +42,6 @@ import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
 import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
-import com.archimatetool.editor.model.compatibility.LaterModelVersionException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -232,17 +232,20 @@ implements IEditorModelManager {
                                                        IArchiveManager.FACTORY.createArchiveModelURI(file) :
                                                        URI.createFileURI(file.getAbsolutePath()));
 
+        // Check model compatibility
+        ModelCompatibility modelCompatibility = new ModelCompatibility(resource);
+        
         // Load the model file
         try {
             resource.load(null);
         }
         catch(IOException ex) {
-            // Error occured loading model. Was it a disaster?
+            // Error occured loading model. 
             try {
-                ModelCompatibility.checkErrors(resource);
+                modelCompatibility.checkErrors();
             }
-            // Incompatible, don't load it
             catch(IncompatibleModelException ex1) {
+                // Was it a disaster?
                 MessageDialog.openError(Display.getCurrent().getActiveShell(),
                         Messages.EditorModelManager_2,
                         NLS.bind(Messages.EditorModelManager_3, file)
@@ -251,28 +254,49 @@ implements IEditorModelManager {
             }
         }
         
-        // Once loaded - Check version number compatibility with user
-        try {
-            ModelCompatibility.checkVersion(resource);
-        }
-        catch(LaterModelVersionException ex) {
+        model = (IArchimateModel)resource.getContents().get(0);
+
+        // Once loaded - check for later model version
+        boolean isLaterModelVersion = modelCompatibility.isLaterModelVersion(ModelVersion.VERSION);
+        if(isLaterModelVersion) {
             boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
                     Messages.EditorModelManager_4,
                     NLS.bind(Messages.EditorModelManager_5,
-                            file, ex.getVersion()));
+                            file, model.getVersion()));
             if(!answer) {
                 return null;
             }
         }
-        
+        // Check for unknown model features which might be OK to load
+        else {
+            List<Diagnostic> exceptions = modelCompatibility.getAcceptableExceptions();
+            if(!exceptions.isEmpty()) {
+                String message = ""; //$NON-NLS-1$
+                for(int i = 0; i < exceptions.size(); i++) {
+                    if(i == 3) {
+                        message += (exceptions.size() - 3) + " " + Messages.EditorModelManager_12; //$NON-NLS-1$
+                        break;
+                    }
+                    message += exceptions.get(i).getMessage() + "\n"; //$NON-NLS-1$
+                }
+                
+                boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
+                        Messages.EditorModelManager_4,
+                        NLS.bind(Messages.EditorModelManager_13, file)
+                        + "\n\n" + message); //$NON-NLS-1$
+                if(!answer) {
+                    return null;
+                }
+            }
+        }
+
         // And then fix any backward compatibility issues
         try {
-            ModelCompatibility.fixCompatibility(resource);
+            modelCompatibility.fixCompatibility();
         }
         catch(CompatibilityHandlerException ex) {
         }
 
-        model = (IArchimateModel)resource.getContents().get(0);
         model.setFile(file);
         model.setDefaults();
         getModels().add(model);
