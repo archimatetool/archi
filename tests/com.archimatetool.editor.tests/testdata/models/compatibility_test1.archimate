@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:archimate="http://www.archimatetool.com/archimate" name="Test" id="70efed0e" version="99.9.9">
+  <something>bogus element</something>
+  <somethingelse>bogus element</somethingelse>
+</archimate:model>
