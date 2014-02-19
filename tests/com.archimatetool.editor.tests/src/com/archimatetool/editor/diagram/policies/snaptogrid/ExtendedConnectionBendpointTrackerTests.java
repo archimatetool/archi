@@ -23,7 +23,6 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 public class ExtendedConnectionBendpointTrackerTests {
@@ -47,14 +46,7 @@ public class ExtendedConnectionBendpointTrackerTests {
 
     @AfterClass
     public static void runOnceAfterAllTests() {
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                TestUtils.closeAllEditors();
-            }
-        };
-        runner.start();
+        TestUtils.closeAllEditors();
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -30,7 +30,6 @@ import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -69,14 +68,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
 
     @AfterClass
     public static void runOnceAfterAllTests() {
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                TestUtils.closeAllEditors();
-            }
-        };
-        runner.start();
+        TestUtils.closeAllEditors();
     }
 
     @Test

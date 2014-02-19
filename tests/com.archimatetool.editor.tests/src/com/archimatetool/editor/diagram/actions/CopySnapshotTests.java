@@ -38,7 +38,6 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
@@ -68,14 +67,7 @@ public class CopySnapshotTests {
 
     @AfterClass
     public static void runOnceAfterAllTests() {
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                TestUtils.closeAllEditors();
-            }
-        };
-        runner.start();
+        TestUtils.closeAllEditors();
     }
 
     // ---------------------------------------------------------------------------------------------

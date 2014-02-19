@@ -31,7 +31,6 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -53,14 +52,7 @@ public class EditorModelManagerTests {
 
     @AfterClass
     public static void runOnceAfterAllTests() {
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                TestUtils.closeAllEditors();
-            }
-        };
-        runner.start();
+        TestUtils.closeAllEditors();
     }
     
     // ---------------------------------------------------------------------------------------------
