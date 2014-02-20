@@ -1,33 +1,37 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	line-height: 14pt;
+	color: #444;
+    font-size: 15px;
+	line-height: 1.3em;
 }
 
 h1 {
-    font-size: 16pt;
-    margin-bottom: 0;
+    font-size: 25px;
+    margin-bottom: 6px;
+    color: #1f92e0;
 }
 
 h2 {
-    font-size: 14pt;
-    margin-bottom: 0;
+    font-size: 21px;
+    margin-bottom: 6px;
+    color: #333;
 }
 
 h3 {
-	font-size: 12pt;
+	font-size: 18px;
 	margin-bottom: 0;
+	color: #444;
 }
 
 p {
-    margin-top: 5pt;
+    margin-top: 5px;
 }
 
 a {
 	text-decoration:none;
 }
 a:link {
-	color:#0033CC;
+	color:#0033ee;
 }
 a:visited {
 	color:#025999;
@@ -37,8 +41,7 @@ a:hover	{
 }
 
 table {
-	font-size: 10pt;
-	line-height: 14pt;
+	font-size: 15px;
 }
 
 table.border {
@@ -61,7 +64,7 @@ td.border {
 
 .caption {
 	font-style: italic;
-	font-size: 9pt;
+	font-size: 13px;
 	line-height: 1.5;
 }
 
