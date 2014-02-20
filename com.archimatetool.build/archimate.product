@@ -4,7 +4,7 @@
 <product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="2.6.1.qualifier" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/com.archimatetool.editor/img/app-128.png"/>
+      <image path="/com.archimatetool.editor/img/about.png"/>
       <text>
          %aboutText
       </text>
@@ -28,6 +28,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

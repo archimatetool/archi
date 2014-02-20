@@ -2,8 +2,8 @@ Archi Changes
 -------------
 
 
-Version 2.6.1 March XX 2014
----------------------------
+Version 2.6.1 
+------------------------------
 + Connection bendpoints - added a key modifier for ignoring snap to grid while dragging bendpoint (Alt key on Win/Lnx, Ctrl key on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + [Copy/Paste] Clicking on a point on a diagram sets that as the point to paste copied diagram objects

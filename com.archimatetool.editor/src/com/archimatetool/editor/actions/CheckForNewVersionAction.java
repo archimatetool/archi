@@ -59,8 +59,7 @@ public class CheckForNewVersionAction extends Action {
             String newVersion = s.toString();
             
             // Get this app's main version number
-            String thisVersion = System.getProperty(Application.APPLICATION_BUILDID);
-            thisVersion = thisVersion.substring(0, 5);
+            String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
             
             if(newVersion.compareTo(thisVersion) > 0) {
                 boolean reply = MessageDialog.openQuestion(null, Messages.CheckForNewVersionAction_1,

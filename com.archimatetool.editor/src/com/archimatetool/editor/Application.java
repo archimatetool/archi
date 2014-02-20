@@ -31,6 +31,7 @@ implements IApplication {
      */
     public static String ID = ArchimateEditorPlugin.PLUGIN_ID + ".app"; //$NON-NLS-1$
     
+    public static final String APPLICATION_VERSIONID = "com.archimatetool.editor.versionid"; //$NON-NLS-1$
     public static final String APPLICATION_BUILDID = "com.archimatetool.editor.buildid"; //$NON-NLS-1$
     
 	/**
@@ -40,8 +41,12 @@ implements IApplication {
 	}
 	
 	public Object start(IApplicationContext context) throws Exception {
-	    // Store the application build ID in System Property
-	    System.setProperty(APPLICATION_BUILDID, context.getBrandingBundle().getVersion().toString());
+	    // Store the application version and build IDs in System Property
+	    String fullVersion = context.getBrandingBundle().getVersion().toString();
+	    String version = fullVersion.substring(0, 5);
+	    String build = fullVersion.substring(6);
+	    System.setProperty(APPLICATION_VERSIONID, version);
+	    System.setProperty(APPLICATION_BUILDID, build);
 	    
 	    /*
 	     * Platform specific startup if user launches app twice or from .archimate file on the desktop

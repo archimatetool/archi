@@ -32,7 +32,7 @@
            value="%aboutText"/>
      <property
            name="aboutImage"
-           value="img/app-128.png"/>
+           value="img/about.png"/>
      <property
            name="windowImages"
            value="img/app-16.png,img/app-32.png,img/app-48.png,img/app-64.png,img/app-128.png"/>
