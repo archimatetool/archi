@@ -263,4 +263,14 @@ public class ArchimateModelUtilsTests {
             assertTrue(IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf(eClass));
         }
     }
+    
+    @Test
+    public void testGetAllArchimateClasses() {
+        EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
+        assertEquals(43, classes.length);
+        
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));
+        }
+    }
 } 

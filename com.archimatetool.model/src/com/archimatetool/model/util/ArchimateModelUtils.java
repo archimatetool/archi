@@ -6,6 +6,7 @@
 package com.archimatetool.model.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -299,5 +300,18 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getAndJunction(),
                 IArchimatePackage.eINSTANCE.getOrJunction()
         };
+    }
+    
+    /**
+     * @return A list of all Archimate Element EClass types (excluding connector classes)
+     */
+    public static EClass[] getAllArchimateClasses() {
+        ArrayList<EClass> list = new ArrayList<EClass>();
+        list.addAll(Arrays.asList(getBusinessClasses()));
+        list.addAll(Arrays.asList(getApplicationClasses()));
+        list.addAll(Arrays.asList(getTechnologyClasses()));
+        list.addAll(Arrays.asList(getMotivationClasses()));
+        list.addAll(Arrays.asList(getImplementationMigrationClasses()));
+        return list.toArray(new EClass[list.size()]);
     }
 }

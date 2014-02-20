@@ -185,11 +185,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
     private List<EClass> getData() {
         if(fAllClasses == null) {
             fAllClasses = new ArrayList<EClass>();
-            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getBusinessClasses()));
-            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getApplicationClasses()));
-            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getTechnologyClasses()));
-            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getMotivationClasses()));
-            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getImplementationMigrationClasses()));
+            fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getAllArchimateClasses()));
             fAllClasses.add(IArchimatePackage.eINSTANCE.getJunction());
         }
         
