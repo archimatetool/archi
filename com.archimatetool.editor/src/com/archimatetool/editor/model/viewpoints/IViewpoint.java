@@ -64,7 +64,7 @@ public interface IViewpoint {
     EClass[] getAllowedTypes();
     
     /**
-     * @return Allowed class type
+     * @return true if type is an allowed Archimate element type class
      */
     boolean isAllowedType(EClass type);
     

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -45,7 +46,8 @@ public abstract class AbstractViewpoint implements IViewpoint {
             return false;
         }
         
-        // Check diagram object container parent in all cases
+        // It may be that the parent diagram object is hidden, in which case this child object needs to be hidden too
+        // even if it does belong in the Viewpoint
         if(object.eContainer() instanceof IDiagramModelObject) {
             return isElementVisible(object.eContainer());
         }
@@ -55,6 +57,11 @@ public abstract class AbstractViewpoint implements IViewpoint {
     
     @Override
     public boolean isAllowedType(EClass type) {
+        // Only Archimate types and relations
+        if(!IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(type)) {
+            return false;
+        }
+        
         return getAllowedList() == null ? true : getAllowedList().contains(type);
     };
     
