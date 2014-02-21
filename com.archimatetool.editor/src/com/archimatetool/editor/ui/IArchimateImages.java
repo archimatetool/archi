@@ -217,19 +217,24 @@ public interface IArchimateImages {
     // Figures
     String FIGURES_IMGPATH = IMGPATH + "figures/"; //$NON-NLS-1$
     
-    String FIGURE_BUSINESS_INTERFACE1 = FIGURES_IMGPATH + "bi1.png"; //$NON-NLS-1$
-    String FIGURE_BUSINESS_INTERFACE2 = FIGURES_IMGPATH + "bi2.png"; //$NON-NLS-1$
-    String FIGURE_APPLICATION_COMPONENT1 = FIGURES_IMGPATH + "ac1.png"; //$NON-NLS-1$
-    String FIGURE_APPLICATION_COMPONENT2 = FIGURES_IMGPATH + "ac2.png"; //$NON-NLS-1$
-    String FIGURE_APPLICATION_INTERFACE1 = FIGURES_IMGPATH + "ai1.png"; //$NON-NLS-1$
-    String FIGURE_APPLICATION_INTERFACE2 = FIGURES_IMGPATH + "ai2.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_DEVICE1 = FIGURES_IMGPATH + "td1.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_DEVICE2 = FIGURES_IMGPATH + "td2.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_NODE1 = FIGURES_IMGPATH + "tn1.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_NODE2 = FIGURES_IMGPATH + "tn2.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_INTERFACE1 = FIGURES_IMGPATH + "ti1.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_INTERFACE2 = FIGURES_IMGPATH + "ti2.png"; //$NON-NLS-1$
-    String FIGURE_BUSINESS_PROCESS1 = FIGURES_IMGPATH + "bp1.png"; //$NON-NLS-1$
-    String FIGURE_BUSINESS_PROCESS2 = FIGURES_IMGPATH + "bp2.png"; //$NON-NLS-1$
-
+    String FIGURE_BUSINESS_INTERFACE1 = FIGURES_IMGPATH + "business_interface1.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_INTERFACE2 = FIGURES_IMGPATH + "business_interface2.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_COMPONENT1 = FIGURES_IMGPATH + "application_component1.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_COMPONENT2 = FIGURES_IMGPATH + "application_component2.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_INTERFACE1 = FIGURES_IMGPATH + "application_interface1.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_INTERFACE2 = FIGURES_IMGPATH + "application_interface2.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_DEVICE1 = FIGURES_IMGPATH + "technology_device1.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_DEVICE2 = FIGURES_IMGPATH + "technology_device2.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_NODE1 = FIGURES_IMGPATH + "technology_node1.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_NODE2 = FIGURES_IMGPATH + "technology_node2.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_INTERFACE1 = FIGURES_IMGPATH + "technology_interface1.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_INTERFACE2 = FIGURES_IMGPATH + "technology_interface2.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_PROCESS1 = FIGURES_IMGPATH + "business_process1.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_PROCESS2 = FIGURES_IMGPATH + "business_process2.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_SERVICE1 = FIGURES_IMGPATH + "business_service1.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_SERVICE2 = FIGURES_IMGPATH + "business_service2.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_SERVICE1 = FIGURES_IMGPATH + "application_service1.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_SERVICE2 = FIGURES_IMGPATH + "application_service2.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_SERVICE1 = FIGURES_IMGPATH + "technology_service1.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_SERVICE2 = FIGURES_IMGPATH + "technology_service2.png"; //$NON-NLS-1$
 }
