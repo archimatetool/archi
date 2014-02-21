@@ -134,6 +134,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Junction" eSuperTypes="#//JunctionElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="AndJunction" eSuperTypes="#//JunctionElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OrJunction" eSuperTypes="#//JunctionElement"/>
@@ -173,7 +175,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Representation" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessRole" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessLayerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessLayerElement #//ServiceElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//BusinessLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationLayerElement" abstract="true"
@@ -184,14 +186,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationInteraction" eSuperTypes="#//ApplicationLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationInterface" eSuperTypes="#//ApplicationLayerElement #//InterfaceElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//ApplicationLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationService" eSuperTypes="#//ApplicationLayerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationService" eSuperTypes="#//ApplicationLayerElement #//ServiceElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="TechnologyLayerElement" abstract="true"
       interface="true" eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CommunicationPath" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Network" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfrastructureInterface" eSuperTypes="#//TechnologyLayerElement #//InterfaceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureService" eSuperTypes="#//TechnologyLayerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureService" eSuperTypes="#//TechnologyLayerElement #//ServiceElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfrastructureFunction" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyLayerElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="SystemSoftware" eSuperTypes="#//TechnologyLayerElement"/>

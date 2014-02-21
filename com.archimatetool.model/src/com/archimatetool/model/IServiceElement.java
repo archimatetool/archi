@@ -8,13 +8,13 @@ package com.archimatetool.model;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Infrastructure Service</b></em>'.
+ * A representation of the model object '<em><b>Service Element</b></em>'.
  * <!-- end-user-doc -->
  *
  *
- * @see com.archimatetool.model.IArchimatePackage#getInfrastructureService()
- * @model
+ * @see com.archimatetool.model.IArchimatePackage#getServiceElement()
+ * @model interface="true" abstract="true"
  * @generated
  */
-public interface IInfrastructureService extends ITechnologyLayerElement, IServiceElement {
-} // IInfrastructureService
+public interface IServiceElement extends IArchimateElement {
+} // IServiceElement

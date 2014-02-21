@@ -96,6 +96,7 @@ import com.archimatetool.model.IRealisationRelationship;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
+import com.archimatetool.model.IServiceElement;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
@@ -233,6 +234,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseInterfaceElement(IInterfaceElement object) {
                 return createInterfaceElementAdapter();
+            }
+            @Override
+            public Adapter caseServiceElement(IServiceElement object) {
+                return createServiceElementAdapter();
             }
             @Override
             public Adapter caseJunction(IJunction object) {
@@ -1981,6 +1986,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createInterfaceElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IServiceElement <em>Service Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IServiceElement
+     * @generated
+     */
+    public Adapter createServiceElementAdapter() {
         return null;
     }
 

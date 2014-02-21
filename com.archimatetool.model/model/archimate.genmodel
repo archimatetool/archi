@@ -90,6 +90,7 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//InterfaceElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//InterfaceElement/interfaceType"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ServiceElement"/>
     <genClasses ecoreClass="archimate.ecore#//Junction"/>
     <genClasses ecoreClass="archimate.ecore#//AndJunction"/>
     <genClasses ecoreClass="archimate.ecore#//OrJunction"/>

@@ -96,6 +96,7 @@ import com.archimatetool.model.IRealisationRelationship;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
+import com.archimatetool.model.IServiceElement;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
@@ -300,6 +301,20 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(interfaceElement);
                 if (result == null) result = caseProperties(interfaceElement);
                 if (result == null) result = caseAdapter(interfaceElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.SERVICE_ELEMENT: {
+                IServiceElement serviceElement = (IServiceElement)theEObject;
+                T result = caseServiceElement(serviceElement);
+                if (result == null) result = caseArchimateElement(serviceElement);
+                if (result == null) result = caseArchimateModelElement(serviceElement);
+                if (result == null) result = caseIdentifier(serviceElement);
+                if (result == null) result = caseCloneable(serviceElement);
+                if (result == null) result = caseNameable(serviceElement);
+                if (result == null) result = caseDocumentable(serviceElement);
+                if (result == null) result = caseProperties(serviceElement);
+                if (result == null) result = caseAdapter(serviceElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -756,6 +771,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IBusinessService businessService = (IBusinessService)theEObject;
                 T result = caseBusinessService(businessService);
                 if (result == null) result = caseBusinessLayerElement(businessService);
+                if (result == null) result = caseServiceElement(businessService);
                 if (result == null) result = caseArchimateElement(businessService);
                 if (result == null) result = caseArchimateModelElement(businessService);
                 if (result == null) result = caseIdentifier(businessService);
@@ -906,6 +922,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IApplicationService applicationService = (IApplicationService)theEObject;
                 T result = caseApplicationService(applicationService);
                 if (result == null) result = caseApplicationLayerElement(applicationService);
+                if (result == null) result = caseServiceElement(applicationService);
                 if (result == null) result = caseArchimateElement(applicationService);
                 if (result == null) result = caseArchimateModelElement(applicationService);
                 if (result == null) result = caseIdentifier(applicationService);
@@ -996,6 +1013,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IInfrastructureService infrastructureService = (IInfrastructureService)theEObject;
                 T result = caseInfrastructureService(infrastructureService);
                 if (result == null) result = caseTechnologyLayerElement(infrastructureService);
+                if (result == null) result = caseServiceElement(infrastructureService);
                 if (result == null) result = caseArchimateElement(infrastructureService);
                 if (result == null) result = caseArchimateModelElement(infrastructureService);
                 if (result == null) result = caseIdentifier(infrastructureService);
@@ -3011,6 +3029,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseInterfaceElement(IInterfaceElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Service Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Service Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseServiceElement(IServiceElement object) {
         return null;
     }
 
