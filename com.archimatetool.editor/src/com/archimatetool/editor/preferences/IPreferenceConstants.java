@@ -38,11 +38,14 @@ public interface IPreferenceConstants {
     
     String BUSINESS_INTERFACE_FIGURE = "businessInterfaceFigure"; //$NON-NLS-1$
     String BUSINESS_PROCESS_FIGURE = "businessProcessFigure"; //$NON-NLS-1$
+    String BUSINESS_SERVICE_FIGURE = "businessServiceFigure"; //$NON-NLS-1$
     String APPLICATION_COMPONENT_FIGURE = "applicationComponentFigure"; //$NON-NLS-1$
     String APPLICATION_INTERFACE_FIGURE = "applicationInterfaceFigure"; //$NON-NLS-1$
+    String APPLICATION_SERVICE_FIGURE = "applicationServiceFigure"; //$NON-NLS-1$
     String TECHNOLOGY_NODE_FIGURE = "technologyNodeFigure"; //$NON-NLS-1$
     String TECHNOLOGY_DEVICE_FIGURE = "technologyDeviceFigure"; //$NON-NLS-1$
     String TECHNOLOGY_INTERFACE_FIGURE = "technologyInterfaceFigure"; //$NON-NLS-1$
+    String TECHNOLOGY_SERVICE_FIGURE = "technologyServiceFigure"; //$NON-NLS-1$
     
     String SKETCH_DEFAULT_BACKGROUND = "sketchDefaultBackground"; //$NON-NLS-1$
     

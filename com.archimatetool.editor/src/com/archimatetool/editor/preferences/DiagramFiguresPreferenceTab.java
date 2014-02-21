@@ -8,8 +8,8 @@ package com.archimatetool.editor.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -26,7 +26,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.FigureChooser;
+import com.archimatetool.model.IArchimatePackage;
 
 
 /**
@@ -42,24 +43,23 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     
     private class ImageChoice {
         String name;
-        String key;
-        int type = 0;
-        Image img1, img2;
+        String preferenceKey;
+        int chosenType = 0;
+        Image[] images;
         
-        ImageChoice(String name, String key, String image1, String image2) {
+        ImageChoice(String name, String preferenceKey, EClass eClass) {
             this.name = name;
-            this.key = key;
-            
-            img1 = IArchimateImages.ImageFactory.getImage(image1);
-            img2 = IArchimateImages.ImageFactory.getImage(image2);
+            this.preferenceKey = preferenceKey;
+            images = FigureChooser.getFigurePreviewImagesForClass(eClass);
+            chosenType = Preferences.STORE.getInt(preferenceKey);
         }
         
         Image getImage() {
-            return type == 0 ? img1 : img2;
+            return images[chosenType];
         }
         
         void flip() {
-            type = (type == 0) ? 1 : 0;
+            chosenType = (chosenType == 0) ? 1 : 0;
         }
     }
     
@@ -90,28 +90,43 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         
         createTable(client2);
         
-        setValues();
-        
         fTableViewer.setInput(fChoices);
         
         return client;
     }
     
     private void loadFigures() {
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_1,
-                BUSINESS_INTERFACE_FIGURE, IArchimateImages.FIGURE_BUSINESS_INTERFACE1, IArchimateImages.FIGURE_BUSINESS_INTERFACE2));
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_7,
-                BUSINESS_PROCESS_FIGURE, IArchimateImages.FIGURE_BUSINESS_PROCESS1, IArchimateImages.FIGURE_BUSINESS_PROCESS2));
+                BUSINESS_PROCESS_FIGURE, IArchimatePackage.eINSTANCE.getBusinessProcess()));
+        
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_1,
+                BUSINESS_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getBusinessInterface()));
+        
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_0,
+                BUSINESS_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getBusinessService()));
+
+
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_2,
-                APPLICATION_COMPONENT_FIGURE, IArchimateImages.FIGURE_APPLICATION_COMPONENT1, IArchimateImages.FIGURE_APPLICATION_COMPONENT2));
+                APPLICATION_COMPONENT_FIGURE, IArchimatePackage.eINSTANCE.getApplicationComponent()));
+        
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_3,
-                APPLICATION_INTERFACE_FIGURE, IArchimateImages.FIGURE_APPLICATION_INTERFACE1, IArchimateImages.FIGURE_APPLICATION_INTERFACE2));
+                APPLICATION_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getApplicationInterface()));
+        
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_1,
+                APPLICATION_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getApplicationService()));
+
+        
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_4,
-                TECHNOLOGY_DEVICE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE1, IArchimateImages.FIGURE_TECHNOLOGY_DEVICE2));
+                TECHNOLOGY_DEVICE_FIGURE, IArchimatePackage.eINSTANCE.getDevice()));
+        
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_5,
-                TECHNOLOGY_NODE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_NODE1, IArchimateImages.FIGURE_TECHNOLOGY_NODE2));
+                TECHNOLOGY_NODE_FIGURE, IArchimatePackage.eINSTANCE.getNode()));
+        
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_6,
-                TECHNOLOGY_INTERFACE_FIGURE, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1, IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2));
+                TECHNOLOGY_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getInfrastructureInterface()));
+
+        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_2,
+                TECHNOLOGY_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getInfrastructureService()));
     }
     
     private void createTable(Composite parent) {
@@ -162,19 +177,9 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         });
     }
     
-    private void setValues() {
+    protected boolean performOk() {
         for(ImageChoice choice : fChoices) {
-            choice.type = getPreferenceStore().getInt(choice.key);
-        }
-    }
-    
-    private IPreferenceStore getPreferenceStore() {
-        return Preferences.STORE;
-    }
-
-    public boolean performOk() {
-        for(ImageChoice choice : fChoices) {
-            getPreferenceStore().setValue(choice.key, choice.type);
+            Preferences.STORE.setValue(choice.preferenceKey, choice.chosenType);
         }
 
         return true;
@@ -182,7 +187,7 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     
     protected void performDefaults() {
         for(ImageChoice choice : fChoices) {
-            choice.type = 0;
+            choice.chosenType = 0;
         }
         
         fTableViewer.refresh();

@@ -5,15 +5,13 @@
  */
 package com.archimatetool.editor.diagram.figures.business;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -27,66 +25,42 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class BusinessServiceFigure
 extends AbstractArchimateFigure
 implements IRoundedRectangleFigure {
-
-    protected static final int SHADOW_OFFSET = 2;
     
+    // This figure needs to implement IRoundedRectangleFigure and return getArc() from the delegate
+    // I tried it by directly getting the delegate figure in the EditPart but BusinessServiceFigureDelegate
+    // Needs time to calculate its bounds
+
+    protected BusinessServiceFigureDelegate fFigureDelegate1;
+    protected RoundedRectangleFigureDelegate fFigureDelegate2;
+
     public BusinessServiceFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
+
+        fFigureDelegate1 = new BusinessServiceFigureDelegate(this);
+        
+        fFigureDelegate2 = new RoundedRectangleFigureDelegate(this);
+        fFigureDelegate2.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SERVICE_16));
     }
     
     @Override
-    public void drawFigure(Graphics graphics) {
-        graphics.pushState();
-        
-        Rectangle bounds = getBounds().getCopy();
-        
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        
-        Dimension arc = getArc();
-        
-        if(isEnabled()) {
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height  - SHADOW_OFFSET),
-                        arc.width, arc.height);
-                graphics.setAlpha(255);
-            }
-        }
-        else {
-            setDisabledState(graphics);
-        }
-        
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-        
-        graphics.setBackgroundColor(getFillColor());
-        graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset),
-                arc.width, arc.height);
-        
-        // Outline
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1),
-                arc.width, arc.height);
-        
-        graphics.popState();
-    }
-    
-    public Dimension getArc() {
-        Rectangle bounds = getBounds().getCopy();
-        return new Dimension(Math.min(bounds.height, bounds.width * 8/10), bounds.height);
-    }
-    
-    @Override
-    public void setArc(Dimension arc) {
+    public void refreshVisuals() {
+        super.refreshVisuals();
+        repaint(); // redraw delegate
     }
 
     @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += 20;
-        bounds.y += 5;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 10;
-        return bounds;
+    public IFigureDelegate getFigureDelegate() {
+        int type = getDiagramModelObject().getType();
+        return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
+    }
+
+    @Override
+    public Dimension getArc() {
+        int type = getDiagramModelObject().getType();
+        return type == 0 ? fFigureDelegate1.getArc() : fFigureDelegate2.getArc();
+    }
+
+    @Override
+    public void setArc(Dimension arc) {
     }
 }

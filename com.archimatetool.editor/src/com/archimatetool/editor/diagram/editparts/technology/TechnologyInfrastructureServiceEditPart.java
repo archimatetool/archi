@@ -5,11 +5,9 @@
  */
 package com.archimatetool.editor.diagram.editparts.technology;
 
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 
-import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
-import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
+import com.archimatetool.editor.diagram.editparts.business.BusinessServiceEditPart;
 import com.archimatetool.editor.diagram.figures.technology.TechnologyInfrastructureServiceFigure;
 
 
@@ -19,15 +17,11 @@ import com.archimatetool.editor.diagram.figures.technology.TechnologyInfrastruct
  * @author Phillip Beauvoir
  */
 public class TechnologyInfrastructureServiceEditPart
-extends AbstractArchimateEditableTextFlowEditPart {            
+extends BusinessServiceEditPart {            
     
     @Override
     protected IFigure createFigure() {
         return new TechnologyInfrastructureServiceFigure(getModel());
     }
  
-    @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new RoundedRectangleAnchor(getFigure());
-    }
 }
