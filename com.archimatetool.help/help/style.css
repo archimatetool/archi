@@ -49,6 +49,11 @@ table.border {
 	border-spacing: 0;
 }
 
+td {
+	padding: 5px;
+	min-width: 100px;
+}
+
 td.border {
 	border: 1px solid black;
 	padding: 4px;
