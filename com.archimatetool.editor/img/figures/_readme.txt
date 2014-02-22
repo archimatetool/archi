@@ -1,1 +1,1 @@
-These images have to be 120x57 pixels
+These images have to be exactly 135x65 pixels

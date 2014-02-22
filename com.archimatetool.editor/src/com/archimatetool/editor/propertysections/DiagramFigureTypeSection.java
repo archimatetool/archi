@@ -18,6 +18,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -26,19 +27,11 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.model.IApplicationComponent;
-import com.archimatetool.model.IApplicationInterface;
+import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IBusinessInterface;
-import com.archimatetool.model.IBusinessProcess;
-import com.archimatetool.model.IDevice;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IInfrastructureInterface;
-import com.archimatetool.model.IInterfaceElement;
-import com.archimatetool.model.INode;
 
 
 
@@ -59,11 +52,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         public boolean select(Object object) {
            if(object instanceof IArchimateEditPart) {
                IArchimateElement element = (IArchimateElement)((IArchimateEditPart)object).getAdapter(IArchimateElement.class);
-               return element instanceof IInterfaceElement || 
-                      element instanceof IApplicationComponent ||
-                      element instanceof IDevice ||
-                      element instanceof INode ||
-                      element instanceof IBusinessProcess;
+               return FigureChooser.hasAlternateFigure(element);
            }
            return false;
         }
@@ -99,38 +88,10 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
     protected void refreshControls() {
         IArchimateElement element = fDiagramObject.getArchimateElement();
         
-        String imageName1 = null, imageName2 = null;
-        if(element instanceof IBusinessInterface) {
-            imageName1 = IArchimateImages.FIGURE_BUSINESS_INTERFACE1;
-            imageName2 = IArchimateImages.FIGURE_BUSINESS_INTERFACE2;
-        }
-        else if(element instanceof IApplicationInterface) {
-            imageName1 = IArchimateImages.FIGURE_APPLICATION_INTERFACE1;
-            imageName2 = IArchimateImages.FIGURE_APPLICATION_INTERFACE2;
-        }
-        else if(element instanceof IInfrastructureInterface) {
-            imageName1 = IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1;
-            imageName2 = IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2;
-        }
-        else if(element instanceof IApplicationComponent) {
-            imageName1 = IArchimateImages.FIGURE_APPLICATION_COMPONENT1;
-            imageName2 = IArchimateImages.FIGURE_APPLICATION_COMPONENT2;
-        }
-        else if(element instanceof IDevice) {
-            imageName1 = IArchimateImages.FIGURE_TECHNOLOGY_DEVICE1;
-            imageName2 = IArchimateImages.FIGURE_TECHNOLOGY_DEVICE2;
-        }
-        else if(element instanceof INode) {
-            imageName1 = IArchimateImages.FIGURE_TECHNOLOGY_NODE1;
-            imageName2 = IArchimateImages.FIGURE_TECHNOLOGY_NODE2;
-        }
-        else if(element instanceof IBusinessProcess) {
-            imageName1 = IArchimateImages.FIGURE_BUSINESS_PROCESS1;
-            imageName2 = IArchimateImages.FIGURE_BUSINESS_PROCESS2;
-        }
-
-        figure1.setImage(imageName1);
-        figure2.setImage(imageName2);
+        Image[] images = FigureChooser.getFigurePreviewImagesForElement(element);
+        
+        figure1.setImage(images[0]);
+        figure2.setImage(images[1]);
         
         int type = fDiagramObject.getType();
         figure1.setSelected(type == 0);
@@ -199,8 +160,8 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
             });
         }
         
-        void setImage(String imageName) {
-            label.setImage(imageName == null ? null : IArchimateImages.ImageFactory.getImage(imageName));
+        void setImage(Image image) {
+            label.setImage(image);
         }
         
         void setSelected(boolean set) {

@@ -7,10 +7,13 @@ package com.archimatetool.editor.diagram.editparts.business;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.emf.common.notify.Notification;
 
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
+import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessServiceFigure;
+import com.archimatetool.model.IArchimatePackage;
 
 
 /**
@@ -28,6 +31,16 @@ extends AbstractArchimateEditableTextFlowEditPart {
  
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new RoundedRectangleAnchor(getFigure());
+        return new RoundedRectangleAnchor(getFigure(), ((IRoundedRectangleFigure)getFigure()).getArc());
+    }
+
+    @Override
+    protected void eCoreChanged(Notification msg) {
+        super.eCoreChanged(msg);
+        
+        // Update Connection Anchors
+        if(msg.getFeature() == IArchimatePackage.Literals.DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE) {
+            refreshConnectionAnchors();
+        }
     }
 }

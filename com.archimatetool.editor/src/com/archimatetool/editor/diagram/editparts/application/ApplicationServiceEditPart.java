@@ -5,11 +5,9 @@
  */
 package com.archimatetool.editor.diagram.editparts.application;
 
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 
-import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
-import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
+import com.archimatetool.editor.diagram.editparts.business.BusinessServiceEditPart;
 import com.archimatetool.editor.diagram.figures.application.ApplicationServiceFigure;
 
 
@@ -19,15 +17,11 @@ import com.archimatetool.editor.diagram.figures.application.ApplicationServiceFi
  * @author Phillip Beauvoir
  */
 public class ApplicationServiceEditPart
-extends AbstractArchimateEditableTextFlowEditPart {            
+extends BusinessServiceEditPart {            
     
     @Override
     protected IFigure createFigure() {
         return new ApplicationServiceFigure(getModel());
     }
  
-    @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new RoundedRectangleAnchor(getFigure());
-    }
 }

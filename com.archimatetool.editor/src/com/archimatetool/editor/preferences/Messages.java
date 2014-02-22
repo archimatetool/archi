@@ -137,6 +137,12 @@ public class Messages extends NLS {
 
     public static String DiagramFiguresPreferencePage_9;
 
+    public static String DiagramFiguresPreferenceTab_0;
+
+    public static String DiagramFiguresPreferenceTab_1;
+
+    public static String DiagramFiguresPreferenceTab_2;
+
     public static String DiagramPreferencePage_0;
 
     public static String DiagramPreferencePage_1;
