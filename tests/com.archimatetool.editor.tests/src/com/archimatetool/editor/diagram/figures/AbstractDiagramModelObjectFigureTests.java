@@ -96,13 +96,9 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     public void testSetFontColor() {
         IFigure textControl = abstractFigure.getTextControl();
         if(textControl != null) {
-            Color expected = new Color(null, 0, 0, 0);
-            assertEquals(expected, textControl.getForegroundColor());
-            expected.dispose();
-            
             diagramModelObject.setFontColor("#010203");
             abstractFigure.setFontColor();
-            expected = new Color(null, 1, 2, 3);
+            Color expected = new Color(null, 1, 2, 3);
             assertEquals(expected, textControl.getForegroundColor());
             expected.dispose();
         }
