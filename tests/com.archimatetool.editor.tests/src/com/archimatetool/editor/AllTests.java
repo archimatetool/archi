@@ -9,6 +9,7 @@ import junit.framework.TestSuite;
 
 import com.archimatetool.editor.diagram.AllDiagramTests;
 import com.archimatetool.editor.model.AllModelTests;
+import com.archimatetool.editor.ui.AllUITests;
 import com.archimatetool.editor.utils.AllUtilsTests;
 import com.archimatetool.editor.views.AllViewsTests;
 
@@ -24,6 +25,9 @@ public class AllTests {
 		// model
         suite.addTest(AllModelTests.suite());
 		
+        // ui
+        suite.addTest(AllUITests.suite());
+
         // utils
         suite.addTest(AllUtilsTests.suite());
 
