@@ -9,6 +9,5 @@ HTML Help file authoring notes
 
 Edit the source HTML files in the com.archimatetool.help/help folder
 --------------------------------------------------------------------
-* Edit "front.html" for the latest Archi version number
 * Ensure that "contexts.xml" is up to date
 * Ensure that "toc.xml" is up to date and corresponds to com.archimatetool.build/html_contents.list
