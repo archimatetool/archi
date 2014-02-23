@@ -1,8 +1,5 @@
 # List of HTML files to be concatenated together to create one big HTML file
-# and then imported into MS Word, formatted and then exported to PDF.
-# Use merge-html.xml Ant script or HTMLMerger.java to do this
 
-front.html
 intro.html
 install.html
 archi_working.html
