@@ -10,9 +10,11 @@ Version 2.6.1
 + [Copy/Paste] Clicking on a point on a diagram sets that as the point to paste copied diagram objects
 + [Copy/Paste] Child objects are now copied to the correct relative positions
 + The Windows Zip installation includes batch files to associate *.archimate files with Archi
-+ [Internal Model] Added support for arbitrary metadata key/value pairs
++ [Model] Added support for arbitrary metadata key/value pairs
 + The Java version shipped with the Windows installer is now version 1.7.0_51
-+ [ModelCompatibility] Opening models with new features from the future in an older Archi version is now more forgiving
++ [ModelCompatibility] Opening models with new features from the future is now more forgiving
++ [Help] Documentation layout has been improved
++ [Internal] Uses JDOM2 for general XML persistence
 * Fixed the Format Painter not applying fill colour if it was the "default" fill colour
 * Fixed Full Screen mode not really being full screen on Windows 8
 * Fixed crash in Canvas Editor if image is removed from Image element and was being used in another Image element
