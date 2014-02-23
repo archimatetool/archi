@@ -4,162 +4,162 @@
     
     <context id="treeModelViewHelp" title="The Model Tree">
         <description>The Model Tree displays all ArchiMate models.</description>
-        <topic label="The Model Tree" href="help/model_tree.html"/>
+        <topic label="The Model Tree" href="help/Text/model_tree.html"/>
     </context>
     <context id="outlineViewHelp" title="The Outline Window">
        <description>The Outline window acts as a miniature viewport onto the selected diagram View in order to aid in navigation if the diagram is too large to fit in the window.</description>
-       <topic href="help/outline.html" label="The Outline Window"/>
+       <topic href="help/Text/outline.html" label="The Outline Window"/>
     </context>
     <context id="navigatorViewHelp" title="The Navigator Window">
        <description>The Navigator window displays the currently selected model element and all of its relationships with other elements.</description>
-       <topic href="help/navigator.html" label="The Navigator Window"/>
+       <topic href="help/Text/navigator.html" label="The Navigator Window"/>
     </context>
     <context id="zestViewHelp" title="The Visualiser Window">
        <description>The Visualiser window displays the currently selected model element and all of its relationships with other elements in a diagrammatic layout.</description>
-       <topic href="help/visualiser.html" label="The Visualiser Window"/>
+       <topic href="help/Text/visualiser.html" label="The Visualiser Window"/>
     </context>
     <context id="hintsViewHelp" title="Hints Window">
        <description>The Hints window shows a hint for the selected element or palette entry. It can be useful to provide basic information about the purpose of the elements and relationships in a model.</description>
-       <topic href="help/hints.html" label="The Hints Window"/>
+       <topic href="help/Text/hints.html" label="The Hints Window"/>
     </context>
     <context id="canvasEditorHelp" title="Canvas Editor">
        <description>Creating Canvasses with the Canvas Modelling Toolkit</description>
-       <topic href="help/canvas.html" label="Canvas Modelling Toolkit"/>
+       <topic href="help/Text/canvas.html" label="Canvas Modelling Toolkit"/>
     </context>
     <context id="diagramEditorHelp" title="Diagram View">
        <description>The elements and relationships that constitute an ArchiMate model as represented in the Model Tree can be arranged into one or more "Views" or visual diagrams.</description>
-       <topic href="help/views.html" label="Views"/>
-       <topic href="help/viewpoints.html" label="Viewpoints"/>
+       <topic href="help/Text/views.html" label="Views"/>
+       <topic href="help/Text/viewpoints.html" label="Viewpoints"/>
     </context>
     <context id="sketchEditorHelp" title="Sketch View">
        <description>The Sketch View offers a quick way to capture a model.</description>
-       <topic href="help/sketch_view.html" label="The Sketch View"/>
+       <topic href="help/Text/sketch_view.html" label="The Sketch View"/>
     </context>
     <context id="elementPropertySection" title="Element Properties">
        <description>Edit Element Properties.</description>
-       <topic href="help/properties_element.html" label="Element Properties"/>
-       <topic href="help/properties_element_appearance.html" label="Element Appearance Properties"/>
-       <topic href="help/properties_relation.html" label="Relationship Properties"/>
-       <topic href="help/properties_relation_appearance.html" label="Relationship Connection Appearance Properties"/>
-       <topic href="help/properties_folder.html" label="Folder Properties"/>
-       <topic href="help/properties_group.html" label="Group Properties"/>
-       <topic href="help/properties_note.html" label="Note Properties"/>
-       <topic href="help/properties_canvas_image.html" label="Image Properties"/>
-       <topic href="help/properties_canvas_block.html" label="Block Properties"/>
-       <topic href="help/properties_canvas_sticky.html" label="Sticky Properties"/>
-       <topic href="help/properties_canvas_connection.html" label="Connection Properties"/>
+       <topic href="help/Text/properties_element.html" label="Element Properties"/>
+       <topic href="help/Text/properties_element_appearance.html" label="Element Appearance Properties"/>
+       <topic href="help/Text/properties_relation.html" label="Relationship Properties"/>
+       <topic href="help/Text/properties_relation_appearance.html" label="Relationship Connection Appearance Properties"/>
+       <topic href="help/Text/properties_folder.html" label="Folder Properties"/>
+       <topic href="help/Text/properties_group.html" label="Group Properties"/>
+       <topic href="help/Text/properties_note.html" label="Note Properties"/>
+       <topic href="help/Text/properties_canvas_image.html" label="Image Properties"/>
+       <topic href="help/Text/properties_canvas_block.html" label="Block Properties"/>
+       <topic href="help/Text/properties_canvas_sticky.html" label="Sticky Properties"/>
+       <topic href="help/Text/properties_canvas_connection.html" label="Connection Properties"/>
     </context>
     <context id="folderSection" title="Folder Properties">
        <description>Edit Folder Properties.</description>
-       <topic href="help/properties_folder.html" label="Folder Properties"/>
+       <topic href="help/Text/properties_folder.html" label="Folder Properties"/>
     </context>
     <context id="diagramModelSection" title="View Properties">
        <description>Edit View Properties.</description>
-       <topic href="help/properties_view.html" label="View Properties"/>
+       <topic href="help/Text/properties_view.html" label="View Properties"/>
     </context>
     <context id="archimateModelSection" title="Model Properties">
        <description>Edit Model Properties.</description>
-       <topic href="help/properties_model.html" label="Model Properties"/>
+       <topic href="help/Text/properties_model.html" label="Model Properties"/>
     </context>
     <context id="usedInRelationshipsSection" title="Model Relations">
        <description>A table showing the Relationships (if any) to and from the selected element in the model. Double-clicking on an entry in the table will select the element in the Model Tree window if it is open.</description>
-       <topic href="help/properties_element.html" label="Element Properties"/>
+       <topic href="help/Text/properties_element.html" label="Element Properties"/>
     </context>
     <context id="usedInViewsSection" title="Used in Views">
        <description>A table showing the Views (if any) where the selected element is used (displayed in a diagram). Double-clicking on an entry in the table will open the View and select the element in the diagram.</description>
-       <topic href="help/properties_element.html" label="Element Properties"/>
+       <topic href="help/Text/properties_element.html" label="Element Properties"/>
     </context>
     <context id="diagramFigureTypeSection" title="Figure Type">
-       <topic href="help/properties_figures.html" label="Figure Types"/>
+       <topic href="help/Text/properties_figures.html" label="Figure Types"/>
        <description>Choose the figure to represent this Element.</description>
     </context>
     <context id="diagramEditorPaletteHelp" title="The Palette">
        <description>The Palette is used for creating and selecting.</description>
-       <topic href="help/view_palette.html" label="The Palette"/>
-       <topic href="help/view_palette_tools.html" label="Palette Selection Tools"/>
-       <topic href="help/view_palette_creation_tools.html" label="Palette Creation Tools"/>
-       <topic href="help/view_format_painter.html" label="The Format Painter"/>
+       <topic href="help/Text/view_palette.html" label="The Palette"/>
+       <topic href="help/Text/view_palette_tools.html" label="Palette Selection Tools"/>
+       <topic href="help/Text/view_palette_creation_tools.html" label="Palette Creation Tools"/>
+       <topic href="help/Text/view_format_painter.html" label="The Format Painter"/>
     </context>
     <context id="prefsCanvas" title="Canvas Preferences">
        <description>Edit the Canvas Modelling Toolkit Preferences.</description>
-       <topic href="help/prefs_canvas.html" label="Canvas Modelling Toolkit Preferences"/>
+       <topic href="help/Text/prefs_canvas.html" label="Canvas Modelling Toolkit Preferences"/>
     </context>
     <context id="prefsConnections" title="Connections Preferences">
        <description>Edit the Connections Preferences.</description>
-       <topic href="help/prefs_connections.html" label="Connections Preferences"/>
+       <topic href="help/Text/prefs_connections.html" label="Connections Preferences"/>
     </context>
     <context id="prefsColoursFonts" title="Colours and Fonts Preferences">
-       <topic href="help/prefs_colours_fonts.html" label="Colours and Fonts Preferences"/>
+       <topic href="help/Text/prefs_colours_fonts.html" label="Colours and Fonts Preferences"/>
        <description>Edit the application colours</description>
     </context>
     <context id="prefsDiagram" title="Diagram Preferences">
        <description>Edit the Diagram Preferences.</description>
-       <topic href="help/prefs_diagram.html" label="Diagram Preferences"/>
+       <topic href="help/Text/prefs_diagram.html" label="Diagram Preferences"/>
     </context>
     <context id="prefsGeneral" title="General Preferences">
        <description>Edit the General Preferences.</description>
-       <topic href="help/prefs_general.html" label="General Preferences"/>
+       <topic href="help/Text/prefs_general.html" label="General Preferences"/>
     </context>
     <context id="userProperties" title="User Properties">
        <description>Edit User Properties</description>
-       <topic href="help/properties_user_properties.html" label="User Properties"/>
-       <topic href="help/properties_element.html" label="Element Properties"/>
+       <topic href="help/Text/properties_user_properties.html" label="User Properties"/>
+       <topic href="help/Text/properties_element.html" label="Element Properties"/>
     </context>
     <context id="NewNestedRelationDialog" title="Container Elements and Nested Element Relationships">
        <description>Add a new Nested Element Relationship.</description>
-       <topic href="help/view_container_nested.html" label="Container Elements and Nested Element Relationships"/>
+       <topic href="help/Text/view_container_nested.html" label="Container Elements and Nested Element Relationships"/>
     </context>
     <context id="NewNestedRelationsDialog" title="Container Elements and Nested Element Relationships">
        <description>Add new Nested Element Relationships.</description>
-       <topic href="help/view_container_nested.html" label="Container Elements and Nested Element Relationships"/>
+       <topic href="help/Text/view_container_nested.html" label="Container Elements and Nested Element Relationships"/>
     </context>
     <context id="TemplateManagerDialog" title="Managing your Templates">
        <description>Manage your Templates.</description>
-       <topic href="help/templates_managing.html" label="Managing your Templates"/>
+       <topic href="help/Text/templates_managing.html" label="Managing your Templates"/>
     </context>
     <context id="NewArchimateModelFromTemplateWizardPage" title="Creating a New Model from a Template">
        <description>Create a new Model based on an existing template.</description>
-       <topic href="help/templates_new_model.html" label="Creating a New Model from a Template"/>
+       <topic href="help/Text/templates_new_model.html" label="Creating a New Model from a Template"/>
     </context>
     <context id="SaveArchimateModelAsTemplateWizardPage" title="Save Model As Template">
        <description>Provide the Template's name, description and key thumbnail.</description>
-       <topic href="help/templates_new.html" label="Creating a New Template"/>
+       <topic href="help/Text/templates_new.html" label="Creating a New Template"/>
     </context>
     <context id="SaveArchimateModelAsTemplateToCollectionWizardPage" title="Save Model As Template">
        <description>Choose whether to include the template in your collection.</description>
-       <topic href="help/templates_new.html" label="Creating a New Template"/>
+       <topic href="help/Text/templates_new.html" label="Creating a New Template"/>
     </context>
     <context id="ExportJasperReportsWizardPage1" title="Jasper Reports">
        <description>Choose the output location, report title and which formats to generate.</description>
-       <topic href="help/reporting.html" label="Jasper Reports"/>
+       <topic href="help/Text/reporting.html" label="Jasper Reports"/>
     </context>
     <context id="ExportJasperReportsWizardPage2">
        <description>Choose the report template to use.</description>
-       <topic href="help/reporting.html" label="Jasper Reports"/>
+       <topic href="help/Text/reporting.html" label="Jasper Reports"/>
     </context>
     <context id="ImageManagerDialog" title="Select an Image">
        <description>Select an Image</description>
-       <topic href="help/image_chooser.html" label="Adding Images to Elements"/>
+       <topic href="help/Text/image_chooser.html" label="Adding Images to Elements"/>
     </context>
     <context id="NewCanvasFromTemplateWizardPage" title="Creating a New Canvas from a Template">
        <description>Create a new Canvas based on an existing template.</description>
-       <topic href="help/canvas_new_from_template.html" label="Creating a New Canvas from a Template"/>
+       <topic href="help/Text/canvas_new_from_template.html" label="Creating a New Canvas from a Template"/>
     </context>
     <context id="SaveCanvasAsTemplateWizardPage" title="Save Canvas As Template">
        <description>Provide the Template&apos;s name, description and key thumbnail.</description>
-       <topic href="help/canvas_save_as_template.htmls" label="Save a Canvas as a Template"/>
+       <topic href="help/Text/canvas_save_as_template.htmls" label="Save a Canvas as a Template"/>
     </context>
     <context id="SaveCanvasAsTemplateToCollectionWizardPage" title="Save Canvas As Template">
        <description>Choose whether to include the template in your collection.</description>
-       <topic href="help/canvas_save_as_template.html" label="Save a Canvas as a Template"/>
+       <topic href="help/Text/canvas_save_as_template.html" label="Save a Canvas as a Template"/>
     </context>
     <context id="CanvasTemplateManagerDialog" title="Managing your Canvas Templates">
        <description>Manage your Canvas Templates</description>
-       <topic href="help/canvas_templates_managing.html" label="Managing your Canvas Templates"/>
+       <topic href="help/Text/canvas_templates_managing.html" label="Managing your Canvas Templates"/>
     </context>
     <context id="RelationshipsMatrixDialog">
        <description>View the allowed ArchiMate relationships</description>
-       <topic href="help/relations_rules.html" label="Relationships Matrix"/>
+       <topic href="help/Text/relations_rules.html" label="Relationships Matrix"/>
     </context>
     
 </contexts>

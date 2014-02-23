@@ -2,168 +2,168 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 <toc label="Archi User Guide">
     
-	<topic href="help/intro.html" label="Introduction">
+ <topic href="help/Text/intro.html" label="Introduction">
  </topic>
- <topic href="help/install.html" label="Installing and Launching Archi">
+ <topic href="help/Text/install.html" label="Installing and Launching Archi">
  </topic>
-    <topic href="help/archi_working.html" label="Working in Archi">
+    <topic href="help/Text/archi_working.html" label="Working in Archi">
     </topic>
-    <topic href="help/new_model.html" label="Creating a New ArchiMate Model">
+    <topic href="help/Text/new_model.html" label="Creating a New ArchiMate Model">
     </topic>
     <topic label="The Model Tree">
-       <topic href="help/model_tree.html" label="Introduction">
+       <topic href="help/Text/model_tree.html" label="Introduction">
        </topic>
-       <topic href="help/model_tree_add.html" label="Adding Elements Directly to the Model Tree">
+       <topic href="help/Text/model_tree_add.html" label="Adding Elements Directly to the Model Tree">
        </topic>
-       <topic href="help/model_tree_folders.html" label="Folders and Organisation">
+       <topic href="help/Text/model_tree_folders.html" label="Folders and Organisation">
        </topic>
-       <topic href="help/model_tree_working.html" label="Working in the Model Tree">
+       <topic href="help/Text/model_tree_working.html" label="Working in the Model Tree">
        </topic>
-       <topic href="help/model_tree_search.html" label="Searching and Filtering">
+       <topic href="help/Text/model_tree_search.html" label="Searching and Filtering">
        </topic>
     </topic>
     <topic label="Views">
-       <topic href="help/views.html" label="Introduction">
+       <topic href="help/Text/views.html" label="Introduction">
        </topic>
-       <topic href="help/views_open_create.html" label="Opening and Creating Views">
+       <topic href="help/Text/views_open_create.html" label="Opening and Creating Views">
        </topic>
-       <topic href="help/views_working.html" label="Working with Views">
+       <topic href="help/Text/views_working.html" label="Working with Views">
        </topic>
-       <topic href="help/view_nav.html" label="Navigating a View">
-          <topic href="help/outline.html" label="The Outline Window">
+       <topic href="help/Text/view_nav.html" label="Navigating a View">
+          <topic href="help/Text/outline.html" label="The Outline Window">
           </topic>
        </topic>
-       <topic href="help/view_palette.html" label="The Palette">
-          <topic href="help/view_palette_tools.html" label="Selection Tools">
+       <topic href="help/Text/view_palette.html" label="The Palette">
+          <topic href="help/Text/view_palette_tools.html" label="Selection Tools">
           </topic>
-          <topic href="help/view_palette_creation_tools.html" label="Creation Tools">
+          <topic href="help/Text/view_palette_creation_tools.html" label="Creation Tools">
           </topic>
-          <topic href="help/view_format_painter.html" label="The Format Painter">
+          <topic href="help/Text/view_format_painter.html" label="The Format Painter">
           </topic>
        </topic>
-       <topic href="help/view_addnew.html" label="Adding New Elements and Relations">
+       <topic href="help/Text/view_addnew.html" label="Adding New Elements and Relations">
        </topic>
-       <topic href="help/view_magic_connector.html" label="Adding New Elements and Relations with the Magic Connector">
+       <topic href="help/Text/view_magic_connector.html" label="Adding New Elements and Relations with the Magic Connector">
        </topic>
-       <topic href="help/view_addexisting.html" label="Adding Elements and Relations from the Model Tree to a View">
+       <topic href="help/Text/view_addexisting.html" label="Adding Elements and Relations from the Model Tree to a View">
        </topic>
-       <topic href="help/view_group.html" label="Adding a Group">
+       <topic href="help/Text/view_group.html" label="Adding a Group">
        </topic>
-       <topic href="help/view_note.html" label="Adding a Note">
+       <topic href="help/Text/view_note.html" label="Adding a Note">
        </topic>
-       <topic href="help/view_junction.html" label="Adding a Junction">
+       <topic href="help/Text/view_junction.html" label="Adding a Junction">
        </topic>
-       <topic href="help/view_reference.html" label="Adding a Reference to Another View">
+       <topic href="help/Text/view_reference.html" label="Adding a Reference to Another View">
        </topic>
        <topic label="Connections">
-          <topic href="help/view_conn_bendpoints.html" label="Bend-points">
+          <topic href="help/Text/view_conn_bendpoints.html" label="Bend-points">
           </topic>
-          <topic href="help/view_conn_properties.html" label="Setting the Properties of a Connection">
+          <topic href="help/Text/view_conn_properties.html" label="Setting the Properties of a Connection">
           </topic>
-          <topic href="help/view_conn_router.html" label="Setting the Connection Router Type for a View">
+          <topic href="help/Text/view_conn_router.html" label="Setting the Connection Router Type for a View">
           </topic>
        </topic>
-       <topic href="help/view_container_nested.html" label="Container Elements and Nested Element Relationships">
+       <topic href="help/Text/view_container_nested.html" label="Container Elements and Nested Element Relationships">
        </topic>
        <topic label="Setting the Order of Overlapping Elements">
        </topic>
-       <topic href="help/view_copy_paste_delete.html" label="Copying, Pasting, Selecting and Deleting Elements">
+       <topic href="help/Text/view_copy_paste_delete.html" label="Copying, Pasting, Selecting and Deleting Elements">
        </topic>
-       <topic href="help/view_align_grid.html" label="Alignment Tools, Guides and the Grid">
+       <topic href="help/Text/view_align_grid.html" label="Alignment Tools, Guides and the Grid">
        </topic>
-       <topic href="help/view_fullscreen.html" label="Showing a View in Full Screen Mode">
-       </topic>
-    </topic>
-    <topic href="help/viewpoints.html" label="Viewpoints">
-    </topic>
-    <topic href="help/properties_window.html" label="The Properties Window">
-       <topic href="help/properties_model.html" label="Model Properties">
-       </topic>
-       <topic href="help/properties_element.html" label="Element Properties">
-       </topic>
-       <topic href="help/properties_element_appearance.html" label="Element Appearance Properties">
-       </topic>
-       <topic href="help/properties_relation.html" label="Relationship Properties">
-       </topic>
-       <topic href="help/properties_relation_appearance.html" label="Relationship Connection Appearance Properties">
-       </topic>
-       <topic href="help/properties_view.html" label="View Properties">
-       </topic>
-       <topic href="help/properties_viewref.html" label="View Reference Properties">
-       </topic>
-       <topic href="help/properties_folder.html" label="Folder Properties">
-       </topic>
-       <topic href="help/properties_note.html" label="Note Properties">
-       </topic>
-       <topic href="help/properties_group.html" label="Group Properties">
-       </topic>
-       <topic href="help/properties_user_properties.html" label="User Properties">
+       <topic href="help/Text/view_fullscreen.html" label="Showing a View in Full Screen Mode">
        </topic>
     </topic>
-    <topic href="help/navigator.html" label="The Navigator Window">
+    <topic href="help/Text/viewpoints.html" label="Viewpoints">
     </topic>
-    <topic href="help/visualiser.html" label="The Visualiser Window">
-    </topic>
-    <topic href="help/hints.html" label="The Hints Window">
-    </topic>
-    <topic href="help/outline.html" label="The Outline Window">
-    </topic>
-    <topic href="help/open_save_print.html" label="Opening, Saving and Printing">
-    </topic>
-    <topic href="help/exporting.html" label="Exporting the Model and its Views">
-    </topic>
-    <topic href="help/reporting.html" label="Reporting">
-    </topic>
-    <topic href="help/templates.html" label="Templates">
-       <topic href="help/templates_new.html" label="Creating a New Template">
+    <topic href="help/Text/properties_window.html" label="The Properties Window">
+       <topic href="help/Text/properties_model.html" label="Model Properties">
        </topic>
-       <topic href="help/templates_new_model.html" label="Creating a New Model from a Template">
+       <topic href="help/Text/properties_element.html" label="Element Properties">
        </topic>
-       <topic href="help/templates_managing.html" label="Managing your Templates">
+       <topic href="help/Text/properties_element_appearance.html" label="Element Appearance Properties">
        </topic>
-    </topic>
-    <topic href="help/relations_rules.html" label="Relationships">
-    </topic>
-    <topic href="help/derived_rels.html" label="Derived Relationships">
-    </topic>
-    <topic href="help/sketch_view.html" label="The Sketch View">
-    </topic>
-    <topic href="help/canvas.html" label="The Canvas Modelling Toolkit">
-       <topic href="help/canvas_getting_started.html" label="Getting Started">
+       <topic href="help/Text/properties_relation.html" label="Relationship Properties">
        </topic>
-       <topic href="help/canvas_details.html" label="Getting Into the Details">
+       <topic href="help/Text/properties_relation_appearance.html" label="Relationship Connection Appearance Properties">
        </topic>
-       <topic href="help/properties_canvas_block.html" label="Block Properties">
+       <topic href="help/Text/properties_view.html" label="View Properties">
        </topic>
-       <topic href="help/properties_canvas_sticky.html" label="Sticky Properties">
+       <topic href="help/Text/properties_viewref.html" label="View Reference Properties">
        </topic>
-       <topic href="help/properties_canvas_image.html" label="Image Properties">
+       <topic href="help/Text/properties_folder.html" label="Folder Properties">
        </topic>
-       <topic href="help/properties_canvas_connection.html" label="Connection Properties">
+       <topic href="help/Text/properties_note.html" label="Note Properties">
        </topic>
-       <topic href="help/image_chooser.html" label="Adding Images to Elements">
+       <topic href="help/Text/properties_group.html" label="Group Properties">
        </topic>
-       <topic href="help/canvas_save_as_template.html" label="Saving a Canvas as a Template">
-       </topic>
-       <topic href="help/canvas_new_from_template.html" label="Creating a New Canvas from a Template">
-       </topic>
-       <topic href="help/canvas_templates_managing.html" label="Managing Canvas Templates">
+       <topic href="help/Text/properties_user_properties.html" label="User Properties">
        </topic>
     </topic>
-    <topic href="help/preferences.html" label="Preferences">
-       <topic href="help/prefs_canvas.html" label="Canvas Toolkit">
+    <topic href="help/Text/navigator.html" label="The Navigator Window">
+    </topic>
+    <topic href="help/Text/visualiser.html" label="The Visualiser Window">
+    </topic>
+    <topic href="help/Text/hints.html" label="The Hints Window">
+    </topic>
+    <topic href="help/Text/outline.html" label="The Outline Window">
+    </topic>
+    <topic href="help/Text/open_save_print.html" label="Opening, Saving and Printing">
+    </topic>
+    <topic href="help/Text/exporting.html" label="Exporting the Model and its Views">
+    </topic>
+    <topic href="help/Text/reporting.html" label="Reporting">
+    </topic>
+    <topic href="help/Text/templates.html" label="Templates">
+       <topic href="help/Text/templates_new.html" label="Creating a New Template">
        </topic>
-       <topic href="help/prefs_colours_fonts.html" label="Colours and Fonts">
+       <topic href="help/Text/templates_new_model.html" label="Creating a New Model from a Template">
        </topic>
-       <topic href="help/prefs_connections.html" label="Connections">
-       </topic>
-       <topic href="help/prefs_diagram.html" label="Diagram">
-       </topic>
-       <topic href="help/prefs_general.html" label="General">
-       </topic>
-       <topic href="help/prefs_help.html" label="Help">
+       <topic href="help/Text/templates_managing.html" label="Managing your Templates">
        </topic>
     </topic>
-    <topic href="help/appendix.html" label="Appendix">
+    <topic href="help/Text/relations_rules.html" label="Relationships">
+    </topic>
+    <topic href="help/Text/derived_rels.html" label="Derived Relationships">
+    </topic>
+    <topic href="help/Text/sketch_view.html" label="The Sketch View">
+    </topic>
+    <topic href="help/Text/canvas.html" label="The Canvas Modelling Toolkit">
+       <topic href="help/Text/canvas_getting_started.html" label="Getting Started">
+       </topic>
+       <topic href="help/Text/canvas_details.html" label="Getting Into the Details">
+       </topic>
+       <topic href="help/Text/properties_canvas_block.html" label="Block Properties">
+       </topic>
+       <topic href="help/Text/properties_canvas_sticky.html" label="Sticky Properties">
+       </topic>
+       <topic href="help/Text/properties_canvas_image.html" label="Image Properties">
+       </topic>
+       <topic href="help/Text/properties_canvas_connection.html" label="Connection Properties">
+       </topic>
+       <topic href="help/Text/image_chooser.html" label="Adding Images to Elements">
+       </topic>
+       <topic href="help/Text/canvas_save_as_template.html" label="Saving a Canvas as a Template">
+       </topic>
+       <topic href="help/Text/canvas_new_from_template.html" label="Creating a New Canvas from a Template">
+       </topic>
+       <topic href="help/Text/canvas_templates_managing.html" label="Managing Canvas Templates">
+       </topic>
+    </topic>
+    <topic href="help/Text/preferences.html" label="Preferences">
+       <topic href="help/Text/prefs_canvas.html" label="Canvas Toolkit">
+       </topic>
+       <topic href="help/Text/prefs_colours_fonts.html" label="Colours and Fonts">
+       </topic>
+       <topic href="help/Text/prefs_connections.html" label="Connections">
+       </topic>
+       <topic href="help/Text/prefs_diagram.html" label="Diagram">
+       </topic>
+       <topic href="help/Text/prefs_general.html" label="General">
+       </topic>
+       <topic href="help/Text/prefs_help.html" label="Help">
+       </topic>
+    </topic>
+    <topic href="help/Text/appendix.html" label="Appendix">
     </topic>
 </toc>
