@@ -74,9 +74,15 @@ td.border {
 }
 
 .boxout {
-	border: 1px solid black;
-	background-color: #CBDBF8;
-	padding: 12px;
-	margin-left: 15%;
-	margin-right: 15%;
+	border: 1px solid #9d9d9d;
+	background-color: #cbe4f8;
+	padding: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
+	min-height: 40px;
+}
+
+.tipImage {
+    float:left;
+    padding-right: 10px;
 }
