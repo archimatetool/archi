@@ -4,8 +4,9 @@ PDF Documentation Generation Notes
 
 Create one monolithic HTML file
 -------------------------------
-* Ensure "html_contents.list" for the list of files that will be concatenated is up to date
-* Run the "merge-html.xml" Ant script to output one HTML file, "Archi User Guide.html", to the "temp" folder
+* Ensure "html_contents.list" for the list of files from the help plugin that will be concatenated is up to date
+* Edit the "merge-html.xml" Ant script to change the version number
+* Run the "merge-html.xml" Ant script to output one HTML file, "Archi User Guide.html", to the "temp/Text" folder
 
 
 Open "Archi User Guide.html" in MS Word 2007 on Windows
@@ -36,5 +37,5 @@ Create the "What's New in Archi Document"
 
 Cleanup
 -------
-Delete the temp folder and the "Archi User Guide.html" file
+Delete the temp folder
 

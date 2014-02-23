@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 /**
@@ -28,8 +29,8 @@ import java.util.List;
 @SuppressWarnings("nls")
 public class HTMLMerger {
     
-    private static File HELP_SRC_FOLDER = new File("../../com.archimatetool.help/help");
-    private static File TARGET_FOLDER = new File("../temp");
+    private static File HELP_SRC_FOLDER = new File("../../com.archimatetool.help/help/Text");
+    private static File TARGET_FOLDER = new File("../temp/Text");
     private static File HTML_OUTPUT_FILE = new File(TARGET_FOLDER, "Archi User Guide.html");
     private static File HTML_FILES_LIST = new File("html_contents.list");
     
@@ -46,43 +47,50 @@ public class HTMLMerger {
             out.append("<html>\n");
             out.append("<head>\n");
             out.append("<title>Archi User Guide</title>\n");
-            out.append("<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
+            out.append("<link href='../Styles/style.css' rel='stylesheet' type='text/css' />\n");
             out.append("</head>\n");
             out.append("<body>\n");
             
-            boolean firstPage = true;
+            // Insert cover page with version number
+            System.out.println("Writing Cover...");
+            out.append("<div style='text-align:center;'>\n");
+            out.append("<img src='../Images/cover.png' />\n");
+            out.append("<p>Version " + System.getProperty("ArchiVersion") + "</p>\n");
+            out.append("</div>\n");
             
             List<String> fileList = readFilesList();
 
             for(String fileName : fileList) {
                 System.out.println("Writing " + fileName);
-                String content = getContent(new File(HELP_SRC_FOLDER, fileName));
                 
-                // MS Word Page Break for H1 tag before
-                if(!firstPage && isHeading1(content)) {
-                    out.append("<br style='mso-special-character:line-break;page-break-before:always'>\n");
-                }
+                String content = getBodyContent(new File(HELP_SRC_FOLDER, fileName));
                 
                 // Add an Anchor tag
-                if(!firstPage) {
-                    out.append("<a name=\"" + fileName + "\"></a>");
-                }
+                out.append("<a name=\"" + fileName + "\"></a>\n");
 
                 // Replace local html links with anchor type links
                 for(String s : fileList) {
                     content = content.replaceAll("<a href=\"" + s, "<a href=\"#" + s);
                 }
                 
-                out.append(content);
-
-                if(firstPage) {
-                    firstPage = false;
+                Scanner scanner = new Scanner(content);
+                while(scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    
+                    // MS Word Page Break before
+                    if(line.contains("class=\"pagebreak\"")) {
+                        out.append("<br style='mso-special-character:line-break;page-break-before:always'>\n");
+                    }
+                    
+                    out.append(line + "\n");
                 }
+                scanner.close();
             }
             
             out.append("</body>\n");
             out.append("</html>\n");
             out.close();
+            
             System.out.println("Closed Output Stream");
         }
         catch(IOException ex) {
@@ -112,11 +120,7 @@ public class HTMLMerger {
         return list;
     }
     
-    private static boolean isHeading1(String content) {
-        return content.indexOf("<h1>") != -1 || content.indexOf("<H1>") != -1;
-    }
-    
-    private static String getContent(File file) {
+    private static String getBodyContent(File file) {
         String s = "";
         try {
             s = readFileAsString(file);

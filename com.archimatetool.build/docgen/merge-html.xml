@@ -1,4 +1,4 @@
-<project name="Archi Make Help HTML File Ant Script" default="run" basedir="..">
+<project name="Archi Make Help HTML File Ant Script" default="run" basedir=".">
   	
 	<description>
 	    Make one big HTML file from the smaller HTML files.
@@ -10,25 +10,34 @@
 	
 	<!-- Init some stuff -->
 	<target name="init">
-	    <property name="class.path" location="bin"/>
-		<property name="tmp.dir" location="temp"/>
-		<property name="src.dir" location="../com.archimatetool.help/help"/>
+	    <property name="class.path" location="../bin"/>
+		<property name="tmp.dir" location="../temp"/>
+		<property name="src.dir" location="../../com.archimatetool.help/help"/>
+		
+		<!-- EDIT THIS VERSION NUMBER!!! -->
+		<property name="archi.version" value="2.6.1"/>
 	</target>
 	
 	<target name="copy_files">
-		<copy todir="${tmp.dir}" >
-			<fileset dir="${src.dir}">
-				<include name="**/*.css"/>
+	    <!-- Copy some files -->
+		<copy todir="${tmp.dir}/Images" >
+			<fileset dir=".">
+				<include name="cover.png"/>
 			</fileset>
 		</copy>
-		<copy todir="${tmp.dir}/img" >
-			<fileset dir="${src.dir}/img">
-			</fileset>
-		</copy>
+		
+	    <!-- Copy image and style files from Help plugin -->
+        <copy todir="${tmp.dir}" >
+            <fileset dir="${src.dir}">
+                <exclude name="Text/"/>
+            </fileset>
+        </copy>
 	</target>
 
 	<target name="merge_html">
-		<java classname="com.archimatetool.build.HTMLMerger" classpath="${class.path}"/>
+		<java classname="com.archimatetool.build.HTMLMerger" classpath="${class.path}">
+			<sysproperty key="ArchiVersion" value="${archi.version}"/>
+	    </java>
 	</target>
 
 </project>
