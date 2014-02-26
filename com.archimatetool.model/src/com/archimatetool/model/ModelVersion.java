@@ -32,7 +32,7 @@ package com.archimatetool.model;
  * 2.2.1 - Sketch Model Background attribute
  * 2.3.0 - Add ILineObject - implemented in IDiagramModelObject and IDiagramModelConnection
  * 2.6.0 - Add new model namespace URIs
- *       - Archi 2.6.1 added the Metadata element to the model. Keep the same model number as this is not catastrophic
+ *       - Archi 2.7.0 added the Metadata element to the model. Keep the same model number as this is not catastrophic
  * 
  * @author Phillip Beauvoir
  */
