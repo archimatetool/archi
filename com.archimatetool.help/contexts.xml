@@ -161,5 +161,9 @@
        <description>View the allowed ArchiMate relationships</description>
        <topic href="help/Text/relations_rules.html" label="Relationships Matrix"/>
     </context>
+    <context id="ExportAsImagePage">
+       <description>Export the current View as an image</description>
+       <topic href="help/Text/exporting.html" label="Export As Image"/>
+    </context>
     
 </contexts>
