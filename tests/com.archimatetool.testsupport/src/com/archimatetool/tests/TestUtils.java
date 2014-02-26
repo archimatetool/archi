@@ -48,6 +48,8 @@ public class TestUtils {
     
     /**
      * @return a Temporary File handle for testing.  Will be deleted on exit.
+     * The extension if provided must have a dot
+     * The extension argument may be null, in which case the suffix ".tmp" will be used. 
      */
     public static File createTempFile(String extension) throws IOException {
         File tmp = File.createTempFile("~test", extension, getMainTempFolder());
