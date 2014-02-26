@@ -2,8 +2,10 @@ Archi Changes
 -------------
 
 
-Version 2.6.1 
-------------------------------
+Version 2.7 March XX 2014
+-------------------------
++ Views can now be exported as SVG format
++ Export Image dialog improved
 + Connection bendpoints - added a key modifier for ignoring snap to grid while dragging bendpoint (Alt on Win, Alt/Shift on Lnx, Ctrl on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + ArchiMate Service types can now be represented with an alternate figure
@@ -15,6 +17,7 @@ Version 2.6.1
 + [ModelCompatibility] Opening models with new features from the future is now more forgiving
 + [Help] Documentation layout has been improved
 + [Internal] Uses JDOM2 for general XML persistence
++ [Internal] Support for third-party image export plug-ins
 * Fixed the Format Painter not applying fill colour if it was the "default" fill colour
 * Fixed Full Screen mode not really being full screen on Windows 8
 * Fixed crash in Canvas Editor if image is removed from Image element and was being used in another Image element

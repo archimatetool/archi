@@ -73,12 +73,6 @@ public class Messages extends NLS {
 
     public static String ExportAsImageAction_1;
 
-    public static String ExportAsImageAction_2;
-
-    public static String ExportAsImageAction_3;
-
-    public static String ExportAsImageAction_4;
-
     public static String ExportAsImageToClipboardAction_0;
 
     public static String ExportAsImageToClipboardAction_1;

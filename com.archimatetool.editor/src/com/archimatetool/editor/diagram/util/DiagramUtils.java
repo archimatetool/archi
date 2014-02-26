@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.util;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -17,6 +16,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -84,46 +84,47 @@ public final class DiagramUtils {
     }
     
     /**
-     * @param model
-     * @return An Image from the given Diagram Model
-     *         Clients must dispose of the Image when done.
-     */
-    public static Image createImage(IDiagramModel model) {
-        return createScaledImage(model, 1);
-    }
-    
-    /**
-     * @param model
+     * @param model The model to create the image from
+     * @param scale The scale to use. 1 is full size.
+     * @param margin amount of white space margin to apply around the image
      * @return A Scaled Image from the given Diagram Model
      *         Clients must dispose of the Image when done.
+     *         If model has no children a blank image of 100x100 is returned
      */
-    public static Image createScaledImage(IDiagramModel model, double scale) {
+    public static Image createImage(IDiagramModel model, double scale, int margin) {
         Shell shell = new Shell();
         shell.setLayout(new FillLayout());
         
         GraphicalViewer viewer = createViewer(model, shell);
-        Image image = createScaledImage(viewer, scale);
+        Image image = createImage(viewer, scale, margin);
         shell.dispose();
         
         return image;
     }
 
     /**
-     * @param diagramViewer
-     * @return An Image from the given GraphicalViewer trimming off whitespace
+     * @param graphicalViewer The GraphicalViewer to create the image from
+     * @param scale The scale to use. 1 is full size. Max of 4 is allowed.
+     * @param margin amount of white space margin to apply around the image
+     * @return A Scaled Image from the given GraphicalViewer trimming off whitespace
      *         Clients must dispose of the Image when done.
+     *         If graphicalViewer has no children a blank image of 100x100 is returned
      */
-    public static Image createImage(GraphicalViewer diagramViewer) {
-        return createScaledImage(diagramViewer, 1);
+    public static Image createImage(GraphicalViewer graphicalViewer, double scale, int margin) {
+        LayerManager layerManager = (LayerManager)graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+        return createImage(rootFigure, scale, margin);
     }
     
     /**
-     * @param diagramViewer
-     * @param scale
+     * @param figure The Figure to create the image from
+     * @param scale The scale to use. 1 is full size. Max of 4 is allowed.
+     * @param margin amount of white space margin to apply around the image
      * @return A Scaled Image from the given GraphicalViewer trimming off whitespace
      *         Clients must dispose of the Image when done.
+     *         If figure has no children a blank image of 100x100 is returned
      */
-    public static Image createScaledImage(GraphicalViewer diagramViewer, double scale) {
+    public static Image createImage(IFigure figure, double scale, int margin) {
         if(scale <= 0) {
             scale = 1;
         }
@@ -131,14 +132,18 @@ public final class DiagramUtils {
             scale = 4;
         }
         
-        Rectangle rectangle = getDiagramExtents(diagramViewer);
+        Rectangle rectangle = getMinimumBounds(figure);
+        if(rectangle == null) {
+            rectangle = new Rectangle(0, 0, 100, 100); // At least a minimum
+        }
+        else {
+            rectangle.expand(margin / scale, margin / scale);
+        }
         
         Image image = new Image(Display.getDefault(), (int)(rectangle.width * scale), (int)(rectangle.height * scale) );
         GC gc = new GC(image);
         SWTGraphics swtGraphics = new SWTGraphics(gc);
         Graphics graphics = swtGraphics;
-        
-        IFigure figure = ((FreeformGraphicalRootEditPart)diagramViewer.getRootEditPart()).getLayer(LayerConstants.PRINTABLE_LAYERS);
         
         // If scaled, then scale now
         if(scale != 1) {
@@ -163,96 +168,43 @@ public final class DiagramUtils {
     }
     
     /**
-     * Return the actual extents of the diagram by trimming the whitespace off of the diagram.
-     * If there are no children in the diagram a size of 100x100 is returned.
+     * Return the extents of the diagram by extending from the left-topmost child to the right-bottom-most child.
+     * If there are no children in the diagram a minimal size of 100x100 is returned.
      */
-    public static Rectangle getDiagramExtents(GraphicalViewer diagramViewer) {
-        FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart)diagramViewer.getRootEditPart();
+    public static Rectangle getDiagramExtents(GraphicalViewer graphicalViewer) {
+        LayerManager layerManager = (LayerManager)graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+        Rectangle r = getMinimumBounds(rootFigure);
+        return r == null ? new Rectangle(0, 0, 100, 100) : r;
+    }
+    
+    /**
+     * @param figure
+     * @return The minimum bounds for a figure or null if there are no children
+     */
+    public static Rectangle getMinimumBounds(IFigure figure) {
+        Rectangle minimumBounds = null;
         
-        // No Children
-        if(!hasChildFigures(rootEditPart)) {
-            return new Rectangle(100, 100, 100, 100);
-        }
-        
-        IFigure figure = rootEditPart.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        Rectangle extents = figure.getBounds().getCopy(); // make sure to get a copy
-        
-        // Calculate the minimum extents of the primary layer
-        IFigure primaryLayer = rootEditPart.getLayer(LayerConstants.PRIMARY_LAYER);
-        Rectangle rect = new Rectangle(primaryLayer.getBounds().width, primaryLayer.getBounds().height,
-                primaryLayer.getBounds().x, primaryLayer.getBounds().y);
-        
-        for(Object child : primaryLayer.getChildren()) {
+        for(Object child : figure.getChildren()) {
+            Rectangle bounds;
             if(child instanceof FreeformLayer) {
-                for(Object o : ((Figure)child).getChildren()) {
-                    getDiagramExtents((IFigure)o, rect);
+                bounds = getMinimumBounds((IFigure)child);
+            }
+            else {
+                bounds = ((IFigure)child).getBounds();
+            }
+            
+            if(bounds != null) {
+                if(minimumBounds == null) {
+                    minimumBounds = new Rectangle(bounds);
+                }
+                else {
+                    minimumBounds.union(bounds);
                 }
             }
         }
         
-        // Calculate the minimum extents of the connection layer
-        IFigure connectionLayer = rootEditPart.getLayer(LayerConstants.CONNECTION_LAYER);
-        Rectangle rect2 = new Rectangle(connectionLayer.getBounds().width, connectionLayer.getBounds().height,
-                connectionLayer.getBounds().x, connectionLayer.getBounds().y);
-        
-        for(Object child : connectionLayer.getChildren()) {
-            if(child instanceof IFigure) {
-                getDiagramExtents((IFigure)child, rect2);
-            }
-        }
-        
-        // Take the largest area from the primary and connections layers
-        rect.x = Math.min(rect.x, rect2.x);
-        rect.y = Math.min(rect.y, rect2.y);
-        rect.width = Math.max(rect.width, rect2.width);
-        rect.height = Math.max(rect.height, rect2.height);
-        
-        // Take the smallest area from the original diagram extents and the primary and connections layers
-        extents.x = Math.max(extents.x, rect.x);
-        extents.y = Math.max(extents.y, rect.y);
-        extents.width = Math.min(extents.width, rect.width - extents.x);
-        extents.height = Math.min(extents.height, rect.height - extents.y);
-        
-        // Border
-        int BORDER_WIDTH = 10;
-        extents.x -= BORDER_WIDTH;
-        extents.y -= BORDER_WIDTH;
-        extents.width += BORDER_WIDTH * 2;
-        extents.height += BORDER_WIDTH * 2;
-        
-        return extents;
-    }
-
-    private static void getDiagramExtents(IFigure figure, Rectangle rect) {
-        int x = figure.getBounds().x + figure.getBounds().width;
-        if(x > rect.width) {
-            rect.width = x;
-        }
-
-        if(figure.getBounds().x < rect.x) {
-            rect.x = figure.getBounds().x;
-        }
-
-        int y = figure.getBounds().y + figure.getBounds().height;
-        if(y > rect.height) {
-            rect.height = y;
-        }
-
-        if(figure.getBounds().y < rect.y) {
-            rect.y = figure.getBounds().y;
-        }
-    }
-
-    private static boolean hasChildFigures(FreeformGraphicalRootEditPart rootEditPart) {
-        IFigure layer = rootEditPart.getLayer(LayerConstants.PRIMARY_LAYER);
-        
-        for(Object child : layer.getChildren()) {
-            if(child instanceof FreeformLayer) {
-                return !((FreeformLayer)child).getChildren().isEmpty();
-            }
-        }
-        
-        return false;
+        return minimumBounds;
     }
     
 }

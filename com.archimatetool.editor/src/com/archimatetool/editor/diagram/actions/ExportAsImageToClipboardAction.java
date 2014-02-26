@@ -48,7 +48,7 @@ public class ExportAsImageToClipboardAction extends Action {
                 Clipboard cb = null;
                 
                 try {
-                    image = DiagramUtils.createImage(fDiagramViewer);
+                    image = DiagramUtils.createImage(fDiagramViewer, 1, 10);
                     ImageData imageData = image.getImageData();
                     
                     cb = new Clipboard(Display.getDefault());

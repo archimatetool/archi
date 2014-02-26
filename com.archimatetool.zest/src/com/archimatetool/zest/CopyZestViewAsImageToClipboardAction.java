@@ -15,6 +15,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.diagram.util.DiagramUtils;
+
 
 /**
  * Copy Zest Diagram As Image to clipboard Action
@@ -40,7 +42,7 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                 Clipboard cb = null;
                 
                 try {
-                    image = fGraphViewer.createImage();
+                    image = DiagramUtils.createImage(fGraphViewer.getGraphControl().getContents(), 1, 10);
                     ImageData imageData = image.getImageData();
                             
                     cb = new Clipboard(Display.getDefault());

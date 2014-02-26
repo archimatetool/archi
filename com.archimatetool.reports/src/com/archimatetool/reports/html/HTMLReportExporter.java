@@ -401,7 +401,7 @@ public class HTMLReportExporter {
         int i = 1;
         
         for(IDiagramModel dm : list) {
-            Image image = DiagramUtils.createImage(dm);
+            Image image = DiagramUtils.createImage(dm, 1, 10);
             String diagramName = dm.getName();
             if(StringUtils.isSet(diagramName)) {
                 diagramName = FileUtils.getValidFileName(diagramName);

@@ -12,6 +12,7 @@ import com.archimatetool.editor.diagram.figures.AllFiguresTests;
 import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
+import com.archimatetool.editor.diagram.util.DiagramUtilTests;
 
 @SuppressWarnings("nls")
 public class AllDiagramTests {
@@ -19,6 +20,9 @@ public class AllDiagramTests {
     public static junit.framework.Test suite() {
 		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram");
 		
+        // diagram
+        suite.addTest(ImageExportProviderTests.suite());
+
         // diagram.actions
         suite.addTest(CopySnapshotTests.suite());
         
@@ -31,6 +35,9 @@ public class AllDiagramTests {
         // diagram.tools
         suite.addTest(FormatPainterInfoTests.suite());
 		suite.addTest(FormatPainterToolTests.suite());
+
+        // diagram.util
+        suite.addTest(DiagramUtilTests.suite());
 
         return suite;
 	}
