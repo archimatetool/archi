@@ -28,6 +28,8 @@ public class Messages extends NLS {
 
     public static String ExportAsImageAction_2;
 
+    public static String ExportAsImageAction_3;
+
     public static String IZestView_0;
 
     public static String ZestView_0;

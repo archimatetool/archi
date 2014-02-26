@@ -205,7 +205,7 @@ public class ExportJasperReportsWizard extends Wizard {
      */
     private void writeDiagrams(File tmpFolder) {
         for(IDiagramModel dm : fModel.getDiagramModels()) {
-            Image image = DiagramUtils.createImage(dm);
+            Image image = DiagramUtils.createImage(dm, 1, 10);
             String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
             try {
                 ImageLoader loader = new ImageLoader();

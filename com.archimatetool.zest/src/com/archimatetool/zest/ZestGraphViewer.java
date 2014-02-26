@@ -5,17 +5,11 @@
  */
 package com.archimatetool.zest;
 
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.ZestStyles;
 
@@ -74,37 +68,6 @@ public class ZestGraphViewer extends GraphViewer {
     public void applyLayout() {
         // This stops Zest laying out when we don't want it to
         //super.applyLayout();
-    }
-    
-    /**
-     * Create an Image of the Graph Figure
-     * @return The Image
-     */
-    public Image createImage() {
-        IFigure figure = getGraphControl().getContents();
-        Rectangle rectangle = figure.getBounds().getCopy();
-        
-        // This stops the nodes being drawn against the edges
-        int border = 10;
-        
-        Image image = new Image(Display.getDefault(), rectangle.width + (border * 2), rectangle.height + (border * 2));
-        GC gc = new GC(image);
-        SWTGraphics swtGraphics = new SWTGraphics(gc);
-        
-        // Compensate for negative co-ordinates
-        swtGraphics.translate(rectangle.x * -1, rectangle.y * -1);
-        
-        // Add border edge
-        swtGraphics.translate(border, border);
-
-        // Paint onto graphics
-        figure.paint(swtGraphics);
-        
-        // Dispose
-        gc.dispose();
-        swtGraphics.dispose();
-        
-        return image;
     }
 
 }
