@@ -22,8 +22,6 @@ import org.eclipse.swt.graphics.Image;
  */
 public class LabelProviderExtensionHandler {
     
-    public static String EXTENSIONPOINT = "com.archimatetool.editor.labelProvider"; //$NON-NLS-1$
-    
     public static LabelProviderExtensionHandler INSTANCE = new LabelProviderExtensionHandler();
     
     private List<IEditorLabelProvider> factories = new ArrayList<IEditorLabelProvider>();
@@ -41,7 +39,7 @@ public class LabelProviderExtensionHandler {
     
     private void registerProviders() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(EXTENSIONPOINT)) {
+        for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(IEditorLabelProvider.EXTENSIONPOINT)) {
             try {
                 String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
                 IEditorLabelProvider provider = (IEditorLabelProvider)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$

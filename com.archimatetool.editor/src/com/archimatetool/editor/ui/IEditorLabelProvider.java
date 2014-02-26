@@ -15,6 +15,8 @@ import org.eclipse.swt.graphics.Image;
  */
 public interface IEditorLabelProvider {
 
+    String EXTENSIONPOINT = "com.archimatetool.editor.labelProvider"; //$NON-NLS-1$
+    
     /**
      * @param element The element
      * @return An image for an element
