@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.archimatetool.editor.imageExportProvider">
+      <imageExportProvider
+            class="com.archimatetool.export.svg.SVGExportProvider"
+            extensions="svg"
+            id="com.archimatetool.export.svg.imageExporter"
+            label="SVG Image">
+      </imageExportProvider>
+   </extension>
+
+</plugin>
