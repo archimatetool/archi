@@ -252,7 +252,8 @@ public class ExportAsImagePage extends WizardPage {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
         dialog.setText(Messages.ExportAsImagePage_7);
         
-        dialog.setFileName(fFileTextField.getText());
+        File file = new File(fFileTextField.getText());
+        dialog.setFileName(file.getName());
         
         // Set filter extensions according to provider
         String extensions = "*."; //$NON-NLS-1$
