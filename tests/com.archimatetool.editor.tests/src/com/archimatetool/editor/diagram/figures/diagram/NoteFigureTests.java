@@ -37,7 +37,7 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         dmNote.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dm.getChildren().add(dmNote);
         
-        figure = (NoteFigure)getFigureFromViewer(dmNote);
+        figure = (NoteFigure)editorHandler.findFigure(dmNote);
         return figure;
     }
     

@@ -20,6 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.tests.ArchimateTestModel;
 
 
 public abstract class AbstractViewpointTests {
@@ -72,9 +73,8 @@ public abstract class AbstractViewpointTests {
             IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
 
             for(EClass eClass : types) {
-                IArchimateElement element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
-                IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                dmo.setArchimateElement(element);
+                IDiagramModelArchimateObject dmo =
+                        ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
                 group.getChildren().add(dmo);
                 
                 assertTrue(vp.isElementVisible(dmo));
@@ -83,15 +83,13 @@ public abstract class AbstractViewpointTests {
             // Test child that is normally visible is hidden when inside of parent that is hidden
             for(EClass eClass : types) {
                 // Create a child that should be visible
-                IArchimateElement element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
-                IDiagramModelArchimateObject dmoChild = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                dmoChild.setArchimateElement(element);
+                IDiagramModelArchimateObject dmoChild =
+                        ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
                 assertTrue(vp.isElementVisible(dmoChild));
                 
                 // Put the child in a parent that will be invisible (not an allowed type)
-                IDiagramModelArchimateObject dmoParent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                element = createElementThatsNotAllowedType();
-                dmoParent.setArchimateElement(element);
+                IDiagramModelArchimateObject dmoParent =
+                        ArchimateTestModel.createDiagramModelArchimateObject(createElementThatsNotAllowedType());
                 dmoParent.getChildren().add(dmoChild);
                 
                 assertFalse(vp.isElementVisible(dmoChild));

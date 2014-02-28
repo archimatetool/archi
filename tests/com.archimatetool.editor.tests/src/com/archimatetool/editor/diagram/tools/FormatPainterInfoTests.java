@@ -17,9 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.tests.ArchimateTestModel;
 
 public class FormatPainterInfoTests {
     
@@ -48,7 +48,8 @@ public class FormatPainterInfoTests {
     @Test
     public void testUpdatePaintFormat() {
         // Set FormatPainterInfo to Source component
-        IDiagramModelArchimateObject sourceComponent = createTestObject();
+        IDiagramModelArchimateObject sourceComponent =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         info.updatePaintFormat(sourceComponent);
         PaintFormat pf = info.getPaintFormat();
         assertNotNull(pf);
@@ -62,7 +63,8 @@ public class FormatPainterInfoTests {
     public void testIsFat() {
         assertFalse(info.isFat());
 
-        IDiagramModelArchimateObject sourceComponent = createTestObject();
+        IDiagramModelArchimateObject sourceComponent =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         info.updatePaintFormat(sourceComponent);
         assertTrue(info.isFat());
     }
@@ -72,7 +74,8 @@ public class FormatPainterInfoTests {
         PaintFormat pf = info.getPaintFormat();
         assertNull(pf);
 
-        IDiagramModelArchimateObject sourceComponent = createTestObject();
+        IDiagramModelArchimateObject sourceComponent =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         info.updatePaintFormat(sourceComponent);
         pf = info.getPaintFormat();
         assertNotNull(pf);
@@ -81,12 +84,4 @@ public class FormatPainterInfoTests {
         pf = info.getPaintFormat();
         assertNull(pf);
     }
-
-    private IDiagramModelArchimateObject createTestObject() {
-        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor(); 
-        dmo.setArchimateElement(element);
-        return dmo;
-    }
-    
 }

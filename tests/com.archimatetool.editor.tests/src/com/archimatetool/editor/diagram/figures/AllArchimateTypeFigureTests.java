@@ -24,6 +24,7 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.AsyncTestRunner;
 
 @SuppressWarnings("nls")
@@ -95,13 +96,13 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
 
     @Override
     protected AbstractDiagramModelObjectFigure createFigure() {
-        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        IDiagramModelArchimateObject dmo =
+                ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
         dmo.setBounds(IArchimateFactory.eINSTANCE.createBounds());
-        dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
         dmo.setName("Hello World!");
         dm.getChildren().add(dmo);
         
-        return (AbstractDiagramModelObjectFigure)getFigureFromViewer(dmo);
+        return (AbstractDiagramModelObjectFigure)editorHandler.findFigure(dmo);
     }
     
     @Override

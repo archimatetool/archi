@@ -36,7 +36,7 @@ public class DiagramModelReferenceFigureTests extends AbstractTextFlowFigureTest
         dmRef.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dm.getChildren().add(dmRef);
         
-        figure = (DiagramModelReferenceFigure)getFigureFromViewer(dmRef);
+        figure = (DiagramModelReferenceFigure)editorHandler.findFigure(dmRef);
         return figure;
     }
     

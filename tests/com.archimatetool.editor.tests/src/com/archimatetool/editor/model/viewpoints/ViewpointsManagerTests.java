@@ -17,6 +17,7 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.tests.ArchimateTestModel;
 
 
 public class ViewpointsManagerTests {
@@ -50,26 +51,26 @@ public class ViewpointsManagerTests {
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         dm.setViewpoint(IViewpoint.ACTOR_COOPERATION_VIEWPOINT);
         
-        IDiagramModelArchimateObject dmo1 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        dmo1.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
+        IDiagramModelArchimateObject dmo1 =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         dm.getChildren().add(dmo1);
         
         assertTrue(vpm.isAllowedType(dmo1));
         
-        IDiagramModelArchimateObject dmo2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        dmo2.setArchimateElement(IArchimateFactory.eINSTANCE.createNode());
+        IDiagramModelArchimateObject dmo2 =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createNode());
         dm.getChildren().add(dmo2);
         
         assertFalse(vpm.isAllowedType(dmo2));
         
-        IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        IDiagramModelArchimateConnection conn =
+                ArchimateTestModel.createDiagramModelArchimateConnection(IArchimateFactory.eINSTANCE.createAssociationRelationship());
         conn.connect(dmo1, dmo2);
         
         assertFalse(vpm.isAllowedType(conn));
         
-        IDiagramModelArchimateObject dmo3 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        dmo3.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessRole());
+        IDiagramModelArchimateObject dmo3 =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessRole());
         dm.getChildren().add(dmo3);
         conn.connect(dmo1, dmo3);
         

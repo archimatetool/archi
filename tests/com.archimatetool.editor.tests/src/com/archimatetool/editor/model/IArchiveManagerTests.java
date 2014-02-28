@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.tests.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")
@@ -31,7 +32,8 @@ public class IArchiveManagerTests {
     
     @Test
     public void testFactory_createArchiveManager() throws IOException {
-        IArchimateModel model = TestSupport.loadModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        ArchimateTestModel tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        IArchimateModel model = tm.loadModel();
         IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
         assertNotNull(archiveManager);
     }

@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,8 @@ import org.junit.Test;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
-import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
@@ -38,6 +37,7 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
+import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
@@ -47,17 +47,17 @@ public class CopySnapshotTests {
         return new JUnit4TestAdapter(CopySnapshotTests.class);
     }
     
+    private ArchimateTestModel tm;
     private IArchimateModel model;
     private IDiagramModel sourceDiagramModel;
     private IDiagramModel targetDiagramModel;
     
     @Before
-    public void runOnceBeforeEachTest() {
-        model = new EditorModelManager().openModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+    public void runOnceBeforeEachTest() throws IOException {
+        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        model = tm.loadModelWithCommandStack();
         sourceDiagramModel = model.getDiagramModels().get(1);
-        
-        targetDiagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(targetDiagramModel).getElements().add(targetDiagramModel);
+        targetDiagramModel = tm.addNewArchimateDiagramModel();
     }
     
     @After
@@ -158,29 +158,27 @@ public class CopySnapshotTests {
     @Test
     public void testNestedConnectionIsCopied() {
         // Create parent object
-        IDiagramModelArchimateObject dmoParent = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        IDiagramModelArchimateObject dmoParent =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         dmoParent.setBounds(0, 0, 200, 200);
-        IArchimateElement elementParent = IArchimateFactory.eINSTANCE.createBusinessActor();
-        dmoParent.setArchimateElement(elementParent);
         sourceDiagramModel.getChildren().add(dmoParent);
         
         // Create child object
-        IDiagramModelArchimateObject dmoChild = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        IDiagramModelArchimateObject dmoChild =
+                ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessRole());
         dmoChild.setBounds(0, 0, 100, 100);
-        IArchimateElement elementChild = IArchimateFactory.eINSTANCE.createBusinessRole();
-        dmoChild.setArchimateElement(elementChild);
         dmoParent.getChildren().add(dmoChild);
         
         // Create relationship
         IRelationship relationship = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        relationship.setSource(elementParent);
-        relationship.setTarget(elementChild);
+        relationship.setSource(dmoParent.getArchimateElement());
+        relationship.setTarget(dmoChild.getArchimateElement());
         
         // Test that an explicit connection is copied
         
         // Create connection
-        IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setRelationship(relationship);
+        IDiagramModelArchimateConnection connection =
+                ArchimateTestModel.createDiagramModelArchimateConnection(relationship);
         connection.connect(dmoParent, dmoChild);
         
         List<IDiagramModelObject> selectedObjects = new ArrayList<IDiagramModelObject>();

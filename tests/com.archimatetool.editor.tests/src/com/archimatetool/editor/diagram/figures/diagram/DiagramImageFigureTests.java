@@ -50,7 +50,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         dm = model.getDefaultDiagramModel();
         dm.getChildren().add(dmImage);
         
-        figure = (DiagramImageFigure)getFigureFromViewer(dmImage);
+        figure = (DiagramImageFigure)editorHandler.findFigure(dmImage);
         return figure;
     }
     

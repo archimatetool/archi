@@ -8,10 +8,6 @@ package com.archimatetool.editor;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
-import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.util.ArchimateResourceFactory;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -36,12 +32,6 @@ public class TestSupport {
         return testFolder;
     }
     
-    public static IArchimateModel loadModel(File file) throws IOException {
-        Resource resource = ArchimateResourceFactory.createNewResource(file);
-        resource.load(null);
-        return (IArchimateModel)resource.getContents().get(0);
-    }
-
     /**
      * Will compare a given source Folder with a target Folder and compare that the files
      * therein are all there and are the same sizes

@@ -31,7 +31,7 @@ public class AndJunctionFigureTests extends OrJunctionFigureTests {
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createAndJunction());
         dm.getChildren().add(dmo);
         
-        figure = (AndJunctionFigure)getFigureFromViewer(dmo);
+        figure = (AndJunctionFigure)editorHandler.findFigure(dmo);
         
         return (AndJunctionFigure)figure;
     }

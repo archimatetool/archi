@@ -16,17 +16,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
-import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 public class ExtendedConnectionBendpointTrackerTests {
     
+    private static ArchimateTestModel tm;
     private static IArchimateModel model;
     private static IDiagramModel dm;
     private static GraphicalViewer viewer;
@@ -37,9 +37,10 @@ public class ExtendedConnectionBendpointTrackerTests {
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {
-        IEditorModelManager editorModeManager = new EditorModelManager();
-        model = editorModeManager.createNewModel();
+        tm = new ArchimateTestModel();
+        model = tm.createNewModel();
         dm = model.getDefaultDiagramModel();
+        
         IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
         viewer = editor.getGraphicalViewer();
     }

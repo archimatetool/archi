@@ -33,6 +33,7 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ISketchModel;
+import com.archimatetool.tests.ArchimateTestModel;
 
 public class DiagramUtilTests {
     
@@ -40,11 +41,13 @@ public class DiagramUtilTests {
         return new JUnit4TestAdapter(DiagramUtilTests.class);
     }
     
+    private static ArchimateTestModel tm;
     private static IArchimateModel model;
     
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {
-        model = TestSupport.loadModel(TestSupport.TEST_MODEL_FILE_1);
+        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_1);
+        model = tm.loadModel();
     }
 
     @Test

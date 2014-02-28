@@ -7,25 +7,19 @@ package com.archimatetool.editor.views.tree;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.views.tree.TreeModelViewerDragDropHandler;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -37,32 +31,21 @@ import com.archimatetool.tests.TestUtils;
 @SuppressWarnings("nls")
 public class TreeModelViewerDragDropHandlerTests {
     
-    TreeModelViewerDragDropHandler dragHandler;
-    IArchimateModel model;
+    private ArchimateTestModel tm;
+    private IArchimateModel model;
+    private TreeModelViewerDragDropHandler dragHandler;
 
-    /**
-     * This is required in order to run JUnit 4 tests with the old JUnit runner
-     */
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(TreeModelViewerDragDropHandlerTests.class);
     }
     
     @Before
     public void runBeforeEachTest() {
+        tm = new ArchimateTestModel();
+        model = tm.createNewModel();
         dragHandler = new TreeModelViewerDragDropHandler(new TreeViewer(new Shell(), 0));
-        model = IEditorModelManager.INSTANCE.createNewModel();
     }
     
-    @After
-    public void runAfterEachTest() throws IOException {
-        IEditorModelManager.INSTANCE.closeModel(model);
-    }
-    
-    
-    // ---------------------------------------------------------------------------------------------
-    // TESTS
-    // ---------------------------------------------------------------------------------------------
-
     /**
      * The famous DnD bug of drag and dropping a folder onto the same parent (fixed in Archi 2.4.1)
      */
@@ -80,8 +63,6 @@ public class TreeModelViewerDragDropHandlerTests {
         TestUtils.invokePrivateMethod(dragHandler, "moveTreeObjects",
                 new Class[] { IFolder.class, Object[].class }, new Object[] { parentFolder, new Object[] { childFolder } });
         
-        resetDirtyState(model);
-
         assertEquals("Wrong child size", 1, parentFolder.getFolders().size());
         assertTrue(parentFolder.getFolders().contains(childFolder));
         assertEquals("Wrong child size", 0, parentFolder.getElements().size());
@@ -107,8 +88,6 @@ public class TreeModelViewerDragDropHandlerTests {
         TestUtils.invokePrivateMethod(dragHandler, "moveTreeObjects",
                 new Class[] { IFolder.class, Object[].class }, new Object[] { newParent, new Object[] { childFolder } });
         
-        resetDirtyState(model);
-
         assertEquals("Wrong child size", 0, oldParent.getFolders().size());
         assertEquals("Wrong child size", 1, newParent.getFolders().size());
         assertEquals("Wrong child size", 0, newParent.getElements().size());
@@ -132,18 +111,7 @@ public class TreeModelViewerDragDropHandlerTests {
         TestUtils.invokePrivateMethod(dragHandler, "moveTreeObjects",
                 new Class[] { IFolder.class, Object[].class }, new Object[] { parentFolder, new Object[] { childElement } });
         
-        resetDirtyState(model);
-
         assertEquals("Wrong child size", 1, parentFolder.getElements().size());
         assertEquals("Wrong folder contents", childElement, parentFolder.getElements().get(0));
-    }
-    
-    /**
-     * This will stop the UI asking to save dirty models
-     * @param model 
-     */
-    private void resetDirtyState(IArchimateModel model) {
-        CommandStack stack = (CommandStack)model.getAdapter(CommandStack.class);
-        stack.flush();
-    }
+    }    
 }

@@ -31,7 +31,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.tests.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")
@@ -46,6 +46,7 @@ public class CommandsTests {
         return new JUnit4TestAdapter(CommandsTests.class);
     }
     
+    private ArchimateTestModel tm;
     private IArchimateModel model;
     
     // ---------------------------------------------------------------------------------------------
@@ -54,7 +55,8 @@ public class CommandsTests {
     
     @Before
     public void runBeforeEachTest() throws IOException {
-        model = TestSupport.loadModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        model = tm.loadModel();
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -78,7 +80,7 @@ public class CommandsTests {
 
     @Test
     public void testDeleteElementCommand() {
-        IArchimateElement element = (IArchimateElement)ArchimateModelUtils.getObjectByID(model, "1544");
+        IArchimateElement element = (IArchimateElement)tm.getObjectByID("1544");
         assertNotNull(element);
         
         IFolder parent = (IFolder)element.eContainer();
@@ -95,7 +97,7 @@ public class CommandsTests {
 
     @Test
     public void testDeleteFolderCommand() {
-        IFolder folder = (IFolder)ArchimateModelUtils.getObjectByID(model, "403e5717");
+        IFolder folder = (IFolder)tm.getObjectByID("403e5717");
         assertNotNull(folder);
         
         IFolder parent = (IFolder)folder.eContainer();

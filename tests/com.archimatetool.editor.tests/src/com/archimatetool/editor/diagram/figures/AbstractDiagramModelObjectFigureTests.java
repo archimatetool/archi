@@ -13,50 +13,45 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.swt.graphics.Color;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.diagram.IDiagramModelEditor;
-import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.tests.ArchimateTestModel;
+import com.archimatetool.tests.DiagramEditorTestHandler;
 import com.archimatetool.tests.TestUtils;
 
 
 @SuppressWarnings("nls")
 public abstract class AbstractDiagramModelObjectFigureTests {
     
+    protected static ArchimateTestModel tm;
     protected static IArchimateModel model;
     protected static IDiagramModel dm;
-    protected static IDiagramModelEditor editor;
+    protected static DiagramEditorTestHandler editorHandler;
 
     protected AbstractDiagramModelObjectFigure abstractFigure;
     protected IDiagramModelObject diagramModelObject;
     
     protected abstract AbstractDiagramModelObjectFigure createFigure();
     
-    // Convenience method to find a Figure in an EditPart in a Viewer from the model object
-    protected IFigure getFigureFromViewer(Object modelObject) {
-        return ((GraphicalEditPart)editor.getGraphicalViewer().getEditPartRegistry().get(modelObject)).getFigure();
-    }
-    
     @BeforeClass
     public static void runOnceBeforeAllTests() {
-        // Create a model with a default DiagramModel and open the editor
-        IEditorModelManager editorModeManager = new EditorModelManager();
-        model = editorModeManager.createNewModel();
+        // Create a new model, get the default DiagramModel and open the editor
+        tm = new ArchimateTestModel();
+        model = tm.createNewModel();
         dm = model.getDefaultDiagramModel();
-        editor = EditorManager.openDiagramEditor(dm);
+        
+        editorHandler = new DiagramEditorTestHandler(dm);
+        editorHandler.openEditor();
     }
 
     @Before

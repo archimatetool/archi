@@ -30,12 +30,14 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 
 @SuppressWarnings("nls")
 public class ArchiveManagerTests {
     
+    private ArchimateTestModel tm;
     private IArchimateModel model;
     private IDiagramModel dm;
     private ArchiveManager archiveManager;
@@ -46,11 +48,10 @@ public class ArchiveManagerTests {
     
     @Before
     public void runBeforeEachTest() {
-        model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
-        
-        archiveManager = new ArchiveManager(model);
+        tm = new ArchimateTestModel();
+        model = tm.createNewModel();
+        dm = model.getDefaultDiagramModel();
+        archiveManager = (ArchiveManager)model.getAdapter(IArchiveManager.class);
     }
     
     @Test

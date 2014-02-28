@@ -18,15 +18,14 @@ import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.tests.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")
 public class DiagramModelUtilsTests {
     
-    IArchimateModel model;
+    private ArchimateTestModel tm;
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelUtilsTests.class);
@@ -34,7 +33,8 @@ public class DiagramModelUtilsTests {
     
     @Before
     public void runBeforeEachTest() throws IOException {
-        model = TestSupport.loadModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        tm.loadModel();
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public class DiagramModelUtilsTests {
         assertEquals(0, list.size());
         
         // Get some elements and find 'em
-        element = (IArchimateElement)ArchimateModelUtils.getObjectByID(model, "521");
+        element = (IArchimateElement)tm.getObjectByID("521");
         assertNotNull(element);
         
         list = DiagramModelUtils.findReferencedDiagramsForElement(element);
