@@ -22,6 +22,7 @@ public class AllDiagramTests {
 		
         // diagram
         suite.addTest(ImageExportProviderTests.suite());
+        suite.addTest(ImageExportProviderManagerTests.suite());
 
         // diagram.actions
         suite.addTest(CopySnapshotTests.suite());

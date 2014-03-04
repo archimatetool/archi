@@ -17,6 +17,7 @@ public class AllTests {
 		TestSuite suite = new TestSuite("All JUnit Tests");
 		
         suite.addTest(getTest("com.archimatetool.editor.AllTests"));
+        suite.addTest(getTest("com.archimatetool.export.svg.AllTests"));
         suite.addTest(getTest("com.archimatetool.jdom.AllTests"));
 		suite.addTest(getTest("com.archimatetool.model.AllTests"));
 

@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.Platform;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ImageExportProviderManager {
     
     public static class ImageExportProviderInfo {
@@ -35,6 +34,7 @@ public class ImageExportProviderManager {
             this.provider = provider;
             this.id = id;
             this.label = label;
+            extensions = extensions.replace(" ", ""); // remove all spaces //$NON-NLS-1$ //$NON-NLS-2$
             this.extensions = Arrays.asList(extensions.split(",")); //$NON-NLS-1$
         }
         
@@ -56,7 +56,7 @@ public class ImageExportProviderManager {
         
         @Override
         public String toString() {
-            return getClass().getSimpleName() + " [id: " + id + ", name: " + label + "]";
+            return getClass().getSimpleName() + " [id: " + id + ", name: " + label + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
     }
     

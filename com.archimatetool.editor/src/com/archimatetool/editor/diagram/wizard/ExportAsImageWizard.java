@@ -37,7 +37,7 @@ public class ExportAsImageWizard extends Wizard {
     
     @Override
     public void addPages() {
-        fPage = new ExportAsImagePage();
+        fPage = new ExportAsImagePage(fFigure);
         addPage(fPage);
     }
     
@@ -73,7 +73,7 @@ public class ExportAsImageWizard extends Wizard {
             @Override
             public void run() {
                 try {
-                    provider.getProvider().export(provider.getID(), file, fFigure);
+                    provider.getProvider().export(provider.getID(), file);
                     
                     fPage.storePreferences();
                 }

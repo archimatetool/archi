@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -30,9 +31,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
 import com.archimatetool.editor.diagram.ImageExportProviderManager;
 import com.archimatetool.editor.diagram.ImageExportProviderManager.ImageExportProviderInfo;
 import com.archimatetool.editor.preferences.Preferences;
@@ -64,11 +67,33 @@ public class ExportAsImagePage extends WizardPage {
 
     private ImageExportProviderInfo fSelectedProvider;
     
+    /**
+     * Shell to act as temporary parent when hiding the settings composite
+     */
+    private Shell fTempShell;
+    
+    /**
+     * The figure to export
+     */
+    private IFigure fFigure;
+    
+    /**
+     * Provide an Interface to expose some of the functionality of this Dialog Page
+     */
+    private IExportDialogAdapter fExportDialogPageAdapter = new IExportDialogAdapter() {
+        @Override
+        public void setErrorMessage(String message) {
+            ExportAsImagePage.this.setErrorMessage(message);
+        }
+    };
+    
     private static final String PREFS_LAST_PROVIDER = "ExportImageLastProvider"; //$NON-NLS-1$
     private static final String PREFS_LAST_FILE = "ExportImageLastFile"; //$NON-NLS-1$
     
-    public ExportAsImagePage() {
+    public ExportAsImagePage(IFigure figure) {
         super("ExportAsImagePage"); //$NON-NLS-1$
+        
+        fFigure = figure;
         
         setTitle(Messages.ExportAsImagePage_0);
         setDescription(Messages.ExportAsImagePage_1);
@@ -137,6 +162,9 @@ public class ExportAsImagePage extends WizardPage {
         fSettingsGroup.setLayout(new GridLayout());
         fSettingsGroup.setText(Messages.ExportAsImagePage_6);
         
+        // Validate our fields before the provider does
+        validateFields();
+
         // Now set the combo and set to last user selected
         if(!fImageProviders.isEmpty()) {
             String selectedProviderID = Preferences.STORE.getString(PREFS_LAST_PROVIDER);
@@ -147,8 +175,6 @@ public class ExportAsImagePage extends WizardPage {
             
             fComboFormatViewer.setSelection(new StructuredSelection(provider));
         }
-        
-        validateFields();
     }
     
     /**
@@ -212,7 +238,12 @@ public class ExportAsImagePage extends WizardPage {
             // Remove previous settings composite (if any)
             for(Control child : fSettingsGroup.getChildren()) {
                 child.setVisible(false);
-                child.setParent(fSettingsGroup.getParent()); // Attach it here for now
+                
+                // Attach it to a temp parent shell
+                if(fTempShell == null) {
+                    fTempShell = new Shell();
+                }
+                child.setParent(fTempShell);
             }
             
             // Show selected
@@ -223,7 +254,7 @@ public class ExportAsImagePage extends WizardPage {
             }
             else {
                 settingsComposite = new Composite(fSettingsGroup, SWT.NONE);
-                fSelectedProvider.getProvider().contributeSettings(settingsComposite);
+                fSelectedProvider.getProvider().init(fExportDialogPageAdapter, settingsComposite, fFigure);
                 fSettingComposites.put(fSelectedProvider, settingsComposite);
             }
             
@@ -276,18 +307,19 @@ public class ExportAsImagePage extends WizardPage {
     private void validateFields() {
         String fileName = getFileName();
         if(!StringUtils.isSetAfterTrim(fileName)) {
-            updateStatus(Messages.ExportAsImagePage_8);
+            setErrorMessage(Messages.ExportAsImagePage_8);
             return;
         }
         
-        updateStatus(null);
+        setErrorMessage(null);
     }
 
     /**
      * Update the page status
      */
-    private void updateStatus(String message) {
-        setErrorMessage(message);
+    @Override
+    public void setErrorMessage(String message) {
+        super.setErrorMessage(message);
         setPageComplete(message == null);
     }
 
@@ -310,5 +342,14 @@ public class ExportAsImagePage extends WizardPage {
         }
         
         return null;
+    }
+    
+    @Override
+    public void dispose() {
+        super.dispose();
+        
+        if(fTempShell != null) {
+            fTempShell.dispose();
+        }
     }
 }

@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: com.archimatetool.editor,
+ com.archimatetool.export.svg,
  com.archimatetool.jdom,
  com.archimatetool.model,
  org.junit
