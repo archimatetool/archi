@@ -24,6 +24,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateElement;
@@ -31,7 +32,6 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.tests.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")

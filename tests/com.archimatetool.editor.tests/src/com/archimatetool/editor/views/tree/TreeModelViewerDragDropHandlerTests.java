@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 

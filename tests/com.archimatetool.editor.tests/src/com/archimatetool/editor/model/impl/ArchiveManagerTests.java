@@ -24,13 +24,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImage;
-import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 

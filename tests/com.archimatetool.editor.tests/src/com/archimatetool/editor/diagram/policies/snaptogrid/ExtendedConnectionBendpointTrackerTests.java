@@ -15,13 +15,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 public class ExtendedConnectionBendpointTrackerTests {

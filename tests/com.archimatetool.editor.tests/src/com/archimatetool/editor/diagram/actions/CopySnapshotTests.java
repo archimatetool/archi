@@ -23,6 +23,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
@@ -37,7 +38,6 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")

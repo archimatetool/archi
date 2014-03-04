@@ -14,13 +14,13 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.tests.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")

@@ -17,9 +17,9 @@ import junit.framework.JUnit4TestAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.tests.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")

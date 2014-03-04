@@ -16,10 +16,10 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.tests.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")

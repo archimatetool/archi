@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
@@ -33,7 +34,6 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ISketchModel;
-import com.archimatetool.tests.ArchimateTestModel;
 
 public class DiagramUtilTests {
     

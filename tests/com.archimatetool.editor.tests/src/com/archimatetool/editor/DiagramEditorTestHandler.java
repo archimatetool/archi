@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.tests;
+package com.archimatetool.editor;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.GraphicalEditPart;
