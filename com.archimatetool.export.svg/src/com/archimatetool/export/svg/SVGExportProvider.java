@@ -10,9 +10,11 @@ import java.io.File;
 import java.io.FileWriter;
 
 import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,9 +43,11 @@ public class SVGExportProvider implements IImageExportProvider {
     
     public static final String SVG_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.svg.imageExporter"; //$NON-NLS-1$
     
+    final static String PREFS_EMBED_FONTS = "embedFonts"; //$NON-NLS-1$
     final static String PREFS_VIEWBOX = "viewBox"; //$NON-NLS-1$
     final static String PREFS_VIEWBOX_ENABLED = "viewBoxEnabled"; //$NON-NLS-1$
     
+    protected Button fEmbedFontsButton;
     protected Button fSetViewboxButton;
     protected Spinner fSpinner1, fSpinner2, fSpinner3, fSpinner4;
     
@@ -54,8 +58,11 @@ public class SVGExportProvider implements IImageExportProvider {
         // Create a DOM Document
         Document document = createDocument();
         
+        // Create a context for customisation
+        SVGGeneratorContext ctx = createContext(document);
+        
         // Create a Batik SVGGraphics2D instance
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, false);
         
         // Get the outer bounds of the figure
         Rectangle bounds = getViewportBounds();
@@ -113,6 +120,18 @@ public class SVGExportProvider implements IImageExportProvider {
     }
     
     /**
+     * Create a SVGGeneratorContext and set its attributes
+     * @param document The DOM Document
+     * @return The SVGGeneratorContext
+     */
+    protected SVGGeneratorContext createContext(Document document) {
+        SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
+        ctx.setEmbeddedFontsOn(fEmbedFontsButton.getSelection());
+        ctx.setComment(Messages.SVGExportProvider_1); // Add a comment
+        return ctx;
+    }
+    
+    /**
      * Create the Graphiti Graphics2D adapter with its Viewport
      * @param graphics2d The Batick AWT Graphics2D to wrap
      * @param viewPort The Viewport of the figure to print
@@ -147,9 +166,15 @@ public class SVGExportProvider implements IImageExportProvider {
         container.setLayout(new GridLayout(8, false));
         container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        fEmbedFontsButton = new Button(container, SWT.CHECK);
+        fEmbedFontsButton.setText(Messages.SVGExportProvider_2);
+        GridData gd = new GridData();
+        gd.horizontalSpan = 8;
+        fEmbedFontsButton.setLayoutData(gd);
+        
         fSetViewboxButton = new Button(container, SWT.CHECK);
         fSetViewboxButton.setText(Messages.SVGExportProvider_0);
-        GridData gd = new GridData();
+        gd = new GridData();
         gd.horizontalSpan = 8;
         fSetViewboxButton.setLayoutData(gd);
         
@@ -203,8 +228,14 @@ public class SVGExportProvider implements IImageExportProvider {
      * Load any user prefs
      */
     protected void loadPreferences() {
+        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        
+        // Embed fonts
+        boolean selected = store.getBoolean(PREFS_EMBED_FONTS);
+        fEmbedFontsButton.setSelection(selected);
+        
         // Viewbox button selected
-        boolean selected = ExportSVGPlugin.getDefault().getPreferenceStore().getBoolean(PREFS_VIEWBOX_ENABLED);
+        selected = store.getBoolean(PREFS_VIEWBOX_ENABLED);
         fSetViewboxButton.setSelection(selected);
         updateControls();
         
@@ -214,7 +245,7 @@ public class SVGExportProvider implements IImageExportProvider {
         int height = 0;
         
         // Value of viewBox
-        String s = ExportSVGPlugin.getDefault().getPreferenceStore().getString(PREFS_VIEWBOX);
+        String s = store.getString(PREFS_VIEWBOX);
         if(s != null) {
             String[] parts = s.split(" "); //$NON-NLS-1$
             if(parts.length == 4) {
@@ -240,8 +271,13 @@ public class SVGExportProvider implements IImageExportProvider {
      * Save any user prefs
      */
     protected void savePreferences() {
+        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        
+        // Embed fonts
+        store.setValue(PREFS_EMBED_FONTS, fEmbedFontsButton.getSelection());
+        
         // Viewbox button selected
-        ExportSVGPlugin.getDefault().getPreferenceStore().setValue(PREFS_VIEWBOX_ENABLED, fSetViewboxButton.getSelection());
+        store.setValue(PREFS_VIEWBOX_ENABLED, fSetViewboxButton.getSelection());
         
         int min_x = fSpinner1.getSelection();
         int min_y = fSpinner2.getSelection();
@@ -249,7 +285,7 @@ public class SVGExportProvider implements IImageExportProvider {
         int height = fSpinner4.getSelection();
         
         String s = min_x + " " + min_y + " " + width + " " + height;  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-        ExportSVGPlugin.getDefault().getPreferenceStore().setValue(PREFS_VIEWBOX, s);
+        store.setValue(PREFS_VIEWBOX, s);
     }
     
 }

@@ -13,9 +13,11 @@ import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
  *            throwNotImplemented();
  *        }
  *        
- *        Some Draw2d figures (DiagramImageFigure and IconicDelegate) set this
+ *        Some Draw2d figures (DiagramImageFigure and IconicDelegate) set interpolation
  *        
  *        I also had to make getSWTGraphics() protected in GraphicsToGraphics2DAdaptor
+ *        
+ *        And paintNotCompatibleStringsAsBitmaps causes problems for some fonts, especially on Mac
  *
  */
 public class ExtendedGraphicsToGraphics2DAdaptor extends GraphicsToGraphics2DAdaptor {
@@ -23,6 +25,9 @@ public class ExtendedGraphicsToGraphics2DAdaptor extends GraphicsToGraphics2DAda
     
     public ExtendedGraphicsToGraphics2DAdaptor(Graphics2D graphics, Rectangle viewPort) {
         super(graphics, viewPort);
+        
+        // This is mangling some fonts on Mac
+        paintNotCompatibleStringsAsBitmaps = false;
     }
 
     @Override
