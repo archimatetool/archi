@@ -2,7 +2,7 @@ Archi Changes
 -------------
 
 
-Version 2.7 March XX 2014
+Version 2.7 March 05 2014
 -------------------------
 + Views can now be exported as SVG format
 + Export Image dialog improved
