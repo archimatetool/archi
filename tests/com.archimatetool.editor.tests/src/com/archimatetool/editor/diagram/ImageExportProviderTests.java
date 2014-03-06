@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
@@ -16,16 +17,15 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapter;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.tests.TestUtils;
 
 /**
@@ -33,7 +33,6 @@ import com.archimatetool.tests.TestUtils;
  * 
  * @author Phillip Beauvoir
  */
-@RunWith(MockitoJUnitRunner.class)
 public class ImageExportProviderTests {
     
     public static junit.framework.Test suite() {
@@ -41,16 +40,21 @@ public class ImageExportProviderTests {
     }
     
     private ImageExportProvider provider;
-    
-    @Mock
-    private IExportDialogAdapter adapter;
-    
     private Shell shell;
+    
+    private IFigure rootFigure;
     
     @Before
     public void onceOnceBeforeEachTest() {
         provider = new ImageExportProvider();
         shell = new Shell();
+        
+        // Set prefs to defaults
+        IPreferenceStore store = Preferences.STORE;
+        store.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 0);
+        
+        rootFigure = new FreeformLayer();
+        rootFigure.setBounds(new Rectangle(0, 0, 500, 500));
     }
     
     @After
@@ -60,8 +64,8 @@ public class ImageExportProviderTests {
 
     @Test
     public void testInit() {
-        provider.init(adapter, shell, new FreeformLayer());
-        assertTrue(shell.getChildren().length == 0);
+        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        assertTrue(shell.getChildren().length > 0);
     }
 
     @Test
@@ -80,20 +84,53 @@ public class ImageExportProviderTests {
     }
 
     private void testExport(String formatID) throws Exception {
-        IFigure rootFigure = new FreeformLayer();
-        rootFigure.setBounds(new Rectangle(0, 0, 500, 500));
         IFigure childFigure = new Figure();
         childFigure.setBounds(new Rectangle(200, 200, 128, 52));
         rootFigure.add(childFigure);
         
-        provider.init(adapter, shell, rootFigure);
+        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
 
         File tmp = TestUtils.createTempFile(null);
+        
         provider.export(formatID, tmp);
+        
         assertTrue(tmp.exists());
 
         ImageData imageData = new ImageData(tmp.getPath());
-        assertEquals(148, imageData.width); // width + 10 margins
-        assertEquals(72, imageData.height); // height + 10 margins
+        assertEquals(148, imageData.width); // 128 width + 10 margins
+        assertEquals(72, imageData.height); // 52 height + 10 margins
+        
+        // Test it by setting the scale to 200%
+        provider.fScaleSpinner.setSelection(200);
+        provider.export(formatID, tmp);
+        assertTrue(tmp.exists());
+
+        imageData = new ImageData(tmp.getPath());
+        assertEquals(276, imageData.width); // 256 width + 10 margins
+        assertEquals(124, imageData.height); // 104 height + 10 margins
     }
+    
+    @Test
+    public void testSavePreferences() {
+        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+
+        provider.fScaleSpinner.setSelection(345);
+        
+        provider.savePreferences();
+
+        IPreferenceStore store = Preferences.STORE;
+        
+        assertEquals(345, store.getInt(ImageExportProvider.PREFS_IMAGE_SCALE));
+    }
+    
+    @Test
+    public void testPreferencesWereLoaded() {
+        IPreferenceStore store = Preferences.STORE;
+        store.setValue(ImageExportProvider.PREFS_IMAGE_SCALE, 123);
+        
+        provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
+        
+        assertEquals(123, provider.fScaleSpinner.getSelection());
+    }
+
 }

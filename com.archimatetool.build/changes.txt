@@ -2,16 +2,19 @@ Archi Changes
 -------------
 
 
-Version 2.7 March 05 2014
+Version 2.7 March 07 2014
 -------------------------
++ Icons in figures now render correctly when zoomed in
 + Views can now be exported as SVG format
 + Export Image dialog improved
++ Can now export PNG/BMP/JPEG images with a scale % factor
 + Connection bendpoints - added a key modifier for ignoring snap to grid while dragging bendpoint (Alt on Win, Alt/Shift on Lnx, Ctrl on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + ArchiMate Service types can now be represented with an alternate figure
 + [Copy/Paste] Clicking on a point on a diagram sets that as the point to paste copied diagram objects
 + [Copy/Paste] Child objects are now copied to the correct relative positions
 + The Windows Zip installation includes batch files to associate *.archimate files with Archi
++ Editor zoom level now goes up to 800%
 + [Model] Added support for arbitrary metadata key/value pairs
 + The Java version shipped with the Windows installer is now version 1.7.0_51
 + [ModelCompatibility] Opening models with new features from the future is now more forgiving
