@@ -5,9 +5,14 @@
  */
 package com.archimatetool.editor.diagram.figures.business;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
+
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -26,7 +31,51 @@ extends AbstractArchimateFigure {
         
         // Use a Rounded Rectangle Figure Delegate to Draw
         RoundedRectangleFigureDelegate figureDelegate = new RoundedRectangleFigureDelegate(this);
-        figureDelegate.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_FUNCTION_16));
         setFigureDelegate(figureDelegate);
+    }
+    
+    @Override
+    protected void drawFigure(Graphics graphics) {
+        super.drawFigure(graphics);
+        drawIcon(graphics);
+    }
+    
+    /**
+     * Draw the icon
+     */
+    protected void drawIcon(Graphics graphics) {
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(ColorConstants.black);
+        
+        PointList points = new PointList();
+        
+        // Start at bottom left
+        Point pt = getIconOrigin();
+        points.addPoint(pt);
+        
+        pt.translate(0, -9);
+        points.addPoint(pt);
+        
+        pt.translate(6, -5);
+        points.addPoint(pt);
+        
+        pt.translate(6, 5);
+        points.addPoint(pt);
+        
+        pt.translate(0, 9);
+        points.addPoint(pt);
+        
+        pt.translate(-6, -6);
+        points.addPoint(pt);
+        
+        graphics.drawPolygon(points);
+    }
+    
+    /**
+     * @return The icon start position
+     */
+    protected Point getIconOrigin() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 20);
     }
 }

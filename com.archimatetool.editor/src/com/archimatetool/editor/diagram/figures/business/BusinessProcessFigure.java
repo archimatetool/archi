@@ -5,10 +5,15 @@
  */
 package com.archimatetool.editor.diagram.figures.business;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
+
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -29,15 +34,65 @@ extends AbstractArchimateFigure {
         super(diagramModelObject);
         
         fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
-        fFigureDelegate1.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_PROCESS_16));
-        
         fFigureDelegate2 = new BusinessProcessFigureDelegate(this);
+    }
+
+    @Override
+    protected void drawFigure(Graphics graphics) {
+        super.drawFigure(graphics);
+        
+        int type = getDiagramModelObject().getType();
+        if(type == 0 ) {
+            drawIcon(graphics);
+        }
+    }
+    
+    /**
+     * Draw the icon
+     */
+    protected void drawIcon(Graphics graphics) {
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(ColorConstants.black);
+        
+        PointList points = new PointList();
+        
+        // Start at top left
+        Point pt = getIconOrigin();
+        points.addPoint(pt);
+        
+        pt.translate(8, 0);
+        points.addPoint(pt);
+        
+        pt.translate(0, -3);
+        points.addPoint(pt);
+        
+        pt.translate(6, 5);
+        points.addPoint(pt);
+        
+        pt.translate(-6, 5);
+        points.addPoint(pt);
+        
+        pt.translate(0, -3);
+        points.addPoint(pt);
+        
+        pt.translate(-8, 0);
+        points.addPoint(pt);
+        
+        graphics.drawPolygon(points);
+    }
+    
+    /**
+     * @return The icon start position
+     */
+    protected Point getIconOrigin() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 11);
     }
 
     @Override
     public void refreshVisuals() {
         super.refreshVisuals();
-        repaint(); // redraw delegate
+        repaint(); // repaint on figure change
     }
 
     @Override

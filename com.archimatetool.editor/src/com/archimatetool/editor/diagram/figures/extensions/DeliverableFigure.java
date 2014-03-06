@@ -35,7 +35,7 @@ extends AbstractArchimateFigure {
     }
     
     @Override
-    public void drawFigure(Graphics graphics) {
+    protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();

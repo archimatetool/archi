@@ -12,7 +12,7 @@ import com.archimatetool.editor.diagram.figures.AllFiguresTests;
 import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
-import com.archimatetool.editor.diagram.util.DiagramUtilTests;
+import com.archimatetool.editor.diagram.util.DiagramUtilsTests;
 
 @SuppressWarnings("nls")
 public class AllDiagramTests {
@@ -38,7 +38,7 @@ public class AllDiagramTests {
 		suite.addTest(FormatPainterToolTests.suite());
 
         // diagram.util
-        suite.addTest(DiagramUtilTests.suite());
+        suite.addTest(DiagramUtilsTests.suite());
 
         return suite;
 	}

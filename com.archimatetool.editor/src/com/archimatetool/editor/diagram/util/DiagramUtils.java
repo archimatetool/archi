@@ -118,7 +118,7 @@ public final class DiagramUtils {
     
     /**
      * @param figure The Figure to create the image from
-     * @param scale The scale to use. 1 is full size. Max of 4 is allowed.
+     * @param scale The scale to use. 1 is full size. Max of 5 is allowed.
      * @param margin amount of white space margin to apply around the image
      * @return A Scaled Image from the given GraphicalViewer trimming off whitespace
      *         Clients must dispose of the Image when done.
@@ -128,8 +128,8 @@ public final class DiagramUtils {
         if(scale <= 0) {
             scale = 1;
         }
-        if(scale > 4) {
-            scale = 4;
+        if(scale > 5) {
+            scale = 5;
         }
         
         Rectangle rectangle = getMinimumBounds(figure);

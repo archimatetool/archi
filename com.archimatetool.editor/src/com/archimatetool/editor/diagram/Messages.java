@@ -109,6 +109,8 @@ public class Messages extends NLS {
 
     public static String FloatingPalette_0;
 
+    public static String ImageExportProvider_0;
+
     public static String NullDiagramEditorInput_0;
 
     public static String NullDiagramEditorInput_1;

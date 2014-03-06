@@ -5,9 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.technology;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.diagram.figures.business.BusinessFunctionFigure;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -19,14 +17,9 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class TechnologyFunctionFigure
-extends AbstractArchimateFigure {
+extends BusinessFunctionFigure {
 
     public TechnologyFunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
-        
-        // Use a Rounded Rectangle Figure Delegate to Draw
-        RoundedRectangleFigureDelegate figureDelegate = new RoundedRectangleFigureDelegate(this);
-        figureDelegate.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_FUNCTION_16));
-        setFigureDelegate(figureDelegate);
     }
 }
