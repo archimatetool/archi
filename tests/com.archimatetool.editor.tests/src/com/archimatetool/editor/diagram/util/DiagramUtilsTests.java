@@ -35,10 +35,15 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ISketchModel;
 
-public class DiagramUtilTests {
+/**
+ * DiagramUtilsTests
+ * 
+ * @author Phillip Beauvoir
+ */
+public class DiagramUtilsTests {
     
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(DiagramUtilTests.class);
+        return new JUnit4TestAdapter(DiagramUtilsTests.class);
     }
     
     private static ArchimateTestModel tm;
@@ -177,6 +182,30 @@ public class DiagramUtilTests {
         
         img = DiagramUtils.createImage(rootFigure, 1, 0);
         assertEquals(new Rectangle(0, 0, 260, 250), img.getBounds());
+        img.dispose();
+    }
+    
+    @Test
+    public void testCreateImage_Is_Scaled() {
+        IFigure rootFigure = new FreeformLayer();
+        org.eclipse.draw2d.geometry.Rectangle rect1 = new org.eclipse.draw2d.geometry.Rectangle(0, 0, 1000, 1000);
+        rootFigure.setBounds(rect1);
+        
+        IFigure childFigure1 = new Figure();
+        org.eclipse.draw2d.geometry.Rectangle rect2 = new org.eclipse.draw2d.geometry.Rectangle(100, 100, 300, 200);
+        childFigure1.setBounds(rect2);
+        rootFigure.add(childFigure1);
+        
+        Image img = DiagramUtils.createImage(rootFigure, 1, 0);
+        assertEquals(new Rectangle(0, 0, 300, 200), img.getBounds());
+        img.dispose();
+        
+        img = DiagramUtils.createImage(rootFigure, 0.25, 0);
+        assertEquals(new Rectangle(0, 0, 75, 50), img.getBounds());
+        img.dispose();
+        
+        img = DiagramUtils.createImage(rootFigure, 5, 0);
+        assertEquals(new Rectangle(0, 0, 1500, 1000), img.getBounds());
         img.dispose();
     }
 
