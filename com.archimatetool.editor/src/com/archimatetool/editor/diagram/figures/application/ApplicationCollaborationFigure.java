@@ -5,9 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.application;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.diagram.figures.business.BusinessCollaborationFigure;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -17,14 +15,9 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class ApplicationCollaborationFigure
-extends AbstractArchimateFigure {
+extends BusinessCollaborationFigure {
     
     public ApplicationCollaborationFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
-        
-        // Use a Rectangle Figure Delegate to Draw
-        RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this);
-        figureDelegate.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_COLLABORATION_16));
-        setFigureDelegate(figureDelegate);
     }
 }

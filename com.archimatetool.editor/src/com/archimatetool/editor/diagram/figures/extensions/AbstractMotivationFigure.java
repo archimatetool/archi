@@ -35,7 +35,7 @@ extends AbstractArchimateFigure {
     }
     
     @Override
-    public void drawFigure(Graphics graphics) {
+    protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
         Rectangle bounds = getBounds();
@@ -103,7 +103,9 @@ extends AbstractArchimateFigure {
         return bounds;
     }
 
-    protected abstract Image getImage();
+    protected Image getImage() {
+        return null;
+    }
     
     protected Point calculateImageLocation() {
         Rectangle bounds = getBounds();
