@@ -25,6 +25,7 @@ Version 2.7 March 07 2014
 * Fixed Full Screen mode not really being full screen on Windows 8
 * Fixed crash in Canvas Editor if image is removed from Image element and was being used in another Image element
 * Fixed Model Tree not updating labels with some operations
+* Fixed Font Colour chooser not showing default system colour on Linux if font colour was set to default
 
 
 

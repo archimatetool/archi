@@ -15,6 +15,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
@@ -113,8 +114,8 @@ public class FontColorSection extends AbstractArchimatePropertySection {
             fColorChooser.setColorValue(rgb);
         }
         else {
-            // Default color
-            fColorChooser.setColorValue(new RGB(0, 0, 0));
+            // Null is the default system color
+            fColorChooser.setColorValue(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND).getRGB());
         }
         
         boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
