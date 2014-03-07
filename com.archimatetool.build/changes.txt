@@ -21,6 +21,8 @@ Version 2.7 March 07 2014
 + [Help] Documentation layout has been improved
 + [Internal] Uses JDOM2 for general XML persistence
 + [Internal] Support for third-party image export plug-ins
++ The default font on Linux is no longer "Arial 9" but is now "Sans 9". This ensures proper rendering of fonts in SVG export.
+  If you wish to revert to the old font size, please use "Liberation Sans 9".
 * Fixed the Format Painter not applying fill colour if it was the "default" fill colour
 * Fixed Full Screen mode not really being full screen on Windows 8
 * Fixed crash in Canvas Editor if image is removed from Image element and was being used in another Image element

@@ -111,7 +111,7 @@ public final class FontFactory {
      */
     public static FontData getDefaultViewOSFontData() {
         // Default
-        FontData fd = new FontData("Arial", 9, SWT.NORMAL); //$NON-NLS-1$
+        FontData fd = new FontData("Sans", 9, SWT.NORMAL); //$NON-NLS-1$
 
         // Windows
         if(PlatformUtils.isWindows()) {
@@ -119,7 +119,7 @@ public final class FontFactory {
         }
         // Linux
         else if(PlatformUtils.isLinux()) {
-            fd = new FontData("Arial", 9, SWT.NORMAL); //$NON-NLS-1$
+            fd = new FontData("Sans", 9, SWT.NORMAL); //$NON-NLS-1$
         }
         // Mac
         else if(PlatformUtils.isMac()) {
