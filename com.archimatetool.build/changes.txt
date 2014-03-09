@@ -2,13 +2,13 @@ Archi Changes
 -------------
 
 
-Version 2.7 March 07 2014
+Version 2.7 March 11 2014
 -------------------------
-+ Icons in figures now render correctly when zoomed in
-+ Views can now be exported as SVG format
-+ Export Image dialog improved
++ Icons in figures are now scalable at all zoom levels
++ Views can now be exported in SVG format
 + Can now export PNG/BMP/JPEG images with a scale % factor
-+ Connection bendpoints - added a key modifier for ignoring snap to grid while dragging bendpoint (Alt on Win, Alt/Shift on Lnx, Ctrl on Mac)
++ Export Image dialog improved
++ Connection bendpoints - added a key modifier for ignoring snap to grid while dragging bendpoint (Alt on Windows, Alt/Shift on Linux, Ctrl on Mac)
 + Launching one or more *.archimate files from the Desktop on Windows is greatly improved
 + ArchiMate Service types can now be represented with an alternate figure
 + [Copy/Paste] Clicking on a point on a diagram sets that as the point to paste copied diagram objects

@@ -51,7 +51,7 @@ public class SVGExportProviderTests {
         // Set prefs to defaults
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         store.setValue(SVGExportProvider.PREFS_EMBED_FONTS, false);
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX_ENABLED, false);
+        store.setValue(SVGExportProvider.PREFS_VIEWBOX_ENABLED, true);
         store.setValue(SVGExportProvider.PREFS_VIEWBOX, "");
         
         rootFigure = new FreeformLayer();
@@ -118,8 +118,18 @@ public class SVGExportProviderTests {
     
     @Test
     public void testInit() {
+        // Add a child figure
+        IFigure childFigure = new Figure();
+        childFigure.setBounds(new Rectangle(0, 0, 200, 100));
+        rootFigure.add(childFigure);
+        
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
         assertTrue(shell.getChildren().length > 0);
+        
+        // Check that two spinners are set to the image width and height
+        Rectangle rect = provider.getViewportBounds();
+        assertEquals(rect.width, provider.fSpinner3.getSelection());
+        assertEquals(rect.height, provider.fSpinner4.getSelection());
     }
 
     @Test
@@ -128,36 +138,32 @@ public class SVGExportProviderTests {
 
         provider.fEmbedFontsButton.setSelection(true);
 
-        provider.fSetViewboxButton.setSelection(true);
+        provider.fSetViewboxButton.setSelection(false);
         provider.fSpinner1.setSelection(1);
         provider.fSpinner2.setSelection(2);
-        provider.fSpinner3.setSelection(3);
-        provider.fSpinner4.setSelection(4);
         
         provider.savePreferences();
 
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
         assertTrue(store.getBoolean(SVGExportProvider.PREFS_EMBED_FONTS));
-        assertTrue(store.getBoolean(SVGExportProvider.PREFS_VIEWBOX_ENABLED));
-        assertEquals("1 2 3 4", store.getString(SVGExportProvider.PREFS_VIEWBOX));
+        assertFalse(store.getBoolean(SVGExportProvider.PREFS_VIEWBOX_ENABLED));
+        assertEquals("1 2", store.getString(SVGExportProvider.PREFS_VIEWBOX));
     }
     
     @Test
     public void testPreferencesWereLoaded() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         store.setValue(SVGExportProvider.PREFS_EMBED_FONTS, true);
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX_ENABLED, true);
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX, "5 6 7 8");
+        store.setValue(SVGExportProvider.PREFS_VIEWBOX_ENABLED, false);
+        store.setValue(SVGExportProvider.PREFS_VIEWBOX, "5 6");
         
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
         
         assertTrue(provider.fEmbedFontsButton.getSelection());
         
-        assertTrue(provider.fSetViewboxButton.getSelection());
+        assertFalse(provider.fSetViewboxButton.getSelection());
         assertEquals(5, provider.fSpinner1.getSelection());
         assertEquals(6, provider.fSpinner2.getSelection());
-        assertEquals(7, provider.fSpinner3.getSelection());
-        assertEquals(8, provider.fSpinner4.getSelection());
     }
 }

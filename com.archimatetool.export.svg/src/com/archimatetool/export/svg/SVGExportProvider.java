@@ -215,6 +215,11 @@ public class SVGExportProvider implements IImageExportProvider {
         fSpinner4.setMaximum(max);
 
         loadPreferences();
+        
+        // Set viewBox width and height to the image size
+        Rectangle rect = getViewportBounds();
+        fSpinner3.setSelection(rect.width);
+        fSpinner4.setSelection(rect.height);
     }
     
     private void updateControls() {
@@ -230,6 +235,10 @@ public class SVGExportProvider implements IImageExportProvider {
     protected void loadPreferences() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
+        // Defaults
+        store.setDefault(PREFS_EMBED_FONTS, false);
+        store.setDefault(PREFS_VIEWBOX_ENABLED, true);
+        
         // Embed fonts
         boolean selected = store.getBoolean(PREFS_EMBED_FONTS);
         fEmbedFontsButton.setSelection(selected);
@@ -241,19 +250,15 @@ public class SVGExportProvider implements IImageExportProvider {
         
         int min_x = 0;
         int min_y = 0;
-        int width = 0;
-        int height = 0;
         
         // Value of viewBox
         String s = store.getString(PREFS_VIEWBOX);
         if(s != null) {
             String[] parts = s.split(" "); //$NON-NLS-1$
-            if(parts.length == 4) {
+            if(parts.length >= 2) {
                 try {
                     min_x = Integer.valueOf(parts[0]);
                     min_y = Integer.valueOf(parts[1]);
-                    width = Integer.valueOf(parts[2]);
-                    height = Integer.valueOf(parts[3]);
                 }
                 catch(NumberFormatException ex) {
                     ex.printStackTrace();
@@ -263,8 +268,6 @@ public class SVGExportProvider implements IImageExportProvider {
         
         fSpinner1.setSelection(min_x);
         fSpinner2.setSelection(min_y);
-        fSpinner3.setSelection(width);
-        fSpinner4.setSelection(height);
     }
     
     /**
@@ -281,10 +284,8 @@ public class SVGExportProvider implements IImageExportProvider {
         
         int min_x = fSpinner1.getSelection();
         int min_y = fSpinner2.getSelection();
-        int width = fSpinner3.getSelection();
-        int height = fSpinner4.getSelection();
         
-        String s = min_x + " " + min_y + " " + width + " " + height;  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+        String s = min_x + " " + min_y;  //$NON-NLS-1$
         store.setValue(PREFS_VIEWBOX, s);
     }
     
