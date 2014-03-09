@@ -236,7 +236,7 @@ public class SVGExportProvider implements IImageExportProvider {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
         // Defaults
-        store.setDefault(PREFS_EMBED_FONTS, false);
+        store.setDefault(PREFS_EMBED_FONTS, true);
         store.setDefault(PREFS_VIEWBOX_ENABLED, true);
         
         // Embed fonts
