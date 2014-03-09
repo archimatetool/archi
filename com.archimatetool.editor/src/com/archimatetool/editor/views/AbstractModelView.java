@@ -31,6 +31,8 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -267,7 +269,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     
     /**
      * @param msg
-     * @return The correct element nodes to update when a change occurs
+     * @return All the tree element nodes that may need updating when a change occurs
      */
     protected List<Object> getElementsToUpdateFromNotification(Notification msg) {
         int type = msg.getEventType();
@@ -286,27 +288,60 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             element = msg.getNotifier();
         }
         
-        if(element instanceof IDiagramModelArchimateObject) {
-            element = ((IDiagramModelArchimateObject)element).getArchimateElement();
+        // If it's a diagram object it may have child objects so treat it separately
+        if(element instanceof IDiagramModelObject) {
+            getElementsToUpdate(list, (IDiagramModelObject)element);
+            return list;
         }
-        else if(element instanceof IDiagramModelArchimateConnection) {
+        
+        // A diagram connection so get the relationship
+        if(element instanceof IDiagramModelArchimateConnection) {
             element = ((IDiagramModelArchimateConnection)element).getRelationship();
         }
         
+        // Got either a folder, a relationship or an element
         if(element != null) {
-            list.add(element);
-            
-            // Also any attached relationships/elements
-
-            if(element instanceof IRelationship) {
-                // Not sure...
+            if(!list.contains(element)) {
+                list.add(element);
             }
-            else if(element instanceof IArchimateElement) {
-                list.addAll(ArchimateModelUtils.getRelationships((IArchimateElement)element));
+            
+            // If an element, also add any attached relationships
+            if(element instanceof IArchimateElement) {
+                getRelationshipsToUpdate(list, (IArchimateElement)element);
             }
         }
         
         return list;
+    }
+    
+    /**
+     * Find all elements contained in IDiagramModelObject including any child objects
+     */
+    private void getElementsToUpdate(List<Object> list, IDiagramModelObject dmo) {
+        if(dmo instanceof IDiagramModelArchimateObject) {
+            IArchimateElement element = ((IDiagramModelArchimateObject)dmo).getArchimateElement();
+            if(!list.contains(element)) {
+                list.add(element);
+                getRelationshipsToUpdate(list, element);
+            }
+        }
+        
+        if(dmo instanceof IDiagramModelContainer) {
+            for(IDiagramModelObject child : ((IDiagramModelContainer)dmo).getChildren()) {
+                getElementsToUpdate(list, child);
+            }
+        }
+    }
+    
+    /**
+     * Find all relationships to update from given element
+     */
+    private void getRelationshipsToUpdate(List<Object> list, IArchimateElement element) {
+        for(IRelationship relation : ArchimateModelUtils.getRelationships(element)) {
+            if(!list.contains(relation)) {
+                list.add(relation);
+            }
+        }
     }
     
     // =================================================================================
