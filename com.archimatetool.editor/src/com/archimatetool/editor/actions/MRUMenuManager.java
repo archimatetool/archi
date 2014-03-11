@@ -15,7 +15,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
@@ -36,38 +35,131 @@ import com.archimatetool.model.IArchimateModel;
  */
 public class MRUMenuManager extends MenuManager implements PropertyChangeListener {
     
-    private static final String MRU_PREFS_KEY = "MRU"; //$NON-NLS-1$
+    static final String MRU_PREFS_KEY = "MRU"; //$NON-NLS-1$
     
-    private List<File> fMRU_List = new ArrayList<File>();
+    private List<File> fMRUList;
     
     private IWorkbenchWindow fWindow;
-    
-    private int MAX;
     
     public MRUMenuManager(IWorkbenchWindow window) {
         super(Messages.MRUMenuManager_0, "open_recent_menu"); //$NON-NLS-1$
         
         fWindow = window;
         
-        MAX = getCurrentMRUMax();
-        
-        loadList();
-        
         createMenuItems();
         
         IEditorModelManager.INSTANCE.addPropertyChangeListener(this);
-        
-        // Changed max
-        Preferences.STORE.addPropertyChangeListener(new IPropertyChangeListener() {
-            @Override
-            public void propertyChange(org.eclipse.jface.util.PropertyChangeEvent event) {
-                if(IPreferenceConstants.MRU_MAX.equals(event.getProperty())) {
-                    MAX = getCurrentMRUMax();
-                }
-            }
-        });
     }
 
+    /**
+     * Load the MRU list from preferences
+     */
+    private List<File> loadMRUListFromPreferenceStore() {
+        List<File> list = new ArrayList<File>();
+        
+        for(int i = 0; i < getPreferencesMRUMax(); i++) {
+            String path = Preferences.STORE.getString(MRU_PREFS_KEY + i);
+            if(StringUtils.isSet(path)) {
+                list.add(new File(path));
+            }
+        }
+        
+        return list;
+    }
+    
+    List<File> getMRUList() {
+        if(fMRUList == null) {
+            fMRUList = loadMRUListFromPreferenceStore();
+        }
+        return fMRUList;
+    }
+    
+    void addToList(File file) {
+        List<File> list = getMRUList();
+        
+        // If file is already in list move it to the top of the list
+        if(list.contains(file)) {
+            list.remove(file);
+            list.add(0, file);
+        }
+        // Else add it to the top of the list and remove excess off the bottom
+        else {
+            list.add(0, file);
+            while(list.size() > getPreferencesMRUMax()) {
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+    
+    private void saveList() {
+        // Clear
+        for(int i = 0; i < 50; i++) {
+            Preferences.STORE.setValue(MRU_PREFS_KEY + i, ""); //$NON-NLS-1$
+        }
+        
+        // Save
+        for(int i = 0; i < getMRUList().size(); i++) {
+            Preferences.STORE.setValue(MRU_PREFS_KEY + i, getMRUList().get(i).getAbsolutePath());
+        }
+    }
+    
+    private void createMenuItems() {
+        removeAll();
+        
+        for(File file : getMRUList()) {
+            add(new RecentFileAction(file));
+        }
+        
+        add(new Separator());
+        MRU_ClearAction clearAction = new MRU_ClearAction();
+        clearAction.setEnabled(!getMRUList().isEmpty());
+        add(clearAction);
+    }
+    
+    void clearAll() {
+        getMRUList().clear();
+        createMenuItems();
+    }
+    
+    int getPreferencesMRUMax() {
+        int max = Preferences.STORE.getInt(IPreferenceConstants.MRU_MAX);
+        if(max < 3) {
+            max = 3;
+        }
+        if(max > 15) {
+            max = 15;
+        }
+        return max;
+    }
+    
+    /**
+     * @param file
+     * @return a short ellipsis type string for a file
+     */
+    String getShortPath(File file) {
+        final int maxLength = 38;
+
+        String path = file.getAbsolutePath();
+        
+        try {
+            String pathPart = file.getParent();
+            if(pathPart != null && pathPart.length() > maxLength) {
+                pathPart = pathPart.substring(0, maxLength - 3);
+                pathPart += "..." + File.separator; //$NON-NLS-1$
+                path = pathPart += file.getName();
+            }
+        }
+        catch(Exception ex) { // Catch any exceptions otherwise the app won't load
+            ex.printStackTrace();
+        }
+        
+        return path;
+    }
+    
+    /** 
+     * User opened or saved a model to file.
+     * Update list and menu items
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(IEditorModelManager.PROPERTY_MODEL_OPENED == evt.getPropertyName() || 
@@ -84,69 +176,8 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
     /**
      * Don't show temp files
      */
-    private boolean isTempFile(File file) {
+    boolean isTempFile(File file) {
         return file != null && file.getName().startsWith("~"); //$NON-NLS-1$
-    }
-    
-    private void addToList(File file) {
-        if(fMRU_List.contains(file)) {
-            fMRU_List.remove(file);
-            fMRU_List.add(0, file);
-        }
-        else {
-            fMRU_List.add(0, file);
-            while(fMRU_List.size() > MAX) {
-                fMRU_List.remove(fMRU_List.size() - 1);
-            }
-        }
-    }
-    
-    private void createMenuItems() {
-        removeAll();
-        
-        for(File file : fMRU_List) {
-            add(new RecentFileAction(file));
-        }
-        
-        add(new Separator());
-        MRU_ClearAction clearAction = new MRU_ClearAction();
-        clearAction.setEnabled(!fMRU_List.isEmpty());
-        add(clearAction);
-    }
-    
-    private void clearAll() {
-        fMRU_List.clear();
-        createMenuItems();
-    }
-    
-    private void loadList() {
-        for(int i = 0; i < MAX; i++) {
-            String path = Preferences.STORE.getString(MRU_PREFS_KEY + i);
-            if(StringUtils.isSet(path)) {
-                File file = new File(path);
-                fMRU_List.add(file);
-            }
-        }
-    }
-    
-    private int getCurrentMRUMax() {
-        int max = Preferences.STORE.getInt(IPreferenceConstants.MRU_MAX);
-        if(max < 3 || max > 15) {
-            max = 6;
-        }
-        return max;
-    }
-    
-    private void saveList() {
-        // Clear
-        for(int i = 0; i < 50; i++) {
-            Preferences.STORE.setValue(MRU_PREFS_KEY + i, ""); //$NON-NLS-1$
-        }
-        
-        // Save
-        for(int i = 0; i < fMRU_List.size(); i++) {
-            Preferences.STORE.setValue(MRU_PREFS_KEY + i, fMRU_List.get(i).getAbsolutePath());
-        }
     }
     
     @Override
@@ -156,25 +187,11 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         saveList();
     }
     
-    private static String getShortPath(File file) {
-        String path = file.getAbsolutePath();
-        
-        try {
-            String pathPart = file.getParent();
-            final int maxLength = 38;
-            if(pathPart.length() > maxLength) {
-                pathPart = pathPart.substring(0, maxLength - 3);
-                pathPart += "..." + File.separator; //$NON-NLS-1$
-                path = pathPart += file.getName();
-            }
-        }
-        catch(Exception ex) { // Catch any exceptions otherwise the app won't load
-            ex.printStackTrace();
-        }
-        
-        return path;
-    }
+    // ====================================== Actions =========================================
     
+    /**
+     * Recent File Action
+     */
     private class RecentFileAction extends Action {
         File file;
         
@@ -200,12 +217,15 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
                         Messages.MRUMenuManager_1,
                         NLS.bind(Messages.MRUMenuManager_2, file));
                 
-                fMRU_List.remove(file);
+                getMRUList().remove(file);
                 createMenuItems();
             }
         }
     }
     
+    /**
+     * Clear Action
+     */
     private class MRU_ClearAction extends Action {
         MRU_ClearAction() {
             setText(Messages.MRUMenuManager_3);

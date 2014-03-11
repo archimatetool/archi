@@ -78,7 +78,7 @@ public class ModelCompatibilityTests {
     public void testIsLaterModelVersion_IsLater() {
         createResource(file1);
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
-        assertEquals("99.9.9", model.getVersion());
+        assertEquals("10.0.0", model.getVersion());
         assertTrue(mc.isLaterModelVersion("2.6.1"));
     }
 
@@ -87,8 +87,8 @@ public class ModelCompatibilityTests {
         createResource(file1);
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         
-        model.setVersion("99.9.8");
-        assertFalse(mc.isLaterModelVersion("99.9.9"));
+        model.setVersion("3.4.1");
+        assertFalse(mc.isLaterModelVersion("10.0.0"));
         
         model.setVersion("99.9.9");
         assertFalse(mc.isLaterModelVersion("99.9.9"));

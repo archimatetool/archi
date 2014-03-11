@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -21,6 +21,7 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import com.archimatetool.editor.Application;
+import com.archimatetool.editor.utils.StringUtils;
 
 
 
@@ -31,37 +32,46 @@ import com.archimatetool.editor.Application;
  */
 public class CheckForNewVersionAction extends Action {
     
+    String versionFile = "http://www.archimatetool.com/archi-version.txt"; //$NON-NLS-1$
+    
+    String downloadPage = "http://www.archimatetool.com/download"; //$NON-NLS-1$
+    
     public CheckForNewVersionAction() {
         super(Messages.CheckForNewVersionAction_0);
+    }
+    
+    String getOnlineVersion(URL url) throws IOException {
+        URLConnection connection = url.openConnection();
+        connection.connect();
+        
+        InputStream is = connection.getInputStream();
+        char[] buf = new char[32];
+        Reader r = new InputStreamReader(is, "UTF-8"); //$NON-NLS-1$
+        StringBuilder s = new StringBuilder();
+        while(true) {
+            int n = r.read(buf);
+            if(n < 0) {
+                break;
+            }
+            s.append(buf, 0, n);
+        }
+        
+        is.close();
+        r.close();
+        
+        return s.toString();
     }
 
     @Override
     public void run() {
-        URL url = null;
-        HttpURLConnection connection = null;
-
         try {
-            url = new URL("http://www.archimatetool.com/archi-version.txt"); //$NON-NLS-1$
-            connection = (HttpURLConnection)url.openConnection();
-            connection.connect();
-            InputStream is = connection.getInputStream();
-            char[] buf = new char[32];
-            Reader r = new InputStreamReader(is, "UTF-8"); //$NON-NLS-1$
-            StringBuilder s = new StringBuilder();
-            while(true) {
-                int n = r.read(buf);
-                if(n < 0) {
-                    break;
-                }
-                s.append(buf, 0, n);
-            }
-            
-            String newVersion = s.toString();
+            URL url = new URL(versionFile);
+            String newVersion = getOnlineVersion(url);
             
             // Get this app's main version number
             String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
             
-            if(newVersion.compareTo(thisVersion) > 0) {
+            if(StringUtils.compareVersionNumbers(newVersion, thisVersion) > 0) {
                 boolean reply = MessageDialog.openQuestion(null, Messages.CheckForNewVersionAction_1,
                         Messages.CheckForNewVersionAction_2 +
                         " (" + newVersion + "). " + //$NON-NLS-1$ //$NON-NLS-2$
@@ -71,7 +81,7 @@ public class CheckForNewVersionAction extends Action {
                     IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
                     IWebBrowser browser = support.getExternalBrowser();
                     if(browser != null) {
-                        URL url2 = new URL("http://www.archimatetool.com/download"); //$NON-NLS-1$
+                        URL url2 = new URL(downloadPage);
                         browser.openURL(url2);
                     }
                 }

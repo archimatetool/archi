@@ -57,7 +57,7 @@ public class TreeModelViewerDragDropHandler {
     private int fDropOperations = DND.DROP_MOVE; 
 
     /**
-     * Flag to mark valid tree selection
+     * Whether we have a valid tree selection
      */
     private boolean fIsValidTreeSelection;
     
@@ -94,7 +94,7 @@ public class TreeModelViewerDragDropHandler {
             public void dragStart(DragSourceEvent event) {
                 // Drag started from the Tree
                 IStructuredSelection selection = (IStructuredSelection)fViewer.getSelection();
-                setIsValidTreeSelection(selection);
+                fIsValidTreeSelection = isValidTreeSelection(selection);
 
                 LocalSelectionTransfer.getTransfer().setSelection(selection);
                 event.doit = true;
@@ -139,46 +139,47 @@ public class TreeModelViewerDragDropHandler {
     }
     
     /**
-     * Set whether we have a valid selection of objects dragged from the Tree
-     * Do it at the start of the drag operation.
+     * Determine whether we have a valid selection of objects dragged from the Tree
+     * Do it at the start of the drag operation for optimal speed.
      */
-    private void setIsValidTreeSelection(IStructuredSelection selection) {
-        fIsValidTreeSelection = true;
+    boolean isValidTreeSelection(IStructuredSelection selection) {
+        if(selection == null || selection.isEmpty()) {
+            return false;
+        }
         
         IArchimateModel model = null;
         
         for(Object object : selection.toArray()) {
             // Can't drag Models
             if(object instanceof IArchimateModel) {
-                fIsValidTreeSelection = false;
-                break;
+                return false;
             }
             // Can only drag user folders
             if(object instanceof IFolder && ((IFolder)object).getType() != FolderType.USER) {
-                fIsValidTreeSelection = false;
-                break;
+                return false;
             }
             // Don't allow mixed parent models
             if(object instanceof IArchimateModelElement) {
                 IArchimateModel m = ((IArchimateModelElement)object).getArchimateModel();
                 if(model != null && m != model) {
-                    fIsValidTreeSelection = false;
-                    break;
+                    return false;
                 }
                 model = m;
             }
         }
+        
+        return true;
     }
     
-    private boolean isValidSelection(DropTargetEvent event) {
+    boolean isValidSelection(DropTargetEvent event) {
         return fIsValidTreeSelection || isValidFileSelection(event);
     }
 
-    private boolean isValidFileSelection(DropTargetEvent event) {
+    boolean isValidFileSelection(DropTargetEvent event) {
         return isFileDragOperation(event.currentDataType);
     }
 
-    private void doDropOperation(DropTargetEvent event) {
+    void doDropOperation(DropTargetEvent event) {
         //boolean move = event.detail == DND.DROP_MOVE;
         
         // Local
@@ -195,15 +196,17 @@ public class TreeModelViewerDragDropHandler {
         }
     }
     
+    /**
+     * Add external file objects dragged from the desktop by opening each file as a model
+     */
     private void addFileObjects(final String[] paths) {
         BusyIndicator.showWhile(null, new Runnable() {
             @Override
             public void run() {
                 for(String path : paths) {
                     File file = new File(path);
-                    // Archi
-                    if(file.getName().toLowerCase().endsWith(IEditorModelManager.ARCHIMATE_FILE_EXTENSION)
-                            && !IEditorModelManager.INSTANCE.isModelLoaded(file)) {
+                    // Archimate model
+                    if(file.getName().toLowerCase().endsWith(IEditorModelManager.ARCHIMATE_FILE_EXTENSION)) {
                         IEditorModelManager.INSTANCE.openModel(file);
                     }
                 }
@@ -214,7 +217,7 @@ public class TreeModelViewerDragDropHandler {
     /**
      * Move Tree Objects
      */
-    private void moveTreeObjects(IFolder newParent, Object[] objects) {
+    void moveTreeObjects(IFolder newParent, Object[] objects) {
         final CompoundCommand compoundCommand = new NonNotifyingCompoundCommand() {
             @Override
             public String getLabel() {
@@ -245,7 +248,7 @@ public class TreeModelViewerDragDropHandler {
      * @param event
      * @return
      */
-    private Object getTargetParent(DropTargetEvent event) {
+    Object getTargetParent(DropTargetEvent event) {
         // Dropped on blank area, null
         if(event.item == null) {
             return null;
@@ -265,7 +268,7 @@ public class TreeModelViewerDragDropHandler {
     /**
      * @return True if target is valid
      */
-    private boolean isValidDropTarget(DropTargetEvent event) {
+    boolean isValidDropTarget(DropTargetEvent event) {
         // File from desktop onto blank area
         if(isFileDragOperation(event.currentDataType)) {
             return event.item == null;
@@ -279,7 +282,8 @@ public class TreeModelViewerDragDropHandler {
             IFolder targetfolder = (IFolder)parent;
             IStructuredSelection selection = (IStructuredSelection)LocalSelectionTransfer.getTransfer().getSelection();
             for(Object object : selection.toList()) {
-                if(!hasCommonParentFolder(targetfolder, (EObject)object)) {
+                // must have the same top folder type - a restriction which one day we should not enforce!
+                if(!hasCommonAncestorFolder(targetfolder, (EObject)object)) {
                     return false;
                 }
                 if(!canDropObject(object, (TreeItem)event.item)) {
@@ -293,30 +297,25 @@ public class TreeModelViewerDragDropHandler {
     }
     
     /**
-     * @param folder
-     * @param object
-     * @return
+     * Check if eObject1 and eObject2 have a common ancestor folder
+     * i.e dragged objects can only share the same hole
      */
-    private boolean hasCommonParentFolder(IFolder targetfolder, EObject object) {
-        EObject f1 = targetfolder;
-        while(!(f1.eContainer() instanceof IArchimateModel)) {
-            f1 = f1.eContainer();
+    boolean hasCommonAncestorFolder(EObject eObject1, EObject eObject2) {
+        while(eObject1.eContainer() instanceof IFolder) {
+            eObject1 = eObject1.eContainer();
+        }
+
+        while(eObject2.eContainer() instanceof IFolder) {
+            eObject2 = eObject2.eContainer();
         }
         
-        EObject f2 = object.eContainer();
-        while(f2 != null && !(f2.eContainer() instanceof IArchimateModel)) {
-            f2 = f2.eContainer();
-        }
-        
-        return f1 == f2;
+        return (eObject1 == eObject2);
     }
 
     /**
-     * @param object
-     * @param targetTreeItem
-     * @return
+     * Return true if object can be dropped on a target tree item
      */
-    private boolean canDropObject(Object object, TreeItem targetTreeItem) {
+    boolean canDropObject(Object object, TreeItem targetTreeItem) {
         if(targetTreeItem == null) {  // Root tree
             return false;
         }
@@ -337,11 +336,11 @@ public class TreeModelViewerDragDropHandler {
         return true;
     }
 
-    private boolean isLocalTreeDragOperation(TransferData dataType) {
+    boolean isLocalTreeDragOperation(TransferData dataType) {
         return LocalSelectionTransfer.getTransfer().isSupportedType(dataType);
     }
     
-    private boolean isFileDragOperation(TransferData dataType) {
+    boolean isFileDragOperation(TransferData dataType) {
         return FileTransfer.getInstance().isSupportedType(dataType);
     }
 }

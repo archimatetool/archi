@@ -75,7 +75,7 @@ public class FormatPainterToolTests {
     }
     
     @Test
-    public void isPaintableObject() throws Exception {
+    public void isPaintableObject() {
         FormatPainterTool tool = new FormatPainterTool();
         
         IDiagramModelConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelConnection();

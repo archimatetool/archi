@@ -39,7 +39,13 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 /**
- * Handles Delete Commands for the Tree Model View
+ * Handles Delete Commands for the Tree Model View. <br/>
+ * This is intended to manage element/folder deletions specifically for the Models Tree. <br/>
+ * <br/>
+ * - Will select a parent node in the tree after the deletion <br/>
+ * - Manages deletions from more than one model - each model will have a separate command stack <br/>
+ * - Deletes associated relationships <br/>
+ * - Deletes associate diagram objects <br/>
  * 
  * @author Phillip Beauvoir
  */
@@ -51,10 +57,11 @@ public class DeleteCommandHandler {
      */
     private Hashtable<CommandStack, CompoundCommand> fCommandMap = new Hashtable<CommandStack, CompoundCommand>();
     
+    // Treeviewer
     private TreeModelViewer fViewer;
     
     // Selected objects in Tree
-    private Object[] fSelectedObjects;
+    private Object[] fSelectedObjects = new Object[1]; // default value
     
     // Top level objects to delete
     private List<Object> fElementsToDelete;
@@ -86,8 +93,22 @@ public class DeleteCommandHandler {
         return false;
     }
 
+    /**
+     * Default constructor
+     */
+    public DeleteCommandHandler() {
+    }
+
     public DeleteCommandHandler(TreeModelViewer viewer, Object[] objects) {
         fViewer = viewer;
+        setObjectsToBeDeleted(objects);
+    }
+    
+    /**
+     * Set the objects to be deleted
+     * @param objects The, er, objects to be deleted
+     */
+    public void setObjectsToBeDeleted(Object[] objects) {
         fSelectedObjects = objects;
     }
     
