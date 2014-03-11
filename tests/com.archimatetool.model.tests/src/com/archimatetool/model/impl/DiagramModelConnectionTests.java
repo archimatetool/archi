@@ -54,8 +54,7 @@ public class DiagramModelConnectionTests {
 
     @Test
     public void testGetCopy() {
-        connection.setSource(source);
-        connection.setTarget(target);
+        connection.connect(source, target);
         connection.getProperties().add(IArchimateFactory.eINSTANCE.createProperty());
         
         IDiagramModelConnection copy = (IDiagramModelConnection)connection.getCopy();
@@ -116,14 +115,14 @@ public class DiagramModelConnectionTests {
     @Test
     public void testGetSource() {
         assertNull(connection.getSource());
-        connection.setSource(source);
+        connection.connect(source, target);
         assertSame(source, connection.getSource());
     }
     
     @Test
     public void testGetTarget() {
         assertNull(connection.getTarget());
-        connection.setTarget(target);
+        connection.connect(source, target);
         assertSame(target, connection.getTarget());
     }
     
