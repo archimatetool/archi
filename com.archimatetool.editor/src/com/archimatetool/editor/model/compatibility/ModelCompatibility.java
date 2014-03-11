@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.xmi.XMIException;
 import org.xml.sax.SAXParseException;
 
 import com.archimatetool.editor.Logger;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -72,7 +73,7 @@ public class ModelCompatibility {
     public boolean isLaterModelVersion(String presentVersion)  {
         IArchimateModel model = (IArchimateModel)fResource.getContents().get(0);
         String version = model.getVersion();
-        return version != null && version.compareTo(presentVersion) > 0;
+        return version != null && StringUtils.compareVersionNumbers(version, presentVersion) > 0;
     }
     
     /**
