@@ -19,6 +19,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -29,16 +30,21 @@ import com.archimatetool.model.util.ArchimateResourceFactory;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ArchimateTestModel {
     
     private File file;
     private IArchimateModel model;
     
+    public ArchimateTestModel() {
+    }
+    
     public ArchimateTestModel(File file) {
-        this.file = file;
+        setFile(file);
     }
 
-    public ArchimateTestModel() {
+    public void setFile(File file) {
+        this.file = file;
     }
 
     /**
@@ -47,6 +53,10 @@ public class ArchimateTestModel {
      * @throws IOException
      */
     public IArchimateModel loadModel() throws IOException {
+        if(file == null || !file.exists()) {
+            throw new IllegalArgumentException("Please set the file first!");
+        }
+        
         Resource resource = ArchimateResourceFactory.createNewResource(file);
         resource.load(null);
         model = (IArchimateModel)resource.getContents().get(0);
@@ -108,6 +118,32 @@ public class ArchimateTestModel {
     }
     
     /**
+     * Create a DiagramModelArchimateObject and add an Archimate element to it.
+     * The Archimate element will be added to its default container folder in the model
+     */
+    public IDiagramModelArchimateObject createDiagramModelArchimateObjectAndAddToModel(IArchimateElement element) {
+        IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmo.setArchimateElement(element);
+        if(element.eContainer() == null) {
+            model.getArchimateModel().getDefaultFolderForElement(element).getElements().add(element);
+        }
+        return dmo;
+    }
+    
+    /**
+     * Create a DiagramModelArchimateConnection and add an Archimate relationship to it.
+     * The relationship will be added to its default container folder in the model
+     */
+    public IDiagramModelArchimateConnection createDiagramModelArchimateConnectionAndAddToModel(IRelationship relationship) {
+        IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        conn.setRelationship(relationship);
+        if(relationship.eContainer() == null) {
+            model.getArchimateModel().getDefaultFolderForElement(relationship).getElements().add(relationship);
+        }
+        return conn;
+    }
+
+    /**
      * Get an object in the model by its ID
      */
     public EObject getObjectByID(String id) {
@@ -133,6 +169,15 @@ public class ArchimateTestModel {
     public static IDiagramModelArchimateObject createDiagramModelArchimateObject(IArchimateElement element) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
+        return dmo;
+    }
+    
+    /**
+     * Create a DiagramModelArchimateObject, add an Archimate element to it and add it to a parent container
+     */
+    public static IDiagramModelArchimateObject createDiagramModelArchimateObjectAndAddToParent(IArchimateElement element, IDiagramModelContainer parent) {
+        IDiagramModelArchimateObject dmo = createDiagramModelArchimateObject(element);
+        parent.getChildren().add(dmo);
         return dmo;
     }
     

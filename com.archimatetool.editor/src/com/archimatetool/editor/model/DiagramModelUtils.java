@@ -62,7 +62,7 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param element
+     * @param element The element to check on.
      * @return true if element is referenced in any diagram model
      */
     public static boolean isElementReferencedInDiagrams(IArchimateElement element) {
@@ -80,7 +80,7 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param element
+     * @param element The element to check on.
      * @return true if element is referenced in diagramModel
      */
     public static boolean isElementReferencedInDiagram(IDiagramModel diagramModel, IArchimateElement element) {
@@ -102,8 +102,8 @@ public class DiagramModelUtils {
     
     /**
      * Find all Diagram Model Components for a given element or relationship in a Diagram Model
-     * @param diagramModel
-     * @param element
+     * @param diagramModel The parent diagram model
+     * @param element The element to check on.
      * @return The list
      */
     public static List<IDiagramModelComponent> findDiagramModelComponentsForElement(IDiagramModel diagramModel, IArchimateElement element) {
@@ -121,8 +121,8 @@ public class DiagramModelUtils {
 
     /**
      * Find all Diagram Model Objects in a Container for a given element
-     * @param parent
-     * @param element
+     * @param parent The parent container
+     * @param element The element to check on.
      * @return The list
      */
     public static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElement(IDiagramModelContainer parent, IArchimateElement element) {
@@ -146,8 +146,9 @@ public class DiagramModelUtils {
 
     /**
      * Find all Diagram Model Connections in a Container for a given relation
-     * @param parent
-     * @param relationship
+     * Connections are only collected for child IDiagramModelObjects not connections coming from the parent
+     * @param parent The parent container
+     * @param relationship The relationship to check on.
      * @return
      */
     public static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelation(IDiagramModelContainer parent, IRelationship relationship) {
@@ -196,28 +197,50 @@ public class DiagramModelUtils {
         }
     }
     
-    /*
-     * ========================================= NESTED CONNECTIONS ==========================================
-     * 
-     * 
+    /**
+     * @param srcObject The source IDiagramModelArchimateObject
+     * @param tgtObject The target IDiagramModelArchimateObject
+     * @param relation The relation to check for
+     * @return True if there is an IDiagramModelArchimateConnection containing relation between srcObject and tgtObject
      */
+    public static boolean hasDiagramModelArchimateConnection(IDiagramModelArchimateObject srcObject, IDiagramModelArchimateObject tgtObject,
+            IRelationship relation) {
+
+        for(IDiagramModelConnection conn : srcObject.getSourceConnections()) {
+            if(conn instanceof IDiagramModelArchimateConnection) {
+                IRelationship r = ((IDiagramModelArchimateConnection)conn).getRelationship();
+                if(r == relation && conn.getSource() == srcObject && conn.getTarget() == tgtObject) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
     
+    // ========================================= NESTED CONNECTIONS FUNCTIONS ==========================================
+    // These depend on the user's preferences in ConnectionPreferences
 
     /**
-     * Find matching pairs of IDiagramModelArchimateObject types that are nested in a Diagram Model
-     * @param diagramModel
-     * @param relation
-     * @return
+     * Find matching pairs of source/target IDiagramModelArchimateObject types that are nested in a Diagram Model
+     * @param diagramModel The diagram model to search
+     * @param relation The relation to search for
+     * @return A list of IDiagramModelArchimateObject types paired as IDiagramModelArchimateObject[] arrays
+     *         in the form of { sourceDiagramModelArchimateObject , targetDiagramModelArchimateObject }
      */
     public static List<IDiagramModelArchimateObject[]> findNestedComponentsForRelationship(IDiagramModel diagramModel, IRelationship relation) {
         IArchimateElement src = relation.getSource();
         IArchimateElement tgt = relation.getTarget();
         
+        // Find all diagram objects that are source of this relationship
         List<IDiagramModelArchimateObject> srcList = findDiagramModelObjectsForElement(diagramModel, src);
+        
+        // Find all diagram objects that are target of this relationship
         List<IDiagramModelArchimateObject> tgtList = findDiagramModelObjectsForElement(diagramModel, tgt);
         
         List<IDiagramModelArchimateObject[]> list = new ArrayList<IDiagramModelArchimateObject[]>();
         
+        // If diagram object 1 is the parent of diagram object 2 AND it's deemed to be a valid relationship, add them to the list
         for(IDiagramModelArchimateObject dmo1 : srcList) {
             for(IDiagramModelArchimateObject dmo2 : tgtList) {
                 if(isNestedRelationship(dmo1, dmo2)) {
@@ -230,9 +253,9 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param parent
-     * @param child
-     * @return True if there is a nested relationship type between parent and child
+     * @param parent The parent IDiagramModelArchimateObject
+     * @param child The child IDiagramModelArchimateObject
+     * @return True if there is any nested relationship type between parent and child
      */
     public static boolean isNestedRelationship(IDiagramModelArchimateObject parent, IDiagramModelArchimateObject child) {
         IArchimateElement srcElement = parent.getArchimateElement();
@@ -247,7 +270,7 @@ public class DiagramModelUtils {
     }
     
     /**
-     * Check if there is already a nested type relationship between parent (source) and child (target)
+     * Check if there is any nested type relationship between parent (source) and child (target)
      */
     public static boolean hasNestedConnectionTypeRelationship(IArchimateElement parent, IArchimateElement child) {
         for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(parent)) {
@@ -255,11 +278,12 @@ public class DiagramModelUtils {
                 return true;
             }
         }
+        
         return false;
     }
 
     /**
-     * @param relation
+     * @param relation The realtionship to check
      * @return true if relation is of a type that can be represented by a nested container 
      */
     public static boolean isNestedConnectionTypeRelationship(IRelationship relation) {
@@ -277,7 +301,7 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param element
+     * @param element The element to check
      * @return true if element can be used to calculate an nested type connection as one end of the relation
      */
     public static boolean isNestedConnectionTypeElement(IArchimateElement element) {
@@ -285,28 +309,7 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param srcObject
-     * @param tgtObject
-     * @param relation
-     * @return True if there is an IDiagramModelConnection containing relation between srcObject and tgtObject
-     */
-    public static boolean hasDiagramModelArchimateConnection(IDiagramModelArchimateObject srcObject, IDiagramModelArchimateObject tgtObject,
-            IRelationship relation) {
-
-        for(IDiagramModelConnection conn : srcObject.getSourceConnections()) {
-            if(conn instanceof IDiagramModelArchimateConnection) {
-                IRelationship r = ((IDiagramModelArchimateConnection)conn).getRelationship();
-                if(r == relation && conn.getSource() == srcObject && conn.getTarget() == tgtObject) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * @param connection
+     * @param connection The connection to check
      * @return true if a connection should be hidden when its source (parent) element contains its target (child) element
      */
     public static boolean shouldBeHiddenConnection(IDiagramModelArchimateConnection connection) {
@@ -320,8 +323,7 @@ public class DiagramModelUtils {
             IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)connection.getTarget();
             
             // Junction types are excluded
-            if(!DiagramModelUtils.isNestedConnectionTypeElement(source.getArchimateElement()) || 
-                    !DiagramModelUtils.isNestedConnectionTypeElement(target.getArchimateElement())) {
+            if(!isNestedConnectionTypeElement(source.getArchimateElement()) || !isNestedConnectionTypeElement(target.getArchimateElement())) {
                 return false;
             }
             
@@ -342,19 +344,22 @@ public class DiagramModelUtils {
     // ========================================================================================================
     
     /**
-     * @param object
+     * @param object The IDiagramModelObject to check on
      * @return The topmost ancestor container for a diagram object that is *not* the diagram model, or null.
      */
     public static IDiagramModelContainer getAncestorContainer(IDiagramModelObject object) {
         EObject container = object.eContainer();
-        while(!(container instanceof IDiagramModel) && !(container.eContainer() instanceof IDiagramModel)) {
+        while(container != null && !(container instanceof IDiagramModel) && !(container.eContainer() instanceof IDiagramModel)) {
             container = container.eContainer();
         }
         return (IDiagramModelContainer)container;
     }
 
-    
     /**
+     * Check if there is an existing connection between source and target of a certain relationship type
+     * @param source The source object
+     * @param target The target object
+     * @param relationshipType the relationship type to check
      * @return True if connection type exists between source and target
      */
     public static boolean hasExistingConnectionType(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
@@ -368,7 +373,11 @@ public class DiagramModelUtils {
     }
     
     /**
-     * Check for cycles.  Return true if there is a cycle.
+     * Check for a connection cycle between source and target objects
+     * @param source The source object
+     * @param target The target object
+     * @return true if there is a connection cycle between source and target
+     *         i.e. source is connected to target, and target is connected to source
      */
     public static boolean hasCycle(IDiagramModelObject source, IDiagramModelObject target) {
         for(IDiagramModelConnection connection : source.getTargetConnections()) {
