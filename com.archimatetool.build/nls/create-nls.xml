@@ -16,7 +16,7 @@
 			"nls_version" should be the version of the language packs
 	  	</description>
 		<property name="lang_code"					value="en"/>
-		<property name="archi_version"				value="2.7.0"/>
+		<property name="archi_version"				value="2.7.1"/>
 		<property name="nls_version"				value="1.0.1"/>
 	</target>
 	

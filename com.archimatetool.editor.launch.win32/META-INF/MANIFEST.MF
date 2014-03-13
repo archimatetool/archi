@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Windows Launcher
 Bundle-SymbolicName: com.archimatetool.editor.launch.win32;singleton:=true
-Bundle-Version: 2.7.0.qualifier
+Bundle-Version: 2.7.1.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Fragment-Host: com.archimatetool.editor;bundle-version="2.5.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
