@@ -1,0 +1,14 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>org.rulez.magwas.zenta</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.7.1.zenta</version>
+  </parent>
+ 
+  <artifactId>com.archimatetool.editor</artifactId>
+    <version>2.7.0.qualifier</version>
+  <packaging>eclipse-plugin</packaging>
+ 
+</project>

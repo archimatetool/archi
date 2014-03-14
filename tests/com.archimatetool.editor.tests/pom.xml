@@ -1,0 +1,149 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>org.rulez.magwas.zenta</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.4.0.qualifier</version>
+  </parent>
+ 
+  <artifactId>com.archimatetool.editor.tests</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+  <version>1.0.0</version>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <useUIHarness>true</useUIHarness>
+          <useUIThread>true</useUIThread>
+          <testClass>com.archimatetool.editor.AllTests</testClass>
+          <testSuite>com.archimatetool.editor.tests</testSuite>
+          <product>com.archimatetool.editor.product</product>
+          <dependencies>
+            <dependency>
+              <type>eclipse-fragment</type>
+                <artifactId>com.archimatetool.editor</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+                <artifactId>org.junit</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.testsupport</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.editor</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+<dependency><type>eclipse-plugin</type><artifactId>com.ibm.icu</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>javax.el</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>javax.servlet.jsp</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>javax.servlet</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.apache.jasper.glassfish</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.apache.lucene.analysis</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.apache.lucene.core</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.apache.lucene</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ant.core</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.commands</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.contenttype</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.databinding.observable</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.databinding.property</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.databinding</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.expressions</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.filesystem</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.jobs</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.resources</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.runtime.compatibility.auth</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.runtime.compatibility.registry</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.runtime.compatibility</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.runtime</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.core.variables</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.draw2d</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.emf.common</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.emf.ecore.xmi</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.emf.ecore</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.app</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.common</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.http.jetty</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.http.registry</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.http.servlet</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.jsp.jasper.registry</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.jsp.jasper</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.preferences</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.equinox.registry</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.gef</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.help.base</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.help.ui</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.help.webapp</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.help</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jdt.junit.runtime</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jdt.junit4.runtime</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.continuation</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.http</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.io</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.security</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.server</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.servlet</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jetty.util</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jface.databinding</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.jface</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.osgi.services</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.osgi</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.pde.junit.runtime</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.swt</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.team.core</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ui.cheatsheets</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ui.forms</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ui.views.properties.tabbed</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ui.views</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ui.workbench</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.ui</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.eclipse.update.configurator</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.hamcrest.core</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.junit</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.junit4</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.slf4j.api</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.browser</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.canvas</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.editor.browser</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.editor</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.export</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.help</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.metamodel</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.model</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.templates</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>org.rulez.magwas.zenta.widgets</artifactId><version>0.0.0</version></dependency>
+<dependency><type>eclipse-plugin</type><artifactId>uk.ac.bolton.jdom</artifactId><version>0.0.0</version></dependency>
+          </dependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>no-unit-tests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+
+
