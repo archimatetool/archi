@@ -1,5 +1,7 @@
 language: java
 before_install:
+  - export version=$(grep version pom.xml |head -1|sed 's/.*<version>//;s/<.*//')
+  - echo $version >VERSION
   - wget  http://download.opensuse.org/repositories/openSUSE:Tools/xUbuntu_13.10/Release.key
   - sudo apt-key add Release.key 
   - sudo apt-add-repository "deb http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_13.10/ /"
