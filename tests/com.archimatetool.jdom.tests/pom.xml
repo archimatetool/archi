@@ -5,7 +5,7 @@
     <groupId>org.rulez.magwas.zenta</groupId>
     <artifactId>parent</artifactId>
     <relativePath>../..</relativePath>
-    <version>2.4.0.qualifier</version>
+    <version>2.7.1.zenta</version>
   </parent>
  
   <artifactId>com.archimatetool.jdom.tests</artifactId>
