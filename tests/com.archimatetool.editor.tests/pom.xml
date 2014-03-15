@@ -4,6 +4,7 @@
   <parent>
     <groupId>org.rulez.magwas.zenta</groupId>
     <artifactId>parent</artifactId>
+    <relativePath>../..</relativePath>
     <version>2.4.0.qualifier</version>
   </parent>
  
