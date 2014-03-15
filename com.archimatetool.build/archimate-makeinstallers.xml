@@ -34,7 +34,7 @@
 	
     <target name="download">
         <!--get src="http://magwas.rulez.org/archi-extra.tar.gz" dest="target/archi-extra.tar.gz"/-->
-        <get src="file:///home/mag/Downloads/archi-extra.tar.gz" dest="target/archi-extra.tar.gz"/>
+        <get src="file:///${user.home}/Downloads/archi-extra.tar.gz" dest="target/archi-extra.tar.gz"/>
         <gunzip src="target/archi-extra.tar.gz"/>
         <untar src="target/archi-extra.tar" dest="target"/> <!--/archi-extras-->
     </target>
