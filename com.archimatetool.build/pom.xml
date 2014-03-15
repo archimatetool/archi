@@ -36,11 +36,49 @@
       <configuration>
         <products>
           <product>
-            <id>Zenta</id>
-            <rootFolder>Zenta</rootFolder>
+            <id>Archi</id>
+            <rootFolder>Archi</rootFolder>
           </product>
         </products>
       </configuration>
+      </plugin>
+      <plugin>
+         <artifactId>maven-antrun-plugin</artifactId>    
+           <inherited>false</inherited>
+              <executions>
+                 <execution>
+                   <phase>install</phase>
+                   <configuration>
+                     <tasks>
+                       <ant antfile="archimate-makeinstallers.xml">
+                       </ant>
+                    </tasks>
+                 </configuration>
+                 <goals>
+                    <goal>run</goal>
+                </goals>
+              </execution>
+           </executions>
+       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>wine</executable>
+          <arguments>
+            <argument>target/archi-extras/Innosetup/ISCC.exe</argument>
+            <argument>windows-installer.iss</argument>
+          </arguments>
+        </configuration>
       </plugin>
     </plugins>
   </build>

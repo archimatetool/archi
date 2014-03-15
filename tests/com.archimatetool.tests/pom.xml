@@ -7,7 +7,7 @@
     <version>2.4.0.qualifier</version>
   </parent>
  
-  <artifactId>com.archimatetool.editor.tests</artifactId>
+  <artifactId>com.archimatetool.tests</artifactId>
   <packaging>eclipse-test-plugin</packaging>
   <version>1.0.0</version>
   <build>
@@ -20,8 +20,8 @@
         <configuration>
           <useUIHarness>true</useUIHarness>
           <useUIThread>true</useUIThread>
-          <testClass>com.archimatetool.editor.AllTests</testClass>
-          <testSuite>com.archimatetool.editor.tests</testSuite>
+          <testClass>com.archimatetool.tests.AllTests</testClass>
+          <testSuite>com.archimatetool.tests</testSuite>
           <product>com.archimatetool.editor.product</product>
           <application>com.archimatetool.editor.app</application>
           <dependencies>
@@ -45,6 +45,27 @@
               <artifactId>com.archimatetool.editor</artifactId>
               <version>0.0.0</version>
             </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.export.svg.tests</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.model.tests</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.jdom.tests</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.editor.tests</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+
 
           </dependencies>
         </configuration>

@@ -13,6 +13,7 @@
     <module>tests/com.archimatetool.model.tests</module>
     <module>com.archimatetool.widgets</module>
     <module>com.archimatetool.editor</module>
+    <module>tests/com.archimatetool.editor.tests</module>
     <module>com.archimatetool.help</module>
     <module>com.archimatetool.templates</module>
     <module>com.archimatetool.canvas</module>
@@ -26,9 +27,8 @@
     <module>com.archimatetool.zest</module>
     <module>com.archimatetool.editor.fullscreen.macos</module>
     <module>com.archimatetool.editor.launch.win32</module>
-<!--
     <module>com.archimatetool.build</module>
-    <module>tests/com.archimatetool.editor.tests</module>
+<!-- all tests are already ran
     <module>tests/com.archimatetool.tests</module>
     -->
   </modules>

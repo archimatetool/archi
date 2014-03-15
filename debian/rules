@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@ 
+
+override_dh_auto_build:
+	mvn -Pno-unit-tests install
+
+override_dh_clean:
+	dh_clean
+	rm -rf `find -type d -name target` `find -type f -name '*.class'` ./com.archimatetool.templates/com.archimatetool.templates.jar ./com.archimatetool.export.svg/com.archimatetool.export.svg.jar ./com.archimatetool.model/com.archimatetool.model.jar ./com.archimatetool.canvas/com.archimatetool.canvas.jar ./com.archimatetool.jdom/com.archimatetool.jdom.jar ./com.archimatetool.jasperreports/com.archimatetool.jasperreports.jar ./com.archimatetool.editor/com.archimatetool.editor.jar ./com.archimatetool.help/com.archimatetool.help.jar ./com.archimatetool.widgets/com.archimatetool.widgets.jar ./com.archimatetool.reports/com.archimatetool.reports.jar ./com.archimatetool.zest/com.archimatetool.zest.jar
+
+override_dh_auto_install:
+	dh_auto_install
+	mkdir -p debian/archi/usr/share
+	tar xz -C debian/archi/usr/share/ -f com.archimatetool.build/target/products/Archi/Archi-lnx32_64-2.7.0.tar.gz
+	mv debian/archi/usr/share/Archi debian/archi/usr/share/archi
+	mkdir -p debian/archi/usr/bin
+	ln -sf /usr/share/archi/Archi-Ubuntu.sh debian/archi/usr/bin/archi
