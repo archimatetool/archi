@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
  
   <parent>
-    <groupId>org.rulez.magwas.zenta</groupId>
+    <groupId>com.archimatetool</groupId>
     <artifactId>parent</artifactId>
-    <version>2.7.1.zenta</version>
+    <version>2.7.1.qualifier</version>
   </parent>
  
   <artifactId>com.archimatetool.csv</artifactId>
