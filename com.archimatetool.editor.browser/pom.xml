@@ -1,0 +1,14 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>com.archimatetool</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.7.1.qualifier</version>
+  </parent>
+ 
+  <artifactId>com.archimatetool.editor.browser</artifactId>
+    <version>1.0.0.qualifier</version>
+  <packaging>eclipse-plugin</packaging>
+ 
+</project>

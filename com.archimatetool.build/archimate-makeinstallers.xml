@@ -15,25 +15,33 @@
 	<target name="run" depends="init, make_win_folder, make_win_zip, make_mac_zips, make_lnx_zip" />
 	
 	<!-- Init some stuff -->
-	<target name="init">
+	<target name="init" depends="download">
 	    
 		<!-- USER DEPENDENT VALUES - EDIT THESE VALUES FOR A BUILD -->
-	    <property name="jre.win32.dir"          location="c:\dev\jre7"/>			<!-- Location of the bundled JRE for Windows -->
-		<property name="jre.mac64.zip"    		location="c:\dev\jre-mac64.zip"/>	<!-- Location of the bundled JRE for Mac -->
-		<property name="docs.dir"     			location="../../docs"/>				<!-- Location of the generated PDF docs -->
+        <property name="extras_dir" location="target/archi-extras"/>
+	    <property name="jre.win32.dir"          location="${extras_dir}/jre-windows"/>			<!-- Location of the bundled JRE for Windows -->
+		<property name="jre.mac64.dir"    		location="${extras_dir}/jre-macosx"/>	<!-- Location of the bundled JRE for Mac -->
+		<property name="docs.dir"     			location="${extras_dir}/docs"/>				<!-- Location of the generated PDF docs -->
 		<property name="version" 				value="2.7.0"/>						<!-- Version of the Build -->
 		
 		<property name="app.name" 				value="Archi"/>
 		
 		<property name="src.dir"     			location="."/>
-	    <property name="output.dir"             location="/${app.name}"/>
+	    <property name="output.dir"             location="${src.dir}/target/products/${app.name}"/>
 	    <property name="folder.name"            value="${app.name}"/>
 	    <property name="tmp.dir"                location="${output.dir}/${folder.name}"/>
 	</target>
 	
+    <target name="download">
+        <!--get src="http://magwas.rulez.org/archi-extra.tar.gz" dest="target/archi-extra.tar.gz"/-->
+        <get src="file:///${user.home}/Downloads/archi-extra.tar.gz" dest="target/archi-extra.tar.gz"/>
+        <gunzip src="target/archi-extra.tar.gz"/>
+        <untar src="target/archi-extra.tar" dest="target"/> <!--/archi-extras-->
+    </target>
+
 	<!-- Make Windows folder for Installer -->
 	<target name="make_win_folder">
-        <property name="output_win.dir"         location="${output.dir}/win32.win32.x86"/>
+        <property name="output_win.dir"         location="${output.dir}/win32/win32/x86/Archi"/>
 	
         <delete dir="${tmp.dir}"/>
         <mkdir dir="${tmp.dir}"/>
@@ -62,8 +70,8 @@
 	
 	<!-- Make Windows zip -->
     <target name="make_win_zip">
-	    <property name="output_win32.dir"       location="${output.dir}/win32.win32.x86"/>
-	    <property name="output_win64.dir"       location="${output.dir}/win32.win32.x86_64"/>
+	    <property name="output_win32.dir"       location="${output.dir}/win32/win32/x86/Archi"/>
+	    <property name="output_win64.dir"       location="${output.dir}/win32/win32/x86_64/Archi"/>
 	    <property name="win.zip"                location="${output.dir}/${app.name}-win32_64-${version}.zip"/>
 	    
         <delete dir="${tmp.dir}"/>
@@ -118,23 +126,17 @@
 		<property name="mac.launcher"           value="${mac.launcher.dir}/${app.name}"/>
 		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>
 	
-		<!-- 32-bit Mac version -->
-    	<antcall target="make_mac">
-    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac32-${version}.zip"/>
-        	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86"/>
-    	</antcall>
-
    		<!-- 64-bit Mac version -->
     	<antcall target="make_mac">
         	<param name="mac.zip"      		value="${output.dir}/${app.name}-mac64-${version}.zip"/>
-        	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86_64"/>
+        	<param name="output_mac.dir"  	value="${output.dir}/macosx/cocoa/x86_64/Archi"/>
     	</antcall>
 
 		<!-- Bundled JRE 64-bit Mac version -->
 		<property name="mac64-full.zip"   value="${output.dir}/${app.name}-mac64-full-${version}.zip"/>
 		<copy file="${output.dir}/${app.name}-mac64-${version}.zip" tofile="${mac64-full.zip}" overwrite="true"/>
 		<zip destfile="${mac64-full.zip}" update="true">
-			<zipfileset src="${jre.mac64.zip}" prefix="${folder.name}/${mac.app}"/>
+			<fileset dir="${jre.mac64.dir}"/>
 		</zip>
 
     </target>
@@ -188,8 +190,8 @@
 
 	<!-- Make Linux zip -->
     <target name="make_lnx_zip">
-	    <property name="output_lnx32.dir"       location="${output.dir}/linux.gtk.x86"/>
-	    <property name="output_lnx64.dir"       location="${output.dir}/linux.gtk.x86_64"/>
+	    <property name="output_lnx32.dir"       location="${output.dir}/linux/gtk/x86/Archi"/>
+	    <property name="output_lnx64.dir"       location="${output.dir}/linux/gtk/x86_64/Archi"/>
 	    <property name="lnx.tar"                location="${output.dir}/${app.name}-lnx32_64-${version}.tar"/>
 
 	    <delete dir="${tmp.dir}"/>
@@ -233,8 +235,7 @@
 			<tarfileset dir="${output.dir}" mode="755" username="archimate" group="archimate">
 				<include name="${folder.name}/${app.name}32"/>
 				<include name="${folder.name}/${app.name}64"/>
-				<include name="${folder.name}/Archi32-Ubuntu.sh"/>
-				<include name="${folder.name}/Archi64-Ubuntu.sh"/>
+				<include name="${folder.name}/Archi-Ubuntu.sh"/>
 			</tarfileset>
 		    
 			<!-- Add to tar all other files without the executable permission excluding those above -->
@@ -242,8 +243,7 @@
 				<include name="${folder.name}/"/>
 				<exclude name="${folder.name}/${app.name}32"/>
 				<exclude name="${folder.name}/${app.name}64"/>
-				<exclude name="${folder.name}/Archi32-Ubuntu.sh"/>
-				<exclude name="${folder.name}/Archi64-Ubuntu.sh"/>
+				<exclude name="${folder.name}/Archi-Ubuntu.sh"/>
 			</tarfileset>
 		</tar>
 

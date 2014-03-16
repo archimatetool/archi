@@ -135,8 +135,10 @@ public class CopySnapshotTests {
         selectedObjects.addAll(sourceDiagramModel.getChildren());
         
         CopySnapshot snapshot = new CopySnapshot(selectedObjects);
+        assertNotNull(snapshot);
         
         IDiagramModelEditor editor = EditorManager.openDiagramEditor(targetDiagramModel);
+        assertNotNull(editor);
         
         // Should be null
         Command cmd = snapshot.getPasteCommand(null, null, null);

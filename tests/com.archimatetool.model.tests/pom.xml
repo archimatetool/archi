@@ -1,0 +1,65 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>com.archimatetool</groupId>
+    <artifactId>parent</artifactId>
+    <relativePath>../..</relativePath>
+    <version>2.7.1.qualifier</version>
+  </parent>
+ 
+  <artifactId>com.archimatetool.model.tests</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+  <version>1.0.0</version>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <useUIHarness>false</useUIHarness>
+          <useUIThread>false</useUIThread>
+          <testClass>com.archimatetool.model.AllTests</testClass>
+          <testSuite>com.archimatetool.model.tests</testSuite>
+          <dependencies>
+            <dependency>
+              <type>eclipse-plugin</type>
+                <artifactId>org.junit</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.testsupport</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+            <dependency>
+              <type>eclipse-plugin</type>
+              <artifactId>com.archimatetool.model</artifactId>
+              <version>0.0.0</version>
+            </dependency>
+          </dependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>no-unit-tests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+
+

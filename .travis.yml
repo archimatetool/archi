@@ -1,0 +1,18 @@
+language: java
+before_install:
+  - export version=$(grep version pom.xml |head -1|sed 's/.*<version>//;s/<.*//')
+  - echo $version >VERSION
+  - wget  http://download.opensuse.org/repositories/openSUSE:Tools/xUbuntu_13.10/Release.key
+  - sudo apt-key add Release.key 
+  - sudo apt-add-repository "deb http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_13.10/ /"
+  - sudo apt-get update -qq
+  - sudo apt-get install libwebkitgtk-1.0-0 osc devscripts wine debhelper
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - mkdir ~/Downloads
+  - wget -O ~/Downloads/archi-extra.tar.gz http://magwas.rulez.org/archi-extra.tar.gz
+script: git clone https://github.com/magwas/zorp.git -b identity ../identity && ../identity/sendToOBS
+env:
+  global:
+    secure: bQ9qCG/0Q0Cmkm5RAofvxj3yz8t0Lhg9CmP1jKN/BoCSsGrJwt7iqNZaSqGpgoRGfVxyfiNc4dZSU+vvr5iXuwewEWaI347gGiCJvjQA2I/rGGfohqIFfMAsyBOaNlntO+hS6Q3zuIHa2gA/cminDRzDghLm/Q/aUB2Dz7s7BHk=
+

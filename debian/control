@@ -1,0 +1,14 @@
+Source: archi
+Section: graphics
+Priority: extra
+Maintainer: Árpád Magosányi <mag@balabit.hu>
+Build-Depends: debhelper (>= 8.0.0), maven (>=3), openjdk-6-jdk
+Standards-Version: 3.9.4
+Homepage: http://archimatetool.com/
+
+Package: archi
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libwebkitgtk-1.0-0
+Description: metamodel-aware architecture modeling tool
+ Archi is a free, open source, cross-platform tool and editor
+

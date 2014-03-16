@@ -1,0 +1,15 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>com.archimatetool</groupId>
+    <artifactId>parent</artifactId>
+    <relativePath>../..</relativePath>
+    <version>2.7.1.qualifier</version>
+  </parent>
+ 
+  <artifactId>com.archimatetool.testsupport</artifactId>
+    <version>1.0.0</version>
+  <packaging>eclipse-plugin</packaging>
+ 
+</project>

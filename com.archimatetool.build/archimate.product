@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="2.7.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="Archi" uid="Archi" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="2.7.0.qualifier" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.archimatetool.editor/img/about.png"/>
@@ -19,15 +19,17 @@
 
    <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png" i64="/com.archimatetool.editor/img/app-64.png" i128="/com.archimatetool.editor/img/app-128.png"/>
 
+
    <launcher name="Archi">
-      <linux icon="/com.archimatetool.build/branding/linux/icon.xpm"/>
-      <macosx icon="/com.archimatetool.build/branding/mac/icon.icns"/>
+      <linux icon="branding/linux/icon.xpm"/>
+      <macosx icon="branding/mac/icon.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/com.archimatetool.build/branding/windows/icon.ico"/>
+         <ico path="branding/windows/icon.ico"/>
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
@@ -36,8 +38,8 @@
       <plugin id="com.archimatetool.canvas"/>
       <plugin id="com.archimatetool.csv"/>
       <plugin id="com.archimatetool.editor"/>
-      <plugin id="com.archimatetool.editor.fullscreen.macos" fragment="true"/>
-      <plugin id="com.archimatetool.editor.launch.win32" fragment="true"/>
+      <plugin id="com.archimatetool.editor.fullscreen.macos" fragment="true" os="macosx" ws="cocoa" arch="x86_64"/>
+      <plugin id="com.archimatetool.editor.launch.win32" fragment="true" os="win32" ws="win32" arch="x86"/>
       <plugin id="com.archimatetool.export.svg"/>
       <plugin id="com.archimatetool.help"/>
       <plugin id="com.archimatetool.jasperreports"/>
@@ -95,21 +97,11 @@
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.cocoa.macosx" fragment="true"/>
-      <plugin id="org.eclipse.swt.cocoa.macosx.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.aix.ppc" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.aix.ppc64" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.hpux.ia64_32" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.ppc" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.ppc64" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.s390" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.s390x" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.solaris.sparc" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.solaris.x86" fragment="true"/>
-      <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true"/>
-      <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.cocoa.macosx.x86_64" fragment="true" os="macosx" ws="cocoa" arch="x86_64"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true" os="linux" ws="gtk" arch="x86"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true" os="linux" ws="gtk" arch="x86_64"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true" os="win32" ws="win32" arch="x86"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true" os="win32" ws="win32" arch="x86_64"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.cheatsheets"/>
       <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
