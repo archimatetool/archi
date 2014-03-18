@@ -24,7 +24,7 @@
 	<key>CFBundleExecutable</key>
 	<string>launcher/Archi</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Archi 2.7.0</string>
+	<string>Archi 2.7.1</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -36,11 +36,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.7.0</string>
+	<string>2.7.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.7.0</string>
+	<string>2.7.1</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleLocalizations</key>
