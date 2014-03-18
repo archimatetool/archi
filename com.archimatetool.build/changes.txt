@@ -1,6 +1,11 @@
 Archi Changes
 -------------
 
+Version 2.7.1 March 18 2014
+---------------------------
+* Fix SVG export not encoded using UTF-8
+
+
 
 Version 2.7 March 11 2014
 -------------------------

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %productName
 Bundle-SymbolicName: com.archimatetool.help;singleton:=true
-Bundle-Version: 2.7.0.qualifier
+Bundle-Version: 2.7.1.qualifier
 Bundle-Activator: com.archimatetool.help.ArchimateEditorHelpPlugin
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin

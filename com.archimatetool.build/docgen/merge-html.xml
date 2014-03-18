@@ -15,7 +15,7 @@
 		<property name="src.dir" location="../../com.archimatetool.help/help"/>
 		
 		<!-- EDIT THIS VERSION NUMBER!!! -->
-		<property name="archi.version" value="2.7.0"/>
+		<property name="archi.version" value="2.7.1"/>
 	</target>
 	
 	<target name="copy_files">
