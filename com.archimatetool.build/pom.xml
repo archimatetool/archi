@@ -50,7 +50,7 @@
                    <phase>install</phase>
                    <configuration>
                      <tasks>
-                       <ant antfile="archimate-makeinstallers.xml">
+                       <ant antfile="archimate-makeinstallers-mvn.xml">
                        </ant>
                     </tasks>
                  </configuration>
@@ -76,7 +76,7 @@
           <executable>wine</executable>
           <arguments>
             <argument>target/archi-extras/Innosetup/ISCC.exe</argument>
-            <argument>windows-installer.iss</argument>
+            <argument>windows-installer-mvn.iss</argument>
           </arguments>
         </configuration>
       </plugin>
