@@ -7,7 +7,9 @@ package com.archimatetool.export.svg;
 
 import java.awt.Graphics2D;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
@@ -82,12 +84,12 @@ public class SVGExportProvider implements IImageExportProvider {
         }
         
         // Save the root element
-        FileWriter fw = new FileWriter(file);
-        svgGenerator.stream(root, fw);
+        Writer out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
+        svgGenerator.stream(root, out);
         
         // Close
         graphicsAdaptor.dispose();
-        fw.close();
+        out.close();
         
         // Save Preferences
         savePreferences();
