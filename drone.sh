@@ -27,6 +27,6 @@ ps ax |grep Xvfb|egrep -v "grep|sudo"|awk '{print $1}' |xargs sudo kill
 ps afx
 date
 mkdir -p target/upload
-mv com.archimatetool.build/target/products/Archi-*.zip target/upload
+mv com.archimatetool.build/target/products/Archi/Archi-* target/upload
 scp -r target/upload/* $1/$DEPLOYMENT
 date

@@ -1,0 +1,13 @@
+The Continous Integration build is done with drone.io
+To set up automatic build for each commits to your github repo, do the following:
+
+- have a place where you can push files using scp. I am using sourceforge's frs for this.
+- create two directories there, named "stable" and "unstable"
+- create you drone.io account with github login if you did not already done so
+- in drone.io push New project, choose github, and select your archi repository
+- in project settings push deployments/add new deployment/ssh/show deployment key
+- ake your scp account accessible using the deployment key. You don't actually have to set up ssh deployment in drone.io.
+- in the build setup, call the ./drone.sh script with the uri of your scp account. For example I have this there:
+  ./drone.sh "magwas,archistyledhtml@frs.sourceforge.net:/home/pfs/project/archici"
+
+the output of build from the master branch will be put to "stable", from any other branch to "unstable"
