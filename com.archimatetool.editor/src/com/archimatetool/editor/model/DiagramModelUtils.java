@@ -127,11 +127,7 @@ public class DiagramModelUtils {
      */
     public static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElement(IDiagramModelContainer parent, IArchimateElement element) {
         List<IDiagramModelArchimateObject> list = new ArrayList<IDiagramModelArchimateObject>();
-        __findDiagramModelObjectsForElement(list, parent, element);
-        return list;
-    }
-    
-    private static void __findDiagramModelObjectsForElement(List<IDiagramModelArchimateObject> list, IDiagramModelContainer parent, IArchimateElement element) {
+        
         for(IDiagramModelObject object : parent.getChildren()) {
             if(object instanceof IDiagramModelArchimateObject) {
                 if(((IDiagramModelArchimateObject)object).getArchimateElement() == element && !list.contains(object)) {
@@ -139,9 +135,11 @@ public class DiagramModelUtils {
                 }
             }
             if(object instanceof IDiagramModelContainer) {
-                __findDiagramModelObjectsForElement(list, (IDiagramModelContainer)object, element);
+                list.addAll(findDiagramModelObjectsForElement((IDiagramModelContainer)object, element));
             }
         }
+        
+        return list;
     }
 
     /**
@@ -153,11 +151,7 @@ public class DiagramModelUtils {
      */
     public static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelation(IDiagramModelContainer parent, IRelationship relationship) {
         List<IDiagramModelArchimateConnection> list = new ArrayList<IDiagramModelArchimateConnection>();
-        __findDiagramModelConnectionsForRelation(list, parent, relationship);
-        return list;
-    }
 
-    private static void __findDiagramModelConnectionsForRelation(List<IDiagramModelArchimateConnection> list, IDiagramModelContainer parent, IRelationship relationship) {
         for(IDiagramModelObject object : parent.getChildren()) {
             for(IDiagramModelConnection connection : object.getSourceConnections()) {
                 if(connection instanceof IDiagramModelArchimateConnection &&
@@ -167,24 +161,22 @@ public class DiagramModelUtils {
                 }
             }
             if(object instanceof IDiagramModelContainer) {
-                __findDiagramModelConnectionsForRelation(list, (IDiagramModelContainer)object, relationship);
+                list.addAll(findDiagramModelConnectionsForRelation((IDiagramModelContainer)object, relationship));
             }
         }
+        
+        return list;
     }
 
     /**
      * Find any references to other Diagram Models
-     * @param parent The Diagram Model to search
+     * @param parent The Diagram Model Container in which to search, usually a IDiagramModel
      * @param diagramModel The Diagram Model to look for references
      * @return
      */
-    public static List<IDiagramModelReference> findDiagramModelReferences(IDiagramModel parent, IDiagramModel diagramModel) {
+    public static List<IDiagramModelReference> findDiagramModelReferences(IDiagramModelContainer parent, IDiagramModel diagramModel) {
         List<IDiagramModelReference> list = new ArrayList<IDiagramModelReference>();
-        __findDiagramModelReferences(list, parent, diagramModel);
-        return list;
-    }
-    
-    private static void __findDiagramModelReferences(List<IDiagramModelReference> list, IDiagramModelContainer parent, IDiagramModel diagramModel) {
+        
         for(IDiagramModelObject object : parent.getChildren()) {
             if(object instanceof IDiagramModelReference) {
                 if(((IDiagramModelReference)object).getReferencedModel() == diagramModel) {
@@ -192,9 +184,11 @@ public class DiagramModelUtils {
                 }
             }
             if(object instanceof IDiagramModelContainer) {
-                __findDiagramModelReferences(list, (IDiagramModelContainer)object, diagramModel);
+                list.addAll(findDiagramModelReferences((IDiagramModelContainer)object, diagramModel));
             }
         }
+        
+        return list;
     }
     
     /**
