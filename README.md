@@ -23,3 +23,7 @@ All developer resources are here:
 
 [http://www.archimatetool.com/developer](http://www.archimatetool.com/developer)
 
+
+## Contributing code to Archi
+
+Please see [How can I contribute code to Archi](https://github.com/Phillipus/archi/wiki/How-can-I-contribute-code-to-Archi)
