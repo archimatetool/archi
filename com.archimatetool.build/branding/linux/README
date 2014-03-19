@@ -4,9 +4,8 @@ Archi for Linux README
 * If the menu bar bar is not visible on Ubuntu, launch with the following set:
     export UBUNTU_MENUPROXY=0
   
-  Or use one the shell scripts (ensure file is executable):
-    Archi32-Ubuntu.sh
-    Archi64-Ubuntu.sh
+  Or use the shell script (ensure file is executable):
+    Archi-Ubuntu.sh
 
 * If the Hints Window does not display correctly install xulrunner-1.9.2 or libwebkitgtk-1.0.0:
     sudo apt-get install xulrunner-1.9.2
