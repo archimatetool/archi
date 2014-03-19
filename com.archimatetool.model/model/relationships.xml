@@ -7,7 +7,7 @@
 			<target element="BusinessRole" relations="fiotu" />
 			<target element="BusinessCollaboration" relations="fiotu" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fiotu" />
+			<target element="BusinessInterface" relations="cfiotu" />
 			<target element="BusinessProcess" relations="fiotu" />
 			<target element="BusinessFunction" relations="fiotu" />
 			<target element="BusinessInteraction" relations="cfiotu" />
