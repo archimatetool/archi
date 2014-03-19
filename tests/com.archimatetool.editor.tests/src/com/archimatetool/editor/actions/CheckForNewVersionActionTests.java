@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.actions;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -54,6 +54,7 @@ public class CheckForNewVersionActionTests {
     public void testNewVersionIsGreater() {
         String newVersion = "10.1.1";
         String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
+        assertNotNull(thisVersion);
         assertEquals(1, StringUtils.compareVersionNumbers(newVersion, thisVersion));
     }
     
