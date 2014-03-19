@@ -54,16 +54,7 @@
       </tr>
     </table>
     
-    <p>These structural relationships form an important category of relationships to describe coherence. They are listed here in ascending order by "strength": "Association" is the weakest structural relationship and "Composition" is the strongest. Part of the language definition is an abstraction rule that states that two relationships that join at an intermediate element can be combined and replaced by the weaker of the two.</p>
-    
-    <p>&nbsp;</p>
-    
-    <h2>In Practice</h2>
-    
-    <p>With this rule, it is possible to determine the indirect, or  "derived" relationships that exist between model elements without a direct  relationship, which may be useful for, among other things, impact analysis. An  example is shown below. Assume that we would like to know what the impact on  the Client is if the CRM system fails. In this case, an indirect "used by"  relationship (the thick arrow on the left) can be derived from this system to  the Claim Registration Service (from the chain assignment -&gt; used by -&gt; realization -&gt; used by -&gt; realisation). No indirect (structural) relationship is  drawn between the CRM system and the Claims Payment Service.</p>
-    
-    <img src="../Images/derived_example.png"/>
-    <p class="caption">Example of a Derived Relationship</p>
+    <p>These structural relationships form an important category of relationships to describe coherence. They are listed here in ascending order by "strength": "Association" is the weakest structural relationship and "Composition" is the strongest.</p>
     
     <p>&nbsp;</p>
     
@@ -71,7 +62,21 @@
     
     <p>If structural relationships exist in the ArchiMate model  these chains of relationships can be highlighted in red in the selected View. This option is available from the "Derived Relations -&gt; Show Structural Chains" menu  item from the main "View" menu or by right-clicking in a View. This option is a toggle and can be turned on and off for each separate View. If no structural chains of relationships exist in the model or if no structural connections have  been added to the View then nothing is highlighted in red.</p>
     
-    <p class="boxout"><img src="../Images/tip.png" class="tipImage" />Note - the structural chains are calculated <em>from the relationships in the model</em>. Thus, it is possible that the relationships that are actually shown in a View  are a sub-set of those in the model.</p>
+    <p class="boxout"><img src="../Images/tip.png" class="tipImage" />Note - only structural chains with at least two relations are shown, and all structural chains are shown at the same time. There is currently no way to inspect only the structural chains related to a specific element in a view.
+    <br/>
+	The structural chains are calculated <em>from the relationships in the model</em>. It is possible that not all of the relationships between elements are have been included in the current View, and therefore not all structural chains will be shown.
+	</p>
+    
+    <p>&nbsp;</p>
+    
+    <h2>In Practice</h2>
+    
+    <p>Part of the language definition is an abstraction rule that states that two relationships that join at an intermediate element can be combined and replaced by the weaker of the two.</p>
+
+    <p>With this rule, it is possible to determine the indirect, or  "derived" relationships that exist between model elements without a direct  relationship, which may be useful for, among other things, impact analysis. An  example is shown below. Assume that we would like to know what the impact on  the Client is if the CRM system fails. In this case, an indirect "used by"  relationship (the thick arrow on the left) can be derived from this system to  the Claim Registration Service (from the chain assignment -&gt; used by -&gt; realization -&gt; used by -&gt; realisation). No indirect (structural) relationship is  drawn between the CRM system and the Claims Payment Service.</p>
+    
+    <img src="../Images/derived_example.png"/>
+    <p class="caption">Example of a Derived Relationship</p>
     
     <p>&nbsp;</p>
     
