@@ -41,13 +41,9 @@ import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
  * 
  * @author Phillip Beauvoir
  */
-public class SVGExportProvider implements IImageExportProvider {
+public class SVGExportProvider implements IImageExportProvider, IPreferenceConstants {
     
     public static final String SVG_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.svg.imageExporter"; //$NON-NLS-1$
-    
-    final static String PREFS_EMBED_FONTS = "embedFonts"; //$NON-NLS-1$
-    final static String PREFS_VIEWBOX = "viewBox"; //$NON-NLS-1$
-    final static String PREFS_VIEWBOX_ENABLED = "viewBoxEnabled"; //$NON-NLS-1$
     
     protected Button fEmbedFontsButton;
     protected Button fSetViewboxButton;
@@ -237,16 +233,12 @@ public class SVGExportProvider implements IImageExportProvider {
     protected void loadPreferences() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
-        // Defaults
-        store.setDefault(PREFS_EMBED_FONTS, true);
-        store.setDefault(PREFS_VIEWBOX_ENABLED, true);
-        
         // Embed fonts
-        boolean selected = store.getBoolean(PREFS_EMBED_FONTS);
+        boolean selected = store.getBoolean(SVG_EXPORT_PREFS_EMBED_FONTS);
         fEmbedFontsButton.setSelection(selected);
         
         // Viewbox button selected
-        selected = store.getBoolean(PREFS_VIEWBOX_ENABLED);
+        selected = store.getBoolean(SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
         fSetViewboxButton.setSelection(selected);
         updateControls();
         
@@ -254,7 +246,7 @@ public class SVGExportProvider implements IImageExportProvider {
         int min_y = 0;
         
         // Value of viewBox
-        String s = store.getString(PREFS_VIEWBOX);
+        String s = store.getString(SVG_EXPORT_PREFS_VIEWBOX);
         if(s != null) {
             String[] parts = s.split(" "); //$NON-NLS-1$
             if(parts.length >= 2) {
@@ -279,16 +271,16 @@ public class SVGExportProvider implements IImageExportProvider {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
         // Embed fonts
-        store.setValue(PREFS_EMBED_FONTS, fEmbedFontsButton.getSelection());
+        store.setValue(SVG_EXPORT_PREFS_EMBED_FONTS, fEmbedFontsButton.getSelection());
         
         // Viewbox button selected
-        store.setValue(PREFS_VIEWBOX_ENABLED, fSetViewboxButton.getSelection());
+        store.setValue(SVG_EXPORT_PREFS_VIEWBOX_ENABLED, fSetViewboxButton.getSelection());
         
         int min_x = fSpinner1.getSelection();
         int min_y = fSpinner2.getSelection();
         
         String s = min_x + " " + min_y;  //$NON-NLS-1$
-        store.setValue(PREFS_VIEWBOX, s);
+        store.setValue(SVG_EXPORT_PREFS_VIEWBOX, s);
     }
     
 }
