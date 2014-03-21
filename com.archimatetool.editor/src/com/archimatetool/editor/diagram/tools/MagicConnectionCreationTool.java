@@ -33,6 +33,7 @@ import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
 import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
+import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy.CreateArchimateConnectionCommand;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -78,6 +79,14 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
        setDisabledCursor(cursor);
     }
     
+    /**
+     * When this is called, a CreateConnectionRequest will already have been created.
+     * This CreateConnectionRequest will be passed to the ArchimateDiagramConnectionPolicy.
+     * ArchimateDiagramConnectionPolicy will, in turn, create a CreateArchimateConnectionCommand.
+     * 
+     * So, at this point, we already have the source and target edit parts and model objects set in a Command.
+     * If we want to change this at all we will have to kludge it.
+     */
     @Override
     protected boolean handleCreateConnection() {
         // Clear the connection factory first
@@ -170,6 +179,13 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         if(getFactory().getObjectType() == null) {
             getFactory().clear();
             return false;
+        }
+        
+        // If user selected a reverse connection from target to source then swap the source/target in the Command
+        // (Yes, I know this is kludgey, but you try and disentangle GEF's Request/Policy/Factory/Command dance...)
+        if(getFactory().swapSourceAndTarget()) {
+            CreateArchimateConnectionCommand cmd = (CreateArchimateConnectionCommand)getCurrentCommand();
+            cmd.swapSourceAndTargetElements();
         }
         
         executeCurrentCommand();
@@ -273,7 +289,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     private void addConnectionActions(Menu menu, IDiagramModelArchimateObject sourceDiagramModelObject) {
         for(EClass relationshipType : ArchimateModelUtils.getRelationsClasses()) {
             if(ArchimateModelUtils.isValidRelationshipStart(sourceDiagramModelObject.getArchimateElement(), relationshipType)) {
-                MenuItem item = addConnectionAction(menu, relationshipType);
+                MenuItem item = addConnectionAction(menu, relationshipType, false);
                 Menu subMenu = new Menu(item);
                 item.setMenu(subMenu);
                 
@@ -397,7 +413,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             item.setMenu(subMenu);
             for(EClass typeRel : ArchimateModelUtils.getRelationsClasses()) {
                 if(ArchimateModelUtils.isValidRelationship(sourceElement.eClass(), type, typeRel)) {
-                    addConnectionAction(subMenu, typeRel);
+                    addConnectionAction(subMenu, typeRel, false);
                 }
             }
             if(subMenu.getItemCount() == 0) {
@@ -432,15 +448,29 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         return item;
     }
 
+    /**
+     * Add Connection Actions going in both directions
+     */
     private void addConnectionActions(Menu menu, IArchimateElement sourceElement, IArchimateElement targetElement) {
+        // Add forward direction connections
         for(EClass type : ArchimateModelUtils.getValidRelationships(sourceElement, targetElement)) {
-            addConnectionAction(menu, type);
+            addConnectionAction(menu, type, false);
+        }
+        
+        new MenuItem(menu, SWT.SEPARATOR);
+        
+        // Add reverse direction connections
+        for(EClass type : ArchimateModelUtils.getValidRelationships(targetElement, sourceElement)) {
+            addConnectionAction(menu, type, true);
         }
     }
     
-    private MenuItem addConnectionAction(Menu menu, final EClass relationshipType) {
+    /**
+     * Add a Connection Action with a relationship type
+     */
+    private MenuItem addConnectionAction(Menu menu, final EClass relationshipType, final boolean reverseDirection) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(ArchimateLabelProvider.INSTANCE.getDefaultName(relationshipType));
+        item.setText(ArchimateLabelProvider.INSTANCE.getRelationshipPhrase(relationshipType, reverseDirection));
         item.setImage(ArchimateLabelProvider.INSTANCE.getImage(relationshipType));
         
         // Add hover listener to notify Hints View
@@ -458,6 +488,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 getFactory().setRelationshipType(relationshipType);
+                getFactory().setSwapSourceAndTarget(reverseDirection);
             }
         });
         
