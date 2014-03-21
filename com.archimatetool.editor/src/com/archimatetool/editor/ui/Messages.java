@@ -23,9 +23,53 @@ public class Messages extends NLS {
 
     public static String ArchimateLabelProvider_13;
 
+    public static String ArchimateLabelProvider_14;
+
+    public static String ArchimateLabelProvider_15;
+
+    public static String ArchimateLabelProvider_16;
+
+    public static String ArchimateLabelProvider_17;
+
+    public static String ArchimateLabelProvider_18;
+
+    public static String ArchimateLabelProvider_19;
+
     public static String ArchimateLabelProvider_2;
 
+    public static String ArchimateLabelProvider_20;
+
+    public static String ArchimateLabelProvider_21;
+
+    public static String ArchimateLabelProvider_22;
+
+    public static String ArchimateLabelProvider_23;
+
+    public static String ArchimateLabelProvider_24;
+
+    public static String ArchimateLabelProvider_25;
+
+    public static String ArchimateLabelProvider_26;
+
+    public static String ArchimateLabelProvider_27;
+
+    public static String ArchimateLabelProvider_28;
+
+    public static String ArchimateLabelProvider_29;
+
     public static String ArchimateLabelProvider_3;
+
+    public static String ArchimateLabelProvider_30;
+
+    public static String ArchimateLabelProvider_31;
+
+    public static String ArchimateLabelProvider_32;
+
+    public static String ArchimateLabelProvider_33;
+
+    public static String ArchimateLabelProvider_34;
+
+    public static String ArchimateLabelProvider_35;
 
     public static String ArchimateLabelProvider_4;
 

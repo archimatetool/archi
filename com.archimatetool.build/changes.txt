@@ -1,6 +1,13 @@
 Archi Changes
 -------------
 
+Version 2.x 
+---------------------------
++ The Magic Connector can now create connections in both directions (source->target and target->source)
++ The Magic Connector's menu items are now written as verbs (e.g. "Realised by")
+
+
+
 Version 2.7.1 March 18 2014
 ---------------------------
 * Fix SVG export not encoded using UTF-8

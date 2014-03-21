@@ -16,6 +16,7 @@ import com.archimatetool.editor.diagram.ICreationFactory;
 
 /**
  * Diagram Model Factory for creating objects from the Palette in the Diagram Editor
+ * This class alos acts as a placeholder for other useful information when creating a connection
  * 
  * @author Phillip Beauvoir
  */
@@ -23,6 +24,8 @@ public class MagicConnectionModelFactory implements ICreationFactory {
     
     private EClass fRelationshipTemplate;
     private EClass fElementTemplate;
+    
+    private boolean fSwapSourceAndTarget;
     
     public boolean isUsedFor(IEditorPart editor) {
         return editor instanceof IArchimateDiagramEditor;
@@ -55,5 +58,20 @@ public class MagicConnectionModelFactory implements ICreationFactory {
     public void clear() {
         fRelationshipTemplate = null;
         fElementTemplate = null;
+    }
+    
+    /**
+     * @return True if we should swap the source and target elements when creating a connection
+     */
+    public boolean swapSourceAndTarget() {
+        return fSwapSourceAndTarget;
+    }
+    
+    /**
+     * Set whether we should swap the source and target elements when creating a connection
+     * @param set If true then we should swap the source and target elements when creating a connection
+     */
+    public void setSwapSourceAndTarget(boolean set) {
+        fSwapSourceAndTarget = set;
     }
 }

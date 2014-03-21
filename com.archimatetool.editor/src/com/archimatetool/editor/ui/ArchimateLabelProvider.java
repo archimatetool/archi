@@ -198,7 +198,7 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
 
     /**
      * @param relation
-     * @return A sentence that describes the relationship between the relationship's source and target elements
+     * @return A sentence that describes the relationship between the relation's source and target elements
      */
     public String getRelationshipSentence(IRelationship relation) {
         if(relation != null) {
@@ -249,4 +249,48 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         return ""; //$NON-NLS-1$
     }
 
+    /**
+     * @param eClass The Relationship class
+     * @param reverseDirection If this is true then the phrase is from target to source
+     * @return A phrase that describes the relationship, for example "Is Realised by", "Flows to"
+     */
+    public String getRelationshipPhrase(EClass eClass, boolean reverseDirection) {
+        switch(eClass.getClassifierID()) {
+            case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_14 : Messages.ArchimateLabelProvider_15;
+
+            case IArchimatePackage.COMPOSITION_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_16 : Messages.ArchimateLabelProvider_17;
+
+            case IArchimatePackage.AGGREGATION_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_18 : Messages.ArchimateLabelProvider_19;
+
+            case IArchimatePackage.TRIGGERING_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_20 : Messages.ArchimateLabelProvider_21;
+
+            case IArchimatePackage.FLOW_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_22 : Messages.ArchimateLabelProvider_23;
+
+            case IArchimatePackage.ACCESS_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_24 : Messages.ArchimateLabelProvider_25;
+
+            case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_26 : Messages.ArchimateLabelProvider_27;
+
+            case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_28 : Messages.ArchimateLabelProvider_29;
+
+            case IArchimatePackage.REALISATION_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_30 : Messages.ArchimateLabelProvider_31;
+
+            case IArchimatePackage.USED_BY_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_32 : Messages.ArchimateLabelProvider_33;
+
+            case IArchimatePackage.INFLUENCE_RELATIONSHIP:
+                return reverseDirection ? Messages.ArchimateLabelProvider_34 : Messages.ArchimateLabelProvider_35;
+
+            default:
+                return ""; //$NON-NLS-1$
+        }
+    }
 }

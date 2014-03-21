@@ -56,7 +56,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         
         // Archimate Model Object Source
         else if(source instanceof IDiagramModelArchimateObject) {
-            if(isValidConnectionSource((IDiagramModelArchimateObject)source, classType)) {
+            if(isValidConnectionSource(((IDiagramModelArchimateObject)source).getArchimateElement(), classType)) {
                 cmd = new CreateArchimateConnectionCommand(request);
             }
         }
@@ -194,7 +194,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     /*
      * Command to create a line connection for notes
      */
-    private class CreateLineConnectionCommand extends CreateDiagramConnectionCommand {
+    static class CreateLineConnectionCommand extends CreateDiagramConnectionCommand {
         public CreateLineConnectionCommand(CreateConnectionRequest request) {
             super(request);
         }
@@ -213,7 +213,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
      * Command to create an Archimate type connection.
      * Will also add and remove the associated Archimate Relationship to the model
      */
-    private class CreateArchimateConnectionCommand extends CreateLineConnectionCommand {
+    public static class CreateArchimateConnectionCommand extends CreateLineConnectionCommand {
         // Flag to mark whether a new relationship was created or whether we re-used an existing one
         private boolean useExistingRelation;
         
@@ -228,7 +228,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)fTarget;
             
             // If there is already a relation of this type in the model...
-            IRelationship relation = getExistingRelationshipOfType(classType, source, target);
+            IRelationship relation = getExistingRelationshipOfType(classType, source.getArchimateElement(), target.getArchimateElement());
             if(relation != null) {
                 // ...then ask the user if they want to re-use it
                 useExistingRelation = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
@@ -270,12 +270,21 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
                 ((IDiagramModelArchimateConnection)fConnection).removeRelationshipFromModel();
             }
         }
+
+        /**
+         * Swap Source and Target Elements
+         */
+        public void swapSourceAndTargetElements() {
+            IDiagramModelObject tmp = fSource;
+            fSource = fTarget;
+            fTarget = tmp;
+        }
     }
     
     /*
      * Command to reconnect a connection
      */
-    private class ReconnectConnectionCommand extends ReconnectDiagramConnectionCommand {
+    static class ReconnectConnectionCommand extends ReconnectDiagramConnectionCommand {
         public ReconnectConnectionCommand(IDiagramModelConnection connection) {
             super(connection);
         }
@@ -315,15 +324,15 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     // ==================================================================================================
     
     /**
-     * @return True if valid connection source for connection type
+     * @return True if valid source for Archimate connection type
      */
-    private boolean isValidConnectionSource(IDiagramModelArchimateObject source, EClass relationshipType) {
+    static boolean isValidConnectionSource(IArchimateElement element, EClass relationshipType) {
         // Special case if relationshipType == null. Means that the Magic connector is being used
         if(relationshipType == null) {
             return true;
         }
 
-        return ArchimateModelUtils.isValidRelationshipStart(source.getArchimateElement(), relationshipType);
+        return ArchimateModelUtils.isValidRelationshipStart(element, relationshipType);
     }
     
     /**
@@ -332,7 +341,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
      * @param relationshipType
      * @return True if valid connection source/target for connection type
      */
-    private boolean isValidConnection(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
+    static boolean isValidConnection(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
         // Diagram Connection from/to notes/groups/diagram refs
         if(relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
             if(source == target) {
@@ -368,13 +377,13 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
     }
     
     /**
-     * See if there is an existing relationship of the proposed type between source and target diagram objects.
+     * See if there is an existing relationship of the proposed type between source and target elements.
      * If there is, we can offer to re-use it instead of creating a new one.
      * @return an existing relationship or null
      */
-    private IRelationship getExistingRelationshipOfType(EClass classType, IDiagramModelArchimateObject source, IDiagramModelArchimateObject target) {
-        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(source.getArchimateElement())) {
-            if(relation.eClass().equals(classType) && relation.getTarget() == target.getArchimateElement()) {
+    static IRelationship getExistingRelationshipOfType(EClass classType, IArchimateElement source, IArchimateElement target) {
+        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(source)) {
+            if(relation.eClass().equals(classType) && relation.getTarget() == target) {
                 return relation;
             }
         }
