@@ -281,7 +281,7 @@ public class TreeModelViewerDragDropHandlerTests {
         assertEquals(target, dragHandler.getTargetParent(event));
         
         // Anything else is not OK
-        target = IArchimateFactory.eINSTANCE.createBusinessActivity();
+        target = IArchimateFactory.eINSTANCE.createBusinessActor();
         event = createMockDropTargetEvent(target);
         assertNull(dragHandler.getTargetParent(event));
         

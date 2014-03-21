@@ -67,6 +67,7 @@ public interface IArchimateFactory extends EFactory {
      * <!-- end-user-doc -->
      * @return a new object of class '<em>Business Activity</em>'.
      * @generated
+     * @deprecated As of ArchiMate version 2.1
      */
     IBusinessActivity createBusinessActivity();
 
