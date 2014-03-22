@@ -53,6 +53,7 @@ public class CheckForNewVersionActionTests {
     @Test
     public void testNewVersionIsGreater() {
         String newVersion = "10.1.1";
+        System.setProperty(Application.APPLICATION_VERSIONID, "2.7.1");
         String thisVersion = System.getProperty(Application.APPLICATION_VERSIONID);
         assertNotNull(thisVersion);
         assertEquals(1, StringUtils.compareVersionNumbers(newVersion, thisVersion));

@@ -43,6 +43,10 @@ public class EditorManager {
      * @param editorID
      */
     public static IEditorPart openEditor(IEditorInput input, String editorID) {
+        if(!PlatformUI.isWorkbenchRunning()) {
+            return null;
+        }
+        
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         try {
             return page.openEditor(input, editorID);
@@ -59,7 +63,7 @@ public class EditorManager {
      * @param name
      */
     public static IDiagramModelEditor openDiagramEditor(IDiagramModel model) {
-        if(model == null || model.eContainer() == null) {
+        if(model == null || model.eContainer() == null || !PlatformUI.isWorkbenchRunning()) {
             return null;
         }
         
@@ -97,7 +101,7 @@ public class EditorManager {
      * @param model
      */
     public static void closeDiagramEditor(IDiagramModel diagramModel) {
-        if(diagramModel == null) {
+        if(diagramModel == null || !PlatformUI.isWorkbenchRunning()) {
             return;
         }
         
@@ -120,7 +124,7 @@ public class EditorManager {
      * @param model
      */
     public static void closeDiagramEditors(IArchimateModel model) {
-        if(model == null) {
+        if(model == null || !PlatformUI.isWorkbenchRunning()) {
             return;
         }
         
