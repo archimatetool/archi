@@ -82,24 +82,28 @@ public class ExtendedConnectionBendpointTracker extends ConnectionBendpointTrack
         return ((Dimension)getCurrentViewer().getProperty(SnapToGrid.PROPERTY_GRID_SPACING)).width;
     }
     
-	/**
-	 * @see org.eclipse.gef.tools.SimpleDragTracker#updateSourceRequest()
-	 */
 	@Override
     protected void updateSourceRequest() {
-		BendpointRequest request = (BendpointRequest) getSourceRequest();
-		
         // snap-to-grid patch
-		Point p = getLocation();
+		Point pt = getLocation();
 		
 		// Check whether snap enabled and whether user is holding down modifier key
         if(isSnapToGridEnabled() && !getCurrentInput().isModKeyDown(MODIFIER_NO_SNAPPING)) {
-            int gs = getSnapGridSize();
-        	p.setX((p.x/gs) * gs);
-            p.setY((p.y/gs) * gs);
+            setNearestSnapPoint(pt, getSnapGridSize());
         }
         
-        request.setLocation(p);
+        BendpointRequest request = (BendpointRequest) getSourceRequest();
+        request.setLocation(pt);
 	}
-
+	
+	/**
+	 * Set the snap point according to grid size
+	 * @param pt
+	 * @param gridSize
+	 */
+	protected Point setNearestSnapPoint(Point pt, int gridSize) {
+	    pt.setX(Math.round((float)pt.x / gridSize) * gridSize);
+        pt.setY(Math.round((float)pt.y / gridSize) * gridSize);
+        return pt;
+	}
 }
