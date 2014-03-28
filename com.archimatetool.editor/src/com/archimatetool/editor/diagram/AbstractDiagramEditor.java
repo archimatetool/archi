@@ -72,6 +72,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
@@ -108,6 +109,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.views.tree.actions.ReplaceAction;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
@@ -542,6 +544,14 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
+        // Direct Edit replace
+        // mbd : This is where the actions are created, when the "something" is constructed.        
+        // mbd: Replace - this is pretty much magic to me, and most likely broken. 
+        action = new ReplaceAction( viewer );
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        // getUpdateCommandStackActions().add((UpdateAction)action);
+                
         // Change the Delete Action label
         action = registry.getAction(ActionFactory.DELETE.getId());
         action.setText(Messages.AbstractDiagramEditor_2);

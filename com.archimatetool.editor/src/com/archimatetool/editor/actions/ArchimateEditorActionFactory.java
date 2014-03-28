@@ -82,6 +82,28 @@ public final class ArchimateEditorActionFactory {
     };
 
     /**
+     * Provide our own Replace Action in order to use a LabelRetargetAction and not have name of "Replace..."
+     */
+    public static final ActionFactory REPLACE = new ActionFactory("replace", //$NON-NLS-1$
+            IWorkbenchCommandConstants.EDIT_FIND_AND_REPLACE) {
+       
+        @Override
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            LabelRetargetAction action = new LabelRetargetAction(getId(), Messages.ArchimateEditorActionFactory_7);
+            action.setToolTipText(Messages.ArchimateEditorActionFactory_8);
+            window.getPartService().addPartListener(action);
+            // Todo: Key binding?
+            action.setId(getId());
+            // Todo: Key binding? action.setActionDefinitionId(getCommandId());
+            return action;
+        }
+    };
+
+    
+    /**
      * A Retargetable Action to Open a Diagram
      */
     public static final ActionFactory OPEN_DIAGRAM = new ActionFactory("open_diagram", //$NON-NLS-1$

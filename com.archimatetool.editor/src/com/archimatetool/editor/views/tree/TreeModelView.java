@@ -62,6 +62,7 @@ import com.archimatetool.editor.views.tree.actions.NewFolderAction;
 import com.archimatetool.editor.views.tree.actions.OpenDiagramAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.editor.views.tree.actions.RenameAction;
+import com.archimatetool.editor.views.tree.actions.ReplaceAction;
 import com.archimatetool.editor.views.tree.actions.SaveModelAction;
 import com.archimatetool.editor.views.tree.actions.TreeModelViewActionFactory;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
@@ -102,6 +103,7 @@ implements ITreeModelView, IUIRequestListener {
     private IViewerAction fActionCloseModel;
     private IViewerAction fActionDelete;
     private IViewerAction fActionRename;
+    private IViewerAction fActionReplace;
     private IViewerAction fActionOpenDiagram;
     private IViewerAction fActionNewFolder;
     private IViewerAction fActionDuplicate;
@@ -268,6 +270,8 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionRename = new RenameAction(getViewer());
         
+        fActionReplace = new ReplaceAction(getViewer());
+        
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
         fActionLinkToEditor = new LinkToEditorAction();
@@ -303,6 +307,7 @@ implements ITreeModelView, IUIRequestListener {
         actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), fActionDelete);
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
         actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
+        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.REPLACE.getId(), fActionReplace);
         actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.DUPLICATE.getId(), fActionDuplicate);
     }
     
@@ -380,6 +385,7 @@ implements ITreeModelView, IUIRequestListener {
             manager.add(new Separator());
             manager.add(fActionDelete);
             manager.add(fActionRename);
+            manager.add(fActionReplace);
             manager.add(new Separator());
             if(DuplicateCommandHandler.canDuplicate(selection)) {
                 manager.add(fActionDuplicate);
@@ -403,6 +409,7 @@ implements ITreeModelView, IUIRequestListener {
         fActionDelete.update(selection);
         fActionDuplicate.update(selection);
         fActionRename.update(selection);
+        fActionReplace.update(selection);
         fActionProperties.update(selection);
         fActionNewFolder.update(selection);
         updateUndoActions();

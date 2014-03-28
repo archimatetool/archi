@@ -34,6 +34,8 @@ public class Messages extends NLS {
     public static String PropertiesAction_0;
 
     public static String RenameAction_0;
+    
+    public static String ReplaceAction_0;
 
     public static String SaveModelAction_0;
 
