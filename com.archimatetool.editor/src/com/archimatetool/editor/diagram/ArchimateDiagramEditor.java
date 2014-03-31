@@ -27,6 +27,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
+import com.archimatetool.editor.diagram.actions.ReplaceAction;
 import com.archimatetool.editor.diagram.actions.ShowStructuralChainsAction;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
@@ -228,6 +229,11 @@ implements IArchimateDiagramEditor {
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         
+        // Replace (find-replace in names)
+        action = new ReplaceAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+                
         // Viewpoints
         for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
             action = new ViewpointAction(this, viewPoint);

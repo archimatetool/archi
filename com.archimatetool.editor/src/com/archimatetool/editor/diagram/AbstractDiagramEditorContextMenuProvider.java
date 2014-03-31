@@ -98,13 +98,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         action = actionRegistry.getAction(ActionFactory.RENAME.getId());
         menu.appendToGroup(GROUP_RENAME, action);
-        
-        // mbd - This is pretty much magic to me, and broken Replace 
-        // This inserts an extra entry in the popup menu of a view/diagram.
-        // However, an action must be registered before the popup is populated.
-        action = actionRegistry.getAction(ArchimateEditorActionFactory.REPLACE.getId());
-        menu.appendToGroup(GROUP_RENAME, action);
-        
+                
         // Select Element in Tree
         menu.appendToGroup(GROUP_RENAME, new Separator());
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
