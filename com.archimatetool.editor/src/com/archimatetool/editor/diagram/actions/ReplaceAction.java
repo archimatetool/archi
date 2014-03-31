@@ -11,7 +11,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -65,7 +66,7 @@ public class ReplaceAction extends SelectionAction {
 
 		// If, however, the list of selected items contains at least on
 		// Archimate Object or Connection, we can rename those.
-		// TODO: We may need to restrict this?
+		// TODO: We may need to restrict this to something else?
 		for (Object object : list) {
 			if (object instanceof EditPart) {
 				Object model = ((EditPart) object).getModel();
@@ -86,22 +87,26 @@ public class ReplaceAction extends SelectionAction {
 		// and execute a compound command to execute them
 		List<?> selection = getSelectedObjects();
 
-		// TODO: Ask for input and output
-		MessageDialog.openQuestion(Display.getDefault().getActiveShell(),
-				"Tickles", "Tickles!");
-		// TODO: Modelled after the FontColorAction - no idea if appropiate.
-		String from = "from";
-		String to = "to";
+		// Ask for input and output
+		String from = "fromValue";
+		String to = "toValue";
 
-		// TODO: Check if dialog was OK.
-		if (true) {
-			execute(createCommand(selection, from, to));
+		// Ask for from and to values
+		InputDialog dlg = new InputDialog(
+				Display.getCurrent().getActiveShell(), "Search for",
+				"Enter string to search for in names", from, null);
+		if (dlg.open() != Window.OK) {
+			return;
 		}
-
-		// TODO: Actually do something...
-		// DuplicateCommandHandler cmdHandler = new
-		// DuplicateCommandHandler(selection.toArray());
-		// cmdHandler.duplicate();
+		from = dlg.getValue();
+		dlg = new InputDialog(
+				Display.getCurrent().getActiveShell(), "Replace with",
+				"Enter string to replace with in names", to, null);
+		if (dlg.open() != Window.OK) {
+			return;
+		}
+		to = dlg.getValue();
+		execute(createCommand(selection, from, to));
 	}
 
 	/**
