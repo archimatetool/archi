@@ -131,6 +131,8 @@ public class Messages extends NLS {
 
     public static String ReplaceAction_0;
 
+    public static String ReplaceAction_1;
+
     public static String SelectAllAction_0;
 
     public static String SelectAllAction_1;
