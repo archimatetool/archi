@@ -1,0 +1,457 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
+package com.archimatetool.csv.export;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+
+import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.INameable;
+import com.archimatetool.model.IProperty;
+import com.archimatetool.model.IRelationship;
+
+
+
+/**
+ * CSV Exporter
+ * 
+ * @author Phillip Beauvoir
+ */
+@SuppressWarnings("nls")
+public class CSVExporter {
+    
+    static final String ARCHIMATE_MODEL_TYPE = "ArchimateModel";
+    
+    static final String[] MODEL_ELEMENTS_HEADER = {
+        "ID", "Type", "Name", "Documentation"
+    };
+
+    static final String[] RELATIONSHIPS_HEADER = {
+        "ID", "Type", "Name", "Documentation", "Source", "Target"
+    };
+
+    static final String[] PROPERTIES_HEADER = {
+        "ID", "Key", "Value"
+    };
+    
+    static final String ELEMENTS_FILENAME = "elements";
+    static final String RELATIONS_FILENAME = "relations";
+    static final String PROPERTIES_FILENAME = "properties";
+    static final String FILE_EXTENSION = ".csv";
+    
+    static final String CRLF = "\r\n";
+    
+    // This eliminates the problem of Excel stripping leading zeros in IDs
+    static final String ID_PREFIX = "id-";
+    
+    static final char[] DELIMITERS = { ',', ';' };
+    static final String[] DELIMITER_NAMES = { "comma", "semicolon" };
+
+    private char fDelimiter = ',';
+    private String fFileSuffix = "";
+    
+    private boolean fStripNewLines = false;
+    
+    // See http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm#CSVAndExcel
+    private boolean fUseLeadingCharsHack = false;
+    
+    private IArchimateModel fModel;
+    
+    public CSVExporter(IArchimateModel model) {
+        fModel = model;
+    }
+    
+    void export(File folder) throws IOException {
+        writeModelAndElements(new File(folder, createElementsFileName()));
+        writeRelationships(new File(folder, createRelationsFileName()));
+        writeProperties(new File(folder, createPropertiesFileName()));
+    }
+    
+    /**
+     * Set the dslimiter character.
+     * Default is the comma ","
+     * @param delimiter
+     */
+    void setDelimiter(char delimiter) {
+        fDelimiter = delimiter;
+    }
+    
+    /**
+     * Set the suffix to use on file names. A null value is ignored.
+     * @param suffix
+     */
+    void setFileSuffix(String suffix) {
+        if(suffix != null) {
+            fFileSuffix = suffix;
+        }
+    }
+    
+    void setStripNewLines(boolean set) {
+        fStripNewLines = set;
+    }
+    
+    void setUseLeadingCharsHack(boolean set) {
+        fUseLeadingCharsHack = set;
+    }
+    
+    /**
+     * Write the Model and All Elements
+     */
+    private void writeModelAndElements(File file) throws IOException {
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
+        
+        // Write Header
+        String header = createHeader(MODEL_ELEMENTS_HEADER);
+        writer.write(header);
+        
+        // Write Model
+        String modelRow = createModelRow();
+        writer.write(modelRow);
+        
+        // Write Elements
+        writeElements(writer, fModel.getFolder(FolderType.BUSINESS));
+        writeElements(writer, fModel.getFolder(FolderType.APPLICATION));
+        writeElements(writer, fModel.getFolder(FolderType.TECHNOLOGY));
+        writeElements(writer, fModel.getFolder(FolderType.MOTIVATION));
+        writeElements(writer, fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
+        writeElements(writer, fModel.getFolder(FolderType.CONNECTORS));
+        
+        writer.close();
+    }
+    
+    /**
+     * Write All Relationships
+     */
+    private void writeRelationships(File file) throws IOException {
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
+        
+        // Write Header
+        String header = createHeader(RELATIONSHIPS_HEADER);
+        writer.write(header);
+        
+        // Write Relationships
+        writeRelations(writer, fModel.getFolder(FolderType.RELATIONS));
+        
+        writer.close();
+    }
+    
+    /**
+     * Write All Properties
+     */
+    private void writeProperties(File file) throws IOException {
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
+        
+        // Write Header
+        String header = createHeader(PROPERTIES_HEADER);
+        writer.write(header);
+        
+        // Write Model Properties
+        for(IProperty property : fModel.getProperties()) {
+            writer.write(createPropertyRow(fModel.getId(), property));
+        }
+        
+        // Write Element and Relationship Properties
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IArchimateElement) {
+                IArchimateElement element = (IArchimateElement)eObject;
+                for(IProperty property : element.getProperties()) {
+                    writer.write(createPropertyRow(element.getId(), property));
+                }
+            }
+        }
+        
+        writer.close();
+    }
+
+    /**
+     * Create a Header from given string elements
+     */
+    String createHeader(String[] elements) {
+        StringBuffer sb = new StringBuffer();
+        
+        for(int i = 0; i < elements.length; i++) {
+            String s = elements[i];
+            sb.append("\"");
+            sb.append(s);
+            sb.append("\"");
+            if(i < elements.length - 1) {
+                sb.append(fDelimiter);
+            }
+        }
+        
+        // Newline
+        sb.append(CRLF);
+        
+        return sb.toString();
+    }
+    
+    /**
+     * Create a String Row for the Archimate Model
+     */
+    String createModelRow() {
+        StringBuffer sb = new StringBuffer();
+        
+        String id = addIDPrefix(fModel.getId());
+        sb.append(surroundWithQuotes(id));
+        sb.append(fDelimiter);
+        
+        sb.append(surroundWithQuotes(ARCHIMATE_MODEL_TYPE));
+        sb.append(fDelimiter);
+        
+        String name = normalise(fModel.getName());
+        sb.append(surroundWithQuotes(name));
+        sb.append(fDelimiter);
+        
+        String purpose = normalise(fModel.getPurpose());
+        sb.append(surroundWithQuotes(purpose));
+        
+        // Newline
+        sb.append(CRLF);
+        
+        return sb.toString();
+    }
+
+    /**
+     * Create a String Row for an Element
+     */
+    String createElementRow(IArchimateElement element) {
+        StringBuffer sb = new StringBuffer();
+        
+        String id = addIDPrefix(element.getId());
+        sb.append(surroundWithQuotes(id));
+        sb.append(fDelimiter);
+        
+        sb.append(surroundWithQuotes(element.eClass().getName()));
+        sb.append(fDelimiter);
+        
+        String name = normalise(element.getName());
+        sb.append(surroundWithQuotes(name));
+        sb.append(fDelimiter);
+        
+        String documentation = normalise(element.getDocumentation());
+        sb.append(surroundWithQuotes(documentation));
+        
+        // Newline
+        sb.append(CRLF);
+        
+        return sb.toString();
+    }
+    
+    /**
+     * Create a String Row for a Relationship
+     */
+    String createRelationshipRow(IRelationship relationship) {
+        StringBuffer sb = new StringBuffer();
+        
+        String id = addIDPrefix(relationship.getId());
+        sb.append(surroundWithQuotes(id));
+        sb.append(fDelimiter);
+        
+        sb.append(surroundWithQuotes(relationship.eClass().getName()));
+        sb.append(fDelimiter);
+        
+        String name = normalise(relationship.getName());
+        sb.append(surroundWithQuotes(name));
+        sb.append(fDelimiter);
+        
+        String documentation = normalise(relationship.getDocumentation());
+        sb.append(surroundWithQuotes(documentation));
+        sb.append(fDelimiter);
+        
+        if(relationship.getSource() != null) {
+            String sourceID = addIDPrefix(relationship.getSource().getId());
+            sb.append(surroundWithQuotes(sourceID));
+        }
+        else {
+            sb.append("\"\"");
+        }
+        sb.append(fDelimiter);
+        
+        if(relationship.getTarget() != null) {
+            String targetID = addIDPrefix(relationship.getTarget().getId());
+            sb.append(surroundWithQuotes(targetID));
+        }
+        else {
+            sb.append("\"\"");
+        }
+        
+        // Newline
+        sb.append(CRLF);
+        
+        return sb.toString();
+    }
+
+    /**
+     * Create a String Row for a Property
+     */
+    String createPropertyRow(String elementID, IProperty property) {
+        StringBuffer sb = new StringBuffer();
+        
+        String id = addIDPrefix(elementID);
+        sb.append(surroundWithQuotes(id));
+        sb.append(fDelimiter);
+        
+        String key = normalise(property.getKey());
+        sb.append(surroundWithQuotes(key));
+        sb.append(fDelimiter);
+        
+        String value = normalise(property.getValue());
+        sb.append(surroundWithQuotes(value));
+        
+        // Newline
+        sb.append(CRLF);
+        
+        return sb.toString();
+    }
+
+    /**
+     * Write all elements in a given folder and its child folders to Writer
+     */
+    private void writeElements(Writer writer, IFolder folder) throws IOException {
+        if(folder == null) {
+            return;
+        }
+        
+        List<IArchimateElement> elements = getElements(folder);
+        sort(elements);
+        
+        for(IArchimateElement element : elements) {
+            writer.write(createElementRow(element));
+        }
+    }
+    
+    /**
+     * Write all relations in a given folder and its child folders to Writer
+     */
+    private void writeRelations(Writer writer, IFolder folder) throws IOException {
+        if(folder == null) {
+            return;
+        }
+        
+        List<IArchimateElement> elements = getElements(folder);
+        sort(elements);
+        
+        for(IArchimateElement element : elements) {
+            if(element instanceof IRelationship) {
+                writer.write(createRelationshipRow((IRelationship)element));
+            }
+        }
+    }
+
+    /**
+     * Return a normalised String.
+     * A Null string is returned as an empty string
+     * All types of CR and LF and TAB characters are converted to single spaces
+     */
+    String normalise(String s) {
+        if(s == null) {
+            return "";
+        }
+        
+        // Newlines (optional)
+        if(fStripNewLines) {
+            s = s.replaceAll("(\r\n|\r|\n)", " ");
+        }
+        
+        // Tabs become a space
+        s = s.replaceAll("\t", " ");
+        
+        // Single quotes become double quotes
+        s = s.replaceAll("\"", "\"\"");
+        
+        return s;
+    }
+    
+    String addIDPrefix(String id) {
+        return ID_PREFIX + id;
+    }
+    
+    String surroundWithQuotes(String s) {
+        if(needsLeadingCharHack(s)) {
+            return "\"=\"\"" + s + "\"\"\"";
+        }
+        return "\"" + s + "\"";
+    }
+    
+    boolean needsLeadingCharHack(String s) {
+        return s != null && fUseLeadingCharsHack && (s.startsWith(" ") || s.startsWith("0"));
+    }
+    
+    /**
+     * Return a list of all elements/relations in a given folder and its child folders
+     */
+    private List<IArchimateElement> getElements(IFolder folder) {
+        List<IArchimateElement> list = new ArrayList<IArchimateElement>();
+        
+        if(folder == null) {
+            return list;
+        }
+        
+        for(EObject object : folder.getElements()) {
+            if(object instanceof IArchimateElement) {
+                list.add((IArchimateElement)object);
+            }
+        }
+        
+        for(IFolder f : folder.getFolders()) {
+            list.addAll(getElements(f));
+        }
+        
+        return list;
+    }
+
+    /**
+     * Sort a list of ArchimateElement/Relationship types
+     * Sort by class name then element name
+     */
+    void sort(List<IArchimateElement> list) {
+        if(list == null || list.size() < 2) {
+            return;
+        }
+        
+        Collections.sort(list, new Comparator<IArchimateElement>() {
+            @Override
+            public int compare(IArchimateElement o1, IArchimateElement o2) {
+                if(o1.eClass().equals(o2.eClass())) {
+                    String name1 = StringUtils.safeString(((INameable)o1).getName()).toLowerCase().trim();
+                    String name2 = StringUtils.safeString(((INameable)o2).getName()).toLowerCase().trim();
+                    return name1.compareTo(name2);
+                }
+                
+                String name1 = o1.eClass().getName().toLowerCase();
+                String name2 = o2.eClass().getName().toLowerCase();
+                return name1.compareTo(name2);
+            }
+        });
+    }
+    
+    String createElementsFileName() {
+        return ELEMENTS_FILENAME + fFileSuffix + FILE_EXTENSION;
+    }
+    
+    String createRelationsFileName() {
+        return RELATIONS_FILENAME + fFileSuffix + FILE_EXTENSION;
+    }
+    
+    String createPropertiesFileName() {
+        return PROPERTIES_FILENAME + fFileSuffix + FILE_EXTENSION;
+    }
+}
