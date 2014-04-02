@@ -267,7 +267,7 @@ implements ITreeModelView, IUIRequestListener {
         fActionDelete = new DeleteAction(getViewer());
         
         fActionRename = new RenameAction(getViewer());
-        
+                
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
         fActionLinkToEditor = new LinkToEditorAction();

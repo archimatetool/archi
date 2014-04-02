@@ -14,6 +14,7 @@ import org.eclipse.jface.action.Separator;
 
 import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
+import com.archimatetool.editor.diagram.actions.ReplaceAction;
 import com.archimatetool.editor.diagram.actions.ShowStructuralChainsAction;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
@@ -52,6 +53,8 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         // Delete from Model
         menu.appendToGroup(GROUP_EDIT, new Separator());
         menu.appendToGroup(GROUP_EDIT, actionRegistry.getAction(DeleteFromModelAction.ID));
+        // Replace (find-replace in names)
+        menu.appendToGroup(GROUP_EDIT, actionRegistry.getAction(ReplaceAction.ID));
 
         // Viewpoints
         menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_VIEWPOINTS));

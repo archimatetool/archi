@@ -72,6 +72,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
@@ -541,7 +542,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
-        
+                        
         // Change the Delete Action label
         action = registry.getAction(ActionFactory.DELETE.getId());
         action.setText(Messages.AbstractDiagramEditor_2);

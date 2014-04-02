@@ -16,6 +16,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
@@ -97,7 +98,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         action = actionRegistry.getAction(ActionFactory.RENAME.getId());
         menu.appendToGroup(GROUP_RENAME, action);
-
+                
         // Select Element in Tree
         menu.appendToGroup(GROUP_RENAME, new Separator());
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));

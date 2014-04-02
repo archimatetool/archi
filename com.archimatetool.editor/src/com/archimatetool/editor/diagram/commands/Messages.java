@@ -57,6 +57,8 @@ public class Messages extends NLS {
 
     public static String ReconnectDiagramConnectionCommand_1;
 
+    public static String ReplaceCommand_0;
+    
     public static String SetConstraintObjectCommand_0;
 
     public static String TextAlignmentCommand_0;
