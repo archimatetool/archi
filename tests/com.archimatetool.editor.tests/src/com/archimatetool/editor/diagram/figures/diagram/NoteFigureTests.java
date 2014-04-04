@@ -16,7 +16,6 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.tests.AsyncTestRunner;
 
 
 @SuppressWarnings("nls")
@@ -35,7 +34,10 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         // Add a DiagramModelNote
         dmNote = IArchimateFactory.eINSTANCE.createDiagramModelNote();
         dmNote.setBounds(IArchimateFactory.eINSTANCE.createBounds());
+        dmNote.setContent("Note Test");
         dm.getChildren().add(dmNote);
+        
+        editor.layoutPendingUpdates();
         
         figure = (NoteFigure)editor.findFigure(dmNote);
         return figure;
@@ -54,14 +56,6 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     @Override
     @Test
     public void testDidClickTestControl() {
-        dmNote.setContent("Note Test");
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                assertTrue(abstractFigure.didClickTextControl(new Point(10, 10)));
-            }
-        };
-        runner.start();
+        assertTrue(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 }

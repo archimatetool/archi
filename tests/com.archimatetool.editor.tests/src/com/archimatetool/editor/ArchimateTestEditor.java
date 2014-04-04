@@ -24,6 +24,7 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class ArchimateTestEditor {
     
     private GraphicalViewer graphicalViewer;
@@ -53,6 +54,24 @@ public class ArchimateTestEditor {
     
     public GraphicalViewer getGraphicalViewer() {
         return graphicalViewer;
+    }
+    
+    /**
+     * Set the desired bounds of the Viewer *after* setting the model
+     */
+    public void setBounds(int x, int y, int width, int height) {
+        if(dm == null) {
+            throw new RuntimeException("Set bounds *after* calling setDiagramModel(IArchimateDiagramModel)");
+        }
+        
+        graphicalViewer.getControl().setBounds(x, y, width, height);
+    }
+    
+    /**
+     * Flush and lay out all pending updates to the Viewer
+     */
+    public void layoutPendingUpdates() {
+        graphicalViewer.flush();
     }
     
     /**

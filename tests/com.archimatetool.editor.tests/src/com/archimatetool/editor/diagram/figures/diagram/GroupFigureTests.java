@@ -19,7 +19,6 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.figures.AbstractLabelContainerFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelGroup;
-import com.archimatetool.tests.AsyncTestRunner;
 
 
 
@@ -41,8 +40,22 @@ public class GroupFigureTests extends AbstractLabelContainerFigureTests {
         dmGroup.setName("Group Test");
         dm.getChildren().add(dmGroup);
         
+        editor.layoutPendingUpdates();
+        
         figure = (GroupFigure)editor.findFigure(dmGroup);
         return figure;
+    }
+    
+    @Override
+    @Test
+    public void testTranslateMousePointToRelative() {
+        containerFigure.setLocation(new Point(100, 100));
+
+        Point pt = new Point(300, 400);
+        containerFigure.translateMousePointToRelative(pt);
+        
+        // Will be height minus TOPBAR_HEIGHT
+        assertEquals(new Point(200, 300 - GroupFigure.TOPBAR_HEIGHT), pt);
     }
     
     @Test
@@ -81,14 +94,7 @@ public class GroupFigureTests extends AbstractLabelContainerFigureTests {
     @Override
     @Test
     public void testDidClickTestControl() {
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                assertTrue(abstractFigure.didClickTextControl(new Point(6, 4)));
-            }
-        };
-        runner.start();
+        assertTrue(abstractFigure.didClickTextControl(new Point(6, 4)));
     }
 
 }
