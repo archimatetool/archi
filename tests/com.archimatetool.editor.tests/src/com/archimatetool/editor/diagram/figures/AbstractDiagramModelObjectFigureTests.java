@@ -50,7 +50,6 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         
         editor = new ArchimateTestEditor();
         editor.setDiagramModel(dm);
-        editor.setBounds(0, 0, 2000, 2000);
     }
 
     @Before
