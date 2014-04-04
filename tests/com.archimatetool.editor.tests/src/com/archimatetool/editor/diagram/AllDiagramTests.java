@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram;
 import junit.framework.TestSuite;
 
 import com.archimatetool.editor.diagram.actions.CopySnapshotTests;
+import com.archimatetool.editor.diagram.actions.SelectAllActionTests;
 import com.archimatetool.editor.diagram.figures.AllFiguresTests;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicyTests;
 import com.archimatetool.editor.diagram.policies.snaptogrid.ExtendedConnectionBendpointTrackerTests;
@@ -27,6 +28,7 @@ public class AllDiagramTests {
 
         // diagram.actions
         suite.addTest(CopySnapshotTests.suite());
+        suite.addTest(SelectAllActionTests.suite());
         
         // diagram.figures
         suite.addTest(AllFiguresTests.suite());
