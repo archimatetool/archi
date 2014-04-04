@@ -35,7 +35,7 @@ public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
         dm.getChildren().add(dmo);
         
-        figure = (JunctionFigure)editorHandler.findFigure(dmo);
+        figure = (JunctionFigure)editor.findFigure(dmo);
         return figure;
     }
     

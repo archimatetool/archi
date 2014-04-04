@@ -34,7 +34,7 @@ public class OrJunctionFigureTests extends AbstractDiagramModelObjectFigureTests
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createOrJunction());
         dm.getChildren().add(dmo);
         
-        figure = (OrJunctionFigure)editorHandler.findFigure(dmo);
+        figure = (OrJunctionFigure)editor.findFigure(dmo);
         return figure;
     }
     

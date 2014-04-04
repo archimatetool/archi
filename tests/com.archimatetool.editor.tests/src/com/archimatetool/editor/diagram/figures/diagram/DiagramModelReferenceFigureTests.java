@@ -12,6 +12,7 @@ import org.junit.Test;
 import junit.framework.JUnit4TestAdapter;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigureTests;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelReference;
 
@@ -31,12 +32,12 @@ public class DiagramModelReferenceFigureTests extends AbstractTextFlowFigureTest
     @Override
     protected DiagramModelReferenceFigure createFigure() {
         dmRef = IArchimateFactory.eINSTANCE.createDiagramModelReference();
-        dm = model.getDefaultDiagramModel();
+        dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
         dmRef.setReferencedModel(dm);
         dmRef.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dm.getChildren().add(dmRef);
         
-        figure = (DiagramModelReferenceFigure)editorHandler.findFigure(dmRef);
+        figure = (DiagramModelReferenceFigure)editor.findFigure(dmRef);
         return figure;
     }
     

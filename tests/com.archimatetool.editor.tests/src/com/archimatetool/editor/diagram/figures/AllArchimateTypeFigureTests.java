@@ -102,7 +102,7 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
         dmo.setName("Hello World!");
         dm.getChildren().add(dmo);
         
-        return (AbstractDiagramModelObjectFigure)editorHandler.findFigure(dmo);
+        return (AbstractDiagramModelObjectFigure)editor.findFigure(dmo);
     }
     
     @Override

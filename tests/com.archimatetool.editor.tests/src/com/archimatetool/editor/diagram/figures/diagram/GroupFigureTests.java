@@ -41,7 +41,7 @@ public class GroupFigureTests extends AbstractLabelContainerFigureTests {
         dmGroup.setName("Group Test");
         dm.getChildren().add(dmGroup);
         
-        figure = (GroupFigure)editorHandler.findFigure(dmGroup);
+        figure = (GroupFigure)editor.findFigure(dmGroup);
         return figure;
     }
     
