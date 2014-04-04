@@ -18,7 +18,7 @@ public interface IPreferenceConstants {
     
     String CSV_EXPORT_PREFS_SEPARATOR = "separator";
     String CSV_EXPORT_PREFS_LAST_FOLDER = "lastFolder";
-    String CSV_EXPORT_PREFS_FILE_SUFFIX = "fileSuffix";
+    String CSV_EXPORT_PREFS_FILE_PREFIX = "filePrefix";
     String CSV_EXPORT_PREFS_STRIP_NEW_LINES = "stripNewLines";
     String CSV_EXPORT_PREFS_LEADING_CHARS_HACK = "leadingCharsHack";
 }

@@ -61,11 +61,11 @@ public class CSVExporter {
     // This eliminates the problem of Excel stripping leading zeros in IDs
     static final String ID_PREFIX = "id-";
     
-    static final char[] DELIMITERS = { ',', ';' };
-    static final String[] DELIMITER_NAMES = { "comma", "semicolon" };
+    static final char[] DELIMITERS = { ',', ';', '\t' };
+    static final String[] DELIMITER_NAMES = { "comma", "semicolon", "tab" };
 
     private char fDelimiter = ',';
-    private String fFileSuffix = "";
+    private String fFilePrefix = "";
     
     private boolean fStripNewLines = false;
     
@@ -85,7 +85,7 @@ public class CSVExporter {
     }
     
     /**
-     * Set the dslimiter character.
+     * Set the delimiter character.
      * Default is the comma ","
      * @param delimiter
      */
@@ -94,12 +94,12 @@ public class CSVExporter {
     }
     
     /**
-     * Set the suffix to use on file names. A null value is ignored.
-     * @param suffix
+     * Set the prefix to use on file names. A null value is ignored.
+     * @param prefix
      */
-    void setFileSuffix(String suffix) {
-        if(suffix != null) {
-            fFileSuffix = suffix;
+    void setFilePrefix(String prefix) {
+        if(prefix != null) {
+            fFilePrefix = prefix;
         }
     }
     
@@ -444,14 +444,14 @@ public class CSVExporter {
     }
     
     String createElementsFileName() {
-        return ELEMENTS_FILENAME + fFileSuffix + FILE_EXTENSION;
+        return fFilePrefix + ELEMENTS_FILENAME + FILE_EXTENSION;
     }
     
     String createRelationsFileName() {
-        return RELATIONS_FILENAME + fFileSuffix + FILE_EXTENSION;
+        return fFilePrefix + RELATIONS_FILENAME + FILE_EXTENSION;
     }
     
     String createPropertiesFileName() {
-        return PROPERTIES_FILENAME + fFileSuffix + FILE_EXTENSION;
+        return fFilePrefix + PROPERTIES_FILENAME + FILE_EXTENSION;
     }
 }

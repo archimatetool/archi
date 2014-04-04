@@ -44,8 +44,8 @@ public class ExportAsCSVWizard extends Wizard {
             return false;
         }
         
-        // Set file suffix
-        fExporter.setFileSuffix(fPage.getFilenameSuffix());
+        // Set file prefix
+        fExporter.setFilePrefix(fPage.getFilenamePrefix());
         
         // Set delimiter
         fExporter.setDelimiter(CSVExporter.DELIMITERS[fPage.getDelimiterIndex()]);

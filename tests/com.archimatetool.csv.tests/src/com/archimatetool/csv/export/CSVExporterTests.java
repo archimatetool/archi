@@ -47,23 +47,22 @@ public class CSVExporterTests {
         String[] elements = { "One", "Two", "Three" };
         String expected = "\"One\",\"Two\",\"Three\"\r\n";
         assertEquals(expected, exporter.createHeader(elements));
-        
-        String[] elements2 = { "One", "Two" };
-        String expected2 = "\"One\",\"Two\"\r\n";
-        assertEquals(expected2, exporter.createHeader(elements2));
     }
 
     @Test
-    public void testCreateHeaderWithDelimiter() {
+    public void testCreateHeaderWithSemicolon() {
         exporter.setDelimiter(';');
-        
         String[] elements = { "One", "Two", "Three" };
         String expected = "\"One\";\"Two\";\"Three\"\r\n";
         assertEquals(expected, exporter.createHeader(elements));
-        
-        String[] elements2 = { "One", "Two" };
-        String expected2 = "\"One\";\"Two\"\r\n";
-        assertEquals(expected2, exporter.createHeader(elements2));
+    }
+
+    @Test
+    public void testCreateHeaderWithTab() {
+        exporter.setDelimiter('\t');
+        String[] elements = { "One", "Two", "Three" };
+        String expected = "\"One\"\t\"Two\"\t\"Three\"\r\n";
+        assertEquals(expected, exporter.createHeader(elements));
     }
 
     @Test
@@ -111,9 +110,15 @@ public class CSVExporterTests {
     }
     
     @Test
-    public void testCreateModelRowWithDelimiter() {
+    public void testCreateModelRowWithSemicolon() {
         exporter.setDelimiter(';');
         assertEquals("\"id-0a9d34ab\";\"ArchimateModel\";\"The Main Model\";\"This is the Documentation\"\r\n", exporter.createModelRow());
+    }
+    
+    @Test
+    public void testCreateModelRowWithTab() {
+        exporter.setDelimiter('\t');
+        assertEquals("\"id-0a9d34ab\"\t\"ArchimateModel\"\t\"The Main Model\"\t\"This is the Documentation\"\r\n", exporter.createModelRow());
     }
     
     @Test
@@ -208,22 +213,22 @@ public class CSVExporterTests {
     @Test
     public void testCreateElementsFileName() {
         assertEquals("elements.csv", exporter.createElementsFileName());
-        exporter.setFileSuffix("-12345");
-        assertEquals("elements-12345.csv", exporter.createElementsFileName());
+        exporter.setFilePrefix("12345-");
+        assertEquals("12345-elements.csv", exporter.createElementsFileName());
     }
     
     @Test
     public void testCreateRelationsFileName() {
         assertEquals("relations.csv", exporter.createRelationsFileName());
-        exporter.setFileSuffix("-12345");
-        assertEquals("relations-12345.csv", exporter.createRelationsFileName());
+        exporter.setFilePrefix("12345-");
+        assertEquals("12345-relations.csv", exporter.createRelationsFileName());
     }
 
     @Test
     public void testCreatePropertiesFileName() {
         assertEquals("properties.csv", exporter.createPropertiesFileName());
-        exporter.setFileSuffix("-12345");
-        assertEquals("properties-12345.csv", exporter.createPropertiesFileName());
+        exporter.setFilePrefix("12345-");
+        assertEquals("12345-properties.csv", exporter.createPropertiesFileName());
     }
 
 }
