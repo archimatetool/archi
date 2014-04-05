@@ -51,6 +51,9 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
         dm.getChildren().add(dmImage);
         
+        // Layout
+        editor.layoutPendingUpdates();
+
         figure = (DiagramImageFigure)editor.findFigure(dmImage);
         return figure;
     }

@@ -24,8 +24,6 @@ public class OrJunctionFigureTests extends AbstractDiagramModelObjectFigureTests
         return new JUnit4TestAdapter(OrJunctionFigureTests.class);
     }
     
-    protected OrJunctionFigure figure;
-
     @Override
     protected OrJunctionFigure createFigure() {
         // Add a DiagramModelObject
@@ -34,18 +32,20 @@ public class OrJunctionFigureTests extends AbstractDiagramModelObjectFigureTests
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createOrJunction());
         dm.getChildren().add(dmo);
         
-        figure = (OrJunctionFigure)editor.findFigure(dmo);
-        return figure;
+        // Layout
+        editor.layoutPendingUpdates();
+        
+        return (OrJunctionFigure)editor.findFigure(dmo);
     }
     
     @Test
     public void testGetTextControl() {
-        assertNull(figure.getTextControl());
+        assertNull(abstractFigure.getTextControl());
     }
 
     @Test
     public void testGetDefaultSize() {
-        assertEquals(OrJunctionFigure.SIZE, figure.getDefaultSize());
+        assertEquals(OrJunctionFigure.SIZE, abstractFigure.getDefaultSize());
     }
 
     @Override

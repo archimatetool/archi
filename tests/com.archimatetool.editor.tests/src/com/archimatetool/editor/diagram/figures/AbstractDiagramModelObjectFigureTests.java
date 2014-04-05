@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -57,6 +58,12 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         // Get the figure and its DiagramModelObject
         abstractFigure = createFigure();
         diagramModelObject = abstractFigure.getDiagramModelObject();
+    }
+
+    @Test
+    public void testGetBounds() {
+        assertEquals(new Rectangle(0, 0, abstractFigure.getDefaultSize().width, abstractFigure.getDefaultSize().height),
+                abstractFigure.getBounds());
     }
 
     @Test
