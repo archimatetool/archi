@@ -2,10 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: All Archi JUnit Tests and Utils
 Bundle-SymbolicName: com.archimatetool.tests
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: com.archimatetool.editor,
+Require-Bundle: com.archimatetool.csv,
+ com.archimatetool.editor,
  com.archimatetool.export.svg,
  com.archimatetool.jdom,
  com.archimatetool.model,

@@ -4,10 +4,16 @@
    <extension
          point="com.archimatetool.editor.exportHandler">
       <exportHandler
-            class="com.archimatetool.csv.CSVExporter"
+            class="com.archimatetool.csv.export.CSVExportProvider"
             id="com.archimatetool.csv.exportHandler"
             label="%exportLabel">
       </exportHandler>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.archimatetool.csv.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>
