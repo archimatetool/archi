@@ -10,7 +10,6 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
@@ -31,11 +30,6 @@ public class ArchimateTestEditor {
     private IArchimateDiagramModel dm;
     
     public ArchimateTestEditor() {
-        // Create a new display
-        if(Display.getCurrent() == null) {
-            new Display();
-        }
-        
         graphicalViewer = new ScrollingGraphicalViewer();
         graphicalViewer.createControl(new Shell());
         
