@@ -1,10 +1,14 @@
 Archi Changes
 -------------
 
-Version 2.x 
+Version 2.8
 ---------------------------
 + The Magic Connector can now create connections in both directions (source->target and target->source)
 + The Magic Connector's menu items are now written as verbs (e.g. "Realised by")
++ Export to CSV now exports three CSV files - elements, relations and proprties
+* The "Select All" action in Views now selects all elements and connections
+* Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
+* Connection bendpoints - snap to grid now snaps to nearest grid point
 
 
 
