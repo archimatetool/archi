@@ -196,7 +196,7 @@ implements IEditorModelManager {
     
     @Override
     public void openModel(IArchimateModel model) {
-        if(model == null) {
+        if(model == null || getModels().contains(model)) {
             return;
         }
         
