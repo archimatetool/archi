@@ -213,28 +213,30 @@ public class CSVImporter implements CSVConstants {
             throw new CSVParseException("No element records in file.");
         }
         
-        for(CSVRecord csvRecord : records) {
-            if(!isElementsRecordCorrectSize(csvRecord)) {
-                parser.close();
-                throw new CSVParseException("Incorrect record size");
-            }
-            
-            // Header
-            if(isHeaderRecord(csvRecord, MODEL_ELEMENTS_HEADER)) {
-                continue;
-            }
-            
-            // Model (this is optional)
-            if(isModelRecord(csvRecord)) {
-                parseModelRecord(csvRecord);
-            }
-            // Element
-            else {
-                createElementFromRecord(csvRecord);
+        try {
+            for(CSVRecord csvRecord : records) {
+                if(!isElementsRecordCorrectSize(csvRecord)) {
+                    throw new CSVParseException("Incorrect record size");
+                }
+                
+                // Header
+                if(isHeaderRecord(csvRecord, MODEL_ELEMENTS_HEADER)) {
+                    continue;
+                }
+                
+                // Model (this is optional)
+                if(isModelRecord(csvRecord)) {
+                    parseModelRecord(csvRecord);
+                }
+                // Element
+                else {
+                    createElementFromRecord(csvRecord);
+                }
             }
         }
-        
-        parser.close();
+        finally {
+            parser.close();
+        }
     }
     
     /**
@@ -312,23 +314,25 @@ public class CSVImporter implements CSVConstants {
 
         CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
         
-        for(CSVRecord csvRecord : parser.getRecords()) {
-            if(!isRelationsRecordCorrectSize(csvRecord)) {
-                parser.close();
-                throw new CSVParseException("Incorrect record size");
-            }
-            
-            // Header
-            if(isHeaderRecord(csvRecord, RELATIONSHIPS_HEADER)) {
-                continue;
-            }
-            // Relation
-            else {
-                createRelationFromRecord(csvRecord);
+        try {
+            for(CSVRecord csvRecord : parser.getRecords()) {
+                if(!isRelationsRecordCorrectSize(csvRecord)) {
+                    throw new CSVParseException("Incorrect record size");
+                }
+                
+                // Header
+                if(isHeaderRecord(csvRecord, RELATIONSHIPS_HEADER)) {
+                    continue;
+                }
+                // Relation
+                else {
+                    createRelationFromRecord(csvRecord);
+                }
             }
         }
-        
-        parser.close();
+        finally {
+            parser.close();
+        }
     }
     
     private boolean isRelationsRecordCorrectSize(CSVRecord csvRecord) {
@@ -400,23 +404,25 @@ public class CSVImporter implements CSVConstants {
 
         CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
         
-        for(CSVRecord csvRecord : parser.getRecords()) {
-            if(!isPropertiesRecordCorrectSize(csvRecord)) {
-                parser.close();
-                throw new CSVParseException("Incorrect record size");
-            }
-            
-            // Header
-            if(isHeaderRecord(csvRecord, PROPERTIES_HEADER)) {
-                continue;
-            }
-            // Property
-            else {
-                createPropertyFromRecord(csvRecord);
+        try {
+            for(CSVRecord csvRecord : parser.getRecords()) {
+                if(!isPropertiesRecordCorrectSize(csvRecord)) {
+                    throw new CSVParseException("Incorrect record size");
+                }
+                
+                // Header
+                if(isHeaderRecord(csvRecord, PROPERTIES_HEADER)) {
+                    continue;
+                }
+                // Property
+                else {
+                    createPropertyFromRecord(csvRecord);
+                }
             }
         }
-        
-        parser.close();
+        finally {
+            parser.close();
+        }
     }
     
     private boolean isPropertiesRecordCorrectSize(CSVRecord csvRecord) {
