@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
@@ -35,35 +36,8 @@ import com.archimatetool.model.IRelationship;
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("nls")
-public class CSVExporter {
+public class CSVExporter implements CSVConstants {
     
-    static final String ARCHIMATE_MODEL_TYPE = "ArchimateModel";
-    
-    static final String[] MODEL_ELEMENTS_HEADER = {
-        "ID", "Type", "Name", "Documentation"
-    };
-
-    static final String[] RELATIONSHIPS_HEADER = {
-        "ID", "Type", "Name", "Documentation", "Source", "Target"
-    };
-
-    static final String[] PROPERTIES_HEADER = {
-        "ID", "Key", "Value"
-    };
-    
-    static final String ELEMENTS_FILENAME = "elements";
-    static final String RELATIONS_FILENAME = "relations";
-    static final String PROPERTIES_FILENAME = "properties";
-    static final String FILE_EXTENSION = ".csv";
-    
-    static final String CRLF = "\r\n";
-    
-    // This eliminates the problem of Excel stripping leading zeros in IDs
-    static final String ID_PREFIX = "id-";
-    
-    static final char[] DELIMITERS = { ',', ';', '\t' };
-    static final String[] DELIMITER_NAMES = { "comma", "semicolon", "tab" };
-
     private char fDelimiter = ',';
     private String fFilePrefix = "";
     
@@ -209,7 +183,7 @@ public class CSVExporter {
     String createModelRow() {
         StringBuffer sb = new StringBuffer();
         
-        String id = addIDPrefix(fModel.getId());
+        String id = fModel.getId();
         sb.append(surroundWithQuotes(id));
         sb.append(fDelimiter);
         
@@ -235,7 +209,7 @@ public class CSVExporter {
     String createElementRow(IArchimateElement element) {
         StringBuffer sb = new StringBuffer();
         
-        String id = addIDPrefix(element.getId());
+        String id = element.getId();
         sb.append(surroundWithQuotes(id));
         sb.append(fDelimiter);
         
@@ -261,7 +235,7 @@ public class CSVExporter {
     String createRelationshipRow(IRelationship relationship) {
         StringBuffer sb = new StringBuffer();
         
-        String id = addIDPrefix(relationship.getId());
+        String id = relationship.getId();
         sb.append(surroundWithQuotes(id));
         sb.append(fDelimiter);
         
@@ -277,7 +251,7 @@ public class CSVExporter {
         sb.append(fDelimiter);
         
         if(relationship.getSource() != null) {
-            String sourceID = addIDPrefix(relationship.getSource().getId());
+            String sourceID = relationship.getSource().getId();
             sb.append(surroundWithQuotes(sourceID));
         }
         else {
@@ -286,7 +260,7 @@ public class CSVExporter {
         sb.append(fDelimiter);
         
         if(relationship.getTarget() != null) {
-            String targetID = addIDPrefix(relationship.getTarget().getId());
+            String targetID = relationship.getTarget().getId();
             sb.append(surroundWithQuotes(targetID));
         }
         else {
@@ -305,7 +279,7 @@ public class CSVExporter {
     String createPropertyRow(String elementID, IProperty property) {
         StringBuffer sb = new StringBuffer();
         
-        String id = addIDPrefix(elementID);
+        String id = elementID;
         sb.append(surroundWithQuotes(id));
         sb.append(fDelimiter);
         
@@ -378,10 +352,6 @@ public class CSVExporter {
         s = s.replaceAll("\"", "\"\"");
         
         return s;
-    }
-    
-    String addIDPrefix(String id) {
-        return ID_PREFIX + id;
     }
     
     String surroundWithQuotes(String s) {
