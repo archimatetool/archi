@@ -107,6 +107,7 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
     /**
      * Sets the value of the '{@link com.archimatetool.model.IDiagramModelConnection#getSource <em>Source</em>}' reference.
      * <!-- begin-user-doc -->
+     * Don't call this directly. Use connect() instead.
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Source</em>' reference.
      * @see #getSource()
@@ -133,6 +134,7 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
     /**
      * Sets the value of the '{@link com.archimatetool.model.IDiagramModelConnection#getTarget <em>Target</em>}' reference.
      * <!-- begin-user-doc -->
+     * Don't call this directly. Use connect() instead.
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Target</em>' reference.
      * @see #getTarget()

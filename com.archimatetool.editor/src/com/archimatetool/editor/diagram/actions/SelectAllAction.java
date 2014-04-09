@@ -5,9 +5,10 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
@@ -44,43 +45,40 @@ public class SelectAllAction extends Action {
     public void run() {
         GraphicalViewer viewer = (GraphicalViewer)part.getAdapter(GraphicalViewer.class);
         if(viewer != null) {
-            viewer.setSelection(new StructuredSelection(getSelectableEditParts(viewer).toArray()));
+            viewer.setSelection(new StructuredSelection(getSelectableEditParts(viewer.getContents()).toArray()));
         }
     }
 
     /**
      * Retrieves edit parts which can be selected and their connections
      * 
-     * @param viewer from which the edit parts are to be retrieved
+     * @param editpart from which the edit parts are to be retrieved
      * @return list of selectable EditParts
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private Set getSelectableEditParts(GraphicalViewer viewer) {
-        HashSet selectableChildren = new HashSet(); // No duplicates
+    List<GraphicalEditPart> getSelectableEditParts(EditPart editpart) {
+        List<GraphicalEditPart> selected = new ArrayList<GraphicalEditPart>();
         
-        for(Object child : viewer.getContents().getChildren()) {
+        for(Object child : editpart.getChildren()) {
             if(child instanceof GraphicalEditPart) {
                 GraphicalEditPart childPart = (GraphicalEditPart)child;
+                
                 if(childPart.isSelectable()) {
-                    selectableChildren.add(childPart);
-                    // Add connections if selectable
+                    selected.add(childPart);
+                    
+                    // Add connections if selectable (only need to get source connections, not target)
                     for(Object o : childPart.getSourceConnections()) {
                         GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
                         if(connectionEditPart.isSelectable()) {
-                            selectableChildren.add(connectionEditPart);
+                            selected.add(connectionEditPart);
                         }
                     }
-                    for(Object o : childPart.getTargetConnections()) {
-                        GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
-                        if(connectionEditPart.isSelectable()) {
-                            selectableChildren.add(connectionEditPart);
-                        }
-                    }
+                    
+                    // Recurse into children
+                    selected.addAll(getSelectableEditParts(childPart));
                 }
             }
         }
         
-        return selectableChildren;
+        return selected;
     }
-
 }

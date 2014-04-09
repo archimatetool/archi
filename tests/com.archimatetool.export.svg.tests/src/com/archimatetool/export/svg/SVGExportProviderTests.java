@@ -50,9 +50,9 @@ public class SVGExportProviderTests {
         
         // Set prefs to defaults
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
-        store.setValue(SVGExportProvider.PREFS_EMBED_FONTS, true);
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX_ENABLED, true);
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX, "");
+        store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS);
+        store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED);
+        store.setToDefault(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX);
         
         rootFigure = new FreeformLayer();
         rootFigure.setBounds(new Rectangle(0, 0, 500, 500));
@@ -133,6 +133,14 @@ public class SVGExportProviderTests {
     }
 
     @Test
+    public void testDefaultPreferences() {
+        IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
+        assertTrue(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS));
+        assertTrue(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
+        assertEquals("", store.getString(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX));
+    }
+
+    @Test
     public void testSavePreferences() {
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
 
@@ -146,19 +154,18 @@ public class SVGExportProviderTests {
 
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
         
-        assertFalse(store.getBoolean(SVGExportProvider.PREFS_EMBED_FONTS));
-        assertFalse(store.getBoolean(SVGExportProvider.PREFS_VIEWBOX_ENABLED));
-        assertEquals("1 2", store.getString(SVGExportProvider.PREFS_VIEWBOX));
+        assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS));
+        assertFalse(store.getBoolean(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED));
+        assertEquals("1 2", store.getString(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX));
     }
     
     @Test
     public void testPreferencesWereLoaded() {
         IPreferenceStore store = ExportSVGPlugin.getDefault().getPreferenceStore();
 
-        store.setValue(SVGExportProvider.PREFS_EMBED_FONTS, false);
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX_ENABLED, false);
-        
-        store.setValue(SVGExportProvider.PREFS_VIEWBOX, "5 6");
+        store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_EMBED_FONTS, false);
+        store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX_ENABLED, false);
+        store.setValue(IPreferenceConstants.SVG_EXPORT_PREFS_VIEWBOX, "5 6");
         
         provider.init(mock(IExportDialogAdapter.class), shell, rootFigure);
         

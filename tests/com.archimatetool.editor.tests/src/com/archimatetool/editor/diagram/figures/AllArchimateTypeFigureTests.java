@@ -25,7 +25,6 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.tests.AsyncTestRunner;
 
 @SuppressWarnings("nls")
 @RunWith(Parameterized.class)
@@ -102,22 +101,16 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
         dmo.setName("Hello World!");
         dm.getChildren().add(dmo);
         
-        return (AbstractDiagramModelObjectFigure)editorHandler.findFigure(dmo);
+        editor.layoutPendingUpdates();
+        
+        return (AbstractDiagramModelObjectFigure)editor.findFigure(dmo);
     }
     
     @Override
     @Test
     public void testDidClickTestControl() {
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                Rectangle bounds = abstractFigure.getTextControl().getBounds().getCopy();
-                abstractFigure.getTextControl().translateToAbsolute(bounds);
-                assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 3, bounds.y + 3)));
-            }
-        };
-        
-        runner.start();
+        Rectangle bounds = abstractFigure.getTextControl().getBounds().getCopy();
+        abstractFigure.getTextControl().translateToAbsolute(bounds);
+        assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 3, bounds.y + 3)));
     }
 }

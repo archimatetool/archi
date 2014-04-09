@@ -6,76 +6,41 @@
 package com.archimatetool.editor.diagram.policies.snaptogrid;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.gef.GraphicalViewer;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.eclipse.draw2d.geometry.Point;
+import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
-import com.archimatetool.editor.diagram.IDiagramModelEditor;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.services.EditorManager;
-import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.tests.TestUtils;
-
 public class ExtendedConnectionBendpointTrackerTests {
-    
-    private static ArchimateTestModel tm;
-    private static IArchimateModel model;
-    private static IDiagramModel dm;
-    private static GraphicalViewer viewer;
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ExtendedConnectionBendpointTrackerTests.class);
     }
     
-    @BeforeClass
-    public static void runOnceBeforeAllTests() {
-        tm = new ArchimateTestModel();
-        model = tm.createNewModel();
-        dm = model.getDefaultDiagramModel();
-        
-        IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
-        viewer = editor.getGraphicalViewer();
-    }
-
-    @AfterClass
-    public static void runOnceAfterAllTests() {
-        TestUtils.closeAllEditors();
-    }
-
-    // ---------------------------------------------------------------------------------------------
-    // Tests
-    // ---------------------------------------------------------------------------------------------
-
-    @Test
-    public void testIsSnapToGridEnabled() {
-        ExtendedConnectionBendpointTracker tracker = new ExtendedConnectionBendpointTracker();
-        tracker.setViewer(viewer);
-        
-        Preferences.STORE.setValue(IPreferenceConstants.GRID_SNAP, true);
-        assertTrue(tracker.isSnapToGridEnabled());
-        
-        Preferences.STORE.setValue(IPreferenceConstants.GRID_SNAP, false);
-        assertFalse(tracker.isSnapToGridEnabled());
-    }
-
-    @Test
-    public void testGetSnapGridSize() {
-        ExtendedConnectionBendpointTracker tracker = new ExtendedConnectionBendpointTracker();
-        tracker.setViewer(viewer);
-        
-        Preferences.STORE.setValue(IPreferenceConstants.GRID_SIZE, 12);
-        assertEquals(12, tracker.getSnapGridSize());
-        
-        Preferences.STORE.setValue(IPreferenceConstants.GRID_SIZE, 50);
-        assertEquals(50, tracker.getSnapGridSize());
+    private ExtendedConnectionBendpointTracker tracker;
+    
+    @Before
+    public void runOnceBeforeEachTest() {
+        tracker = new ExtendedConnectionBendpointTracker();
     }
     
+    @Test
+    public void testNearestSetSnapPoint() {
+        Point pt = new Point(101, 139);
+        tracker.setNearestSnapPoint(pt, 10);
+        assertEquals(new Point(100, 140), pt);
+        
+        pt = new Point(101, 139);
+        tracker.setNearestSnapPoint(pt, 12);
+        assertEquals(new Point(96, 144), pt);
+        
+        pt = new Point(101, 139);
+        tracker.setNearestSnapPoint(pt, 21);
+        assertEquals(new Point(105, 147), pt);
+        
+        pt = new Point(37, 56);
+        tracker.setNearestSnapPoint(pt, 9);
+        assertEquals(new Point(36, 54), pt);
+    }    
 }

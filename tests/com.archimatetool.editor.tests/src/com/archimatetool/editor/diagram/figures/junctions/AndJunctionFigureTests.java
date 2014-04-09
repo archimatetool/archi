@@ -31,16 +31,17 @@ public class AndJunctionFigureTests extends OrJunctionFigureTests {
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createAndJunction());
         dm.getChildren().add(dmo);
         
-        figure = (AndJunctionFigure)editorHandler.findFigure(dmo);
+        // Layout
+        editor.layoutPendingUpdates();
         
-        return (AndJunctionFigure)figure;
+        return (AndJunctionFigure)editor.findFigure(dmo);
     }
     
     @Override
     @Test
     public void testSetFillColor() {
         Color expected = new Color(null, 0, 0, 0);
-        assertEquals(expected, figure.getFillColor());
+        assertEquals(expected, abstractFigure.getFillColor());
         expected.dispose();
     }
 

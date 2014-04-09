@@ -7,6 +7,7 @@ package com.archimatetool.model.util;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,11 +102,11 @@ public class RelationshipsMatrix {
     }
     
     public Map<EClass, List<TargetMatrix>> getRelationshipsMatrix() {
-        return matrixMap;
+        return Collections.unmodifiableMap(matrixMap);
     }
     
     public Map<EClass, Character> getRelationshipsValueMap() {
-        return relationsValueMap;
+        return Collections.unmodifiableMap(relationsValueMap);
     }
 
     boolean isValidRelationshipStart(IArchimateElement sourceElement, EClass relationshipType) {

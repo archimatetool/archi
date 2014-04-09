@@ -233,8 +233,7 @@
 			<tarfileset dir="${output.dir}" mode="755" username="archimate" group="archimate">
 				<include name="${folder.name}/${app.name}32"/>
 				<include name="${folder.name}/${app.name}64"/>
-				<include name="${folder.name}/Archi32-Ubuntu.sh"/>
-				<include name="${folder.name}/Archi64-Ubuntu.sh"/>
+				<include name="${folder.name}/Archi-Ubuntu.sh"/>
 			</tarfileset>
 		    
 			<!-- Add to tar all other files without the executable permission excluding those above -->
@@ -242,8 +241,7 @@
 				<include name="${folder.name}/"/>
 				<exclude name="${folder.name}/${app.name}32"/>
 				<exclude name="${folder.name}/${app.name}64"/>
-				<exclude name="${folder.name}/Archi32-Ubuntu.sh"/>
-				<exclude name="${folder.name}/Archi64-Ubuntu.sh"/>
+				<exclude name="${folder.name}/Archi-Ubuntu.sh"/>
 			</tarfileset>
 		</tar>
 

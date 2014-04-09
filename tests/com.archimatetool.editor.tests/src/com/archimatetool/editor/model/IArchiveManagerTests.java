@@ -45,13 +45,13 @@ public class IArchiveManagerTests {
     }
     
     @Test
-    public void testFactory_createArchiveModelURI() throws Exception {
+    public void testFactory_createArchiveModelURI() {
         URI uri = URI.createURI("archive:file:///" + TestSupport.TEST_MODEL_FILE_ZIPPED.getPath() + "!/model.xml");
         assertEquals(uri, IArchiveManager.FACTORY.createArchiveModelURI(TestSupport.TEST_MODEL_FILE_ZIPPED));
     }
     
     @Test
-    public void testFactory_getArchiveFilePath() throws Exception {
+    public void testFactory_getArchiveFilePath() {
         assertEquals("archive:file:///" + TestSupport.TEST_MODEL_FILE_ZIPPED.getPath(), IArchiveManager.FACTORY.getArchiveFilePath(TestSupport.TEST_MODEL_FILE_ZIPPED));
     }
 }

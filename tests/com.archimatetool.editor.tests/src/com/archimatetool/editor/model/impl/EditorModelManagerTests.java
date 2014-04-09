@@ -18,7 +18,6 @@ import junit.framework.JUnit4TestAdapter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,11 +49,6 @@ public class EditorModelManagerTests {
         editorModelManager = new EditorModelManager();
     }
 
-    @AfterClass
-    public static void runOnceAfterAllTests() {
-        TestUtils.closeAllEditors();
-    }
-    
     // ---------------------------------------------------------------------------------------------
     // Tests
     // ---------------------------------------------------------------------------------------------
@@ -98,9 +92,17 @@ public class EditorModelManagerTests {
         IArchimateModel model = editorModelManager.openModel(file);
         assertNotNull(model);
         
+        // Is registered
+        assertEquals(1, editorModelManager.getModels().size());
+        assertTrue(editorModelManager.getModels().contains(model));
+        
         // Do it again, should be the same
         IArchimateModel model2 = editorModelManager.openModel(file);
         assertEquals(model2, model);
+
+        // Is not registered twice
+        editorModelManager.openModel(model);
+        assertEquals(1, editorModelManager.getModels().size());
     }
     
     @Test
@@ -119,6 +121,14 @@ public class EditorModelManagerTests {
         
         // Has an ECore Adapter
         assertTrue(hasECoreAdapter(model));
+        
+        // Is registered
+        assertEquals(1, editorModelManager.getModels().size());
+        assertTrue(editorModelManager.getModels().contains(model));
+        
+        // Is not registered twice
+        editorModelManager.openModel(model);
+        assertEquals(1, editorModelManager.getModels().size());
     }
 
     @Test
@@ -145,10 +155,18 @@ public class EditorModelManagerTests {
         
         // Has an ECore Adapter
         assertTrue(hasECoreAdapter(model));
-
+        
+        // Is registered
+        assertEquals(1, editorModelManager.getModels().size());
+        assertTrue(editorModelManager.getModels().contains(model));
+        
         // Do it again, should be the same
         IArchimateModel model2 = editorModelManager.loadModel(file);
         assertEquals(model2, model);
+
+        // Is not registered twice
+        editorModelManager.openModel(model);
+        assertEquals(1, editorModelManager.getModels().size());
     }
     
     @Test

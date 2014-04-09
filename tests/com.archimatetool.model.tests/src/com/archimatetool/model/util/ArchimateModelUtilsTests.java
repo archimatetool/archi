@@ -184,7 +184,7 @@ public class ArchimateModelUtilsTests {
         
         IArchimateElement newElement1 = IArchimateFactory.eINSTANCE.createApplicationFunction();
         model.getDefaultFolderForElement(newElement1).getElements().add(newElement1);
-        IArchimateElement newElement2 = IArchimateFactory.eINSTANCE.createBusinessActivity();
+        IArchimateElement newElement2 = IArchimateFactory.eINSTANCE.createBusinessActor();
         model.getDefaultFolderForElement(newElement2).getElements().add(newElement2);
         
         element = ArchimateModelUtils.getObjectByID(model, newElement1.getId());

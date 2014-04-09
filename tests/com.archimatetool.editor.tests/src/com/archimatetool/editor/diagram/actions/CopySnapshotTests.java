@@ -10,6 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,17 +18,15 @@ import java.util.List;
 
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.TestSupport;
-import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
-import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -38,7 +37,6 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")
 public class CopySnapshotTests {
@@ -63,11 +61,6 @@ public class CopySnapshotTests {
     @After
     public void runOnceAfterEachTest() {
         targetDiagramModel.getChildren().clear();
-    }
-
-    @AfterClass
-    public static void runOnceAfterAllTests() {
-        TestUtils.closeAllEditors();
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -135,15 +128,14 @@ public class CopySnapshotTests {
         selectedObjects.addAll(sourceDiagramModel.getChildren());
         
         CopySnapshot snapshot = new CopySnapshot(selectedObjects);
-        
-        IDiagramModelEditor editor = EditorManager.openDiagramEditor(targetDiagramModel);
+        assertNotNull(snapshot);
         
         // Should be null
         Command cmd = snapshot.getPasteCommand(null, null, null);
         assertNull(cmd);
 
         // Real one
-        cmd = snapshot.getPasteCommand(targetDiagramModel, editor.getGraphicalViewer(), null);
+        cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null);
         assertTrue(cmd.canExecute());
 
         cmd.execute();

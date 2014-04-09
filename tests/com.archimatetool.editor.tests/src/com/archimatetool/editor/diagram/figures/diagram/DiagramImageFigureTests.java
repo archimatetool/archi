@@ -7,26 +7,27 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.IOException;
 
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelImage;
-import com.archimatetool.tests.AsyncTestRunner;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -47,10 +48,13 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         // Add a DiagramModelImage
         dmImage = IArchimateFactory.eINSTANCE.createDiagramModelImage();
         dmImage.setBounds(IArchimateFactory.eINSTANCE.createBounds());
-        dm = model.getDefaultDiagramModel();
+        dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
         dm.getChildren().add(dmImage);
         
-        figure = (DiagramImageFigure)editorHandler.findFigure(dmImage);
+        // Layout
+        editor.layoutPendingUpdates();
+
+        figure = (DiagramImageFigure)editor.findFigure(dmImage);
         return figure;
     }
     
@@ -80,7 +84,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     }
     
     @Test
-    public void testDiagramImage() throws Exception {
+    public void testDiagramImageChangesSize() throws Exception {
         Image image = getPrivateImageField();
         assertNull(image);
         
@@ -100,21 +104,15 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         IBounds bounds = IArchimateFactory.eINSTANCE.createBounds(0, 0, 512, 512);
         dmImage.setBounds(bounds);
         
-        AsyncTestRunner runner = new AsyncTestRunner() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Image image = getPrivateImageField();
-                    assertEquals(new Rectangle(0, 0, 512, 512), image.getBounds());
-                }
-                catch(Exception ex) {
-                    Assert.fail(ex.getMessage());
-                }
-            }
-        };
+        // Layout
+        editor.layoutPendingUpdates();
         
-        runner.start();
+        // Force a mock repaint since we are not using a GUI
+        figure.paint(mock(Graphics.class));
+
+        // Test image was rescaled
+        image = getPrivateImageField();
+        assertEquals(new Rectangle(0, 0, 512, 512), image.getBounds());
     }
     
     @Test

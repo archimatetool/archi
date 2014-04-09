@@ -21,9 +21,9 @@ public class TestSupport {
     
     private static File testFolder;
     
-    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(getTestDataFolder(), "models/Archisurance.archimate"); //$NON-NLS-1$
-    public static File TEST_MODEL_FILE_1 = new File(getTestDataFolder(), "models/testmodel1.archimate"); //$NON-NLS-1$
-    public static File TEST_MODEL_FILE_ZIPPED = new File(getTestDataFolder(), "models/model_zipped.archimate"); //$NON-NLS-1$
+    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(getTestDataFolder(), "models/Archisurance.archimate");
+    public static File TEST_MODEL_FILE_1 = new File(getTestDataFolder(), "models/testmodel1.archimate");
+    public static File TEST_MODEL_FILE_ZIPPED = new File(getTestDataFolder(), "models/model_zipped.archimate");
 
     public static File getTestDataFolder() {
         if(testFolder == null) {
@@ -63,13 +63,13 @@ public class TestSupport {
      */
     public static void checkSourceAndTargetFileSame(File srcFile, File targetFile) throws IOException {
         if(!srcFile.exists()) {
-            throw new IOException("Source File doesn't exist: " + targetFile); //$NON-NLS-1$
+            throw new IOException("Source File doesn't exist: " + targetFile);
         }
         if(!targetFile.exists()) {
-            throw new IOException("Target File doesn't exist: " + targetFile); //$NON-NLS-1$
+            throw new IOException("Target File doesn't exist: " + targetFile);
         }
         if(targetFile.length() != srcFile.length()) {
-            throw new IOException("Files don't compare in size: " + srcFile + " and " + targetFile); //$NON-NLS-1$ //$NON-NLS-2$
+            throw new IOException("Files don't compare in size: " + srcFile + " and " + targetFile);
         }
     }
 }

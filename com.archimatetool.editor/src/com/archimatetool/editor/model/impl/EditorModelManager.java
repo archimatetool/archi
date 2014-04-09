@@ -114,7 +114,9 @@ implements IEditorModelManager {
     };
     
     public EditorModelManager() {
-        PlatformUI.getWorkbench().addWorkbenchListener(workBenchListener);
+        if(PlatformUI.isWorkbenchRunning()) {
+            PlatformUI.getWorkbench().addWorkbenchListener(workBenchListener);
+        }
     }
     
     @Override
@@ -194,7 +196,7 @@ implements IEditorModelManager {
     
     @Override
     public void openModel(IArchimateModel model) {
-        if(model == null) {
+        if(model == null || getModels().contains(model)) {
             return;
         }
         

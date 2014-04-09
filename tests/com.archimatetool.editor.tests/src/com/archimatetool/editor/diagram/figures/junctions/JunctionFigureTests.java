@@ -24,9 +24,6 @@ public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
         return new JUnit4TestAdapter(JunctionFigureTests.class);
     }
     
-    private JunctionFigure figure;
-    
-
     @Override
     protected JunctionFigure createFigure() {
         // Add a DiagramModelObject
@@ -35,18 +32,20 @@ public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
         dm.getChildren().add(dmo);
         
-        figure = (JunctionFigure)editorHandler.findFigure(dmo);
-        return figure;
+        // Layout
+        editor.layoutPendingUpdates();
+        
+        return (JunctionFigure)editor.findFigure(dmo);
     }
     
     @Test
     public void testGetDefaultSize() {
-        assertEquals(JunctionFigure.SIZE, figure.getDefaultSize());
+        assertEquals(JunctionFigure.SIZE, abstractFigure.getDefaultSize());
     }
 
     @Test
     public void testGetTextControl() {
-        assertNull(figure.getTextControl());
+        assertNull(abstractFigure.getTextControl());
     }
 
     @Override

@@ -165,5 +165,9 @@
        <description>Export the current View as an image</description>
        <topic href="help/Text/exporting.html" label="Export As Image"/>
     </context>
+    <context id="ExportAsCSVPage">
+       <description>Export the current Model to CSV files</description>
+       <topic href="help/Text/exporting.html" label="Export As CSV"/>
+    </context>
     
 </contexts>

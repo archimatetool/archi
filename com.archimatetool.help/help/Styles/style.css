@@ -1,8 +1,6 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #444;
-    font-size: 15px;
-	line-height: 1.3em;
 }
 
 h1 {
@@ -25,6 +23,13 @@ h3 {
 
 p {
     margin-top: 5px;
+    font-size: 15px;
+	line-height: 1.3em;
+}
+
+li {
+    font-size: 15px;
+	line-height: 1.3em;
 }
 
 a {
@@ -42,6 +47,7 @@ a:hover	{
 
 table {
 	font-size: 15px;
+	line-height: 1.3em;
 }
 
 table.border {

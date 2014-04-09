@@ -7,6 +7,7 @@ package com.archimatetool.editor;
 
 import junit.framework.TestSuite;
 
+import com.archimatetool.editor.actions.AllActionsTests;
 import com.archimatetool.editor.diagram.AllDiagramTests;
 import com.archimatetool.editor.model.AllModelTests;
 import com.archimatetool.editor.ui.AllUITests;
@@ -18,6 +19,9 @@ public class AllTests {
 
     public static junit.framework.Test suite() {
 		TestSuite suite = new TestSuite("com.archimatetool.editor");
+		
+		// actions
+		suite.addTest(AllActionsTests.suite());
 		
         // diagram
         suite.addTest(AllDiagramTests.suite());

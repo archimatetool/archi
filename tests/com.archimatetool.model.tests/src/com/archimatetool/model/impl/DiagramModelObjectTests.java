@@ -122,8 +122,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertTrue(object.getTargetConnections().isEmpty());
         
         // Now should be OK
-        conn.setSource(object);
-        conn.setTarget(object);
+        conn.connect(object, object);
         object.addConnection(conn);
         
         assertTrue(object.getSourceConnections().contains(conn));
@@ -138,8 +137,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     @Test
     public void testRemoveConnection() {
         IDiagramModelConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
-        conn.setSource(object);
-        conn.setTarget(object);
+        conn.connect(object, object);
 
         object.addConnection(conn);
         assertTrue(object.getSourceConnections().contains(conn));
@@ -147,8 +145,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         
         // Try to remove bogus connection
         IDiagramModelConnection conn2 = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
-        conn2.setSource(IArchimateFactory.eINSTANCE.createDiagramModelNote());
-        conn2.setTarget(IArchimateFactory.eINSTANCE.createDiagramModelNote());
+        conn2.connect(IArchimateFactory.eINSTANCE.createDiagramModelNote(), IArchimateFactory.eINSTANCE.createDiagramModelNote());
         object.removeConnection(conn2);
         assertTrue(object.getSourceConnections().contains(conn));
         assertTrue(object.getTargetConnections().contains(conn));
@@ -170,8 +167,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         super.testGetCopy();
         
         IDiagramModelConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
-        conn.setSource(object);
-        conn.setTarget(object);
+        conn.connect(object, object);
         object.addConnection(conn);
         assertTrue(object.getSourceConnections().contains(conn));
         assertTrue(object.getTargetConnections().contains(conn));

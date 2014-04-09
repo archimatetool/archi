@@ -23,6 +23,7 @@ public class AllModelTests {
 		
 		// model
         suite.addTest(DiagramModelUtilsTests.suite());
+        suite.addTest(DiagramModelUtilsNestedRelationsTests.suite());
         suite.addTest(IArchiveManagerTests.suite());
 
         // model.commands

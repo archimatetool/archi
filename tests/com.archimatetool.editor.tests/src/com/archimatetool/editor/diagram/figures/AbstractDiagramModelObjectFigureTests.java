@@ -13,21 +13,20 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.editor.ArchimateTestEditor;
 import com.archimatetool.editor.ArchimateTestModel;
-import com.archimatetool.editor.DiagramEditorTestHandler;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.tests.TestUtils;
 
 
 @SuppressWarnings("nls")
@@ -35,8 +34,8 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     protected static ArchimateTestModel tm;
     protected static IArchimateModel model;
-    protected static IDiagramModel dm;
-    protected static DiagramEditorTestHandler editorHandler;
+    protected static IArchimateDiagramModel dm;
+    protected static ArchimateTestEditor editor;
 
     protected AbstractDiagramModelObjectFigure abstractFigure;
     protected IDiagramModelObject diagramModelObject;
@@ -45,13 +44,13 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {
-        // Create a new model, get the default DiagramModel and open the editor
+        // Create a new model, get the default DiagramModel and open the test editor
         tm = new ArchimateTestModel();
         model = tm.createNewModel();
-        dm = model.getDefaultDiagramModel();
+        dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
         
-        editorHandler = new DiagramEditorTestHandler(dm);
-        editorHandler.openEditor();
+        editor = new ArchimateTestEditor();
+        editor.setDiagramModel(dm);
     }
 
     @Before
@@ -61,9 +60,10 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         diagramModelObject = abstractFigure.getDiagramModelObject();
     }
 
-    @AfterClass
-    public static void runOnceAfterAllTests() {
-        TestUtils.closeAllEditors();
+    @Test
+    public void testGetBounds() {
+        assertEquals(new Rectangle(0, 0, abstractFigure.getDefaultSize().width, abstractFigure.getDefaultSize().height),
+                abstractFigure.getBounds());
     }
 
     @Test
