@@ -101,7 +101,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         // Select Element in Tree
         menu.appendToGroup(GROUP_RENAME, new Separator());
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
- 
+
         menu.add(new Separator(GROUP_EXPORT));
         IMenuManager exportMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_0, "menu_export"); //$NON-NLS-1$
         menu.add(exportMenu);

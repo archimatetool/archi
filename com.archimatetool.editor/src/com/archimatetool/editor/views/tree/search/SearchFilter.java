@@ -38,6 +38,7 @@ public class SearchFilter extends ViewerFilter {
 
     private boolean fFilterName;
     private boolean fFilterDocumentation;
+    private boolean fFilterPropertiesKeyValues;
 
     private List<EClass> fObjectFilter = new ArrayList<EClass>();
     private List<String> fPropertiesFilter = new ArrayList<String>();
@@ -95,8 +96,10 @@ public class SearchFilter extends ViewerFilter {
     private void reset() {
         fFilterName = false;
         fFilterDocumentation = false;
+        fFilterPropertiesKeyValues = false;
         fObjectFilter.clear();
         fPropertiesFilter.clear();
+
     }
 
     @Override
@@ -181,6 +184,21 @@ public class SearchFilter extends ViewerFilter {
                     textSearchResult = true;
                 }
             }
+            
+            // Then properties KeyValues
+            if(fFilterPropertiesKeyValues && element instanceof IProperties) {
+                for(IProperty property : ((IProperties)element).getProperties()) {
+                	String key = StringUtils.safeString(property.getKey());
+                	 if(key.toLowerCase().contains(fSearchText.toLowerCase())) {
+                         textSearchResult = true;
+                        }
+                 	String value = StringUtils.safeString(property.getValue());
+                 	if(value.toLowerCase().contains(fSearchText.toLowerCase())) {
+                        textSearchResult = true;
+                       }
+                    }
+            }
+            
         }
 
         if((hasSearchText())) {
@@ -219,6 +237,15 @@ public class SearchFilter extends ViewerFilter {
         }
     }
 
+    public void setFilterOnPropertiesKeysValues(boolean set) {
+        if(fFilterPropertiesKeyValues != set) {
+        	fFilterPropertiesKeyValues = set;
+            if(isFiltering()) {
+                refresh();
+            }
+        }
+    }
+    
     public void setFilterOnDocumentation(boolean set) {
         if(fFilterDocumentation != set) {
             fFilterDocumentation = set;
@@ -256,6 +283,7 @@ public class SearchFilter extends ViewerFilter {
         refresh();
     }
 
+    
     public void setShowAllFolders(boolean set) {
         if(set != fShowAllFolders) {
             fShowAllFolders = set;
