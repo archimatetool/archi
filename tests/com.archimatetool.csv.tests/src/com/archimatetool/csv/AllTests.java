@@ -6,9 +6,10 @@
 package com.archimatetool.csv;
 
 
-import com.archimatetool.csv.export.CSVExporterTests;
-
 import junit.framework.TestSuite;
+
+import com.archimatetool.csv.export.CSVExporterTests;
+import com.archimatetool.csv.importer.CSVImporterTests;
 
 @SuppressWarnings("nls")
 public class AllTests {
@@ -17,6 +18,7 @@ public class AllTests {
 		TestSuite suite = new TestSuite("com.archimatetool.csv");
 
 		suite.addTest(CSVExporterTests.suite());
+        suite.addTest(CSVImporterTests.suite());
 		
         return suite;
 	}

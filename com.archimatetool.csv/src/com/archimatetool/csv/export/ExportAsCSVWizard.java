@@ -12,6 +12,11 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.csv.CSVConstants;
+
+
+
+
 
 
 /**
@@ -19,7 +24,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author Phillip Beauvoir
  */
-public class ExportAsCSVWizard extends Wizard {
+public class ExportAsCSVWizard extends Wizard implements CSVConstants {
 
     private ExportAsCSVPage fPage;
 
@@ -48,7 +53,7 @@ public class ExportAsCSVWizard extends Wizard {
         fExporter.setFilePrefix(fPage.getFilenamePrefix());
         
         // Set delimiter
-        fExporter.setDelimiter(CSVExporter.DELIMITERS[fPage.getDelimiterIndex()]);
+        fExporter.setDelimiter(DELIMITERS[fPage.getDelimiterIndex()]);
         
         // Strip newlines
         fExporter.setStripNewLines(fPage.getStripNewlines());

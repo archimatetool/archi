@@ -33,6 +33,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.model.IModelImporter;
+import com.archimatetool.editor.model.ISelectedModelImporter;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.components.HeapStatusWidget.HeapStatusWidgetToolBarContributionItem;
 import com.archimatetool.editor.ui.dialog.RelationshipsMatrixDialog;
@@ -549,14 +550,26 @@ extends ActionBarAdvisor {
      */
     private void addImportModelExtensionMenuItems(IWorkbenchWindow window, IMenuManager importMenu) {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
+        
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor("com.archimatetool.editor.importHandler")) { //$NON-NLS-1$
             try {
                 String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
                 String label = configurationElement.getAttribute("label"); //$NON-NLS-1$
-                IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
-                if(id != null && label != null && importer != null) {
-                    ImportModelAction action = new ImportModelAction(window, id, label, importer);
-                    importMenu.add(action);
+                String extensionName = configurationElement.getName();
+                
+                if("importHandler".equals(extensionName)) { //$NON-NLS-1$
+                    IModelImporter importer = (IModelImporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
+                    if(id != null && label != null && importer != null) {
+                        ImportModelAction action = new ImportModelAction(window, id, label, importer);
+                        importMenu.add(action);
+                    }
+                }
+                else if("importHandler2".equals(extensionName)) { //$NON-NLS-1$
+                    ISelectedModelImporter importer = (ISelectedModelImporter)configurationElement.createExecutableExtension("class"); //$NON-NLS-1$
+                    if(id != null && label != null && importer != null) {
+                        ImportIntoModelAction action = new ImportIntoModelAction(window, id, label, importer);
+                        importMenu.add(action);
+                    }
                 }
             } 
             catch(CoreException ex) {

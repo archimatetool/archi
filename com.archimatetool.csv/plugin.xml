@@ -10,6 +10,14 @@
       </exportHandler>
    </extension>
    <extension
+         point="com.archimatetool.editor.importHandler">
+      <importHandler2
+            class="com.archimatetool.csv.importer.CSVImportProvider"
+            id="com.archimatetool.csv.importHandler"
+            label="CSV Data Into Model...">
+      </importHandler2>
+   </extension>
+   <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="com.archimatetool.csv.PreferenceInitializer">

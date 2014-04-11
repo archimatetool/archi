@@ -106,19 +106,19 @@ public class CSVExporterTests {
 
     @Test
     public void testCreateModelRow() {
-        assertEquals("\"id-0a9d34ab\",\"ArchimateModel\",\"The Main Model\",\"This is the Documentation\"\r\n", exporter.createModelRow());
+        assertEquals("\"0a9d34ab\",\"ArchimateModel\",\"The Main Model\",\"This is the Documentation\"\r\n", exporter.createModelRow());
     }
     
     @Test
     public void testCreateModelRowWithSemicolon() {
         exporter.setDelimiter(';');
-        assertEquals("\"id-0a9d34ab\";\"ArchimateModel\";\"The Main Model\";\"This is the Documentation\"\r\n", exporter.createModelRow());
+        assertEquals("\"0a9d34ab\";\"ArchimateModel\";\"The Main Model\";\"This is the Documentation\"\r\n", exporter.createModelRow());
     }
     
     @Test
     public void testCreateModelRowWithTab() {
         exporter.setDelimiter('\t');
-        assertEquals("\"id-0a9d34ab\"\t\"ArchimateModel\"\t\"The Main Model\"\t\"This is the Documentation\"\r\n", exporter.createModelRow());
+        assertEquals("\"0a9d34ab\"\t\"ArchimateModel\"\t\"The Main Model\"\t\"This is the Documentation\"\r\n", exporter.createModelRow());
     }
     
     @Test
@@ -128,7 +128,7 @@ public class CSVExporterTests {
         element.setName("The Main Man");
         element.setDocumentation("This is the Documentation");
         
-        assertEquals("\"id-a1234567\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\"\r\n", exporter.createElementRow(element));
+        assertEquals("\"a1234567\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\"\r\n", exporter.createElementRow(element));
     }
     
     @Test
@@ -139,7 +139,7 @@ public class CSVExporterTests {
         element.setDocumentation("This is the\r\nDocumentation");
         exporter.setStripNewLines(true);
         
-        assertEquals("\"id-d452fda\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\"\r\n", exporter.createElementRow(element));
+        assertEquals("\"d452fda\",\"BusinessActor\",\"The Main Man\",\"This is the Documentation\"\r\n", exporter.createElementRow(element));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class CSVExporterTests {
         
         exporter.setUseLeadingCharsHack(true);
         
-        assertEquals("\"id-087dfa23\",\"BusinessActor\",\"=\"\"  The Main Man\"\"\",\"=\"\"0123\"\"\"\r\n", exporter.createElementRow(element));
+        assertEquals("\"=\"\"087dfa23\"\"\",\"BusinessActor\",\"=\"\"  The Main Man\"\"\",\"=\"\"0123\"\"\"\r\n", exporter.createElementRow(element));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class CSVExporterTests {
         relation.setSource(elementSource);
         relation.setTarget(elementTarget);
         
-        assertEquals("\"id-56435fd6\",\"AccessRelationship\",\"My relation\",\"This is the Documentation\",\"id-cfde5463e\",\"id-b1234dff\"\r\n",
+        assertEquals("\"56435fd6\",\"AccessRelationship\",\"My relation\",\"This is the Documentation\",\"cfde5463e\",\"b1234dff\"\r\n",
                 exporter.createRelationshipRow(relation));
     }
     
@@ -182,7 +182,7 @@ public class CSVExporterTests {
         property.setValue("Some value");
         element.getProperties().add(property);
         
-        assertEquals("\"id-1234567a\",\"Some key\",\"Some value\"\r\n", exporter.createPropertyRow(element.getId(), property));
+        assertEquals("\"1234567a\",\"Some key\",\"Some value\"\r\n", exporter.createPropertyRow(element.getId(), property));
     }
 
     @Test

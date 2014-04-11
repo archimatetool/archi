@@ -6,7 +6,7 @@
          <meta.schema plugin="com.archimatetool.editor" id="com.archimatetool.editor.importHandler" name="Archimate Import Handler"/>
       </appinfo>
       <documentation>
-         Use this extension point to register an import handler
+         Use this extension point to register import handlers
       </documentation>
    </annotation>
 
@@ -18,7 +18,8 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="importHandler" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="importHandler" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="importHandler2" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -50,7 +51,7 @@
    <element name="importHandler">
       <annotation>
          <documentation>
-            An Import Handler instance
+            An Import Handler instance for importing data and creating a new model from the data.
          </documentation>
       </annotation>
       <complexType>
@@ -78,6 +79,43 @@
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":com.archimatetool.editor.model.IModelImporter"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="importHandler2">
+      <annotation>
+         <documentation>
+            An Import Handler instance for importing data into the currently selected model.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A unique name that will be used to identify this handler
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A translatable label that will be used in the host&apos;s Import menu ending with an ellipsis (...)
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of a class that implements com.archimatetool.editor.model.ISelectedModelImporter
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.model.ISelectedModelImporter"/>
                </appinfo>
             </annotation>
          </attribute>

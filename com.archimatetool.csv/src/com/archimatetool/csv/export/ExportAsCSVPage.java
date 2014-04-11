@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVImportExportPlugin;
 import com.archimatetool.csv.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchimateImages;
@@ -35,7 +36,7 @@ import com.archimatetool.editor.utils.StringUtils;
  * 
  * @author Phillip Beauvoir
  */
-public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants {
+public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants, CSVConstants {
 
     private static String HELP_ID = "com.archimatetool.help.ExportAsCSVPage"; //$NON-NLS-1$
     
@@ -102,7 +103,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants 
         label.setText(Messages.ExportAsCSVPage_5);
         
         fDelimiterCombo = new Combo(exportGroup, SWT.READ_ONLY);
-        fDelimiterCombo.setItems(CSVExporter.DELIMITER_NAMES);
+        fDelimiterCombo.setItems(DELIMITER_NAMES);
         GridData gd = new GridData();
         gd.horizontalSpan = 2;
         fDelimiterCombo.setLayoutData(gd);
@@ -160,9 +161,9 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants 
      * Update file labels in reponse to text edits
      */
     private void updateFileLabels() {
-        fElementsFileNameLabel.setText(fFilePrefixTextField.getText() + CSVExporter.ELEMENTS_FILENAME + CSVExporter.FILE_EXTENSION);
-        fRelationsFileNameLabel.setText(fFilePrefixTextField.getText() + CSVExporter.RELATIONS_FILENAME + CSVExporter.FILE_EXTENSION);
-        fPropertiesFileNameLabel.setText(fFilePrefixTextField.getText() + CSVExporter.PROPERTIES_FILENAME + CSVExporter.FILE_EXTENSION);
+        fElementsFileNameLabel.setText(fFilePrefixTextField.getText() + ELEMENTS_FILENAME + FILE_EXTENSION);
+        fRelationsFileNameLabel.setText(fFilePrefixTextField.getText() + RELATIONS_FILENAME + FILE_EXTENSION);
+        fPropertiesFileNameLabel.setText(fFilePrefixTextField.getText() + PROPERTIES_FILENAME + FILE_EXTENSION);
         fElementsFileNameLabel.getParent().layout();
     }
     
@@ -218,7 +219,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants 
         
         // Check valid file name
         try {
-            file = new File(getExportFolderPath(), fFilePrefixTextField.getText() + CSVExporter.ELEMENTS_FILENAME + CSVExporter.FILE_EXTENSION);
+            file = new File(getExportFolderPath(), fFilePrefixTextField.getText() + ELEMENTS_FILENAME + FILE_EXTENSION);
             file.getCanonicalPath();
         }
         catch(IOException ex) {
@@ -261,8 +262,8 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants 
 
         // Delimiter
         int separator = store.getInt(CSV_EXPORT_PREFS_SEPARATOR);
-        if(separator > -1 && separator < CSVExporter.DELIMITER_NAMES.length) {
-            fDelimiterCombo.setText(CSVExporter.DELIMITER_NAMES[separator]);
+        if(separator > -1 && separator < DELIMITER_NAMES.length) {
+            fDelimiterCombo.setText(DELIMITER_NAMES[separator]);
         }
         
         // Last used file prefix
