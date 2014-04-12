@@ -239,6 +239,11 @@ implements ITreeModelView, IUIRequestListener {
         fTreeViewer.getControl().setFocus();
     }
     
+    @Override
+    protected void selectAll() {
+        fTreeViewer.getTree().selectAll();
+    }
+    
     /**
      * @return The Selection Provider
      */
@@ -343,7 +348,6 @@ implements ITreeModelView, IUIRequestListener {
         MenuManager newMenu = new MenuManager(Messages.TreeModelView_1, "new"); //$NON-NLS-1$
         manager.add(newMenu);
         
-        // TODO On Eclipse 4 registering a sub-menu if the main MenuManager is already registered causes a NPE
         getSite().registerContextMenu(ID + ".new_menu", newMenu, getViewer()); //$NON-NLS-1$
 
         manager.add(new Separator());

@@ -291,6 +291,11 @@ implements INavigatorView, ISelectionListener {
         }
     }
     
+    @Override
+    protected void selectAll() {
+        fTreeViewer.getTree().selectAll();
+    }
+    
     private void setElement(Object object) {
         fDrillDownAdapter.reset();
         

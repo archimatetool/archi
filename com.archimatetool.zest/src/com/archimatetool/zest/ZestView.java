@@ -154,6 +154,11 @@ implements IZestView, ISelectionListener {
         }
     }
     
+    @Override
+    protected void selectAll() {
+        fGraphViewer.getGraphControl().selectAll();
+    }
+    
     private void setElement(Object object) {
         IArchimateElement element = null;
         

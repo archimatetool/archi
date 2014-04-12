@@ -16,6 +16,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.help.IContextProvider;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
@@ -75,6 +76,15 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         IActionBars actionBars = getViewSite().getActionBars();
         actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), fActionUndo);
         actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), fActionRedo);
+        
+        // Global Handle Select All
+        // We need to enforce this at a global level in order to enable/disable the main menu item
+        actionBars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), new Action() {
+            @Override
+            public void run() {
+                selectAll();
+            }
+        });
 
         // Register us as a Model Listener - this has to be done last, *after* the tree/selection listener is created
         IEditorModelManager.INSTANCE.addPropertyChangeListener(this);
@@ -86,6 +96,12 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      */
     protected abstract void doCreatePartControl(Composite parent);
     
+    /**
+     * Do the "Select All" global action. The default is to do nothing. Clients can over-ride.
+     */
+    protected void selectAll() {
+    }
+
     /**
      * Update the Undo/Redo Actions
      */
