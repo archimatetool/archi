@@ -136,8 +136,21 @@ public final class CopySnapshot {
     }
     
     /**
-     * Constructor
-     * @param modelObjectsSelected
+     * Construct based on a list of the diagram model objects the user selected.
+     * <p>
+     * The instance represents the selection the user made, but for various reasons that are 
+     * not clear to me (Mads), only the objects from the selection is passed, but not the connections.
+     * Also, the selection may contain the same object several times.
+     * <p> 
+     * The constructor has to make a copy of the selection, or perhaps more correctly, has to 
+     * build a corrected copy; any duplicate elements are removed. Also, any connection from the
+     * underlying diagram model between any two elements in the copy, is included. This means
+     * that the copy may in some cases differ from what the user included in the selection.
+     * <p>
+     * The constructor checks that all objects are part of the same diagram model, that the selection
+     * is not null, and that it actually contains some elements. If not, the constructor silently aborts. 
+     * 
+     * @param modelObjectsSelected The list of objects to use for the snapshot copy/build process.
      */
     public CopySnapshot(List<IDiagramModelObject> modelObjectsSelected) {
         // Mappings of original objects to snapshot objects
@@ -205,9 +218,14 @@ public final class CopySnapshot {
         }
     }
 
-    /*
-     * Create a list of topmost objects to copy.
-     * This will eliminate duplicate selected children and give us only the top level objects to copy.
+    /**
+     * Create a list of topmost objects to copy, based on the selection from the user.
+     * <p>
+     * This method is used to eliminate duplicate selected children and return 
+     * the top level objects to copy into the snapshot during construction.
+     * <p>
+     * @param selected The list of the selected elements, as passed by the client
+     * @return A list of the objects from the selection, that does not have any ancestors. 
      */
     private List<IDiagramModelObject> getTopLevelObjectsToCopy(List<IDiagramModelObject> selected) {
         List<IDiagramModelObject> objects = new ArrayList<IDiagramModelObject>();
@@ -240,8 +258,23 @@ public final class CopySnapshot {
         return objects;
     }
     
-    /*
-     * Copy connections where both nodes are stored in the Snapshot
+    /**
+     * Get a list of connections to copy, based on the Snapshot.
+     * 
+     * This method traverses all the objects that are part of the snapshot and identifies the connections 
+     * where both source and target are part of the snapshot of objects. These connections are then added the 
+     * list that is returned. 
+     * <p>
+     * This approach have the slightly interesting effect, that if any two objects (a and b) are copied from 
+     * a diagram all connections present in the view between a and b is copied as well. In effect, the user
+     * can not specify which connections (or none) to copy between views, because only the objects from the selection
+     * is passed to CopySnapshots constructor...
+     * <p> 
+     * The method assumes that the instance variable fOriginalToSnapshotObjectsMapping have been filled 
+     * with objects that are part of the snapshot, e.g. by calling getToplevelObjectsToCopy.
+     * 
+     * 
+     *  @returns A list of the connections where both source and target is present in snapshot of the objects.
      */
     private List<IDiagramModelConnection> getConnectionsToCopy() {
         List<IDiagramModelConnection> connections = new ArrayList<IDiagramModelConnection>();
@@ -259,8 +292,13 @@ public final class CopySnapshot {
         return connections;
     }
 
-    /*
-     * @return True if object has an ancestor container that has been selected to be copied and pasted
+    /**
+     * Check if an object has an ancestor container that has been selected to be copied and pasted.
+     * 
+     * @param object The object to check for ancestors
+     * @param selected List of potential objects to check for
+     * 
+     * @return true if the object had an ancestor in list of selected objects
      */
     private boolean hasAncestorSelected(IDiagramModelObject object, List<?> selected) {
         EObject container = object.eContainer();
@@ -321,7 +359,7 @@ public final class CopySnapshot {
      * Check if the paste need to copy the diagram elements in a selection, instead of referencing the existing (archimate?) elements.
      * 
      * A copy must be made if the target and source archimate models are different (as references can not be made between archimate models).
-     * A copy must also be med if one or more of the reference archimate model elements have been deleted, or if one or elements are already referenced in the target diagram model.  
+     * A copy must also be made if one or more of the reference archimate model elements have been deleted, or if one or elements are already referenced in the target diagram model.  
      * 
      * @return True if a copy must be made, false otherwise
      */
@@ -401,8 +439,20 @@ public final class CopySnapshot {
         return result; // Don't return unwrap() as we want the CompoundCommand to execute to select the objects
     }
     
-    /*
-     * Create a single Paste command for an object
+    /**
+     * Create a single Paste command for an object.
+     * <p>
+     * This method creates a single paste command for a single object. However, for objects that are containers
+     * this method recursively calls itself, to also create commands for the child objects. The results are inserted into 
+     * the CompoundCommand instance in the result variable.
+     * <p>
+     * The instance variable fDoCreateArchimateElementCopies is used to determine if the paste should
+     * create a new archimate model object or not.
+     * 
+     * @param container The diagram (or container) to paste to
+     * @param snapshotObject The new object - from the snapshot - to paste
+     * @param result The CompoundCommand to insert the result into
+     * @param tmpSnapshotToNewObjectMapping A hash with mappings from the snapshot elements to the pasted elements.
      */
     private void createPasteObjectCommand(IDiagramModelContainer container, IDiagramModelObject snapshotObject,
                                         CompoundCommand result, Hashtable<IDiagramModelObject, IDiagramModelObject> tmpSnapshotToNewObjectMapping) {
@@ -438,13 +488,13 @@ public final class CopySnapshot {
             }
         }
         
-        // Mapping
+        // Insert references into the map from the snapshot to the pasted elements.
         tmpSnapshotToNewObjectMapping.put(snapshotObject, newObject);
         
         // New diagram object Command
         result.add(new PasteDiagramObjectCommand(container, newObject, fDoCreateArchimateElementCopies));
         
-        // Container
+        // If container, recurse
         if(snapshotObject instanceof IDiagramModelContainer) {
             for(IDiagramModelObject child : ((IDiagramModelContainer)snapshotObject).getChildren()) {
                 createPasteObjectCommand((IDiagramModelContainer)newObject, child, result, tmpSnapshotToNewObjectMapping);
@@ -452,8 +502,19 @@ public final class CopySnapshot {
         }
     }
 
-    /*
-     * Create a single Paste command for a connection
+    /**
+     * Create a single Paste command for a connection.
+     * <p>
+     * This method creates the needed paste command for inserting a single connection. In order for a paste command to be added, 
+     * both the source and target object must be in the set of objects that gets pasted, represented in the 
+     * tmpSnapshotToNewObjectMapping variable. If not, no paste command is generated for this connection.
+     * <p>
+     * If the connection is an diagram archimate model connection, and the instance variable fDoCreateArchimateElementCopies is
+     * false, then the connection is set to reference the existing archimate model connection use by the source element.
+     * <p>
+     * @param snapshotConnection The connection to create a paste command for
+     * @param result The CompoundCommand reference to insert the paste command into.
+     * @param tmpSnapshotToNewObjectMapping
      */
     private void createPasteConnectionCommand(IDiagramModelConnection snapshotConnection, CompoundCommand result,
                                             Hashtable<IDiagramModelObject, IDiagramModelObject> tmpSnapshotToNewObjectMapping) {
