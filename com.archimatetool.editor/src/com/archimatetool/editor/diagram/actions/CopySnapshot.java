@@ -276,7 +276,11 @@ public final class CopySnapshot {
     }
     
     /**
-     * @param targetDiagramModel
+     * Checks if any of the objects in this CopySnapshot instance can be pasted to a target diagram model.
+     * 
+     * The targetDiagramModel most be the same type as the objects was copied from.   
+     * 
+     * @param targetDiagramModel The diagram model to paste to
      * @return true if at least one copied object can be pasted to target diagram model
      */
     public boolean canPasteToDiagram(IDiagramModel targetDiagramModel) {
@@ -314,8 +318,12 @@ public final class CopySnapshot {
     }
     
     /*
-     * @return True if the target diagram model already contains at least one reference to the copied Archimate Elements.
-     * If this is true then we need to paste copies.
+     * Check if the paste need to copy the diagram elements in a selection, instead of referencing the existing (archimate?) elements.
+     * 
+     * A copy must be made if the target and source archimate models are different (as references can not be made between archimate models).
+     * A copy must also be med if one or more of the reference archimate model elements have been deleted, or if one or elements are already referenced in the target diagram model.  
+     * 
+     * @return True if a copy must be made, false otherwise
      */
     private boolean needsCopiedArchimateElements(IDiagramModel targetDiagramModel) {
         // If different Archimate Models then yes!
@@ -351,6 +359,10 @@ public final class CopySnapshot {
     }
     
     /**
+     * Create a Command to paste the contents of this CopySnapShot instance to the target diagram model.
+     * 
+     * This is command used by the PasteAction to actually perform the paste.
+     * 
      * @param targetDiagramModel The diagram model to paste to
      * @param viewer An optional GraphicalViewer to select the pasted object
      * @param mousePosition position of mouse clicked in viewer or null if no mouse click
