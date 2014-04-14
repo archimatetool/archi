@@ -180,19 +180,34 @@ public final class CopySnapshot {
         
         fSourceArchimateModel = diagramModel.getArchimateModel();
         
-        // First copy objects
+        // First copy objects, and make sure the mapping from the original objects to the copied
+        // gets filled (fOriginalToSnapshotObjectsMapping)
         List<IDiagramModelObject> objectsToCopy = getTopLevelObjectsToCopy(modelObjectsSelected);
         for(IDiagramModelObject child : objectsToCopy) {
             createSnapshotObjects(fDiagramModelSnapshot, child);
         }
         
-        // Then copy connections
+        // At this point, objectsToCopy is sort of a multirooted tree of objects (and leafs) that is a snapshot
+        // of the elements to copy.
+        // fOriginalToSnapshotObjectsMapping, on the other hand, is sort of a mapping from this tree, 
+        // to and from, the original diagram elements.
+        
+        // Add all the connections to the snapshot.
+        // First, get all the connections  between all original elements in fOriginalToSnapshotObjectsMapping 
         List<IDiagramModelConnection> connections = getConnectionsToCopy();
+        // For each connection, check if the elements are present in the snapshot (the new elements).
         for(IDiagramModelConnection originalConnection : connections) {
             // Check with mapping for original source and target
             IDiagramModelObject newSource = fOriginalToSnapshotObjectsMapping.get(originalConnection.getSource());
             IDiagramModelObject newTarget = fOriginalToSnapshotObjectsMapping.get(originalConnection.getTarget());
             // Only add Connections that have both nodes copied as well
+            // MBD: 2014-04-14: I am a bit pressed to as when this test would fail?
+            // fOriginalToSnapshotConnectionsMapping was just setup to have a 1-to-1 correspondance between 
+            // a set of original elements, and elements to be created. getConnectionsToCopy looks at all 
+            // the connections between the originals, and only returns connections where both source and target is
+            // present. We now check that we can locate the new elements - in our 1-to-1 hash?
+            // In other words: If this check fails, I think some error information should logged?
+            // Wouldn't it be a problem?
             if(newSource != null && newTarget != null) {
                 IDiagramModelConnection newConnection = (IDiagramModelConnection)originalConnection.getCopy();
                 newConnection.connect(newSource, newTarget);
@@ -201,8 +216,15 @@ public final class CopySnapshot {
         }
     }
     
-    /*
-     * Iterate and make copies of objects
+    /**
+     * Iterate and recursively make copies of objects.
+     * <p>
+     * This method creates a deep copy of the diagram model object passed in originalObject, and inserts it into 
+     * the container passed in copyContainer. It also fills out the instance variable fOriginalToSnapshotObjectsMapping 
+     * with a mapping from the original object to the copy.  
+     * <p>
+     * @param copyContainer The container to add the new object to
+     * @param originalObject The object to copy
      */
     private void createSnapshotObjects(IDiagramModelContainer copyContainer, IDiagramModelObject originalObject) {
         IDiagramModelObject newObject = (IDiagramModelObject)originalObject.getCopy();
@@ -262,19 +284,18 @@ public final class CopySnapshot {
      * Get a list of connections to copy, based on the Snapshot.
      * 
      * This method traverses all the objects that are part of the snapshot and identifies the connections 
-     * where both source and target are part of the snapshot of objects. These connections are then added the 
+     * where both source and target are part of the snapshot of objects. These connections are then added to the 
      * list that is returned. 
      * <p>
      * This approach have the slightly interesting effect, that if any two objects (a and b) are copied from 
      * a diagram all connections present in the view between a and b is copied as well. In effect, the user
      * can not specify which connections (or none) to copy between views, because only the objects from the selection
-     * is passed to CopySnapshots constructor...
+     * is passed to CopySnapshots constructor, not the connections.
      * <p> 
      * The method assumes that the instance variable fOriginalToSnapshotObjectsMapping have been filled 
      * with objects that are part of the snapshot, e.g. by calling getToplevelObjectsToCopy.
      * 
-     * 
-     *  @returns A list of the connections where both source and target is present in snapshot of the objects.
+     *  @returns A list of the connections where both source and target is present in snapshot of the original objects.
      */
     private List<IDiagramModelConnection> getConnectionsToCopy() {
         List<IDiagramModelConnection> connections = new ArrayList<IDiagramModelConnection>();
@@ -294,6 +315,10 @@ public final class CopySnapshot {
 
     /**
      * Check if an object has an ancestor container that has been selected to be copied and pasted.
+     * <p>
+     * The "chain" of containers are followed for the object (until the toplevel), and for each "parent", it 
+     * is checked if this container is also part of the objects in the list. If that is the case, then 
+     * true is returned, otherwise false. 
      * 
      * @param object The object to check for ancestors
      * @param selected List of potential objects to check for
