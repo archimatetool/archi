@@ -477,7 +477,7 @@ public final class CopySnapshot {
 
         // TODO: Then Connections
         for(Entry<IDiagramModelConnection, IDiagramModelConnection> entry : fOriginalToSnapshotConnectionsMapping.entrySet()) {
-            // createMergeConnectionCommand(entry.getValue(), result, snapshotToNewObjectMapping);
+            createMergeConnectionCommand(entry.getValue(), result, snapshotToNewObjectsMapping);
         }
         
         // TODO: UnitTest
@@ -485,7 +485,7 @@ public final class CopySnapshot {
     }
 
     /**
-     * Create a single Paste command for an object.
+     * Create a single Merge command for an object.
      * <p>
      * This method creates a single merge command for a single object. However, for objects that are containers
      * this method recursively calls itself, to also create commands for the child objects. The results are inserted into 
@@ -605,6 +605,8 @@ public final class CopySnapshot {
         // ALSO: Why, connections, of course.
         // ALSO: Some way to indicate what happens - currently, we have a selection of non-visible elements, after paste!
 
+        // TODO: There are some problems with test 2 - something weird happens to the first node. Figure out why (debug).
+        
         // Finally: If the snapshotObject is a container, merge all children recursively into all references for snapshotObject
         if(snapshotObject instanceof IDiagramModelContainer) {
             for(IDiagramModelObject child : ((IDiagramModelContainer)snapshotObject).getChildren()) {
@@ -621,6 +623,86 @@ public final class CopySnapshot {
         }
     }
 
+    /**
+     * Create a single Merge command for a connection.
+     * <p>
+     * This method creates the needed merge command for inserting connections matching a single connection in the snapshot. 
+     * In order for a merge command to be added, both the source and target object must be in the set of objects that gets referenced by,
+     * the merge of the objects, represented in the snapshotToNewObjectMapping variable. If not, no paste command is generated for this connection.
+     * <p>
+     * TODO: FIX THIS DOCUMENTATION.
+     * If the connection is an diagram archimate model connection, and the instance variable fDoCreateArchimateElementCopies is
+     * false, then the connection is set to reference the existing archimate model connection use by the source element.
+     * <p>
+     * @param snapshotConnection The snapshot connection to create a paste command for
+     * @param result The CompoundCommand reference to insert the paste command into.
+     * @param snapshotToNewObjectsMapping
+     */
+    private void createMergeConnectionCommand(IDiagramModelConnection snapshotConnection, CompoundCommand result,
+    		                                  Hashtable<IDiagramModelObject, List<IDiagramModelObject> > snapshotToNewObjectsMapping) {
+        
+    	// Iterate *all* permutation of connections between the references to source and target, and fill those in, that are missing.
+    	// This will be somewhat confusing for the user, if any archimate object is present several times,
+    	// but I'll have to document that.
+
+    	List<IDiagramModelObject> newSources = snapshotToNewObjectsMapping.get(snapshotConnection.getSource());
+        List<IDiagramModelObject> newTargets = snapshotToNewObjectsMapping.get(snapshotConnection.getTarget());
+        
+        // Sanity checks
+        if (newSources == null) {
+        	System.err.println( "Confused: No source reference list found for snapshot connection.");
+        }
+        if (newTargets == null) {
+        	System.err.println( "Confused: No target reference list found for snapshot connection.");
+        }
+        if (newSources.isEmpty()) {
+        	System.err.println( "Confused: No source references found for snapshot connection.");
+        }
+        if (newTargets.isEmpty()) {
+        	System.err.println( "Confused: No target references found for snapshot connection.");
+        }
+        
+        // Now iterate
+        for (IDiagramModelObject newSource : newSources) {
+            for (IDiagramModelObject newTarget : newTargets) {
+            	// First, check if this connection is already on the diagram.
+            	List<IDiagramModelConnection> sourceConnections = newSource.getSourceConnections();
+            	boolean foundExisting = false;
+            	for (IDiagramModelConnection connection : sourceConnections) {
+            		if (connection.getTarget() == newTarget) {
+            			System.err.println("CopySnapshot.createMergeConnectionCommand : found existing connection between elements, skipping");
+            			foundExisting = true;
+            			break;
+            		}
+            	}
+            	if (foundExisting) {
+            		continue;
+            	}
+            	
+            	// Not already there, need to create.
+            	// Get a new connection for the diagram.
+                IDiagramModelConnection newConnection = (IDiagramModelConnection)snapshotConnection.getCopy();
+                
+                // Now, under some conditions, re-use original Archimate relationship
+                boolean newArchimateElementCreated = false;
+                if(snapshotConnection instanceof IDiagramModelArchimateConnection) {
+                    IDiagramModelArchimateConnection originalDiagramConnection = (IDiagramModelArchimateConnection)fOriginalToSnapshotConnectionsMapping.getKey(snapshotConnection);
+                    IRelationship originalRelationship = originalDiagramConnection.getRelationship();
+                    if(originalRelationship != null && originalRelationship.eContainer() != null) { // archimate relationship still there.
+                        ((IDiagramModelArchimateConnection)newConnection).setRelationship(originalRelationship);
+                        newArchimateElementCreated = false;
+                    } else {
+                    	// else: Was deleted, use the new relationsship gotten from getCopy.
+                    	newArchimateElementCreated = true;
+                    }
+                }
+                
+                // Finally, add the command to the result set.
+                result.add(new PasteDiagramConnectionCommand(newConnection, newSource, newTarget, newArchimateElementCreated));
+            } // iterate newTargets        	
+        } // iterate newSources
+    }
+    
     
     /**
      * Create a Command to paste the contents of this CopySnapShot instance to the target diagram model.
@@ -738,7 +820,7 @@ public final class CopySnapshot {
      * If the connection is an diagram archimate model connection, and the instance variable fDoCreateArchimateElementCopies is
      * false, then the connection is set to reference the existing archimate model connection use by the source element.
      * <p>
-     * @param snapshotConnection The connection to create a paste command for
+     * @param snapshotConnection The snapshot connection to create a paste command for 
      * @param result The CompoundCommand reference to insert the paste command into.
      * @param tmpSnapshotToNewObjectMapping
      */
