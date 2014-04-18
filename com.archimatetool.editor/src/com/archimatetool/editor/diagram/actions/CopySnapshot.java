@@ -583,12 +583,22 @@ public final class CopySnapshot {
         }
         
         // Insert references into the map from the snapshot to the pasted / existing elements.
-        snapshotToNewObjectsMapping.put(snapshotObject, objectReferences);        
+        // However, if there already are references from snapshotObject, merge them into the reference set, to allow the set to 
+        // be "complete", and not only the last visited child in a given nested set.
+        // TODO: I have no tests for this, currently.
+        if (snapshotToNewObjectsMapping.containsKey(snapshotObject)) {
+        	List<IDiagramModelObject> existing = snapshotToNewObjectsMapping.get(snapshotObject);
+        	for (IDiagramModelObject object : objectReferences) {
+        		if (!existing.contains(object)) {
+        			existing.add(object);
+        		}
+        	}
+        } else {
+            snapshotToNewObjectsMapping.put(snapshotObject, objectReferences);        
+        }
         
         // If container, recurse
         // TODO: REALLY, really have to think about what happens here.
-        // If snapshotObject is a container, it probably have children.
-        // For each of these children, create a mergecommand, with all the references for snapshopObject...
         
         
         // FINAL UPDATE BEFORE VACATION: 
