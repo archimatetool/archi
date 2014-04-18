@@ -505,7 +505,6 @@ public final class CopySnapshot {
                                           CompoundCommand result, Hashtable<IDiagramModelObject, List<IDiagramModelObject>> snapshotToNewObjectsMapping) {
         
         IDiagramModelObject newObject = (IDiagramModelObject)snapshotObject.getCopy();
-        String debugName = newObject.getName();
 
         // Get the the DO, that snapshotObject was based on, because we need it to 
         // determine both mouse offsets and check if the AO associated with that, is 
@@ -532,10 +531,10 @@ public final class CopySnapshot {
         if(newObject instanceof IDiagramModelArchimateObject) {        	
         	IDiagramModelArchimateObject new_dmo = (IDiagramModelArchimateObject)newObject;
 
-        	// Sanity check - orginal DMO must be IDiagramModelArchimateObject as well
+        	// Sanity check - orginal DMO must be IDiagramModelArchimateObject as well - should never fail.
             if (!(originalObject instanceof IDiagramModelArchimateObject)) {
-            	// TODO: Write something to standard error
-            	// TODO: What to do, error wise, else?
+    			System.err.println("Internal error: originalObject not instance of IDiagramModelArchimateObject, even though newObject is.");
+    			return;
             }
 
             // Check if we can reuse the existing Archimate Object or not            
@@ -551,28 +550,30 @@ public final class CopySnapshot {
             // Now, if the element was OK, check if we can use the DO's on the targetDiagram already
             if (archimateElementOK) {
                 // If there is an DO for the AO already, we can reuse that for newobject, if not, if not, we must create a new one.
-            	// TODO: This only looks for elements in the container we are looking at. Is that right? Probably not! Look into later
+            	// This only looks for elements in the container we are looking at. Another approach would be to look globally.
+            	// TODO: Would local or global referencing be best?
+            	// Local : easy to implement, but ignores elements that changes from contained in a source to e.g. aggregated in target.
+            	// Global: Finds elements outside current container, but collapses more element (I guess).
             	List<IDiagramModelArchimateObject> DmosForElement = DiagramModelUtils.findDiagramModelObjectsForElement(targetContainer, originalArchimateElement);
             	// If not empty, use it as a reference, instead of newObject
             	if (DmosForElement.isEmpty()) {
             		// No elements found, use newObject, but set it up for using the existing ArchimateElement
                     new_dmo.setArchimateElement(originalArchimateElement);
                     objectReferences.add(new_dmo);
-                    // New diagram object Command
-                    
+                    // New diagram object Command, but reuse existing archimate object.
                     result.add(new PasteDiagramObjectCommand(targetContainer, newObject, false));
             	} else {
             		// Existing elements found, use them as reference.
-            		// TODO: I hope this implicit cast works?
             		objectReferences.addAll(DmosForElement);
             	}
             } else {
+            	// TODO: I do not have anything that tests this (needs delete between copy and merge).
             	// Deleted, we need to use the new (with a modified name), and add newObject to the references.
                 String name = new_dmo.getArchimateElement().getName();
                 // new_dmo.getArchimateElement().setName(name + " " + Messages.CopySnapshot_1); //$NON-NLS-1$
                 new_dmo.getArchimateElement().setName(name + " " + "(merge-copy)"); //$NON-NLS-1$
                 objectReferences.add(new_dmo);
-                // New diagram object Command
+                // New diagram object Command, with new archimate element.
                 result.add(new PasteDiagramObjectCommand(targetContainer, newObject, true));
             }
         } else {
@@ -585,7 +586,6 @@ public final class CopySnapshot {
         // Insert references into the map from the snapshot to the pasted / existing elements.
         // However, if there already are references from snapshotObject, merge them into the reference set, to allow the set to 
         // be "complete", and not only the last visited child in a given nested set.
-        // TODO: I have no tests for this, currently.
         if (snapshotToNewObjectsMapping.containsKey(snapshotObject)) {
         	List<IDiagramModelObject> existing = snapshotToNewObjectsMapping.get(snapshotObject);
         	for (IDiagramModelObject object : objectReferences) {
@@ -597,10 +597,6 @@ public final class CopySnapshot {
             snapshotToNewObjectsMapping.put(snapshotObject, objectReferences);        
         }
         
-        // If container, recurse
-        // TODO: REALLY, really have to think about what happens here.
-        
-        
         // FINAL UPDATE BEFORE VACATION: 
         // THE BELOW IS VERY CLOSE
         // There are some "freak" cornercases with souce containing elements nested, that are non-nested on the target.
@@ -609,20 +605,16 @@ public final class CopySnapshot {
         // ALSO: Why, connections, of course.
         // ALSO: Some way to indicate what happens - currently, we have a selection of non-visible elements, after paste!
 
-        // TODO: The code visits "child" several times, one each for each reference. However, the referenced elements is keyed on child only once, so that needs to be fixed.
-        
+        // Finally: If the snapshotObject is a container, merge all children recursively into all references for snapshotObject
         if(snapshotObject instanceof IDiagramModelContainer) {
             for(IDiagramModelObject child : ((IDiagramModelContainer)snapshotObject).getChildren()) {
             	for(IDiagramModelObject reference : snapshotToNewObjectsMapping.get(snapshotObject)) {
-            		// Sanity check
+            		// Sanity check, should never happen.
             		if (!(reference instanceof IDiagramModelContainer)) {
-            			// TODO: COMPLAING
-            			
+            			System.err.println("Internal error: reference to snapshotObject no a container, even though snapshotobject is.");
             		} else {
-            			// TODO: Is this right?
+            			// Us the elements referenced for snapshot object, and visit child.
             			createMergeObjectCommand((IDiagramModelContainer)reference, child, result, snapshotToNewObjectsMapping);
-            			// TODO: This is WRONG: We can't use newObject as the target container, as it might not be, the actual target
-            			// createMergeObjectCommand((IDiagramModelContainer)newObject, child, result, snapshotToNewObjectsMapping);
             		}
             	}
             }
