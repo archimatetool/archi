@@ -422,6 +422,205 @@ public final class CopySnapshot {
     }
     
     /**
+     * Create a Command to merge the contents of this CopySnapShot instance to the target diagram model.
+     * 
+     * Much like the paste command, but without the global "copy" variable, and a merge is done.
+     * 
+     * @todo Document - see https://github.com/Phillipus/archi/wiki/Selecting,-Copying,-Duplicating-and-Merging for now.
+     * @todo Test
+     * 
+     * @param targetDiagramModel The diagram model to paste to
+     * @param viewer An optional GraphicalViewer to select the pasted object
+     * @param mousePosition position of mouse clicked in viewer or null if no mouse click
+     * @return A command or null if targetDiagramModel is null
+     */
+    public Command getMergeCommand(IDiagramModel targetDiagramModel, GraphicalViewer viewer, Point mousePosition) {
+    	// TODO: UnitTest
+    	if(targetDiagramModel == null) {
+            return null;
+        }
+        
+    	// TODO: UnitTest
+    	// It does not make sense to try and merge into a different Archimate model, that just defaults to a copy.
+    	// So, use the copy.
+    	if (fSourceArchimateModel != targetDiagramModel.getArchimateModel()) {
+            System.err.println( "Internal error: Should not be allowed to try and create a command for merge to another ArchiMate models in " + getClass()); //$NON-NLS-1$
+            return null;
+    	}
+
+    	// TODO: I would rather not have this method change state, as it makes it harder to test things.
+        // fTargetArchimateModel = targetDiagramModel.getArchimateModel();
+        
+        // Find x,y origin offset to paste at
+        calculateXYOffset(mousePosition);
+        
+    	// At this point:
+    	// The instance variable fDiagramModelSnapshot contains a snapshot of the selection, and the bihashs
+    	// fOriginalToSnapshotObjectsMapping : contains mappings between the original DO's and the ones in the snapshot
+    	// fOriginalToSnapshotConnectionsMapping : contains mappings between the original DR's and the ones in the snapshot.
+    	
+    	// First step is to figure out a mapping from any elements in the snapshot, to the new OR EXISTING elements in targetDiagramModel.
+    	// This mapping is used when merging the connections. 
+    	// The mapping must take into consideration, that some of the original elements may have been deleted, between when the snapshot was created and now.
+    	Hashtable<IDiagramModelObject, List<IDiagramModelObject> > snapshotToNewObjectsMapping = new Hashtable<IDiagramModelObject, List<IDiagramModelObject>>();
+        
+    	// Create a compound command for this. Its based on the PasteCompoundCommand, and 
+    	// it seems to be mostly something about selection markers, and it will work the same way. I hope.
+        CompoundCommand result = new MergeCompoundCommand(Messages.CopySnapshot_0, snapshotToNewObjectsMapping, viewer);
+        
+        // Diagram objects first
+        for(IDiagramModelObject object : fDiagramModelSnapshot.getChildren()) {
+            if(isValidPasteObject(targetDiagramModel, object)) {
+                createMergeObjectCommand(targetDiagramModel, object, result, snapshotToNewObjectsMapping);
+            }
+        }
+
+        // TODO: Then Connections
+        for(Entry<IDiagramModelConnection, IDiagramModelConnection> entry : fOriginalToSnapshotConnectionsMapping.entrySet()) {
+            // createMergeConnectionCommand(entry.getValue(), result, snapshotToNewObjectMapping);
+        }
+        
+        // TODO: UnitTest
+        return result; // Don't return unwrap() as we want the CompoundCommand to execute to select the objects
+    }
+
+    /**
+     * Create a single Paste command for an object.
+     * <p>
+     * This method creates a single merge command for a single object. However, for objects that are containers
+     * this method recursively calls itself, to also create commands for the child objects. The results are inserted into 
+     * the CompoundCommand instance in the result variable.
+     * <p>
+     * The method described at https://github.com/Phillipus/archi/wiki/Selecting,-Copying,-Duplicating-and-Merging
+     * is used to determine if an object should be merged or not.
+     * 
+     * @param targetContainer The diagram (or container) to paste to
+     * @param snapshotObject The new object - from the snapshot - to paste 
+     * @param result The CompoundCommand to insert the result into
+     * @param tmpSnapshotToNewObjectMapping A hash with mappings from the snapshot elements to the pasted elements, updated by the method
+     */
+    // TODO: I need to figure out what targetContainer does / is good for...
+    
+    private void createMergeObjectCommand(IDiagramModelContainer targetContainer, IDiagramModelObject snapshotObject,
+                                          CompoundCommand result, Hashtable<IDiagramModelObject, List<IDiagramModelObject>> snapshotToNewObjectsMapping) {
+        
+        IDiagramModelObject newObject = (IDiagramModelObject)snapshotObject.getCopy();
+        String debugName = newObject.getName();
+
+        // Get the the DO, that snapshotObject was based on, because we need it to 
+        // determine both mouse offsets and check if the AO associated with that, is 
+        // still present in the Archimate Model.
+        IDiagramModelObject originalObject = fOriginalToSnapshotObjectsMapping.getKey(snapshotObject);
+
+        // Offset top level objects
+        if(targetContainer instanceof IDiagramModel) {
+            IBounds bounds = originalObject.getBounds().getCopy();
+            
+            Point pt = new Point(bounds.getX(), bounds.getY());
+            translateToAbsolute(originalObject, pt);
+            
+            bounds.setX(pt.x + fXOffSet);
+            bounds.setY(pt.y + fYOffSet);
+            
+            newObject.setBounds(bounds);
+        }
+        
+        // Set up a list to insert into the snapshotToNewObjects mapping parameter
+        List<IDiagramModelObject> objectReferences = new ArrayList<IDiagramModelObject>();
+        
+        // If this is an ArcimateObject, see if we can reuse it, and/or any DO's associated with it.
+        if(newObject instanceof IDiagramModelArchimateObject) {        	
+        	IDiagramModelArchimateObject new_dmo = (IDiagramModelArchimateObject)newObject;
+
+        	// Sanity check - orginal DMO must be IDiagramModelArchimateObject as well
+            if (!(originalObject instanceof IDiagramModelArchimateObject)) {
+            	// TODO: Write something to standard error
+            	// TODO: What to do, error wise, else?
+            }
+
+            // Check if we can reuse the existing Archimate Object or not            
+            boolean archimateElementOK = true;
+            IDiagramModelArchimateObject org_dmo = (IDiagramModelArchimateObject)originalObject;
+            IArchimateElement originalArchimateElement = org_dmo.getArchimateElement();
+            // If the archimateElement, or its container, was deleted, we can't refer that, of course.
+            if (originalArchimateElement == null || originalArchimateElement.eContainer() == null) {
+            	// No archimate element
+            	archimateElementOK = false;
+            }
+
+            // Now, if the element was OK, check if we can use the DO's on the targetDiagram already
+            if (archimateElementOK) {
+                // If there is an DO for the AO already, we can reuse that for newobject, if not, if not, we must create a new one.
+            	// TODO: This only looks for elements in the container we are looking at. Is that right? Probably not! Look into later
+            	List<IDiagramModelArchimateObject> DmosForElement = DiagramModelUtils.findDiagramModelObjectsForElement(targetContainer, originalArchimateElement);
+            	// If not empty, use it as a reference, instead of newObject
+            	if (DmosForElement.isEmpty()) {
+            		// No elements found, use newObject, but set it up for using the existing ArchimateElement
+                    new_dmo.setArchimateElement(originalArchimateElement);
+                    objectReferences.add(new_dmo);
+                    // New diagram object Command
+                    
+                    result.add(new PasteDiagramObjectCommand(targetContainer, newObject, false));
+            	} else {
+            		// Existing elements found, use them as reference.
+            		// TODO: I hope this implicit cast works?
+            		objectReferences.addAll(DmosForElement);
+            	}
+            } else {
+            	// Deleted, we need to use the new (with a modified name), and add newObject to the references.
+                String name = new_dmo.getArchimateElement().getName();
+                // new_dmo.getArchimateElement().setName(name + " " + Messages.CopySnapshot_1); //$NON-NLS-1$
+                new_dmo.getArchimateElement().setName(name + " " + "(merge-copy)"); //$NON-NLS-1$
+                objectReferences.add(new_dmo);
+                // New diagram object Command
+                result.add(new PasteDiagramObjectCommand(targetContainer, newObject, true));
+            }
+        } else {
+        	// Not an archimate object, just add this object to the references.
+        	objectReferences.add(newObject);
+            // New diagram object Command, but not an archimate thing, so false for create...
+            result.add(new PasteDiagramObjectCommand(targetContainer, newObject, false));
+        }
+        
+        // Insert references into the map from the snapshot to the pasted / existing elements.
+        snapshotToNewObjectsMapping.put(snapshotObject, objectReferences);        
+        
+        // If container, recurse
+        // TODO: REALLY, really have to think about what happens here.
+        // If snapshotObject is a container, it probably have children.
+        // For each of these children, create a mergecommand, with all the references for snapshopObject...
+        
+        
+        // FINAL UPDATE BEFORE VACATION: 
+        // THE BELOW IS VERY CLOSE
+        // There are some "freak" cornercases with souce containing elements nested, that are non-nested on the target.
+        // I might have to adress that.
+        // ALSO: Need to check that the archimate elements are maintained correctly
+        // ALSO: Why, connections, of course.
+        // ALSO: Some way to indicate what happens - currently, we have a selection of non-visible elements, after paste!
+
+        // TODO: The code visits "child" several times, one each for each reference. However, the referenced elements is keyed on child only once, so that needs to be fixed.
+        
+        if(snapshotObject instanceof IDiagramModelContainer) {
+            for(IDiagramModelObject child : ((IDiagramModelContainer)snapshotObject).getChildren()) {
+            	for(IDiagramModelObject reference : snapshotToNewObjectsMapping.get(snapshotObject)) {
+            		// Sanity check
+            		if (!(reference instanceof IDiagramModelContainer)) {
+            			// TODO: COMPLAING
+            			
+            		} else {
+            			// TODO: Is this right?
+            			createMergeObjectCommand((IDiagramModelContainer)reference, child, result, snapshotToNewObjectsMapping);
+            			// TODO: This is WRONG: We can't use newObject as the target container, as it might not be, the actual target
+            			// createMergeObjectCommand((IDiagramModelContainer)newObject, child, result, snapshotToNewObjectsMapping);
+            		}
+            	}
+            }
+        }
+    }
+
+    
+    /**
      * Create a Command to paste the contents of this CopySnapShot instance to the target diagram model.
      * 
      * This is command used by the PasteAction to actually perform the paste.
@@ -784,5 +983,57 @@ public final class CopySnapshot {
         }
     }
     
+    /*
+     * Compound Command for merge
+     */
+    private static class MergeCompoundCommand extends NonNotifyingCompoundCommand {
+        private GraphicalViewer graphicalViewer;
+        private Hashtable<IDiagramModelObject, List<IDiagramModelObject>> tempOriginalToNewMapping;
+        
+        public MergeCompoundCommand(String title,  Hashtable<IDiagramModelObject, List<IDiagramModelObject>> tempOriginalToNewMapping, GraphicalViewer viewer) {
+            super(title);
+            this.tempOriginalToNewMapping = tempOriginalToNewMapping;
+            graphicalViewer = viewer;
+        }
 
+        @Override
+        public void execute() {
+            super.execute();
+            
+            // Select the new objects if we are showing a viewer
+            selectNewObjects();
+        }
+        
+        @Override
+        public void redo() {
+            super.redo();
+            
+            // Select the new objects
+            selectNewObjects();
+        }
+        
+        private void selectNewObjects() {
+            if(graphicalViewer != null) {
+                List<EditPart> selected = new ArrayList<EditPart>();
+                for(Enumeration<List<IDiagramModelObject>> enm = tempOriginalToNewMapping.elements(); enm.hasMoreElements();) {
+                	List<IDiagramModelObject> list = enm.nextElement();
+                	for(IDiagramModelObject object : list) {
+                		EditPart editPart = (EditPart)graphicalViewer.getEditPartRegistry().get(object);
+                		if(editPart != null && editPart.isSelectable()) {
+                			selected.add(editPart);
+                		}
+                	}
+                }
+                graphicalViewer.setSelection(new StructuredSelection(selected));
+            }
+        }
+        
+        @Override
+        public void dispose() {
+            super.dispose();
+            graphicalViewer = null;
+            tempOriginalToNewMapping = null;
+        }
+    }    
+    
 }

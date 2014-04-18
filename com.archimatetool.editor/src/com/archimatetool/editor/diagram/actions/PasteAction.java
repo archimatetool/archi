@@ -109,7 +109,9 @@ public class PasteAction extends SelectionAction {
         
         if(obj instanceof CopySnapshot) {
             CopySnapshot clipBoardCopy = (CopySnapshot)obj;
-            execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition));
+            // TODO: MUST CHANGE THIS, THIS IS JUST TESTING!
+            // execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition));
+            execute(clipBoardCopy.getMergeCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition));
             fMousePosition = null;
         }
     }
