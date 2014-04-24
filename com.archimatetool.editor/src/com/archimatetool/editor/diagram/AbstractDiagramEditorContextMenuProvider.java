@@ -23,6 +23,7 @@ import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.MergeAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
 import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
@@ -82,6 +83,9 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         menu.appendToGroup(GROUP_EDIT, action);
         
         action = actionRegistry.getAction(ActionFactory.PASTE.getId());
+        menu.appendToGroup(GROUP_EDIT, action);
+
+        action = actionRegistry.getAction(MergeAction.ID);
         menu.appendToGroup(GROUP_EDIT, action);
         
         action = actionRegistry.getAction(ActionFactory.DELETE.getId());
