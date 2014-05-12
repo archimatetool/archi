@@ -187,8 +187,8 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     private Browser createBrowser(Composite parent) {
         Browser browser = null;
         try {
-            // On Eclipse 3.6 set this
-            if(PlatformUtils.isGTK()) {
+            // On Linux set this, but check that user did not try to override for e.g. later versions.
+            if(PlatformUtils.isGTK() && System.getProperty("org.eclipse.swt.browser.DefaultType") == null) { //$NON-NLS-1$ 
                 System.setProperty("org.eclipse.swt.browser.UseWebKitGTK", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             }
             browser = new Browser(parent, SWT.NONE);
