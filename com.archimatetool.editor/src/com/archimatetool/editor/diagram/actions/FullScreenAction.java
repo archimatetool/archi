@@ -178,6 +178,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell = new Shell(Display.getCurrent(), style); 
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
+        fNewShell.setText(Display.getAppName());
         fNewShell.setLayout(new FillLayout());
         fNewShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_128));
         
@@ -199,6 +200,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         if(fFloatingPalette.getPaletteState().isOpen) {
             fFloatingPalette.open();
         }
+        
+        // Hide the old shell
+        fOldParent.getShell().setVisible(false);
         
         // Listen to Parts being closed
         getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
@@ -222,6 +226,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         
         // Reset Property
         fGraphicalViewer.setProperty("full_screen", null); //$NON-NLS-1$
+
+        // Show the old shell
+        fOldParent.getShell().setVisible(true);
 
         // Focus
         getWorkbenchPart().getSite().getWorkbenchWindow().getShell().setFocus();

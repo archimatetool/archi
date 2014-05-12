@@ -11,6 +11,7 @@ Version 2.8
 * The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
 * Connection bendpoints - snap to grid now snaps to nearest grid point
+* Fixed Full Screen Mode not hiding application Shell on Linux
 
 
 
