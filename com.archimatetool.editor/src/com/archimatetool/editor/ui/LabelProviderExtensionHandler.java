@@ -84,4 +84,20 @@ public class LabelProviderExtensionHandler {
         
         return null;
     }
+
+    /**
+     * Return an IGraphics2dIcon for a given element in a registered Label Provider Extension
+     * @param element The element to find the image for
+     * @return The IGraphics2dIcon if found, or null
+     */
+    public IGraphicsIcon getGraphics2dIcon(Object element) {
+        for(IEditorLabelProvider provider : getRegisteredProviders()) {
+            IGraphicsIcon icon = provider.getGraphicsIcon(element);
+            if(icon != null) {
+                return icon;
+            }
+        }
+        
+        return null;
+    }
 }

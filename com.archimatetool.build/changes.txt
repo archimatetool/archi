@@ -7,6 +7,7 @@ Version 2.8
 + The Magic Connector's menu items are now written as verbs (e.g. "Realised by")
 + Export to CSV now exports three CSV files - elements, relations and properties
 + Import new and changed data from CSV files
++ ArchiMate, Sketch and Canvas Model Reference figures now use scalable icons
 * The "Select All" action in Diagram Views now selects all elements and connections
 * The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")

@@ -28,4 +28,10 @@ public interface IEditorLabelProvider {
      * @return The label for an object
      */
     String getLabel(Object element);
+    
+    /**
+     * @param element The element
+     * @return An IGraphicsIcon instance that will draw an icon
+     */
+    IGraphicsIcon getGraphicsIcon(Object element);
 }

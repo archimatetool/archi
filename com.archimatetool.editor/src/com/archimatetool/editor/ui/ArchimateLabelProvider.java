@@ -11,6 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.diagram.figures.diagram.ArchimateDiagramModelGraphicsIcon;
+import com.archimatetool.editor.diagram.sketch.figures.SketchModelGraphicsIcon;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
@@ -101,6 +103,29 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         }
         
         return image;
+    }
+    
+    @Override
+    public IGraphicsIcon getGraphicsIcon(Object element) {
+        if(element == null) {
+            return null;
+        }
+        
+        IGraphicsIcon graphicsIcon = null;
+        
+        if(element instanceof IArchimateDiagramModel) {
+            graphicsIcon = new ArchimateDiagramModelGraphicsIcon();
+        }
+        else if(element instanceof ISketchModel) {
+            graphicsIcon = new SketchModelGraphicsIcon();
+        }
+        
+        // Try registered extensions
+        if(graphicsIcon == null) {
+            graphicsIcon = LabelProviderExtensionHandler.INSTANCE.getGraphics2dIcon(element);
+        }
+
+        return graphicsIcon;
     }
     
     /**

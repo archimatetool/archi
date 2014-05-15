@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.canvas.figures.CanvasModelGraphicsIcon;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasModelConnection;
@@ -17,6 +18,7 @@ import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.IEditorLabelProvider;
+import com.archimatetool.editor.ui.IGraphicsIcon;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.INameable;
 
@@ -78,6 +80,21 @@ public class CanvasLabelProvider implements IEditorLabelProvider {
         return null;
     }
 
+    @Override
+    public IGraphicsIcon getGraphicsIcon(Object element) {
+        if(element == null) {
+            return null;
+        }
+        
+        IGraphicsIcon graphicsIcon = null;
+        
+        if(element instanceof ICanvasModel) {
+            graphicsIcon = new CanvasModelGraphicsIcon();
+        }
+
+        return graphicsIcon;
+    }
+    
     public Image getEClassImage(EClass eClass) {
         switch(eClass.getClassifierID()) {
             case ICanvasPackage.CANVAS_MODEL:
