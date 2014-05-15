@@ -17,6 +17,7 @@ import org.junit.Test;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IBusinessActor;
 
 
@@ -87,24 +88,26 @@ public class ColorFactoryTests {
 
     @Test
     public void testgetUserDefaultLineColor_Element() {
-        Color color = ColorFactory.getUserDefaultLineColor(IArchimateFactory.eINSTANCE.createBusinessActor());
+        IBusinessActor actor = IArchimateFactory.eINSTANCE.createBusinessActor();
+        Color color = ColorFactory.getUserDefaultLineColor(actor);
         assertNull(color);
         
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR, "#010203");
-        color = ColorFactory.getUserDefaultLineColor(IArchimateFactory.eINSTANCE.createBusinessActor());
+        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR, "#020304");
+        color = ColorFactory.getUserDefaultLineColor(actor);
         
-        assertEquals(1, color.getRed());
-        assertEquals(2, color.getGreen());
-        assertEquals(3, color.getBlue());
+        assertEquals(2, color.getRed());
+        assertEquals(3, color.getGreen());
+        assertEquals(4, color.getBlue());
     }
 
     @Test
     public void testgetUserDefaultLineColor_Connection() {
-        Color color = ColorFactory.getUserDefaultLineColor(IArchimateFactory.eINSTANCE.createAssignmentRelationship());
+        IAssignmentRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        Color color = ColorFactory.getUserDefaultLineColor(relation);
         assertNull(color);
         
         Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR, "#010203");
-        color = ColorFactory.getUserDefaultLineColor(IArchimateFactory.eINSTANCE.createBusinessActor());
+        color = ColorFactory.getUserDefaultLineColor(relation);
         
         assertEquals(1, color.getRed());
         assertEquals(2, color.getGreen());
