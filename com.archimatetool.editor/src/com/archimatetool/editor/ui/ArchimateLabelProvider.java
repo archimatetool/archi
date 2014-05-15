@@ -132,6 +132,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return An Image for an EObject instance
      */
     private Image getObjectImage(EObject eObject) {
+        if(eObject == null) {
+            return null;
+        }
+        
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eObject.eClass());
         if(provider != null) {
             return provider.getImage(eObject);
@@ -144,6 +148,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return An Image for an EClass
      */
     private Image getEClassImage(EClass eClass) {
+        if(eClass == null) {
+            return null;
+        }
+        
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
         if(provider != null) {
             return provider.getImage();
@@ -162,6 +170,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return An ImageDescriptor for an EClass
      */
     public ImageDescriptor getImageDescriptor(EClass eClass) {
+        if(eClass == null) {
+            return null;
+        }
+        
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
         if(provider != null) {
             return provider.getImageDescriptor();
@@ -176,6 +188,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
     }
     
     private String getImageName(EClass eClass) {
+        if(eClass == null) {
+            return null;
+        }
+        
         switch(eClass.getClassifierID()) {
             // Other
             case IArchimatePackage.ARCHIMATE_MODEL:
@@ -199,6 +215,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return A name or null
      */
     public String getDefaultName(EClass eClass) {
+        if(eClass == null) {
+            return ""; //$NON-NLS-1$
+        }
+        
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
         if(provider != null) {
             return provider.getDefaultName();
@@ -213,6 +233,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return A name or null
      */
     public String getDefaultShortName(EClass eClass) {
+        if(eClass == null) {
+            return ""; //$NON-NLS-1$
+        }
+        
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
         if(provider != null) {
             return provider.getDefaultShortName();
@@ -280,6 +304,10 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
      * @return A phrase that describes the relationship, for example "Is Realised by", "Flows to"
      */
     public String getRelationshipPhrase(EClass eClass, boolean reverseDirection) {
+        if(eClass == null) {
+            return ""; //$NON-NLS-1$
+        }
+        
         switch(eClass.getClassifierID()) {
             case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
                 return reverseDirection ? Messages.ArchimateLabelProvider_14 : Messages.ArchimateLabelProvider_15;
