@@ -75,7 +75,7 @@ public class ColorFactoryTests {
     }
 
     @Test
-    public void testgetInbuiltDefaultFillColor() {
+    public void testGetInbuiltDefaultFillColor() {
         Color color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createBusinessActor());
         assertEquals(ColorFactory.COLOR_BUSINESS, color);
         
@@ -87,7 +87,7 @@ public class ColorFactoryTests {
     }
 
     @Test
-    public void testgetUserDefaultLineColor_Element() {
+    public void testGetUserDefaultLineColor_Element() {
         IBusinessActor actor = IArchimateFactory.eINSTANCE.createBusinessActor();
         Color color = ColorFactory.getUserDefaultLineColor(actor);
         assertNull(color);
@@ -101,7 +101,7 @@ public class ColorFactoryTests {
     }
 
     @Test
-    public void testgetUserDefaultLineColor_Connection() {
+    public void testGetUserDefaultLineColor_Connection() {
         IAssignmentRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         Color color = ColorFactory.getUserDefaultLineColor(relation);
         assertNull(color);

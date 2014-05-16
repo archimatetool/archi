@@ -11,14 +11,14 @@ import junit.framework.TestSuite;
 public class AllUITests {
 
     public static junit.framework.Test suite() {
-		TestSuite suite = new TestSuite("com.archimatetool.editor.ui");
-		
+        TestSuite suite = new TestSuite("com.archimatetool.editor.ui");
+
         // ui
-		suite.addTest(ArchimateLabelProviderTests.suite());
+        suite.addTest(ArchimateLabelProviderTests.suite());
         suite.addTest(ColorFactoryTests.suite());
         suite.addTest(FigureChooserTests.suite());
 
         return suite;
-	}
+    }
 
 }

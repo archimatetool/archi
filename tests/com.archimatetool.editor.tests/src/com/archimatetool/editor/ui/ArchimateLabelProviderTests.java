@@ -144,8 +144,11 @@ public class ArchimateLabelProviderTests {
         IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relation.setSource(actor);
         relation.setTarget(role);
-        
         assertEquals("Fred is assigned to Nobody", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation));
+        
+        relation.setSource(role);
+        relation.setTarget(actor);
+        assertEquals("Nobody is assigned to Fred", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation));
     }
     
     @Test
