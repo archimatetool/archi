@@ -18,7 +18,7 @@ public final class StringUtils {
     /**
      * Empty String
      */
-    final static String ZERO_LENGTH_STRING = ""; //$NON-NLS-1$
+    public final static String ZERO_LENGTH_STRING = ""; //$NON-NLS-1$
 
     /**
      * Ensures that a string is not null. Converts null strings into empty
@@ -109,6 +109,19 @@ public final class StringUtils {
     public static String escapeAmpersandsInText(String text) {
         if(isSet(text)) {
             return text.replaceAll("&", "&&");  //$NON-NLS-1$//$NON-NLS-2$
+        }
+        return text;
+    }
+    
+    /**
+     * Replace all newline and cr characters from a String with given string
+     * @param text
+     * @Param replace the string to replace with
+     * @return The new text
+     */
+    public static String replaceNewLineCharacters(String text, String replace) {
+        if(isSet(text)) {
+            return text.replaceAll("(\r\n|\r|\n)", replace);  //$NON-NLS-1$
         }
         return text;
     }
