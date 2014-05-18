@@ -140,6 +140,11 @@ public class DiagramModelGroup extends DiagramModelObject implements IDiagramMod
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_GROUP__DOCUMENTATION, oldDocumentation, documentation));
     }
 
+    @Override
+    public int getDefaultTextAlignment() {
+        return TEXT_ALIGNMENT_LEFT;
+    }
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
