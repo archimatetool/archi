@@ -15,6 +15,7 @@ import com.archimatetool.editor.diagram.figures.business.BusinessActivityFigure;
  * Business Activity Edit Part
  * 
  * @author Phillip Beauvoir
+ * @deprecated As of ArchiMate version 2.0
  */
 public class BusinessActivityEditPart
 extends AbstractArchimateEditableTextFlowEditPart {            

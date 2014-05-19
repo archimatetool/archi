@@ -288,6 +288,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
 
     /**
      * <!-- begin-user-doc -->
+     * @deprecated As of ArchiMate version 2.0
      * <!-- end-user-doc -->
      * @generated
      */

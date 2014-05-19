@@ -45,7 +45,6 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
                 { IArchimatePackage.eINSTANCE.getApplicationInterface() },
                 { IArchimatePackage.eINSTANCE.getApplicationService() },
                 
-                { IArchimatePackage.eINSTANCE.getBusinessActivity() },
                 { IArchimatePackage.eINSTANCE.getBusinessActor() },
                 { IArchimatePackage.eINSTANCE.getBusinessCollaboration() },
                 { IArchimatePackage.eINSTANCE.getContract() },

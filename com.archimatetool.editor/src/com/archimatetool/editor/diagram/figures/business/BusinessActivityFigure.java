@@ -17,6 +17,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * Business Activity Figure
  * 
  * @author Phillip Beauvoir
+ * @deprecated As of ArchiMate version 2.0
  */
 public class BusinessActivityFigure
 extends AbstractArchimateFigure {

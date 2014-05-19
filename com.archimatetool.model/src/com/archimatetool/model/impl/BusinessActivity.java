@@ -14,6 +14,7 @@ import com.archimatetool.model.IBusinessActivity;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Business Activity</b></em>'.
+ * @deprecated As of ArchiMate version 2.0
  * <!-- end-user-doc -->
  * <p>
  * </p>

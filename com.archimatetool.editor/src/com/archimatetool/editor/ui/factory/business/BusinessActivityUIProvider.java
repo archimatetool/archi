@@ -20,6 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
  * Business Activity UI Provider
  * 
  * @author Phillip Beauvoir
+ * @deprecated As of ArchiMate version 2.0
  */
 public class BusinessActivityUIProvider extends AbstractBusinessUIProvider {
 

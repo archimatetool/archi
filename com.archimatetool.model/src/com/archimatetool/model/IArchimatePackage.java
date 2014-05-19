@@ -7973,6 +7973,7 @@ public interface IArchimatePackage extends EPackage {
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IBusinessActivity <em>Business Activity</em>}'.
      * <!-- begin-user-doc -->
+     * @deprecated As of ArchiMate version 2.0
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Business Activity</em>'.
      * @see com.archimatetool.model.IBusinessActivity

@@ -83,6 +83,7 @@ import com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUI
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("deprecation")
 public class ElementUIFactory {
 
     public static final ElementUIFactory INSTANCE = new ElementUIFactory();
