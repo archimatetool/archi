@@ -60,15 +60,20 @@ public class TreeViewpointFilterProvider implements IPartListener {
     };
     
     TreeViewpointFilterProvider(TreeViewer viewer) {
-        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
         fViewer = viewer;
 
+        // Listen to Part selections
+        if(PlatformUI.isWorkbenchRunning()) {
+            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
+        }
+        
         // Listen to Preferences
         Preferences.STORE.addPropertyChangeListener(prefsListener);
+
         fViewer.getControl().addDisposeListener(new DisposeListener() {
             @Override
             public void widgetDisposed(DisposeEvent e) {
-            	if(PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+            	if(PlatformUI.isWorkbenchRunning() && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
             		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().removePartListener(TreeViewpointFilterProvider.this);
             	}
                 
