@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.diagram;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -14,8 +15,13 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.LabelProviderExtensionHandler;
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.ISketchModel;
 
 
 
@@ -45,6 +51,25 @@ public class DiagramModelReferenceUIProvider extends AbstractElementUIProvider {
         return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
     }
 
+    @Override
+    public Image getImage(EObject instance) {
+        if(instance instanceof IDiagramModelReference) {
+            IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
+            if(dm instanceof IArchimateDiagramModel) {
+                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+            }
+            else if(dm instanceof ISketchModel) {
+                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SKETCH_16);
+            }
+            // Try registered extensions
+            else {
+                return LabelProviderExtensionHandler.INSTANCE.getImage(dm);
+            }
+
+        }
+        return getImage();
+    }
+    
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DIAGRAM_16);

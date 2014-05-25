@@ -5,10 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import junit.framework.JUnit4TestAdapter;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigureTests;
@@ -18,7 +14,6 @@ import com.archimatetool.model.IDiagramModelReference;
 
 
 
-@SuppressWarnings("nls")
 public class DiagramModelReferenceFigureTests extends AbstractTextFlowFigureTests {
     
     public static junit.framework.Test suite() {
@@ -44,12 +39,4 @@ public class DiagramModelReferenceFigureTests extends AbstractTextFlowFigureTest
         return figure;
     }
     
-    @Override
-    @Test
-    public void testSetText() {
-        String name = diagramModelObject.getName();
-        assertEquals(name, textFlowFigure.getTextControl().getText());
-        diagramModelObject.setName("Fido");
-        assertEquals(name, diagramModelObject.getName()); // Should not be set
-    }
 }

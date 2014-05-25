@@ -86,6 +86,13 @@ public class DiagramModelReference extends DiagramModelObject implements IDiagra
             return ""; //$NON-NLS-1$
         }
     }
+    
+    @Override
+    public void setName(String newName) {
+        if(getReferencedModel() != null) {
+            getReferencedModel().setName(newName);
+        }
+    }
 
     /**
      * <!-- begin-user-doc -->

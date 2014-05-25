@@ -9,7 +9,10 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.requests.LocationRequest;
+import org.eclipse.gef.tools.DirectEditManager;
 
+import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
 import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
 import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
@@ -18,6 +21,7 @@ import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
+import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelReference;
@@ -58,6 +62,9 @@ implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
     protected void createEditPolicies() {
         // Allow parts to be connected
         installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
+        
+        // Add a policy to handle directly editing the name
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new PartDirectEditTitlePolicy());
 
         // Add a policy to handle editing the Parts (for example, deleting a part)
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
@@ -70,17 +77,50 @@ implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
     }
 
     @Override
+    public IDiagramModelObjectFigure getFigure() {
+        return (IDiagramModelObjectFigure)super.getFigure();
+    }
+
+    @Override
     protected void refreshFigure() {
         ((IDiagramModelObjectFigure)figure).refreshVisuals();
     }
 
-    @Override
-    public void performRequest(Request req) {
+    public void sperformRequest(Request req) {
         if(req.getType() == RequestConstants.REQ_OPEN) {
             // Open Diagram if not in Full Screen Mode
             if(!isInFullScreenMode()) {
                 EditorManager.openDiagramEditor(((IDiagramModelReference)getModel()).getReferencedModel());
             }
         }
+    }
+    
+    @Override
+    public void performRequest(Request request) {
+        // REQ_DIRECT_EDIT is Single-click when already selected or a Rename action
+        // REQ_OPEN is Double-click
+        
+        // Open Diagram if not in Full Screen Mode
+        if(request.getType() == RequestConstants.REQ_OPEN) {
+            if(!isInFullScreenMode()) {
+                EditorManager.openDiagramEditor(((IDiagramModelReference)getModel()).getReferencedModel());
+            }
+        }
+        else if(request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+            // Edit the text control if we clicked on it
+            if(request instanceof LocationRequest) {
+                if(getFigure().didClickTextControl(((LocationRequest)request).getLocation().getCopy())) {
+                    createDirectEditManager().show();
+                }
+            }
+            // Rename Action
+            else {
+                createDirectEditManager().show();
+            }
+        }
+    }
+
+    protected DirectEditManager createDirectEditManager() {
+        return new LabelDirectEditManager(this, getFigure().getTextControl());
     }
 }

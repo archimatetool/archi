@@ -421,6 +421,14 @@
                id="imageSection"
                tab="main.tab">
          </propertySection>
+         <propertySection
+               class="com.archimatetool.editor.propertysections.DiagramModelReferenceSection"
+               id="diagramModelReferenceSection"
+               tab="main.tab">
+            <input
+                  type="com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart">
+            </input>
+         </propertySection>
       </propertySections>
    </extension>
    <extension

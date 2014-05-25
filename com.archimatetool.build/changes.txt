@@ -8,8 +8,9 @@ Version 2.8
 + Export to CSV now exports three CSV files - elements, relations and properties
 + Import new and changed data from CSV files
 + ArchiMate, Sketch and Canvas Model Reference figures now use scalable icons
-* The "Select All" action in Diagram Views now selects all elements and connections
-* The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
++ View Reference figure names are now editable (rename referenced View)
++ The "Select All" action in Diagram Views now selects all elements and connections
++ The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
 * Connection bendpoints - snap to grid now snaps to nearest grid point
 * Fixed Full Screen Mode not hiding application Shell on Linux
