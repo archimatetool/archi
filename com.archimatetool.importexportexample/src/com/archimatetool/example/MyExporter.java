@@ -90,7 +90,7 @@ public class MyExporter implements IModelExporter {
             return ""; //$NON-NLS-1$
         }
         
-        s = s.replaceAll("\r\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
+        s = s.replace("\r\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
         s = "\"" + s + "\""; //$NON-NLS-1$ //$NON-NLS-2$
         
         return s;

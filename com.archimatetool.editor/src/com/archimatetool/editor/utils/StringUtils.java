@@ -108,7 +108,7 @@ public final class StringUtils {
      */
     public static String escapeAmpersandsInText(String text) {
         if(isSet(text)) {
-            return text.replaceAll("&", "&&");  //$NON-NLS-1$//$NON-NLS-2$
+            return text.replace("&", "&&");  //$NON-NLS-1$//$NON-NLS-2$
         }
         return text;
     }

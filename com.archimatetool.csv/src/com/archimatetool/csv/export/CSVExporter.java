@@ -346,10 +346,10 @@ public class CSVExporter implements CSVConstants {
         }
         
         // Tabs become a space
-        s = s.replaceAll("\t", " ");
+        s = s.replace("\t", " ");
         
         // Single quotes become double quotes
-        s = s.replaceAll("\"", "\"\"");
+        s = s.replace("\"", "\"\"");
         
         return s;
     }

@@ -70,7 +70,7 @@ public class HTMLMerger {
 
                 // Replace local html links with anchor type links
                 for(String s : fileList) {
-                    content = content.replaceAll("<a href=\"" + s, "<a href=\"#" + s);
+                    content = content.replace("<a href=\"" + s, "<a href=\"#" + s);
                 }
                 
                 Scanner scanner = new Scanner(content);
