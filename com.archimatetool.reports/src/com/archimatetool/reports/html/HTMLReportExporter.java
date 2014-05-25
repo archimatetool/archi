@@ -468,10 +468,10 @@ public class HTMLReportExporter {
     
     private String parseChars(String s) {
         // Escape chars
-        s = s.replaceAll("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$  // This first
-        s = s.replaceAll("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
-        s = s.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
-        s = s.replaceAll("\"", "&quot;"); //$NON-NLS-1$ //$NON-NLS-2$
+        s = s.replace("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$  // This first
+        s = s.replace("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
+        s = s.replace(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
+        s = s.replace("\"", "&quot;"); //$NON-NLS-1$ //$NON-NLS-2$
         
         // CRs become breaks
         s = s.replaceAll("(\r\n|\r|\n)", "<br/>");  //$NON-NLS-1$ //$NON-NLS-2$ // This last
@@ -487,7 +487,7 @@ public class HTMLReportExporter {
             String group = matcher.group();
             if(!done.contains(group)) {
                 done.add(group);
-                s = s.replaceAll(group, "<a href=\"" + group + "\">" + group + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                s = s.replace(group, "<a href=\"" + group + "\">" + group + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
         

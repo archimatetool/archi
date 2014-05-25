@@ -13,6 +13,7 @@ Version 2.8
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
 * Connection bendpoints - snap to grid now snaps to nearest grid point
 * Fixed Full Screen Mode not hiding application Shell on Linux
+* Fixed HTML Report not generated if documentation text included a hyperlink with regex character
 
 
 
