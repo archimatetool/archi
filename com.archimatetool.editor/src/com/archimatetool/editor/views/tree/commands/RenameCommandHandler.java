@@ -5,9 +5,16 @@
  */
 package com.archimatetool.editor.views.tree.commands;
 
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map.Entry;
+
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimatePackage;
@@ -47,4 +54,64 @@ public class RenameCommandHandler {
                     IArchimatePackage.Literals.NAMEABLE__NAME, newText));
         }
     }
+    
+    /**
+     * Rename elements to matching newNames by issuing a CompundCommand(s) on the CommandStack(s)
+     * @param elements
+     * @param newNames
+     */
+    public static void doRenameCommands(List<INameable> elements, List<String> newNames) {
+        // Must match sizes
+        if(elements.size() != newNames.size() || elements.isEmpty()) {
+            return;
+        }
+        
+        /*
+         * If renaming elements from more than one model in the tree we need to use the
+         * Command Stack allocated to each model. And then allocate one CompoundCommand per Command Stack.
+         */
+        Hashtable<CommandStack, CompoundCommand> commandMap = new Hashtable<CommandStack, CompoundCommand>();
+        
+        for(int i = 0; i < elements.size(); i++) {
+            INameable element = elements.get(i);
+            String newName = newNames.get(i);
+            
+            CompoundCommand compoundCommand = getCompoundCommand((IAdapter)element, commandMap);
+            if(compoundCommand != null) {
+                Command cmd = new EObjectFeatureCommand(Messages.RenameCommandHandler_0 + " " + element.getName(), element, //$NON-NLS-1$
+                        IArchimatePackage.Literals.NAMEABLE__NAME, newName);
+                compoundCommand.add(cmd);
+            }
+            else {
+                System.err.println("Could not get CompoundCommand in doRenameCommands"); //$NON-NLS-1$
+            }
+        }
+        
+        // Execute the Commands on the CommandStack(s) - there could be more than one if more than one model open in the Tree
+        for(Entry<CommandStack, CompoundCommand> entry : commandMap.entrySet()) {
+            entry.getKey().execute(entry.getValue().unwrap());
+        }
+    }
+    
+    /**
+     * Get, and if need be create, a CompoundCommand to which to add the object to be renamed command
+     */
+    private static CompoundCommand getCompoundCommand(IAdapter object, Hashtable<CommandStack, CompoundCommand> commandMap) {
+        // Get the Command Stack registered to the object
+        CommandStack stack = (CommandStack)object.getAdapter(CommandStack.class);
+        if(stack == null) {
+            System.err.println("CommandStack was null in getCompoundCommand"); //$NON-NLS-1$
+            return null;
+        }
+        
+        // Now get or create a Compound Command
+        CompoundCommand compoundCommand = commandMap.get(stack);
+        if(compoundCommand == null) {
+            compoundCommand = new NonNotifyingCompoundCommand(Messages.RenameCommandHandler_0);
+            commandMap.put(stack, compoundCommand);
+        }
+        
+        return compoundCommand;
+    }
+
 }
