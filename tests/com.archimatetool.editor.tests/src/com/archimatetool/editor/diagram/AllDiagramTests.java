@@ -23,6 +23,7 @@ public class AllDiagramTests {
 		TestSuite suite = new TestSuite("com.archimatetool.editor.diagram");
 		
         // diagram
+        suite.addTest(DiagramEditorFindReplaceProviderTests.suite());
         suite.addTest(ImageExportProviderTests.suite());
         suite.addTest(ImageExportProviderManagerTests.suite());
 
