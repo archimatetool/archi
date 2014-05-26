@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
@@ -27,13 +26,8 @@ public class SketchModelActorTests extends DiagramModelObjectTests {
     
     @Override
     protected IDiagramModelComponent getComponent() {
-        ISketchModelActor actor = IArchimateFactory.eINSTANCE.createSketchModelActor();
+        actor = IArchimateFactory.eINSTANCE.createSketchModelActor();
         return actor;
-    }
-
-    @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
-        actor = (ISketchModelActor)getComponent();
     }
 
 

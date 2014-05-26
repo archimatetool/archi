@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
@@ -30,13 +29,8 @@ public class DiagramModelGroupTests extends DiagramModelObjectTests {
     
     @Override
     protected IDiagramModelComponent getComponent() {
-        IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         return group;
-    }
-
-    @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
-        group = (IDiagramModelGroup)getComponent();
     }
 
     @Override

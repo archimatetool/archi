@@ -23,10 +23,8 @@ import com.archimatetool.model.IDiagramModel;
 @SuppressWarnings("nls")
 public abstract class DiagramModelTests {
     
-    protected abstract IDiagramModel getDiagramModel();
-    
     private IArchimateModel model;
-    private IDiagramModel dm;
+    protected IDiagramModel dm;
     
     @Before
     public void runBeforeEachDiagramModelTest() {
@@ -35,6 +33,8 @@ public abstract class DiagramModelTests {
         model.setDefaults();
     }
 
+    protected abstract IDiagramModel getDiagramModel();
+    
     @Test
     public void testGetName() {
         CommonTests.testGetName(dm);

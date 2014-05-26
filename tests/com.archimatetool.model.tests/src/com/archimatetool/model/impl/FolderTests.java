@@ -31,7 +31,7 @@ public class FolderTests {
     private IArchimateModel model;
 
     @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
+    public void runBeforeEachTest() {
         folder = IArchimateFactory.eINSTANCE.createFolder();
         model = IArchimateFactory.eINSTANCE.createArchimateModel();
     }

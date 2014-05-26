@@ -24,9 +24,7 @@ import com.archimatetool.model.IDiagramModelObject;
 @SuppressWarnings("nls")
 public abstract class DiagramModelComponentTests {
     
-    protected abstract IDiagramModelComponent getComponent();
-    
-    private IDiagramModelComponent component;
+    protected IDiagramModelComponent component;
     private IArchimateDiagramModel dm;
     
     @Before
@@ -34,6 +32,8 @@ public abstract class DiagramModelComponentTests {
         component = getComponent();
         dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
     }
+    
+    protected abstract IDiagramModelComponent getComponent();
     
     @Test
     public void testGetID() {

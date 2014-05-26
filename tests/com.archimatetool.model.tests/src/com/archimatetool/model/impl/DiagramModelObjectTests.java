@@ -28,7 +28,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     
     @Before
     public void runBeforeEachDiagramModelObjectTest() {
-        object = (IDiagramModelObject)getComponent();
+        object = (IDiagramModelObject)component;
     }
 
     
@@ -176,13 +176,16 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         object.setBounds(bounds);
         
         IDiagramModelObject copy = (IDiagramModelObject)object.getCopy();
-        
         assertNotSame(object, copy);
+        
         assertTrue(copy.getSourceConnections().isEmpty());
         assertTrue(copy.getTargetConnections().isEmpty());
+        
         assertNotSame(bounds, copy.getBounds());
         assertEquals(bounds.getX(), copy.getBounds().getX());
         assertEquals(bounds.getY(), copy.getBounds().getY());
+        assertEquals(bounds.getWidth(), copy.getBounds().getWidth());
+        assertEquals(bounds.getHeight(), copy.getBounds().getHeight());
     }
 
 }

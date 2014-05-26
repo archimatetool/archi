@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
@@ -31,13 +30,8 @@ public class SketchModelStickyTests extends DiagramModelObjectTests {
     
     @Override
     protected IDiagramModelComponent getComponent() {
-        ISketchModelSticky sticky = IArchimateFactory.eINSTANCE.createSketchModelSticky();
+        sticky = IArchimateFactory.eINSTANCE.createSketchModelSticky();
         return sticky;
-    }
-
-    @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
-        sticky = (ISketchModelSticky)getComponent();
     }
 
 

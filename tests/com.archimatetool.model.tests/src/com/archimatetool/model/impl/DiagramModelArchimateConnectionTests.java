@@ -35,12 +35,9 @@ public class DiagramModelArchimateConnectionTests {
     private IDiagramModelArchimateObject source, target;
     private IDiagramModelArchimateConnection connection;
     
-    // ---------------------------------------------------------------------------------------------
-    // BEFORE AND AFTER METHODS GO HERE 
-    // ---------------------------------------------------------------------------------------------
     
     @Before
-    public void runBeforeEachOfTheseTests() {
+    public void runBeforeEachTest() {
         source = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         source.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
         target = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
@@ -51,9 +48,6 @@ public class DiagramModelArchimateConnectionTests {
         connection.setRelationship(relationship);
     }
     
-    // ---------------------------------------------------------------------------------------------
-    // Tests
-    // ---------------------------------------------------------------------------------------------
     
     @Test
     public void testGetName() {

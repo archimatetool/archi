@@ -8,7 +8,6 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
@@ -27,13 +26,8 @@ public class DiagramModelImageTests extends DiagramModelObjectTests {
     
     @Override
     protected IDiagramModelComponent getComponent() {
-        IDiagramModelImage image = IArchimateFactory.eINSTANCE.createDiagramModelImage();
+        image = IArchimateFactory.eINSTANCE.createDiagramModelImage();
         return image;
-    }
-
-    @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
-        image = (IDiagramModelImage)getComponent();
     }
 
 

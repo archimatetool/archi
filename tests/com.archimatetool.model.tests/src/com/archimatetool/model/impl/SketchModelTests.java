@@ -8,7 +8,6 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
@@ -27,13 +26,10 @@ public class SketchModelTests extends DiagramModelTests {
     
     @Override
     protected IDiagramModel getDiagramModel() {
-        return IArchimateFactory.eINSTANCE.createSketchModel();
+        sm = IArchimateFactory.eINSTANCE.createSketchModel();
+        return sm;
     }
     
-    @Before
-    public void runBeforeEachTest() {
-        sm = (ISketchModel)getDiagramModel();
-    }
     
     // ---------------------------------------------------------------------------------------------
     // Tests

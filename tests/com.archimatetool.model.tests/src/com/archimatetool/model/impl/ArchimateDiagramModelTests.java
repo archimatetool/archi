@@ -8,7 +8,6 @@ package com.archimatetool.model.impl;
 import static org.junit.Assert.assertEquals;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -23,34 +22,27 @@ public class ArchimateDiagramModelTests extends DiagramModelTests {
         return new JUnit4TestAdapter(ArchimateDiagramModelTests.class);
     }
     
-    private IArchimateDiagramModel dm;
+    private IArchimateDiagramModel adm;
     
     @Override
     protected IDiagramModel getDiagramModel() {
-        return IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        adm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
+        return adm;
     }
     
-    @Before
-    public void runBeforeEachTest() {
-        dm = (IArchimateDiagramModel)getDiagramModel();
-    }
-    
-    // ---------------------------------------------------------------------------------------------
-    // Tests
-    // ---------------------------------------------------------------------------------------------
     
     @Test
     public void testGetViewpoint() {
-        assertEquals(0, dm.getViewpoint());
-        dm.setViewpoint(1);
-        assertEquals(1, dm.getViewpoint());
+        assertEquals(0, adm.getViewpoint());
+        adm.setViewpoint(1);
+        assertEquals(1, adm.getViewpoint());
     }
 
     @Test
     public void testGetChildren() {
-        CommonTests.testList(dm.getChildren(), IArchimatePackage.eINSTANCE.getDiagramModelArchimateObject());
-        CommonTests.testList(dm.getChildren(), IArchimatePackage.eINSTANCE.getDiagramModelGroup());
-        CommonTests.testList(dm.getChildren(), IArchimatePackage.eINSTANCE.getDiagramModelNote());
+        CommonTests.testList(adm.getChildren(), IArchimatePackage.eINSTANCE.getDiagramModelArchimateObject());
+        CommonTests.testList(adm.getChildren(), IArchimatePackage.eINSTANCE.getDiagramModelGroup());
+        CommonTests.testList(adm.getChildren(), IArchimatePackage.eINSTANCE.getDiagramModelNote());
     }
 
 }

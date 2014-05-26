@@ -10,16 +10,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFolder;
@@ -33,24 +33,14 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
     }
     
     private IDiagramModelArchimateObject object;
-    private IArchimateElement element;
     
     @Override
     protected IDiagramModelComponent getComponent() {
-        IDiagramModelArchimateObject object = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        object = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         object.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
         return object;
     }
 
-    @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
-        object = (IDiagramModelArchimateObject)getComponent();
-        element = object.getArchimateElement();
-    }
-    
-    // ---------------------------------------------------------------------------------------------
-    // Tests
-    // ---------------------------------------------------------------------------------------------
     
     @Test
     public void testGetChildren() {
@@ -65,15 +55,14 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         super.testGetName();
         
         // Set element name directly
-        element.setName("another");
+        object.getArchimateElement().setName("another");
         assertEquals("another", object.getName());
     }
 
     @Test
     public void testGetArchimateElement() {
-        assertSame(element, object.getArchimateElement());
+        assertTrue(object.getArchimateElement() instanceof IBusinessActor);
     }
-
     
     @Test
     public void testGetType() {

@@ -32,9 +32,6 @@ public class DiagramModelConnectionTests {
     private IDiagramModelObject source, target;
     private IDiagramModelConnection connection;
     
-    // ---------------------------------------------------------------------------------------------
-    // BEFORE AND AFTER METHODS GO HERE 
-    // ---------------------------------------------------------------------------------------------
     
     @Before
     public void runBeforeEachTest() {
@@ -43,9 +40,6 @@ public class DiagramModelConnectionTests {
         connection = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
     }
     
-    // ---------------------------------------------------------------------------------------------
-    // Tests
-    // ---------------------------------------------------------------------------------------------
     
     @Test
     public void testGetBendpoints() {

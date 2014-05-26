@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelReference;
 
 
@@ -30,17 +29,15 @@ public class DiagramModelReferenceTests extends DiagramModelObjectTests {
     private IDiagramModel dm;
     
     @Override
-    protected IDiagramModelComponent getComponent() {
-        IDiagramModelReference ref = IArchimateFactory.eINSTANCE.createDiagramModelReference();
+    protected IDiagramModelReference getComponent() {
+        ref = IArchimateFactory.eINSTANCE.createDiagramModelReference();
         return ref;
     }
 
     @Before
-    public void runBeforeEachDiagramModelArchimateObjectTest() {
-        ref = (IDiagramModelReference)getComponent();
+    public void runBeforeEachTest() {
         dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
     }
-
 
     @Test
     public void testReferencedModel() {
@@ -52,10 +49,9 @@ public class DiagramModelReferenceTests extends DiagramModelObjectTests {
     @Override
     @Test
     public void testGetName() {
-        assertEquals("", ref.getName());
-        dm.setName("aName");
         ref.setReferencedModel(dm);
-        assertEquals("aName", ref.getName());
+        super.testGetName();
+        assertEquals("name", ref.getReferencedModel().getName());
     }
 
 }

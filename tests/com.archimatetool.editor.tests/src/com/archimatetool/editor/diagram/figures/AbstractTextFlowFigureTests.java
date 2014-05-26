@@ -37,18 +37,16 @@ public abstract class AbstractTextFlowFigureTests extends AbstractContainerFigur
     }
     
     @Test
-    public void testSetText() {
-        assertEquals(diagramModelObject.getName(), textFlowFigure.getTextControl().getText());
+    public void testGetText() {
+        assertEquals(textFlowFigure.getDiagramModelObject().getName(), textFlowFigure.getDiagramModelObject().getName());
+        
         diagramModelObject.setName("Fido");
-        assertEquals("Fido", diagramModelObject.getName());
-        assertEquals(diagramModelObject.getName(), textFlowFigure.getTextControl().getText());
+        assertEquals("Fido", textFlowFigure.getTextControl().getText());
     }
 
     @Test
     public void testGetTextControl() {
         assertNotNull(textFlowFigure.getTextControl());
     }
-
-    
     
 }
