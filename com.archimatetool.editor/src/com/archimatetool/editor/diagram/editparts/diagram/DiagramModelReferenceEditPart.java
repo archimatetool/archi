@@ -86,15 +86,6 @@ implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
         ((IDiagramModelObjectFigure)figure).refreshVisuals();
     }
 
-    public void sperformRequest(Request req) {
-        if(req.getType() == RequestConstants.REQ_OPEN) {
-            // Open Diagram if not in Full Screen Mode
-            if(!isInFullScreenMode()) {
-                EditorManager.openDiagramEditor(((IDiagramModelReference)getModel()).getReferencedModel());
-            }
-        }
-    }
-    
     @Override
     public void performRequest(Request request) {
         // REQ_DIRECT_EDIT is Single-click when already selected or a Rename action
