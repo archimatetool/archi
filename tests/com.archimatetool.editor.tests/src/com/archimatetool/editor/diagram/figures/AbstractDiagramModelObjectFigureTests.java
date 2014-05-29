@@ -15,6 +15,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,6 +52,11 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         
         editor = new ArchimateTestEditor();
         editor.setDiagramModel(dm);
+    }
+    
+    @AfterClass
+    public static void runOnceAfterAllTests() {
+        editor.dispose();
     }
 
     @Before

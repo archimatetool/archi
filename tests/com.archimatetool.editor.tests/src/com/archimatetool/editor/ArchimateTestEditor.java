@@ -29,16 +29,18 @@ public class ArchimateTestEditor {
     
     private GraphicalViewer graphicalViewer;
     private IArchimateDiagramModel dm;
+    private Shell shell;
     
     public ArchimateTestEditor() {
-        // Actually, we do need this in cases where Display.getDefault() has not yet been called yet.
+        // We need to check this in cases where Display.getDefault() has not yet been called yet.
         // Creating a new Shell() at some point in the sequence of tests will call Display.getDefault() but let's be explicit here.
         if(Display.getCurrent() == null) {
             Display.getDefault();
         }
         
         graphicalViewer = new ScrollingGraphicalViewer();
-        graphicalViewer.createControl(new Shell());
+        shell = new Shell();
+        graphicalViewer.createControl(shell);
         
         graphicalViewer.setEditPartFactory(new ArchimateDiagramEditPartFactory());
         graphicalViewer.setRootEditPart(new ScalableFreeformRootEditPart());
@@ -47,6 +49,7 @@ public class ArchimateTestEditor {
     public void setDiagramModel(IArchimateDiagramModel dm) {
         this.dm = dm;
         graphicalViewer.setContents(dm);
+        layoutPendingUpdates();
     }
     
     public IArchimateDiagramModel getDiagramModel() {
@@ -94,4 +97,7 @@ public class ArchimateTestEditor {
         return editPart == null ? null : editPart.getFigure();
     }
 
+    public void dispose() {
+        shell.dispose();
+    }
 }

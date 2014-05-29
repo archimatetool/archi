@@ -58,6 +58,8 @@ public class SelectAllActionTests {
         SelectAllAction action = new SelectAllAction(mock(IWorkbenchPart.class));
         List<GraphicalEditPart> selected = action.getSelectableEditParts(editor.getGraphicalViewer().getContents());
         assertEquals(4, selected.size());
+        
+        editor.dispose();
     }
 
     
