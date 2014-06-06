@@ -10,6 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import junit.framework.JUnit4TestAdapter;
@@ -53,5 +54,24 @@ public class IArchiveManagerTests {
     @Test
     public void testFactory_getArchiveFilePath() {
         assertEquals("archive:file:///" + TestSupport.TEST_MODEL_FILE_ZIPPED.getPath(), IArchiveManager.FACTORY.getArchiveFilePath(TestSupport.TEST_MODEL_FILE_ZIPPED));
+    }
+    
+    @Test
+    // See https://github.com/Phillipus/archi/issues/81
+    public void testFactory_createArchiveModelURI_Hash() {
+        File file = new File("this#path/test.archimate");
+        File file2 = new File("this%23path/test.archimate");
+        
+        URI expectedURI = URI.createURI("archive:file:///" + file2.getPath() + "!/model.xml");
+        assertEquals(expectedURI, IArchiveManager.FACTORY.createArchiveModelURI(file));
+    }
+
+    @Test
+    // See https://github.com/Phillipus/archi/issues/81
+    public void testFactory_getArchiveFilePath_Hash() {
+        File file = new File("this#path/test.archimate");
+        File file2 = new File("this%23path/test.archimate");
+        String path = IArchiveManager.FACTORY.getArchiveFilePath(file);
+        assertEquals("archive:file:///" + file2.getPath(), path);
     }
 }

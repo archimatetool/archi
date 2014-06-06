@@ -15,6 +15,7 @@ Version 2.8
 * Connection bendpoints - snap to grid now snaps to nearest grid point
 * Fixed Full Screen Mode not hiding application Shell on Linux
 * Fixed HTML Report not generated if documentation text included a hyperlink with regex character
+* Fixed cannot open archive type model file (Canvas with images) if "#" character in file name
 
 
 
