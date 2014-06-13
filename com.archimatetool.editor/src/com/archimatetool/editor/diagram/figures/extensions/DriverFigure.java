@@ -36,8 +36,8 @@ public class DriverFigure extends AbstractMotivationFigure {
      */
     protected void drawIcon(Graphics graphics) {
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(ColorConstants.black);
-        graphics.setBackgroundColor(ColorConstants.black);
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        graphics.setBackgroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
         

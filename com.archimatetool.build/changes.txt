@@ -11,6 +11,7 @@ Version 2.8
 + View Reference figure names are now editable (rename referenced View)
 + The "Select All" action in Diagram Views now selects all elements and connections
 + The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
++ Figure icons are grey when figure disabled (when the element is not part of a Viewpoint)
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
 * Connection bendpoints - snap to grid now snaps to nearest grid point
 * Fixed Full Screen Mode not hiding application Shell on Linux

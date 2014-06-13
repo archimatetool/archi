@@ -58,7 +58,7 @@ implements IRoundedRectangleFigure {
      */
     protected void drawIcon(Graphics graphics) {
         graphics.setLineWidth(1);
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
         Rectangle rect = new Rectangle(pt.x, pt.y, 15, 8);

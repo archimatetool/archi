@@ -44,7 +44,7 @@ extends AbstractArchimateFigure {
      */
     protected void drawIcon(Graphics graphics) {
         graphics.setLineWidth(2);
-        graphics.setForegroundColor(ColorConstants.black);
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
         
