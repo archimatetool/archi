@@ -67,6 +67,11 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
                             fDiagramEditors.add(diagramEditor);
                         }
                     }
+                    
+                    // Select in tree
+                    if(Preferences.doLinkView() && fDoSync) {
+                        fTreeView.getViewer().setSelection(new StructuredSelection(diagramEditor.getModel()), true);
+                    }
                 }
             }
             
