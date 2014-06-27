@@ -7,7 +7,7 @@ package com.archimatetool.editor.diagram.editparts.application;
 
 import org.eclipse.draw2d.IFigure;
 
-import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
+import com.archimatetool.editor.diagram.editparts.business.BusinessInteractionEditPart;
 import com.archimatetool.editor.diagram.figures.application.ApplicationInteractionFigure;
 
 
@@ -17,11 +17,11 @@ import com.archimatetool.editor.diagram.figures.application.ApplicationInteracti
  * @author Phillip Beauvoir
  */
 public class ApplicationInteractionEditPart
-extends AbstractArchimateEditableTextFlowEditPart {            
+extends BusinessInteractionEditPart {            
     
     @Override
     protected IFigure createFigure() {
         return new ApplicationInteractionFigure(getModel());
     }
- 
+     
 }
