@@ -46,9 +46,6 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
                 pp.r -= radius;
                 super.setLocation(pp.toAbsolutePoint(pRef).getTranslated(-radius, -radius));
             }
-            else {
-                super.setLocation(p);
-            }
         }
 
         @Override
