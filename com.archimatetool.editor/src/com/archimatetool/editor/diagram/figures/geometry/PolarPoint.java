@@ -1,4 +1,4 @@
-package com.archimatetool.editor.diagram.figures.connections.roundedbendpoint;
+package com.archimatetool.editor.diagram.figures.geometry;
 
 /*******************************************************************************
  * Copyright (c) 2010 Oak Ridge National Laboratory.
