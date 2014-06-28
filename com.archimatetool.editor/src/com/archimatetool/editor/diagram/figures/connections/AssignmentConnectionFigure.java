@@ -10,7 +10,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -54,7 +53,6 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
 
         @Override
         public void paintFigure(Graphics graphics) {
-            graphics.setAntialias(SWT.ON);
             graphics.setBackgroundColor(ColorConstants.black);
             graphics.fillOval(bounds);
         }
