@@ -42,9 +42,14 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
 
         @Override
         public void setLocation(Point p) {
-            PolarPoint pp = new PolarPoint(pRef, p.getCopy());
-            pp.r -= radius;
-            super.setLocation(pp.toAbsolutePoint(pRef).getTranslated(-radius, -radius));
+            if(pRef != null) {
+                PolarPoint pp = new PolarPoint(pRef, p.getCopy());
+                pp.r -= radius;
+                super.setLocation(pp.toAbsolutePoint(pRef).getTranslated(-radius, -radius));
+            }
+            else {
+                super.setLocation(p);
+            }
         }
 
         @Override
