@@ -59,6 +59,7 @@ import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.INameable;
 
@@ -197,6 +198,9 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
         fScale = new Scale(galleryComposite, SWT.HORIZONTAL);
         gd = new GridData(SWT.END, SWT.NONE, false, false);
         gd.widthHint = 120;
+        if(PlatformUtils.isMac()) { // Mac clips height of slider
+            gd.heightHint = 18;
+        }
         fScale.setLayoutData(gd);
         fScale.setMinimum(MIN_GALLERY_ITEM_SIZE);
         fScale.setMaximum(MAX_GALLERY_ITEM_SIZE);
