@@ -199,6 +199,8 @@ public class Messages extends NLS {
 
     public static String GeneralPreferencePage_8;
 
+    public static String GeneralPreferencePage_9;
+
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

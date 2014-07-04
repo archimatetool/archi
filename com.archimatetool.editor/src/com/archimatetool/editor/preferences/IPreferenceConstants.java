@@ -87,4 +87,6 @@ public interface IPreferenceConstants {
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
     
     String SHOW_SHADOWS = "showShadows"; //$NON-NLS-1$
+    
+    String SHOW_STATUS_LINE = "showStatusLine"; //$NON-NLS-1$
 }

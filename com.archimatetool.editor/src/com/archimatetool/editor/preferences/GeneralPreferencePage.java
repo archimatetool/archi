@@ -36,6 +36,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.utils.PlatformUtils;
+
 /**
  * General Preferences Page
  * 
@@ -58,6 +60,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private IThemeEngine fThemeEngine;
     private ITheme fCurrentTheme;
     private String fDefaultTheme;
+    
+    private Button fShowStatusLineButton;
 
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -134,6 +138,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fThemeComboViewer.setSorter(new ViewerSorter());
         
+        // Show Status Line
+        fShowStatusLineButton = new Button(appearanceGroup, SWT.CHECK);
+        fShowStatusLineButton.setText(Messages.GeneralPreferencePage_9);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fShowStatusLineButton.setLayoutData(gd);
+        
         label = new Label(appearanceGroup, SWT.NULL);
         label.setText(Messages.GeneralPreferencePage_8);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -171,6 +182,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fBackupOnSaveButton.setSelection(getPreferenceStore().getBoolean(BACKUP_ON_SAVE));
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
+        fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
 
         // Themes
         List<ITheme> themes = fThemeEngine.getThemes();
@@ -191,6 +203,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(OPEN_DIAGRAMS_ON_LOAD, fOpenDiagramsOnLoadButton.getSelection());
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
+        getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
         
         ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
         if(theme != null) {
@@ -207,6 +220,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getDefaultBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
+        fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         
         setTheme(fDefaultTheme, false);
         
@@ -253,15 +267,25 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     //////////////////////////////////////////////
     
     private void setTheme(ITheme theme, boolean restore) {
-        dissolveEmptyShells(0);
-        fThemeEngine.setTheme(theme, restore); // must be true to persist
-        dissolveEmptyShells(255);
+        if(PlatformUtils.isWindows()) {
+            dissolveEmptyShells(0);
+            fThemeEngine.setTheme(theme, restore); // must be true to persist
+            dissolveEmptyShells(255);
+        }
+        else {
+            fThemeEngine.setTheme(theme, restore); // must be true to persist
+        }
     }
     
     private void setTheme(String themeId, boolean restore) {
-        dissolveEmptyShells(0);
-        fThemeEngine.setTheme(themeId, restore); // must be true to persist
-        dissolveEmptyShells(255);
+        if(PlatformUtils.isWindows()) {
+            dissolveEmptyShells(0);
+            fThemeEngine.setTheme(themeId, restore); // must be true to persist
+            dissolveEmptyShells(255);
+        }
+        else {
+            fThemeEngine.setTheme(themeId, restore); // must be true to persist
+        }
     }
 
     private void dissolveEmptyShells(int value) {
