@@ -21,7 +21,7 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	Export for multiple platforms:		              ticked
 	Allow for binary cycles in target platform:       ticked
 	
-	On the "Dependencies" tab ensure "Include optional dependencies when computing..." is unticked.
+	On the "Dependencies" tab ensure "Include optional dependencies when computing..." *is* ticked.
 	
 	Click "Next" and select the following OS platforms:
 	
