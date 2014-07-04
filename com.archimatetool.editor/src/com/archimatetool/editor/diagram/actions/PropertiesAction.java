@@ -29,7 +29,7 @@ public class PropertiesAction extends SelectionAction {
 
     @Override
     public void run() {
-        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
     }
 
     @Override

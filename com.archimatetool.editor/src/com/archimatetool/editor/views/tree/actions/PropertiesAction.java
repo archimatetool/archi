@@ -31,7 +31,7 @@ public class PropertiesAction extends ViewerAction {
     
     @Override
     public void run() {
-        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+        ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
     }
 
     @Override
