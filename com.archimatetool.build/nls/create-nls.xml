@@ -12,12 +12,10 @@
 		<description>
 			Edit the following values.
 			"lang_code" shold be one of the language codes such as fr, de, nl, ru
-			"archi_version" should be the version of Archi these translations are for
 			"nls_version" should be the version of the language packs
 	  	</description>
 		<property name="lang_code"					value="en"/>
-		<property name="archi_version"				value="3.0.0"/>
-		<property name="nls_version"				value="1.0.1"/>
+		<property name="nls_version"				value="1.0.0"/>
 	</target>
 	
 	
@@ -81,6 +79,20 @@
     	</antcall>
 		
 		
+		<!-- com.archimatetool.export.svg -->
+		<property name="svg.prj.src"    			value="com.archimatetool.export.svg"/>
+		<property name="svg.prj.tgt"    			value="${svg.prj.src}.${lang_code}"/>
+		<property name="svg.loc.src"    			location="../../${svg.prj.src}"/>
+		<property name="svg.loc.tgt"    			location="../../${main.dir}/${svg.prj.tgt}"/>
+    	
+		<antcall target="create_archi_project">
+    		<param name="prj.src"  					value="${svg.prj.src}"/>
+    		<param name="prj.tgt"  					value="${svg.prj.tgt}"/>
+    		<param name="loc.src"      				value="${svg.loc.src}"/>
+        	<param name="loc.tgt"  					value="${svg.loc.tgt}"/>
+    	</antcall>
+
+
 		<!-- com.archimatetool.help -->
 		<property name="help.prj.src"    			value="com.archimatetool.help"/>
 		<property name="help.prj.tgt"    			value="${help.prj.src}.${lang_code}"/>
@@ -204,7 +216,6 @@
 		<replace file="${loc.tgt}/${file.manifest}" token="!bundle-classpath!" value="${prj.tgt}.jar"/>
 		<replace file="${loc.tgt}/${file.manifest}" token="!fragment-host!" value="${prj.src}"/>
 		<replace file="${loc.tgt}/${file.manifest}" token="!nls-version!" value="${nls_version}"/>
-		<replace file="${loc.tgt}/${file.manifest}" token="!archi-version!" value="${archi_version}"/>
 		
 		<antcall target="copy_properties_files">
 			<param name="in.dir"  					value="${loc.src}"/>
