@@ -114,6 +114,11 @@ public class MRUMenuManager extends MenuManager implements PropertyChangeListene
         MRU_ClearAction clearAction = new MRU_ClearAction();
         clearAction.setEnabled(!getMRUList().isEmpty());
         add(clearAction);
+        
+        // Workaround for e4 bug:
+        // [Contributions] MenuManager.dispose() not called when exiting workbench
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=428297
+        saveList();
     }
     
     void clearAll() {
