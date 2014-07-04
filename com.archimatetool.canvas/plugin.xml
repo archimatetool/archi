@@ -8,7 +8,7 @@
             contributorClass="com.archimatetool.canvas.CanvasEditorActionBarContributor"
             default="false"
             icon="img/canvas-16.png"
-            id="uk.ac.bolton.archimate.canvas.canvasEditor"
+            id="com.archimatetool.canvas.canvasEditor"
             name="%editorCanvas">
       </editor>
    </extension>
@@ -96,12 +96,12 @@
       <menuContribution
             allPopups="true"
             class="com.archimatetool.canvas.NewCanvasExtensionContributionFactory"
-            locationURI="popup:uk.ac.bolton.archimate.editor.treeModelView.new_menu?after=new_additions">
+            locationURI="popup:com.archimatetool.editor.treeModelView.new_menu?after=new_additions">
       </menuContribution>
       <menuContribution
             allPopups="true"
             class="com.archimatetool.canvas.SaveAsCanvasExtensionContributionFactory"
-            locationURI="popup:uk.ac.bolton.archimate.editor.treeModelView?after=open">
+            locationURI="popup:com.archimatetool.editor.treeModelView?after=open">
       </menuContribution>
       <menuContribution
             allPopups="false"

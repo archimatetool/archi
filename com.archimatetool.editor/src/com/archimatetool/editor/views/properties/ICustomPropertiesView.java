@@ -17,7 +17,7 @@ import com.archimatetool.editor.ui.IArchimateImages;
  * @author Phillip Beauvoir
  */
 public interface ICustomPropertiesView extends IViewPart {
-    String ID = "uk.ac.bolton.archimate.editor.propertiesView"; //$NON-NLS-1$
+    String ID = "com.archimatetool.editor.propertiesView"; //$NON-NLS-1$
     String HELP_ID = "com.archimatetool.help.propertiesViewHelp"; //$NON-NLS-1$
     String NAME = Messages.ICustomPropertiesView_0;
     ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON);

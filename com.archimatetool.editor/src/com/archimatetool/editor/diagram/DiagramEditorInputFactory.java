@@ -28,7 +28,7 @@ public class DiagramEditorInputFactory implements IElementFactory {
      * Factory id. The workbench plug-in registers a factory by this name
      * with the "org.eclipse.ui.elementFactories" extension point.
      */
-    public static final String ID_FACTORY = "uk.ac.bolton.archimate.editor.DiagramEditorInputFactory"; //$NON-NLS-1$
+    public static final String ID_FACTORY = "com.archimatetool.editor.DiagramEditorInputFactory"; //$NON-NLS-1$
     
     /**
      * Tag for the diagram model's id and file
