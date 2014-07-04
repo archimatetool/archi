@@ -116,6 +116,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -320,13 +321,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getGraphicalViewer().addSelectionChangedListener(new ISelectionChangedListener() {   
             public void selectionChanged(SelectionChangedEvent event) {
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(selected != null) {
-                    if(selected instanceof EditPart) {
-                        selected = ((EditPart)selected).getModel();
-                    }
+                if(selected instanceof EditPart) {
+                    selected = ((EditPart)selected).getModel(); // get model diagram object
+                    
                     if(selected instanceof IDiagramModelArchimateObject) {
-                        selected = ((IDiagramModelArchimateObject)selected).getArchimateElement();
+                        selected = ((IDiagramModelArchimateObject)selected).getArchimateElement(); // get archimate model object
                     }
+                    if(selected instanceof IDiagramModelArchimateConnection) {
+                        selected = ((IDiagramModelArchimateConnection)selected).getRelationship(); // get archimate model object
+                    }
+                    
                     Image image = ArchimateLabelProvider.INSTANCE.getImage(selected);
                     String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
                     getEditorSite().getActionBars().getStatusLineManager().setMessage(image, text);
