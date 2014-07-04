@@ -108,7 +108,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Themes
         label = new Label(appearanceGroup, SWT.NULL);
-        label.setText("Theme: ");
+        label.setText(Messages.GeneralPreferencePage_4);
         fThemeComboViewer = new ComboViewer(appearanceGroup, SWT.READ_ONLY);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fThemeComboViewer.getCombo().setLayoutData(gd);
@@ -135,7 +135,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fThemeComboViewer.setSorter(new ViewerSorter());
         
         label = new Label(appearanceGroup, SWT.NULL);
-        label.setText("A restart may be required for the theme change to take full effect");
+        label.setText(Messages.GeneralPreferencePage_8);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         label.setLayoutData(gd);
