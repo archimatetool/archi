@@ -41,6 +41,14 @@
            name="preferenceCustomization"
            value="plugin_customization.ini">
      </property>
+     <property
+           name="cssTheme"
+           value="org.eclipse.e4.ui.css.theme.e4_default">
+     </property>
+     <property
+           name="applicationCSSResources"
+           value="platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/images/">
+     </property>
       </product>
 	</extension>
 	
@@ -671,6 +679,5 @@
             label="JPEG Image">
       </imageExportProvider>
    </extension>
-
 
 </plugin>
