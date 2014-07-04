@@ -1,0 +1,23 @@
+@import url("platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/css/e4_basestyle.css");
+
+.MTrimmedWindow { 
+	background-color: #eeeeee; 
+}
+
+.MPartStack.active {
+	swt-unselected-tabs-color: #F3F9FF #D0DFEE #CEDDED #CEDDED #D2E1F0 #D2E1F0 #FFFFFF 20% 45% 60% 70% 100% 100%;
+	swt-outer-keyline-color: #dddddd;
+}
+
+
+.MToolBar.Draggable {
+    handle-image:  url(./archiHandle.png);
+}
+
+.MToolControl.Draggable {
+    handle-image:  url(./archiHandle.png);
+}
+
+.MToolControl.TrimStack {
+    handle-image:  url(./archiHandle.png);
+}

@@ -49,11 +49,15 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -106,11 +110,13 @@ import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -304,6 +310,32 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Set some Properties
         setProperties();
+        
+        // Update status bar on selection
+        hookStatusLineSelectionListener();
+    }
+    
+    // Update status bar on selection
+    private void hookStatusLineSelectionListener() {
+        getGraphicalViewer().addSelectionChangedListener(new ISelectionChangedListener() {   
+            public void selectionChanged(SelectionChangedEvent event) {
+                Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(selected != null) {
+                    if(selected instanceof EditPart) {
+                        selected = ((EditPart)selected).getModel();
+                    }
+                    if(selected instanceof IDiagramModelArchimateObject) {
+                        selected = ((IDiagramModelArchimateObject)selected).getArchimateElement();
+                    }
+                    Image image = ArchimateLabelProvider.INSTANCE.getImage(selected);
+                    String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
+                    getEditorSite().getActionBars().getStatusLineManager().setMessage(image, text);
+                }
+                else {
+                    getEditorSite().getActionBars().getStatusLineManager().setMessage(null, ""); //$NON-NLS-1$
+                }
+            }
+        });
     }
     
     @Override
@@ -498,6 +530,20 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return false;
     }
     
+    /// Workaround for e4 bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=428664
+    /// EditorPart#isSaveOnCloseNeeded() not called when closing Editor Parts via "Close All" or "Close Others"
+    /// So we always return false for isDirty()
+    /// Side effect is that open and dirty editors will not show * asterisk on Part name
+    //////////////////////////////////////////////
+    
+    @Override
+    public boolean isDirty() {
+        return false;
+    }
+    
+    //////////////////////////////////////////////
+    /// End Workaround
+
     /**
      * Add some extra Actions - *after* the graphical viewer has been created
      */

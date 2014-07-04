@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi
 Bundle-SymbolicName: com.archimatetool.editor;singleton:=true
-Bundle-Version: 2.7.1.qualifier
+Bundle-Version: 3.0.0.qualifier
 Bundle-Activator: com.archimatetool.editor.ArchimateEditorPlugin
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
@@ -16,7 +16,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views.properties.tabbed;visibility:=reexport,
  com.archimatetool.model;visibility:=reexport,
  com.archimatetool.jdom,
- com.archimatetool.widgets
+ com.archimatetool.widgets,
+ org.eclipse.e4.ui.model.workbench,
+ org.eclipse.e4.core.contexts,
+ org.eclipse.e4.ui.css.swt.theme
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.editor.jar
 Export-Package: .,

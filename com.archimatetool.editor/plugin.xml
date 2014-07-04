@@ -41,6 +41,14 @@
            name="preferenceCustomization"
            value="plugin_customization.ini">
      </property>
+     <property
+           name="cssTheme"
+           value="org.eclipse.e4.ui.css.theme.e4_default">
+     </property>
+     <property
+           name="applicationCSSResources"
+           value="platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/images/">
+     </property>
       </product>
 	</extension>
 	
@@ -48,7 +56,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="com.archimatetool.editor.perspectives.MainPerspective"
-            id="uk.ac.bolton.archimate.editor.perspectiveMain"
+            id="com.archimatetool.editor.perspectiveMain"
             name="%perspective.name">
       </perspective>
    </extension>
@@ -101,7 +109,7 @@
             contributorClass="com.archimatetool.editor.diagram.ArchimateDiagramEditorActionBarContributor"
             default="false"
             icon="img/diagram-16.png"
-            id="uk.ac.bolton.archimate.editor.diagramEditor"
+            id="com.archimatetool.editor.diagramEditor"
             name="%editorDiagram">
       </editor>
       <editor
@@ -109,7 +117,7 @@
             contributorClass="com.archimatetool.editor.diagram.sketch.SketchEditorActionBarContributor"
             default="false"
             icon="img/sketch-16.png"
-            id="uk.ac.bolton.archimate.editor.sketchEditor"
+            id="com.archimatetool.editor.sketchEditor"
             name="%editorSketch">
       </editor>
    </extension>
@@ -118,21 +126,21 @@
       <view
             class="com.archimatetool.editor.views.tree.TreeModelView"
             icon="img/models.gif"
-            id="uk.ac.bolton.archimate.editor.treeModelView"
+            id="com.archimatetool.editor.treeModelView"
             name="%viewTreeModel"
             restorable="true">
       </view>
       <view
             class="com.archimatetool.editor.views.properties.CustomPropertiesView"
             icon="img/properties.gif"
-            id="uk.ac.bolton.archimate.editor.propertiesView"
+            id="com.archimatetool.editor.propertiesView"
             name="%viewProperties"
             restorable="true">
       </view>
       <view
             class="com.archimatetool.editor.views.navigator.NavigatorView"
             icon="img/navigator-16.png"
-            id="uk.ac.bolton.archimate.editor.navigatorView"
+            id="com.archimatetool.editor.navigatorView"
             name="%viewNavigator"
             restorable="true">
       </view>
@@ -435,7 +443,7 @@
          point="org.eclipse.ui.elementFactories">
       <factory
             class="com.archimatetool.editor.diagram.DiagramEditorInputFactory"
-            id="uk.ac.bolton.archimate.editor.DiagramEditorInputFactory">
+            id="com.archimatetool.editor.DiagramEditorInputFactory">
       </factory>
    </extension>
    <extension
@@ -671,6 +679,5 @@
             label="JPEG Image">
       </imageExportProvider>
    </extension>
-
 
 </plugin>

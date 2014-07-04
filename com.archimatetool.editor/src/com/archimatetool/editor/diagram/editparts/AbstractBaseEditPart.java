@@ -192,7 +192,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
      */
     protected void showPropertiesView() {
         if(!isInFullScreenMode()) {
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
         }
     }
     

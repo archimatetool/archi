@@ -16,7 +16,7 @@
       		required="false"
       		pluginId="com.archimatetool.help"
       		class="com.archimatetool.help.cheatsheets.ShowViewCheatSheetAction" 
-            param1="uk.ac.bolton.archimate.editor.treeModelView"/>
+            param1="com.archimatetool.editor.treeModelView"/>
             
    </item>
    <item

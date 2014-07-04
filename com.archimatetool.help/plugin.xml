@@ -55,7 +55,7 @@
       <view
             class="com.archimatetool.help.hints.HintsView"
             icon="img/hint-16.png"
-            id="uk.ac.bolton.archimate.help.hintsView"
+            id="com.archimatetool.help.hintsView"
             name="%viewHints"
             restorable="true">
       </view>
@@ -65,7 +65,7 @@
       <perspectiveExtension
             targetID="*">
          <view
-               id="uk.ac.bolton.archimate.help.hintsView"
+               id="com.archimatetool.help.hintsView"
                minimized="false"
                relationship="stack"
                relative="org.eclipse.ui.views.ContentOutline">

@@ -23,7 +23,7 @@ import com.archimatetool.editor.views.tree.ITreeModelView;
  */
 public class MainPerspective implements IPerspectiveFactory {
 
-    public static final String ID = "uk.ac.bolton.archimate.editor.perspectiveMain"; //$NON-NLS-1$
+    public static final String ID = "com.archimatetool.editor.perspectiveMain"; //$NON-NLS-1$
     
     /*
      * Folder Layouts

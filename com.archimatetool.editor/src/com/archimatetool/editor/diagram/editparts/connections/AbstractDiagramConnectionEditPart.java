@@ -312,7 +312,7 @@ implements IDiagramConnectionEditPart {
      */
     protected void showPropertiesView() {
         if(!isInFullScreenMode()) {
-            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+            ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
         }
     }
 

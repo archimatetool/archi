@@ -191,15 +191,15 @@ implements ITreeModelView, IUIRequestListener {
         for(Object selected : ((IStructuredSelection)getViewer().getSelection()).toArray()) {
             // Element or Folder - open Properties view
             if(selected instanceof IArchimateElement) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
             }
             // Folder - open Properties view
             if(selected instanceof IFolder) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
             }
             // Model - open Properties view
             else if(selected instanceof IArchimateModel) {
-                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, true);
+                ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
             }
             // Diagram - open diagram
             else if(selected instanceof IDiagramModel) {

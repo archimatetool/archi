@@ -17,6 +17,10 @@ import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
@@ -27,6 +31,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -88,6 +93,26 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
 
         // Register us as a Model Listener - this has to be done last, *after* the tree/selection listener is created
         IEditorModelManager.INSTANCE.addPropertyChangeListener(this);
+        
+        // Update status bar on selection
+        hookStatusLineSelectionListener();
+    }
+    
+    // Update status bar on selection
+    private void hookStatusLineSelectionListener() {
+        getViewer().addSelectionChangedListener(new ISelectionChangedListener() {   
+            public void selectionChanged(SelectionChangedEvent event) {
+                Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
+                if(selected != null) {
+                    Image image = ArchimateLabelProvider.INSTANCE.getImage(selected);
+                    String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
+                    getViewSite().getActionBars().getStatusLineManager().setMessage(image, text);
+                }
+                else {
+                    getViewSite().getActionBars().getStatusLineManager().setMessage(null, ""); //$NON-NLS-1$
+                }
+            }
+        });
     }
     
     /**

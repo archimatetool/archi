@@ -47,7 +47,7 @@
       <view
             class="com.archimatetool.zest.ZestView"
             icon="img/icon.png"
-            id="uk.ac.bolton.archimate.zest.zestView"
+            id="com.archimatetool.zest.zestView"
             name="%view.name"
             restorable="true">
       </view>
@@ -57,10 +57,10 @@
       <perspectiveExtension
             targetID="*">
          <view
-               id="uk.ac.bolton.archimate.zest.zestView"
+               id="com.archimatetool.zest.zestView"
                minimized="false"
                relationship="stack"
-               relative="uk.ac.bolton.archimate.editor.propertiesView">
+               relative="com.archimatetool.editor.propertiesView">
          </view>
       </perspectiveExtension>
    </extension>

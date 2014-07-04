@@ -1,8 +1,10 @@
 Archi Changes
 -------------
 
-Version 2.8
+Version 3.0
 ---------------------------
++ Built on Eclipse 4.4 with new look and feel
++ Can now set theme for look and feel
 + The Magic Connector can now create connections in both directions (source->target and target->source)
 + The Magic Connector's menu items are now written as verbs (e.g. "Realised by")
 + Export to CSV now exports three CSV files - elements, relations and properties

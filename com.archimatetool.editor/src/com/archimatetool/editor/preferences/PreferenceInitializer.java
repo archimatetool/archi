@@ -7,8 +7,6 @@ package com.archimatetool.editor.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
-import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchimateEditorPlugin;
 
@@ -87,8 +85,7 @@ implements IPreferenceConstants {
         // Show shadows
         store.setDefault(SHOW_SHADOWS, false);
         
-        // Eclipse traditional tabs
-        IPreferenceStore eclipseStore = PlatformUI.getPreferenceStore();
-        eclipseStore.setDefault(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
+        // Show status line
+        store.setDefault(SHOW_STATUS_LINE, true);
     }
 }

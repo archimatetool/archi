@@ -11,6 +11,8 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.archimatetool.editor.actions.ArchimateEditorActionBarAdvisor;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -29,8 +31,9 @@ extends WorkbenchWindowAdvisor {
     public ArchimateEditorWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         super(configurer);
         
-        // Don't want wasted space in status bar
-        configurer.setShowStatusLine(false);
+        // Status Line
+        boolean doShowStatusLine = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_STATUS_LINE);
+        configurer.setShowStatusLine(doShowStatusLine);
     }
 
     /* (non-Javadoc)
