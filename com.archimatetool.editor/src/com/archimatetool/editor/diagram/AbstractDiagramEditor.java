@@ -498,6 +498,20 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return false;
     }
     
+    /// Workaround for e4 bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=428664
+    /// EditorPart#isSaveOnCloseNeeded() not called when closing Editor Parts via "Close All" or "Close Others"
+    /// So we always return false for isDirty()
+    /// Side effect is that open and dirty editors will not show * asterisk on Part name
+    //////////////////////////////////////////////
+    
+    @Override
+    public boolean isDirty() {
+        return false;
+    }
+    
+    //////////////////////////////////////////////
+    /// End Workaround
+
     /**
      * Add some extra Actions - *after* the graphical viewer has been created
      */
