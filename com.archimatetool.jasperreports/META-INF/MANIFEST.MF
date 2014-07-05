@@ -6,15 +6,17 @@ Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: lib/commons-beanutils-1.8.0.jar,
- lib/commons-collections-2.1.1.jar,
- lib/commons-digester-1.7.jar,
- lib/commons-logging-1.0.4.jar,
- lib/iText-2.1.7.jar,
- lib/jasperreports-4.1.1.jar,
- lib/jasperreports-fonts-4.1.1.jar,
+Bundle-ClassPath: com.archimatetool.jasperreports.jar,
+ lib/commons-beanutils-1.8.0.jar,
+ lib/commons-collections-3.2.1.jar,
+ lib/commons-digester-2.1.jar,
+ lib/commons-logging-1.1.1.jar,
+ lib/iText-2.1.7.js2.jar,
+ lib/jasperreports-5.6.0.jar,
+ lib/jasperreports-fonts-5.6.0.jar,
  lib/jdt-compiler-3.1.1.jar,
- com.archimatetool.jasperreports.jar
+ lib/jackson-databind-2.1.4.jar,
+ lib/jackson-core-2.1.4.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor
