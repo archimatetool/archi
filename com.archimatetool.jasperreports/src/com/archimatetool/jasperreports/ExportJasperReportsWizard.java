@@ -10,8 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -21,7 +21,9 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -222,7 +224,7 @@ public class ExportJasperReportsWizard extends Wizard {
     private JasperPrint createJasperPrint(IProgressMonitor monitor, File tmpFolder) throws JRException {
         // Set the location of the default Jasper Properties File
         File propsFile = new File(JasperReportsPlugin.INSTANCE.getPluginFolder(), "jasperreports.properties"); //$NON-NLS-1$
-        System.setProperty(JRProperties.PROPERTIES_FILE, propsFile.getAbsolutePath());
+        System.setProperty(DefaultJasperReportsContext.PROPERTIES_FILE, propsFile.getAbsolutePath());
 
         // Set the location of the Images
         System.setProperty("JASPER_IMAGE_PATH", tmpFolder.getPath()); //$NON-NLS-1$
@@ -274,33 +276,33 @@ public class ExportJasperReportsWizard extends Wizard {
     
     private void exportDOCX(JasperPrint jasperPrint, File file) throws JRException {
         //System.out.println("Exporting to DOCX: " + file);
-        JRDocxExporter msWordexporter = new JRDocxExporter();
-        msWordexporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        msWordexporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, file.getPath());
-        msWordexporter.exportReport();
+        JRDocxExporter exporter = new JRDocxExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file));
+        exporter.exportReport();
     }
 
     private void exportPPT(JasperPrint jasperPrint, File file) throws JRException {
         //System.out.println("Exporting to MS PPT: " + file);
-        JRPptxExporter msPPTexporter = new JRPptxExporter();
-        msPPTexporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        msPPTexporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, file.getPath());
-        msPPTexporter.exportReport();
+        JRPptxExporter exporter = new JRPptxExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file));
+        exporter.exportReport();
     }
 
     private void exportODT(JasperPrint jasperPrint, File file) throws JRException {
         //System.out.println("Exporting to ODT: " + file);
-        JROdtExporter odtExporter = new JROdtExporter();
-        odtExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        odtExporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, file.getPath());
-        odtExporter.exportReport();
+        JROdtExporter exporter = new JROdtExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(file));
+        exporter.exportReport();
     }
     
     private void exportRTF(JasperPrint jasperPrint, File file) throws JRException {
         //System.out.println("Exporting to RTF: " + file);
-        JRRtfExporter rtfExporter = new JRRtfExporter();
-        rtfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        rtfExporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, file.getPath());
-        rtfExporter.exportReport();
+        JRRtfExporter exporter = new JRRtfExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleWriterExporterOutput(file));
+        exporter.exportReport();
     }
 }
