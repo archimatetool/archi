@@ -1,0 +1,8 @@
+Known Issues with Archi 3.0.0
+=============================
+
+
+* When a model has been edited, diagram views no longer show the "dirty" asterisk in the tab.
+  The asterisk is still shown in the Models Tree, however. This is a side-effect of the
+  workaround for the following Eclipse bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=428664
+

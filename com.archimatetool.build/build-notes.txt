@@ -7,7 +7,7 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 2.  Edit the "branding/mac/Info.plist" file to set the correct CFBundleShortVersionString, CFBundleVersion and CFBundleGetInfoString (format is X.X.X)
 3.  Edit the "archimate-makeinstallers.xml" Ant Script file in order to set the app version number and the location of the
 	Windows JRE of the build machine.  (There will be two Windows versions, one with shipped JRE and one without.)
-4.  Edit and update the "changes.txt" file.
+4.  Edit and update the "change-log.txt" and "known-issues" files.
 5.  Ensure all Help PDFs are up to date.
 6.  Ensure all changes are committed to the git repo.
 7.  Open the "archimate.product" file and click on the "Eclipse Product export wizard" link and set the following settings:
@@ -27,7 +27,6 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	
 	linux (gtk/x86)
     linux (gtk/x86_64)
-	macosx (cocoa/x86)
 	macosx (cocoa/x86_64)
 	win32 (win32/x86)
 	win32 (win32/x86_64)
@@ -37,7 +36,6 @@ In order to create binaries and installers for all platforms ensure the Eclipse 
 	
 	linux.gtk.x86
 	linux.gtk.x86_64
-	macosx.cocoa.x86
 	macosx.cocoa.x86_64
 	win32.win32.x86
 	win32.win32.x86_64

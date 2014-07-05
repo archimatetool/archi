@@ -4,9 +4,9 @@ Archi Changes
 Version 3.0
 ---------------------------
 + Built on Eclipse 4.4 with new look and feel
-+ Can now set theme for look and feel
++ Can now set theme for look and feel in preferences
 + The Magic Connector can now create connections in both directions (source->target and target->source)
-+ The Magic Connector's menu items are now written as verbs (e.g. "Realised by")
++ The Magic Connector's menu items are now written as relationship phrases (e.g. "Realised by")
 + Export to CSV now exports three CSV files - elements, relations and properties
 + Import new and changed data from CSV files
 + ArchiMate, Sketch and Canvas Model Reference figures now use scalable icons
@@ -14,6 +14,8 @@ Version 3.0
 + The "Select All" action in Diagram Views now selects all elements and connections
 + The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
 + Figure icons are grey when figure disabled (when the element is not part of a Viewpoint)
++ The Mac version of Archi is now bundled with JRE 7 (1.7.0_60)
++ The Java version shipped with the Windows installer is now version 1.7.0_60
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
 * Connection bendpoints - snap to grid now snaps to nearest grid point
 * Fixed Full Screen Mode not hiding application Shell on Linux

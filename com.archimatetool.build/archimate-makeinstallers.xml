@@ -12,7 +12,7 @@
   	</description>
 	
 	<!-- Default/Start Target -->
-	<target name="run" depends="init, make_win_folder, make_win_zip, make_mac_zips, make_lnx_zip" />
+	<target name="run" depends="init, make_win_folder, make_win_zip, make_mac_zip, make_lnx_zip" />
 	
 	<!-- Init some stuff -->
 	<target name="init">
@@ -108,8 +108,8 @@
         <delete dir="${tmp.dir}"/>
 	</target>
     
-	<!-- Make Mac zips -->
-    <target name="make_mac_zips">
+	<!-- Make Mac zip with bundled JRE -->
+    <target name="make_mac_zip">
 		<property name="mac.app"                value="${app.name}.app"/>
 		<property name="mac.contents.dir"       value="${mac.app}/Contents"/>
 		<property name="mac.resources.dir"      value="${mac.contents.dir}/Resources"/>
@@ -117,30 +117,9 @@
 		<property name="mac.new.launcher.dir"   value="${mac.contents.dir}/MacOS/launcher"/>
 		<property name="mac.launcher"           value="${mac.launcher.dir}/${app.name}"/>
 		<property name="mac.new.launcher"       value="${mac.new.launcher.dir}/${app.name}"/>
+    	<property name="mac.zip"      			value="${output.dir}/${app.name}-mac64-${version}.zip"/>
+    	<property name="output_mac.dir"  		value="${output.dir}/macosx.cocoa.x86_64"/>
 	
-		<!-- 32-bit Mac version -->
-    	<antcall target="make_mac">
-    		<param name="mac.zip"      		value="${output.dir}/${app.name}-mac32-${version}.zip"/>
-        	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86"/>
-    	</antcall>
-
-   		<!-- 64-bit Mac version -->
-    	<antcall target="make_mac">
-        	<param name="mac.zip"      		value="${output.dir}/${app.name}-mac64-${version}.zip"/>
-        	<param name="output_mac.dir"  	value="${output.dir}/macosx.cocoa.x86_64"/>
-    	</antcall>
-
-		<!-- Bundled JRE 64-bit Mac version -->
-		<property name="mac64-full.zip"   value="${output.dir}/${app.name}-mac64-full-${version}.zip"/>
-		<copy file="${output.dir}/${app.name}-mac64-${version}.zip" tofile="${mac64-full.zip}" overwrite="true"/>
-		<zip destfile="${mac64-full.zip}" update="true">
-			<zipfileset src="${jre.mac64.zip}" prefix="${folder.name}/${mac.app}"/>
-		</zip>
-
-    </target>
-	
-	<!-- Make Mac version -->
-    <target name="make_mac">
         <delete dir="${tmp.dir}"/>
         <mkdir dir="${tmp.dir}"/>
         
@@ -183,8 +162,14 @@
 			</zipfileset>
 		</zip>
 
-        <delete dir="${tmp.dir}" />
-	</target>
+		<!-- Copy the bundled JRE zip contents to the target zip (this preserves the alias file) -->
+		<zip destfile="${mac.zip}" update="true">
+			<zipfileset src="${jre.mac64.zip}" prefix="${folder.name}/${mac.app}"/>
+		</zip>
+		    	
+    	<!-- clean up -->
+    	<delete dir="${tmp.dir}" />
+    </target>
 
 	<!-- Make Linux zip -->
     <target name="make_lnx_zip">
@@ -224,9 +209,6 @@
     	<!-- rename Archi to Archi64 -->
     	<move file="${tmp.dir}/${app.name}" tofile="${tmp.dir}/${app.name}64"/>
 
-		<!-- Delete Unneccessary Cairo file see https://bugs.eclipse.org/bugs/show_bug.cgi?id=376560s -->
-		<delete file="${tmp.dir}/libcairo-swt.so"/>
-
 		<!-- tar -->
 		<tar destfile="${lnx.tar}" >
 			<!-- Add to tar setting the executable permission on these launcher files -->
@@ -259,7 +241,8 @@
 	    <!-- docs -->
 		<copy todir="${tmp.dir}/docs">
 			<fileset dir="${src.dir}">
-				<include name="changes.txt" />
+				<include name="change-log.txt" />
+				<include name="known-issues.txt" />
 				<include name="LICENSE.txt" />
 			</fileset>
 			<fileset dir="${docs.dir}">
