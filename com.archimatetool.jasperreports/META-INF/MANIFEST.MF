@@ -22,3 +22,5 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.editor
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.archimatetool.jasperreports.JasperReportsPlugin
+Export-Package: com.archimatetool.jasperreports,
+ com.archimatetool.jasperreports.data

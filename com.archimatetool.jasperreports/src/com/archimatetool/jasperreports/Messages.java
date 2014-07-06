@@ -15,22 +15,6 @@ public class Messages extends NLS {
 
     public static String ExportJasperReportsWizard_1;
 
-    public static String ExportJasperReportsWizard_10;
-
-    public static String ExportJasperReportsWizard_11;
-
-    public static String ExportJasperReportsWizard_12;
-
-    public static String ExportJasperReportsWizard_13;
-
-    public static String ExportJasperReportsWizard_14;
-
-    public static String ExportJasperReportsWizard_15;
-
-    public static String ExportJasperReportsWizard_16;
-
-    public static String ExportJasperReportsWizard_17;
-
     public static String ExportJasperReportsWizard_2;
 
     public static String ExportJasperReportsWizard_3;
@@ -38,14 +22,6 @@ public class Messages extends NLS {
     public static String ExportJasperReportsWizard_4;
 
     public static String ExportJasperReportsWizard_5;
-
-    public static String ExportJasperReportsWizard_6;
-
-    public static String ExportJasperReportsWizard_7;
-
-    public static String ExportJasperReportsWizard_8;
-
-    public static String ExportJasperReportsWizard_9;
 
     public static String ExportJasperReportsWizardPage1_0;
 
@@ -96,6 +72,30 @@ public class Messages extends NLS {
     public static String ExportJasperReportsWizardPage2_4;
 
     public static String ExportJasperReportsWizardPage2_5;
+
+    public static String JasperReportsExporter_0;
+
+    public static String JasperReportsExporter_1;
+
+    public static String JasperReportsExporter_10;
+
+    public static String JasperReportsExporter_11;
+
+    public static String JasperReportsExporter_2;
+
+    public static String JasperReportsExporter_3;
+
+    public static String JasperReportsExporter_4;
+
+    public static String JasperReportsExporter_5;
+
+    public static String JasperReportsExporter_6;
+
+    public static String JasperReportsExporter_7;
+
+    public static String JasperReportsExporter_8;
+
+    public static String JasperReportsExporter_9;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

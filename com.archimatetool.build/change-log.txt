@@ -14,6 +14,7 @@ Version 3.0
 + The "Select All" action in Diagram Views now selects all elements and connections
 + The "Select All" action is enabled on the Model Tree, Visualiser and Navigator
 + Figure icons are grey when figure disabled (when the element is not part of a Viewpoint)
++ The Jasper Reports export wizard dialog now remembers the last settings when Archi is closed
 + The Mac version of Archi is now bundled with JRE 7 (1.7.0_60)
 + The Java version shipped with the Windows installer is now version 1.7.0_60
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
