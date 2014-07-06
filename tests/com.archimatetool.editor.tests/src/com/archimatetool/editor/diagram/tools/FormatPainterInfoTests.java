@@ -16,10 +16,10 @@ import org.eclipse.swt.graphics.RGB;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.testingtools.ArchimateTestModel;
 
 public class FormatPainterInfoTests {
     

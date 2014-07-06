@@ -19,8 +19,6 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
-import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -35,6 +33,8 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
+import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestData;
 
 
 /**
@@ -54,7 +54,7 @@ public class DiagramModelUtilsTests {
     
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {
-        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         tm.loadModel();
         model = tm.getModel();
     }

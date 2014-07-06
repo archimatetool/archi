@@ -24,8 +24,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
-import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
@@ -37,6 +35,8 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
+import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestData;
 
 @SuppressWarnings("nls")
 public class CopySnapshotTests {
@@ -52,7 +52,7 @@ public class CopySnapshotTests {
     
     @Before
     public void runOnceBeforeEachTest() throws IOException {
-        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModelWithCommandStack();
         sourceDiagramModel = model.getDiagramModels().get(1);
         targetDiagramModel = tm.addNewArchimateDiagramModel();

@@ -20,14 +20,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestEditor;
-import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.testingtools.ArchimateTestEditor;
+import com.archimatetool.testingtools.ArchimateTestModel;
 
 
 @SuppressWarnings("nls")

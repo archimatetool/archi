@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.FolderType;
@@ -29,6 +28,7 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.testingtools.ArchimateTestModel;
 
 
 /**

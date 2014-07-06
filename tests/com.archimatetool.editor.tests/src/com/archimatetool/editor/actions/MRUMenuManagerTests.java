@@ -28,6 +28,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.tests.TestData;
 
 
 @SuppressWarnings("nls")
@@ -184,7 +185,7 @@ public class MRUMenuManagerTests {
         assertTrue(list.isEmpty());
         
         // Open File event - file does exist so it is added to MRU list
-        model.setFile(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        model.setFile(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         IEditorModelManager.INSTANCE.firePropertyChange(this, IEditorModelManager.PROPERTY_MODEL_OPENED, null, model);
         assertEquals(1, list.size());
         

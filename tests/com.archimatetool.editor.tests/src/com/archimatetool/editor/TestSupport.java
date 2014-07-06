@@ -21,7 +21,6 @@ public class TestSupport {
     
     private static File testFolder;
     
-    public static File TEST_MODEL_FILE_ARCHISURANCE = new File(getTestDataFolder(), "models/Archisurance.archimate");
     public static File TEST_MODEL_FILE_1 = new File(getTestDataFolder(), "models/testmodel1.archimate");
     public static File TEST_MODEL_FILE_ZIPPED = new File(getTestDataFolder(), "models/model_zipped.archimate");
 

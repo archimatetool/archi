@@ -20,7 +20,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy.CreateArchimateConnectionCommand;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy.CreateLineConnectionCommand;
@@ -32,6 +31,7 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
+import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 @SuppressWarnings("nls")

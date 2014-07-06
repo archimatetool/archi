@@ -16,13 +16,13 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.junit.Test;
 
-import com.archimatetool.editor.ArchimateTestModel;
-import com.archimatetool.editor.ArchimateTestEditor;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.testingtools.ArchimateTestEditor;
+import com.archimatetool.testingtools.ArchimateTestModel;
 
 /**
  * SelectAllAction Tests
