@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -30,6 +31,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.UIUtils;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -43,10 +45,10 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
 
     private static String HELP_ID = "com.archimatetool.help.ExportJasperReportsWizardPage1"; //$NON-NLS-1$
     
-    static String SAVE_DIR = System.getProperty("user.home"); //$NON-NLS-1$
-    static String REPORT_FILENAME = "archi-report"; //$NON-NLS-1$
-    static boolean IS_HTML = true, IS_PDF = true, IS_WORD = true, IS_PPT, IS_RTF, IS_ODT;
-    
+    static final String PREFS_LAST_FOLDER = "JR_LastFolder"; //$NON-NLS-1$
+    static final String PREFS_LAST_FILENAME = "JR_Filename"; //$NON-NLS-1$
+    static final String PREFS_EXPORT_OPTIONS = "JR_ExportOptions"; //$NON-NLS-1$
+
     private IArchimateModel fModel;
 
     private Text fTextOutputFolder;
@@ -76,6 +78,8 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         
         PlatformUI.getWorkbench().getHelpSystem().setHelp(container, HELP_ID);
         
+        IPreferenceStore store = JasperReportsPlugin.INSTANCE.getPreferenceStore();
+        
         Composite fieldContainer = new Composite(container, SWT.NULL);
         fieldContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fieldContainer.setLayout(new GridLayout(3, false));
@@ -85,7 +89,14 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         
         fTextOutputFolder = new Text(fieldContainer, SWT.BORDER | SWT.SINGLE);
         fTextOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fTextOutputFolder.setText(SAVE_DIR);
+        String lastFolder = store.getString(PREFS_LAST_FOLDER);
+        if(StringUtils.isSet(lastFolder)) {
+            fTextOutputFolder.setText(lastFolder);
+        }
+        else {
+            fTextOutputFolder.setText(new File(System.getProperty("user.home"), "exported").getPath()); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fTextOutputFolder);
         fTextOutputFolder.addModifyListener(new ModifyListener() {
@@ -109,7 +120,14 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 2;
         fTextFilename.setLayoutData(gd);
-        fTextFilename.setText(REPORT_FILENAME);
+        String lastFilename = store.getString(PREFS_LAST_FILENAME);
+        if(StringUtils.isSet(lastFilename)) {
+            fTextFilename.setText(lastFilename);
+        }
+        else {
+            fTextFilename.setText("report-filename"); //$NON-NLS-1$
+        }
+
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fTextFilename);
         fTextFilename.addModifyListener(new ModifyListener() {
@@ -125,6 +143,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         gd.horizontalSpan = 2;
         fTextReportTitle.setLayoutData(gd);
         fTextReportTitle.setText(fModel.getName());
+        
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fTextReportTitle);
         fTextReportTitle.addModifyListener(new ModifyListener() {
@@ -147,12 +166,17 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         exportTypesGroup.setLayout(new GridLayout(4, false));
         exportTypesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        int exportOptions = store.getInt(PREFS_EXPORT_OPTIONS);
+        if(exportOptions == 0) {
+            exportOptions = JasperReportsExporter.EXPORT_HTML;
+        }
+        
         label = new Label(exportTypesGroup, SWT.NONE);
         label.setImage(fImageHTML);
         fButtonExportHTML = new Button(exportTypesGroup, SWT.CHECK);
         fButtonExportHTML.setText(Messages.ExportJasperReportsWizardPage1_7);
         fButtonExportHTML.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fButtonExportHTML.setSelection(IS_HTML);
+        fButtonExportHTML.setSelection((exportOptions & JasperReportsExporter.EXPORT_HTML) != 0);
         fButtonExportHTML.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -165,7 +189,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fButtonExportPDF = new Button(exportTypesGroup, SWT.CHECK);
         fButtonExportPDF.setText(Messages.ExportJasperReportsWizardPage1_8);
         fButtonExportPDF.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fButtonExportPDF.setSelection(IS_PDF);
+        fButtonExportPDF.setSelection((exportOptions & JasperReportsExporter.EXPORT_PDF) != 0);
         fButtonExportPDF.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -178,7 +202,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fButtonExportRTF = new Button(exportTypesGroup, SWT.CHECK);
         fButtonExportRTF.setText(Messages.ExportJasperReportsWizardPage1_9);
         fButtonExportRTF.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fButtonExportRTF.setSelection(IS_RTF);
+        fButtonExportRTF.setSelection((exportOptions & JasperReportsExporter.EXPORT_RTF) != 0);
         fButtonExportRTF.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -191,7 +215,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fButtonExportDOCX = new Button(exportTypesGroup, SWT.CHECK);
         fButtonExportDOCX.setText(Messages.ExportJasperReportsWizardPage1_10);
         fButtonExportDOCX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fButtonExportDOCX.setSelection(IS_WORD);
+        fButtonExportDOCX.setSelection((exportOptions & JasperReportsExporter.EXPORT_DOCX) != 0);
         fButtonExportDOCX.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -204,7 +228,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fButtonExportPPTX = new Button(exportTypesGroup, SWT.CHECK);
         fButtonExportPPTX.setText(Messages.ExportJasperReportsWizardPage1_11);
         fButtonExportPPTX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fButtonExportPPTX.setSelection(IS_PPT);
+        fButtonExportPPTX.setSelection((exportOptions & JasperReportsExporter.EXPORT_PPT) != 0);
         fButtonExportPPTX.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -217,7 +241,7 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         fButtonExportODT = new Button(exportTypesGroup, SWT.CHECK);
         fButtonExportODT.setText(Messages.ExportJasperReportsWizardPage1_12);
         fButtonExportODT.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fButtonExportODT.setSelection(IS_ODT);
+        fButtonExportODT.setSelection((exportOptions & JasperReportsExporter.EXPORT_ODT) != 0);
         fButtonExportODT.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -239,6 +263,20 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
     
     public String getReportTitle() {
         return fTextReportTitle.getText();
+    }
+    
+    /**
+     * @return The Export options
+     */
+    public int getExportOptions() {
+        int options = 0;
+        options |= isExportPDF() ? JasperReportsExporter.EXPORT_PDF : 0;
+        options |= isExportHTML() ? JasperReportsExporter.EXPORT_HTML : 0;
+        options |= isExportDOCX() ? JasperReportsExporter.EXPORT_DOCX : 0;
+        options |= isExportPPT() ? JasperReportsExporter.EXPORT_PPT : 0;
+        options |= isExportODT() ? JasperReportsExporter.EXPORT_ODT : 0;
+        options |= isExportRTF() ? JasperReportsExporter.EXPORT_RTF : 0;
+        return options;
     }
     
     public boolean isExportHTML() {
@@ -358,15 +396,10 @@ public class ExportJasperReportsWizardPage1 extends WizardPage {
         return image;
     }
 
-    public void saveSettings() {
-        SAVE_DIR = fTextOutputFolder.getText();
-        REPORT_FILENAME = fTextFilename.getText();
-        IS_HTML = isExportHTML();
-        IS_PDF = isExportPDF();
-        IS_PPT = isExportPPT();
-        IS_WORD = isExportDOCX();
-        IS_RTF = isExportRTF();
-        IS_ODT = isExportODT();
+    void storePreferences() {
+        IPreferenceStore store = JasperReportsPlugin.INSTANCE.getPreferenceStore();
+        store.setValue(PREFS_LAST_FOLDER, getExportFolder().getAbsolutePath());
+        store.setValue(PREFS_LAST_FILENAME, getExportFilename());
+        store.setValue(PREFS_EXPORT_OPTIONS, getExportOptions());
     }
-
 }
