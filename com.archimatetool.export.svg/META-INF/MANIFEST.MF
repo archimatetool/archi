@@ -8,7 +8,7 @@ Bundle-Vendor: Phil Beauvoir
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.archimatetool.editor
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.export.svg.jar,
  lib/batik-awt-util.jar,

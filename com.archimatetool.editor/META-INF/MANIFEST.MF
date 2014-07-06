@@ -72,5 +72,5 @@ Export-Package: .,
  com.archimatetool.editor.views.tree.actions,
  com.archimatetool.editor.views.tree.commands,
  com.archimatetool.editor.views.tree.search
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Eclipse-ExtensibleAPI: true

@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.jasperreports;singleton:=true
 Bundle-Version: 3.0.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/commons-beanutils-1.8.0.jar,
  lib/commons-collections-3.2.1.jar,

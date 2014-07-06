@@ -7,4 +7,4 @@ Fragment-Host: com.archimatetool.model
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.junit,
  com.archimatetool.testsupport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
