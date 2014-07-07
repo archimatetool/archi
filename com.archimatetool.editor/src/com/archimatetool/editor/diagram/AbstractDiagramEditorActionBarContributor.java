@@ -177,6 +177,7 @@ extends ActionBarContributor {
         addGlobalActionKey(ActionFactory.PRINT.getId());
         addGlobalActionKey(ActionFactory.PROPERTIES.getId());
         addGlobalActionKey(ActionFactory.RENAME.getId());
+        addGlobalActionKey(ActionFactory.FIND.getId());
     }
 
     @Override

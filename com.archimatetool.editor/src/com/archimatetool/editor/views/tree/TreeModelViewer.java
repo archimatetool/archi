@@ -161,10 +161,18 @@ public class TreeModelViewer extends TreeViewer {
         return null;
     }
     
+    // Need package access to this method
+    @Override
+    protected Object[] getSortedChildren(Object parentElementOrTreePath) {
+        return super.getSortedChildren(parentElementOrTreePath);
+    }
+    
+    // ========================= Model Provoders =====================================
+    
     /**
      *  Content Provider
      */
-    private class ModelTreeViewerContentProvider implements ITreeContentProvider {
+    class ModelTreeViewerContentProvider implements ITreeContentProvider {
         
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
@@ -214,7 +222,7 @@ public class TreeModelViewer extends TreeViewer {
     /**
      * Label Provider
      */
-    private class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
+    class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
         Font fontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
         Font fontBold = JFaceResources.getFontRegistry().getBold(""); //$NON-NLS-1$
         

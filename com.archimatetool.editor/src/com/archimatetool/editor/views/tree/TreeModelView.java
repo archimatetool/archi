@@ -47,6 +47,7 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.IUIRequestListener;
 import com.archimatetool.editor.ui.services.UIRequest;
@@ -56,6 +57,7 @@ import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.CloseModelAction;
 import com.archimatetool.editor.views.tree.actions.DeleteAction;
 import com.archimatetool.editor.views.tree.actions.DuplicateAction;
+import com.archimatetool.editor.views.tree.actions.FindReplaceAction;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.LinkToEditorAction;
 import com.archimatetool.editor.views.tree.actions.NewFolderAction;
@@ -96,6 +98,7 @@ implements ITreeModelView, IUIRequestListener {
     private IAction fActionNewModel;
     private IAction fActionOpenModel;
     private IAction fActionLinkToEditor;
+    private IAction fActionFindReplace;
     
     private IViewerAction fActionProperties;
     private IViewerAction fActionSaveModel;
@@ -105,6 +108,8 @@ implements ITreeModelView, IUIRequestListener {
     private IViewerAction fActionOpenDiagram;
     private IViewerAction fActionNewFolder;
     private IViewerAction fActionDuplicate;
+    
+    private TreeModelViewerFindReplaceProvider fFindReplaceProvider;
     
     public TreeModelView() {
     }
@@ -273,6 +278,8 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionRename = new RenameAction(getViewer());
         
+        fActionFindReplace = new FindReplaceAction(this);
+        
         fActionProperties = new PropertiesAction(getSelectionProvider());
         
         fActionLinkToEditor = new LinkToEditorAction();
@@ -309,6 +316,7 @@ implements ITreeModelView, IUIRequestListener {
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
         actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
         actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.DUPLICATE.getId(), fActionDuplicate);
+        actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), fActionFindReplace);
     }
     
     /**
@@ -429,6 +437,19 @@ implements ITreeModelView, IUIRequestListener {
             return ((IArchimateModelElement)selected).getArchimateModel();
         }
         return null;
+    }
+    
+    @Override
+    public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+        // Find/Replace Provider
+        if(adapter == IFindReplaceProvider.class) {
+            if(fFindReplaceProvider == null) {
+                fFindReplaceProvider = new TreeModelViewerFindReplaceProvider(getViewer());
+            }
+            return fFindReplaceProvider;
+        }
+        
+        return super.getAdapter(adapter);
     }
     
     @Override

@@ -5,10 +5,11 @@
  */
 package com.archimatetool.editor.views;
 
-import com.archimatetool.editor.views.tree.TreeModelViewerDragDropHandlerTests;
-import com.archimatetool.editor.views.tree.commands.DeleteCommandHandlerTests;
-
 import junit.framework.TestSuite;
+
+import com.archimatetool.editor.views.tree.TreeModelViewerDragDropHandlerTests;
+import com.archimatetool.editor.views.tree.TreeModelViewerFindReplaceProviderTests;
+import com.archimatetool.editor.views.tree.commands.DeleteCommandHandlerTests;
 
 @SuppressWarnings("nls")
 public class AllViewsTests {
@@ -18,6 +19,7 @@ public class AllViewsTests {
 		
         // views.tree
         suite.addTest(TreeModelViewerDragDropHandlerTests.suite());
+        suite.addTest(TreeModelViewerFindReplaceProviderTests.suite());
 
         // views.tree.commands
         suite.addTest(DeleteCommandHandlerTests.suite());

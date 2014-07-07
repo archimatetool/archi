@@ -73,6 +73,7 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionDelete;
     private IWorkbenchAction fActionRename;
     private IWorkbenchAction fActionDuplicate;
+    private IWorkbenchAction fActionFindReplace;
     
     private IWorkbenchAction fActionUndo;
     private IWorkbenchAction fActionRedo;
@@ -182,6 +183,10 @@ extends ActionBarAdvisor {
         // Select All
         fActionSelectAll = ActionFactory.SELECT_ALL.create(window);
         register(fActionSelectAll);
+        
+        // Find/Replace
+        fActionFindReplace = ActionFactory.FIND.create(window);
+        register(fActionFindReplace);
         
         // Print
         fActionPrint = ActionFactory.PRINT.create(window);
@@ -355,6 +360,7 @@ extends ActionBarAdvisor {
         menu.add(new Separator(fActionRename.getId()));
         
         menu.add(fActionSelectAll);
+        menu.add(fActionFindReplace);
         menu.add(new Separator(fActionSelectAll.getId()));
         
         menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
