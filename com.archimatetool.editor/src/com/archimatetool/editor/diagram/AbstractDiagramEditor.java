@@ -41,6 +41,7 @@ import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
 import org.eclipse.gef.ui.palette.PaletteViewer;
+import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
@@ -419,6 +420,15 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Configure the Palette Viewer
      */
     protected void configurePaletteViewer(final PaletteViewer viewer) {
+        PaletteViewerPreferences prefs = viewer.getPaletteViewerPreferences();
+        
+        // First time use so set to icons layout
+        if(!Preferences.STORE.getBoolean("paletteSet")) { //$NON-NLS-1$
+            Preferences.STORE.setValue("paletteSet", true); //$NON-NLS-1$
+            prefs.setLayoutSetting(PaletteViewerPreferences.LAYOUT_ICONS);
+            prefs.setCurrentUseLargeIcons(false);
+        }
+        
         // Register as drag source to drag onto the canvas
         viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
 
