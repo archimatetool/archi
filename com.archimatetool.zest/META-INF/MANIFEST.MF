@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.zest.layouts
 Bundle-Activator: com.archimatetool.zest.ArchimateZestPlugin
 Bundle-ClassPath: com.archimatetool.zest.jar
+Export-Package: com.archimatetool.zest

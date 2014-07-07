@@ -22,6 +22,7 @@ public class AllTests {
         suite.addTest(getTest("com.archimatetool.jasperreports.AllTests"));
         suite.addTest(getTest("com.archimatetool.jdom.AllTests"));
 		suite.addTest(getTest("com.archimatetool.model.AllTests"));
+        suite.addTest(getTest("com.archimatetool.zest.AllTests"));
 
 		return suite;
 	}

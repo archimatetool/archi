@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for Zest Viewer
+Bundle-SymbolicName: com.archimatetool.zest.tests
+Bundle-Version: 1.0.0
+Fragment-Host: com.archimatetool.zest
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.archimatetool.editor
