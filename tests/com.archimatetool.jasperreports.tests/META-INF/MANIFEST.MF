@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for Jasper Reports
+Bundle-SymbolicName: com.archimatetool.jasperreports.tests
+Bundle-Version: 1.0.0
+Fragment-Host: com.archimatetool.jasperreports
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport,
+ com.archimatetool.editor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.archimatetool.editor

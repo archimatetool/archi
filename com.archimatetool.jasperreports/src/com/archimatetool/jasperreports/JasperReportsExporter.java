@@ -81,6 +81,9 @@ public class JasperReportsExporter {
         fMainTemplateFile = mainTemplateFile;
         fReportTitle = reportTitle;
         fExportOptions = exportOptions;
+        
+        // Stop logging
+        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");  //$NON-NLS-1$//$NON-NLS-2$
     }
     
     /** 
@@ -215,7 +218,7 @@ public class JasperReportsExporter {
 
         // Set the location of the Images
         System.setProperty("JASPER_IMAGE_PATH", tmpFolder.getPath()); //$NON-NLS-1$
-
+        
         // Declare Parameters passed to JasperFillManager
         Map<String, Object> params = new HashMap<String, Object>();
 

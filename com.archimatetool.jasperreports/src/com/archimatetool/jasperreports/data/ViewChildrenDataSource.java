@@ -20,7 +20,7 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 
 /**
- * ViewChildrenDataSource - child objects of a View
+ * ViewChildrenDataSource - child ArchiMate type objects of a View
  * 
  * @author Phillip Beauvoir
  */
