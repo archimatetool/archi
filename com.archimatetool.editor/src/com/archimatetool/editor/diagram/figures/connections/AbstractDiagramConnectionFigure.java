@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.diagram.figures.connections.roundedbendpoint.RoundedPolylineConnection;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.Preferences;

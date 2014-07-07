@@ -23,19 +23,22 @@
   OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package com.archimatetool.editor.diagram.figures.connections.roundedbendpoint;
+package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 
