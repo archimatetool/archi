@@ -41,7 +41,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:help?after=additions">
+            locationURI="menu:help?before=additions">
          <command
                commandId="com.archimatetool.help.command.showCheatSheets"
                id="com.archimatetool.help.menuitem.showCheatSheets"

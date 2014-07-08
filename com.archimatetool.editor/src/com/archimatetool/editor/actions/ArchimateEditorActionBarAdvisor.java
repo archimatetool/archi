@@ -91,7 +91,7 @@ extends ActionBarAdvisor {
     
     private IAction fActionShowRelationsMatrix;
     
-    private IAction fArchiWebsiteAction;
+    private IAction fDonateAction;
     private IAction fActionCheckForNewVersion;
 
     
@@ -242,7 +242,7 @@ extends ActionBarAdvisor {
         };
         
         // Archi website
-        fArchiWebsiteAction = new ArchiWebsiteAction();
+        fDonateAction = new WebBrowserAction(Messages.ArchimateEditorActionBarAdvisor_18, "http://www.archimatetool.com/sponsors#donate"); //$NON-NLS-1$
         
         // Check for new Version
         fActionCheckForNewVersion = new CheckForNewVersionAction();
@@ -457,14 +457,18 @@ extends ActionBarAdvisor {
         
         menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
         
+        menu.add(ActionFactory.INTRO.create(window));
+        menu.add(new Separator());
+        
         menu.add(ActionFactory.HELP_CONTENTS.create(window));
         menu.add(ActionFactory.HELP_SEARCH.create(window));
         menu.add(ActionFactory.DYNAMIC_HELP.create(window));
+        menu.add(new Separator());
         
         menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
         menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         
-        menu.add(fArchiWebsiteAction);
+        menu.add(fDonateAction);
         menu.add(fActionCheckForNewVersion);
         
         menu.add(new Separator());

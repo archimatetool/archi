@@ -14,14 +14,17 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 
 /**
- * Archi on the Web Action
+ * Web Action
  * 
  * @author Phillip Beauvoir
  */
-public class ArchiWebsiteAction extends Action {
+public class WebBrowserAction extends Action {
     
-    public ArchiWebsiteAction() {
-        super(Messages.ArchiWebsiteAction_0);
+    private String fUrl;
+    
+    public WebBrowserAction(String title, String url) {
+        super(title);
+        fUrl = url;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class ArchiWebsiteAction extends Action {
         try {
             IWebBrowser browser = support.getExternalBrowser();
             if(browser != null) {
-                URL url = new URL("http://www.archimatetool.com"); //$NON-NLS-1$
+                URL url = new URL(fUrl);
                 browser.openURL(url);
             }
         }

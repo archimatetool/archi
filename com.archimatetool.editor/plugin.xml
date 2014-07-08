@@ -679,5 +679,33 @@
             label="JPEG Image">
       </imageExportProvider>
    </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <introProductBinding
+            introId="com.archimatetool.editor.intro"
+            productId="com.archimatetool.editor.product">
+      </introProductBinding>
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            icon="img/welcome.gif"
+            id="com.archimatetool.editor.intro">
+      </intro>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="$nl$/intro/introContent.xml"
+            id="com.archimatetool.editor.intro.config"
+            introId="com.archimatetool.editor.intro">
+         <presentation
+               home-page-id="root"
+               standby-page-id="standby">
+            <implementation
+                  kind="html"
+                  style="style.css">
+            </implementation>
+         </presentation>
+      </config>
+   </extension>
 
 </plugin>

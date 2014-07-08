@@ -31,6 +31,8 @@ public class Messages extends NLS {
 
     public static String ArchimateEditorActionBarAdvisor_17;
 
+    public static String ArchimateEditorActionBarAdvisor_18;
+
     public static String ArchimateEditorActionBarAdvisor_2;
 
     public static String ArchimateEditorActionBarAdvisor_3;
@@ -60,8 +62,6 @@ public class Messages extends NLS {
     public static String ArchimateEditorActionFactory_5;
 
     public static String ArchimateEditorActionFactory_6;
-
-    public static String ArchiWebsiteAction_0;
 
     public static String CheckForNewVersionAction_0;
 
