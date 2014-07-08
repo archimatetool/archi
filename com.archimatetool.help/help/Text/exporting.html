@@ -4,33 +4,55 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Exporting the Model and its Views</title>
+<title>Importing and Exporting the Model and its Views</title>
 <link href="../Styles/style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
-    <h1 class="pagebreak">Exporting the Model and its Views</h1>
+    <h1 class="pagebreak">Importing and Exporting the Model and its Views</h1>
     
-    <p>It is possible to export the Archi model or its Views to different formats in order to re-use the model or images in different applications.</p>
+    <p>It is possible to export the Archi model or its Views to different formats in order to re-use the model or images in different applications. Some import formats are also supported.</p>
     
     <br/>
     
     <h2>Export Model To CSV</h2>
     
-    <p>This option is available from the "Export Model To  CSV..." menu item from the main "File-&gt;Export" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled. Provide a  filename to export the file in CSV (Comma Separated Values) format.</p>
+    <p>You can export the a model's data to CSV format (Comma Separated Values). The data is exported in three different files - "elements.csv", "relations.csv" and "properties.csv". All data elements are identified by unique identifiers so that a property will reference an element or relation in the other files.</p>
+    <p>This option is available from the "Export Model To  CSV..." menu item from the main "File-&gt;Export" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled.</p>
     
-    <p>The CSV field format is as follows:</p>
+    <img src="../Images/csv-export.png"/>
+    <p class="caption">Exporting the model to CSV</p>
     
-    <p>"Type", "Element name", "Documentation", "Source type", "Source name", "Target type", "Target name"</p>
-    <p>Elements and Relationships are exported. The last four fields only apply to the Relationship type. For an element they are left blank.</p>
+    <br/>
+    <p>The CSV field format for elements is - "ID", "Type", "Name", "Documentation"</p>
+    <p>The CSV field format for relations is - "ID","Type", "Name", "Documentation", "Source", "Target"</p>
+    <p>The CSV field format for elements is - "ID", "Key", "Value"</p>
     
+    <br/>
+    
+    <h2>Importing CSV Data into a Model</h2>
+    
+    <p>Conversely you can import CSV data into an existing model. The CSV files need to be in the same format as described above, and all IDs need to be unique. At the very least, you need to provide a CSV file named "prefix-elements.csv" where the "prefix-" part of the file name is optional. If you also provide a relations file it needs to be in the format described above and named "prefix-relations.csv". If you also provide a properties file it needs to be in the format described above and named "prefix-properties.csv". Again, the "prefix-" part of the file name is optional. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv".</p>
+    <p>The best way to understand the required format is to export an existing model to CSV format, and open the resulting files in a text editor, or spreadsheet application</p>
+    <p>It is possible to merge/update the imported CSV data into an existing model. If a model element already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
+    <p style="font-style:italic;">"ID","Type","Name","Documentation"<br/>
+       "9240f5bf","BusinessActor","New Name","Additional Documentation" 
+    </p>
+    
+    <p>Note - it is currently not possible to import and export View diagram information in CSV format.</p>
+
     <br/>
     
     <h2>Export View As Image</h2>
     
     <p>A View (diagram) can be exported as an image file to disk.  This is available from the "Export View As Image..." menu command from the main  "File-&gt;Export" menu or by right-clicking on a View and selecting the menu  item from the contextual menu. This menu command is only available if a View is open and selected.</p>
     
+    <p>Available formats are BMP, JPG, PNG and SVG. The first three formats can be exported at scaled ranging from 25% to 500%. SVG format has more options including embedding font information and setting the viewBox bounds for different scales.</p>
+    
+    <img src="../Images/export_image.png"/>
+    <p class="caption">Exporting a View as an image</p>
+
     <br/>
     
     <h2>Export View As Image to Clipboard</h2>
