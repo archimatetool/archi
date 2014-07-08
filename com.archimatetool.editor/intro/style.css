@@ -14,13 +14,11 @@ h1 {
 }
 
 h2 {
-    font-size: 21px;
-    color: #333;
+    font-size: 25px;
 }
 
 h3 {
-	font-size: 18px;
-	color: #444;
+	font-size: 21px;
 }
 
 p {
@@ -29,7 +27,7 @@ p {
 
 
 .icon:hover {
-    position:relative;
+    position: relative;
     top: 2px;
     left: 2px;
 }
