@@ -17,7 +17,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
 import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
 
 
@@ -54,7 +57,16 @@ public class LineColorAction extends SelectionAction {
     }
     
     private boolean isValidEditPart(Object object) {
-        return object instanceof ILinedEditPart;
+        if(object instanceof ILinedEditPart) {
+            // Disable menu item if line colours are derived from fill colours as set in Prefs
+            boolean deriveElementLineColor = Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
+            if(deriveElementLineColor && ((ILinedEditPart)object).getModel() instanceof IDiagramModelObject) {
+                return false;
+            }
+            return true;
+        }
+        
+        return false;
     }
     
     @Override

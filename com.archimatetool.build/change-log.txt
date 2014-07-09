@@ -26,6 +26,7 @@ Version 3.0
 * Fixed Full Screen Mode not hiding application Shell on Linux
 * Fixed HTML Report not generated if documentation text included a hyperlink with regex character
 * Fixed cannot open archive type model file (Canvas with images) if "#" character in file name
+* Fixed main line colour menu item enabled when line colour derived from fill colour
 
 
 
