@@ -76,7 +76,7 @@ implements IPreferenceConstants {
         store.setDefault(DERIVE_ELEMENT_LINE_COLOR, true);
         store.setDefault(DERIVE_ELEMENT_LINE_COLOR_FACTOR, 7);
         
-        store.setDefault(USE_ORTHOGONAL_ANCHOR, false);
+        store.setDefault(USE_ORTHOGONAL_ANCHOR, true);
         store.setDefault(USE_LINE_CURVES, true);
         store.setDefault(USE_LINE_JUMPS, true);
         
