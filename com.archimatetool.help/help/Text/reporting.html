@@ -36,7 +36,17 @@
     
     <p>If you choose the "Customizable Report" template when exporting, then you can set various properties for the report's layout if you base your model on the "Customizable Report" model template when creating a new model. See <a href="templates_new_model.html">"Creating a New Model from a Template"</a> for more details.</p>
     
-    <p>If you wish to create your own custom Jasper Report templates you can place these in a folder named "reports" in the application preference folder, or select a template file from the "Choose..." combo option. For more information on creating custom Jasper Reports please refer to the developer section of the Archi website.</p>
+    <p>If you wish to create your own custom Jasper Report templates you can place these in the folder named "jasper-reports" in the application preference folder. You can change the location of this folder in <a href="prefs_jasper.html">Preferences</a>. Alternatively, you can manually select a template file ("main.jrxml") from the "Choose..." combo option.</p>
+    
+    <p>An example folder structure for custom reports:</p>
+<pre>
+C:\Users\Bagpuss\Application Data\Archi\jasper-reports
+                                                 |------My Custom Report
+                                                                 |------main.jrxml
+                                                                 |------style.jrxt
+                                                                 |------other files...
+</pre>
+    <p>For more information on creating custom Jasper Reports please refer to the developer section of the Archi website.</p>
 
     <br/>
     <h2>Output</h2>

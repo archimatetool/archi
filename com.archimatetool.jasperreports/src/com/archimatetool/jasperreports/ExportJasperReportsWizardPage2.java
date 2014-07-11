@@ -27,8 +27,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -73,7 +71,8 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         File inbuiltReportsFolder = JasperReportsPlugin.INSTANCE.getJasperReportsFolder();
         scanFolder(inbuiltReportsFolder);
 
-        File userReportsFolder = new File(Preferences.STORE.getString(IPreferenceConstants.USER_DATA_FOLDER), "reports"); //$NON-NLS-1$
+        // User reports
+        File userReportsFolder = JasperReportsPlugin.INSTANCE.getUserTemplatesFolder();
         scanFolder(userReportsFolder);
         
         // Null terminator for custom selection

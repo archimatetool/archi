@@ -100,6 +100,10 @@
        <description>Edit the General Preferences.</description>
        <topic href="help/Text/prefs_general.html" label="General Preferences"/>
     </context>
+    <context id="prefsJasper" title="Jasper Reports Preferences">
+       <description>Edit the Jasper Reports Preferences.</description>
+       <topic href="help/Text/prefs_jasper.html" label="Jasper Reports Preferences"/>
+    </context>
     <context id="userProperties" title="User Properties">
        <description>Edit User Properties</description>
        <topic href="help/Text/properties_user_properties.html" label="User Properties"/>

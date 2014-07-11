@@ -20,6 +20,7 @@ Version 3.0
 + The Mac version of Archi is now bundled with Java version 1.7.0_60
 + The Java version shipped with the Windows installer is now version 1.7.0_60
 + Uses Jasper Reports version 5.6.0
++ Jasper Reports - Can set location of user templates folder in Preferences
 + Association connection endpoints are improved
 * Relationship rule fixed: Actor -> Business Interface: "cfiotu" (was "fiotu")
 * Connection bendpoints - snap to grid now snaps to nearest grid point

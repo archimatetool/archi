@@ -26,5 +26,19 @@
          point="org.eclipse.ui.startup">
       <startup></startup>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.archimatetool.jasperreports.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.archimatetool.jasperreports.preferences.JasperReportsPreferencesPage"
+            id="com.archimatetool.jasperreports.preferences.JasperReportsPreferencePage"
+            name="%prefsJasper">
+      </page>
+   </extension>
 
 </plugin>

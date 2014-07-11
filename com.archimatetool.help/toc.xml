@@ -163,5 +163,7 @@
        </topic>
        <topic href="help/Text/prefs_help.html" label="Help">
        </topic>
+       <topic href="help/Text/prefs_jasper.html" label="Jasper Reports">
+       </topic>
     </topic>
 </toc>
