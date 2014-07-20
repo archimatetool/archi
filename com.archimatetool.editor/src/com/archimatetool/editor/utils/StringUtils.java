@@ -138,6 +138,13 @@ public final class StringUtils {
      *         1 if newer is greater than older
      */
     public static int compareVersionNumbers(String newer, String older) {
+        if(!isSetAfterTrim(newer)) {
+            newer = "0"; //$NON-NLS-1$
+        }
+        if(!isSetAfterTrim(older)) {
+            older = "0"; //$NON-NLS-1$
+        }
+        
         String[] vals1 = newer.split("\\."); //$NON-NLS-1$
         String[] vals2 = older.split("\\."); //$NON-NLS-1$
         

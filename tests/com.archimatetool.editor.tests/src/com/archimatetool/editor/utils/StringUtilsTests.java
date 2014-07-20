@@ -180,5 +180,12 @@ public class StringUtilsTests {
         assertEquals(0, StringUtils.compareVersionNumbers("10.10.10", "10.10.10"));
         assertEquals(1, StringUtils.compareVersionNumbers("10.10.10", "1.1.1"));
     }
+    
+    @Test
+    public void testCompareVersionNumbers_WithBlankValue() {
+        assertEquals(-1, StringUtils.compareVersionNumbers("", "1.2"));
+        assertEquals(0, StringUtils.compareVersionNumbers("", ""));
+        assertEquals(1, StringUtils.compareVersionNumbers("1.2", ""));
+    }
 
 }
