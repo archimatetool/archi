@@ -9,7 +9,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
@@ -32,8 +31,6 @@ import com.archimatetool.editor.utils.StringUtils;
  */
 public class CanvasStickyFigure
 extends AbstractDiagramModelObjectFigure {
-    
-    static Dimension DEFAULT_SIZE = new Dimension(75, 63);
     
     private TextFlow fTextFlow;
     private TextPositionDelegate fTextPositionDelegate;
@@ -119,15 +116,6 @@ extends AbstractDiagramModelObjectFigure {
      */
     public Color getBorderColor() {
         return fBorderColor;
-    }
-
-    @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        return getDefaultSize();
-    }
-
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
     }
 
     @Override

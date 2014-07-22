@@ -12,7 +12,6 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
@@ -34,8 +33,6 @@ import com.archimatetool.editor.utils.StringUtils;
  * @author Phillip Beauvoir
  */
 public class CanvasBlockFigure extends AbstractContainerFigure {
-    
-    public static Dimension DEFAULT_SIZE = new Dimension(200, 200);
     
     private TextFlow fTextFlow;
     private TextPositionDelegate fTextPositionDelegate;
@@ -139,10 +136,6 @@ public class CanvasBlockFigure extends AbstractContainerFigure {
         return fTextFlow;
     }
     
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
-    }
-
     @Override
     protected void drawFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);

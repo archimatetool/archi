@@ -5,9 +5,12 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -32,7 +35,10 @@ public class AddDiagramModelReferenceCommand extends Command {
         fParent = parent;
         fReference = IArchimateFactory.eINSTANCE.createDiagramModelReference();
         fReference.setReferencedModel(diagramModel);
-        fReference.setBounds(x, y, -1, -1);
+        
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(fReference);
+        Dimension defaultSize = provider.getDefaultSize();
+        fReference.setBounds(x, y, defaultSize.width, defaultSize.height);
         
         ColorFactory.setDefaultColors(fReference);
     }

@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -40,6 +41,11 @@ public class GroupUIProvider extends AbstractElementUIProvider {
         return Messages.GroupUIProvider_0;
     }
 
+    @Override
+    public Dimension getDefaultSize() {
+        return new Dimension(400, 140);
+    }
+    
     @Override
     public Image getImage() {
         return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_GROUP_16);

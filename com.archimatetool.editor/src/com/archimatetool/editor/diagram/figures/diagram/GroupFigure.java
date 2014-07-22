@@ -10,7 +10,6 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
@@ -33,7 +32,6 @@ import com.archimatetool.model.IDiagramModelObject;
 public class GroupFigure
 extends AbstractLabelContainerFigure {
     
-    protected static final Dimension DEFAULT_SIZE = new Dimension(400, 140);
     public static final int TOPBAR_HEIGHT = 18;
     protected static final int SHADOW_OFFSET = 2;
     
@@ -108,11 +106,6 @@ extends AbstractLabelContainerFigure {
         getContentPane().translateToRelative(t);
         // compensate for content pane offset
         t.performTranslate(-getContentPane().getBounds().x, -getContentPane().getBounds().y); 
-    }
-
-    @Override
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
     }
 
     @Override

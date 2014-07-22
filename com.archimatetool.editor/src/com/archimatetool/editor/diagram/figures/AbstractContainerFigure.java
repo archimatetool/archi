@@ -62,8 +62,8 @@ implements IContainerFigure {
     }
     
     @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        // Calculate preferred size based on children
+    public Dimension getDefaultSize() {
+        // Calculate default size based on children
         if(getContentPane().getChildren().size() > 0) {
             // Start with zero and build up from that...
             Dimension d = new Dimension();
@@ -75,11 +75,11 @@ implements IContainerFigure {
                 d.height = Math.max(bounds.y + bounds.height + 10, d.height);
             }
             
-            return d.union(getDefaultSize());
+            return d.union(super.getDefaultSize());
         }
         
         // No children...
-        return getDefaultSize();
+        return super.getDefaultSize();
     }
 
     @Override

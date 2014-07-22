@@ -9,10 +9,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -40,7 +43,10 @@ public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testGetDefaultSize() {
-        assertEquals(JunctionFigure.SIZE, abstractFigure.getDefaultSize());
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
+        Dimension defaultSize = provider.getDefaultSize();
+
+        assertEquals(defaultSize, abstractFigure.getDefaultSize());
     }
 
     @Test

@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.junctions.AndJunctionEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -24,8 +23,9 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class AndJunctionUIProvider extends AbstractElementUIProvider {
+public class AndJunctionUIProvider extends JunctionUIProvider {
 
+    @Override
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getAndJunction();
     }

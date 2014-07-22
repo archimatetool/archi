@@ -12,6 +12,12 @@ import java.net.URL;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
+
+import com.archimatetool.canvas.factory.CanvasBlockUIProvider;
+import com.archimatetool.canvas.factory.CanvasImageUIProvider;
+import com.archimatetool.canvas.factory.CanvasStickyUIProvider;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
 
 /**
  * Activator
@@ -34,6 +40,16 @@ public class CanvasEditorPlugin extends AbstractUIPlugin {
 
     public CanvasEditorPlugin() {
         INSTANCE = this;
+    }
+    
+    @Override
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+        
+        // Register UI Providers
+        ElementUIFactory.INSTANCE.registerProvider(new CanvasImageUIProvider());
+        ElementUIFactory.INSTANCE.registerProvider(new CanvasBlockUIProvider());
+        ElementUIFactory.INSTANCE.registerProvider(new CanvasStickyUIProvider());
     }
     
     /**

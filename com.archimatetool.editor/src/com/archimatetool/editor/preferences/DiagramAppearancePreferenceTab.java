@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Spinner;
 
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
 
@@ -26,6 +27,8 @@ import com.archimatetool.editor.diagram.sketch.ISketchEditor;
 public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     private Button fShowShadowsButton;
+    
+    private Spinner fDefaultArchimateFigureWidthSpinner, fDefaultArchimateFigureHeightSpinner;
     
     private Combo fDefaultSketchBackgroundCombo;
     
@@ -41,10 +44,31 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         figuresGroup.setLayout(new GridLayout());
         figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
+        // Shadows
         fShowShadowsButton = new Button(figuresGroup, SWT.CHECK);
         fShowShadowsButton.setText(Messages.DiagramFiguresPreferencePage_9);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         fShowShadowsButton.setLayoutData(gd);
+        
+        // Default sizes
+        Label label = new Label(figuresGroup, SWT.NULL);
+        label.setText(Messages.DiagramAppearancePreferenceTab_1);
+        
+        Composite sizeGroup = new Composite(figuresGroup, SWT.NULL);
+        sizeGroup.setLayout(new GridLayout(4, false));
+        sizeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        label = new Label(sizeGroup, SWT.NULL);
+        label.setText(Messages.DiagramAppearancePreferenceTab_2);
+        fDefaultArchimateFigureWidthSpinner = new Spinner(sizeGroup, SWT.BORDER);
+        fDefaultArchimateFigureWidthSpinner.setMinimum(30);
+        fDefaultArchimateFigureWidthSpinner.setMaximum(300);
+        
+        label = new Label(sizeGroup, SWT.NULL);
+        label.setText(Messages.DiagramAppearancePreferenceTab_3);
+        fDefaultArchimateFigureHeightSpinner = new Spinner(sizeGroup, SWT.BORDER);
+        fDefaultArchimateFigureHeightSpinner.setMinimum(30);
+        fDefaultArchimateFigureHeightSpinner.setMaximum(300);
         
         // -------------- Sketch ----------------------------
 
@@ -54,7 +78,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         sketchGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         // Default Sketch background
-        Label label = new Label(sketchGroup, SWT.NULL);
+        label = new Label(sketchGroup, SWT.NULL);
         label.setText(Messages.DiagramPreferencePage_20);
         fDefaultSketchBackgroundCombo = new Combo(sketchGroup, SWT.READ_ONLY);
         fDefaultSketchBackgroundCombo.setItems(ISketchEditor.BACKGROUNDS);
@@ -69,6 +93,10 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     private void setValues() {
         fShowShadowsButton.setSelection(getPreferenceStore().getBoolean(SHOW_SHADOWS));
+        
+        fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
+        fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
+        
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));        
     }
     
@@ -78,6 +106,10 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
 
     public boolean performOk() {
         getPreferenceStore().setValue(SHOW_SHADOWS, fShowShadowsButton.getSelection());
+        
+        getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
+        getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, fDefaultArchimateFigureHeightSpinner.getSelection());
+        
         getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
         return true;
@@ -85,6 +117,10 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     protected void performDefaults() {
         fShowShadowsButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SHADOWS));
+        
+        fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
+        fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
+        
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
     }
 }

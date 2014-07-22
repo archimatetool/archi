@@ -12,7 +12,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -36,8 +35,6 @@ import com.archimatetool.model.IDiagramModelNote;
  */
 public class NoteFigure
 extends AbstractDiagramModelObjectFigure {
-    
-    protected static final Dimension DEFAULT_SIZE = new Dimension(185, 80);
     
     private TextFlow fTextFlow;
     
@@ -116,19 +113,6 @@ extends AbstractDiagramModelObjectFigure {
     @Override
     public IFigure getTextControl() {
         return fTextFlow;
-    }
-
-    /**
-     * Over-ride this to give us a bigger figure
-     * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
-     */
-    @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        return getDefaultSize();
-    }
-
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
     }
 
     @Override

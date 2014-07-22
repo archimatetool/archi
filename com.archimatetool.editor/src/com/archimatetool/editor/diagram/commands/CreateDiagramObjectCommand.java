@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.commands;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
@@ -18,6 +19,8 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -63,6 +66,17 @@ public class CreateDiagramObjectCommand extends Command {
     
     protected void addChild() {
         fChild = (IDiagramModelObject)fRequest.getNewObject();
+        
+        // Default size
+        if(fBounds.width == -1 && fBounds.height == -1) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(fChild);
+            if(provider != null) {
+                Dimension defaultSize = provider.getDefaultSize();
+                fBounds.width = defaultSize.width;
+                fBounds.height = defaultSize.height;
+            }
+        }
+        
         fChild.setBounds(fBounds.x, fBounds.y, fBounds.width, fBounds.height);
         redo();
     }

@@ -13,6 +13,8 @@ import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -45,7 +47,8 @@ public class OrJunctionFigureTests extends AbstractDiagramModelObjectFigureTests
 
     @Test
     public void testGetDefaultSize() {
-        assertEquals(OrJunctionFigure.SIZE, abstractFigure.getDefaultSize());
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
+        assertEquals(provider.getDefaultSize(), abstractFigure.getDefaultSize());
     }
 
     @Override

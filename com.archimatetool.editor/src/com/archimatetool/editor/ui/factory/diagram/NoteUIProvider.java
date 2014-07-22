@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -36,6 +37,11 @@ public class NoteUIProvider extends AbstractElementUIProvider {
     @Override
     public String getDefaultName() {
         return Messages.NoteUIProvider_0;
+    }
+
+    @Override
+    public Dimension getDefaultSize() {
+        return new Dimension(185, 80);
     }
 
     @Override

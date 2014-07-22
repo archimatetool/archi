@@ -29,8 +29,6 @@ import com.archimatetool.model.IDiagramModelImage;
  */
 public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
     
-    public static Dimension DEFAULT_SIZE = new Dimension(200, 150);
-    
     private Image fImage;
     private Dimension fOriginalImageSize, fCurrentImageSize;
     
@@ -84,15 +82,11 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         return fBorderColor;
     }
 
+    @Override
     public Dimension getDefaultSize() {
-        return fOriginalImageSize == null ? DEFAULT_SIZE : fOriginalImageSize;
+        return fOriginalImageSize == null ? super.getDefaultSize() : fOriginalImageSize;
     }
     
-    @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        return getDefaultSize();
-    }
-
     @Override
     protected void paintFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);

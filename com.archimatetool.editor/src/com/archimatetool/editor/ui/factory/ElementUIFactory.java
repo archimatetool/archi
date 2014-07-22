@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.factory.application.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.application.ApplicationComponentUIProvider;
@@ -75,6 +76,8 @@ import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureSe
 import com.archimatetool.editor.ui.factory.technology.TechnologyNetworkUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUIProvider;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -172,5 +175,21 @@ public class ElementUIFactory {
     
     public IElementUIProvider getProvider(EClass type) {
         return map.get(type);
+    }
+    
+    public IElementUIProvider getProvider(EObject eObject) {
+        EClass eClass = null;
+        
+        if(eObject instanceof IDiagramModelArchimateObject) {
+            eClass = ((IDiagramModelArchimateObject)eObject).getArchimateElement().eClass();
+        }
+        else if(eObject instanceof IDiagramModelArchimateConnection) {
+            eClass = ((IDiagramModelArchimateConnection)eObject).getRelationship().eClass();
+        }
+        else {
+            eClass = eObject.eClass();
+        }
+        
+        return getProvider(eClass);
     }
 }

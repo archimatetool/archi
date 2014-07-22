@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -18,6 +19,8 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateElement;
@@ -208,6 +211,17 @@ implements IDiagramModelObjectFigure {
             return figure.containsPoint(requestLoc);
         }
         return false;
+    }
+    
+    @Override
+    public Dimension getPreferredSize(int wHint, int hHint) {
+        return getDefaultSize();
+    }
+    
+    @Override
+    public Dimension getDefaultSize() {
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(getDiagramModelObject());
+        return provider != null ? provider.getDefaultSize() : new Dimension(-1, -1);
     }
     
     public void dispose() {

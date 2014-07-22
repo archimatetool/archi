@@ -10,10 +10,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
 
@@ -45,7 +48,10 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testGetDefaultSize() {
-        assertEquals(NoteFigure.DEFAULT_SIZE, figure.getDefaultSize());
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+        Dimension defaultSize = provider.getDefaultSize();
+
+        assertEquals(defaultSize, figure.getDefaultSize());
     }
 
     @Test

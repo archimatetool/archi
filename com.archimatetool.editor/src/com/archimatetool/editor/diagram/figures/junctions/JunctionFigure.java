@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.figures.junctions;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -26,17 +25,10 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class JunctionFigure extends AbstractDiagramModelObjectFigure {
     
-    protected static final Dimension SIZE = new Dimension(15, 15);
-    
     public JunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
     }
 
-    @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        return SIZE;
-    }
-    
     @Override
     public void paintFigure(Graphics graphics) {
         graphics.pushState();
@@ -67,11 +59,6 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure {
 
     @Override
     public void dispose() {
-    }
-
-    @Override
-    public Dimension getDefaultSize() {
-        return SIZE;
     }
 
     @Override

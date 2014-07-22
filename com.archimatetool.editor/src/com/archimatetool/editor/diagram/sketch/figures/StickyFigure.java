@@ -10,7 +10,6 @@ import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
@@ -37,8 +36,6 @@ public class StickyFigure extends AbstractContainerFigure {
     
     protected static final int SHADOW_OFFSET = 3;
     protected static final int TEXT_INDENT = 10;
-    
-    static Dimension DEFAULT_SIZE = new Dimension(135, 70);
     
     private TextFlow fTextFlow;
     
@@ -116,10 +113,6 @@ public class StickyFigure extends AbstractContainerFigure {
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;
         return bounds;
-    }
-
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -65,4 +66,9 @@ public interface IElementUIProvider {
      * @return The default line colour to use for this object
      */
     Color getDefaultLineColor();
+    
+    /**
+     * @return The default size width and height for this object
+     */
+    Dimension getDefaultSize();
 }
