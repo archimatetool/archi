@@ -9,6 +9,7 @@ import org.eclipse.gef.EditPolicy;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
+import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
 import com.archimatetool.editor.diagram.sketch.policies.SketchConnectionPolicy;
 
 
@@ -24,6 +25,9 @@ public class SketchDiagramModelReferenceEditPart extends DiagramModelReferenceEd
     protected void createEditPolicies() {
         // Allow parts to be connected
         installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new SketchConnectionPolicy());
+
+        // Add a policy to handle directly editing the name
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new PartDirectEditTitlePolicy());
 
         // Add a policy to handle editing the Parts (for example, deleting a part)
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PartComponentEditPolicy());
