@@ -221,7 +221,7 @@ implements IDiagramModelObjectFigure {
     @Override
     public Dimension getDefaultSize() {
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(getDiagramModelObject());
-        return provider != null ? provider.getDefaultSize() : new Dimension(-1, -1);
+        return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
     }
     
     public void dispose() {
