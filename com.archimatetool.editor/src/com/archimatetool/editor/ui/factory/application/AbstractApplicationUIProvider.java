@@ -8,7 +8,7 @@ package com.archimatetool.editor.ui.factory.application;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractArchimateElementUIProvider;
 
 
 
@@ -17,7 +17,7 @@ import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractApplicationUIProvider extends AbstractElementUIProvider {
+public abstract class AbstractApplicationUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public Color getDefaultColor() {

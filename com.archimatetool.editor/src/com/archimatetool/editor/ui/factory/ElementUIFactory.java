@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.factory.application.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.application.ApplicationComponentUIProvider;
@@ -75,6 +76,8 @@ import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureSe
 import com.archimatetool.editor.ui.factory.technology.TechnologyNetworkUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUIProvider;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -88,7 +91,14 @@ public class ElementUIFactory {
 
     public static final ElementUIFactory INSTANCE = new ElementUIFactory();
     
-    private ElementUIFactory() {
+    static {
+        INSTANCE.init();
+    }
+    
+    ElementUIFactory() {
+    }
+    
+    private void init() {
         registerProvider(new BusinessActorUIProvider());
         registerProvider(new BusinessInterfaceUIProvider());
         registerProvider(new BusinessActivityUIProvider());
@@ -164,7 +174,7 @@ public class ElementUIFactory {
         registerProvider(new SketchStickyUIProvider());
     }
     
-    private Map<EClass, IElementUIProvider> map = new HashMap<EClass, IElementUIProvider>();
+    Map<EClass, IElementUIProvider> map = new HashMap<EClass, IElementUIProvider>();
     
     public void registerProvider(IElementUIProvider provider) {
         map.put(provider.providerFor(), provider);
@@ -172,5 +182,21 @@ public class ElementUIFactory {
     
     public IElementUIProvider getProvider(EClass type) {
         return map.get(type);
+    }
+    
+    public IElementUIProvider getProvider(EObject eObject) {
+        EClass eClass = null;
+        
+        if(eObject instanceof IDiagramModelArchimateObject) {
+            eClass = ((IDiagramModelArchimateObject)eObject).getArchimateElement().eClass();
+        }
+        else if(eObject instanceof IDiagramModelArchimateConnection) {
+            eClass = ((IDiagramModelArchimateConnection)eObject).getRelationship().eClass();
+        }
+        else {
+            eClass = eObject.eClass();
+        }
+        
+        return getProvider(eClass);
     }
 }

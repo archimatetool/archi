@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -38,6 +39,11 @@ public class DiagramImageUIProvider extends AbstractElementUIProvider {
     @Override
     public String getDefaultName() {
         return Messages.DiagramImageUIProvider_0;
+    }
+
+    @Override
+    public Dimension getDefaultSize() {
+        return new Dimension(200, 150);
     }
 
     @Override

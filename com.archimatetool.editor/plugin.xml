@@ -657,6 +657,10 @@
             class="com.archimatetool.editor.model.compatibility.handlers.FixConnectionTextNames"
             id="com.archimatetool.editor.compatibility.connectionTextHandler">
       </compatibilityHandler>
+      <compatibilityHandler
+            class="com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandler"
+            id="com.archimatetool.editor.compatibility.defaultSizes">
+      </compatibilityHandler>
    </extension>
    <extension
          point="com.archimatetool.editor.imageExportProvider">

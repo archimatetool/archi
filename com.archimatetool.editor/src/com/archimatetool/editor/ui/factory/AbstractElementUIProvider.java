@@ -50,7 +50,7 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     public Color getDefaultLineColor() {
         return ColorFactory.get(92, 92, 92);
     }
-
+    
     /**
      * Create a new ImageDescriptor substituting the user's preference for fill color
      */

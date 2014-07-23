@@ -87,5 +87,9 @@ implements IPreferenceConstants {
         
         // Show status line
         store.setDefault(SHOW_STATUS_LINE, true);
+        
+        // Figure width and height
+        store.setDefault(DEFAULT_ARCHIMATE_FIGURE_WIDTH, 120);
+        store.setDefault(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 55);
     }
 }

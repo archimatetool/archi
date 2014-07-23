@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.tools;
 
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
@@ -40,6 +41,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
@@ -572,7 +575,11 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
 
             // Create this now
             fChild = (IDiagramModelArchimateObject)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
-            fChild.setBounds(location.x, location.y, -1, -1);
+            
+            // Default size
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(fChild);
+            Dimension defaultSize = provider.getDefaultSize();
+            fChild.setBounds(location.x, location.y, defaultSize.width, defaultSize.height);
         }
         
         IDiagramModelArchimateObject getNewObject() {

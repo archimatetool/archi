@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.figures;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
@@ -30,8 +29,6 @@ import com.archimatetool.model.IFontAttribute;
  */
 public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
     
-    static Dimension DEFAULT_SIZE = new Dimension(120, 55);
-
     private TextFlow fTextFlow;
     
     protected int TEXT_PADDING = 10;
@@ -131,10 +128,5 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
             return getFigureDelegate().calculateTextControlBounds();
         }
         return null;
-    }
-    
-    @Override
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
     }
 }

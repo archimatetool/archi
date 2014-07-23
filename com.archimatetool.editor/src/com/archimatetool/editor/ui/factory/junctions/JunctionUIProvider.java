@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.junctions;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -14,7 +15,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.junctions.JunctionEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractArchimateElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -24,7 +25,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class JunctionUIProvider extends AbstractElementUIProvider {
+public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getJunction();
@@ -38,6 +39,11 @@ public class JunctionUIProvider extends AbstractElementUIProvider {
     @Override
     public String getDefaultName() {
         return Messages.JunctionUIProvider_0;
+    }
+    
+    @Override
+    public Dimension getDefaultSize() {
+        return new Dimension(15, 15);
     }
 
     @Override

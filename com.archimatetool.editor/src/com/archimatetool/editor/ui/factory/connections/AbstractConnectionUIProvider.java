@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.connections;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
@@ -27,6 +28,10 @@ public abstract class AbstractConnectionUIProvider extends AbstractElementUIProv
     @Override
     public Color getDefaultLineColor() {
         return ColorConstants.black;
+    }
+
+    public Dimension getDefaultSize() {
+        return new Dimension(-1, -1);
     }
 
 }

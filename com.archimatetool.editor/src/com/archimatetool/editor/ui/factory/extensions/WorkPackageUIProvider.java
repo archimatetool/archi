@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.extensions.WorkPackageEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractArchimateElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -24,7 +24,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class WorkPackageUIProvider extends AbstractElementUIProvider {
+public class WorkPackageUIProvider extends AbstractArchimateElementUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getWorkPackage();

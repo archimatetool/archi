@@ -17,6 +17,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractLabelContainerFigureTests;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelGroup;
 
@@ -60,7 +62,8 @@ public class GroupFigureTests extends AbstractLabelContainerFigureTests {
     
     @Test
     public void testGetDefaultSize() {
-        assertEquals(GroupFigure.DEFAULT_SIZE, figure.getDefaultSize());
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+        assertEquals(provider.getDefaultSize(), figure.getDefaultSize());
     }
 
     @Override

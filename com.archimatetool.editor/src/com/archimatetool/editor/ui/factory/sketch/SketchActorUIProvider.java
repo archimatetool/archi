@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.sketch;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -38,6 +39,11 @@ public class SketchActorUIProvider extends AbstractElementUIProvider {
     @Override
     public String getDefaultName() {
         return Messages.SketchActorUIProvider_0;
+    }
+
+    @Override
+    public Dimension getDefaultSize() {
+        return new Dimension(75, 100);
     }
 
     @Override

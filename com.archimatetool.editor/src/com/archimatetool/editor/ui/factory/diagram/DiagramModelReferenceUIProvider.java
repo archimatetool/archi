@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.ui.factory.diagram;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -49,6 +50,10 @@ public class DiagramModelReferenceUIProvider extends AbstractElementUIProvider {
     @Override
     public Image getImage() {
         return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+    }
+
+    public Dimension getDefaultSize() {
+        return new Dimension(120, 55);
     }
 
     @Override

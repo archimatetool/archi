@@ -14,7 +14,6 @@ import junit.framework.JUnit4TestAdapter;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,6 +26,7 @@ import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.ISketchModel;
+import com.archimatetool.tests.TestUtils;
 
 
 
@@ -41,9 +41,7 @@ public class ArchimateLabelProviderTests {
     public static void runOnceBeforeAllTests() {
         // These tests indirectly reference AbstractElementUIProvider which instantiates an ImageRegistry which hits a null Display.getCurrent()
         // Calling Display.getDefault() will set Display.getCurrent() to non-null
-        if(Display.getCurrent() == null) {
-            Display.getDefault();
-        }
+        TestUtils.ensureDefaultDisplay();
     }
 
     @Test

@@ -7,13 +7,17 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.util.List;
 
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelObject;
@@ -71,8 +75,8 @@ public class DefaultEditPartSizeAction extends SelectionAction {
         CompoundCommand command = new CompoundCommand();
         
         for(Object object : objects) {
-            if(object instanceof EditPart) {
-                EditPart part = (EditPart)object;
+            if(object instanceof GraphicalEditPart) {
+                GraphicalEditPart part = (GraphicalEditPart)object;
                 if(part.getModel() instanceof IDiagramModelObject) {
                     IDiagramModelObject model = (IDiagramModelObject)part.getModel();
 
@@ -80,13 +84,19 @@ public class DefaultEditPartSizeAction extends SelectionAction {
                         continue;
                     }
                     
-                    IBounds bounds = model.getBounds().getCopy();
-
-                    if(bounds.getWidth() != -1 || bounds.getHeight() != -1) {
-                        bounds.setWidth(-1);
-                        bounds.setHeight(-1);
-                        Command cmd = new SetConstraintObjectCommand(model, bounds);
-                        command.add(cmd);
+                    IFigure figure = part.getFigure();
+                    if(figure instanceof IDiagramModelObjectFigure) {
+                        Dimension defaultSize = ((IDiagramModelObjectFigure)figure).getDefaultSize();
+                        IBounds bounds = model.getBounds().getCopy();
+                        if(bounds.getWidth() != defaultSize.width || bounds.getHeight() != defaultSize.height) {
+                            bounds.setWidth(defaultSize.width);
+                            bounds.setHeight(defaultSize.height);
+                            Command cmd = new SetConstraintObjectCommand(model, bounds);
+                            command.add(cmd);
+                        }
+                    }
+                    else {
+                        System.err.println("No UI provider for: " + model); //$NON-NLS-1$
                     }
                 }
             }

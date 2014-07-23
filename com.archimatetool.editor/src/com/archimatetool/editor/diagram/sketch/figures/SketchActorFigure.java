@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.sketch.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
@@ -25,8 +24,6 @@ import com.archimatetool.model.ISketchModelActor;
  */
 public class SketchActorFigure extends AbstractLabelFigure {
 
-    static Dimension DEFAULT_SIZE = new Dimension(75, 100);
-    
     public SketchActorFigure(ISketchModelActor actor) {
         super(actor);
     }
@@ -63,16 +60,6 @@ public class SketchActorFigure extends AbstractLabelFigure {
         // Legs
         graphics.drawLine(midX, bodyY2, midX - diameter, bounds.y + bounds.height);
         graphics.drawLine(midX, bodyY2, midX + diameter, bounds.y + bounds.height);
-    }
-
-    @Override
-    public Dimension getDefaultSize() {
-        return DEFAULT_SIZE;
-    }
-    
-    @Override
-    public Dimension getPreferredSize(int wHint, int hHint) {
-        return getDefaultSize();
     }
 
     @Override

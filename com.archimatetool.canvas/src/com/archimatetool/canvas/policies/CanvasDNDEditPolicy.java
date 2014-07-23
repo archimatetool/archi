@@ -117,7 +117,7 @@ public class CanvasDNDEditPolicy extends AbstractDNDEditPolicy {
             int image_height = image.getBounds().height;
             image.dispose();
 
-            canvasModelImage.setBounds(x, y, -1, -1);
+            canvasModelImage.setBounds(x, y, image_width, image_height);
 
             result.add(new AddDiagramObjectCommand(getTargetContainer(), canvasModelImage));
 
