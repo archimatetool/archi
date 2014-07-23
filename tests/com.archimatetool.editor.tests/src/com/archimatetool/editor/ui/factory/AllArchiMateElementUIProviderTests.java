@@ -24,6 +24,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditPart;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.application.AbstractApplicationUIProvider;
 import com.archimatetool.editor.ui.factory.application.ApplicationCollaborationUIProvider;
@@ -186,7 +188,15 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
             assertEquals(new Dimension(15, 15), provider.getDefaultSize());
         }
         else {
+            // Default value in preferences
+            Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
+            Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
             assertEquals(new Dimension(120, 55), provider.getDefaultSize());
+            
+            // New value via preferences
+            Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
+            Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 90);
+            assertEquals(new Dimension(150, 90), provider.getDefaultSize());
         }
     }
 

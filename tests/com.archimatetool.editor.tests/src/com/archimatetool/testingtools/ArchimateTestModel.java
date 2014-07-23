@@ -189,7 +189,7 @@ public class ArchimateTestModel {
      */
     public static IDiagramModelArchimateObject createDiagramModelArchimateObject(IArchimateElement element) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        dmo.setBounds(0, 0, -1, -1);
+        dmo.setBounds(0, 0, 120, 55);
         dmo.setArchimateElement(element);
         return dmo;
     }

@@ -95,9 +95,6 @@ public class DefaultEditPartSizeAction extends SelectionAction {
                             command.add(cmd);
                         }
                     }
-                    else {
-                        System.err.println("No UI provider for: " + model); //$NON-NLS-1$
-                    }
                 }
             }
         }
