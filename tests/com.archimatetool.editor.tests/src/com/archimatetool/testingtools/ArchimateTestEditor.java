@@ -10,12 +10,12 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.tests.TestUtils;
 
 
 /**
@@ -32,11 +32,8 @@ public class ArchimateTestEditor {
     private Shell shell;
     
     public ArchimateTestEditor() {
-        // We need to check this in cases where Display.getDefault() has not yet been called yet.
-        // Creating a new Shell() at some point in the sequence of tests will call Display.getDefault() but let's be explicit here.
-        if(Display.getCurrent() == null) {
-            Display.getDefault();
-        }
+        // Need to ensure default display
+        TestUtils.ensureDefaultDisplay();
         
         graphicalViewer = new ScrollingGraphicalViewer();
         shell = new Shell();

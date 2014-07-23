@@ -7,6 +7,8 @@ package com.archimatetool.editor.ui;
 
 import junit.framework.TestSuite;
 
+import com.archimatetool.editor.ui.factory.AllUIFactoryTests;
+
 @SuppressWarnings("nls")
 public class AllUITests {
 
@@ -17,6 +19,9 @@ public class AllUITests {
         suite.addTest(ArchimateLabelProviderTests.suite());
         suite.addTest(ColorFactoryTests.suite());
         suite.addTest(FigureChooserTests.suite());
+        
+        // factory
+        suite.addTest(AllUIFactoryTests.suite());
 
         return suite;
     }

@@ -91,7 +91,14 @@ public class ElementUIFactory {
 
     public static final ElementUIFactory INSTANCE = new ElementUIFactory();
     
-    private ElementUIFactory() {
+    static {
+        INSTANCE.init();
+    }
+    
+    ElementUIFactory() {
+    }
+    
+    private void init() {
         registerProvider(new BusinessActorUIProvider());
         registerProvider(new BusinessInterfaceUIProvider());
         registerProvider(new BusinessActivityUIProvider());
@@ -167,7 +174,7 @@ public class ElementUIFactory {
         registerProvider(new SketchStickyUIProvider());
     }
     
-    private Map<EClass, IElementUIProvider> map = new HashMap<EClass, IElementUIProvider>();
+    Map<EClass, IElementUIProvider> map = new HashMap<EClass, IElementUIProvider>();
     
     public void registerProvider(IElementUIProvider provider) {
         map.put(provider.providerFor(), provider);
