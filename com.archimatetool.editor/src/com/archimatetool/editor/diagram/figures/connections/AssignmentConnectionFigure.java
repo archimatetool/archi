@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
