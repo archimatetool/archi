@@ -50,7 +50,7 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
 
         @Override
         public void paintFigure(Graphics graphics) {
-            graphics.setBackgroundColor(ColorConstants.black);
+            graphics.setBackgroundColor(getParent().getForegroundColor());
             graphics.fillOval(bounds);
         }
     }
