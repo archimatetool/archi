@@ -57,7 +57,9 @@ implements IWorkbenchPreferencePage, IJasperPreferenceConstants {
         Group settingsGroup = new Group(client, SWT.NULL);
         settingsGroup.setText(Messages.JasperReportsPreferencesPage_0);
         settingsGroup.setLayout(new GridLayout(3, false));
-        settingsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.widthHint = 500;
+        settingsGroup.setLayoutData(gd);
         
         Label label = new Label(settingsGroup, SWT.NULL);
         label.setText(Messages.JasperReportsPreferencesPage_1);
