@@ -24,7 +24,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimatePackage;
@@ -135,6 +137,14 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         TableColumnLayout layout = (TableColumnLayout)parent.getLayout();
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE);
         layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
+        
+        // Fix row height
+        // This is definitely needed on some Linux versions where the row height is stuck at 17 for some reason
+        fTableViewer.getTable().addListener(SWT.MeasureItem, new Listener() {
+            public void handleEvent(Event event) {
+                event.height = 72;
+             }
+        });
         
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
