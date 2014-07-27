@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
+   <!-- extension
          point="org.eclipse.e4.ui.css.swt.theme">
       <theme
             basestylesheeturi="themes/archi/css/archi.css"
@@ -18,7 +18,7 @@
                 refid="com.archimatetool.editor.theme">
             </themeid>
         </stylesheet>
-   </extension>
+   </extension -->
    
 	<extension
        id="org.eclipse.e4.Themes"
