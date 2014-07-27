@@ -30,4 +30,13 @@ public class TechnologyDeviceFigureDelegate2 extends TechnologyNodeFigureDelegat
         return new Point(bounds.x + bounds.width - FOLD_HEIGHT * 2 - 5, bounds.y + FOLD_HEIGHT + 2);
     }
 
+    @Override
+    public Rectangle calculateTextControlBounds() {
+        Rectangle bounds = getBounds();
+        bounds.x += 12;
+        bounds.y += 2 + FOLD_HEIGHT;
+        bounds.width = bounds.width - 42;
+        bounds.height -= 20;
+        return bounds;
+    }
 }
