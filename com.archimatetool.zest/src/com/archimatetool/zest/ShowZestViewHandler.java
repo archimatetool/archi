@@ -22,7 +22,7 @@ public class ShowZestViewHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        ViewManager.toggleViewPart(IZestView.ID, false);
+        ViewManager.toggleViewPart(IZestView.ID, true);
         return null;
     }
 

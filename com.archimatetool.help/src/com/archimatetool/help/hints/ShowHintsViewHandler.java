@@ -22,7 +22,7 @@ public class ShowHintsViewHandler extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        ViewManager.toggleViewPart(IHintsView.ID, false);
+        ViewManager.toggleViewPart(IHintsView.ID, true);
         return null;
     }
 
