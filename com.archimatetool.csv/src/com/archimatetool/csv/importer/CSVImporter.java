@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVFormat;
@@ -271,7 +272,9 @@ public class CSVImporter implements CSVConstants {
     private void createElementFromRecord(CSVRecord csvRecord) throws CSVParseException {
         // ID
         String id = csvRecord.get(0);
-        checkID(id);
+        if(!StringUtils.isSet(id)) {
+            id = generateID();
+        }
         
         // Class type
         String type = csvRecord.get(1);
@@ -340,12 +343,14 @@ public class CSVImporter implements CSVConstants {
     }
 
     /**
-     * Create an Archimate relatioship from a given CSVRecord
+     * Create an Archimate relationship from a given CSVRecord
      */
     private void createRelationFromRecord(CSVRecord csvRecord) throws CSVParseException {
         // ID
         String id = csvRecord.get(0);
-        checkID(id);
+        if(!StringUtils.isSet(id)) {
+            id = generateID();
+        }
         
         // Type
         String type = csvRecord.get(1);
@@ -568,6 +573,16 @@ public class CSVImporter implements CSVConstants {
         if(newElements.containsKey(id)) {
             throw new CSVParseException("Duplicate ID");
         }
+    }
+    
+    String generateID() {
+        String id;
+        do {
+            id = UUID.randomUUID().toString().split("-")[0]; //$NON-NLS-1$
+        }
+        while(newElements.containsKey(id));
+        
+        return id;
     }
     
     /**

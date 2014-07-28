@@ -23,6 +23,7 @@ import org.junit.rules.ExpectedException;
 
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -50,6 +51,9 @@ public class CSVImporterTests {
     File elements2File = new File(testFolder, "test2-elements.csv");
     File relations2File = new File(testFolder, "test2-relations.csv");
     File properties2File = new File(testFolder, "test2-properties.csv");
+    
+    File elements3File = new File(testFolder, "test3-elements.csv");
+    File relations3File = new File(testFolder, "test3-relations.csv");
     
     private IArchimateModel model;
     private CSVImporter importer;
@@ -178,6 +182,17 @@ public class CSVImporterTests {
         assertEquals("f6a18059", element.getId());
         assertEquals("Business Role", element.getName());
         assertEquals("Some more docs\r\nHere\r\n", element.getDocumentation());
+    }
+
+    @Test
+    public void testImportElementsAndRelationsWithNoIDsHaveIDsGenerated() throws Exception {
+        importer.importElements(elements3File);
+        importer.importRelations(relations3File);
+        
+        assertEquals(6, importer.newElements.size());
+        for(String id : importer.newElements.keySet()) {
+            assertTrue(StringUtils.isSet(id));
+        }
     }
 
     @Test
