@@ -201,6 +201,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             Text text = new Text(parent, SWT.MULTI | SWT.WRAP);
             text.setLayoutData(new GridData(GridData.FILL_BOTH));
             text.setText(Messages.HintsView_3);
+            text.setForeground(ColorFactory.get(255, 45, 45));
         }
         
         return browser;
