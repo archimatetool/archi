@@ -152,7 +152,7 @@ extends ActionBarContributor {
                 ConnectionRouterAction.CONNECTION_ROUTER_MANHATTAN, IAction.AS_RADIO_BUTTON));
         
         // Full Screen
-        if(!PlatformUtils.supportsMacFullScreen()) {
+        if(!PlatformUtils.isMac()) {
             retargetAction = new RetargetAction(FullScreenAction.ID, FullScreenAction.TEXT);
             retargetAction.setActionDefinitionId(FullScreenAction.ID);
             addRetargetAction(retargetAction);
@@ -239,7 +239,7 @@ extends ActionBarContributor {
         connectionMenu.add(getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
         viewMenu.add(new Separator());
 
-        if(!PlatformUtils.supportsMacFullScreen()) {
+        if(!PlatformUtils.isMac()) {
             viewMenu.add(getAction(FullScreenAction.ID));
             viewMenu.add(new Separator());
         }

@@ -36,8 +36,8 @@ public abstract class AbstractDirectEditManager extends DirectEditManager {
         fGlobalActionHandler = new CellEditorGlobalActionHandler();
         fGlobalActionHandler.clearGlobalActions();
         
-        // Stop OS X Lion closing Full Screen when Escape pressed
-        if(PlatformUtils.supportsMacFullScreen()) {
+        // Stop OS X closing Mac Full Screen when Escape pressed
+        if(PlatformUtils.isMac()) {
             getCellEditor().getControl().addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {

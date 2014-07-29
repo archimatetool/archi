@@ -787,7 +787,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getUpdateCommandStackActions().add((UpdateAction)action);
 
         // Full Screen
-        if(!PlatformUtils.supportsMacFullScreen()) {
+        if(!PlatformUtils.isMac()) {
             action = new FullScreenAction(this);
             registry.registerAction(action);
         }

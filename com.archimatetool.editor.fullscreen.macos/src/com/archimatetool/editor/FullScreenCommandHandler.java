@@ -33,14 +33,7 @@ public class FullScreenCommandHandler extends AbstractHandler {
     
     @Override
     public boolean isEnabled() {
-        return isSupportedVersion();
+        return Platform.getOS().equals(Platform.OS_MACOSX);
     }
     
-    /**
-     * @return true if we are on OS X 10.7 and above
-     */
-    public static boolean isSupportedVersion() {
-        return Platform.WS_COCOA.equals(Platform.getWS()) && System.getProperty("os.version").compareTo("10.7") >= 0; //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
 }
