@@ -8,9 +8,10 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
@@ -27,7 +28,6 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
      */
     public static class OvalDecoration extends Figure implements RotatableDecoration {
 
-        private Point pRef;
         private int radius = 2;
 
         public OvalDecoration() {
@@ -35,16 +35,15 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
         }
 
         public void setReferencePoint(Point ref) {
-            pRef = ref.getCopy();
         }
 
         @Override
         public void setLocation(Point p) {
-            if(pRef != null) {
-                PolarPoint pp = new PolarPoint(pRef, p.getCopy());
-                pp.r -= radius;
-                super.setLocation(pp.toAbsolutePoint(pRef).getTranslated(-radius, -radius));
+            if(getLocation().equals(p)) {
+                return;
             }
+            Dimension size = getBounds().getSize();
+            setBounds(new Rectangle(p.x - (size.width >> 1), p.y - (size.height >> 1), size.width, size.height));
         }
 
         @Override
