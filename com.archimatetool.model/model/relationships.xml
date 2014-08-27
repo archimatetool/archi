@@ -757,19 +757,6 @@
 			<target element="InfrastructureFunction" relations="o" />
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
-
-			<target element="Stakeholder" relations="o" />
-			<target element="Driver" relations="o" />
-			<target element="Assessment" relations="o" />
-			<target element="Goal" relations="ro" />
-			<target element="Requirement" relations="ro" />
-			<target element="Principle" relations="ro" />
-			<target element="Constraint" relations="ro" />
-			
-			<target element="WorkPackage" relations="o" />
-			<target element="Deliverable" relations="o" />
-			<target element="Plateau" relations="o" />
-			<target element="Gap" relations="o" />
 		</source>
 		
 		<source element="Value">
@@ -1673,6 +1660,7 @@
 
 			<target element="Junction" relations="ft" />
 
+			<!-- Added from spec metamodel diagram -->
 			<target element="WorkPackage" relations="ft" />
 			<target element="Plateau" relations="t" />
 		</source>
@@ -1692,7 +1680,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
 			<target element="ApplicationCollaboration" relations="o" />
@@ -1741,7 +1728,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
@@ -1791,7 +1777,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
@@ -1841,7 +1826,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
@@ -1891,7 +1875,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
@@ -1941,7 +1924,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
@@ -1991,7 +1973,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
@@ -2041,7 +2022,6 @@
 			<target element="Representation" relations="or" />
 			<target element="Product" relations="or" />
 			<target element="Contract" relations="or" />
-			<target element="Meaning" relations="or" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="or" />
@@ -2062,14 +2042,15 @@
 			<target element="InfrastructureService" relations="or" />
 			<target element="Artifact" relations="or" />
 			
+			<!-- Added from spec metamodel diagram -->
 			<target element="Junction" relations="ft" />
 
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
 			<target element="Assessment" relations="o" />
-			<target element="Goal" relations="ro" />
+			<target element="Goal" relations="or" />
 			<target element="Requirement" relations="or" />
-			<target element="Principle" relations="ro" />
+			<target element="Principle" relations="or" />
 			<target element="Constraint" relations="or" />
 			
 			<target element="WorkPackage" relations="cfgost" />
@@ -2093,7 +2074,6 @@
 			<target element="Representation" relations="ro" />
 			<target element="Product" relations="ro" />
 			<target element="Contract" relations="ro" />
-			<target element="Meaning" relations="ro" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="ro" />
@@ -2143,7 +2123,6 @@
 			<target element="Representation" relations="go" />
 			<target element="Product" relations="go" />
 			<target element="Contract" relations="go" />
-			<target element="Meaning" relations="go" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="go" />
@@ -2164,6 +2143,7 @@
 			<target element="InfrastructureService" relations="go" />
 			<target element="Artifact" relations="go" />
 			
+			<!-- Added from spec metamodel diagram -->
 			<target element="Junction" relations="t" />
 
 			<target element="Stakeholder" relations="o" />
@@ -2195,7 +2175,6 @@
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
 			<target element="Contract" relations="o" />
-			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
 			<target element="ApplicationComponent" relations="o" />
