@@ -27,8 +27,8 @@ import com.archimatetool.model.IDiagramModelObject;
  */
 public class CutAction extends CopyAction {
     
-    public CutAction(IWorkbenchPart part, PasteAction pasteAction) {
-        super(part, pasteAction);
+    public CutAction(IWorkbenchPart part, PasteAction pasteAction, MergeAction mergeAction) {
+        super(part, pasteAction, mergeAction);
     }
     
     @Override

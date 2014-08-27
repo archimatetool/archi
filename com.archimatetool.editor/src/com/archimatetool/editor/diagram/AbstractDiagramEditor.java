@@ -93,6 +93,7 @@ import com.archimatetool.editor.diagram.actions.FontColorAction;
 import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
+import com.archimatetool.editor.diagram.actions.MergeAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
 import com.archimatetool.editor.diagram.actions.PrintDiagramAction;
 import com.archimatetool.editor.diagram.actions.PropertiesAction;
@@ -608,19 +609,24 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action.setToolTipText(action.getText());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
+        // Merge
+        MergeAction mergeAction = new MergeAction(this, viewer);
+        registry.registerAction(mergeAction);
+        getSelectionActions().add(mergeAction.getId());
+
         // Paste
         PasteAction pasteAction = new PasteAction(this, viewer);
         registry.registerAction(pasteAction);
         getSelectionActions().add(pasteAction.getId());
         
         // Cut
-        action = new CutAction(this, pasteAction);
+        action = new CutAction(this, pasteAction, mergeAction);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
         // Copy
-        action = new CopyAction(this, pasteAction);
+        action = new CopyAction(this, pasteAction, mergeAction);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);

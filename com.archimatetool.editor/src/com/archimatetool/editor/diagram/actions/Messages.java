@@ -180,6 +180,8 @@ public class Messages extends NLS {
     public static String ToggleSnapToAlignmentGuidesAction_0;
 
     public static String ViewpointAction_0;
+
+	public static String MergeAction_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

@@ -29,10 +29,12 @@ import com.archimatetool.model.ILockable;
 public class CopyAction extends SelectionAction {
     
     protected PasteAction fPasteAction;
+    protected MergeAction fMergeAction;
     
-    public CopyAction(IWorkbenchPart part, PasteAction pasteAction) {
+    public CopyAction(IWorkbenchPart part, PasteAction pasteAction, MergeAction mergeAction) {
         super(part);
         fPasteAction = pasteAction;
+        fMergeAction = mergeAction;
     }
     
     @Override
@@ -89,7 +91,8 @@ public class CopyAction extends SelectionAction {
         CopySnapshot clipBoardCopy = new CopySnapshot(modelObjectsSelected);
         Clipboard.getDefault().setContents(clipBoardCopy);
         
-        // Reset Paste Action
+        // Reset Paste and Merge Actions
         fPasteAction.reset();
+        fMergeAction.reset();
     }
 }

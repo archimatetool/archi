@@ -31,9 +31,9 @@ import com.archimatetool.model.IDiagramModel;
  */
 public class PasteAction extends SelectionAction {
     
-    private GraphicalViewer fGraphicalViewer;
+    protected GraphicalViewer fGraphicalViewer;
     
-    private Point fMousePosition = null;
+    protected Point fMousePosition = null;
     
     private IWindowListener windowListener = new IWindowListener() {
         public final void windowActivated(IWorkbenchWindow window) {
@@ -119,7 +119,7 @@ public class PasteAction extends SelectionAction {
         fMousePosition = null;
     }
     
-    private IDiagramModel getTargetDiagramModel() {
+    protected IDiagramModel getTargetDiagramModel() {
         IDiagramModel diagramModel = (IDiagramModel)getWorkbenchPart().getAdapter(IDiagramModel.class);
         if(diagramModel == null) {
             System.err.println("DiagramModel was null in " + getClass()); //$NON-NLS-1$
