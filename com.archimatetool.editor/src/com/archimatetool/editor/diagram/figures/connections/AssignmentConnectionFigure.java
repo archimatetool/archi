@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
@@ -48,7 +49,12 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
 
         @Override
         public void paintFigure(Graphics graphics) {
-            graphics.setBackgroundColor(getParent().getForegroundColor());
+            if(isEnabled()) {
+                graphics.setBackgroundColor(getParent().getForegroundColor());
+            }
+            else {
+                graphics.setBackgroundColor(ColorConstants.buttonDarker);
+            }
             graphics.fillOval(bounds);
         }
     }
