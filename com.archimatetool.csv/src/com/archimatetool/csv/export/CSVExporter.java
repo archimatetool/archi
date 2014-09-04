@@ -15,6 +15,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -45,6 +48,15 @@ public class CSVExporter implements CSVConstants {
     
     // See http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm#CSVAndExcel
     private boolean fUseLeadingCharsHack = false;
+    
+    /*
+     * Internal option. BUT...
+     * If one exports to the csv files with a model that has properties, then edits the model and removes all properties,
+     * and re-exports to CSV. The original "properties.csv" file would still exist, containing orphans.
+     * So it seems better to export all three to be on the safe side, even if one is empty.
+     * This way we can be sure that elements, relations, and properties are always a matched tuple.
+     */
+    private boolean fWriteEmptyFile = true;
     
     private IArchimateModel fModel;
     
@@ -100,20 +112,44 @@ public class CSVExporter implements CSVConstants {
         writer.write(modelRow);
         
         // Write Elements
-        writeElements(writer, fModel.getFolder(FolderType.BUSINESS));
-        writeElements(writer, fModel.getFolder(FolderType.APPLICATION));
-        writeElements(writer, fModel.getFolder(FolderType.TECHNOLOGY));
-        writeElements(writer, fModel.getFolder(FolderType.MOTIVATION));
-        writeElements(writer, fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
-        writeElements(writer, fModel.getFolder(FolderType.CONNECTORS));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.BUSINESS));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.APPLICATION));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.TECHNOLOGY));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.MOTIVATION));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.CONNECTORS));
         
         writer.close();
+    }
+    
+    /**
+     * Write all elements in a given folder and its child folders to Writer
+     */
+    private void writeElementsInFolder(Writer writer, IFolder folder) throws IOException {
+        if(folder == null) {
+            return;
+        }
+        
+        List<IArchimateElement> elements = getElements(folder);
+        sort(elements);
+        
+        for(IArchimateElement element : elements) {
+            writer.write(createElementRow(element));
+        }
     }
     
     /**
      * Write All Relationships
      */
     private void writeRelationships(File file) throws IOException {
+        List<IArchimateElement> elements = getElements(fModel.getFolder(FolderType.RELATIONS));
+        sort(elements);
+        
+        // Are there any to write?
+        if(!fWriteEmptyFile && elements.isEmpty()) {
+            return;
+        }
+        
         Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
         
         // Write Header
@@ -121,7 +157,11 @@ public class CSVExporter implements CSVConstants {
         writer.write(header);
         
         // Write Relationships
-        writeRelations(writer, fModel.getFolder(FolderType.RELATIONS));
+        for(IArchimateElement element : elements) {
+            if(element instanceof IRelationship) {
+                writer.write(createRelationshipRow((IRelationship)element));
+            }
+        }
         
         writer.close();
     }
@@ -130,26 +170,38 @@ public class CSVExporter implements CSVConstants {
      * Write All Properties
      */
     private void writeProperties(File file) throws IOException {
+        SortedMap<String, IProperty> toWrite = new TreeMap<String, IProperty>();
+        
+        // Model Properties
+        for(IProperty property : fModel.getProperties()) {
+            toWrite.put(fModel.getId(), property);
+        }
+        
+        // Element and Relationship Properties
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IArchimateElement) {
+                IArchimateElement element = (IArchimateElement)eObject;
+                for(IProperty property : element.getProperties()) {
+                    toWrite.put(element.getId(), property);
+                }
+            }
+        }
+        
+        // Are there any to write?
+        if(!fWriteEmptyFile && toWrite.isEmpty()) {
+            return;
+        }
+        
         Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
         
         // Write Header
         String header = createHeader(PROPERTIES_HEADER);
         writer.write(header);
         
-        // Write Model Properties
-        for(IProperty property : fModel.getProperties()) {
-            writer.write(createPropertyRow(fModel.getId(), property));
-        }
-        
-        // Write Element and Relationship Properties
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)eObject;
-                for(IProperty property : element.getProperties()) {
-                    writer.write(createPropertyRow(element.getId(), property));
-                }
-            }
+        // Write Properties
+        for(Entry<String, IProperty> entry : toWrite.entrySet()) {
+            writer.write(createPropertyRow(entry.getKey(), entry.getValue()));
         }
         
         writer.close();
@@ -294,40 +346,6 @@ public class CSVExporter implements CSVConstants {
         sb.append(CRLF);
         
         return sb.toString();
-    }
-
-    /**
-     * Write all elements in a given folder and its child folders to Writer
-     */
-    private void writeElements(Writer writer, IFolder folder) throws IOException {
-        if(folder == null) {
-            return;
-        }
-        
-        List<IArchimateElement> elements = getElements(folder);
-        sort(elements);
-        
-        for(IArchimateElement element : elements) {
-            writer.write(createElementRow(element));
-        }
-    }
-    
-    /**
-     * Write all relations in a given folder and its child folders to Writer
-     */
-    private void writeRelations(Writer writer, IFolder folder) throws IOException {
-        if(folder == null) {
-            return;
-        }
-        
-        List<IArchimateElement> elements = getElements(folder);
-        sort(elements);
-        
-        for(IArchimateElement element : elements) {
-            if(element instanceof IRelationship) {
-                writer.write(createRelationshipRow((IRelationship)element));
-            }
-        }
     }
 
     /**
