@@ -547,6 +547,16 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="F1">
       </key>
+      <key
+            commandId="org.eclipse.gef.zoom_in"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1++">
+      </key>
+      <key
+            commandId="org.eclipse.gef.zoom_normal"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+0">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -597,6 +607,12 @@
       <command
             id="com.archimatetool.editor.action.fullScreen"
             name="%command.name.10">
+      </command>
+      <command
+            categoryId="org.eclipse.gef.category.view"
+            description="%command.name.11"
+            id="org.eclipse.gef.zoom_normal"
+            name="%command.name.11">
       </command>
    </extension>
    <extension

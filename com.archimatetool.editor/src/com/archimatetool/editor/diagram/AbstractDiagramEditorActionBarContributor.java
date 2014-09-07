@@ -51,6 +51,7 @@ import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
+import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -77,6 +78,10 @@ extends ActionBarContributor {
         // Zoom in and out
         addRetargetAction(new ZoomInRetargetAction());
         addRetargetAction(new ZoomOutRetargetAction());
+        RetargetAction rt = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
+        rt.setActionDefinitionId(ZoomNormalAction.ID);
+        rt.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ZOOM_NORMAL));
+        addRetargetAction(rt);
         
         // Alignment Actions
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
@@ -195,6 +200,7 @@ extends ActionBarContributor {
         
         viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
         viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
+        viewMenu.add(getAction(ZoomNormalAction.ID));
         viewMenu.add(new Separator());
         
         viewMenu.add(getAction(SnapToGrid.PROPERTY_GRID_ENABLED));

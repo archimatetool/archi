@@ -106,6 +106,7 @@ import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.editor.diagram.actions.ToggleGridEnabledAction;
 import com.archimatetool.editor.diagram.actions.ToggleGridVisibleAction;
 import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesAction;
+import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
@@ -579,13 +580,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Zoom Actions
         IAction zoomIn = new ZoomInAction(zoomManager);
         IAction zoomOut = new ZoomOutAction(zoomManager);
+        IAction zoomNormal = new ZoomNormalAction(zoomManager);
         registry.registerAction(zoomIn);
         registry.registerAction(zoomOut);
+        registry.registerAction(zoomNormal);
         
         // Add these zoom actions to the key binding service
         IHandlerService service = (IHandlerService)getEditorSite().getService(IHandlerService.class);
         service.activateHandler(zoomIn.getActionDefinitionId(), new ActionHandler(zoomIn));
         service.activateHandler(zoomOut.getActionDefinitionId(), new ActionHandler(zoomOut));
+        service.activateHandler(zoomNormal.getActionDefinitionId(), new ActionHandler(zoomNormal));
      
         // Add our own Select All Action so we can select connections as well
         action = new SelectAllAction(this);

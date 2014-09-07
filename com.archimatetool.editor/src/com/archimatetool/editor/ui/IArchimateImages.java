@@ -42,6 +42,8 @@ public interface IArchimateImages {
     
     String MENU_ARROW = IMGPATH + "menu-arrow.png"; //$NON-NLS-1$
     
+    String ZOOM_NORMAL = IMGPATH + "zoom_normal.gif"; //$NON-NLS-1$
+    
     
     // ARCHIMATE IMAGES
     
