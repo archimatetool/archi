@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArtifact;
+import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IRelationship;
 
 
@@ -28,6 +29,14 @@ public class FieldDataFactoryTests {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         Object o = FieldDataFactory.getFieldValue(model, "this");
         assertEquals(model, o);
+    }
+
+    @Test
+    public void testGetFieldValue_ID() {
+        IBusinessActor element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        element.setId("1234");
+        Object o = FieldDataFactory.getFieldValue(element, "id");
+        assertEquals("1234", o);
     }
 
     @Test
