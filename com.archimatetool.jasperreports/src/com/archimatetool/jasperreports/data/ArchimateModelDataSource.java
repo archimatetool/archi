@@ -12,6 +12,7 @@ import java.util.List;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -59,6 +60,15 @@ public class ArchimateModelDataSource implements JRDataSource, IPropertiesDataSo
     @Override
     public Object getElement() {
         return fModel;
+    }
+    
+    /**
+     * Convenience method to find an element in the model from its id
+     * @param id The identifier
+     * @return The element, or null if not found
+     */
+    public Object getElementByID(String id) {
+        return ArchimateModelUtils.getObjectByID(fModel, id);
     }
 
     @Override

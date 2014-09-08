@@ -22,6 +22,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
@@ -89,6 +91,14 @@ public class ArchimateModelDataSourceTests {
         assertEquals(model, ds.getElement());
     }
 
+    @Test
+    public void testGetElementByID() {
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationService();
+        model.getDefaultFolderForElement(element).getElements().add(element);
+        String id = element.getId();
+        assertEquals(element, ds.getElementByID(id));
+    }
+   
     @Test
     public void testNext() throws JRException {
         assertTrue(ds.next());
