@@ -8,11 +8,14 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
@@ -25,26 +28,30 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigure {
 	
     /**
-     * @return Decoration to use on Target Node
+     * Skewy-line ball
      */
-    public static class OvalDecoration extends Figure implements RotatableDecoration {
-
+    static class Endpoint1 extends Figure implements RotatableDecoration {
         private int radius = 2;
+        private Point pRef;
 
-        public OvalDecoration() {
+        Endpoint1() {
             setSize(radius * 2 + 1, radius * 2 + 1);
         }
 
         public void setReferencePoint(Point ref) {
+            pRef = ref.getCopy();
         }
 
         @Override
         public void setLocation(Point p) {
-            if(getLocation().equals(p)) {
-                return;
+            if(pRef != null) {
+                PolarPoint pp = new PolarPoint(pRef, p.getCopy());
+                pp.r -= radius;
+                super.setLocation(pp.toAbsolutePoint(pRef).getTranslated(-radius, -radius));
             }
-            Dimension size = getBounds().getSize();
-            setBounds(new Rectangle(p.x - (size.width >> 1), p.y - (size.height >> 1), size.width, size.height));
+            else {
+                super.setLocation(p);
+            }
         }
 
         @Override
@@ -60,16 +67,58 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
     }
 
     /**
+     * Overlapping on edge ball
+     */
+    static class Endpoint2 extends Endpoint1 {
+        
+        Endpoint2() {
+        }
+
+        @Override
+        public void setReferencePoint(Point ref) {
+        }
+
+        @Override
+        public void setLocation(Point p) {
+            if(getLocation().equals(p)) {
+                return;
+            }
+            Dimension size = getBounds().getSize();
+            setBounds(new Rectangle(p.x - (size.width >> 1), p.y - (size.height >> 1), size.width, size.height));
+        }
+    }
+
+    /**
+     * "Classic" endpoint (aka "shit")
+     */
+    static class Endpoint3 extends PolygonDecoration {
+        Endpoint3() {
+            setScale(2, 1.3);
+            
+            PointList decorationPointList = new PointList();
+            
+            decorationPointList.addPoint(0, 0);
+            decorationPointList.addPoint(0, -1);
+            decorationPointList.addPoint(-1, -1);
+            decorationPointList.addPoint(-1, 0);
+            decorationPointList.addPoint(-1, 1);
+            decorationPointList.addPoint(0, 1);
+            
+            setTemplate(decorationPointList);
+        }
+    }
+
+    /**
      * @return Decoration to use on Target Node
      */
-    public static OvalDecoration createFigureTargetDecoration() {
-        return new OvalDecoration();
+    public static RotatableDecoration createFigureTargetDecoration() {
+        return new Endpoint1();
     }
     
     /**
      * @return Decoration to use on Source Node
      */
-    public static OvalDecoration createFigureSourceDecoration() {
+    public static RotatableDecoration createFigureSourceDecoration() {
         return createFigureTargetDecoration();
     }
 

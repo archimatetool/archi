@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineDecoration;
+import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
@@ -25,19 +26,19 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     /**
      * @return Decoration to use on Source Node
      */
-    public static PolylineDecoration createFigureSourceDecoration() {
+    public static RotatableDecoration createFigureSourceDecoration() {
         return new PolylineDecoration();
     }
 
     /**
      * @return Decoration to use on Target Node
      */
-    public static PolylineDecoration createFigureTargetDecoration() {
+    public static RotatableDecoration createFigureTargetDecoration() {
         return new PolylineDecoration();
     }
 
-    private PolylineDecoration fDecoratorSource = createFigureSourceDecoration();
-    private PolylineDecoration fDecoratorTarget = createFigureTargetDecoration();
+    private RotatableDecoration fDecoratorSource = createFigureSourceDecoration();
+    private RotatableDecoration fDecoratorTarget = createFigureTargetDecoration();
     
     public AccessConnectionFigure(IDiagramModelArchimateConnection connection) {
 	    super(connection);

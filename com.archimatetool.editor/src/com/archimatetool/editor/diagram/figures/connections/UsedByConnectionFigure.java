@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.PolylineDecoration;
+import org.eclipse.draw2d.RotatableDecoration;
 
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
@@ -21,7 +22,7 @@ public class UsedByConnectionFigure extends AbstractArchimateConnectionFigure {
     /**
      * @return Decoration to use on Target Node
      */
-    public static PolylineDecoration createFigureTargetDecoration() {
+    public static RotatableDecoration createFigureTargetDecoration() {
         return new PolylineDecoration();
     }
 

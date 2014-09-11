@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.RotatableDecoration;
 
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
@@ -23,7 +24,7 @@ public class SpecialisationConnectionFigure extends AbstractArchimateConnectionF
     /**
      * @return Decoration to use on Target Node
      */
-    public static PolygonDecoration createFigureTargetDecoration() {
+    public static RotatableDecoration createFigureTargetDecoration() {
         PolygonDecoration decoration = new PolygonDecoration() {
             @Override
             protected void fillShape(Graphics g) {

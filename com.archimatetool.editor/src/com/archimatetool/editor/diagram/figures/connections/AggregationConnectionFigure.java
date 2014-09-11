@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -24,7 +25,7 @@ public class AggregationConnectionFigure extends AbstractArchimateConnectionFigu
     /**
      * @return Decoration to use on Source Node
      */
-    public static PolygonDecoration createFigureSourceDecoration() {
+    public static RotatableDecoration createFigureSourceDecoration() {
         return new PolygonDecoration() {
             {
                 setScale(5, 3);

@@ -6,6 +6,7 @@
 package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.RotatableDecoration;
 
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
@@ -20,7 +21,7 @@ public class TriggeringConnectionFigure extends AbstractArchimateConnectionFigur
     /**
      * @return Decoration to use on Target Node
      */
-    public static PolygonDecoration createFigureTargetDecoration() {
+    public static RotatableDecoration createFigureTargetDecoration() {
         return new PolygonDecoration();
     }
 
