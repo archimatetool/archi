@@ -16,6 +16,8 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
@@ -112,7 +114,20 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
      * @return Decoration to use on Target Node
      */
     public static RotatableDecoration createFigureTargetDecoration() {
-        return new Endpoint1();
+        int type = Preferences.STORE.getInt(IPreferenceConstants.ASSIGNMENT_CONNECTION_ENDPOINT);
+        switch(type) {
+            case 0:
+                return new Endpoint1();
+
+            case 1:
+                return new Endpoint2();
+
+            case 2:
+                return new Endpoint3();
+
+            default:
+                return new Endpoint1();
+        }
     }
     
     /**

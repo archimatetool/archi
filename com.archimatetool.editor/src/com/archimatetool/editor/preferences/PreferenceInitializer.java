@@ -91,5 +91,8 @@ implements IPreferenceConstants {
         // Figure width and height
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_WIDTH, 120);
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 55);
+        
+        // Experimental
+        store.setDefault(ASSIGNMENT_CONNECTION_ENDPOINT, 0);
     }
 }
