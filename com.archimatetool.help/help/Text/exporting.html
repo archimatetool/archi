@@ -21,7 +21,7 @@
     <p>You can export a model's data to CSV format (Comma Separated Values). The data is exported in three different files - "elements.csv", "relations.csv" and "properties.csv". All data elements are identified by unique identifiers so that a property will reference an element or relation in the other files.</p>
     <p>This option is available from the "Export Model To  CSV..." menu item from the main "File-&gt;Export" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled.</p>
     
-    <img src="../Images/csv-export.png"/>
+    <img src="../Images/csv-export.png" alt="export-csv"/>
     <p class="caption">Exporting the model to CSV</p>
     
     <br/>
@@ -34,9 +34,15 @@
     <h2>Importing CSV Data into a Model</h2>
     
     <p>Conversely you can import CSV data into an existing model. The CSV files need to be in the same format as described above. Element and relationship IDs are optional, but you need to provide an ID for an element if it is referenced by a relationship or property, and to provide an ID for a relationship if it is referenced by a property. If providing an ID then it needs to be unique to the file using alpha-numeric characters, for example - "id1", "8fe456d", "actor3". If an ID is not provided, a blank field "" should be present. In this case, an ID will be generated on import.</p>
-    <p>At the very least, you need to provide a CSV file named "prefix-elements.csv" where the "prefix-" part of the file name is optional. If you also provide a relations file it needs to be in the format described above and named "prefix-relations.csv". If you also provide a properties file it needs to be in the format described above and named "prefix-properties.csv". Again, the "prefix-" part of the file name is optional. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv".</p>
+    
+    <p>At the very least, you need to provide a CSV file named "xxx-elements.csv" where the "xxx-" part of the file name is optional. If you also provide a relations file it needs to be in the format described above and named "xxx-relations.csv". If you also provide a properties file it needs to be in the format described above and named "xxx-properties.csv". Again, the "xxx-" part of the file name is optional. All three file names need to match - for example: "myname-elements.csv", "myname-relations.csv" and "myname-properties.csv".</p>
+    
     <p>The best way to understand the required format is to export an existing model to CSV format, and open the resulting files in a text editor, or spreadsheet application</p>
-    <p>It is possible to merge/update the imported CSV data into an existing model. If a model element already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
+    
+    <p><b>When importing the CSV file(s) into Archi make sure that you select the "xxx-elements.csv file in the Import dialog box. If there is a corresponding "xxx-relations.csv" file and/or a corresponding "xxx-properties.csv" file then these file(s) will be automatically imported at the same time.</b></p>
+    
+    <p>It is also possible to merge/update the imported CSV data into an existing model. If a model element already exists as denoted by its ID, and the CSV row entry contains different data to that in the model it is updated. For example, a Business Actor with id "9240f5bf", named "BA1", and no documentation can be updated with a row entry as follows:</p>
+    
     <p style="font-style:italic;">"ID","Type","Name","Documentation"<br/>
        "9240f5bf","BusinessActor","New Name","Additional Documentation" 
     </p>
@@ -51,14 +57,14 @@
     
     <p>Available formats are BMP, JPG, PNG and SVG. The first three formats can be exported at scaled ranging from 25% to 500%. SVG format has more options including embedding font information and setting the viewBox bounds for different scales.</p>
     
-    <img src="../Images/export_image.png"/>
+    <img src="../Images/export_image.png" alt="export-image"/>
     <p class="caption">Exporting a View as an image</p>
 
     <br/>
     
     <h2>Export View As Image to Clipboard</h2>
     
-    <p>A  View (diagram) can be exported (or copied) as an image to the system clipboard.  This is available from the "Export View As Image To Clipboard" menu command from the main "File-&gt;Export" menu or by right-clicking on a View and  selecting the menu item from the contextual menu. This menu command is only  available if a View is open and selected. A useful shortcut key combination is  Ctrl-Shift-C (Command key on Mac). Once the View is exported to the system clipboard it can be  pasted into other applications such as word processing and drawing tools.</p>
+    <p>A View (diagram) can be exported (or copied) as an image to the system clipboard. This is available from the "Export View As Image To Clipboard" menu command from the main "File-&gt;Export" menu or by right-clicking on a View and  selecting the menu item from the contextual menu. This menu command is only  available if a View is open and selected. A useful shortcut key combination is  Ctrl-Shift-C (Command key on Mac). Once the View is exported to the system clipboard it can be  pasted into other applications such as word processing and drawing tools.</p>
     
     <p>&nbsp;</p>
 
