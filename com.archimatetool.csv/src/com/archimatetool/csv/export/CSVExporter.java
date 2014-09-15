@@ -15,9 +15,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -170,26 +167,8 @@ public class CSVExporter implements CSVConstants {
      * Write All Properties
      */
     private void writeProperties(File file) throws IOException {
-        SortedMap<String, IProperty> toWrite = new TreeMap<String, IProperty>();
-        
-        // Model Properties
-        for(IProperty property : fModel.getProperties()) {
-            toWrite.put(fModel.getId(), property);
-        }
-        
-        // Element and Relationship Properties
-        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
-            EObject eObject = iter.next();
-            if(eObject instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)eObject;
-                for(IProperty property : element.getProperties()) {
-                    toWrite.put(element.getId(), property);
-                }
-            }
-        }
-        
         // Are there any to write?
-        if(!fWriteEmptyFile && toWrite.isEmpty()) {
+        if(!fWriteEmptyFile && !hasProperties()) {
             return;
         }
         
@@ -199,12 +178,44 @@ public class CSVExporter implements CSVConstants {
         String header = createHeader(PROPERTIES_HEADER);
         writer.write(header);
         
-        // Write Properties
-        for(Entry<String, IProperty> entry : toWrite.entrySet()) {
-            writer.write(createPropertyRow(entry.getKey(), entry.getValue()));
+        // Write Model Properties
+        for(IProperty property : fModel.getProperties()) {
+            writer.write(createPropertyRow(fModel.getId(), property));
+        }
+        
+        // Write Element and Relationship Properties
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IArchimateElement) {
+                IArchimateElement element = (IArchimateElement)eObject;
+                for(IProperty property : element.getProperties()) {
+                    writer.write(createPropertyRow(element.getId(), property));
+                }
+            }
         }
         
         writer.close();
+    }
+    
+    /**
+     * @return true if the model has any user properties
+     */
+    boolean hasProperties() {
+        if(!fModel.getProperties().isEmpty()) {
+            return true;
+        }
+        
+        for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IArchimateElement) {
+                IArchimateElement element = (IArchimateElement)eObject;
+                if(!element.getProperties().isEmpty()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
