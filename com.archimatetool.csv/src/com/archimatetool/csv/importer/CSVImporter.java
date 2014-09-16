@@ -492,7 +492,13 @@ public class CSVImporter implements CSVConstants {
                         parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT.withDelimiter('\t'));
                         records = parser.getRecords();
                     }
+                    else {
+                        throw ex2;
+                    }
                 }
+            }
+            else {
+                throw ex;
             }
         }
         finally {
