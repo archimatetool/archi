@@ -8,12 +8,12 @@ package com.archimatetool.csv.importer;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -46,7 +46,6 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class CSVImporter implements CSVConstants {
     
     private IArchimateModel fModel;
@@ -110,7 +109,7 @@ public class CSVImporter implements CSVConstants {
         
         // Model Name
         if(modelName != null) {
-            Command cmd = new EObjectFeatureCommand("Import", fModel, IArchimatePackage.Literals.NAMEABLE__NAME, modelName);
+            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, fModel, IArchimatePackage.Literals.NAMEABLE__NAME, modelName);
             if(cmd.canExecute()) {
                 compoundCommand.add(cmd);
             }
@@ -118,7 +117,7 @@ public class CSVImporter implements CSVConstants {
         
         // Model Purpose
         if(modelPurpose != null) {
-            Command cmd = new EObjectFeatureCommand("Import", fModel, IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, modelPurpose);
+            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, fModel, IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, modelPurpose);
             if(cmd.canExecute()) {
                 compoundCommand.add(cmd);
             }
@@ -148,13 +147,13 @@ public class CSVImporter implements CSVConstants {
         // Updated elements/relations' name and documentation
         for(final Entry<IArchimateElement, String[]> entry : updatedElements.entrySet()) {
             // Name
-            Command cmd = new EObjectFeatureCommand("Import", entry.getKey(), IArchimatePackage.Literals.NAMEABLE__NAME, entry.getValue()[0]);
+            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.NAMEABLE__NAME, entry.getValue()[0]);
             if(cmd.canExecute()) {
                 compoundCommand.add(cmd);
             }
             
             // Documentation
-            cmd = new EObjectFeatureCommand("Import", entry.getKey(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, entry.getValue()[1]);
+            cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, entry.getValue()[1]);
             if(cmd.canExecute()) {
                 compoundCommand.add(cmd);
             }
@@ -184,7 +183,7 @@ public class CSVImporter implements CSVConstants {
         
         // Updated Property Value
         for(Entry<IProperty, String> entry : updatedProperties.entrySet()) {
-            Command cmd = new EObjectFeatureCommand("Import", entry.getKey(), IArchimatePackage.Literals.PROPERTY__VALUE, entry.getValue());
+            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.PROPERTY__VALUE, entry.getValue());
             if(cmd.canExecute()) {
                 compoundCommand.add(cmd);
             }
@@ -202,41 +201,31 @@ public class CSVImporter implements CSVConstants {
      * @throws CSVParseException
      */
     void importElements(File file) throws IOException, CSVParseException {
-        Reader reader = new FileReader(file);
-
-        CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
-        
-        List<CSVRecord> records = parser.getRecords();
+        List<CSVRecord> records = getRecords(file);
         
         // Should have at least one record
         if(records.isEmpty()) {
-            parser.close();
-            throw new CSVParseException("No element records in file.");
+            throw new CSVParseException(Messages.CSVImporter_1);
         }
         
-        try {
-            for(CSVRecord csvRecord : records) {
-                if(!isElementsRecordCorrectSize(csvRecord)) {
-                    throw new CSVParseException("Incorrect record size");
-                }
-                
-                // Header
-                if(isHeaderRecord(csvRecord, MODEL_ELEMENTS_HEADER)) {
-                    continue;
-                }
-                
-                // Model (this is optional)
-                if(isModelRecord(csvRecord)) {
-                    parseModelRecord(csvRecord);
-                }
-                // Element
-                else {
-                    createElementFromRecord(csvRecord);
-                }
+        for(CSVRecord csvRecord : records) {
+            if(!isElementsRecordCorrectSize(csvRecord)) {
+                throw new CSVParseException(Messages.CSVImporter_2);
             }
-        }
-        finally {
-            parser.close();
+
+            // Header
+            if(isHeaderRecord(csvRecord, MODEL_ELEMENTS_HEADER)) {
+                continue;
+            }
+
+            // Model (this is optional)
+            if(isModelRecord(csvRecord)) {
+                parseModelRecord(csvRecord);
+            }
+            // Element
+            else {
+                createElementFromRecord(csvRecord);
+            }
         }
     }
     
@@ -281,7 +270,7 @@ public class CSVImporter implements CSVConstants {
         EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type);
         // Can only be Archimate element type
         if(!isArchimateElementEClass(eClass)) {
-            throw new CSVParseException("Type should be of ArchiMate element type");
+            throw new CSVParseException(Messages.CSVImporter_3);
         }
 
         String name = normalise(csvRecord.get(2));
@@ -313,28 +302,19 @@ public class CSVImporter implements CSVConstants {
      * @throws CSVParseException
      */
     void importRelations(File file) throws IOException, CSVParseException {
-        Reader reader = new FileReader(file);
-
-        CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
-        
-        try {
-            for(CSVRecord csvRecord : parser.getRecords()) {
-                if(!isRelationsRecordCorrectSize(csvRecord)) {
-                    throw new CSVParseException("Incorrect record size");
-                }
-                
-                // Header
-                if(isHeaderRecord(csvRecord, RELATIONSHIPS_HEADER)) {
-                    continue;
-                }
-                // Relation
-                else {
-                    createRelationFromRecord(csvRecord);
-                }
+        for(CSVRecord csvRecord : getRecords(file)) {
+            if(!isRelationsRecordCorrectSize(csvRecord)) {
+                throw new CSVParseException(Messages.CSVImporter_2);
             }
-        }
-        finally {
-            parser.close();
+
+            // Header
+            if(isHeaderRecord(csvRecord, RELATIONSHIPS_HEADER)) {
+                continue;
+            }
+            // Relation
+            else {
+                createRelationFromRecord(csvRecord);
+            }
         }
     }
     
@@ -356,7 +336,7 @@ public class CSVImporter implements CSVConstants {
         String type = csvRecord.get(1);
         EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type);
         if(!isRelationshipEClass(eClass)) {
-            throw new CSVParseException("Type should be of relationship type: " + id);
+            throw new CSVParseException(Messages.CSVImporter_4 + id);
         }
 
         String name = normalise(csvRecord.get(2));
@@ -382,7 +362,7 @@ public class CSVImporter implements CSVConstants {
             
             // Is it a valid relationship?
             if(!ArchimateModelUtils.isValidRelationship(source.eClass(), target.eClass(), eClass)) {
-                throw new CSVParseException("Invalid relationship: " + id);
+                throw new CSVParseException(Messages.CSVImporter_5 + id);
             }
             
             relation.setSource(source);
@@ -405,28 +385,19 @@ public class CSVImporter implements CSVConstants {
      * @throws CSVParseException
      */
     void importProperties(File file) throws IOException, CSVParseException {
-        Reader reader = new FileReader(file);
-
-        CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
-        
-        try {
-            for(CSVRecord csvRecord : parser.getRecords()) {
-                if(!isPropertiesRecordCorrectSize(csvRecord)) {
-                    throw new CSVParseException("Incorrect record size");
-                }
-                
-                // Header
-                if(isHeaderRecord(csvRecord, PROPERTIES_HEADER)) {
-                    continue;
-                }
-                // Property
-                else {
-                    createPropertyFromRecord(csvRecord);
-                }
+        for(CSVRecord csvRecord : getRecords(file)) {
+            if(!isPropertiesRecordCorrectSize(csvRecord)) {
+                throw new CSVParseException(Messages.CSVImporter_2);
             }
-        }
-        finally {
-            parser.close();
+
+            // Header
+            if(isHeaderRecord(csvRecord, PROPERTIES_HEADER)) {
+                continue;
+            }
+            // Property
+            else {
+                createPropertyFromRecord(csvRecord);
+            }
         }
     }
     
@@ -441,7 +412,7 @@ public class CSVImporter implements CSVConstants {
         // ID
         String id = csvRecord.get(0);
         if(!StringUtils.isSet(id)) {
-            throw new CSVParseException("ID not found");
+            throw new CSVParseException(Messages.CSVImporter_6);
         }
         
         // Find referenced element in newly created list
@@ -462,7 +433,7 @@ public class CSVImporter implements CSVConstants {
         
         // Not found at all
         if(propertiesObject == null) {
-            throw new CSVParseException("Could not locate element from Property id: " + id);
+            throw new CSVParseException(Messages.CSVImporter_7 + id);
         }
         
         String key = normalise(csvRecord.get(1));
@@ -484,6 +455,54 @@ public class CSVImporter implements CSVConstants {
 
     
     // -------------------------------- Helpers --------------------------------
+    
+    /**
+     * Get all records for a CSV file.
+     * This is a brute-force approach to try with a comma delimiter first. If that fails then
+     * try a semicolon, and if that fails, a tab.
+     * 
+     * @param file The file to open
+     * @return Records, which may be empty but never null
+     * @throws IOException
+     */
+    List<CSVRecord> getRecords(File file) throws IOException {
+        List<CSVRecord> records = new ArrayList<CSVRecord>(); 
+        CSVParser parser = null;
+        
+        String errorMessage = "invalid char between encapsulated token and delimiter"; //$NON-NLS-1$
+        
+        try {
+            parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT);
+            records = parser.getRecords();
+        }
+        catch(IOException ex) {
+            if(parser != null) {
+                parser.close();
+            }
+            if(ex.getMessage() != null && ex.getMessage().contains(errorMessage)) {
+                try {
+                    parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT.withDelimiter(';'));
+                    records = parser.getRecords();
+                }
+                catch(IOException ex2) {
+                    if(parser != null) {
+                        parser.close();
+                    }
+                    if(ex2.getMessage() != null && ex2.getMessage().contains(errorMessage)) {
+                        parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT.withDelimiter('\t'));
+                        records = parser.getRecords();
+                    }
+                }
+            }
+        }
+        finally {
+            if(parser != null) {
+                parser.close();
+            }
+        }
+        
+        return records;
+    }
     
     /**
      * @param file
@@ -533,11 +552,11 @@ public class CSVImporter implements CSVConstants {
      */
     String normalise(String s) {
         if(s == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         // Newlines and Tabs
-        s = s.replaceAll("(\r\n|\r|\n|\t)", " ");
+        s = s.replaceAll("(\r\n|\r|\n|\t)", " ");  //$NON-NLS-1$//$NON-NLS-2$
         
         return s;
     }
@@ -568,10 +587,10 @@ public class CSVImporter implements CSVConstants {
      */
     void checkID(String id) throws CSVParseException {
         if(!StringUtils.isSet(id)) {
-            throw new CSVParseException("ID not found");
+            throw new CSVParseException(Messages.CSVImporter_6);
         }
         if(newElements.containsKey(id)) {
-            throw new CSVParseException("Duplicate ID");
+            throw new CSVParseException(Messages.CSVImporter_8);
         }
     }
     
@@ -600,7 +619,7 @@ public class CSVImporter implements CSVConstants {
             }
             // Not the right class, so that's an error we should report
             else {
-                throw new CSVParseException("Found element with same id but different class: " + id);
+                throw new CSVParseException(Messages.CSVImporter_9 + id);
             }
         }
         
@@ -622,12 +641,12 @@ public class CSVImporter implements CSVConstants {
         
         // Not found
         if(eObject == null) {
-            throw new CSVParseException("Could not find element: " + id);
+            throw new CSVParseException(Messages.CSVImporter_10 + id);
         }
         
         // Check eClass type
         if(!isArchimateElementEClass(eObject.eClass())) {
-            throw new CSVParseException("Type should be of ArchiMate element type: " + id);
+            throw new CSVParseException(Messages.CSVImporter_11 + id);
         }
 
         return (IArchimateElement)eObject;

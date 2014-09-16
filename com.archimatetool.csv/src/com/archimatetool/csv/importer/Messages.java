@@ -6,6 +6,30 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.csv.importer.messages"; //$NON-NLS-1$
 
+    public static String CSVImporter_0;
+
+    public static String CSVImporter_1;
+
+    public static String CSVImporter_10;
+
+    public static String CSVImporter_11;
+
+    public static String CSVImporter_2;
+
+    public static String CSVImporter_3;
+
+    public static String CSVImporter_4;
+
+    public static String CSVImporter_5;
+
+    public static String CSVImporter_6;
+
+    public static String CSVImporter_7;
+
+    public static String CSVImporter_8;
+
+    public static String CSVImporter_9;
+
     public static String CSVImportProvider_0;
     static {
         // initialize resource bundle
