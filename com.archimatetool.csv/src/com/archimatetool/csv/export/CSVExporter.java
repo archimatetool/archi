@@ -35,11 +35,10 @@ import com.archimatetool.model.IRelationship;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class CSVExporter implements CSVConstants {
     
     private char fDelimiter = ',';
-    private String fFilePrefix = "";
+    private String fFilePrefix = ""; //$NON-NLS-1$
     
     private boolean fStripNewLines = false;
     
@@ -226,9 +225,9 @@ public class CSVExporter implements CSVConstants {
         
         for(int i = 0; i < elements.length; i++) {
             String s = elements[i];
-            sb.append("\"");
+            sb.append("\""); //$NON-NLS-1$
             sb.append(s);
-            sb.append("\"");
+            sb.append("\""); //$NON-NLS-1$
             if(i < elements.length - 1) {
                 sb.append(fDelimiter);
             }
@@ -318,7 +317,7 @@ public class CSVExporter implements CSVConstants {
             sb.append(surroundWithQuotes(sourceID));
         }
         else {
-            sb.append("\"\"");
+            sb.append("\"\""); //$NON-NLS-1$
         }
         sb.append(fDelimiter);
         
@@ -327,7 +326,7 @@ public class CSVExporter implements CSVConstants {
             sb.append(surroundWithQuotes(targetID));
         }
         else {
-            sb.append("\"\"");
+            sb.append("\"\""); //$NON-NLS-1$
         }
         
         // Newline
@@ -366,32 +365,32 @@ public class CSVExporter implements CSVConstants {
      */
     String normalise(String s) {
         if(s == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
         
         // Newlines (optional)
         if(fStripNewLines) {
-            s = s.replaceAll("(\r\n|\r|\n)", " ");
+            s = s.replaceAll("(\r\n|\r|\n)", " ");  //$NON-NLS-1$//$NON-NLS-2$
         }
         
         // Tabs become a space
-        s = s.replace("\t", " ");
+        s = s.replace("\t", " "); //$NON-NLS-1$ //$NON-NLS-2$
         
         // Single quotes become double quotes
-        s = s.replace("\"", "\"\"");
+        s = s.replace("\"", "\"\"");  //$NON-NLS-1$//$NON-NLS-2$
         
         return s;
     }
     
     String surroundWithQuotes(String s) {
         if(needsLeadingCharHack(s)) {
-            return "\"=\"\"" + s + "\"\"\"";
+            return "\"=\"\"" + s + "\"\"\""; //$NON-NLS-1$ //$NON-NLS-2$
         }
-        return "\"" + s + "\"";
+        return "\"" + s + "\""; //$NON-NLS-1$ //$NON-NLS-2$
     }
     
     boolean needsLeadingCharHack(String s) {
-        return s != null && fUseLeadingCharsHack && (s.startsWith(" ") || s.startsWith("0"));
+        return s != null && fUseLeadingCharsHack && (s.startsWith(" ") || s.startsWith("0"));  //$NON-NLS-1$//$NON-NLS-2$
     }
     
     /**
