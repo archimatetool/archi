@@ -235,6 +235,8 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 			pos |= BOTTOM;
 		
 		// Now compute anchor's position
+		// But first resize figureBBox, this will avoid anchors 1px outside from right and bottom borders
+		figureBBox.resize(-1, -1);
 		switch (pos) {
 		case LEFT | TOP:
 			return (new Point(figureBBox.x + corner.width / 2 -
