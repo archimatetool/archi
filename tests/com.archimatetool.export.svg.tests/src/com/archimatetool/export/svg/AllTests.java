@@ -14,6 +14,7 @@ public class AllTests {
     public static junit.framework.Test suite() {
 		TestSuite suite = new TestSuite("com.archimatetool.export.svg");
 
+		suite.addTest(PDFExportProviderTests.suite());
 		suite.addTest(SVGExportProviderTests.suite());
 		
         return suite;

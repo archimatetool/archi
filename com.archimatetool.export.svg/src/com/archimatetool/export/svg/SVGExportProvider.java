@@ -5,13 +5,11 @@
  */
 package com.archimatetool.export.svg;
 
-import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
@@ -26,12 +24,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.archimatetool.editor.diagram.IImageExportProvider;
-import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
 
 
@@ -41,7 +36,7 @@ import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
  * 
  * @author Phillip Beauvoir
  */
-public class SVGExportProvider implements IImageExportProvider, IPreferenceConstants {
+public class SVGExportProvider extends AbstractExportProvider implements IPreferenceConstants {
     
     public static final String SVG_IMAGE_EXPORT_PROVIDER = "com.archimatetool.export.svg.imageExporter"; //$NON-NLS-1$
     
@@ -57,13 +52,13 @@ public class SVGExportProvider implements IImageExportProvider, IPreferenceConst
         Document document = createDocument();
         
         // Create a context for customisation
-        SVGGeneratorContext ctx = createContext(document);
+        SVGGeneratorContext ctx = createContext(document, fEmbedFontsButton.getSelection());
         
         // Create a Batik SVGGraphics2D instance
         SVGGraphics2D svgGenerator = new SVGGraphics2D(ctx, false);
         
         // Get the outer bounds of the figure
-        Rectangle bounds = getViewportBounds();
+        Rectangle bounds = getViewportBounds(fFigure);
 
         // Create a Graphiti wrapper adapter
         GraphicsToGraphics2DAdaptor graphicsAdaptor = createGraphicsToGraphics2DAdaptor(svgGenerator, bounds);
@@ -91,72 +86,6 @@ public class SVGExportProvider implements IImageExportProvider, IPreferenceConst
         savePreferences();
     }
 
-    /**
-     * Get the viewport bounds for the given figure that will be printed
-     * @param figure the given figure that will be printed
-     * @return The bounds
-     */
-    protected Rectangle getViewportBounds() {
-        Rectangle rect = DiagramUtils.getMinimumBounds(fFigure);
-        if(rect == null) {
-            rect = new Rectangle(0, 0, 100, 100); // At least a minimum for a blank image
-        }
-        else {
-            rect.expand(10, 10); // margins
-        }
-        return rect;
-    }
-    
-    /**
-     * Create the DOM SDocument with root namespace and root element name
-     * @return The DOM Document to save to
-     */
-    protected Document createDocument() {
-        DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
-        String svgNS = "http://www.w3.org/2000/svg"; //$NON-NLS-1$
-        return domImpl.createDocument(svgNS, "svg", null); //$NON-NLS-1$
-    }
-    
-    /**
-     * Create a SVGGeneratorContext and set its attributes
-     * @param document The DOM Document
-     * @return The SVGGeneratorContext
-     */
-    protected SVGGeneratorContext createContext(Document document) {
-        SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
-        ctx.setEmbeddedFontsOn(fEmbedFontsButton.getSelection());
-        ctx.setComment(Messages.SVGExportProvider_1); // Add a comment
-        return ctx;
-    }
-    
-    /**
-     * Create the Graphiti Graphics2D adapter with its Viewport
-     * @param graphics2d The Batick AWT Graphics2D to wrap
-     * @param viewPort The Viewport of the figure to print
-     * @return The GraphicsToGraphics2DAdaptor
-     */
-    protected GraphicsToGraphics2DAdaptor createGraphicsToGraphics2DAdaptor(Graphics2D graphics2d, Rectangle viewPort) {
-        ExtendedGraphicsToGraphics2DAdaptor graphicsAdaptor = new ExtendedGraphicsToGraphics2DAdaptor(graphics2d, viewPort);
-        graphicsAdaptor.translate(viewPort.x * -1, viewPort.y * -1);
-        graphicsAdaptor.setClip(viewPort); // need to do this
-        graphicsAdaptor.setAdvanced(true);
-        return graphicsAdaptor;
-    }
-
-    /**
-     * Set the "viewBox" attribute of the DOM root Element from the SVGGraphics2D instance.
-     * See http://www.justinmccandless.com/blog/Making+Sense+of+SVG+viewBox%27s+Madness
-     *     http://www.w3.org/TR/SVG/coords.html#ViewBoxAttribute
-     * @param root The DOM root element
-     * @param min_x the x origin of the viewBox within the parent
-     * @param min_y the y origin of the viewBox within the parent
-     * @param width
-     * @param height
-     */
-    protected void setViewBoxAttribute(Element root, int min_x, int min_y, int width, int height) {
-        root.setAttributeNS(null, "viewBox", min_x + " " + min_y + " " + width + " " + height);  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-    }
-    
     @Override
     public void init(IExportDialogAdapter adapter, Composite container, IFigure figure) {
         fFigure = figure;
@@ -215,7 +144,7 @@ public class SVGExportProvider implements IImageExportProvider, IPreferenceConst
         loadPreferences();
         
         // Set viewBox width and height to the image size
-        Rectangle rect = getViewportBounds();
+        Rectangle rect = getViewportBounds(fFigure);
         fSpinner3.setSelection(rect.width);
         fSpinner4.setSelection(rect.height);
     }

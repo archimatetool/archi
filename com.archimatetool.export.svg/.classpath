@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/batik-gvt.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-script.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-parser.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-anim.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-bridge.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/pdf-transcoder.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-transcoder.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-codec.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom.jar"/>

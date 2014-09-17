@@ -18,5 +18,14 @@ Bundle-ClassPath: com.archimatetool.export.svg.jar,
  lib/batik-svggen.jar,
  lib/batik-svg-dom.jar,
  lib/batik-util.jar,
- lib/batik-xml.jar
+ lib/batik-xml.jar,
+ lib/batik-transcoder.jar,
+ lib/pdf-transcoder.jar,
+ lib/batik-bridge.jar,
+ lib/batik-css.jar,
+ lib/xml-apis-ext.jar,
+ lib/batik-anim.jar,
+ lib/batik-parser.jar,
+ lib/batik-script.jar,
+ lib/batik-gvt.jar
 Export-Package: com.archimatetool.export.svg
