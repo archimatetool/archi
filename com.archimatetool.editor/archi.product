@@ -25,11 +25,11 @@
       startupMessageRect="5,180,0,0"
       startupForegroundColor="C0C0C0" />
    <launcher name="Archi">
-      <linux icon="/com.archimatetool.build/branding/linux/icon.xpm"/>
-      <macosx icon="/com.archimatetool.build/branding/mac/icon.icns"/>
+      <linux icon="/com.archimatetool.editor/icon.xpm"/>
+      <macosx icon="/com.archimatetool.editor/icon.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/com.archimatetool.build/branding/windows/icon.ico"/>
+         <ico path="/com.archimatetool.editor/icon.ico"/>
          <bmp/>
       </win>
    </launcher>
