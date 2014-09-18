@@ -49,6 +49,18 @@
            name="applicationCSSResources"
            value="platform:/plugin/com.archimatetool.editor.themes/themes/eclipse/images/">
      </property>
+     <property
+           name="startupProgressRect"
+           value="0,200,400,10">
+     </property>
+     <property
+           name="startupMessageRect"
+           value="5,180,0,0">
+     </property>
+     <property
+           name="startupForegroundColor"
+           value="C0C0C0">
+     </property>
       </product>
 	</extension>
 	
