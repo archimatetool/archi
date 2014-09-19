@@ -31,7 +31,6 @@ public class ApplicationStructureViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getCompositionRelationship(),
             IArchimatePackage.eINSTANCE.getAggregationRelationship(),
             IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
-            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
             IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
             IArchimatePackage.eINSTANCE.getFlowRelationship(),
             IArchimatePackage.eINSTANCE.getUsedByRelationship(),

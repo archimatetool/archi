@@ -36,7 +36,6 @@ public class ProjectViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
             IArchimatePackage.eINSTANCE.getFlowRelationship(),
             IArchimatePackage.eINSTANCE.getUsedByRelationship(),
-            IArchimatePackage.eINSTANCE.getAccessRelationship(),
             IArchimatePackage.eINSTANCE.getAssociationRelationship()
     };
     

@@ -27,7 +27,8 @@ public class MigrationViewpoint extends AbstractViewpoint {
             
             IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
             IArchimatePackage.eINSTANCE.getFlowRelationship(),
-            IArchimatePackage.eINSTANCE.getAssociationRelationship()
+            IArchimatePackage.eINSTANCE.getAssociationRelationship(),
+            IArchimatePackage.eINSTANCE.getCompositionRelationship()
     };
     
     @Override

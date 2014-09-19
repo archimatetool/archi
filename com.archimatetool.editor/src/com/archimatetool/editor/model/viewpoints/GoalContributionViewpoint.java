@@ -27,6 +27,8 @@ public class GoalContributionViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getAggregationRelationship(),
             IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
             IArchimatePackage.eINSTANCE.getInfluenceRelationship(),
+            IArchimatePackage.eINSTANCE.getAssociationRelationship(),
+            IArchimatePackage.eINSTANCE.getCompositionRelationship()
     };
     
     @Override
