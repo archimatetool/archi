@@ -18,7 +18,6 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
-import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -175,7 +174,8 @@ implements IEditPartFilterProvider {
         FreeformLayer figure = new FreeformLayer();
         
         // Provide an edge when in negative space
-        figure.setBorder(new MarginBorder(5));
+        // Causes snap to grid problems when in negative space
+        //figure.setBorder(new MarginBorder(5));
         
         figure.setLayoutManager(new FreeformLayout());
         
