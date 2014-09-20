@@ -11,6 +11,10 @@
    </aboutInfo>
 
    <configIni use="default">
+      <linux>/com.archimatetool.editor/build/config.ini</linux>
+      <macosx>/com.archimatetool.editor/build/config.ini</macosx>
+      <solaris>/com.archimatetool.editor/build/config.ini</solaris>
+      <win32>/com.archimatetool.editor/build/config.ini</win32>
    </configIni>
 
    <launcherArgs>
@@ -25,17 +29,19 @@
       startupMessageRect="5,180,0,0"
       startupForegroundColor="C0C0C0" />
    <launcher name="Archi">
-      <linux icon="/com.archimatetool.editor/icon.xpm"/>
-      <macosx icon="/com.archimatetool.editor/icon.icns"/>
+      <linux icon="/com.archimatetool.editor/build/icon.xpm"/>
+      <macosx icon="/com.archimatetool.editor/build/icon.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/com.archimatetool.editor/icon.ico"/>
+         <ico path="/com.archimatetool.editor/build/icon.ico"/>
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="com.archimatetool.canvas"/>
