@@ -19,8 +19,10 @@ package com.archimatetool.editor.diagram.policies.snaptogrid;
  */
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.requests.BendpointRequest;
@@ -102,8 +104,9 @@ public class ExtendedConnectionBendpointTracker extends ConnectionBendpointTrack
 	 * @param gridSize
 	 */
 	protected Point setNearestSnapPoint(Point pt, int gridSize) {
-	    pt.setX(Math.round((float)pt.x / gridSize) * gridSize);
-        pt.setY(Math.round((float)pt.y / gridSize) * gridSize);
+		Rectangle ca = ((FigureCanvas) getCurrentViewer().getControl()).getViewport().getClientArea();
+	    pt.setX(Math.round(((float)pt.x + (float)ca.x) / gridSize) * gridSize - ca.x);
+        pt.setY(Math.round(((float)pt.y + (float)ca.y) / gridSize) * gridSize - ca.y);
         return pt;
 	}
 }
