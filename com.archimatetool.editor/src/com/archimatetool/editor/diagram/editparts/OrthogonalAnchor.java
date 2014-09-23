@@ -35,6 +35,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
@@ -210,7 +211,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 		
 		// Find reference point relative position
 		int pos = 0;
-		Dimension corner = getCornerDimensions(getOwner());
+		Dimension corner = getCornerDimensions(getOwner()).scale(getZoom());
 		// Check X axis
 		if (reference.x < figureBBox.x)
 			pos = LEFT;
@@ -392,5 +393,32 @@ public class OrthogonalAnchor extends ChopboxAnchor {
         }
 		
 		return corner;
+	}
+	
+	/**
+	 * Get zoom value
+	 * 
+	 * @return zoom value
+	 */
+	private double getZoom() {
+		ZoomManager zm = null;
+		
+		switch(fAnchorType) {
+        	case CRCONREQ_SRC:
+        	case CRCONREQ_TGT:
+        		zm = (ZoomManager)((CreateConnectionRequest)fRequest).getSourceEditPart().getViewer().getProperty(ZoomManager.class.toString());
+        		break;
+        	case CONNECTION_SRC:
+            case CONNECTION_TGT:
+            	zm = (ZoomManager)fAnchorConnection.getViewer().getProperty(ZoomManager.class.toString());
+                break;
+            case RECONREQ_SRC:
+            case RECONREQ_TGT:
+            	zm = (ZoomManager)((ReconnectRequest)fRequest).getConnectionEditPart().getViewer().getProperty(ZoomManager.class.toString());
+                break;
+		}
+		
+		// Return zomm or 1 as fallback value
+		return (zm != null) ? zm.getZoom() : 1; 
 	}
 }
