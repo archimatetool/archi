@@ -31,7 +31,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
  
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new RoundedRectangleAnchor(getFigure(), ((IRoundedRectangleFigure)getFigure()).getArc());
+        return new RoundedRectangleAnchor(this, ((IRoundedRectangleFigure)getFigure()).getArc());
     }
 
     @Override

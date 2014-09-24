@@ -1,12 +1,13 @@
 package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 
@@ -34,19 +35,21 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 
 	private final Dimension dimension;
 	
+	private GraphicalEditPart fEditPart;
 	
-	public RoundedRectangleAnchor(final IFigure figure) {
-        super(figure);
-        dimension = null;
+	
+	public RoundedRectangleAnchor(final GraphicalEditPart editPart) {
+        this(editPart, null);
     }
 
 	/**
 	 * Rounded Rectangle getCornerDimension should be public #302836 then
 	 * Rounded Rectangle would be sufficient.
 	 */
-	public RoundedRectangleAnchor(final IFigure figure, final Dimension corners) {
-		super(figure);
+	public RoundedRectangleAnchor(final GraphicalEditPart editPart, final Dimension corners) {
+		super(editPart.getFigure());
 		dimension = corners;
+		fEditPart = editPart;
 	}
 
 	/**
@@ -63,10 +66,10 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
     public Point getLocation(final Point ref) {
 		Dimension corner = dimension;
 		if(getOwner() instanceof IRoundedRectangleFigure) {
-            corner = ((IRoundedRectangleFigure) getOwner()).getArc();
+            corner = ((IRoundedRectangleFigure) getOwner()).getArc().scale(getZoom());
         }
 		else if (getOwner() instanceof RoundedRectangle) {
-			corner = ((RoundedRectangle) getOwner()).getCornerDimensions();
+			corner = ((RoundedRectangle) getOwner()).getCornerDimensions().scale(getZoom());
 		}
 		final Point location = super.getLocation(ref);
 		final Rectangle r = Rectangle.SINGLETON;
@@ -190,4 +193,15 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 		return new Point[] { r.getCenter().translate(p1),
 				r.getCenter().translate(p2) };
 	}
+	
+    /**
+	 * Get zoom value
+     * 
+     * @return zoom value
+     */
+    protected double getZoom() {
+        ZoomManager zm = (ZoomManager)fEditPart.getViewer().getProperty(ZoomManager.class.toString());
+        return (zm != null) ? zm.getZoom() : 1; 
+    }
+
 }

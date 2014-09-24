@@ -30,6 +30,6 @@ extends AbstractArchimateEditableTextFlowEditPart {
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
         IRoundedRectangleFigure figureDelegate = (IRoundedRectangleFigure)((WorkPackageFigure)getFigure()).getFigureDelegate();
-        return new RoundedRectangleAnchor(getFigure(), figureDelegate.getArc());
+        return new RoundedRectangleAnchor(this, figureDelegate.getArc());
     }
 }

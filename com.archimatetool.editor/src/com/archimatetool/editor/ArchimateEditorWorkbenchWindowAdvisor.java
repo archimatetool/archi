@@ -5,6 +5,11 @@
  */
 package com.archimatetool.editor;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -44,6 +49,20 @@ extends WorkbenchWindowAdvisor {
         return new ArchimateEditorActionBarAdvisor(configurer);
     }
     
+    String expiryDate = "23 October 2014";
+    int year = 2014, month = 9, day = 23;
+    
+    @Override
+    public void preWindowOpen() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        if(new Date().after(calendar.getTime())) {
+            MessageDialog.openInformation(Display.getCurrent().getActiveShell(),
+                    "Archi 3.0 Beta", "This Beta version expired on " + expiryDate + ".\nPlease download the latest version.");
+            System.exit(0);
+        }
+    }
+    
     @Override
     public void postWindowOpen() {
         // Application specific launcher actions
@@ -51,5 +70,12 @@ extends WorkbenchWindowAdvisor {
         if(launcher != null) {
             launcher.postWindowOpen(getWindowConfigurer().getWindow());
         }
+        
+        Display.getCurrent().asyncExec(new Runnable() {
+            public void run() {
+                MessageDialog.openInformation(Display.getCurrent().getActiveShell(),
+                        "Archi 3.0 Beta", "This Beta version expires on " + expiryDate + ".");
+            }
+        });
     }
 }
