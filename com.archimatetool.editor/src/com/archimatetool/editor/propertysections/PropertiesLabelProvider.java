@@ -83,12 +83,12 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
 
-    private String getArchimateElementText(IArchimateElement element) {
+    String getArchimateElementText(IArchimateElement element) {
         String name = StringUtils.escapeAmpersandsInText(element.getName());
         
         String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
         
-        if(name.length() > 0) {
+        if(StringUtils.isSet(name)) {
             return name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
