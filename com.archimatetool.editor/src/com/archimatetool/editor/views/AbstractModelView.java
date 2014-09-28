@@ -212,6 +212,10 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     protected void eCoreChanged(Notification msg) {
         int type = msg.getEventType();
         
+        if(type == Notification.REMOVING_ADAPTER) {
+            return;
+        }
+        
         // Large structural model change - refresh the whole thing
         if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
             getViewer().refresh();
