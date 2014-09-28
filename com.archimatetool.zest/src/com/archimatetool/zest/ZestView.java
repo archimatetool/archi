@@ -30,6 +30,7 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionListener;
@@ -51,7 +52,6 @@ import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
-import com.archimatetool.model.IArchimatePackage;
 
 
 
@@ -176,9 +176,21 @@ implements IZestView, ISelectionListener {
     }
     
     void refresh() {
-        getViewer().refresh();
         updateActions();
         updateLabel();
+
+        /*
+         * Weird thing happening here to do with Draw2D Animation.
+         * If a figure is moved or resized in a Diagram and an Undo or Redo is performed then
+         * this ZestView gets an Ecore change event which needs to refresh or update the GraphViewer.
+         * Under some circumstance the Animation in the Diagram does not happen (just the animation delay time occurs).
+         * It seems that somehow the Zest GraphViewer is calling LayoutAnimator.layout() and nobbling the diagram's animation.
+         */
+        Display.getCurrent().asyncExec(new Runnable() {
+            public void run() {
+                getViewer().refresh();
+            }
+        });
     }
     
     /**
@@ -411,33 +423,18 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected void eCoreChanged(Notification msg) {
-        int type = msg.getEventType();
-        
-        if(type == Notification.ADD || type == Notification.ADD_MANY ||
-                type == Notification.REMOVE || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
-            refresh();
-        }
-        
-        // Attribute set
-        else if(type == Notification.SET) {
-            Object feature = msg.getFeature();
-            Object notifier = msg.getNotifier();
-
-            // Relationship/Connection changed - requires full refresh
-            if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE ||
-                                        feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
+        switch(msg.getEventType()) {
+            case Notification.ADD:
+            case Notification.ADD_MANY:
+            case Notification.REMOVE:
+            case Notification.REMOVE_MANY:
+            case Notification.MOVE:
+            case Notification.SET:
                 refresh();
-            }
-            else {
-                super.eCoreChanged(msg);
-            }
-            
-            if(notifier == fDrillDownManager.getCurrentElement()) {
-                updateLabel();
-            }
-        }
-        else {
-            super.eCoreChanged(msg);
+                break;
+
+            default:
+                break;
         }
     }
     
