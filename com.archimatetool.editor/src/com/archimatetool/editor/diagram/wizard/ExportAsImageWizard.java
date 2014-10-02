@@ -27,17 +27,19 @@ import com.archimatetool.editor.diagram.ImageExportProviderManager.ImageExportPr
 public class ExportAsImageWizard extends Wizard {
     
     private IFigure fFigure;
+    private String fName;
     
     private ExportAsImagePage fPage;
     
-    public ExportAsImageWizard(IFigure figure) {
+    public ExportAsImageWizard(IFigure figure, String name) {
         fFigure = figure;
+        fName = name;
         setWindowTitle(Messages.ExportAsImageWizard_0);
     }
     
     @Override
     public void addPages() {
-        fPage = new ExportAsImagePage(fFigure);
+        fPage = new ExportAsImagePage(fFigure, fName);
         addPage(fPage);
     }
     

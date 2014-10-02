@@ -209,6 +209,12 @@ implements IZestView, ISelectionListener {
     void updateActions() {
         IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
         fActionProperties.update(selection);
+        
+        boolean hasData = fGraphViewer.getInput() != null;
+        fActionExportImageToFile.setEnabled(hasData);
+        fActionCopyImageToClipboard.setEnabled(hasData);
+        fActionLayout.setEnabled(hasData);
+        
         updateUndoActions();
     }
     

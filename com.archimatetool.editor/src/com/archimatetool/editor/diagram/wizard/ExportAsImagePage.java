@@ -78,6 +78,11 @@ public class ExportAsImagePage extends WizardPage {
     private IFigure fFigure;
     
     /**
+     * The name
+     */
+    private String fName;
+    
+    /**
      * Provide an Interface to expose some of the functionality of this Dialog Page
      */
     private IExportDialogAdapter fExportDialogPageAdapter = new IExportDialogAdapter() {
@@ -90,10 +95,11 @@ public class ExportAsImagePage extends WizardPage {
     private static final String PREFS_LAST_PROVIDER = "ExportImageLastProvider"; //$NON-NLS-1$
     private static final String PREFS_LAST_FILE = "ExportImageLastFile"; //$NON-NLS-1$
     
-    public ExportAsImagePage(IFigure figure) {
+    public ExportAsImagePage(IFigure figure, String name) {
         super("ExportAsImagePage"); //$NON-NLS-1$
         
         fFigure = figure;
+        fName = name;
         
         setTitle(Messages.ExportAsImagePage_0);
         setDescription(Messages.ExportAsImagePage_1);
@@ -119,13 +125,23 @@ public class ExportAsImagePage extends WizardPage {
         fFileTextField = new Text(exportGroup, SWT.BORDER | SWT.SINGLE);
         fFileTextField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Last saved name
+        // Get last file name used
         String lastFileName = Preferences.STORE.getString(PREFS_LAST_FILE);
-        if(lastFileName != null && !"".equals(lastFileName)) { //$NON-NLS-1$
+        if(StringUtils.isSet(lastFileName)) {
+            // If we have a given name use that
+            if(fName != null) {
+                File file = new File(lastFileName);
+                File path = file.getParentFile();
+                if(path != null) {
+                    lastFileName = new File(path, fName).getPath();
+                }
+            }
+            
             fFileTextField.setText(lastFileName);
         }
         else {
-            fFileTextField.setText(new File(System.getProperty("user.home"), "exported").getPath()); //$NON-NLS-1$ //$NON-NLS-2$
+            String name = (fName == null) ? "exported" : fName; //$NON-NLS-1$
+            fFileTextField.setText(new File(System.getProperty("user.home"), name).getPath()); //$NON-NLS-1$
         }
         
         // Single text control so strip CRLFs
