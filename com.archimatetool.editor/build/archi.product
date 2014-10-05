@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="3.0.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="3.0.1.qualifier" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.archimatetool.editor/img/about.png"/>
@@ -25,7 +25,7 @@
    <windowImages i16="/com.archimatetool.editor/img/app-16.png" i32="/com.archimatetool.editor/img/app-32.png" i48="/com.archimatetool.editor/img/app-48.png" i64="/com.archimatetool.editor/img/app-64.png" i128="/com.archimatetool.editor/img/app-128.png"/>
 
    <splash
-      startupProgressRect="0,200,400,10"
+      startupProgressRect="0,290,470,10"
       startupMessageRect="5,180,0,0"
       startupForegroundColor="C0C0C0" />
    <launcher name="Archi">
@@ -38,10 +38,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.archimatetool.canvas"/>
