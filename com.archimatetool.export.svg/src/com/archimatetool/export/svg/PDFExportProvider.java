@@ -13,7 +13,7 @@ import java.io.Writer;
 
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.transcoder.Transcoder;
+import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.fop.svg.PDFTranscoder;
@@ -80,7 +80,11 @@ public class PDFExportProvider extends AbstractExportProvider {
         OutputStream outStream = new FileOutputStream(file);
         TranscoderOutput outputPDF = new TranscoderOutput(outStream);   
         
-        Transcoder transcoder = new PDFTranscoder();
+        PDFTranscoder transcoder = new PDFTranscoder();
+        
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)bounds.width);
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)bounds.height);
+        
         transcoder.transcode(inputSVG, outputPDF);
         
         outStream.flush();
