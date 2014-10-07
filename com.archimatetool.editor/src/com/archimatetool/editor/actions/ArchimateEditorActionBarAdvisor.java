@@ -23,12 +23,14 @@ import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import com.archimatetool.editor.model.IModelExporter;
@@ -324,7 +326,7 @@ extends ActionBarAdvisor {
         menu.add(fActionProperties);
         menu.add(new Separator());
         
-        // Not needed on a Mac
+        // Quit action not needed on a Mac
         if(!PlatformUtils.isMac()) {
             menu.add(fActionQuit);
         }
@@ -366,17 +368,14 @@ extends ActionBarAdvisor {
         menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
         
         /*
-         * On a Mac, Eclipse adds a "Preferences" menu item under the application menu bar.
-         * However, it does nothing unless you add the Preferences menu item manually elsewhere.
-         * See - http://dev.eclipse.org/newslists/news.eclipse.platform.rcp/msg30749.html
-         * 
+         * On a Mac, there is a "Preferences" menu item under the application menu bar.
          */
-        IWorkbenchAction preferenceAction = ActionFactory.PREFERENCES.create(window);
-        ActionContributionItem item = new ActionContributionItem(preferenceAction);
-        item.setVisible(!PlatformUtils.isMac());
-        
-        menu.add(new Separator());
-        menu.add(item);
+        if(!PlatformUtils.isMac()) {
+            IWorkbenchAction preferenceAction = ActionFactory.PREFERENCES.create(window);
+            ActionContributionItem item = new ActionContributionItem(preferenceAction);
+            menu.add(new Separator());
+            menu.add(item);
+        }
 
         menu.add(new Separator(IWorkbenchActionConstants.EDIT_END));
         return menu;
@@ -475,16 +474,17 @@ extends ActionBarAdvisor {
         menu.add(fActionShowRelationsMatrix);
 
         /*
-         * On a Mac, Eclipse adds an "About" menu item under the application menu bar.
-         * However, it does nothing unless you add the About menu item manually elsewhere.
-         * See - http://dev.eclipse.org/newslists/news.eclipse.platform.rcp/msg30749.html
-         * 
+         * On a Mac, there is an "About" menu item under the application menu bar.
          */
-        ActionContributionItem item = new ActionContributionItem(fActionAbout);
-        item.setVisible(!PlatformUtils.isMac());
+        if(!PlatformUtils.isMac()) {
+            ActionContributionItem item = new ActionContributionItem(fActionAbout);
+            menu.add(new Separator());
+            menu.add(item);
+        }
         
-        menu.add(new Separator());
-        menu.add(item);
+        // Register our own About Handler for our own custom dialog
+        IHandlerService srv = (IHandlerService) window.getService(IHandlerService.class);
+        srv.activateHandler(IWorkbenchCommandConstants.HELP_ABOUT, new AboutHandler());
 
         return menu;
     }
