@@ -19,6 +19,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -99,6 +101,9 @@ implements ITreeModelView, IUIRequestListener {
     private IAction fActionOpenModel;
     private IAction fActionLinkToEditor;
     private IAction fActionFindReplace;
+    private IAction fActionCollapseAll;
+    private IAction fActionCollapseSelected;
+    private IAction fActionExpandSelected;
     
     private IViewerAction fActionProperties;
     private IViewerAction fActionSaveModel;
@@ -301,6 +306,52 @@ implements ITreeModelView, IUIRequestListener {
         };
         fActionToggleSearchField.setToolTipText(Messages.TreeModelView_0);
         fActionToggleSearchField.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SEARCH_16));
+        
+        fActionCollapseAll = new Action(Messages.TreeModelView_3) {
+            @Override
+            public void run() {
+                fTreeViewer.collapseAll();
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_COLLAPSEALL_16);
+            }
+        };
+        
+        fActionCollapseSelected = new Action(Messages.TreeModelView_4) {
+            @Override
+            public void run() {
+                IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
+                for(Object o : selection.toArray()) {
+                    if(fTreeViewer.isExpandable(o) && fTreeViewer.getExpandedState(o)) {
+                        fTreeViewer.collapseToLevel(o, AbstractTreeViewer.ALL_LEVELS);
+                    }
+                }
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_COLLAPSEALL_16);
+            }
+        };
+        
+        fActionExpandSelected = new Action(Messages.TreeModelView_5) {
+            @Override
+            public void run() {
+                IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
+                for(Object o : selection.toArray()) {
+                    if(fTreeViewer.isExpandable(o) && !fTreeViewer.getExpandedState(o)) {
+                        fTreeViewer.expandToLevel(o, AbstractTreeViewer.ALL_LEVELS);
+                    }
+                }
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_EXPANDALL_16);
+            }
+        };
     }
     
     /**
@@ -392,11 +443,32 @@ implements ITreeModelView, IUIRequestListener {
             manager.add(new Separator());
             manager.add(fActionDelete);
             manager.add(fActionRename);
+
             manager.add(new Separator());
+            
+            // Expand selected
+            for(Object o : selection.toArray()) {
+                if(fTreeViewer.isExpandable(o) && !fTreeViewer.getExpandedState(o)) {
+                    manager.add(fActionExpandSelected);
+                    break;
+                }
+            }
+
+            // Collapse selected
+            for(Object o : selection.toArray()) {
+                if(fTreeViewer.isExpandable(o) && fTreeViewer.getExpandedState(o)) {
+                    manager.add(fActionCollapseSelected);
+                    break;
+                }
+            }
+
+            manager.add(new Separator());
+            
             if(DuplicateCommandHandler.canDuplicate(selection)) {
                 manager.add(fActionDuplicate);
                 manager.add(new Separator());
             }
+            
             manager.add(fActionProperties);
         }
         
@@ -427,6 +499,7 @@ implements ITreeModelView, IUIRequestListener {
         IActionBars bars = getViewSite().getActionBars();
         IToolBarManager manager = bars.getToolBarManager();
         manager.add(fActionToggleSearchField);
+        manager.add(fActionCollapseAll);
         manager.add(fActionLinkToEditor);
     }
     

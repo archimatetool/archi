@@ -158,10 +158,12 @@ public interface IArchimateImages {
     String ICON_ASPECT_RATIO = IMGPATH + "aspect-ratio.png"; //$NON-NLS-1$
     String ICON_CANCEL_SEARCH_16 = IMGPATH + "cancelsearch-16.png"; //$NON-NLS-1$
     String ICON_COG = IMGPATH + "cog.png"; //$NON-NLS-1$
+    String ICON_COLLAPSEALL_16 = IMGPATH + "collapseall.png"; //$NON-NLS-1$
     String ICON_DIAGRAM_16 = IMGPATH + "diagram-16.png"; //$NON-NLS-1$
     String ICON_DEFAULT_SIZE = IMGPATH + "default-size.png"; //$NON-NLS-1$
     String ICON_DERIVED_16 = IMGPATH + "derived-16.png"; //$NON-NLS-1$
     String ICON_DERIVED_SM_16 = IMGPATH + "derived-sm-16.png"; //$NON-NLS-1$
+    String ICON_EXPANDALL_16 = IMGPATH + "expandall.png"; //$NON-NLS-1$
     String ICON_FILTER_16 = IMGPATH + "filter.gif"; //$NON-NLS-1$
     String ICON_FORMAT_PAINTER_16 = IMGPATH + "formatpainter-16.png"; //$NON-NLS-1$
     String ICON_FORMAT_PAINTER_GREY_16 = IMGPATH + "formatpainter-grey-16.png"; //$NON-NLS-1$
