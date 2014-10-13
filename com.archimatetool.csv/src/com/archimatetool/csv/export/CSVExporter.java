@@ -97,7 +97,7 @@ public class CSVExporter implements CSVConstants {
      * Write the Model and All Elements
      */
     private void writeModelAndElements(File file) throws IOException {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
         
         // Write Header
         String header = createHeader(MODEL_ELEMENTS_HEADER);
@@ -146,7 +146,7 @@ public class CSVExporter implements CSVConstants {
             return;
         }
         
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
         
         // Write Header
         String header = createHeader(RELATIONSHIPS_HEADER);
@@ -171,7 +171,7 @@ public class CSVExporter implements CSVConstants {
             return;
         }
         
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file)); // Don't use UTF-8 as Excel prefers ANSI
+        Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
         
         // Write Header
         String header = createHeader(PROPERTIES_HEADER);
