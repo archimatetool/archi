@@ -101,7 +101,6 @@ implements ITreeModelView, IUIRequestListener {
     private IAction fActionOpenModel;
     private IAction fActionLinkToEditor;
     private IAction fActionFindReplace;
-    private IAction fActionCollapseAll;
     private IAction fActionCollapseSelected;
     private IAction fActionExpandSelected;
     
@@ -307,19 +306,7 @@ implements ITreeModelView, IUIRequestListener {
         fActionToggleSearchField.setToolTipText(Messages.TreeModelView_0);
         fActionToggleSearchField.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SEARCH_16));
         
-        fActionCollapseAll = new Action(Messages.TreeModelView_3) {
-            @Override
-            public void run() {
-                fTreeViewer.collapseAll();
-            }
-            
-            @Override
-            public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_COLLAPSEALL_16);
-            }
-        };
-        
-        fActionCollapseSelected = new Action(Messages.TreeModelView_4) {
+        fActionCollapseSelected = new Action(Messages.TreeModelView_3) {
             @Override
             public void run() {
                 IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
@@ -336,7 +323,7 @@ implements ITreeModelView, IUIRequestListener {
             }
         };
         
-        fActionExpandSelected = new Action(Messages.TreeModelView_5) {
+        fActionExpandSelected = new Action(Messages.TreeModelView_4) {
             @Override
             public void run() {
                 IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
@@ -499,7 +486,6 @@ implements ITreeModelView, IUIRequestListener {
         IActionBars bars = getViewSite().getActionBars();
         IToolBarManager manager = bars.getToolBarManager();
         manager.add(fActionToggleSearchField);
-        manager.add(fActionCollapseAll);
         manager.add(fActionLinkToEditor);
     }
     
