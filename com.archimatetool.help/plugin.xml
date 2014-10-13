@@ -118,12 +118,11 @@
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
-         <!-- Removed for now - See Bug #3010717 -->
-      <!-- key
-            commandId="com.archimatetool.help.action.showHintsView"
+      <key
+            commandId="com.archimatetool.help.command.showHintsView"
             schemeId="com.archimatetool.editor.keybindings"
-            sequence="M3+4">
-      </key -->
+            sequence="M3+7">
+      </key>
    </extension>
    <extension
          point="com.archimatetool.help.hints">
