@@ -569,6 +569,24 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+0">
       </key>
+      <key
+            commandId="org.eclipse.ui.window.splitEditor"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+[">
+         <parameter
+               id="Splitter.isHorizontal"
+               value="true">
+         </parameter>
+      </key>
+      <key
+            commandId="org.eclipse.ui.window.splitEditor"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+]">
+         <parameter
+               id="Splitter.isHorizontal"
+               value="false">
+         </parameter>
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -678,6 +696,40 @@
                visible="false">
          </separator>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?before=nav_start">
+         <menu
+               id="com.archimatetool.menu.editor"
+               label="%menu.label">
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:com.archimatetool.menu.editor">
+         <command
+               commandId="org.eclipse.ui.window.splitEditor"
+               label="%command.label.1"
+               style="push">
+            <parameter
+                  name="Splitter.isHorizontal"
+                  value="true">
+            </parameter>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:com.archimatetool.menu.editor">
+         <command
+               commandId="org.eclipse.ui.window.splitEditor"
+               label="%command.label.2"
+               style="push">
+            <parameter
+                  name="Splitter.isHorizontal"
+                  value="false">
+            </parameter>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="com.archimatetool.editor.compatibilityHandler">
@@ -696,19 +748,19 @@
             class="com.archimatetool.editor.diagram.ImageExportProvider"
             extensions="png"
             id="com.archimatetool.editor.pngImageExportProvider"
-            label="PNG Image">
+            label="%imageExportProvider.label">
       </imageExportProvider>
       <imageExportProvider
             class="com.archimatetool.editor.diagram.ImageExportProvider"
             extensions="bmp"
             id="com.archimatetool.editor.bmpImageExportProvider"
-            label="BMP Image">
+            label="%imageExportProvider.label.0">
       </imageExportProvider>
       <imageExportProvider
             class="com.archimatetool.editor.diagram.ImageExportProvider"
             extensions="jpg,jpeg"
             id="com.archimatetool.editor.jpegImageExportProvider"
-            label="JPEG Image">
+            label="%imageExportProvider.label.1">
       </imageExportProvider>
    </extension>
    <extension

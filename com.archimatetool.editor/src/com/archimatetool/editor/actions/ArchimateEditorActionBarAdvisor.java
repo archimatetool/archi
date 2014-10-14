@@ -415,7 +415,7 @@ extends ActionBarAdvisor {
         menu.add(fActionResetPerspective);
         menu.add(fActionToggleCoolbar);
 
-        menu.add(new Separator("nav")); //$NON-NLS-1$
+        menu.add(new Separator("nav_start")); //$NON-NLS-1$
 
         MenuManager navigationMenu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_15);
         menu.add(navigationMenu);
@@ -437,6 +437,8 @@ extends ActionBarAdvisor {
         a = ActionFactory.PREVIOUS_PART.create(window);
         register(a);
         navigationMenu.add(a);
+        
+        menu.add(new GroupMarker("nav_end")); //$NON-NLS-1$
 
         menu.add(ContributionItemFactory.OPEN_WINDOWS.create(window));
 
