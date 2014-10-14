@@ -244,7 +244,7 @@ extends ActionBarAdvisor {
         };
         
         // Archi website
-        fDonateAction = new WebBrowserAction(Messages.ArchimateEditorActionBarAdvisor_18, "http://www.archimatetool.com/sponsors#donate"); //$NON-NLS-1$
+        fDonateAction = new WebBrowserAction(Messages.ArchimateEditorActionBarAdvisor_18, "http://www.archimatetool.com/donate"); //$NON-NLS-1$
         
         // Check for new Version
         fActionCheckForNewVersion = new CheckForNewVersionAction();
