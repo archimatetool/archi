@@ -19,7 +19,7 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:window?after=show_view_end">
+            locationURI="menu:window?after=show_view_append">
          <command
                commandId="com.archimatetool.help.command.showHintsView"
                icon="img/hint-16.png"

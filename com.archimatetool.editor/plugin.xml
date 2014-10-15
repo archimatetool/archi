@@ -698,7 +698,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:window?before=nav_start">
+            locationURI="menu:window?after=show_view_end">
          <menu
                id="com.archimatetool.menu.editor"
                label="%menu.label">
