@@ -32,7 +32,7 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:window?before=nav">
+            locationURI="menu:window?before=nav_start">
          <command
                commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
                label="Mac Full Screen"
