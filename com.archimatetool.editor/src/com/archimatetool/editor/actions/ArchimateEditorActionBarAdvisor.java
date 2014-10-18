@@ -258,6 +258,9 @@ extends ActionBarAdvisor {
         // Edit
         menuBar.add(createEditMenu());
         
+        // Tools
+        menuBar.add(createToolsMenu());
+        
         // Window
         menuBar.add(createWindowMenu());
 
@@ -378,6 +381,17 @@ extends ActionBarAdvisor {
         }
 
         menu.add(new Separator(IWorkbenchActionConstants.EDIT_END));
+        return menu;
+    }
+
+    /**
+     * Create the Editor menu
+     * @return
+     */
+    private MenuManager createToolsMenu() {
+        MenuManager menu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_19, "tools"); //$NON-NLS-1$
+        menu.add(new GroupMarker("tools_start")); //$NON-NLS-1$
+        menu.add(new GroupMarker("tools_end")); //$NON-NLS-1$
         return menu;
     }
 
