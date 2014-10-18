@@ -64,7 +64,7 @@ implements IPreferenceConstants {
         store.setDefault(NEW_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7);
         store.setDefault(HIDDEN_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7);
         
-        store.setDefault(VIEWPOINTS_FILTER_MODEL_TREE, true);
+        store.setDefault(VIEWPOINTS_FILTER_MODEL_TREE, false);
         store.setDefault(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, false);
         store.setDefault(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, true);
         store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);

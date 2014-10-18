@@ -87,8 +87,14 @@ public class TreeViewpointFilterProvider implements IPartListener {
      */
     private void refreshTreeModel(IArchimateDiagramModel dm) {
         if(dm != null && isActive()) {
-            IArchimateModel model = dm.getArchimateModel();
-            fViewer.refresh(model);
+            final IArchimateModel model = dm.getArchimateModel();
+            fViewer.getControl().getDisplay().asyncExec(new Runnable() {
+                public void run() {
+                    if(!fViewer.getControl().isDisposed()) { // please check!
+                        fViewer.refresh(model); // expensive operation
+                    }
+                }
+            });
         }
     }
 
@@ -165,7 +171,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
      * @param element
      * @return Color or null
      */
-    public Color getTextColor(Object element) {
+    Color getTextColor(Object element) {
         if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateElement) {
             int index = fActiveDiagramModel.getViewpoint();
             IViewpoint viewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);

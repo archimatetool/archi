@@ -617,8 +617,14 @@ implements ITreeModelView, IUIRequestListener {
             if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
                     if(notifier instanceof IDiagramModel) {
-                        IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
-                        getViewer().refresh(model);
+                        final IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
+                        getViewer().getControl().getDisplay().asyncExec(new Runnable() {
+                            public void run() {
+                                if(!getViewer().getControl().isDisposed()) { //check please!
+                                    getViewer().refresh(model); // expensive operation
+                                }
+                            }
+                        });
                     }
                 }
             }
