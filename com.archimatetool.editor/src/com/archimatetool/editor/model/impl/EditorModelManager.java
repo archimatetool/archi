@@ -95,16 +95,18 @@ implements IEditorModelManager {
 
         public boolean preShutdown(IWorkbench  workbench, boolean forced) {
             // Handle modified models
-            for(IArchimateModel model : getModels()) {
-                if(isModelDirty(model)) {
-                    try {
-                        boolean result = askSaveModel(model);
-                        if(!result) {
-                            return false;
+            if(fModels != null) { // Dont call getModels() - we don't want to call loadState();
+                for(IArchimateModel model : fModels) {
+                    if(isModelDirty(model)) {
+                        try {
+                            boolean result = askSaveModel(model);
+                            if(!result) {
+                                return false;
+                            }
                         }
-                    }
-                    catch(IOException ex) {
-                        ex.printStackTrace();
+                        catch(IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             }
@@ -315,7 +317,7 @@ implements IEditorModelManager {
 
         // This last
         firePropertyChange(this, PROPERTY_MODEL_LOADED, null, model);
-
+        
         return model;
     }
     
