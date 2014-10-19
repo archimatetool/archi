@@ -45,6 +45,11 @@ public class TreeStateHelper {
     
     private TreeViewer fTreeViewer;
     
+    /**
+     * Flag to show we have restored from Memento first time open
+     */
+    private boolean fRestoredFromMemento = false;
+    
     private class FileMap {
         File file;
         String[] elements;
@@ -55,7 +60,7 @@ public class TreeStateHelper {
      * @param memento
      */
     void setMemento(IMemento memento) {
-        if(memento == null) {
+        if(memento == null || fRestoredFromMemento) {
             return;
         }
         
@@ -72,6 +77,8 @@ public class TreeStateHelper {
                 }
             }
         }
+        
+        fRestoredFromMemento = true;
     }
 
     /**
