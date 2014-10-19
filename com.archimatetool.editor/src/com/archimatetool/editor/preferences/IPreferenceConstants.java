@@ -93,6 +93,8 @@ public interface IPreferenceConstants {
     String DEFAULT_ARCHIMATE_FIGURE_WIDTH = "defaultArchiMateFigureWidth"; //$NON-NLS-1$
     String DEFAULT_ARCHIMATE_FIGURE_HEIGHT = "defaultArchiMateFigureHeight"; //$NON-NLS-1$
     
+    String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree"; //$NON-NLS-1$
+    
     // Experimental
     String ASSIGNMENT_CONNECTION_ENDPOINT = "assignmentConnectionEndpoint"; //$NON-NLS-1$
 }

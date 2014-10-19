@@ -62,6 +62,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private String fDefaultTheme;
     
     private Button fShowStatusLineButton;
+    
+    private Button fShowUnusedElementsInModelTreeButton;
 
 	public GeneralPreferencePage() {
 		setPreferenceStore(Preferences.STORE);
@@ -151,6 +153,18 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         label.setLayoutData(gd);
         
+        // Model Tree
+        Group modelTreeGroup = new Group(client, SWT.NULL);
+        modelTreeGroup.setText(Messages.GeneralPreferencePage_10);
+        modelTreeGroup.setLayout(new GridLayout(2, false));
+        modelTreeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fShowUnusedElementsInModelTreeButton = new Button(modelTreeGroup, SWT.CHECK);
+        fShowUnusedElementsInModelTreeButton.setText(Messages.GeneralPreferencePage_11);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 2;
+        fShowUnusedElementsInModelTreeButton.setLayoutData(gd);
+        
         // Visualiser
         Group visualiserGroup = new Group(client, SWT.NULL);
         visualiserGroup.setText(Messages.GeneralPreferencePage_6);
@@ -183,6 +197,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fOpenDiagramsOnLoadButton.setSelection(getPreferenceStore().getBoolean(OPEN_DIAGRAMS_ON_LOAD));
         fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getBoolean(ANIMATE_VISUALISER_NODES));
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
+        fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
 
         // Themes
         List<ITheme> themes = fThemeEngine.getThemes();
@@ -204,6 +219,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(MRU_MAX, fMRUSizeSpinner.getSelection());
         getPreferenceStore().setValue(ANIMATE_VISUALISER_NODES, fAnimateVisualiserNodesButton.getSelection());
         getPreferenceStore().setValue(SHOW_STATUS_LINE, fShowStatusLineButton.getSelection());
+        getPreferenceStore().setValue(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, fShowUnusedElementsInModelTreeButton.getSelection());
         
         ITheme theme = (ITheme)((IStructuredSelection)fThemeComboViewer.getSelection()).getFirstElement();
         if(theme != null) {
@@ -221,6 +237,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMRUSizeSpinner.setSelection(getPreferenceStore().getDefaultInt(MRU_MAX));
         fAnimateVisualiserNodesButton.setSelection(getPreferenceStore().getDefaultBoolean(ANIMATE_VISUALISER_NODES));
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
+        fShowUnusedElementsInModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE));
         
         setTheme(fDefaultTheme, false);
         

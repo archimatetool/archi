@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -19,6 +21,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
@@ -28,6 +32,8 @@ import org.eclipse.swt.widgets.Widget;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
@@ -53,6 +59,18 @@ public class TreeModelViewer extends TreeViewer {
      */
     private TreeViewpointFilterProvider fViewpointFilterProvider;
     
+    /**
+     * Application Preferences Listener
+     */
+    private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent event) {
+            if(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE.equals(event.getProperty())) {
+                refresh();
+            }
+        }
+    };
+
     public TreeModelViewer(Composite parent, int style) {
         super(parent, style | SWT.MULTI);
         
@@ -109,6 +127,15 @@ public class TreeModelViewer extends TreeViewer {
         
         // Filter
         fViewpointFilterProvider = new TreeViewpointFilterProvider(this);
+        
+        // Listen to Preferences
+        Preferences.STORE.addPropertyChangeListener(prefsListener);
+        
+        getTree().addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent e) {
+                Preferences.STORE.removePropertyChangeListener(prefsListener);
+            }
+        });
     }
     
     /**
@@ -262,7 +289,8 @@ public class TreeModelViewer extends TreeViewer {
                 return fontBold;
             }
             
-            if(element instanceof IArchimateElement) {
+            // Italicise unused elements
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateElement) {
                 if(!DiagramModelUtils.isElementReferencedInDiagrams((IArchimateElement)element)) {
                     return fontItalic;
                 }
