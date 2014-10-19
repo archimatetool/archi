@@ -25,7 +25,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
@@ -50,8 +49,23 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
-            return !(object instanceof IRelationship) &&
-                        (object instanceof IArchimateElement || object instanceof IArchimateEditPart);
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IArchimateElement adaptObject(Object object) {
+            if((object instanceof IArchimateElement) && !(object instanceof IRelationship)) {
+                return (IArchimateElement)object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
+                return (IArchimateElement)((o instanceof IArchimateElement) && !(o instanceof IRelationship) ? o : null);
+            }
+            
+            return null;
         }
     }
 
@@ -133,14 +147,9 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IArchimateElement) {
-            fArchimateElement = (IArchimateElement)element;
-        }
-        else if(element instanceof IAdaptable) {
-            fArchimateElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
-        }
-        else {
-            System.err.println("UsedInRelationshipsSection wants to display for " + element); //$NON-NLS-1$
+        fArchimateElement = Filter.adaptObject(element);
+        if(fArchimateElement == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

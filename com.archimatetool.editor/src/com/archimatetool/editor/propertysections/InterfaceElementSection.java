@@ -41,9 +41,23 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
-            return object instanceof IInterfaceElement ||
-                (object instanceof IAdaptable &&
-                        ((IAdaptable)object).getAdapter(IArchimateElement.class) instanceof IInterfaceElement);
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IInterfaceElement adaptObject(Object object) {
+            if(object instanceof IInterfaceElement) {
+                return (IInterfaceElement)object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
+                return (IInterfaceElement)((o instanceof IInterfaceElement) ? o : null);
+            }
+            
+            return null;
         }
     }
 
@@ -96,16 +110,9 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        // IArchimateElement
-        if(element instanceof IInterfaceElement) {
-            fInterfaceElement = (IInterfaceElement)element;
-        }
-        // IArchimateElement in a GEF Edit Part
-        else if(element instanceof IAdaptable) {
-            fInterfaceElement = (IInterfaceElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
-        }
-        else {
-            System.err.println("InterfaceElementSection wants to display for " + element); //$NON-NLS-1$
+        fInterfaceElement = Filter.adaptObject(element);
+        if(fInterfaceElement == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

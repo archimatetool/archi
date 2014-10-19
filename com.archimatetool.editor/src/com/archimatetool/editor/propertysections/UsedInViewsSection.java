@@ -26,8 +26,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
-import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
-import com.archimatetool.editor.diagram.editparts.connections.IArchimateConnectionEditPart;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.services.EditorManager;
@@ -51,8 +49,22 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
-            return object instanceof IArchimateElement || object instanceof IArchimateEditPart 
-                    || object instanceof IArchimateConnectionEditPart;
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IArchimateElement adaptObject(Object object) {
+            if(object instanceof IArchimateElement) {
+                return (IArchimateElement)object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                return (IArchimateElement)((IAdaptable)object).getAdapter(IArchimateElement.class);
+            }
+            
+            return null;
         }
     }
 
@@ -129,14 +141,9 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IArchimateElement) {
-            fArchimateElement = (IArchimateElement)element;
-        }
-        else if(element instanceof IAdaptable) {
-            fArchimateElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
-        }
-        else {
-            System.err.println("UsedInViewsSection wants to display for " + element); //$NON-NLS-1$
+        fArchimateElement = Filter.adaptObject(element);
+        if(fArchimateElement == null) {
+            System.err.println("UsedInViewsSection failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

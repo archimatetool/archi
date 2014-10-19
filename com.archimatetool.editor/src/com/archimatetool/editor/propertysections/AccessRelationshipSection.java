@@ -41,9 +41,23 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
-            return object instanceof IAccessRelationship ||
-                (object instanceof IAdaptable &&
-                        ((IAdaptable)object).getAdapter(IArchimateElement.class) instanceof IAccessRelationship);
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IAccessRelationship adaptObject(Object object) {
+            if(object instanceof IAccessRelationship) {
+                return (IAccessRelationship)object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
+                return (IAccessRelationship)((o instanceof IAccessRelationship) ? o : null);
+            }
+            
+            return null;
         }
     }
 
@@ -106,16 +120,9 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
 
     @Override
     protected void setElement(Object element) {
-        // IAccessRelationship
-        if(element instanceof IAccessRelationship) {
-            fAccessRelationship = (IAccessRelationship)element;
-        }
-        // IAccessRelationship in a GEF Edit Part
-        else if(element instanceof IAdaptable) {
-            fAccessRelationship = (IAccessRelationship)((IAdaptable)element).getAdapter(IArchimateElement.class);
-        }
-        else {
-            System.err.println("AccessRelationshipSection wants to display for " + element); //$NON-NLS-1$
+        fAccessRelationship = Filter.adaptObject(element);
+        if(fAccessRelationship == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

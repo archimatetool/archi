@@ -236,25 +236,15 @@
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.DiagramModelSection"
+               filter="com.archimatetool.editor.propertysections.DiagramModelSection$Filter"
                id="diagramModelSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.model.IDiagramModel">
-            </input>
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.AbstractDiagramPart">
-            </input>
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.DiagramModelConnectionSection"
+               filter="com.archimatetool.editor.propertysections.DiagramModelConnectionSection$Filter"
                id="diagramModelConnectionSection"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.model.IDiagramModel">
-            </input>
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.AbstractDiagramPart">
-            </input>
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.DiagramConnectionNameDocumentationSection"

@@ -116,13 +116,22 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IProperties adaptObject(Object object) {
             if(object instanceof IProperties) {
-                return true;
+                return (IProperties)object;
             }
+            
             if(object instanceof IAdaptable) {
-                return ((IAdaptable)object).getAdapter(IProperties.class) != null;
+                return (IProperties)((IAdaptable)object).getAdapter(IProperties.class);
             }
-            return false;
+            
+            return null;
         }
     }
 
@@ -174,14 +183,9 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IProperties) {
-            fPropertiesElement = (IProperties)element;
-        }
-        else if(element instanceof IAdaptable) {
-            fPropertiesElement = (IProperties)((IAdaptable)element).getAdapter(IProperties.class);
-        }
-        else {
-            System.err.println(getClass() + " wants to display for " + element); //$NON-NLS-1$
+        fPropertiesElement = Filter.adaptObject(element);
+        if(fPropertiesElement == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -24,7 +25,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
@@ -50,7 +50,23 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     public static class Filter implements IFilter {
         @Override
         public boolean select(Object object) {
-            return object instanceof IArchimateDiagramModel || object instanceof ArchimateDiagramPart;
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IArchimateDiagramModel adaptObject(Object object) {
+            if(object instanceof IArchimateDiagramModel) {
+                return (IArchimateDiagramModel)object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                Object o = ((IAdaptable)object).getAdapter(IDiagramModel.class);
+                return (IArchimateDiagramModel)((o instanceof IArchimateDiagramModel) ? o : null);
+            }
+            
+            return null;
         }
     }
 
@@ -145,16 +161,9 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        // IDiagramModel
-        if(element instanceof IArchimateDiagramModel) {
-            fDiagramModel = (IArchimateDiagramModel)element;
-        }
-        // IDiagramModel in Diagram Part
-        else if(element instanceof ArchimateDiagramPart) {
-            fDiagramModel = (IArchimateDiagramModel)((ArchimateDiagramPart)element).getAdapter(IDiagramModel.class);
-        }
-        else {
-            System.err.println(getClass() + " wants to display for " + element); //$NON-NLS-1$
+        fDiagramModel = Filter.adaptObject(element);
+        if(fDiagramModel == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

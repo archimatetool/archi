@@ -27,60 +27,63 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class PropertiesLabelProvider implements ILabelProvider {
 
-    public Image getImage(Object element) {
-        if(!(element instanceof IStructuredSelection)) {
+    public Image getImage(Object object) {
+        if(!(object instanceof IStructuredSelection)) {
             return null;
         }
         
-        element = ((IStructuredSelection)element).getFirstElement();
+        object = ((IStructuredSelection)object).getFirstElement();
+        
+        object = getWrappedElement(object);
 
-        if(element instanceof EditPart) {
-            element = ((EditPart)element).getModel();
+        if(object instanceof IAdaptable) {
+            object = ((IAdaptable)object).getAdapter(object.getClass());
         }
 
-        // Archimate Element 
-        if(element instanceof IDiagramModelArchimateObject) {
-            element = ((IDiagramModelArchimateObject)element).getArchimateElement();
-        }
-
-        // Archimate Relationship
-        if(element instanceof IDiagramModelArchimateConnection) {
-            element = ((IDiagramModelArchimateConnection)element).getRelationship();
-        }
-
-        return ArchimateLabelProvider.INSTANCE.getImage(element);
+        return ArchimateLabelProvider.INSTANCE.getImage(object);
     }
 
-    public String getText(Object element) {
-        if(!(element instanceof IStructuredSelection)) {
-            return ""; //$NON-NLS-1$
+    public String getText(Object object) {
+        if(!(object instanceof IStructuredSelection)) {
+            return " "; //$NON-NLS-1$
         }
         
-        element = ((IStructuredSelection)element).getFirstElement();
+        object = ((IStructuredSelection)object).getFirstElement();
         
-        // Archimate Element
-        if(element instanceof IArchimateElement) {
-            return getArchimateElementText((IArchimateElement)element);
-        }
-        else if(element instanceof IAdaptable) {
-            IArchimateElement archimateElement = (IArchimateElement)((IAdaptable)element).getAdapter(IArchimateElement.class);
-            if(archimateElement != null) {
-                return getArchimateElementText(archimateElement);
-            }
+        object = getWrappedElement(object);
+        
+        if(object instanceof IAdaptable) {
+            object = ((IAdaptable)object).getAdapter(object.getClass());
         }
 
-        // Other Diagram Edit Part, so get model object
-        if(element instanceof EditPart) {
-            element = ((EditPart)element).getModel();
+        // An Archimate Element is a special text
+        if(object instanceof IArchimateElement) {
+            return getArchimateElementText((IArchimateElement)object);
         }
-        
+
         // Check the main label provider
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(element);
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(object);
         if(StringUtils.isSet(text)) {
             return StringUtils.escapeAmpersandsInText(text);
         }
         
         return " "; // Ensure the title bar is displayed //$NON-NLS-1$
+    }
+    
+    private Object getWrappedElement(Object object) {
+        if(object instanceof EditPart) {
+            object = ((EditPart)object).getModel();
+        }
+        
+        if(object instanceof IDiagramModelArchimateObject) {
+            return ((IDiagramModelArchimateObject)object).getArchimateElement();
+        }
+        
+        if(object instanceof IDiagramModelArchimateConnection) {
+            return ((IDiagramModelArchimateConnection)object).getRelationship();
+        }
+        
+        return object;
     }
 
     String getArchimateElementText(IArchimateElement element) {
