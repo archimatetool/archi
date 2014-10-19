@@ -48,7 +48,7 @@ public class SearchFilter extends ViewerFilter {
         fViewer = viewer;
     }
 
-    public void setSearchText(String text) {
+    void setSearchText(String text) {
         // Fresh text, so store expanded state
         if(!isFiltering() && text.length() > 0) {
             saveState();
@@ -64,17 +64,20 @@ public class SearchFilter extends ViewerFilter {
             public void run() {
                 fViewer.getTree().setRedraw(false);
 
-                fViewer.refresh();
-
-                // Something to show
-                if(isFiltering()) {
-                    fViewer.expandAll();
+                try {
+                    fViewer.refresh(); // This has to be first
+                    
+                    // Something to show
+                    if(isFiltering()) {
+                        fViewer.expandAll();
+                    }
+                    else {
+                        restoreState();
+                    }
                 }
-                else {
-                    restoreState();
+                finally {
+                    fViewer.getTree().setRedraw(true);
                 }
-
-                fViewer.getTree().setRedraw(true);
             }
         });
     }
@@ -84,7 +87,7 @@ public class SearchFilter extends ViewerFilter {
             restoreState();
         }
         fSearchText = ""; //$NON-NLS-1$
-        reset();
+        resetFilters();
     }
 
     public void resetFilters() {
@@ -114,7 +117,7 @@ public class SearchFilter extends ViewerFilter {
      * @param element Any element including containers
      * @return
      */
-    public boolean isElementVisible(Object parentElement, Object element) {
+    private boolean isElementVisible(Object parentElement, Object element) {
         if(element instanceof IFolderContainer) {
             for(IFolder folder : ((IFolderContainer)element).getFolders()) {
                 if(isElementVisible(parentElement, folder)) {
@@ -130,7 +133,7 @@ public class SearchFilter extends ViewerFilter {
                 }
             }
 
-            if(fShowAllFolders) {
+            if(isShowAllFolders()) {
                 return true;
             }
         }
@@ -210,7 +213,7 @@ public class SearchFilter extends ViewerFilter {
         return !fPropertiesFilter.isEmpty();
     }
 
-    public void setFilterOnName(boolean set) {
+    void setFilterOnName(boolean set) {
         if(fFilterName != set) {
             fFilterName = set;
             if(isFiltering()) {
@@ -219,7 +222,7 @@ public class SearchFilter extends ViewerFilter {
         }
     }
 
-    public void setFilterOnDocumentation(boolean set) {
+    void setFilterOnDocumentation(boolean set) {
         if(fFilterDocumentation != set) {
             fFilterDocumentation = set;
             if(isFiltering()) {
@@ -228,7 +231,7 @@ public class SearchFilter extends ViewerFilter {
         }
     }
 
-    public void addObjectFilter(EClass eClass) {
+    void addObjectFilter(EClass eClass) {
         // Fresh filter
         if(!isFiltering()) {
             saveState();
@@ -237,12 +240,12 @@ public class SearchFilter extends ViewerFilter {
         refresh();
     }
 
-    public void removeObjectFilter(EClass eClass) {
+    void removeObjectFilter(EClass eClass) {
         fObjectFilter.remove(eClass);
         refresh();
     }
 
-    public void addPropertiesFilter(String key) {
+    void addPropertiesFilter(String key) {
         // Fresh filter
         if(!isFiltering()) {
             saveState();
@@ -251,16 +254,20 @@ public class SearchFilter extends ViewerFilter {
         refresh();
     }
 
-    public void removePropertiesFilter(String key) {
+    void removePropertiesFilter(String key) {
         fPropertiesFilter.remove(key);
         refresh();
     }
 
-    public void setShowAllFolders(boolean set) {
+    void setShowAllFolders(boolean set) {
         if(set != fShowAllFolders) {
             fShowAllFolders = set;
             refresh();
         }
+    }
+    
+    boolean isShowAllFolders() {
+        return fShowAllFolders;
     }
 
     void saveState() {

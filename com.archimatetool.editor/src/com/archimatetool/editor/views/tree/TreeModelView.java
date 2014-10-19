@@ -162,7 +162,8 @@ implements ITreeModelView, IUIRequestListener {
         
         // Search Filter
         fSearchFilter = new SearchFilter(fTreeViewer);
-
+        fTreeViewer.addFilter(fSearchFilter);
+        
         makeActions();
         hookContextMenu();
         registerGlobalActions();
@@ -224,7 +225,6 @@ implements ITreeModelView, IUIRequestListener {
     private void showSearchWidget() {
         fSearchWidget = new SearchWidget(fParentComposite, fSearchFilter);
         fSearchWidget.moveAbove(fTreeViewer.getControl());
-        fTreeViewer.addFilter(fSearchFilter);
         fParentComposite.layout();
         fSearchWidget.setFocus();
     }
@@ -237,10 +237,14 @@ implements ITreeModelView, IUIRequestListener {
             fSearchWidget.dispose();
             fSearchWidget = null;
             fParentComposite.layout();
+            
             fTreeViewer.getTree().setRedraw(false);
-            fTreeViewer.removeFilter(fSearchFilter);
-            fSearchFilter.clear();
-            fTreeViewer.getTree().setRedraw(true);
+            try {
+                fSearchFilter.clear();
+            }
+            finally {
+                fTreeViewer.getTree().setRedraw(true);
+            }
         }
     }
     

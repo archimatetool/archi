@@ -215,6 +215,7 @@ public class SearchWidget extends Composite {
             	fSearchFilter.setShowAllFolders(isChecked());
             }
         };
+        action.setChecked(fSearchFilter.isShowAllFolders());
         dropDownAction.add(action);
         
         dropDownAction.add(new Separator());
