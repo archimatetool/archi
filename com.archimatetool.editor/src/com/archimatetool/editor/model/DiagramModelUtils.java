@@ -84,7 +84,7 @@ public class DiagramModelUtils {
      * @return true if element is referenced in diagramModel
      */
     public static boolean isElementReferencedInDiagram(IDiagramModel diagramModel, IArchimateElement element) {
-        if(!findDiagramModelComponentsForElement(diagramModel, element).isEmpty()) {
+        if(isElementReferencedInContainer(diagramModel, element)) {
             return true;
         }
         
@@ -98,6 +98,35 @@ public class DiagramModelUtils {
         return false;
     }
     
+    public static boolean isElementReferencedInContainer(IDiagramModelContainer parent, IArchimateElement element) {
+        for(IDiagramModelObject object : parent.getChildren()) {
+            if(element instanceof IRelationship) {
+                for(IDiagramModelConnection connection : object.getSourceConnections()) {
+                    if(connection instanceof IDiagramModelArchimateConnection &&
+                                            ((IDiagramModelArchimateConnection)connection).getRelationship() == element) {
+                        return true;
+                    }
+                }
+            }
+            else {
+                if(object instanceof IDiagramModelArchimateObject) {
+                    if(((IDiagramModelArchimateObject)object).getArchimateElement() == element) {
+                        return true;
+                    }
+                }
+            }
+            
+            if(object instanceof IDiagramModelContainer) {
+                boolean result = isElementReferencedInContainer((IDiagramModelContainer)object, element);
+                if(result) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+        
     // ========================================================================================================
     
     /**
