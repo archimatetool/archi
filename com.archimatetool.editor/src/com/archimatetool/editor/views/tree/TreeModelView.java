@@ -13,6 +13,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -183,7 +184,7 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
-        // Restore expanded tree state
+        // Restore expanded tree state from file when opening for first time
         TreeStateHelper.INSTANCE.setMemento(memento);
     }
     
@@ -431,7 +432,7 @@ implements ITreeModelView, IUIRequestListener {
             manager.add(fActionDelete);
             manager.add(fActionRename);
 
-            manager.add(new Separator());
+            manager.add(new Separator("start_collapse")); //$NON-NLS-1$
             
             // Expand selected
             for(Object o : selection.toArray()) {
@@ -449,14 +450,16 @@ implements ITreeModelView, IUIRequestListener {
                 }
             }
 
-            manager.add(new Separator());
+            manager.add(new Separator("end_collapse")); //$NON-NLS-1$
             
             if(DuplicateCommandHandler.canDuplicate(selection)) {
                 manager.add(fActionDuplicate);
-                manager.add(new Separator());
             }
             
+            manager.add(new Separator("start_properties")); //$NON-NLS-1$
             manager.add(fActionProperties);
+            manager.add(new GroupMarker("append_properties")); //$NON-NLS-1$
+            manager.add(new Separator("end_properties")); //$NON-NLS-1$
         }
         
         // Other plug-ins can contribute their actions here
