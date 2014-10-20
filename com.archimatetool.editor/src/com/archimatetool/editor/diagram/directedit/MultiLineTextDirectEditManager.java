@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ITextContent;
@@ -65,6 +66,9 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
         Text text = (Text)getCellEditor().getControl();
         text.setFont(figure.getFont());
         //text.setForeground(figure.getTextControl().getForegroundColor());
+        
+        // Filter out any illegal xml characters
+        UIUtils.applyInvalidCharacterFilter(text);
     }
 
     /**

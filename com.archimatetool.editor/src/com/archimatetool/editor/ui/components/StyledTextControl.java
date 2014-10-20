@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 
+import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -128,6 +129,9 @@ public class StyledTextControl implements Listener, LineStyleListener {
         fStyledText.getDisplay().addFilter(SWT.KeyUp, this);
         
         fStyledText.addLineStyleListener(this);
+        
+        // Filter out any illegal xml characters
+        UIUtils.applyInvalidCharacterFilter(fStyledText);
         
         hookContextMenu();
     }

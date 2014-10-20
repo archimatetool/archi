@@ -176,6 +176,7 @@ public class TreeCellEditor {
             
             // Do this *before* adding our text listener
             UIUtils.conformSingleTextControl(fText);
+            UIUtils.applyInvalidCharacterFilter(fText);
 
             fText.addListener(SWT.Deactivate, textListener);
             fText.addListener(SWT.Traverse, textListener);

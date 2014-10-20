@@ -52,8 +52,12 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
         super.initCellEditor();
         
         final Text text = (Text)getCellEditor().getControl();
+        
         // Single text control strips CRLFs
         UIUtils.conformSingleTextControl(text);
+        
+        // Filter out any illegal xml characters
+        UIUtils.applyInvalidCharacterFilter(text);
 
         /**
          * Changes the size of the editor control to reflect the changed text

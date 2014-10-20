@@ -203,9 +203,13 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected Text createSingleTextControl(Composite parent, int style) {
         Text textControl = getWidgetFactory().createText(parent, null, style | SWT.SINGLE);
+        
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(textControl);
         
+        // Filter out any illegal xml characters
+        UIUtils.applyInvalidCharacterFilter(textControl);
+
         GridData gd = new GridData(SWT.FILL, SWT.NULL, true, false);
         // This stops excess size if the control contains a lot of text
         gd.widthHint = 100;
