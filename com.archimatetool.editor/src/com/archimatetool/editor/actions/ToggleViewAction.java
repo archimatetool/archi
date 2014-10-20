@@ -36,7 +36,7 @@ public class ToggleViewAction extends Action {
     
     @Override
     public void run() {
-        ViewManager.toggleViewPart(fViewID, false);
+        ViewManager.toggleViewPart(fViewID, true);
     }
     
 }
