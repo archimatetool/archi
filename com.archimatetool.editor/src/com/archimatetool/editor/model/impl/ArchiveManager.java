@@ -254,13 +254,30 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     /**
+     * Save the model to XML File format
+     */
+    private void saveModelToXMLFile(File file) throws IOException {
+        // For safety, save to temp file first and then copy across
+        File tmpFile = File.createTempFile("archi-", null); //$NON-NLS-1$
+        tmpFile.deleteOnExit();
+        
+        try {
+            saveResource(tmpFile);
+            FileUtils.copyFile(tmpFile, file, false);
+        }
+        finally {
+            tmpFile.delete();
+        }
+    }
+    
+    /**
      * Save the model to Archive File format
      */
     private void saveModelToArchiveFile(File file) throws IOException {
         // Temp file for xml model file
-        File tmpFile = File.createTempFile("archimate", null); //$NON-NLS-1$
+        File tmpFile = File.createTempFile("archi-", null); //$NON-NLS-1$
         tmpFile.deleteOnExit();
-        saveModelToXMLFile(tmpFile);
+        saveResource(tmpFile);
         
         // Create Zip File output stream to model's file
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
@@ -280,9 +297,9 @@ public class ArchiveManager implements IArchiveManager {
     }
     
     /**
-     * Save the model to XML File format
+     * Save the model to Resource
      */
-    private void saveModelToXMLFile(File file) throws IOException {
+    private void saveResource(File file) throws IOException {
         Resource resource = fModel.eResource();
         
         // No parent Resource set, so create a new one
@@ -295,7 +312,13 @@ public class ArchiveManager implements IArchiveManager {
             resource.setURI(URI.createFileURI(file.getAbsolutePath()));
         }
         
-        resource.save(null);
+        // Catch *all* exceptions in case of XML errors
+        try {
+            resource.save(null);
+        }
+        catch(Exception ex) {
+            throw new IOException(ex);
+        }
     }
     
     private void saveImages(ZipOutputStream zOut) throws IOException {
