@@ -38,7 +38,14 @@ public class TestSupport {
         
         Resource resource = ArchimateResourceFactory.createNewResource(file);
         resource.getContents().add(model);
-        resource.save(null);
+        
+        // Catch all exceptions
+        try {
+            resource.save(null);
+        }
+        catch(Exception ex) {
+            throw new IOException(ex);
+        }
     
         return file;
     }
