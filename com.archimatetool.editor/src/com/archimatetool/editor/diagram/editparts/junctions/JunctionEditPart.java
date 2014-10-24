@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.editparts.junctions;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -32,26 +31,6 @@ implements INonResizableEditPart {
     @Override
     protected IFigure createFigure() {
         return new JunctionFigure(getModel());
-    }
-    
-    @Override
-    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-        return getDefaultConnectionAnchor();
-    }
-    
-    @Override
-    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-        return getDefaultConnectionAnchor();
-    }
-    
-    @Override
-    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-        return getDefaultConnectionAnchor();
-    }
-    
-    @Override
-    public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-        return getDefaultConnectionAnchor();
     }
 
     @Override

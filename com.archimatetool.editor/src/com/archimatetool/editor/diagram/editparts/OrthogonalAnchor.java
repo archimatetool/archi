@@ -45,6 +45,9 @@ import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.business.BusinessInterfaceFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessValueFigure;
+import com.archimatetool.editor.diagram.figures.junctions.AndJunctionFigure;
+import com.archimatetool.editor.diagram.figures.junctions.JunctionFigure;
+import com.archimatetool.editor.diagram.figures.junctions.OrJunctionFigure;
 
 
 /**
@@ -390,6 +393,11 @@ public class OrthogonalAnchor extends ChopboxAnchor {
         	// ellipse case
             if (((BusinessInterfaceFigure)figure).getDiagramModelObject().getType() != 0)
             	corner = figure.getSize();
+        } else if (figure instanceof JunctionFigure
+		  || figure instanceof OrJunctionFigure
+		  || figure instanceof AndJunctionFigure) {
+        	// junction case
+        	corner = figure.getSize();
         }
 		
 		return corner;
