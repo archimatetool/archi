@@ -379,9 +379,9 @@ public class DeleteCommandHandler {
 
         Object selected = null;
         
-        // Item index is greater than 1 so select previous sibling item
+        // Item index is greater than 0 so select previous sibling item
         int index = parentTreeItem.indexOf(item);
-        if(index > 1) {
+        if(index > 0) {
             selected = parentTreeItem.getItem(index - 1).getData();
         }
         
