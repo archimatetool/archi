@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -34,13 +35,15 @@ public abstract class AbstractViewpointTests {
         if(types != null) {
             for(EClass eClass : types) {
                 // All allowed types
-                IArchimateElement element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
-                assertTrue(vp.isElementVisible(element));
+                IArchimateComponent component = (IArchimateComponent)IArchimateFactory.eINSTANCE.create(eClass);
+                assertTrue(vp.isElementVisible(component));
                 
                 // All allowed types as diagram objects
-                IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                dmo.setArchimateElement(element);
-                assertTrue(vp.isElementVisible(dmo));
+                if(component instanceof IArchimateElement) {
+                    IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+                    dmo.setArchimateElement((IArchimateElement)component);
+                    assertTrue(vp.isElementVisible(dmo));
+                }
             }
         }
         // null means show all types
@@ -73,26 +76,30 @@ public abstract class AbstractViewpointTests {
             IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
 
             for(EClass eClass : types) {
-                IDiagramModelArchimateObject dmo =
-                        ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
-                group.getChildren().add(dmo);
-                
-                assertTrue(vp.isElementVisible(dmo));
+                if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
+                    IDiagramModelArchimateObject dmo =
+                            ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
+                    group.getChildren().add(dmo);
+
+                    assertTrue(vp.isElementVisible(dmo));
+                }
             }
 
             // Test child that is normally visible is hidden when inside of parent that is hidden
             for(EClass eClass : types) {
-                // Create a child that should be visible
-                IDiagramModelArchimateObject dmoChild =
-                        ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
-                assertTrue(vp.isElementVisible(dmoChild));
-                
-                // Put the child in a parent that will be invisible (not an allowed type)
-                IDiagramModelArchimateObject dmoParent =
-                        ArchimateTestModel.createDiagramModelArchimateObject(createElementThatsNotAllowedType());
-                dmoParent.getChildren().add(dmoChild);
-                
-                assertFalse(vp.isElementVisible(dmoChild));
+                if(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass)) {
+                    // Create a child that should be visible
+                    IDiagramModelArchimateObject dmoChild =
+                            ArchimateTestModel.createDiagramModelArchimateObject((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
+                    assertTrue(vp.isElementVisible(dmoChild));
+
+                    // Put the child in a parent that will be invisible (not an allowed type)
+                    IDiagramModelArchimateObject dmoParent =
+                            ArchimateTestModel.createDiagramModelArchimateObject(createElementThatsNotAllowedType());
+                    dmoParent.getChildren().add(dmoChild);
+
+                    assertFalse(vp.isElementVisible(dmoChild));
+                }
             }
         }
     }

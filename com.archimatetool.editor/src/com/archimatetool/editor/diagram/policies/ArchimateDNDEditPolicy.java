@@ -27,6 +27,7 @@ import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
@@ -244,14 +245,13 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
                 }
             }
             
-            // Selected Archimate Elements *first*
-            if(object instanceof IArchimateElement && !(object instanceof IRelationship)) {
+            // Selected Archimate Elements
+            if(object instanceof IArchimateElement) {
                 if(!fElementsToAdd.contains(object)) {
                     fElementsToAdd.add((IArchimateElement)object);
                 }
             }
-        
-            // Then Selected Relationships (and any connected Elements)
+            // Selected Relationships (and any connected Elements)
             else if(object instanceof IRelationship) {
                 IRelationship relationship = (IRelationship)object;
                 if(!fRelationsToAdd.contains(relationship)) {
@@ -261,7 +261,6 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
                 // Add relationship's connected elements
                 addRelationshipElements(relationship);
             }
-
             // Selected Diagram Models (References)
             else if(object instanceof IDiagramModel && object != getTargetDiagramModel()) { // not the same diagram
                 if(!fDiagramRefsToAdd.contains(object)) {
@@ -322,6 +321,6 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
      * @return Whether we can DND an element onto the Container
      */
     protected boolean canDropElement(Object element) {
-        return (element instanceof IArchimateElement) || (element instanceof IDiagramModel);
+        return (element instanceof IArchimateComponent) || (element instanceof IDiagramModel);
     }
 }

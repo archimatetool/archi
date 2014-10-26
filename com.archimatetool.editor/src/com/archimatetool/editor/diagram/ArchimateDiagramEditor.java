@@ -40,8 +40,8 @@ import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -175,12 +175,12 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
-    public void selectElements(IArchimateElement[] elements) {
+    public void selectArchimateComponents(IArchimateComponent[] archimateComponents) {
         List<EditPart> editParts = new ArrayList<EditPart>();
         
-        for(IArchimateElement element : elements) {
+        for(IArchimateComponent archimateComponent : archimateComponents) {
             // Find Diagram Components
-            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(getModel(), element)) {
+            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getModel(), archimateComponent)) {
                 EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(dc);
                 if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
                     editParts.add(editPart);
@@ -188,8 +188,8 @@ implements IArchimateDiagramEditor {
             }
             
             // Find Components from nested connections
-            if(ConnectionPreferences.useNestedConnections() && element instanceof IRelationship) {
-                for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)element)) {
+            if(ConnectionPreferences.useNestedConnections() && archimateComponent instanceof IRelationship) {
+                for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)archimateComponent)) {
                     EditPart editPart1 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[0]);
                     EditPart editPart2 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[1]);
                     if(editPart1 != null && editPart1.isSelectable() && !editParts.contains(editPart1)) {

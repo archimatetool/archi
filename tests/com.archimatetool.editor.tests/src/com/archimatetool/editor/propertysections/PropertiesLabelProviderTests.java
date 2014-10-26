@@ -202,22 +202,22 @@ public class PropertiesLabelProviderTests {
     }
 
     @Test
-    public void testGetArchimateElementText() {
+    public void testGetArchimateComponentText() {
         // Type of element
         IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
-        assertEquals("Artifact", provider.getArchimateElementText(element));
+        assertEquals("Artifact", provider.getArchimateComponentText(element));
         
         // Type of relation
-        element = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        assertEquals("Assignment relation", provider.getArchimateElementText(element));
+        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        assertEquals("Assignment relation", provider.getArchimateComponentText(relation));
         
         // Name + type
-        element.setName("Hello");
-        assertEquals("Hello (Assignment relation)", provider.getArchimateElementText(element));
+        relation.setName("Hello");
+        assertEquals("Hello (Assignment relation)", provider.getArchimateComponentText(relation));
         
         // Null is OK
-        element.setName(null);
-        assertEquals("Assignment relation", provider.getArchimateElementText(element));
+        relation.setName(null);
+        assertEquals("Assignment relation", provider.getArchimateComponentText(relation));
     }
     
 }

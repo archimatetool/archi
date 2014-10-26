@@ -179,8 +179,8 @@ public class MyImporter implements IModelImporter {
     }
     
     protected void createAndAddConnectionsToView(IDiagramModel diagramModel, IRelationship relationship) {
-        List<IDiagramModelComponent> sources = DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, relationship.getSource());
-        List<IDiagramModelComponent> targets = DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, relationship.getTarget());
+        List<IDiagramModelComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship.getSource());
+        List<IDiagramModelComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship.getTarget());
 
         for(IDiagramModelComponent dmcSource : sources) {
             for(IDiagramModelComponent dmcTarget : targets) {

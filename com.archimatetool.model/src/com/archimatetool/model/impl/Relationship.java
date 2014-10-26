@@ -28,7 +28,7 @@ import com.archimatetool.model.IRelationship;
  *
  * @generated
  */
-public abstract class Relationship extends ArchimateElement implements IRelationship {
+public abstract class Relationship extends ArchimateComponent implements IRelationship {
     /**
      * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
      * <!-- begin-user-doc -->

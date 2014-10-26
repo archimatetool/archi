@@ -74,23 +74,23 @@ public class DiagramModelUtilsTests {
     };
 
     @Test
-    public void testFindReferencedDiagramsForElement() {
+    public void testFindReferencedDiagramsForArchimateComponent() {
         IArchimateElement element = null; 
         
         // Null element should at least return an empty list
-        List<IDiagramModel> list = DiagramModelUtils.findReferencedDiagramsForElement(element);
+        List<IDiagramModel> list = DiagramModelUtils.findReferencedDiagramsForArchimateComponent(element);
         assertNotNull(list);
         assertEquals(0, list.size());
         
-        testFindReferencedDiagramsForElement(data1);
-        testFindReferencedDiagramsForElement(data2);
+        testFindReferencedDiagramsForArchimateComponent(data1);
+        testFindReferencedDiagramsForArchimateComponent(data2);
     }
     
-    private void testFindReferencedDiagramsForElement(String[][] data) {
+    private void testFindReferencedDiagramsForArchimateComponent(String[][] data) {
         IArchimateElement element = (IArchimateElement)tm.getObjectByID(data[0][0]);
         assertNotNull(element);
         
-        List<IDiagramModel> list = DiagramModelUtils.findReferencedDiagramsForElement(element);
+        List<IDiagramModel> list = DiagramModelUtils.findReferencedDiagramsForArchimateComponent(element);
         assertEquals(data[1].length, list.size());
         
         for(int i = 0; i < data[1].length; i++) {
@@ -100,21 +100,21 @@ public class DiagramModelUtilsTests {
     }
     
     @Test
-    public void testIsElementReferencedInDiagrams() {
+    public void testIsArchimateComponentReferencedInDiagrams() {
         // This should be in a diagram
         IArchimateElement element = (IArchimateElement)tm.getObjectByID(data1[0][0]);
         assertNotNull(element);
-        assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+        assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
         
         // This should be in a diagram
         element = (IArchimateElement)tm.getObjectByID(data2[0][0]);
         assertNotNull(element);
-        assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+        assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
         
         // This should not be in a diagram
         element = IArchimateFactory.eINSTANCE.createBusinessActor();
         model.getDefaultFolderForElement(element).getElements().add(element);
-        assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(element));
+        assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
         
         // Unless we add it to a diagram
         // And we'll nest it inside a Group to be cunning
@@ -122,28 +122,28 @@ public class DiagramModelUtilsTests {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         group.getChildren().add(dmo);
         model.getDefaultDiagramModel().getChildren().add(group);
-        assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+        assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
     }
     
     @Test
-    public void testIsElementReferencedInDiagram() {
-        testIsElementReferencedInDiagram(data1);
-        testIsElementReferencedInDiagram(data2);
+    public void testIsArchimateComponentReferencedInDiagram() {
+        testArchimateComponentReferencedInDiagram(data1);
+        testArchimateComponentReferencedInDiagram(data2);
         
         // This should not be in a diagram
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         model.getDefaultFolderForElement(element).getElements().add(element);
-        assertFalse(DiagramModelUtils.isElementReferencedInDiagram(model.getDefaultDiagramModel(), element));
+        assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagram(model.getDefaultDiagramModel(), element));
     }    
     
-    private void testIsElementReferencedInDiagram(String[][] data) {
+    private void testArchimateComponentReferencedInDiagram(String[][] data) {
         IArchimateElement element = (IArchimateElement)tm.getObjectByID(data[0][0]);
         assertNotNull(element);
         
         for(int i = 0; i < data[1].length; i++) {
             IDiagramModel dm = (IDiagramModel)tm.getObjectByID(data[1][i]);
             assertNotNull(dm);
-            assertTrue(DiagramModelUtils.isElementReferencedInDiagram(dm, element));
+            assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagram(dm, element));
         }
     }
     
@@ -182,19 +182,19 @@ public class DiagramModelUtilsTests {
     }
 
     @Test
-    public void testFindDiagramModelComponentsForElement_WithArchimateElement() {
+    public void testDiagramModelComponentsForArchimateComponent_WithArchimateElement() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         IDiagramModel diagramModel = tm.addNewArchimateDiagramModel();
         
         // Should not be found
-        List<IDiagramModelComponent> list = DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, element);
+        List<IDiagramModelComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, element);
         assertTrue(list.isEmpty());
         
         // Add the element to various IDiagramModelArchimateObject objects
         createTestDiagramModelArchimateObjectsForFindDiagramModelComponents(element, diagramModel);
         
         // Should be found in diagram
-        list = DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, element);
+        list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, element);
         assertEquals(4, list.size());
         assertTrue(list.contains(dmo1));
         assertTrue(list.contains(dmo2));
@@ -203,12 +203,12 @@ public class DiagramModelUtilsTests {
     }
     
     @Test
-    public void testFindDiagramModelComponentsForElement_WithRelationship() {
+    public void testFindDiagramModelComponentsForArchimateComponent_WithRelationship() {
         IRelationship relationship = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         IDiagramModel diagramModel = tm.addNewArchimateDiagramModel();
         
         // Should not be found
-        List<IDiagramModelComponent> list = DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, relationship);
+        List<IDiagramModelComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship);
         assertTrue(list.isEmpty());
         
         // Create various IDiagramModelArchimateObject objects
@@ -218,7 +218,7 @@ public class DiagramModelUtilsTests {
         createTestDiagramModelConnectionsForFindDiagramModelComponents(relationship);
         
         // Found in diagram
-        list = DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, relationship);
+        list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship);
         assertEquals(3, list.size());
         assertTrue(list.contains(conn1));
         assertTrue(list.contains(conn2));

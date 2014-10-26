@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.csv.export.CSVExporter;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -196,7 +197,7 @@ public class CSVExporterTests {
         IArchimateElement element4 = IArchimateFactory.eINSTANCE.createApplicationCollaboration();
         element4.setName("ZZ");
         
-        List<IArchimateElement> list = new ArrayList<IArchimateElement>();
+        List<IArchimateComponent> list = new ArrayList<IArchimateComponent>();
         list.add(element1);
         list.add(element2);
         list.add(element3);

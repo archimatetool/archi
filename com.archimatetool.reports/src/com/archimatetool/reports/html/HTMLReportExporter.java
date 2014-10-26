@@ -41,7 +41,7 @@ import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
@@ -97,7 +97,7 @@ public class HTMLReportExporter {
         writeTechnologyElements();
         writeMotivationElements();
         writeImplementationMigrationElements();
-        writeConnectionElements();
+        writeConnectorElements();
         writeDiagrams();
         
         writeCloser();
@@ -240,7 +240,7 @@ public class HTMLReportExporter {
         writeElements(list, Messages.HTMLReportExporter_11, color);
     }
     
-    private void writeConnectionElements() throws IOException {
+    private void writeConnectorElements() throws IOException {
         IFolder connectionsFolder = fModel.getFolder(FolderType.CONNECTORS);
         String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
         
@@ -273,8 +273,8 @@ public class HTMLReportExporter {
             sort(copy);
             
             for(EObject object : copy) {
-                if(object instanceof IArchimateElement) {
-                    writeTableElement((IArchimateElement)object, color);
+                if(object instanceof IArchimateComponent) {
+                    writeTableElement((IArchimateComponent)object, color);
                     writer.write("<p/>"); //$NON-NLS-1$
                 }
             }
@@ -317,30 +317,30 @@ public class HTMLReportExporter {
 
     }
     
-    private void writeTableElement(IArchimateElement element, String color) throws IOException {
+    private void writeTableElement(IArchimateComponent component, String color) throws IOException {
     	writer.write("<table width=\"100%\" border=\"0\">\n"); //$NON-NLS-1$
     	
     	writer.write("<tr bgcolor=\"" + color + "\">\n"); //$NON-NLS-1$  //$NON-NLS-2$
-        String name = StringUtils.safeString(element.getName());
+        String name = StringUtils.safeString(component.getName());
         name = parseChars(name);
         writer.write("<td width=\"20%\" valign=\"top\">" + Messages.HTMLReportExporter_17 + "</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
         writer.write("<td width=\"80%\" valign=\"top\">" + name + "</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
         writer.write("</tr>\n"); //$NON-NLS-1$
         
         writer.write("<tr>\n"); //$NON-NLS-1$
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
+        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(component.eClass());
         writer.write("<td valign=\"top\">" + Messages.HTMLReportExporter_18 + "</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
         writer.write("<td valign=\"top\">" + type + "</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
         writer.write("</tr>\n"); //$NON-NLS-1$
         
         writer.write("<tr>\n"); //$NON-NLS-1$
-        String doc = StringUtils.safeString(element.getDocumentation());
+        String doc = StringUtils.safeString(component.getDocumentation());
         doc = parseCharsAndLinks(doc);
         writer.write("<td valign=\"top\">" + Messages.HTMLReportExporter_19 + "</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
         writer.write("<td valign=\"top\">" + doc + "</td>\n"); //$NON-NLS-1$ //$NON-NLS-2$
         writer.write("</tr>\n"); //$NON-NLS-1$
         
-        writeProperties(element);
+        writeProperties(component);
         
         writer.write("</table>\n"); //$NON-NLS-1$
     }

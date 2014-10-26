@@ -24,7 +24,7 @@ import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -162,19 +162,19 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         
         // Archimate objects selection from Tree View, so update any Archimate Diagram Editors
         else if(source instanceof TreeViewer) {
-            List<IArchimateElement> list = new ArrayList<IArchimateElement>();
+            List<IArchimateComponent> list = new ArrayList<IArchimateComponent>();
             
             // Archimate elements
             for(Object o : ((IStructuredSelection)selection).toArray()) {
-                if(o instanceof IArchimateElement) {
-                    list.add((IArchimateElement)o);
+                if(o instanceof IArchimateComponent) {
+                    list.add((IArchimateComponent)o);
                 }
             }
             
             // Select these in the Diagram Editors
             for(IDiagramModelEditor diagramEditor : fDiagramEditors) {
                 if(diagramEditor instanceof IArchimateDiagramEditor) {
-                    ((IArchimateDiagramEditor)diagramEditor).selectElements(list.toArray(new IArchimateElement[list.size()]));
+                    ((IArchimateDiagramEditor)diagramEditor).selectArchimateComponents(list.toArray(new IArchimateComponent[list.size()]));
                 }
             }
         }

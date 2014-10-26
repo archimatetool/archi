@@ -29,7 +29,7 @@ import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.services.EditorManager;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -55,20 +55,20 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
         /**
          * Get the required object for this Property Section from the given object
          */
-        public static IArchimateElement adaptObject(Object object) {
-            if(object instanceof IArchimateElement) {
-                return (IArchimateElement)object;
+        public static IArchimateComponent adaptObject(Object object) {
+            if(object instanceof IArchimateComponent) {
+                return (IArchimateComponent)object;
             }
             
             if(object instanceof IAdaptable) {
-                return (IArchimateElement)((IAdaptable)object).getAdapter(IArchimateElement.class);
+                return (IArchimateComponent)((IAdaptable)object).getAdapter(IArchimateComponent.class);
             }
             
             return null;
         }
     }
 
-    private IArchimateElement fArchimateElement;
+    private IArchimateComponent fArchimateComponent;
     
     private TableViewer fTableViewer;
     private UpdatingTableColumnLayout fTableLayout;
@@ -104,7 +104,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             }
             
             public Object[] getElements(Object inputElement) {
-                return DiagramModelUtils.findReferencedDiagramsForElement((IArchimateElement)inputElement).toArray();
+                return DiagramModelUtils.findReferencedDiagramsForArchimateComponent((IArchimateComponent)inputElement).toArray();
             }
         });
         
@@ -130,7 +130,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
                     IDiagramModel diagramModel = (IDiagramModel)o;
                     IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel);
                     if(editor instanceof IArchimateDiagramEditor) {
-                        ((IArchimateDiagramEditor)editor).selectElements(new IArchimateElement[] { fArchimateElement });
+                        ((IArchimateDiagramEditor)editor).selectArchimateComponents(new IArchimateComponent[] { fArchimateComponent });
                     }
                 }
             }
@@ -141,8 +141,8 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        fArchimateElement = Filter.adaptObject(element);
-        if(fArchimateElement == null) {
+        fArchimateComponent = Filter.adaptObject(element);
+        if(fArchimateComponent == null) {
             System.err.println("UsedInViewsSection failed to get element for " + element); //$NON-NLS-1$
         }
         
@@ -150,7 +150,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     }
     
     protected void refreshControls() {
-        fTableViewer.setInput(fArchimateElement);
+        fTableViewer.setInput(fArchimateComponent);
         fTableLayout.doRelayout();
     }
     
@@ -161,7 +161,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
 
     @Override
     protected EObject getEObject() {
-        return fArchimateElement;
+        return fArchimateComponent;
     }
     
     @Override

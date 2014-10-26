@@ -76,6 +76,14 @@ public class DeleteCommandHandlerTests {
     }
     
     @Test
+    public void testCanDeleteAllRelations() {
+        // Can delete all ArchiMate relations
+        for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
+            assertTrue(DeleteCommandHandler.canDelete(IArchimateFactory.eINSTANCE.create(eClass)));
+        }
+    }
+
+    @Test
     public void testCanDeleteCertainFolders() {
         IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
         
@@ -139,7 +147,7 @@ public class DeleteCommandHandlerTests {
         
         // Ensure these elements are referenced in diagrams
         for(IArchimateElement element : elements) {
-            assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
         }
         
         // Delete them
@@ -148,7 +156,7 @@ public class DeleteCommandHandlerTests {
         
         // Test that they are all gone in the model and in the referenced diagrams
         for(IArchimateElement element : elements) {
-            assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
             assertNull(ArchimateModelUtils.getObjectByID(model, element.getId()));
         }
         
@@ -158,7 +166,7 @@ public class DeleteCommandHandlerTests {
         
         // And find them all back again!
         for(IArchimateElement element : elements) {
-            assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
             assertNotNull(ArchimateModelUtils.getObjectByID(model, element.getId()));
         }
     }
@@ -197,7 +205,7 @@ public class DeleteCommandHandlerTests {
         // Are elements deleted?
         for(IArchimateElement element : elements) {
             assertNull(ArchimateModelUtils.getObjectByID(model, element.getId()));
-            assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
         }
     }
     
@@ -216,7 +224,7 @@ public class DeleteCommandHandlerTests {
         assertNotNull(relationship);
         
         // Relationship is there on a diagram
-        assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(relationship));
+        assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(relationship));
         
         // Zap
         DeleteCommandHandler commandHandler = new DeleteCommandHandler(treeModelViewer, new Object[] { businessActor, businessRole } );
@@ -224,7 +232,7 @@ public class DeleteCommandHandlerTests {
         
         // All gone
         assertNull(ArchimateModelUtils.getObjectByID(model, relationship.getId()));
-        assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(relationship));
+        assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(relationship));
     }
     
     @Test
@@ -234,7 +242,7 @@ public class DeleteCommandHandlerTests {
         assertNotNull(relationship);
         
         // Relationship is there on a diagram
-        assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(relationship));
+        assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(relationship));
         
         // Zap
         DeleteCommandHandler commandHandler = new DeleteCommandHandler(treeModelViewer, new Object[] { relationship } );
@@ -242,7 +250,7 @@ public class DeleteCommandHandlerTests {
         
         // All gone
         assertNull(ArchimateModelUtils.getObjectByID(model, relationship.getId()));
-        assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(relationship));
+        assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(relationship));
     }
 
     @Test
@@ -297,12 +305,12 @@ public class DeleteCommandHandlerTests {
         
         // Test that they are all gone in the models and in the referenced diagrams
         for(IArchimateElement element : elements1) {
-            assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
             assertNull(ArchimateModelUtils.getObjectByID(model, element.getId()));
         }
         
         for(IArchimateElement element : elements2) {
-            assertFalse(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertFalse(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
             assertNull(ArchimateModelUtils.getObjectByID(model2, element.getId()));
         }
         
@@ -315,12 +323,12 @@ public class DeleteCommandHandlerTests {
         
         // And find them all back again!
         for(IArchimateElement element : elements1) {
-            assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
             assertNotNull(ArchimateModelUtils.getObjectByID(model, element.getId()));
         }
 
         for(IArchimateElement element : elements2) {
-            assertTrue(DiagramModelUtils.isElementReferencedInDiagrams(element));
+            assertTrue(DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element));
             assertNotNull(ArchimateModelUtils.getObjectByID(model2, element.getId()));
         }
     }

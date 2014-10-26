@@ -34,7 +34,7 @@ import com.archimatetool.editor.diagram.figures.connections.UsedByConnectionFigu
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IFlowRelationship;
@@ -125,7 +125,7 @@ implements ILabelProvider, ISelfStyleProvider {
     }
 
     public IFigure getTooltip(Object entity) {
-        if(entity instanceof IArchimateElement) {
+        if(entity instanceof IArchimateComponent) {
             ToolTipFigure l = new ToolTipFigure();
             String type = ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)entity).eClass());
             l.setText(ArchimateLabelProvider.INSTANCE.getLabel(entity));

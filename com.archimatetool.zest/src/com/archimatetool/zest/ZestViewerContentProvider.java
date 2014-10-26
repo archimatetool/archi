@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -44,22 +45,22 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
     @Override
     public Object[] getElements(Object inputElement) {
-        if(inputElement instanceof IArchimateElement) {
-            IArchimateElement element = (IArchimateElement)inputElement;
+        if(inputElement instanceof IArchimateComponent) {
+            IArchimateComponent archimateComponent = (IArchimateComponent)inputElement;
             
             // Check if it was deleted
-            if(element.eContainer() == null) {
+            if(archimateComponent.eContainer() == null) {
                 return new Object[0];
             }
             
             // Relationship
-            if(element instanceof IRelationship) {
+            if(archimateComponent instanceof IRelationship) {
                 return new Object[]  { inputElement };
             }
 
             // Element - Get its relationships
             List<IRelationship> mainList = new ArrayList<IRelationship>();
-            getRelations(mainList, new ArrayList<IArchimateElement>(), element, 0);
+            getRelations(mainList, new ArrayList<IArchimateElement>(), (IArchimateElement)archimateComponent, 0);
             
             return mainList.toArray();
         }

@@ -16,6 +16,7 @@ import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
 import com.archimatetool.model.IApplicationLayerElement;
 import com.archimatetool.model.IApplicationService;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -212,16 +213,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createFolderContainerAdapter();
             }
             @Override
-            public Adapter caseArchimateModel(IArchimateModel object) {
-                return createArchimateModelAdapter();
-            }
-            @Override
             public Adapter caseArchimateModelElement(IArchimateModelElement object) {
                 return createArchimateModelElementAdapter();
             }
             @Override
+            public Adapter caseArchimateModel(IArchimateModel object) {
+                return createArchimateModelAdapter();
+            }
+            @Override
             public Adapter caseFolder(IFolder object) {
                 return createFolderAdapter();
+            }
+            @Override
+            public Adapter caseArchimateComponent(IArchimateComponent object) {
+                return createArchimateComponentAdapter();
             }
             @Override
             public Adapter caseArchimateElement(IArchimateElement object) {
@@ -250,54 +255,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseOrJunction(IOrJunction object) {
                 return createOrJunctionAdapter();
-            }
-            @Override
-            public Adapter caseRelationship(IRelationship object) {
-                return createRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseAccessRelationship(IAccessRelationship object) {
-                return createAccessRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseAggregationRelationship(IAggregationRelationship object) {
-                return createAggregationRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseAssignmentRelationship(IAssignmentRelationship object) {
-                return createAssignmentRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseAssociationRelationship(IAssociationRelationship object) {
-                return createAssociationRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseCompositionRelationship(ICompositionRelationship object) {
-                return createCompositionRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseFlowRelationship(IFlowRelationship object) {
-                return createFlowRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseRealisationRelationship(IRealisationRelationship object) {
-                return createRealisationRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseSpecialisationRelationship(ISpecialisationRelationship object) {
-                return createSpecialisationRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseTriggeringRelationship(ITriggeringRelationship object) {
-                return createTriggeringRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseUsedByRelationship(IUsedByRelationship object) {
-                return createUsedByRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseInfluenceRelationship(IInfluenceRelationship object) {
-                return createInfluenceRelationshipAdapter();
             }
             @Override
             public Adapter caseBusinessLayerElement(IBusinessLayerElement object) {
@@ -494,6 +451,54 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseGap(IGap object) {
                 return createGapAdapter();
+            }
+            @Override
+            public Adapter caseRelationship(IRelationship object) {
+                return createRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseAccessRelationship(IAccessRelationship object) {
+                return createAccessRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseAggregationRelationship(IAggregationRelationship object) {
+                return createAggregationRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseAssignmentRelationship(IAssignmentRelationship object) {
+                return createAssignmentRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseAssociationRelationship(IAssociationRelationship object) {
+                return createAssociationRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseCompositionRelationship(ICompositionRelationship object) {
+                return createCompositionRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseFlowRelationship(IFlowRelationship object) {
+                return createFlowRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseRealisationRelationship(IRealisationRelationship object) {
+                return createRealisationRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseSpecialisationRelationship(ISpecialisationRelationship object) {
+                return createSpecialisationRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseTriggeringRelationship(ITriggeringRelationship object) {
+                return createTriggeringRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseUsedByRelationship(IUsedByRelationship object) {
+                return createUsedByRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseInfluenceRelationship(IInfluenceRelationship object) {
+                return createInfluenceRelationshipAdapter();
             }
             @Override
             public Adapter caseDiagramModelComponent(IDiagramModelComponent object) {
@@ -782,6 +787,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createFolderAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateComponent <em>Component</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IArchimateComponent
+     * @generated
+     */
+    public Adapter createArchimateComponentAdapter() {
         return null;
     }
 

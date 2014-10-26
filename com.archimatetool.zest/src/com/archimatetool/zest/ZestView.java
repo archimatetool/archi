@@ -50,7 +50,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 
@@ -161,16 +161,16 @@ implements IZestView, ISelectionListener {
     }
     
     private void setElement(Object object) {
-        IArchimateElement element = null;
+        IArchimateComponent component = null;
         
-        if(object instanceof IArchimateElement) {
-            element = (IArchimateElement)object;
+        if(object instanceof IArchimateComponent) {
+            component = (IArchimateComponent)object;
         }
         else if(object instanceof IAdaptable) {
-            element = (IArchimateElement)((IAdaptable)object).getAdapter(IArchimateElement.class);
+            component = (IArchimateComponent)((IAdaptable)object).getAdapter(IArchimateComponent.class);
         }
         
-        fDrillDownManager.setNewInput(element);
+        fDrillDownManager.setNewInput(component);
         updateActions();
         
         updateLabel();
@@ -198,10 +198,10 @@ implements IZestView, ISelectionListener {
      * Update local label
      */
     void updateLabel() {
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentElement());
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentComponent());
         text = StringUtils.escapeAmpersandsInText(text);
         fLabel.setText(text);
-        fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentElement()));
+        fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentComponent()));
     }
 
     /**
@@ -382,8 +382,8 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        IArchimateElement element = fDrillDownManager.getCurrentElement();
-        return element != null ? element.getArchimateModel() : null;
+        IArchimateComponent component = fDrillDownManager.getCurrentComponent();
+        return component != null ? component.getArchimateModel() : null;
     }
     
     @Override

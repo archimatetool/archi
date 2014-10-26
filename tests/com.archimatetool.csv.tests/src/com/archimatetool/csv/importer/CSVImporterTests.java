@@ -25,6 +25,7 @@ import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVParseException;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -100,8 +101,8 @@ public class CSVImporterTests {
         importer = new CSVImporter(model);
         importer.doImport(elements2File);
         
-        // Ensure new elements is empty
-        assertTrue(importer.newElements.isEmpty());
+        // Ensure new components is empty
+        assertTrue(importer.newComponents.isEmpty());
 
         // Ensure new properties is empty
         assertTrue(importer.newProperties.isEmpty());
@@ -155,33 +156,33 @@ public class CSVImporterTests {
         // Relations
         assertEquals(2, model.getFolder(FolderType.RELATIONS).getElements().size());
         
-        // Ensure updated elements is empty
-        assertTrue(importer.updatedElements.isEmpty());
+        // Ensure updated components is empty
+        assertTrue(importer.updatedComponents.isEmpty());
     }
     
     @Test
     public void testImportModelElements() throws Exception {
         importer.importElements(elements1File);
         
-        assertEquals(3, importer.newElements.size());
+        assertEquals(3, importer.newComponents.size());
         
-        IArchimateElement element = importer.newElements.get("f00aa5b4");
-        assertEquals(IArchimatePackage.eINSTANCE.getBusinessActor(), element.eClass());
-        assertEquals("f00aa5b4", element.getId());
-        assertEquals("Business Actor", element.getName());
-        assertEquals("This is the Business Actor\r\nDocumentation\r\nHere \"\"\r\n", element.getDocumentation());
+        IArchimateComponent component = importer.newComponents.get("f00aa5b4");
+        assertEquals(IArchimatePackage.eINSTANCE.getBusinessActor(), component.eClass());
+        assertEquals("f00aa5b4", component.getId());
+        assertEquals("Business Actor", component.getName());
+        assertEquals("This is the Business Actor\r\nDocumentation\r\nHere \"\"\r\n", component.getDocumentation());
         
-        element = importer.newElements.get("d9fe8c17");
-        assertEquals(IArchimatePackage.eINSTANCE.getBusinessInterface(), element.eClass());
-        assertEquals("d9fe8c17", element.getId());
-        assertEquals("Business Interface", element.getName());
-        assertEquals("", element.getDocumentation());
+        component = importer.newComponents.get("d9fe8c17");
+        assertEquals(IArchimatePackage.eINSTANCE.getBusinessInterface(), component.eClass());
+        assertEquals("d9fe8c17", component.getId());
+        assertEquals("Business Interface", component.getName());
+        assertEquals("", component.getDocumentation());
         
-        element = importer.newElements.get("f6a18059");
-        assertEquals(IArchimatePackage.eINSTANCE.getBusinessRole(), element.eClass());
-        assertEquals("f6a18059", element.getId());
-        assertEquals("Business Role", element.getName());
-        assertEquals("Some more docs\r\nHere\r\n", element.getDocumentation());
+        component = importer.newComponents.get("f6a18059");
+        assertEquals(IArchimatePackage.eINSTANCE.getBusinessRole(), component.eClass());
+        assertEquals("f6a18059", component.getId());
+        assertEquals("Business Role", component.getName());
+        assertEquals("Some more docs\r\nHere\r\n", component.getDocumentation());
     }
 
     @Test
@@ -189,8 +190,8 @@ public class CSVImporterTests {
         importer.importElements(elements3File);
         importer.importRelations(relations3File);
         
-        assertEquals(6, importer.newElements.size());
-        for(String id : importer.newElements.keySet()) {
+        assertEquals(6, importer.newComponents.size());
+        for(String id : importer.newComponents.keySet()) {
             assertTrue(StringUtils.isSet(id));
         }
     }
@@ -200,9 +201,9 @@ public class CSVImporterTests {
         importer.importElements(elements1File);
         importer.importRelations(relations1File);
         
-        assertEquals(5, importer.newElements.size());
+        assertEquals(5, importer.newComponents.size());
         
-        IRelationship relation = (IRelationship)importer.newElements.get("cdbfc933");
+        IRelationship relation = (IRelationship)importer.newComponents.get("cdbfc933");
         assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), relation.eClass());
         assertEquals("cdbfc933", relation.getId());
         assertEquals("Assignment relation", relation.getName());
@@ -214,7 +215,7 @@ public class CSVImporterTests {
         assertNotNull(target);
         assertEquals("f6a18059", target.getId());
         
-        relation = (IRelationship)importer.newElements.get("5854f8a3");
+        relation = (IRelationship)importer.newComponents.get("5854f8a3");
         assertEquals(IArchimatePackage.eINSTANCE.getCompositionRelationship(), relation.eClass());
         assertEquals("5854f8a3", relation.getId());
         assertEquals("Compo", relation.getName());
@@ -314,18 +315,18 @@ public class CSVImporterTests {
     }
     
     @Test
-    public void testFindElementInModel() throws Exception {
+    public void testFindArchimateComponentInModel() throws Exception {
         importer.doImport(elements1File);
-        assertNotNull(importer.findElementInModel("f00aa5b4", IArchimatePackage.eINSTANCE.getBusinessActor()));
+        assertNotNull(importer.findArchimateComponentInModel("f00aa5b4", IArchimatePackage.eINSTANCE.getBusinessActor()));
     }
 
     @Test
-    public void testFindElementInModel_DifferentClass() throws Exception {
+    public void testFindArchimateComponentInModel_DifferentClass() throws Exception {
         expectedEx.expect(CSVParseException.class);
         expectedEx.expectMessage("Found element with same id but different class: f6a18059");
         
         importer.doImport(elements1File);
-        importer.findElementInModel("f6a18059", IArchimatePackage.eINSTANCE.getBusinessActor());
+        importer.findArchimateComponentInModel("f6a18059", IArchimatePackage.eINSTANCE.getBusinessActor());
     }
     
     @Test

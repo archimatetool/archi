@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -56,9 +56,9 @@ public class PropertiesLabelProvider implements ILabelProvider {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
 
-        // An Archimate Element is a special text
-        if(object instanceof IArchimateElement) {
-            return getArchimateElementText((IArchimateElement)object);
+        // An Archimate Component is a special text
+        if(object instanceof IArchimateComponent) {
+            return getArchimateComponentText((IArchimateComponent)object);
         }
 
         // Check the main label provider
@@ -86,10 +86,10 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return object;
     }
 
-    String getArchimateElementText(IArchimateElement element) {
-        String name = StringUtils.escapeAmpersandsInText(element.getName());
+    String getArchimateComponentText(IArchimateComponent archimateComponent) {
+        String name = StringUtils.escapeAmpersandsInText(archimateComponent.getName());
         
-        String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
+        String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(archimateComponent.eClass());
         
         if(StringUtils.isSet(name)) {
             return name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$

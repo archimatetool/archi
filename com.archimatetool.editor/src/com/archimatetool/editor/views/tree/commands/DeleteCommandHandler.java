@@ -25,6 +25,7 @@ import com.archimatetool.editor.model.commands.DeleteFolderCommand;
 import com.archimatetool.editor.views.tree.TreeModelViewer;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAdapter;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -77,8 +78,8 @@ public class DeleteCommandHandler {
      * @return True if we can delete this object
      */
     public static boolean canDelete(Object element) {
-        // Elements and Diagrams
-        if(element instanceof IArchimateElement || element instanceof IDiagramModel) {
+        // Elements, Relations, and Diagrams
+        if(element instanceof IArchimateComponent || element instanceof IDiagramModel) {
             return true;
         }
         
@@ -145,8 +146,8 @@ public class DeleteCommandHandler {
             }
         }
         
-        else if(object instanceof IArchimateElement) {
-            return DiagramModelUtils.isElementReferencedInDiagrams((IArchimateElement)object);
+        else if(object instanceof IArchimateComponent) {
+            return DiagramModelUtils.isArchimateComponentReferencedInDiagrams((IArchimateComponent)object);
         }
         
         return false;
@@ -213,8 +214,8 @@ public class DeleteCommandHandler {
                 Command cmd = new DeleteFolderCommand((IFolder)object);
                 compoundCommand.add(cmd);
             }
-            else if(object instanceof IArchimateElement) {
-                Command cmd = new DeleteElementCommand((IArchimateElement)object);
+            else if(object instanceof IArchimateComponent) {
+                Command cmd = new DeleteElementCommand((IArchimateComponent)object);
                 compoundCommand.add(cmd);
             }
             else if(object instanceof IDiagramModelObject) {
@@ -250,13 +251,13 @@ public class DeleteCommandHandler {
         
         // Gather referenced diagram objects to be deleted checking that the parent diagram model is not also selected to be deleted
         for(Object object : fElementsToCheck) {
-            // Archimate Elements
-            if(object instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)object;
-                for(IDiagramModel diagramModel : element.getArchimateModel().getDiagramModels()) {
+            // Archimate Components
+            if(object instanceof IArchimateComponent) {
+                IArchimateComponent archimateComponent = (IArchimateComponent)object;
+                for(IDiagramModel diagramModel : archimateComponent.getArchimateModel().getDiagramModels()) {
                     // Check diagram model is not selected to be deleted - no point in deleting any of its children
                     if(!fElementsToDelete.contains(diagramModel)) {
-                        for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, element)) {
+                        for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, archimateComponent)) {
                             addToList(dc, fElementsToDelete);
                         }
                     }
@@ -315,7 +316,7 @@ public class DeleteCommandHandler {
             }
         }
         // Element
-        else if(object instanceof IArchimateElement && !(object instanceof IRelationship)) {
+        else if(object instanceof IArchimateElement) {
             for(IRelationship relationship : ArchimateModelUtils.getRelationships((IArchimateElement)object)) {
                 addToList(relationship, fElementsToDelete);
                 addToList(relationship, fElementsToCheck);

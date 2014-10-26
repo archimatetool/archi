@@ -22,6 +22,7 @@ import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -165,12 +166,12 @@ public class TreeViewpointFilterProvider implements IPartListener {
      * @return Color or null
      */
     Color getTextColor(Object element) {
-        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateElement) {
+        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateComponent) {
             int index = fActiveDiagramModel.getViewpoint();
             IViewpoint viewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
             if(viewpoint != null) {
                 // From same model as active diagram
-                IArchimateModel model = ((IArchimateElement)element).getArchimateModel();
+                IArchimateModel model = ((IArchimateComponent)element).getArchimateModel();
                 if(model == fActiveDiagramModel.getArchimateModel()) {
                     if(element instanceof IRelationship) {
                         IArchimateElement source = ((IRelationship)element).getSource();
@@ -179,7 +180,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
                             return ColorFactory.get(128, 128, 128);
                         }
                     }
-                    else {
+                    else if(element instanceof IArchimateElement) {
                         if(!viewpoint.isAllowedType(((IArchimateElement)element).eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }

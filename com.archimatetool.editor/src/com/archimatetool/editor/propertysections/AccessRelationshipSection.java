@@ -21,8 +21,8 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IAccessRelationship;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IRelationship;
 
 
 
@@ -53,7 +53,7 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
             }
             
             if(object instanceof IAdaptable) {
-                Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
+                Object o = ((IAdaptable)object).getAdapter(IRelationship.class);
                 return (IAccessRelationship)((o instanceof IAccessRelationship) ? o : null);
             }
             

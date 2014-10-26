@@ -13,7 +13,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -139,7 +139,7 @@ implements IArchimateConnectionEditPart {
         if(adapter == IDiagramModelArchimateConnection.class) {
             return getModel();
         }
-        if(adapter == IArchimateElement.class || adapter == IProperties.class) {
+        if(adapter == IArchimateComponent.class || adapter == IRelationship.class || adapter == IProperties.class) {
             return getModel().getRelationship();
         }
         return super.getAdapter(adapter);

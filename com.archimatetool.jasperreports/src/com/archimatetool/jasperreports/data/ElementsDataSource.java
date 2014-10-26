@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFolder;
@@ -48,8 +48,8 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
     public static final String ELEMENTS_CONNECTORS = "connectors"; //$NON-NLS-1$
     public static final String ELEMENTS_RELATIONS = "relations"; //$NON-NLS-1$
     
-    List<IArchimateElement> fElements = new ArrayList<IArchimateElement>();
-    private IArchimateElement fCurrentElement;
+    List<IArchimateComponent> fElements = new ArrayList<IArchimateComponent>();
+    private IArchimateComponent fCurrentComponent;
     private int currentIndex = -1;
 
     public ElementsDataSource(IArchimateModel model, String type) {
@@ -62,79 +62,79 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
 
         if(ELEMENTS_BUSINESS_ACTORS.equals(type)) { 
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessActor());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessRole());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInterface());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getLocation());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessActor());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessRole());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInterface());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getLocation());
         }
         else if(ELEMENTS_BUSINESS_FUNCTIONS.equals(type)) {
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessFunction());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessFunction());
         }
         else if(ELEMENTS_BUSINESS_INFORMATION.equals(type)) {
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessObject());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getRepresentation());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getMeaning());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessObject());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getRepresentation());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getMeaning());
         }
         else if(ELEMENTS_BUSINESS_PROCESSES.equals(type)) {
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessEvent());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInteraction());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessProcess());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessEvent());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessInteraction());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessProcess());
         }
         else if(ELEMENTS_BUSINESS_PRODUCTS.equals(type)) {
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getContract());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getProduct());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getBusinessService());
-            getElements(businessFolder, IArchimatePackage.eINSTANCE.getValue());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getContract());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getProduct());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getBusinessService());
+            getComponents(businessFolder, IArchimatePackage.eINSTANCE.getValue());
         }
         else if(ELEMENTS_APPLICATIONS.equals(type)) {
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationCollaboration());
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationComponent());
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationFunction());
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationInteraction());
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationInterface());
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationService());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationCollaboration());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationComponent());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationFunction());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationInteraction());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationInterface());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getApplicationService());
         }
         else if(ELEMENTS_APPLICATION_DATA.equals(type)) {
-            getElements(applicationFolder, IArchimatePackage.eINSTANCE.getDataObject());
+            getComponents(applicationFolder, IArchimatePackage.eINSTANCE.getDataObject());
         }
         else if(ELEMENTS_INFRASTRUCTURES.equals(type)) {
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getArtifact());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getCommunicationPath());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getDevice());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getNode());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureFunction());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureInterface());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getNetwork());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureService());
-            getElements(technologyFolder, IArchimatePackage.eINSTANCE.getSystemSoftware());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getArtifact());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getCommunicationPath());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getDevice());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getNode());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureFunction());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureInterface());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getNetwork());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureService());
+            getComponents(technologyFolder, IArchimatePackage.eINSTANCE.getSystemSoftware());
         }
         else if(ELEMENTS_MOTIVATION.equals(type)) {
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getStakeholder());
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getDriver());
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getAssessment());
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getGoal());
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getPrinciple());
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getRequirement());
-            getElements(motivationFolder, IArchimatePackage.eINSTANCE.getConstraint());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getStakeholder());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getDriver());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getAssessment());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getGoal());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getPrinciple());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getRequirement());
+            getComponents(motivationFolder, IArchimatePackage.eINSTANCE.getConstraint());
         }
         else if(ELEMENTS_IMPLEMENTATION_MIGRATION.equals(type)) {
-            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getWorkPackage());
-            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getDeliverable());
-            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getPlateau());
-            getElements(implmigrationFolder, IArchimatePackage.eINSTANCE.getGap());
+            getComponents(implmigrationFolder, IArchimatePackage.eINSTANCE.getWorkPackage());
+            getComponents(implmigrationFolder, IArchimatePackage.eINSTANCE.getDeliverable());
+            getComponents(implmigrationFolder, IArchimatePackage.eINSTANCE.getPlateau());
+            getComponents(implmigrationFolder, IArchimatePackage.eINSTANCE.getGap());
         }
         else if(ELEMENTS_CONNECTORS.equals(type)) {
-            getElements(connectorsFolder, null);
+            getComponents(connectorsFolder, null);
         }
         else if(ELEMENTS_RELATIONS.equals(type)) {
-            getElements(relationsFolder, null);
+            getComponents(relationsFolder, null);
         }
         // A particular Element type in any folder
         else if(type != null) {
             EClassifier classifier =  IArchimatePackage.eINSTANCE.getEClassifier(type);
             if(classifier instanceof EClass) {
-                getElements(model, (EClass)classifier);
+                getComponents(model, (EClass)classifier);
             }
         }
         
@@ -142,29 +142,29 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
     }
 
     public PropertiesModelDataSource getPropertiesDataSource() {
-        return new PropertiesModelDataSource(fCurrentElement);
+        return new PropertiesModelDataSource(fCurrentComponent);
     }
     
     @Override
     public Object getElement() {
-        return fCurrentElement;
+        return fCurrentComponent;
     }
 
     @Override
     public boolean next() throws JRException {
         if(currentIndex < fElements.size() - 1) {
-            fCurrentElement = fElements.get(++currentIndex);
+            fCurrentComponent = fElements.get(++currentIndex);
         }
         else {
-            fCurrentElement = null;
+            fCurrentComponent = null;
         }
         
-        return fCurrentElement != null;
+        return fCurrentComponent != null;
     }
 
     @Override
     public Object getFieldValue(JRField jrField) throws JRException {
-        return FieldDataFactory.getFieldValue(fCurrentElement, jrField.getName());
+        return FieldDataFactory.getFieldValue(fCurrentComponent, jrField.getName());
     }
 
     @Override
@@ -172,23 +172,23 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         currentIndex = -1;
     }
     
-    private void getElements(IArchimateModel model, EClass type) {
+    private void getComponents(IArchimateModel model, EClass type) {
         for(IFolder folder : model.getFolders()) {
-            getElements(folder, type);
+            getComponents(folder, type);
         }
     }
 
-    private void getElements(IFolder folder, EClass type) {
+    private void getComponents(IFolder folder, EClass type) {
         for(EObject object : folder.getElements()) {
-            if(object instanceof IArchimateElement) {
+            if(object instanceof IArchimateComponent) {
                 if(type == null || object.eClass() == type) {
-                    fElements.add((IArchimateElement)object);
+                    fElements.add((IArchimateComponent)object);
                 }
             }
         }
         
         for(IFolder f : folder.getFolders()) {
-            getElements(f, type);
+            getComponents(f, type);
         }
     }
 

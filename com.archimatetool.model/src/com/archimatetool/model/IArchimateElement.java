@@ -16,6 +16,6 @@ package com.archimatetool.model;
  * @model abstract="true"
  * @generated
  */
-public interface IArchimateElement extends IArchimateModelElement, IIdentifier, ICloneable, INameable, IDocumentable, IProperties {
+public interface IArchimateElement extends IArchimateComponent {
 
 } // IArchimateElement

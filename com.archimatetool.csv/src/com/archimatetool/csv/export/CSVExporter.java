@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.EObject;
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRelationship;
 
@@ -126,11 +126,13 @@ public class CSVExporter implements CSVConstants {
             return;
         }
         
-        List<IArchimateElement> elements = getElements(folder);
-        sort(elements);
+        List<IArchimateComponent> components = getComponents(folder);
+        sort(components);
         
-        for(IArchimateElement element : elements) {
-            writer.write(createElementRow(element));
+        for(IArchimateComponent component : components) {
+            if(component instanceof IArchimateElement) {
+                writer.write(createElementRow((IArchimateElement)component));
+            }
         }
     }
     
@@ -138,11 +140,11 @@ public class CSVExporter implements CSVConstants {
      * Write All Relationships
      */
     private void writeRelationships(File file) throws IOException {
-        List<IArchimateElement> elements = getElements(fModel.getFolder(FolderType.RELATIONS));
-        sort(elements);
+        List<IArchimateComponent> components = getComponents(fModel.getFolder(FolderType.RELATIONS));
+        sort(components);
         
         // Are there any to write?
-        if(!fWriteEmptyFile && elements.isEmpty()) {
+        if(!fWriteEmptyFile && components.isEmpty()) {
             return;
         }
         
@@ -153,9 +155,9 @@ public class CSVExporter implements CSVConstants {
         writer.write(header);
         
         // Write Relationships
-        for(IArchimateElement element : elements) {
-            if(element instanceof IRelationship) {
-                writer.write(createRelationshipRow((IRelationship)element));
+        for(IArchimateComponent component : components) {
+            if(component instanceof IRelationship) {
+                writer.write(createRelationshipRow((IRelationship)component));
             }
         }
         
@@ -185,10 +187,10 @@ public class CSVExporter implements CSVConstants {
         // Write Element and Relationship Properties
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)eObject;
-                for(IProperty property : element.getProperties()) {
-                    writer.write(createPropertyRow(element.getId(), property));
+            if(eObject instanceof IArchimateComponent) {
+                IArchimateComponent component = (IArchimateComponent)eObject;
+                for(IProperty property : component.getProperties()) {
+                    writer.write(createPropertyRow(component.getId(), property));
                 }
             }
         }
@@ -206,9 +208,9 @@ public class CSVExporter implements CSVConstants {
         
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)eObject;
-                if(!element.getProperties().isEmpty()) {
+            if(eObject instanceof IArchimateComponent) {
+                IArchimateComponent component = (IArchimateComponent)eObject;
+                if(!component.getProperties().isEmpty()) {
                     return true;
                 }
             }
@@ -396,21 +398,21 @@ public class CSVExporter implements CSVConstants {
     /**
      * Return a list of all elements/relations in a given folder and its child folders
      */
-    private List<IArchimateElement> getElements(IFolder folder) {
-        List<IArchimateElement> list = new ArrayList<IArchimateElement>();
+    private List<IArchimateComponent> getComponents(IFolder folder) {
+        List<IArchimateComponent> list = new ArrayList<IArchimateComponent>();
         
         if(folder == null) {
             return list;
         }
         
         for(EObject object : folder.getElements()) {
-            if(object instanceof IArchimateElement) {
-                list.add((IArchimateElement)object);
+            if(object instanceof IArchimateComponent) {
+                list.add((IArchimateComponent)object);
             }
         }
         
         for(IFolder f : folder.getFolders()) {
-            list.addAll(getElements(f));
+            list.addAll(getComponents(f));
         }
         
         return list;
@@ -420,17 +422,17 @@ public class CSVExporter implements CSVConstants {
      * Sort a list of ArchimateElement/Relationship types
      * Sort by class name then element name
      */
-    void sort(List<IArchimateElement> list) {
+    void sort(List<IArchimateComponent> list) {
         if(list == null || list.size() < 2) {
             return;
         }
         
-        Collections.sort(list, new Comparator<IArchimateElement>() {
+        Collections.sort(list, new Comparator<IArchimateComponent>() {
             @Override
-            public int compare(IArchimateElement o1, IArchimateElement o2) {
+            public int compare(IArchimateComponent o1, IArchimateComponent o2) {
                 if(o1.eClass().equals(o2.eClass())) {
-                    String name1 = StringUtils.safeString(((INameable)o1).getName()).toLowerCase().trim();
-                    String name2 = StringUtils.safeString(((INameable)o2).getName()).toLowerCase().trim();
+                    String name1 = StringUtils.safeString(o1.getName().toLowerCase().trim());
+                    String name2 = StringUtils.safeString(o2.getName().toLowerCase().trim());
                     return name1.compareTo(name2);
                 }
                 

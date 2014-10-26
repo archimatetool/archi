@@ -29,7 +29,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -74,16 +73,8 @@ public class DuplicateCommandHandler {
      * @return True if we can duplicate this object
      */
     public static boolean canDuplicate(Object element) {
-        // Elements
-        if(element instanceof IArchimateElement && !(element instanceof IRelationship)) {
-            return true;
-        }
-        // Diagrams
-        else if(element instanceof IDiagramModel) {
-            return true;
-        }
-        
-        return false;
+        // Elements and Diagrams
+        return (element instanceof IArchimateElement) || (element instanceof IDiagramModel);
     }
     
     public DuplicateCommandHandler(Object[] objects) {
@@ -131,7 +122,7 @@ public class DuplicateCommandHandler {
                 Command cmd = new DuplicateDiagramModelCommand((IDiagramModel)object);
                 compoundCommand.add(cmd);
             }
-            else if(object instanceof IArchimateElement && !(object instanceof IRelationship)) {
+            else if(object instanceof IArchimateElement) {
                 Command cmd = new DuplicateElementCommand((IArchimateElement)object);
                 compoundCommand.add(cmd);
             }

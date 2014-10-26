@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -35,21 +36,21 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 public class DiagramModelUtils {
     
     /**
-     * Find all diagram models that element is referenced in (appears as graphical entity).
-     * @param element The element to check on.
+     * Find all diagram models that archimateComponent is referenced in (appears as graphical entity).
+     * @param archimateComponent The component to check on.
      * @return A List of diagram models (may be empty, but never null)
      */
-    public static List<IDiagramModel> findReferencedDiagramsForElement(IArchimateElement element) {
+    public static List<IDiagramModel> findReferencedDiagramsForArchimateComponent(IArchimateComponent archimateComponent) {
         List<IDiagramModel> models = new ArrayList<IDiagramModel>();
         
-        if(element != null && element.getArchimateModel() != null) {
-            for(IDiagramModel diagramModel : element.getArchimateModel().getDiagramModels()) {
+        if(archimateComponent != null && archimateComponent.getArchimateModel() != null) {
+            for(IDiagramModel diagramModel : archimateComponent.getArchimateModel().getDiagramModels()) {
                 // Find it
-                boolean result = !findDiagramModelComponentsForElement(diagramModel, element).isEmpty();
+                boolean result = !findDiagramModelComponentsForArchimateComponent(diagramModel, archimateComponent).isEmpty();
                 
-                // Not found, maybe it's expressed as a nested parent/child
-                if(!result && element instanceof IRelationship && ConnectionPreferences.useNestedConnections()) {
-                    result = !findNestedComponentsForRelationship(diagramModel, (IRelationship)element).isEmpty();
+                // Not found, maybe it's a relationship expressed as a nested parent/child
+                if(!result && archimateComponent instanceof IRelationship && ConnectionPreferences.useNestedConnections()) {
+                    result = !findNestedComponentsForRelationship(diagramModel, (IRelationship)archimateComponent).isEmpty();
                 }
                 
                 if(result && !models.contains(diagramModel)) {
@@ -62,16 +63,16 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param element The element to check on.
-     * @return true if element is referenced in any diagram model
+     * @param archimateComponent The element to check on.
+     * @return true if archimateComponent is referenced in any diagram model
      */
-    public static boolean isElementReferencedInDiagrams(IArchimateElement element) {
-        if(element == null || element.getArchimateModel() == null) {
+    public static boolean isArchimateComponentReferencedInDiagrams(IArchimateComponent archimateComponent) {
+        if(archimateComponent == null || archimateComponent.getArchimateModel() == null) {
             return false;
         }
         
-        for(IDiagramModel diagramModel : element.getArchimateModel().getDiagramModels()) {
-            if(isElementReferencedInDiagram(diagramModel, element)) {
+        for(IDiagramModel diagramModel : archimateComponent.getArchimateModel().getDiagramModels()) {
+            if(isArchimateComponentReferencedInDiagram(diagramModel, archimateComponent)) {
                 return true;
             }
         }
@@ -80,17 +81,17 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param element The element to check on.
-     * @return true if element is referenced in diagramModel
+     * @param archimateComponent The element to check on.
+     * @return true if archimateComponent is referenced in diagramModel
      */
-    public static boolean isElementReferencedInDiagram(IDiagramModel diagramModel, IArchimateElement element) {
-        if(isElementReferencedInContainer(diagramModel, element)) {
+    public static boolean isArchimateComponentReferencedInDiagram(IDiagramModel diagramModel, IArchimateComponent archimateComponent) {
+        if(isArchimateComponentReferencedInContainer(diagramModel, archimateComponent)) {
             return true;
         }
         
         // Expressed as a nested parent/child
-        if(element instanceof IRelationship && ConnectionPreferences.useNestedConnections()) {
-            if(!findNestedComponentsForRelationship(diagramModel, (IRelationship)element).isEmpty()) {
+        if(archimateComponent instanceof IRelationship && ConnectionPreferences.useNestedConnections()) {
+            if(!findNestedComponentsForRelationship(diagramModel, (IRelationship)archimateComponent).isEmpty()) {
                 return true;
             }
         }
@@ -98,26 +99,26 @@ public class DiagramModelUtils {
         return false;
     }
     
-    public static boolean isElementReferencedInContainer(IDiagramModelContainer parent, IArchimateElement element) {
+    public static boolean isArchimateComponentReferencedInContainer(IDiagramModelContainer parent, IArchimateComponent archimateComponent) {
         for(IDiagramModelObject object : parent.getChildren()) {
-            if(element instanceof IRelationship) {
+            if(archimateComponent instanceof IRelationship) {
                 for(IDiagramModelConnection connection : object.getSourceConnections()) {
                     if(connection instanceof IDiagramModelArchimateConnection &&
-                                            ((IDiagramModelArchimateConnection)connection).getRelationship() == element) {
+                                            ((IDiagramModelArchimateConnection)connection).getRelationship() == archimateComponent) {
                         return true;
                     }
                 }
             }
             else {
                 if(object instanceof IDiagramModelArchimateObject) {
-                    if(((IDiagramModelArchimateObject)object).getArchimateElement() == element) {
+                    if(((IDiagramModelArchimateObject)object).getArchimateElement() == archimateComponent) {
                         return true;
                     }
                 }
             }
             
             if(object instanceof IDiagramModelContainer) {
-                boolean result = isElementReferencedInContainer((IDiagramModelContainer)object, element);
+                boolean result = isArchimateComponentReferencedInContainer((IDiagramModelContainer)object, archimateComponent);
                 if(result) {
                     return true;
                 }
@@ -132,17 +133,17 @@ public class DiagramModelUtils {
     /**
      * Find all Diagram Model Components for a given element or relationship in a Diagram Model
      * @param diagramModel The parent diagram model
-     * @param element The element to check on.
+     * @param archimateType The element to check on.
      * @return The list
      */
-    public static List<IDiagramModelComponent> findDiagramModelComponentsForElement(IDiagramModel diagramModel, IArchimateElement element) {
+    public static List<IDiagramModelComponent> findDiagramModelComponentsForArchimateComponent(IDiagramModel diagramModel, IArchimateComponent archimateComponent) {
         List<IDiagramModelComponent> list = new ArrayList<IDiagramModelComponent>();
         
-        if(element instanceof IRelationship) {
-            list.addAll(findDiagramModelConnectionsForRelation(diagramModel, (IRelationship)element));
+        if(archimateComponent instanceof IArchimateElement) {
+            list.addAll(findDiagramModelObjectsForElement(diagramModel, (IArchimateElement)archimateComponent));
         }
-        else {
-            list.addAll(findDiagramModelObjectsForElement(diagramModel, element));
+        else if(archimateComponent instanceof IRelationship) {
+            list.addAll(findDiagramModelConnectionsForRelation(diagramModel, (IRelationship)archimateComponent));
         }
         
         return list;

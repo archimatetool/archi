@@ -18,6 +18,7 @@ import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.commands.DeleteElementCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -69,7 +70,7 @@ public class DeleteFromModelAction extends SelectionAction {
     @Override
     public void run() {
         List<?> selection = getSelectedObjects();
-        List<IArchimateElement> elements = new ArrayList<IArchimateElement>();
+        List<IArchimateComponent> archimateComponents = new ArrayList<IArchimateComponent>();
         List<IDiagramModelComponent> diagramObjects = new ArrayList<IDiagramModelComponent>();
         
         // Gather Model elements, relations
@@ -78,29 +79,29 @@ public class DeleteFromModelAction extends SelectionAction {
                 Object model = ((EditPart)object).getModel();
                 if(model instanceof IDiagramModelArchimateObject) {
                     IArchimateElement element = ((IDiagramModelArchimateObject)model).getArchimateElement();
-                    if(!elements.contains(element)) {
-                        elements.add(element);
+                    if(!archimateComponents.contains(element)) {
+                        archimateComponents.add(element);
                     }
                     // Element's relationships
                     for(IRelationship relation :  ArchimateModelUtils.getRelationships(element)) {
-                        if(!elements.contains(relation)) {
-                            elements.add(relation);
+                        if(!archimateComponents.contains(relation)) {
+                            archimateComponents.add(relation);
                         }
                     }
                 }
                 else if(model instanceof IDiagramModelArchimateConnection) {
                     IRelationship relation = ((IDiagramModelArchimateConnection)model).getRelationship();
-                    if(!elements.contains(relation)) {
-                        elements.add(relation);
+                    if(!archimateComponents.contains(relation)) {
+                        archimateComponents.add(relation);
                     }
                 }
             }
         }
         
         // Gather referenced diagram objects
-        for(IArchimateElement element : elements) {
-            for(IDiagramModel diagramModel : element.getArchimateModel().getDiagramModels()) {
-                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForElement(diagramModel, element)) {
+        for(IArchimateComponent archimateComponent : archimateComponents) {
+            for(IDiagramModel diagramModel : archimateComponent.getArchimateModel().getDiagramModels()) {
+                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, archimateComponent)) {
                     diagramObjects.add(dc);
                 }
             }
@@ -110,8 +111,8 @@ public class DeleteFromModelAction extends SelectionAction {
         
         CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(TEXT);
         
-        for(IArchimateElement element : elements) {
-            Command cmd = new DeleteElementCommand(element);
+        for(IArchimateComponent archimateComponent : archimateComponents) {
+            Command cmd = new DeleteElementCommand(archimateComponent);
             compoundCommand.add(cmd);
         }
         

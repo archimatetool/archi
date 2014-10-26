@@ -55,7 +55,7 @@ public class AllRelationshipTypeTests extends RelationshipTests {
     }
     
     @Override
-    protected IRelationship getArchimateElement() {
+    protected IRelationship getArchimateComponent() {
         return (IRelationship)IArchimateFactory.eINSTANCE.create(eClass);
     }
 

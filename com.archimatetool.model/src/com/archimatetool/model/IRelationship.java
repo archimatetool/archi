@@ -23,7 +23,7 @@ package com.archimatetool.model;
  * @model abstract="true"
  * @generated
  */
-public interface IRelationship extends IArchimateElement {
+public interface IRelationship extends IArchimateComponent {
     /**
      * Returns the value of the '<em><b>Source</b></em>' reference.
      * <!-- begin-user-doc -->

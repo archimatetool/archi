@@ -56,13 +56,13 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
          * Get the required object for this Property Section from the given object
          */
         public static IArchimateElement adaptObject(Object object) {
-            if((object instanceof IArchimateElement) && !(object instanceof IRelationship)) {
+            if(object instanceof IArchimateElement) {
                 return (IArchimateElement)object;
             }
             
             if(object instanceof IAdaptable) {
                 Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
-                return (IArchimateElement)((o instanceof IArchimateElement) && !(o instanceof IRelationship) ? o : null);
+                return (IArchimateElement)((o instanceof IArchimateElement) ? o : null);
             }
             
             return null;
@@ -131,7 +131,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             public void doubleClick(DoubleClickEvent event) {
                 if(isAlive()) {
                     Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                    if(o instanceof IArchimateElement) {
+                    if(o instanceof IRelationship) {
                         IRelationship relation = (IRelationship)o;
                         ITreeModelView view = (ITreeModelView)ViewManager.findViewPart(ITreeModelView.ID);
                         if(view != null) {

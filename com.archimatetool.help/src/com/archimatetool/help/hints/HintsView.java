@@ -55,8 +55,8 @@ import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchimateEditorHelpPlugin;
 import com.archimatetool.model.IApplicationLayerElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IBusinessLayerElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -252,7 +252,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         // Adaptable, dig in to get to get Element...
         else if(selected instanceof IAdaptable) {
-            object = ((IAdaptable)selected).getAdapter(IArchimateElement.class);
+            object = ((IAdaptable)selected).getAdapter(IArchimateComponent.class);
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModelObject.class);
             }

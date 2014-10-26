@@ -107,7 +107,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      */
     public static IArchimateFactory init() {
         try {
-            IArchimateFactory theArchimateFactory = (IArchimateFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.archimatetool.com/archimate"); //$NON-NLS-1$ 
+            IArchimateFactory theArchimateFactory = (IArchimateFactory)EPackage.Registry.INSTANCE.getEFactory(IArchimatePackage.eNS_URI);
             if (theArchimateFactory != null) {
                 return theArchimateFactory;
             }
@@ -143,17 +143,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.JUNCTION: return createJunction();
             case IArchimatePackage.AND_JUNCTION: return createAndJunction();
             case IArchimatePackage.OR_JUNCTION: return createOrJunction();
-            case IArchimatePackage.ACCESS_RELATIONSHIP: return createAccessRelationship();
-            case IArchimatePackage.AGGREGATION_RELATIONSHIP: return createAggregationRelationship();
-            case IArchimatePackage.ASSIGNMENT_RELATIONSHIP: return createAssignmentRelationship();
-            case IArchimatePackage.ASSOCIATION_RELATIONSHIP: return createAssociationRelationship();
-            case IArchimatePackage.COMPOSITION_RELATIONSHIP: return createCompositionRelationship();
-            case IArchimatePackage.FLOW_RELATIONSHIP: return createFlowRelationship();
-            case IArchimatePackage.REALISATION_RELATIONSHIP: return createRealisationRelationship();
-            case IArchimatePackage.SPECIALISATION_RELATIONSHIP: return createSpecialisationRelationship();
-            case IArchimatePackage.TRIGGERING_RELATIONSHIP: return createTriggeringRelationship();
-            case IArchimatePackage.USED_BY_RELATIONSHIP: return createUsedByRelationship();
-            case IArchimatePackage.INFLUENCE_RELATIONSHIP: return createInfluenceRelationship();
             case IArchimatePackage.BUSINESS_ACTIVITY: return createBusinessActivity();
             case IArchimatePackage.BUSINESS_ACTOR: return createBusinessActor();
             case IArchimatePackage.BUSINESS_COLLABORATION: return createBusinessCollaboration();
@@ -198,6 +187,17 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.DELIVERABLE: return createDeliverable();
             case IArchimatePackage.PLATEAU: return createPlateau();
             case IArchimatePackage.GAP: return createGap();
+            case IArchimatePackage.ACCESS_RELATIONSHIP: return createAccessRelationship();
+            case IArchimatePackage.AGGREGATION_RELATIONSHIP: return createAggregationRelationship();
+            case IArchimatePackage.ASSIGNMENT_RELATIONSHIP: return createAssignmentRelationship();
+            case IArchimatePackage.ASSOCIATION_RELATIONSHIP: return createAssociationRelationship();
+            case IArchimatePackage.COMPOSITION_RELATIONSHIP: return createCompositionRelationship();
+            case IArchimatePackage.FLOW_RELATIONSHIP: return createFlowRelationship();
+            case IArchimatePackage.REALISATION_RELATIONSHIP: return createRealisationRelationship();
+            case IArchimatePackage.SPECIALISATION_RELATIONSHIP: return createSpecialisationRelationship();
+            case IArchimatePackage.TRIGGERING_RELATIONSHIP: return createTriggeringRelationship();
+            case IArchimatePackage.USED_BY_RELATIONSHIP: return createUsedByRelationship();
+            case IArchimatePackage.INFLUENCE_RELATIONSHIP: return createInfluenceRelationship();
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: return createDiagramModelReference();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: return createDiagramModelGroup();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE: return createDiagramModelNote();

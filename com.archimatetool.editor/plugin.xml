@@ -217,8 +217,8 @@
             </input>
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.ArchimateElementSection"
-               filter="com.archimatetool.editor.propertysections.ArchimateElementSection$Filter"
+               class="com.archimatetool.editor.propertysections.ArchimateComponentSection"
+               filter="com.archimatetool.editor.propertysections.ArchimateComponentSection$Filter"
                id="archimateElementSection"
                tab="main.tab">
          </propertySection>

@@ -14,17 +14,17 @@ import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimatePackage;
 
 
 
 /**
- * Property Section for an Archimate Element
+ * Property Section for an Archimate Component
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateElementSection extends AbstractArchimatePropertySection {
+public class ArchimateComponentSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
@@ -40,13 +40,13 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
         /**
          * Get the required object for this Property Section from the given object
          */
-        public static IArchimateElement adaptObject(Object object) {
-            if(object instanceof IArchimateElement) {
-                return (IArchimateElement)object;
+        public static IArchimateComponent adaptObject(Object object) {
+            if(object instanceof IArchimateComponent) {
+                return (IArchimateComponent)object;
             }
             
             if(object instanceof IAdaptable) {
-                return (IArchimateElement)((IAdaptable)object).getAdapter(IArchimateElement.class);
+                return (IArchimateComponent)((IAdaptable)object).getAdapter(IArchimateComponent.class);
             }
             
             return null;
@@ -72,7 +72,7 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
         }
     };
     
-    private IArchimateElement fArchimateElement;
+    private IArchimateComponent fArchimateComponent;
 
     private PropertySectionTextControl fTextName;
     private PropertySectionTextControl fTextDocumentation;
@@ -88,8 +88,8 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        fArchimateElement = Filter.adaptObject(element);
-        if(fArchimateElement == null) {
+        fArchimateComponent = Filter.adaptObject(element);
+        if(fArchimateComponent == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
@@ -105,14 +105,14 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
         if(fIsExecutingCommand) {
             return; 
         }
-        fTextName.refresh(fArchimateElement);
+        fTextName.refresh(fArchimateComponent);
     }
     
     protected void refreshDocumentationField() {
         if(fIsExecutingCommand) {
             return; 
         }
-        fTextDocumentation.refresh(fArchimateElement);
+        fTextDocumentation.refresh(fArchimateComponent);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ArchimateElementSection extends AbstractArchimatePropertySection {
     
     @Override
     protected EObject getEObject() {
-        return fArchimateElement;
+        return fArchimateComponent;
     }
 
     @Override

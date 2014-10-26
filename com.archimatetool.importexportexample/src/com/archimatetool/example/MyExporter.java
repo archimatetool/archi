@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
 
@@ -62,15 +62,16 @@ public class MyExporter implements IModelExporter {
     
     private void writeFolder(IFolder folder) throws IOException {
         List<EObject> list = new ArrayList<EObject>();
+        
         getElements(folder, list);
+        
         for(EObject eObject : list) {
-            if(eObject instanceof IArchimateElement) {
-                String s;
-                IArchimateElement element = (IArchimateElement)eObject;
-                s = normalise(element.eClass().getName()) +
-                        "," + normalise(element.getName()) //$NON-NLS-1$
-                        + "," + normalise(element.getDocumentation()); //$NON-NLS-1$
-                writer.write(s + "\n"); //$NON-NLS-1$
+            if(eObject instanceof IArchimateComponent) {
+                IArchimateComponent component = (IArchimateComponent)eObject;
+                String string = normalise(component.eClass().getName()) +
+                        "," + normalise(component.getName()) //$NON-NLS-1$
+                        + "," + normalise(component.getDocumentation()); //$NON-NLS-1$
+                writer.write(string + "\n"); //$NON-NLS-1$
             }
         }
     }

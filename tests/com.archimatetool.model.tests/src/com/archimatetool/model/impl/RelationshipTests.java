@@ -17,7 +17,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IRelationship;
 
 
-public abstract class RelationshipTests extends ArchimateElementTests {
+public abstract class RelationshipTests extends ArchimateComponentTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(RelationshipTests.class);
@@ -30,7 +30,7 @@ public abstract class RelationshipTests extends ArchimateElementTests {
     
     @Before
     public void runBeforeEachRelationshipTest() {
-        relationship = (IRelationship)element;
+        relationship = (IRelationship)component;
         source = IArchimateFactory.eINSTANCE.createBusinessActor();
         target = IArchimateFactory.eINSTANCE.createBusinessProcess();
     }
