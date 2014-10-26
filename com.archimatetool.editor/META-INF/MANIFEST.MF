@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi
 Bundle-SymbolicName: com.archimatetool.editor;singleton:=true
-Bundle-Version: 3.0.1.qualifier
+Bundle-Version: 3.1.0.qualifier
 Bundle-Activator: com.archimatetool.editor.ArchimateEditorPlugin
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
