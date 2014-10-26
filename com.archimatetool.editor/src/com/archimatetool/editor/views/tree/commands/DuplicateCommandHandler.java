@@ -239,11 +239,13 @@ public class DuplicateCommandHandler {
                     IDiagramModelConnection connCopy = (IDiagramModelConnection)conn.getCopy();
                     IDiagramModelObject srcCopy = fMapping.get(conn.getSource());
                     IDiagramModelObject tgtCopy = fMapping.get(conn.getTarget());
-                    connCopy.connect(srcCopy, tgtCopy);
                     
+                    // Set this before connecting
                     if(conn instanceof IDiagramModelArchimateConnection) {
                         ((IDiagramModelArchimateConnection)connCopy).setRelationship(((IDiagramModelArchimateConnection)conn).getRelationship());
                     }
+
+                    connCopy.connect(srcCopy, tgtCopy);
                 }
             }
         }
