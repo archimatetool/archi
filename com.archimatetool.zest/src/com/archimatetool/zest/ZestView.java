@@ -6,6 +6,7 @@
 package com.archimatetool.zest;
 
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
@@ -445,8 +446,9 @@ implements IZestView, ISelectionListener {
     }
     
     @Override
-    protected void refreshElementsFromBufferedNotifications() {
+    protected void doRefreshFromNotifications(List<Notification> notifications) {
         refresh();
+        super.doRefreshFromNotifications(notifications);
     }
 
     // =================================================================================

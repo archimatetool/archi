@@ -7,7 +7,6 @@ package com.archimatetool.editor.views.tree;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
@@ -45,7 +44,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
     /**
      * Tree Viewer
      */
-    private TreeViewer fViewer;
+    private TreeModelViewer fViewer;
     
     /**
      * Application Preferences Listener
@@ -59,7 +58,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
         }
     };
     
-    TreeViewpointFilterProvider(TreeViewer viewer) {
+    TreeViewpointFilterProvider(TreeModelViewer viewer) {
         fViewer = viewer;
 
         // Listen to Part selections
@@ -87,14 +86,8 @@ public class TreeViewpointFilterProvider implements IPartListener {
      */
     private void refreshTreeModel(IArchimateDiagramModel dm) {
         if(dm != null && isActive()) {
-            final IArchimateModel model = dm.getArchimateModel();
-            fViewer.getControl().getDisplay().asyncExec(new Runnable() {
-                public void run() {
-                    if(!fViewer.getControl().isDisposed()) { // please check!
-                        fViewer.refresh(model); // expensive operation
-                    }
-                }
-            });
+            IArchimateModel model = dm.getArchimateModel();
+            fViewer.refreshInBackground(model);
         }
     }
 
@@ -151,7 +144,7 @@ public class TreeViewpointFilterProvider implements IPartListener {
                 if(page != null && page.getActiveEditor() == null) {
                     fActiveDiagramModel = null;
                     if(isActive()) {
-                        fViewer.refresh();
+                        fViewer.refreshInBackground(null);
                     }
                 }
         	}

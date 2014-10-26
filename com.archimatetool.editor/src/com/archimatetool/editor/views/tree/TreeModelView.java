@@ -7,6 +7,7 @@ package com.archimatetool.editor.views.tree;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -33,6 +34,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IMemento;
@@ -624,14 +626,8 @@ implements ITreeModelView, IUIRequestListener {
             if(feature == IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT) {
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_FILTER_MODEL_TREE)) {
                     if(notifier instanceof IDiagramModel) {
-                        final IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
-                        getViewer().getControl().getDisplay().asyncExec(new Runnable() {
-                            public void run() {
-                                if(!getViewer().getControl().isDisposed()) { //check please!
-                                    getViewer().refresh(model); // expensive operation
-                                }
-                            }
-                        });
+                        IArchimateModel model = ((IDiagramModel)notifier).getArchimateModel();
+                        getViewer().refreshInBackground(model);
                     }
                 }
             }
@@ -641,6 +637,60 @@ implements ITreeModelView, IUIRequestListener {
         }
         else {
             super.eCoreChanged(msg);
+        }
+    }
+    
+    @Override
+    protected void doRefreshFromNotifications(final List<Notification> notifications) {
+        Display.getCurrent().asyncExec(new Runnable() {
+            public void run() {
+                if(!getViewer().getControl().isDisposed()) { // check inside run loop
+                    refreshFromNotifications(notifications);
+                }
+                
+                // Call super
+                TreeModelView.super.doRefreshFromNotifications(notifications);
+            }
+        });
+    }
+    
+    private void refreshFromNotifications(List<Notification> notifications) {
+        if(notifications == null) {
+            return;
+        }
+        
+        List<Object> refreshElements = new ArrayList<Object>();
+        List<Object> updateElements = new ArrayList<Object>();
+            
+        for(Notification msg : notifications) {
+            // Get parent nodes to refresh
+            Object parent = getParentToRefreshFromNotification(msg);
+            if(parent != null && !refreshElements.contains(parent)) {
+                refreshElements.add(parent);
+            }
+            
+            // Get elements to update
+            List<Object> elements = getElementsToUpdateFromNotification(msg);
+            for(Object object : elements) {
+                if(!updateElements.contains(object)) {
+                    updateElements.add(object);
+                }
+            }
+        }
+        
+        try {
+            getViewer().getControl().setRedraw(false);
+
+            for(Object object : refreshElements) {
+                getViewer().refresh(object);
+            }
+
+            for(Object object : updateElements) {
+                getViewer().update(object, null);
+            }
+        }
+        finally {
+            getViewer().getControl().setRedraw(true);
         }
     }
 

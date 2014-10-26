@@ -166,6 +166,26 @@ public class TreeModelViewer extends TreeViewer {
     }
     
     /**
+     * Refresh the tree in the background
+     * @param element The root element or null for the whole tree
+     */
+    public void refreshInBackground(final Object element) {
+        getControl().getDisplay().asyncExec(new Runnable() {
+            public void run() {
+                if(!getControl().isDisposed()) { // check inside run loop
+                    try {
+                        getControl().setRedraw(false);
+                        refresh(element);
+                    }
+                    finally {
+                        getControl().setRedraw(true);
+                    }
+                }
+            }
+        });
+    }
+    
+    /**
      * Finds the widget which represents the given element.
      * @param element the element
      * @return the TreeItem or null

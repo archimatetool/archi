@@ -6,6 +6,7 @@
 package com.archimatetool.editor.views.navigator;
 
 import java.beans.PropertyChangeEvent;
+import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
@@ -368,33 +369,38 @@ implements INavigatorView, ISelectionListener {
     
     @Override
     protected void eCoreChanged(Notification msg) {
-        int type = msg.getEventType();
-        
-        if(type == Notification.ADD || type == Notification.ADD_MANY ||
-                type == Notification.REMOVE || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
-            getViewer().refresh();
-        }
-        // Attribute set
-        else if(type == Notification.SET) {
-            Object feature = msg.getFeature();
-
-            // Relationship/Connection changed - requires full refresh
-            if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE ||
-                                        feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
+        switch(msg.getEventType()) {
+            case Notification.ADD:
+            case Notification.ADD_MANY:
+            case Notification.REMOVE:
+            case Notification.REMOVE_MANY:
+            case Notification.MOVE:
                 getViewer().refresh();
-            }
-            else {
+                break;
+                
+            case Notification.SET:
+                Object feature = msg.getFeature();
+
+                // Relationship/Connection changed - requires full refresh
+                if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE ||
+                                            feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
+                    getViewer().refresh();
+                }
+                else {
+                    super.eCoreChanged(msg);
+                }
+                break;
+
+            default:
                 super.eCoreChanged(msg);
-            }
-        }
-        else {
-            super.eCoreChanged(msg);
+                break;
         }
     }
     
     @Override
-    protected void refreshElementsFromBufferedNotifications() {
+    protected void doRefreshFromNotifications(List<Notification> notifications) {
         getViewer().refresh();
+        super.doRefreshFromNotifications(notifications);
     }
 
     // =================================================================================

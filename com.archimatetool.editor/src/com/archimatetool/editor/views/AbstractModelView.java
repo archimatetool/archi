@@ -62,17 +62,6 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     protected UndoAction fActionUndo = new UndoAction(this);
     protected RedoAction fActionRedo = new RedoAction(this);
     
-    /**
-     * If true will not refresh viewer on multiple eCore notifications
-     */
-    private Boolean fIgnoreECoreNotifications = false;
-    
-    /**
-     * Buffer notifications to optimise updates
-     */
-    private List<Notification> notificationBuffer;
-    
-    
     @Override
     public void createPartControl(Composite parent) {
         doCreatePartControl(parent);
@@ -177,106 +166,84 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     // =================================================================================
     //                       Listen to Editor Model Changes
     // =================================================================================
+    
+    /**
+     * If true will not refresh viewer on multiple eCore notifications
+     */
+    private Boolean fAddingToBuffer = false;
+    
+    /**
+     * Buffer notifications to optimise updates
+     */
+    private List<Notification> fNotificationBuffer;
+    
     public void propertyChange(PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
         Object newValue = evt.getNewValue();
         
-        // Buffer all incoming notifications
+        // Start: Buffer all incoming notifications
         if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_START) {
-            fIgnoreECoreNotifications = true;
-            notificationBuffer = new ArrayList<Notification>();
+            fAddingToBuffer = true;
+            fNotificationBuffer = new ArrayList<Notification>();
         }
-        // Refresh all buffered notifications
+        // End: Refresh Viewer with buffered notifications
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENTS_END) {
-            refreshElementsFromBufferedNotifications();
-            fIgnoreECoreNotifications = false;
-            notificationBuffer = null;
+            doRefreshFromNotifications(fNotificationBuffer);
         }
         // ECore model event
         else if(propertyName == IEditorModelManager.PROPERTY_ECORE_EVENT) {
             // Normal event
-            if(!fIgnoreECoreNotifications) {
+            if(!fAddingToBuffer) {
                 eCoreChanged((Notification)newValue);
             }
             // Else add to buffer
             else {
-                notificationBuffer.add((Notification)newValue);
+                fNotificationBuffer.add((Notification)newValue);
             }
         }
     }
     
     /**
      * React to ECore Model Changes to refresh the view
-     * @param msg
      */
     protected void eCoreChanged(Notification msg) {
         int type = msg.getEventType();
         
-        if(type == Notification.REMOVING_ADAPTER) {
+        // Not interested in these types
+        if(type == Notification.REMOVING_ADAPTER || type == Notification.ADD_MANY
+                                || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
             return;
         }
         
-        // Large structural model change - refresh the whole thing
-        if(type == Notification.ADD_MANY || type == Notification.REMOVE_MANY || type == Notification.MOVE) {
-            getViewer().refresh();
-            return;
-        }
-        
-        // Update affected element node(s)
-        List<Object> elements = getElementsToUpdateFromNotification(msg);
-        getViewer().update(elements.toArray(), null);
+        try {
+            getViewer().getControl().setRedraw(false);
 
-        // Refresh parent node
-        Object parent = getParentToRefreshFromNotification(msg);
-        if(parent != null) {
-            getViewer().refresh(parent);
+            // Update affected element node(s)
+            List<Object> elements = getElementsToUpdateFromNotification(msg);
+            getViewer().update(elements.toArray(), null);
+
+            // Refresh parent node
+            Object parent = getParentToRefreshFromNotification(msg);
+            if(parent != null) {
+                getViewer().refresh(parent);
+            }
+        }
+        finally {
+            getViewer().getControl().setRedraw(true);
         }
     }
     
     /**
      * Refresh any tree elements from buffered notifications
+     * Overriders should call super after doing their thing
      */
-    protected void refreshElementsFromBufferedNotifications() {
-        if(notificationBuffer == null) {
-            return;
-        }
-        
-        List<Object> refreshElements = new ArrayList<Object>();
-        List<Object> updateElements = new ArrayList<Object>();
-            
-        for(Notification msg : notificationBuffer) {
-            // Get parent nodes to refresh
-            Object parent = getParentToRefreshFromNotification(msg);
-            if(parent != null && !refreshElements.contains(parent)) {
-                refreshElements.add(parent);
-            }
-            
-            // Get elements to update
-            List<Object> elements = getElementsToUpdateFromNotification(msg);
-            for(Object object : elements) {
-                if(!updateElements.contains(object)) {
-                    updateElements.add(object);
-                }
-            }
-        }
-        
-        // Refresh and update nodes
-        getViewer().getControl().setRedraw(false);
-
-        for(Object object : refreshElements) {
-            getViewer().refresh(object);
-        }
-
-        for(Object object : updateElements) {
-            getViewer().update(object, null);
-        }
-
-        getViewer().getControl().setRedraw(true);
+    protected void doRefreshFromNotifications(List<Notification> notifications) {
+        fAddingToBuffer = false;
+        fNotificationBuffer = null;
     }
     
     /**
-     * @param msg
-     * @return The correct parent node (IFolder) to refresh when one of its children is added/removed
+     * @return The parent node to refresh when one of its children is added/removed/set
      */
     protected Object getParentToRefreshFromNotification(Notification msg) {
         int type = msg.getEventType();
@@ -302,24 +269,14 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             }
         }
         
-        if(element instanceof IDiagramModelArchimateObject) {
-            element = ((IDiagramModelArchimateObject)element).getArchimateElement();
-        }
-        else if(element instanceof IDiagramModelArchimateConnection) {
-            element = ((IDiagramModelArchimateConnection)element).getRelationship();
-        }
-        
         return (element instanceof IFolder) ? element : null;
     }
     
     /**
-     * @param msg
      * @return All the tree element nodes that may need updating when a change occurs
      */
     protected List<Object> getElementsToUpdateFromNotification(Notification msg) {
         int type = msg.getEventType();
-        
-        List<Object> list = new ArrayList<Object>();
         
         Object element = null;
         
@@ -333,13 +290,15 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             element = msg.getNotifier();
         }
         
-        // If it's a diagram object it may have child objects so treat it separately
-        if(element instanceof IDiagramModelObject) {
-            getElementsToUpdate(list, (IDiagramModelObject)element);
+        List<Object> list = new ArrayList<Object>();
+        
+        // If it's a diagram object or a diagram dig in and treat it separately
+        if(element instanceof IDiagramModelContainer) {
+            getDiagramElementsToUpdate(list, (IDiagramModelContainer)element);
             return list;
         }
         
-        // A diagram connection so get the relationship
+        // If it's a diagram connection get the relationship
         if(element instanceof IDiagramModelArchimateConnection) {
             element = ((IDiagramModelArchimateConnection)element).getRelationship();
         }
@@ -360,20 +319,22 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     }
     
     /**
-     * Find all elements contained in IDiagramModelObject including any child objects
+     * Find all elements contained in Diagram or Diagram objects including any child objects
      */
-    private void getElementsToUpdate(List<Object> list, IDiagramModelObject dmo) {
-        if(dmo instanceof IDiagramModelArchimateObject) {
-            IArchimateElement element = ((IDiagramModelArchimateObject)dmo).getArchimateElement();
+    private void getDiagramElementsToUpdate(List<Object> list, IDiagramModelContainer container) {
+        // ArchiMate element
+        if(container instanceof IDiagramModelArchimateObject) {
+            IArchimateElement element = ((IDiagramModelArchimateObject)container).getArchimateElement();
             if(!list.contains(element)) {
                 list.add(element);
                 getRelationshipsToUpdate(list, element);
             }
         }
         
-        if(dmo instanceof IDiagramModelContainer) {
-            for(IDiagramModelObject child : ((IDiagramModelContainer)dmo).getChildren()) {
-                getElementsToUpdate(list, child);
+        // Children
+        for(IDiagramModelObject child : container.getChildren()) {
+            if(child instanceof IDiagramModelContainer) {
+                getDiagramElementsToUpdate(list, (IDiagramModelContainer)child);
             }
         }
     }
