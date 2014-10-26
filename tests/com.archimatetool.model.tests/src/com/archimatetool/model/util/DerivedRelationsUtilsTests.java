@@ -142,7 +142,7 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement process = IArchimateFactory.eINSTANCE.createBusinessProcess();
         model.getDefaultFolderForElement(process).getElements().add(process);
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
         IRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();

@@ -17,8 +17,6 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
-import com.archimatetool.model.IBusinessActor;
-import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IRealisationRelationship;
 import com.archimatetool.model.IRelationship;
@@ -116,11 +114,7 @@ public class DerivedRelationsUtils {
      * @return True if relation is bi-directional
      */
     public static boolean isBidirectionalRelationship(IRelationship relation) {
-        //return relation instanceof IAssociationRelationship || relation instanceof IAssignmentRelationship;
-        if(relation instanceof IAssignmentRelationship) {
-            return (relation.getSource() instanceof IBusinessActor) && (relation.getTarget() instanceof IBusinessRole);
-        }
-        return false;
+        return relation instanceof IAssociationRelationship;
     }
     
     /**
