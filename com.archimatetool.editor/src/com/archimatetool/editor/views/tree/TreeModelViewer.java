@@ -151,7 +151,7 @@ public class TreeModelViewer extends TreeViewer {
     
     @Override
     public void refresh(Object element) {
-        if(fCellEditor != null && fCellEditor.isEditing()) {
+        if(isEditing()) {
             fCellEditor.cancelEditing();
         }
         super.refresh(element);
@@ -159,17 +159,21 @@ public class TreeModelViewer extends TreeViewer {
     
     @Override
     public void refresh(Object element, boolean updateLabels) {
-        if(fCellEditor != null && fCellEditor.isEditing()) {
+        if(isEditing()) {
             fCellEditor.cancelEditing();
         }
         super.refresh(element, updateLabels);
+    }
+    
+    boolean isEditing() {
+        return fCellEditor != null && fCellEditor.isEditing();
     }
     
     /**
      * Refresh the tree in the background
      * @param element The root element or null for the whole tree
      */
-    public void refreshInBackground(final Object element) {
+    void refreshInBackground(final Object element) {
         getControl().getDisplay().asyncExec(new Runnable() {
             public void run() {
                 if(!getControl().isDisposed()) { // check inside run loop

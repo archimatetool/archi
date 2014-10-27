@@ -8,8 +8,7 @@ package com.archimatetool.editor.ui.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.jface.util.SafeRunnable;
+import org.eclipse.swt.widgets.Display;
 
 
 /**
@@ -39,14 +38,14 @@ public final class UIRequestManager {
             return;
         }
         
-        Object[] listenersArray = listeners.toArray();
-        for(int i = 0; i < listenersArray.length; i++) {
-            final IUIRequestListener l = (IUIRequestListener)listenersArray[i];
-            SafeRunner.run(new SafeRunnable() {
-                public void run() {
-                    l.requestAction(request);
+        Display.getCurrent().asyncExec(new Runnable() {
+            public void run() {
+                Object[] listenersArray = listeners.toArray();
+                for(int i = 0; i < listenersArray.length; i++) {
+                    IUIRequestListener listener = (IUIRequestListener)listenersArray[i];
+                    listener.requestAction(request);
                 }
-            });
-        }
+            }
+        });
     }
 }
