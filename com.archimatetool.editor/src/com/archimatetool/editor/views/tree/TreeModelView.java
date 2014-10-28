@@ -80,6 +80,7 @@ import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IFolderContainer;
 
 
 
@@ -335,7 +336,7 @@ implements ITreeModelView, IUIRequestListener {
             public void run() {
                 IStructuredSelection selection = ((IStructuredSelection)getViewer().getSelection());
                 for(Object o : selection.toArray()) {
-                    if(fTreeViewer.isExpandable(o) && !fTreeViewer.getExpandedState(o)) {
+                    if(hasExpandableNodes(o)) {
                         fTreeViewer.expandToLevel(o, AbstractTreeViewer.ALL_LEVELS);
                     }
                 }
@@ -442,7 +443,7 @@ implements ITreeModelView, IUIRequestListener {
             
             // Expand selected
             for(Object o : selection.toArray()) {
-                if(fTreeViewer.isExpandable(o) && !fTreeViewer.getExpandedState(o)) {
+                if(hasExpandableNodes(o)) {
                     manager.add(fActionExpandSelected);
                     break;
                 }
@@ -496,6 +497,23 @@ implements ITreeModelView, IUIRequestListener {
         IToolBarManager manager = bars.getToolBarManager();
         manager.add(fActionToggleSearchField);
         manager.add(fActionLinkToEditor);
+    }
+    
+    /**
+     * @return true if the node containing object, or any of its child nodes, can be expanded
+     */
+    private boolean hasExpandableNodes(Object object) {
+        if(fTreeViewer.isExpandable(object) && !fTreeViewer.getExpandedState(object)) {
+            return true;
+        }
+        if(object instanceof IFolderContainer) {
+            for(IFolder folder : ((IFolderContainer)object).getFolders()) {
+                if(hasExpandableNodes(folder)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     @Override
