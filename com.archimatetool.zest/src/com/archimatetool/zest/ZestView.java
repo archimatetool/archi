@@ -436,8 +436,13 @@ implements IZestView, ISelectionListener {
             case Notification.REMOVE:
             case Notification.REMOVE_MANY:
             case Notification.MOVE:
-            case Notification.SET:
                 refresh();
+                break;
+            case Notification.SET:
+                if(msg.getNotifier() == fDrillDownManager.getCurrentComponent()) {
+                    updateLabel();
+                }
+                super.eCoreChanged(msg);
                 break;
 
             default:
