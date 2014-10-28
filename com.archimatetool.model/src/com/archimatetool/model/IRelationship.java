@@ -5,6 +5,8 @@
  */
 package com.archimatetool.model;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -75,5 +77,10 @@ public interface IRelationship extends IArchimateComponent {
      * @generated
      */
     void setTarget(IArchimateElement value);
+    
+    /**
+     * @return A list of diagram connections that reference this Relationship
+     */
+    EList<IDiagramModelArchimateConnection> getReferencingDiagramConnections();
 
 } // IRelationship

@@ -6,11 +6,14 @@
 package com.archimatetool.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IRelationship;
 
 
@@ -48,6 +51,11 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
      * @ordered
      */
     protected IArchimateElement target;
+
+    /**
+     * Stored references to Diagram Connections
+     */
+    private EList<IDiagramModelArchimateConnection> diagramConnections;
 
     /**
      * <!-- begin-user-doc -->
@@ -108,6 +116,17 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
         target = newTarget;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.RELATIONSHIP__TARGET, oldTarget, target));
+    }
+
+    /* (non-Javadoc)
+     * @see com.archimatetool.model.IRelationship#getReferencingDiagramConnections()
+     */
+    @Override
+    public EList<IDiagramModelArchimateConnection> getReferencingDiagramConnections() {
+        if(diagramConnections == null) {
+            diagramConnections = new UniqueEList<IDiagramModelArchimateConnection>();
+        }
+        return diagramConnections;
     }
 
     /**

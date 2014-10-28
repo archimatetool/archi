@@ -5,8 +5,10 @@
  */
 package com.archimatetool.model.impl;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
@@ -166,6 +168,24 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
         IRelationship relationship = (IRelationship)getRelationship().getCopy();
         newConnection.setRelationship(relationship);
         return newConnection;
+    }
+    
+    @Override
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
+        // Add a reference to this in the Archimate Relationship
+        if(fRelationship != null) { // this will be null when a copy of this object is made
+            fRelationship.getReferencingDiagramConnections().add(this);
+        }
+        return super.eInverseAdd(otherEnd, featureID, baseClass, msgs);
+    }
+    
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
+        // Remove the reference to this in the Archimate Relationship
+        if(fRelationship != null) { // this may be null...possibly?
+            fRelationship.getReferencingDiagramConnections().remove(this);
+        }
+        return super.eInverseRemove(otherEnd, featureID, baseClass, msgs);
     }
     
     /**

@@ -148,7 +148,25 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
 
         fArchimateElement = archimateElement;
     }
-
+    
+    @Override
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
+        // Add a reference to this in the Archimate Element
+        if(fArchimateElement != null) { // this will be null when a copy of this object is made
+            fArchimateElement.getReferencingDiagramObjects().add(this);
+        }
+        return super.eInverseAdd(otherEnd, featureID, baseClass, msgs);
+    }
+    
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
+        // Remove the reference to this in the Archimate Element
+        if(fArchimateElement != null) { // this could be null...possibly?
+            fArchimateElement.getReferencingDiagramObjects().remove(this);
+        }
+        return super.eInverseRemove(otherEnd, featureID, baseClass, msgs);
+    }
+    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

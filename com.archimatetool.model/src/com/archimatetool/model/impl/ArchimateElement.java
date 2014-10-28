@@ -5,10 +5,13 @@
  */
 package com.archimatetool.model.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -21,6 +24,12 @@ import com.archimatetool.model.IArchimatePackage;
  * @generated
  */
 public abstract class ArchimateElement extends ArchimateComponent implements IArchimateElement {
+    
+    /**
+     * Stored references to Diagram Objects
+     */
+    private EList<IDiagramModelArchimateObject> diagramObjects;
+
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -39,4 +48,16 @@ public abstract class ArchimateElement extends ArchimateComponent implements IAr
     protected EClass eStaticClass() {
         return IArchimatePackage.Literals.ARCHIMATE_ELEMENT;
     }
+    
+    /* (non-Javadoc)
+     * @see com.archimatetool.model.IArchimateElement#getReferencingDiagramObjects()
+     */
+    @Override
+    public EList<IDiagramModelArchimateObject> getReferencingDiagramObjects() {
+        if(diagramObjects == null) {
+            diagramObjects = new UniqueEList<IDiagramModelArchimateObject>();
+        }
+        return diagramObjects;
+    }
+    
 } //ArchimateElement
