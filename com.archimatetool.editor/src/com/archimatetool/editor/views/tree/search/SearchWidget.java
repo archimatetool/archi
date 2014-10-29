@@ -109,7 +109,13 @@ public class SearchWidget extends Composite {
             fSearchText = widget.getTextControl();
         }
         else {
-            fSearchText = new Text(this, SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH);
+            // Bug on Mac 10.10 https://bugs.eclipse.org/bugs/show_bug.cgi?id=447981
+            // Workaround is to use SWT.CENTER
+            int flags = SWT.SEARCH | SWT.ICON_CANCEL | SWT.ICON_SEARCH;
+            if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) { //$NON-NLS-1$ //$NON-NLS-2$
+                flags |= SWT.CENTER;
+            }
+            fSearchText = new Text(this, flags);
             fSearchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }
         
