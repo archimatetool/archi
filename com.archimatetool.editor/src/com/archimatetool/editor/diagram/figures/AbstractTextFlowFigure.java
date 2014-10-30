@@ -16,6 +16,8 @@ import org.eclipse.draw2d.text.TextFlow;
 
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
@@ -54,7 +56,10 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
         FlowPage page = new FlowPage();
         BlockFlow block = new BlockFlow();
         fTextFlow = new TextFlow();
-        fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_TRUNCATE));
+        
+        int wordWrapStyle = Preferences.STORE.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
+        fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, wordWrapStyle));
+        
         block.add(fTextFlow);
         page.add(block);
         add(page, textLocator);

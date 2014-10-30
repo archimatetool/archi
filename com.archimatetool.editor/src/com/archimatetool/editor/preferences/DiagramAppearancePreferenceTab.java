@@ -30,6 +30,14 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     private Spinner fDefaultArchimateFigureWidthSpinner, fDefaultArchimateFigureHeightSpinner;
     
+    private Button[] fWordWrapStyleButtons;
+    
+    private String[] WORD_WRAP_STYLES = {
+            Messages.DiagramAppearancePreferenceTab_4,
+            Messages.DiagramAppearancePreferenceTab_5,
+            Messages.DiagramAppearancePreferenceTab_6
+    };
+    
     private Combo fDefaultSketchBackgroundCombo;
     
     
@@ -70,6 +78,20 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         fDefaultArchimateFigureHeightSpinner.setMinimum(30);
         fDefaultArchimateFigureHeightSpinner.setMaximum(300);
         
+        // Word wrap style
+        Group figuresWordWrapStyleGroup = new Group(figuresGroup, SWT.NULL);
+        figuresWordWrapStyleGroup.setText(Messages.DiagramAppearancePreferenceTab_7);
+        figuresWordWrapStyleGroup.setLayout(new GridLayout());
+        figuresWordWrapStyleGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fWordWrapStyleButtons = new Button[3];
+        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
+            fWordWrapStyleButtons[i] = new Button(figuresWordWrapStyleGroup, SWT.RADIO);
+            fWordWrapStyleButtons[i].setText(WORD_WRAP_STYLES[i]);
+            gd = new GridData(GridData.FILL_HORIZONTAL);
+            fWordWrapStyleButtons[i].setLayoutData(gd);
+        }
+        
         // -------------- Sketch ----------------------------
 
         Group sketchGroup = new Group(client, SWT.NULL);
@@ -97,6 +119,10 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
         
+        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
+            fWordWrapStyleButtons[i].setSelection(getPreferenceStore().getInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE) == i);
+        }
+        
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));        
     }
     
@@ -110,6 +136,12 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, fDefaultArchimateFigureHeightSpinner.getSelection());
         
+        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
+            if(fWordWrapStyleButtons[i].getSelection()) {
+                getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, i);
+            }
+        }
+        
         getPreferenceStore().setValue(SKETCH_DEFAULT_BACKGROUND, fDefaultSketchBackgroundCombo.getSelectionIndex());
         
         return true;
@@ -120,6 +152,10 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
+        
+        for(int i = 0; i < fWordWrapStyleButtons.length; i++) {
+            fWordWrapStyleButtons[i].setSelection(getPreferenceStore().getDefaultInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE) == i);
+        }
         
         fDefaultSketchBackgroundCombo.select(getPreferenceStore().getDefaultInt(SKETCH_DEFAULT_BACKGROUND));
     }

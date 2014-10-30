@@ -88,6 +88,8 @@ public interface IPreferenceConstants {
     
     String SHOW_SHADOWS = "showShadows"; //$NON-NLS-1$
     
+    String ARCHIMATE_FIGURE_WORD_WRAP_STYLE = "archimateFigureWordWrapStyle"; //$NON-NLS-1$
+    
     String SHOW_STATUS_LINE = "showStatusLine"; //$NON-NLS-1$
     
     String DEFAULT_ARCHIMATE_FIGURE_WIDTH = "defaultArchiMateFigureWidth"; //$NON-NLS-1$

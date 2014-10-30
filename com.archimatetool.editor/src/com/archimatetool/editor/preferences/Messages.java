@@ -123,6 +123,14 @@ public class Messages extends NLS {
 
     public static String DiagramAppearancePreferenceTab_3;
 
+    public static String DiagramAppearancePreferenceTab_4;
+
+    public static String DiagramAppearancePreferenceTab_5;
+
+    public static String DiagramAppearancePreferenceTab_6;
+
+    public static String DiagramAppearancePreferenceTab_7;
+
     public static String DiagramFiguresPreferencePage_0;
 
     public static String DiagramFiguresPreferencePage_1;

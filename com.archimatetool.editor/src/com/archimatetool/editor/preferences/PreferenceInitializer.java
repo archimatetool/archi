@@ -85,6 +85,9 @@ implements IPreferenceConstants {
         // Show shadows
         store.setDefault(SHOW_SHADOWS, false);
         
+        // Archimate Figure Word Wrap type
+        store.setDefault(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, 1);
+        
         // Show status line
         store.setDefault(SHOW_STATUS_LINE, true);
         
