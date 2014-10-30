@@ -8,16 +8,10 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
@@ -30,13 +24,13 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigure {
 	
     /**
-     * Skewy-line ball
+     * Ball
      */
-    static class Endpoint1 extends Figure implements RotatableDecoration {
+    static class BallEndpoint extends Figure implements RotatableDecoration {
         private int radius = 2;
         private Point pLocation;
 
-        Endpoint1() {
+        BallEndpoint() {
             setSize(radius * 2 + 1, radius * 2 + 1);
         }
 
@@ -66,65 +60,10 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
     }
 
     /**
-     * Overlapping on edge ball
-     */
-    static class Endpoint2 extends Endpoint1 {
-        
-        Endpoint2() {
-        }
-
-        @Override
-        public void setReferencePoint(Point ref) {
-        }
-
-        @Override
-        public void setLocation(Point p) {
-            if(getLocation().equals(p)) {
-                return;
-            }
-            Dimension size = getBounds().getSize();
-            setBounds(new Rectangle(p.x - (size.width >> 1), p.y - (size.height >> 1), size.width, size.height));
-        }
-    }
-
-    /**
-     * "Classic" endpoint (aka "shit")
-     */
-    static class Endpoint3 extends PolygonDecoration {
-        Endpoint3() {
-            setScale(2, 1.3);
-            
-            PointList decorationPointList = new PointList();
-            
-            decorationPointList.addPoint(0, 0);
-            decorationPointList.addPoint(0, -1);
-            decorationPointList.addPoint(-1, -1);
-            decorationPointList.addPoint(-1, 0);
-            decorationPointList.addPoint(-1, 1);
-            decorationPointList.addPoint(0, 1);
-            
-            setTemplate(decorationPointList);
-        }
-    }
-
-    /**
      * @return Decoration to use on Target Node
      */
     public static RotatableDecoration createFigureTargetDecoration() {
-        int type = Preferences.STORE.getInt(IPreferenceConstants.ASSIGNMENT_CONNECTION_ENDPOINT);
-        switch(type) {
-            case 0:
-                return new Endpoint1();
-
-            case 1:
-                return new Endpoint2();
-
-            case 2:
-                return new Endpoint3();
-
-            default:
-                return new Endpoint1();
-        }
+        return new BallEndpoint();
     }
     
     /**

@@ -63,9 +63,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
     private TabFolder fTabFolder;
     
-    // Experimental Assignment Connection Endpoints
-    private Button[] fAssButton;
-    
     public ConnectionsPreferencePage() {
         setPreferenceStore(Preferences.STORE);
     }
@@ -211,36 +208,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         label.setText(Messages.ConnectionsPreferencePage_12);
         fTableViewerHiddenRelations = createRelationsTable(client2);
         
-        // Experimental
-        Composite client3 = new Composite(fTabFolder, SWT.NULL);
-        client3.setLayout(new GridLayout());
-    
-        TabItem item3 = new TabItem(fTabFolder, SWT.NONE);
-        item3.setText("Experimental"); //$NON-NLS-1$
-        item3.setControl(client3);
-        
-        Group assConnectionGroup = new Group(client3, SWT.NULL);
-        assConnectionGroup.setText("Assignment connection endpoints"); //$NON-NLS-1$
-        assConnectionGroup.setLayout(new GridLayout());
-        assConnectionGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
-        fAssButton = new Button[3];
-        
-        fAssButton[0] = new Button(assConnectionGroup, SWT.RADIO);
-        fAssButton[0].setText("Ball ends"); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fAssButton[0].setLayoutData(gd);
-        
-        fAssButton[1] = new Button(assConnectionGroup, SWT.RADIO);
-        fAssButton[1].setText("Ball ends overlapping"); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fAssButton[1].setLayoutData(gd);
-        
-        fAssButton[2] = new Button(assConnectionGroup, SWT.RADIO);
-        fAssButton[2].setText("Square"); //$NON-NLS-1$
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fAssButton[2].setLayoutData(gd);
-        
         setValues();
 
         return fTabFolder;
@@ -330,11 +297,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTableViewerHiddenRelations.setInput(getPreferenceStore().getInt(HIDDEN_RELATIONS_TYPES));
         
         enableNestedConnectionComponents();
-        
-        // Experimental
-        fAssButton[0].setSelection(getPreferenceStore().getInt(ASSIGNMENT_CONNECTION_ENDPOINT) == 0);
-        fAssButton[1].setSelection(getPreferenceStore().getInt(ASSIGNMENT_CONNECTION_ENDPOINT) == 1);
-        fAssButton[2].setSelection(getPreferenceStore().getInt(ASSIGNMENT_CONNECTION_ENDPOINT) == 2);
     }
     
     @Override
@@ -368,12 +330,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         getPreferenceStore().setValue(HIDDEN_RELATIONS_TYPES, value);
         
-        for(int i = 0; i < fAssButton.length; i++) {
-            if(fAssButton[i].getSelection()) {
-                getPreferenceStore().setValue(ASSIGNMENT_CONNECTION_ENDPOINT, i);
-            }
-        }
-        
         return true;
     }
 
@@ -386,10 +342,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
             case 1:
                 performARMDefaults();
-                break;
-                
-            case 2:
-                performExperimentalDefaults();
                 break;
 
             default:
@@ -421,12 +373,5 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fTableViewerHiddenRelations.setInput(getPreferenceStore().getDefaultInt(HIDDEN_RELATIONS_TYPES));
         
         enableNestedConnectionComponents();
-    }
-    
-    private void performExperimentalDefaults() {
-        fAssButton[0].setSelection(getPreferenceStore().getDefaultInt(ASSIGNMENT_CONNECTION_ENDPOINT) == 0);
-        fAssButton[1].setSelection(getPreferenceStore().getDefaultInt(ASSIGNMENT_CONNECTION_ENDPOINT) == 1);
-        fAssButton[2].setSelection(getPreferenceStore().getDefaultInt(ASSIGNMENT_CONNECTION_ENDPOINT) == 2);
-
     }
 }
