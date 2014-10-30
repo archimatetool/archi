@@ -34,26 +34,23 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
      */
     static class Endpoint1 extends Figure implements RotatableDecoration {
         private int radius = 2;
-        private Point pRef;
+        private Point pLocation;
 
         Endpoint1() {
             setSize(radius * 2 + 1, radius * 2 + 1);
         }
 
         public void setReferencePoint(Point ref) {
-            pRef = ref.getCopy();
+            if(pLocation != null) {
+                PolarPoint pp = new PolarPoint(ref, pLocation);
+                pp.r -= radius;
+                super.setLocation(pp.toAbsolutePoint(ref).getTranslated(-radius, -radius));
+            }
         }
 
         @Override
         public void setLocation(Point p) {
-            if(pRef != null) {
-                PolarPoint pp = new PolarPoint(pRef, p.getCopy());
-                pp.r -= radius;
-                super.setLocation(pp.toAbsolutePoint(pRef).getTranslated(-radius, -radius));
-            }
-            else {
-                super.setLocation(p);
-            }
+            pLocation = p.getCopy();
         }
 
         @Override
