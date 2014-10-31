@@ -74,6 +74,11 @@ public class AboutDialog extends TrayDialog {
     }
 
     @Override
+    protected boolean isResizable() {
+        return true;
+    }
+    
+    @Override
     protected void buttonPressed(int buttonId) {
         if(buttonId == ERRORLOG_ID) {
             AboutUtils.openErrorLogBrowser(getShell());
@@ -124,6 +129,8 @@ public class AboutDialog extends TrayDialog {
             }
         });
         
+        folder.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
         createAboutTab();
         createInfoTab();
         createLicenseTab();
@@ -140,7 +147,7 @@ public class AboutDialog extends TrayDialog {
         aboutTabItem.setControl(control);
         
         Composite imageControl = new Composite(control, SWT.NO_BACKGROUND);
-        GridData gd = new GridData();
+        GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
         imageControl.setLayoutData(gd);
 
         final int imageHeight;
