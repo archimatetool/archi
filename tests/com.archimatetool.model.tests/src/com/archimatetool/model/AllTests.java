@@ -17,6 +17,7 @@ import com.archimatetool.model.impl.DiagramModelArchimateConnectionTests;
 import com.archimatetool.model.impl.DiagramModelArchimateObjectTests;
 import com.archimatetool.model.impl.DiagramModelBendpointTests;
 import com.archimatetool.model.impl.DiagramModelConnectionTests;
+import com.archimatetool.model.impl.DiagramModelExtraTests;
 import com.archimatetool.model.impl.DiagramModelGroupTests;
 import com.archimatetool.model.impl.DiagramModelImageTests;
 import com.archimatetool.model.impl.DiagramModelNoteTests;
@@ -48,6 +49,7 @@ public class AllTests {
         suite.addTest(DiagramModelArchimateObjectTests.suite());
         suite.addTest(DiagramModelBendpointTests.suite());
         suite.addTest(DiagramModelConnectionTests.suite());
+        suite.addTest(DiagramModelExtraTests.suite());
         suite.addTest(DiagramModelGroupTests.suite());
         suite.addTest(DiagramModelImageTests.suite());
         suite.addTest(DiagramModelNoteTests.suite());
