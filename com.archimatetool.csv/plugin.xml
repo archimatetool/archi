@@ -14,7 +14,7 @@
       <importHandler2
             class="com.archimatetool.csv.importer.CSVImportProvider"
             id="com.archimatetool.csv.importHandler"
-            label="CSV Data Into Model...">
+            label="%importLabel">
       </importHandler2>
    </extension>
    <extension
