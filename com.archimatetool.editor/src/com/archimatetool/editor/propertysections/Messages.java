@@ -169,6 +169,16 @@ public class Messages extends NLS {
 
     public static String NameSection_0;
 
+    public static String NoteSection_0;
+
+    public static String NoteSection_1;
+
+    public static String NoteSection_2;
+
+    public static String NoteSection_3;
+
+    public static String NoteSection_4;
+
     public static String SketchElementSection_0;
 
     public static String SketchElementSection_1;

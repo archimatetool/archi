@@ -1632,6 +1632,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getDiagramModelNote_BorderType() {
+        return (EAttribute)diagramModelNoteEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getDiagramModelImage() {
         return diagramModelImageEClass;
     }
@@ -2616,6 +2625,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelGroupEClass = createEClass(DIAGRAM_MODEL_GROUP);
 
         diagramModelNoteEClass = createEClass(DIAGRAM_MODEL_NOTE);
+        createEAttribute(diagramModelNoteEClass, DIAGRAM_MODEL_NOTE__BORDER_TYPE);
 
         diagramModelImageEClass = createEClass(DIAGRAM_MODEL_IMAGE);
 
@@ -3085,6 +3095,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(diagramModelGroupEClass, IDiagramModelGroup.class, "DiagramModelGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(diagramModelNoteEClass, IDiagramModelNote.class, "DiagramModelNote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getDiagramModelNote_BorderType(), ecorePackage.getEInt(), "borderType", null, 0, 1, IDiagramModelNote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelImageEClass, IDiagramModelImage.class, "DiagramModelImage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

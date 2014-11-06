@@ -6020,13 +6020,22 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__CONTENT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Border Type</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__BORDER_TYPE = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the '<em>Diagram Model Note</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_NOTE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 1;
+    int DIAGRAM_MODEL_NOTE_FEATURE_COUNT = DIAGRAM_MODEL_OBJECT_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelImage <em>Diagram Model Image</em>}' class.
@@ -8737,6 +8746,17 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelNote();
 
     /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelNote#getBorderType <em>Border Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Border Type</em>'.
+     * @see com.archimatetool.model.IDiagramModelNote#getBorderType()
+     * @see #getDiagramModelNote()
+     * @generated
+     */
+    EAttribute getDiagramModelNote_BorderType();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelImage <em>Diagram Model Image</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -10330,6 +10350,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass DIAGRAM_MODEL_NOTE = eINSTANCE.getDiagramModelNote();
+
+        /**
+         * The meta object literal for the '<em><b>Border Type</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIAGRAM_MODEL_NOTE__BORDER_TYPE = eINSTANCE.getDiagramModelNote_BorderType();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModelImage <em>Diagram Model Image</em>}' class.

@@ -22,6 +22,7 @@ import com.archimatetool.model.ITextContent;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getContent <em>Content</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getBorderType <em>Border Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -47,6 +48,26 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * @ordered
      */
     protected String content = CONTENT_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getBorderType() <em>Border Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getBorderType()
+     * @generated
+     * @ordered
+     */
+    protected static final int BORDER_TYPE_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getBorderType() <em>Border Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getBorderType()
+     * @generated
+     * @ordered
+     */
+    protected int borderType = BORDER_TYPE_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -88,6 +109,27 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT, oldContent, content));
     }
     
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public int getBorderType() {
+        return borderType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setBorderType(int newBorderType) {
+        int oldBorderType = borderType;
+        borderType = newBorderType;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE, oldBorderType, borderType));
+    }
+
     /** 
      * Left Justified
      */
@@ -106,6 +148,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 return getContent();
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
+                return getBorderType();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -120,6 +164,9 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 setContent((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
+                setBorderType((Integer)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -136,6 +183,9 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 setContent(CONTENT_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
+                setBorderType(BORDER_TYPE_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -150,6 +200,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
+                return borderType != BORDER_TYPE_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -198,6 +250,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (content: "); //$NON-NLS-1$
         result.append(content);
+        result.append(", borderType: "); //$NON-NLS-1$
+        result.append(borderType);
         result.append(')');
         return result.toString();
     }

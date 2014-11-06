@@ -5,8 +5,7 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
@@ -59,4 +58,11 @@ public class DiagramModelNoteTests extends DiagramModelObjectTests {
         assertEquals(note.getContent(), note.getContent());
     }
 
+    @Test
+    public void testGetBorderType() {
+        assertEquals(0, note.getBorderType());
+        note.setBorderType(1);
+        assertEquals(1, note.getBorderType());
+    }
+    
 }

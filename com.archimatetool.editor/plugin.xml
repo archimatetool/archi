@@ -439,6 +439,13 @@
                   type="com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart">
             </input>
          </propertySection>
+         <propertySection
+               afterSection="fontColorSection1"
+               class="com.archimatetool.editor.propertysections.NoteSection"
+               filter="com.archimatetool.editor.propertysections.NoteSection$Filter"
+               id="noteSection"
+               tab="appearance.tab">
+         </propertySection>
       </propertySections>
    </extension>
    <extension
