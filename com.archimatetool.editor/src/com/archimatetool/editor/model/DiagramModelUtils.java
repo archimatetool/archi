@@ -88,14 +88,14 @@ public class DiagramModelUtils {
         return found;
     }
 
-    // ========================================================================================================
+    // ============================= Fast methods of finding components using reference list ==============================
     
     /**
      * Find all (visible and extant) Diagram Model Components that reference a given Archimate component.
      * @param archimateComponent The Archimate component to search on.
      * @return The list of active Diagram Model Components. May be empty, but never null.
      */
-    public static List<IDiagramModelComponent> findDiagramModelComponentsForArchimateComponent(IArchimateComponent archimateComponent) {
+    private static List<IDiagramModelComponent> findDiagramModelComponentsForArchimateComponent(IArchimateComponent archimateComponent) {
         List<IDiagramModelComponent> list = new ArrayList<IDiagramModelComponent>();
         
         if(archimateComponent instanceof IArchimateElement) {
@@ -113,7 +113,7 @@ public class DiagramModelUtils {
      * @param element The Archimate element to search on.
      * @return The list of active Diagram Model Objects. May be empty, but never null.
      */
-    public static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElement(IArchimateElement element) {
+    static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElement(IArchimateElement element) {
         List<IDiagramModelArchimateObject> list = new ArrayList<IDiagramModelArchimateObject>();
         
         /*
@@ -137,7 +137,7 @@ public class DiagramModelUtils {
      * @param relationship The relationship to search on.
      * @return The list of active Diagram Model Connections. May be empty, but never null.
      */
-    public static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelation(IRelationship relationship) {
+    static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelation(IRelationship relationship) {
         List<IDiagramModelArchimateConnection> list = new ArrayList<IDiagramModelArchimateConnection>();
         
         /*
@@ -153,24 +153,51 @@ public class DiagramModelUtils {
             }
         }
         
-        // Could do it this way via the relation's source element
-        /*
-        if(relationship.getSource() != null) {
-            List<IDiagramModelArchimateObject> dmos = findDiagramModelObjectsForElement(relationship.getSource());
-            for(IDiagramModelArchimateObject dmo : dmos) {
-                for(IDiagramModelConnection conn : dmo.getSourceConnections()) {
-                    if(conn instanceof IDiagramModelArchimateConnection && ((IDiagramModelArchimateConnection)conn).getRelationship() == relationship) {
-                        list.add((IDiagramModelArchimateConnection)conn);
-                    }
-                }
+        return list;
+    }
+
+    /**
+     * Find all (visible and extant) Diagram Model Objects for a given Archimate element in a Diagram Model.
+     * This is the faster method.
+     * @param diagramModel The parent diagram model to search in.
+     * @param element The element to check on.
+     * @return The list of active Diagram Model Objects. May be empty, but never null.
+     */
+    static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElementByReference(IDiagramModel diagramModel, IArchimateElement element) {
+        // This is the faster method
+        List<IDiagramModelArchimateObject> list = new ArrayList<IDiagramModelArchimateObject>();
+        
+        List<IDiagramModelArchimateObject> dmos = findDiagramModelObjectsForElement(element);
+        for(IDiagramModelArchimateObject dmo : dmos) {
+            if(dmo.getDiagramModel() == diagramModel) {
+                list.add(dmo);
             }
         }
-        */
         
         return list;
     }
 
-    // ========================================================================================================
+    /**
+     * Find all (visible and extant) Diagram Model Connections for a given Archimate relationship in a Diagram Model.
+     * This is the faster method.
+     * @param diagramModel The parent diagram model to search in.
+     * @param relationship The relationship to check on.
+     * @return The list of active Diagram Model Connections. May be empty, but never null.
+     */
+    static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelationByReference(IDiagramModel diagramModel, IRelationship relationship) {
+        List<IDiagramModelArchimateConnection> list = new ArrayList<IDiagramModelArchimateConnection>();
+
+        List<IDiagramModelArchimateConnection> connections = findDiagramModelConnectionsForRelation(relationship);
+        for(IDiagramModelArchimateConnection connection : connections) {
+            if(connection.getDiagramModel() == diagramModel) {
+                list.add(connection);
+            }
+        }
+        
+        return list;
+    }
+
+    // ============================ Slower, but safer, methods of recursively finding components =======================================
     
     /**
      * Find all (visible and extant) Diagram Model Components for a given Archimate component in a Diagram Model.
@@ -198,16 +225,11 @@ public class DiagramModelUtils {
      * @return The list of active Diagram Model Objects. May be empty, but never null.
      */
     public static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElement(IDiagramModel diagramModel, IArchimateElement element) {
-        List<IDiagramModelArchimateObject> list = new ArrayList<IDiagramModelArchimateObject>();
+        // This is the faster method
+        //return findDiagramModelObjectsForElementByReference(diagramModel, element);
         
-        List<IDiagramModelArchimateObject> dmos = findDiagramModelObjectsForElement(element);
-        for(IDiagramModelArchimateObject dmo : dmos) {
-            if(dmo.getDiagramModel() == diagramModel) {
-                list.add(dmo);
-            }
-        }
-        
-        return list;
+        // Use slower but safer method
+        return findDiagramModelObjectsForElementByRecursiveSearch(diagramModel, element);
     }
 
     /**
@@ -217,12 +239,45 @@ public class DiagramModelUtils {
      * @return The list of active Diagram Model Connections. May be empty, but never null.
      */
     public static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelation(IDiagramModel diagramModel, IRelationship relationship) {
+        // This is the faster method
+        //return findDiagramModelConnectionsForRelationByReference(diagramModel, relationship);
+        
+        // Use slower but safer method
+        return findDiagramModelConnectionsForRelationByRecursiveSearch(diagramModel, relationship);
+    }
+
+    // ==================================== Slow, recursive, but safe methods of finding a component ========================================
+    
+    private static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElementByRecursiveSearch(IDiagramModelContainer parent, IArchimateElement element) {
+        List<IDiagramModelArchimateObject> list = new ArrayList<IDiagramModelArchimateObject>();
+        
+        for(IDiagramModelObject object : parent.getChildren()) {
+            if(object instanceof IDiagramModelArchimateObject) {
+                if(((IDiagramModelArchimateObject)object).getArchimateElement() == element && !list.contains(object)) {
+                    list.add((IDiagramModelArchimateObject)object);
+                }
+            }
+            if(object instanceof IDiagramModelContainer) {
+                list.addAll(findDiagramModelObjectsForElementByRecursiveSearch((IDiagramModelContainer)object, element));
+            }
+        }
+        
+        return list;
+    }
+
+    private static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelationByRecursiveSearch(IDiagramModelContainer parent, IRelationship relationship) {
         List<IDiagramModelArchimateConnection> list = new ArrayList<IDiagramModelArchimateConnection>();
 
-        List<IDiagramModelArchimateConnection> connections = findDiagramModelConnectionsForRelation(relationship);
-        for(IDiagramModelArchimateConnection connection : connections) {
-            if(connection.getDiagramModel() == diagramModel) {
-                list.add(connection);
+        for(IDiagramModelObject object : parent.getChildren()) {
+            for(IDiagramModelConnection connection : object.getSourceConnections()) {
+                if(connection instanceof IDiagramModelArchimateConnection &&
+                                        ((IDiagramModelArchimateConnection)connection).getRelationship() == relationship
+                                        && !list.contains(object)) {
+                    list.add((IDiagramModelArchimateConnection)connection);
+                }
+            }
+            if(object instanceof IDiagramModelContainer) {
+                list.addAll(findDiagramModelConnectionsForRelationByRecursiveSearch((IDiagramModelContainer)object, relationship));
             }
         }
         
@@ -292,10 +347,10 @@ public class DiagramModelUtils {
         IArchimateElement tgt = relation.getTarget();
         
         // Find all diagram objects that are source of this relationship
-        List<IDiagramModelArchimateObject> srcList = findDiagramModelObjectsForElement(diagramModel, src);
+        List<IDiagramModelArchimateObject> srcList = findDiagramModelObjectsForElementByReference(diagramModel, src);
         
         // Find all diagram objects that are target of this relationship
-        List<IDiagramModelArchimateObject> tgtList = findDiagramModelObjectsForElement(diagramModel, tgt);
+        List<IDiagramModelArchimateObject> tgtList = findDiagramModelObjectsForElementByReference(diagramModel, tgt);
         
         List<IDiagramModelArchimateObject[]> list = new ArrayList<IDiagramModelArchimateObject[]>();
         
