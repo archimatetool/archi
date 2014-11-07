@@ -42,10 +42,11 @@ public class WorkbenchCleaner {
         
         Location instanceLoc = Platform.getInstanceLocation();
         if(instanceLoc != null) {
-            File resetFile = new File(instanceLoc.getURL().getPath(), RESET_FILE);
             try {
-                resetFile.createNewFile();
-                PlatformUI.getWorkbench().restart();
+                if(PlatformUI.getWorkbench().restart()) { // User might have cancelled on a dirty editor
+                    File resetFile = new File(instanceLoc.getURL().getPath(), RESET_FILE);
+                    resetFile.createNewFile();
+                }
             }
             catch(Exception ex) {
                 MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.WorkbenchCleaner_2, ex.getMessage());
