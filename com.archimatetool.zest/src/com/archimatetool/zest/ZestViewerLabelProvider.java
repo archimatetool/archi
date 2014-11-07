@@ -205,8 +205,28 @@ implements ILabelProvider, ISelfStyleProvider {
             conn.setTargetDecoration(UsedByConnectionFigure.createFigureTargetDecoration());
         }
         else if(element instanceof IAccessRelationship) {
-            conn.setTargetDecoration(AccessConnectionFigure.createFigureSourceDecoration());
-            conn.setTargetDecoration(AccessConnectionFigure.createFigureTargetDecoration());
+            switch(((IAccessRelationship)element).getAccessType()) {
+                case IAccessRelationship.WRITE_ACCESS:
+                default:
+                    conn.setSourceDecoration(null);
+                    conn.setTargetDecoration(AccessConnectionFigure.createFigureTargetDecoration()); // arrow at target endpoint
+                    break;
+
+                case IAccessRelationship.READ_ACCESS:
+                    conn.setSourceDecoration(AccessConnectionFigure.createFigureTargetDecoration()); // arrow at source endpoint
+                    conn.setTargetDecoration(null);
+                    break;
+
+                case IAccessRelationship.UNSPECIFIED_ACCESS:
+                    conn.setSourceDecoration(null);  // no arrows
+                    conn.setTargetDecoration(null);
+                    break;
+
+                case IAccessRelationship.READ_WRITE_ACCESS:
+                    conn.setSourceDecoration(AccessConnectionFigure.createFigureTargetDecoration()); // both arrows
+                    conn.setTargetDecoration(AccessConnectionFigure.createFigureTargetDecoration());
+                    break;
+            }
             connection.setLineStyle(SWT.LINE_CUSTOM);
             conn.setLineDash(new float[] { 1.5f, 3 });
         }
