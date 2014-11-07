@@ -26,7 +26,6 @@ public class WorkbenchCleaner {
     
     static final String RESET_FILE = ".reset"; //$NON-NLS-1$
     static final String METADATA_FOLDER = ".metadata"; //$NON-NLS-1$
-    static final String CONFIG_FOLDER = ".config"; //$NON-NLS-1$
 
     /**
      * Ask user if they want to reset the workbench.
@@ -65,9 +64,17 @@ public class WorkbenchCleaner {
         if(instanceLoc != null) {
             File resetFile = new File(instanceLoc.getURL().getPath(), RESET_FILE);
             if(resetFile.exists()) {
+                // delete reset file
                 resetFile.delete();
+                
+                // delete .metadata folder
                 FileUtils.deleteFolder(new File(instanceLoc.getURL().getPath(), METADATA_FOLDER));
-                FileUtils.deleteFolder(new File(instanceLoc.getURL().getPath(), CONFIG_FOLDER));
+                
+                // delete .config folder
+                Location configLoc = Platform.getConfigurationLocation();
+                if(configLoc != null) {
+                    FileUtils.deleteFolder(new File(configLoc.getURL().getPath()));
+                }
             }
         }
     }
