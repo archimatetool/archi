@@ -33,6 +33,7 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.archimatetool.editor.WorkbenchCleaner;
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.model.IModelImporter;
 import com.archimatetool.editor.model.ISelectedModelImporter;
@@ -83,7 +84,7 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionSelectAll;
 
     private IWorkbenchAction fActionResetPerspective;
-    private Action fActionToggleCoolbar;
+    private IAction fActionToggleCoolbar;
     
     private IAction fShowModelsView;
     private IAction fShowPropertiesView;
@@ -96,6 +97,7 @@ extends ActionBarAdvisor {
     private IAction fDonateAction;
     private IAction fActionCheckForNewVersion;
 
+    private IAction fActionResetApplication;
     
     /**
      * Constructor
@@ -202,7 +204,7 @@ extends ActionBarAdvisor {
         fActionResetPerspective = ActionFactory.RESET_PERSPECTIVE.create(window);
         fActionResetPerspective.setText(Messages.ArchimateEditorActionBarAdvisor_2);
         register(fActionResetPerspective);
-        
+
         // Toggle Coolbar
         fActionToggleCoolbar = new ShowToolbarAction();
         
@@ -248,6 +250,14 @@ extends ActionBarAdvisor {
         
         // Check for new Version
         fActionCheckForNewVersion = new CheckForNewVersionAction();
+        
+        // Reset application
+        fActionResetApplication = new Action(Messages.ArchimateEditorActionBarAdvisor_20) {
+            @Override
+            public void run() {
+                WorkbenchCleaner.reset();
+            }
+        };
      }
     
     @Override
@@ -484,6 +494,9 @@ extends ActionBarAdvisor {
         
         menu.add(fDonateAction);
         menu.add(fActionCheckForNewVersion);
+        
+        menu.add(new Separator());
+        menu.add(fActionResetApplication);
         
         menu.add(new Separator());
         menu.add(fActionShowRelationsMatrix);

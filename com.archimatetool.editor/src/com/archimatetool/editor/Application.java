@@ -41,6 +41,9 @@ implements IApplication {
 	}
 	
 	public Object start(IApplicationContext context) throws Exception {
+	    // Check if workbench cleanup required
+	    WorkbenchCleaner.checkForReset();
+	    
 	    // Store the application version and build IDs in System Property
 	    String fullVersion = context.getBrandingBundle().getVersion().toString();
 	    String version = fullVersion.substring(0, 5);
