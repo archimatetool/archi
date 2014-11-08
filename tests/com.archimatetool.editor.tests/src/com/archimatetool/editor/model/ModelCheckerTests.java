@@ -22,9 +22,11 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -81,6 +83,36 @@ public class ModelCheckerTests {
         messages = modelChecker.checkHasIdentifiers();
         assertEquals(1, messages.size());
         assertEquals("No identifier set on Business", messages.get(0));
+    }
+
+    @Test
+    public void checkRelationsHaveElements() {
+        IArchimateElement src = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
+        IArchimateElement tgt = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
+        IRelationship relation = (IRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
+        relation.setSource(src);
+        relation.setTarget(tgt);
+
+        List<String> messages = modelChecker.checkRelationsHaveElements();
+        assertEquals(0, messages.size());
+        
+        relation.setSource(null);
+        relation.setTarget(null);
+        
+        messages = modelChecker.checkRelationsHaveElements();
+        assertEquals(2, messages.size());
+        assertTrue(messages.get(0).startsWith("Relationship has missing referenced source element"));
+        assertTrue(messages.get(1).startsWith("Relationship has missing referenced target element"));
+        
+        relation.setSource(src);
+        relation.setTarget(tgt);
+        model.getFolder(FolderType.BUSINESS).getElements().remove(src);
+        model.getFolder(FolderType.BUSINESS).getElements().remove(tgt);
+        
+        messages = modelChecker.checkRelationsHaveElements();
+        assertEquals(2, messages.size());
+        assertTrue(messages.get(0).startsWith("Relationship has orphaned source element"));
+        assertTrue(messages.get(1).startsWith("Relationship has orphaned target element"));
     }
 
     @Test

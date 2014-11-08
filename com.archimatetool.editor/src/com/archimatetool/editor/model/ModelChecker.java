@@ -48,6 +48,7 @@ public class ModelChecker {
         
         // fErrorMessages.addAll(checkFolderStructure()); // not that important
         fErrorMessages.addAll(checkHasIdentifiers());
+        fErrorMessages.addAll(checkRelationsHaveElements());
         fErrorMessages.addAll(checkDiagramObjectsReferences());
         
         return fErrorMessages.isEmpty();
@@ -112,6 +113,36 @@ public class ModelChecker {
                 String name = (eObject instanceof INameable) ? ((INameable)eObject).getName() : eObject.getClass().getName();
                 String message = Messages.ModelChecker_10 + " " + name; //$NON-NLS-1$
                 messages.add(message);
+            }
+        }
+        
+        return messages;
+    }
+    
+    List<String> checkRelationsHaveElements() {
+        List<String> messages = new ArrayList<String>();
+        
+        for(Iterator<EObject> iter = fModel.getFolder(FolderType.RELATIONS).eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IRelationship) {
+                IRelationship relation = (IRelationship)eObject;
+                String name = " (" + relation.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+                if(relation.getSource() == null) {
+                    String message = Messages.ModelChecker_19 + name;
+                    messages.add(message);
+                }
+                else if(relation.getSource().getArchimateModel() == null) {
+                    String message = Messages.ModelChecker_20 + name;
+                    messages.add(message);
+                }
+                if(relation.getTarget() == null) {
+                    String message = Messages.ModelChecker_21 + name;
+                    messages.add(message);
+                }
+                else if(relation.getTarget().getArchimateModel() == null) {
+                    String message = Messages.ModelChecker_22 + name;
+                    messages.add(message);
+                }
             }
         }
         
