@@ -26,6 +26,7 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.internal.InternalGEFPlugin;
 import org.eclipse.gef.palette.PaletteListener;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
@@ -131,6 +132,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("restriction")
 public abstract class AbstractDiagramEditor extends GraphicalEditorWithFlyoutPalette
 implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContributor {
 
@@ -424,8 +426,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         PaletteViewerPreferences prefs = viewer.getPaletteViewerPreferences();
         
         // First time use so set to icons layout
-        if(!Preferences.STORE.getBoolean("paletteSet")) { //$NON-NLS-1$
-            Preferences.STORE.setValue("paletteSet", true); //$NON-NLS-1$
+        if(!InternalGEFPlugin.getDefault().getPreferenceStore().getBoolean("com.archimatetool.paletteSet")) { //$NON-NLS-1$
+            InternalGEFPlugin.getDefault().getPreferenceStore().setValue("com.archimatetool.paletteSet", true); //$NON-NLS-1$
             prefs.setLayoutSetting(PaletteViewerPreferences.LAYOUT_ICONS);
             prefs.setCurrentUseLargeIcons(false);
         }
