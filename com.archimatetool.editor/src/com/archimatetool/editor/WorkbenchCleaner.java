@@ -14,8 +14,6 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.utils.FileUtils;
-
 
 /**
  * Cleans and resets the Workbnech state
@@ -68,14 +66,31 @@ public class WorkbenchCleaner {
                 resetFile.delete();
                 
                 // delete .metadata folder
-                FileUtils.deleteFolder(new File(instanceLoc.getURL().getPath(), METADATA_FOLDER));
+                deleteFolder(new File(instanceLoc.getURL().getPath(), METADATA_FOLDER));
                 
                 // delete .config folder
                 Location configLoc = Platform.getConfigurationLocation();
                 if(configLoc != null) {
-                    FileUtils.deleteFolder(new File(configLoc.getURL().getPath()));
+                    deleteFolder(new File(configLoc.getURL().getPath()));
                 }
             }
         }
     }
+    
+    private static void deleteFolder(File folder) throws IOException {
+        if(folder.exists() && folder.isDirectory()) {
+            for(File file : folder.listFiles()) {
+                // Don't delete user prefs
+                if(file.isFile() && !file.getName().startsWith("com.archimatetool")) { //$NON-NLS-1$
+                    file.delete();
+                }
+                else if(file.isDirectory()) {
+                    deleteFolder(file);
+                }
+            }
+            
+            folder.delete();
+        }
+    }
+
 }
