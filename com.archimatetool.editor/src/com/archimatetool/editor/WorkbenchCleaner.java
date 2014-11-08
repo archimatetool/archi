@@ -16,7 +16,7 @@ import org.eclipse.ui.PlatformUI;
 
 
 /**
- * Cleans and resets the Workbnech state
+ * Cleans and resets the Workbench state
  * 
  * @author Phillip Beauvoir
  */
