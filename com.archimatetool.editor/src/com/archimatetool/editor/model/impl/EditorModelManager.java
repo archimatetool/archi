@@ -40,6 +40,7 @@ import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.model.ModelChecker;
 import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
 import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
@@ -382,6 +383,15 @@ implements IEditorModelManager {
 
     @Override
     public boolean saveModel(IArchimateModel model) throws IOException {
+        // Check integrity
+        ModelChecker checker = new ModelChecker(model);
+        if(!checker.checkAll()) {
+            if(PlatformUI.isWorkbenchRunning()) {
+                checker.showErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+            }
+            return false;
+        }
+        
         // First time to save...
         if(model.getFile() == null) {
             File file = askSaveModel();
