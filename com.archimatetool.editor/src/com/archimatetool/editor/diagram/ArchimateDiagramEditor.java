@@ -11,7 +11,6 @@ import java.util.List;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.AutoexposeHelper;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -21,7 +20,6 @@ import org.eclipse.help.IContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -176,39 +174,30 @@ implements IArchimateDiagramEditor {
     
     @Override
     public void selectArchimateComponents(IArchimateComponent[] archimateComponents) {
-        List<EditPart> editParts = new ArrayList<EditPart>();
+        List<Object> objects = new ArrayList<Object>();
         
         for(IArchimateComponent archimateComponent : archimateComponents) {
             // Find Diagram Components
             for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getModel(), archimateComponent)) {
-                EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(dc);
-                if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
-                    editParts.add(editPart);
+                if(!objects.contains(dc)) {
+                    objects.add(dc);
                 }
             }
             
             // Find Components from nested connections
             if(ConnectionPreferences.useNestedConnections() && archimateComponent instanceof IRelationship) {
                 for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)archimateComponent)) {
-                    EditPart editPart1 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[0]);
-                    EditPart editPart2 = (EditPart)getGraphicalViewer().getEditPartRegistry().get(list[1]);
-                    if(editPart1 != null && editPart1.isSelectable() && !editParts.contains(editPart1)) {
-                        editParts.add(editPart1);
+                    if(!objects.contains(list[0])) {
+                        objects.add(list[0]);
                     }
-                    if(editPart2 != null && editPart2.isSelectable() && !editParts.contains(editPart2)) {
-                        editParts.add(editPart2);
+                    if(!objects.contains(list[1])) {
+                        objects.add(list[1]);
                     }
                 }
             }
         }
         
-        if(!editParts.isEmpty()) {
-            getGraphicalViewer().setSelection(new StructuredSelection(editParts));
-            getGraphicalViewer().reveal(editParts.get(0));
-        }
-        else {
-            getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
-        }
+        selectObjects(objects.toArray());
     }
     
     /**

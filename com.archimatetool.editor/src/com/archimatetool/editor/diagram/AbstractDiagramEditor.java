@@ -54,6 +54,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
@@ -790,6 +791,26 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         getSelectionActions().add(action.getId());
     }
     
+    @Override
+    public void selectObjects(Object[] objects) {
+        List<EditPart> editParts = new ArrayList<EditPart>();
+        
+        for(Object object : objects) {
+            EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(object);
+            if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
+                editParts.add(editPart);
+            }
+        }
+        
+        if(!editParts.isEmpty()) {
+            getGraphicalViewer().setSelection(new StructuredSelection(editParts));
+            getGraphicalViewer().reveal(editParts.get(0));
+        }
+        else {
+            getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
+        }
+    }
+
     @Override
     public String getContributorId() {
         return ArchimateEditorPlugin.PLUGIN_ID;

@@ -27,4 +27,11 @@ public interface IDiagramModelEditor extends IEditorPart {
      * @return The Graphical Viewer
      */
     GraphicalViewer getGraphicalViewer();
+    
+    /**
+     * Select Objects in the Editor
+     * Typically these are diagram model objects
+     * @param objects
+     */
+    public void selectObjects(Object[] objects);
 }
