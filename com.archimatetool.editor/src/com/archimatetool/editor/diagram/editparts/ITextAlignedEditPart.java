@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
+import org.eclipse.gef.EditPart;
+
 
 
 /**
@@ -12,6 +14,6 @@ package com.archimatetool.editor.diagram.editparts;
  * 
  * @author Phillip Beauvoir
  */
-public interface ITextAlignedEditPart extends ITextEditPart {
+public interface ITextAlignedEditPart extends EditPart {
 
 }

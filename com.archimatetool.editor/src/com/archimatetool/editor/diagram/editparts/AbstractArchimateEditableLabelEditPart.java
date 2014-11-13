@@ -23,7 +23,7 @@ import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateEditableLabelEditPart
-extends AbstractArchimateEditPart implements ITextEditPart, ILinedEditPart {
+extends AbstractArchimateEditPart implements ILinedEditPart {
 
     @Override
     protected void refreshFigure() {
