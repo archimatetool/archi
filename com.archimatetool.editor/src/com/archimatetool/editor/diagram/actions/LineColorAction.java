@@ -16,12 +16,14 @@ import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
-import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.ILockable;
 
 
 
@@ -48,25 +50,19 @@ public class LineColorAction extends SelectionAction {
 
     private EditPart getFirstSelectedEditPart(List<?> selection) {
         for(Object object : getSelectedObjects()) {
-            if(isValidEditPart(object)) {
-                return (EditPart)object;
+            if(object instanceof EditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
+                if(shouldLineColor(model)) {
+                    return (EditPart)object;
+                }
             }
         }
         
         return null;
-    }
-    
-    private boolean isValidEditPart(Object object) {
-        if(object instanceof ILinedEditPart) {
-            // Disable menu item if line colours are derived from fill colours as set in Prefs
-            boolean deriveElementLineColor = Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR);
-            if(deriveElementLineColor && ((ILinedEditPart)object).getModel() instanceof IDiagramModelObject) {
-                return false;
-            }
-            return true;
-        }
-        
-        return false;
     }
     
     @Override
@@ -80,7 +76,7 @@ public class LineColorAction extends SelectionAction {
         EditPart firstPart = getFirstSelectedEditPart(selection);
         if(firstPart != null) {
             Object model = firstPart.getModel();
-            if(model instanceof ILineObject) {
+            if(shouldLineColor(model)) {
                 String s = ((ILineObject)model).getLineColor();
                 if(s != null) {
                     defaultRGB = ColorFactory.convertStringToRGB(s);
@@ -108,7 +104,12 @@ public class LineColorAction extends SelectionAction {
             if(object instanceof EditPart) {
                 EditPart editPart = (EditPart)object;
                 Object model = editPart.getModel();
-                if(model instanceof ILineObject) {
+                
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
+                if(shouldLineColor(model)) {
                     Command cmd = new LineColorCommand((ILineObject)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -120,4 +121,16 @@ public class LineColorAction extends SelectionAction {
         return result.unwrap();
     }
     
+    private boolean shouldLineColor(Object model) {
+        if(model instanceof IDiagramModelObject) {
+            // Disable if line colours are derived from fill colours as set in Prefs
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
+                return false;
+            }
+        }
+        
+        return (model instanceof IDiagramModelComponent) &&
+                (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+    }
+
 }

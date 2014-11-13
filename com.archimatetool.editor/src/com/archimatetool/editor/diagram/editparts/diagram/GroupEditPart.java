@@ -17,7 +17,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
 import com.archimatetool.editor.diagram.editparts.SnapEditPartAdapter;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
@@ -38,8 +37,7 @@ import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
  * 
  * @author Phillip Beauvoir
  */
-public class GroupEditPart extends AbstractConnectedEditPart
-implements ILinedEditPart {
+public class GroupEditPart extends AbstractConnectedEditPart {
     
     @Override
     protected void createEditPolicies() {
