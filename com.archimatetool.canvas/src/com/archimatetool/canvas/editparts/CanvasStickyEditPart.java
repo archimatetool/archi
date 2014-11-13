@@ -24,7 +24,6 @@ import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.canvas.policies.CanvasConnectionPolicy;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.editparts.ITextPositionedEditPart;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -37,8 +36,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasStickyEditPart extends AbstractConnectedEditPart
-implements ITextPositionedEditPart {
+public class CanvasStickyEditPart extends AbstractConnectedEditPart {
     
     @Override
     protected void eCoreChanged(Notification msg) {
