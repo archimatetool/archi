@@ -6,11 +6,12 @@
 package com.archimatetool.model.impl;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -116,6 +117,16 @@ public class SketchModelActor extends DiagramModelObject implements ISketchModel
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.SKETCH_MODEL_ACTOR__PROPERTIES);
         }
         return properties;
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(EAttribute eAttribute) {
+        if(eAttribute == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT ||
+                eAttribute == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
+            return false;
+        }
+        
+        return super.shouldExposeFeature(eAttribute);
     }
 
     /**

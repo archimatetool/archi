@@ -8,6 +8,7 @@ package com.archimatetool.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -19,6 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
 
@@ -33,13 +35,19 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
+    private static EAttribute FEATURE = IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT;
+    
     /**
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
         @Override
         boolean isRequiredType(Object object) {
-            return object instanceof IFontAttribute;
+            boolean result = (object instanceof IFontAttribute);
+            if(object instanceof IDiagramModelComponent) {
+                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
+            }
+            return result;
         }
 
         @Override
@@ -56,8 +64,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Alignment event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }

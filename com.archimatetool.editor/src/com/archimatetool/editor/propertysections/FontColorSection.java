@@ -8,6 +8,7 @@ package com.archimatetool.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -21,6 +22,7 @@ import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
@@ -37,18 +39,24 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
+    private static EAttribute FEATURE = IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR;
+    
     /**
      * Filter to show or reject this section depending on being IDiagramModelObject
      */
     public static class Filter extends ObjectFilter {
         @Override
         boolean isRequiredType(Object object) {
-            return object instanceof IFontAttribute;
+            boolean result = (object instanceof IFontAttribute);
+            if(object instanceof IDiagramModelComponent) {
+                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
+            }
+            return result;
         }
 
         @Override
         Class<?> getAdaptableType() {
-            return IDiagramModelObject.class;
+            return IDiagramModelObject.class; // only interested in IDiagramModelObject
         }
     }
     
@@ -58,7 +66,7 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     public static class Filter2 extends Filter {
         @Override
         Class<?> getAdaptableType() {
-            return IDiagramModelConnection.class;
+            return IDiagramModelConnection.class; // only interested in IDiagramModelConnection
         }
     }
 
@@ -70,8 +78,7 @@ public class FontColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
