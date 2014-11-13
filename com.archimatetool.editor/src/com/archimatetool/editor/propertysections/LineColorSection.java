@@ -9,10 +9,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -20,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
-import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -44,10 +41,15 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return (object instanceof ILinedEditPart) && ((ILinedEditPart)object).getModel() instanceof ILineObject;
+        boolean isRequiredType(Object object) {
+            return object instanceof ILineObject;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return ILineObject.class;
         }
     }
 
@@ -131,14 +133,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof ILinedEditPart && ((ILinedEditPart)element).getModel() instanceof ILineObject) {
-            fLineObject = (ILineObject)((EditPart)element).getModel();
-            if(fLineObject == null) {
-                throw new RuntimeException("Line Object was null"); //$NON-NLS-1$
-            }
-        }
-        else {
-            throw new RuntimeException("Should have been an ILineObject"); //$NON-NLS-1$
+        fLineObject = (ILineObject)new Filter().adaptObject(element);
+        if(fLineObject == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

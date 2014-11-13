@@ -5,12 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -22,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -38,26 +35,15 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        boolean isRequiredType(Object object) {
+            return object instanceof IAccessRelationship;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IAccessRelationship adaptObject(Object object) {
-            if(object instanceof IAccessRelationship) {
-                return (IAccessRelationship)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                Object o = ((IAdaptable)object).getAdapter(IRelationship.class);
-                return (IAccessRelationship)((o instanceof IAccessRelationship) ? o : null);
-            }
-            
-            return null;
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IAccessRelationship.class;
         }
     }
 
@@ -120,7 +106,7 @@ public class AccessRelationshipSection extends AbstractArchimatePropertySection 
 
     @Override
     protected void setElement(Object element) {
-        fAccessRelationship = Filter.adaptObject(element);
+        fAccessRelationship = (IAccessRelationship)new Filter().adaptObject(element);
         if(fAccessRelationship == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }

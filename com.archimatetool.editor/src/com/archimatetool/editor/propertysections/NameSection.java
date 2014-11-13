@@ -9,13 +9,13 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.ISketchModelSticky;
 
 
 
@@ -27,6 +27,21 @@ import com.archimatetool.model.INameable;
 public class NameSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
+
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        boolean isRequiredType(Object object) {
+            return object instanceof ISketchModelSticky;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return INameable.class;
+        }
+    }
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -58,12 +73,9 @@ public class NameSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof EditPart && ((EditPart)element).getModel() instanceof INameable) {
-            fNameable = (INameable)((EditPart)element).getModel();
-        }
-
+        fNameable = (INameable)new Filter().adaptObject(element);
         if(fNameable == null) {
-            throw new RuntimeException("Object was null"); //$NON-NLS-1$
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

@@ -5,12 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IInterfaceElement;
 
@@ -38,26 +35,15 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        boolean isRequiredType(Object object) {
+            return object instanceof IInterfaceElement;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IInterfaceElement adaptObject(Object object) {
-            if(object instanceof IInterfaceElement) {
-                return (IInterfaceElement)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
-                return (IInterfaceElement)((o instanceof IInterfaceElement) ? o : null);
-            }
-            
-            return null;
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IInterfaceElement.class;
         }
     }
 
@@ -110,7 +96,7 @@ public class InterfaceElementSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        fInterfaceElement = Filter.adaptObject(element);
+        fInterfaceElement = (IInterfaceElement)new Filter().adaptObject(element);
         if(fInterfaceElement == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }

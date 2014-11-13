@@ -5,12 +5,10 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -31,25 +29,15 @@ public class DiagramModelSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModel;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IDiagramModel adaptObject(Object object) {
-            if(object instanceof IDiagramModel) {
-                return (IDiagramModel)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                return (IDiagramModel)((IAdaptable)object).getAdapter(IDiagramModel.class);
-            }
-            
-            return null;
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IDiagramModel.class;
         }
     }
 
@@ -88,7 +76,7 @@ public class DiagramModelSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        fDiagramModel = Filter.adaptObject(element);
+        fDiagramModel = (IDiagramModel)new Filter().adaptObject(element);
         if(fDiagramModel == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }

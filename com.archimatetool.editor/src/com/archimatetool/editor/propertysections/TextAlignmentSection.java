@@ -9,7 +9,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -18,7 +17,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
-import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFontAttribute;
@@ -35,6 +33,21 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        boolean isRequiredType(Object object) {
+            return object instanceof IFontAttribute;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IFontAttribute.class;
+        }
+    }
+
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
      */
@@ -106,14 +119,9 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof ITextAlignedEditPart && ((EditPart)element).getModel() instanceof IFontAttribute) {
-            fFontObject = (IFontAttribute)((EditPart)element).getModel();
-            if(fFontObject == null) {
-                throw new RuntimeException("Font Object was null"); //$NON-NLS-1$
-            }
-        }
-        else {
-            throw new RuntimeException("Should have been an IFontAttribute"); //$NON-NLS-1$
+        fFontObject = (IFontAttribute)new Filter().adaptObject(element);
+        if(fFontObject == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

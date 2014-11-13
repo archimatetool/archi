@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -14,7 +13,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,9 +24,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
-import com.archimatetool.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.ILockable;
 
@@ -46,10 +44,15 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return object instanceof LineConnectionEditPart;
+        boolean isRequiredType(Object object) {
+            return (object instanceof IDiagramModelConnection) && !(object instanceof IDiagramModelArchimateConnection);
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IDiagramModelConnection.class;
         }
     }
     
@@ -100,11 +103,9 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IAdaptable) {
-            fConnection = (IDiagramModelConnection)((IAdaptable)element).getAdapter(IDiagramModelConnection.class);
-        }
-        else {
-            throw new RuntimeException("Should have been an Edit Part"); //$NON-NLS-1$
+        fConnection = (IDiagramModelConnection)new Filter().adaptObject(element);
+        if(fConnection == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

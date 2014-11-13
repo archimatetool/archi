@@ -13,11 +13,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
-import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.DerivedRelationsUtils;
 
@@ -136,12 +134,10 @@ implements IArchimateConnectionEditPart {
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
-        if(adapter == IDiagramModelArchimateConnection.class) {
-            return getModel();
-        }
-        if(adapter == IArchimateComponent.class || adapter == IRelationship.class || adapter == IProperties.class) {
+        if(getModel() != null && getModel().getRelationship() != null && adapter.isInstance(getModel().getRelationship())) {
             return getModel().getRelationship();
         }
+
         return super.getAdapter(adapter);
     }
 }

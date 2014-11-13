@@ -34,7 +34,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IProperties;
 
 
 
@@ -238,7 +237,7 @@ implements IEditPartFilterProvider {
             return new SnapEditPartAdapter(this).getSnapToHelper();
         }
         
-        if(adapter == IDiagramModel.class || adapter == IProperties.class) {
+        if(getModel() != null && adapter.isInstance(getModel())) {
             return getModel();
         }
         

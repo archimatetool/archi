@@ -9,11 +9,9 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelGroup;
 
@@ -28,6 +26,21 @@ public class GroupSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModelGroup;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IDiagramModelGroup.class;
+        }
+    }
+
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
      */
@@ -63,14 +76,9 @@ public class GroupSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof GroupEditPart) {
-            fDiagramModelGroup = (IDiagramModelGroup)((EditPart)element).getModel();
-            if(fDiagramModelGroup == null) {
-                throw new RuntimeException("Diagram Group was null"); //$NON-NLS-1$
-            }
-        }
-        else {
-            throw new RuntimeException("Should have been a Group Edit Part"); //$NON-NLS-1$
+        fDiagramModelGroup = (IDiagramModelGroup)new Filter().adaptObject(element);
+        if(fDiagramModelGroup == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

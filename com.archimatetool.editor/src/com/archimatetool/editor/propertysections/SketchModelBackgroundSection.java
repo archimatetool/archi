@@ -9,7 +9,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -19,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.sketch.ISketchEditor;
-import com.archimatetool.editor.diagram.sketch.editparts.SketchDiagramPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ISketchModel;
@@ -27,7 +25,7 @@ import com.archimatetool.model.ISketchModel;
 
 
 /**
- * Property Section for a Diagram Model's Connection type
+ * Property Section for a Sketch Model's Background type
  * 
  * @author Phillip Beauvoir
  */
@@ -38,10 +36,15 @@ public class SketchModelBackgroundSection extends AbstractArchimatePropertySecti
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return object instanceof ISketchModel || object instanceof SketchDiagramPart;
+        boolean isRequiredType(Object object) {
+            return object instanceof ISketchModel;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return ISketchModel.class;
         }
     }
 
@@ -99,14 +102,9 @@ public class SketchModelBackgroundSection extends AbstractArchimatePropertySecti
 
     @Override
     protected void setElement(Object element) {
-        if(element instanceof SketchDiagramPart) {
-            fSketchModel = ((SketchDiagramPart)element).getModel();
-        }
-        else if(element instanceof ISketchModel) {
-            fSketchModel = (ISketchModel)element;
-        }
-        else {
-            System.err.println("Section wants to display for " + element); //$NON-NLS-1$
+        fSketchModel = (ISketchModel)new Filter().adaptObject(element);
+        if(fSketchModel == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

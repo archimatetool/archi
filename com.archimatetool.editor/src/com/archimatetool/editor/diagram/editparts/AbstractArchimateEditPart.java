@@ -11,10 +11,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.model.IArchimateComponent;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IProperties;
 
 
 /**
@@ -86,9 +83,10 @@ implements IArchimateEditPart {
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
-        if(adapter == IArchimateComponent.class || adapter == IArchimateElement.class || adapter == IProperties.class) {
+        if(getModel() != null && getModel().getArchimateElement() != null && adapter.isInstance(getModel().getArchimateElement())) {
             return getModel().getArchimateElement();
         }
+
         return super.getAdapter(adapter);
     }
 }

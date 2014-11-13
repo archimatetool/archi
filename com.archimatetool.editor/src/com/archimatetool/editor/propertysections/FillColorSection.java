@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
-import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -37,6 +36,21 @@ import com.archimatetool.model.ILockable;
 public class FillColorSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
+    
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModelObject;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IDiagramModelObject.class;
+        }
+    }
     
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -116,14 +130,9 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IColoredEditPart) {
-            fDiagramModelObject = (IDiagramModelObject)((IColoredEditPart)element).getModel();
-            if(fDiagramModelObject == null) {
-                throw new RuntimeException("Diagram Model Object was null"); //$NON-NLS-1$
-            }
-        }
-        else {
-            throw new RuntimeException("Should have been an IColoredEditPart"); //$NON-NLS-1$
+        fDiagramModelObject = (IDiagramModelObject)new Filter().adaptObject(element);
+        if(fDiagramModelObject == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

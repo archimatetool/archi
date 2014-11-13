@@ -5,10 +5,12 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -49,6 +51,36 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected boolean fIsExecutingCommand;
     
+    /**
+     * Object Filter class to show or reject this section depending on input value
+     */
+    public static abstract class ObjectFilter implements IFilter {
+        @Override
+        public boolean select(Object object) {
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         * @param object
+         * @return The required object or null
+         */
+        Object adaptObject(Object object) {
+            if(isRequiredType(object)) {
+                return object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                object = ((IAdaptable)object).getAdapter(getAdaptableType());
+                return isRequiredType(object) ? object : null;
+            }
+            
+            return null;
+        }
+        
+        abstract boolean isRequiredType(Object object);
+        abstract Class<?> getAdaptableType();
+    }
     
     @Override
     public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {

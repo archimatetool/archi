@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -41,7 +40,6 @@ import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -113,25 +111,15 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        boolean isRequiredType(Object object) {
+            return object instanceof IProperties;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IProperties adaptObject(Object object) {
-            if(object instanceof IProperties) {
-                return (IProperties)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                return (IProperties)((IAdaptable)object).getAdapter(IProperties.class);
-            }
-            
-            return null;
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IProperties.class;
         }
     }
 
@@ -183,7 +171,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        fPropertiesElement = Filter.adaptObject(element);
+        fPropertiesElement = (IProperties)new Filter().adaptObject(element);
         if(fPropertiesElement == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }

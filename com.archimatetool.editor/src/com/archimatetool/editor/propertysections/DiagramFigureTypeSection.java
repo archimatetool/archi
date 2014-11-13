@@ -5,13 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -25,13 +23,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 
@@ -47,14 +43,16 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-           if(object instanceof IArchimateEditPart) {
-               IArchimateElement element = (IArchimateElement)((IArchimateEditPart)object).getAdapter(IArchimateElement.class);
-               return FigureChooser.hasAlternateFigure(element);
-           }
-           return false;
+        boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModelArchimateObject &&
+                    FigureChooser.hasAlternateFigure(((IDiagramModelArchimateObject)object).getArchimateElement());
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IDiagramModelArchimateObject.class;
         }
     }
     
@@ -110,11 +108,9 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IArchimateEditPart) {
-            fDiagramObject = (IDiagramModelArchimateObject)((IAdaptable)element).getAdapter(IDiagramModelObject.class);
-        }
+        fDiagramObject = (IDiagramModelArchimateObject)new Filter().adaptObject(element);
         if(fDiagramObject == null) {
-            System.err.println("Diagram Object was null in " + getClass()); //$NON-NLS-1$
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

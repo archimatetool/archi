@@ -32,6 +32,21 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.archimateModelSection"; //$NON-NLS-1$
 
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        boolean isRequiredType(Object object) {
+            return object instanceof IArchimateModel;
+        }
+
+        @Override
+        Class<?> getAdaptableType() {
+            return IArchimateModel.class;
+        }
+    }
+
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
      */
@@ -102,11 +117,9 @@ public class ArchimateModelSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IArchimateModel) {
-            fModel = (IArchimateModel)element;
-        }
-        else {
-            System.err.println("Section wants to display for " + element); //$NON-NLS-1$
+        fModel = (IArchimateModel)new Filter().adaptObject(element);
+        if(fModel == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();
