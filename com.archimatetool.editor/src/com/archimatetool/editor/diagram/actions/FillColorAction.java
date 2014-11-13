@@ -72,7 +72,7 @@ public class FillColorAction extends SelectionAction {
         EditPart firstPart = getFirstSelectedEditPart(selection);
         if(firstPart != null) {
             Object model = firstPart.getModel();
-            if(model instanceof IDiagramModelObject) {
+            if(shouldFillColor(model)) {
                 String s = ((IDiagramModelObject)model).getFillColor();
                 if(s == null) {
                     defaultRGB = ColorFactory.getDefaultFillColor(model).getRGB();

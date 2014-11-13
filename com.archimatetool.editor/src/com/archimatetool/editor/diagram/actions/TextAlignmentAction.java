@@ -18,8 +18,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
-import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
@@ -90,7 +90,7 @@ public class TextAlignmentAction extends SelectionAction {
         setChecked(false);
         
         List<?> selected = getSelectedObjects();
-        ITextAlignedEditPart editPart = getFirstSelectedValidEditPart(selected);
+        EditPart editPart = getFirstSelectedEditPart(selected);
 
         if(editPart != null && selected.size() == 1) {
             Object model = editPart.getModel();
@@ -102,14 +102,17 @@ public class TextAlignmentAction extends SelectionAction {
         return editPart != null;
     }
 
-    private ITextAlignedEditPart getFirstSelectedValidEditPart(List<?> selection) {
+    private EditPart getFirstSelectedEditPart(List<?> selection) {
         for(Object object : getSelectedObjects()) {
-            if(object instanceof ITextAlignedEditPart) {
+            if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
                 if(model instanceof ILockable && ((ILockable)model).isLocked()) {
                     continue;
                 }
-                return (ITextAlignedEditPart)object;
+                
+                if(shouldTextAlign(model)) {
+                    return (EditPart)object;
+                }
             }
         }
         
@@ -120,10 +123,10 @@ public class TextAlignmentAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
-        ITextAlignedEditPart firstPart = getFirstSelectedValidEditPart(selection);
+        EditPart firstPart = getFirstSelectedEditPart(selection);
         if(firstPart != null) {
             Object model = firstPart.getModel();
-            if(model instanceof IDiagramModelObject) {
+            if(shouldTextAlign(model)) {
                 execute(createCommand(selection));
             }
         }
@@ -133,10 +136,15 @@ public class TextAlignmentAction extends SelectionAction {
         CompoundCommand result = new CompoundCommand(Messages.TextAlignmentAction_3);
         
         for(Object object : selection) {
-            if(object instanceof ITextAlignedEditPart) {
-                ITextAlignedEditPart editPart = (ITextAlignedEditPart)object;
+            if(object instanceof EditPart) {
+                EditPart editPart = (EditPart)object;
                 Object model = editPart.getModel();
-                if(model instanceof IDiagramModelObject) {
+                
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
+                if(shouldTextAlign(model)) {
                     IDiagramModelObject diagramObject = (IDiagramModelObject)model;
                     Command cmd = new TextAlignmentCommand(diagramObject, fAlignment);
                     if(cmd.canExecute()) {
@@ -149,4 +157,9 @@ public class TextAlignmentAction extends SelectionAction {
         return result.unwrap();
     }
     
+    private boolean shouldTextAlign(Object model) {
+        return (model instanceof IDiagramModelObject) &&
+                (((IDiagramModelObject)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
+    }
+
 }

@@ -31,7 +31,7 @@ import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateEditableTextFlowEditPart
-extends AbstractArchimateEditPart implements ITextAlignedEditPart, ILinedEditPart {
+extends AbstractArchimateEditPart implements ILinedEditPart {
     
     @Override
     protected void refreshFigure() {
