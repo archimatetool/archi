@@ -16,7 +16,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
 import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
 import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
@@ -35,7 +34,7 @@ import com.archimatetool.model.IDiagramModelNote;
  * @author Phillip Beauvoir
  */
 public class NoteEditPart extends AbstractConnectedEditPart
-implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
+implements ITextAlignedEditPart, ILinedEditPart {
     
     @Override
     protected void createEditPolicies() {
