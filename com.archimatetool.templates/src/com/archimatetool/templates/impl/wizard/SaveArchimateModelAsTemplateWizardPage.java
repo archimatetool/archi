@@ -148,6 +148,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         fDescriptionTextField = new Text(fieldGroup, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
         gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 120;
+        gd.widthHint = 550; // Stop overstretch
         fDescriptionTextField.setLayoutData(gd);
         if(StringUtils.isSet(fModel.getPurpose())) {
             fDescriptionTextField.setText(fModel.getPurpose());
