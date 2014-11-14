@@ -46,7 +46,6 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.ILockable;
-import com.archimatetool.model.IProperties;
 
 
 
@@ -319,10 +318,7 @@ implements IDiagramConnectionEditPart {
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
-        if(adapter == IDiagramModelConnection.class) {
-            return getModel();
-        }
-        if(adapter == IProperties.class) {
+        if(getModel() != null && adapter.isInstance(getModel())) {
             return getModel();
         }
         return super.getAdapter(adapter);

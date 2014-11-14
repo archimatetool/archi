@@ -5,13 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -31,7 +29,6 @@ import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModel;
 
 
 
@@ -47,26 +44,15 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        protected boolean isRequiredType(Object object) {
+            return object instanceof IArchimateDiagramModel;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IArchimateDiagramModel adaptObject(Object object) {
-            if(object instanceof IArchimateDiagramModel) {
-                return (IArchimateDiagramModel)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                Object o = ((IAdaptable)object).getAdapter(IDiagramModel.class);
-                return (IArchimateDiagramModel)((o instanceof IArchimateDiagramModel) ? o : null);
-            }
-            
-            return null;
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return IArchimateDiagramModel.class;
         }
     }
 
@@ -161,7 +147,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        fDiagramModel = Filter.adaptObject(element);
+        fDiagramModel = (IArchimateDiagramModel)new Filter().adaptObject(element);
         if(fDiagramModel == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }

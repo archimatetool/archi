@@ -261,6 +261,8 @@ public class ColorChooser extends EventManager {
      */
     public void setEnabled(boolean state) {
         getControl().setEnabled(state);
+        fColorButton.setEnabled(state);
+        fMenuButton.setEnabled(state);
     }
 
     /**

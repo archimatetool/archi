@@ -18,8 +18,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
-import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
@@ -90,26 +90,23 @@ public class TextAlignmentAction extends SelectionAction {
         setChecked(false);
         
         List<?> selected = getSelectedObjects();
-        ITextAlignedEditPart editPart = getFirstSelectedValidEditPart(selected);
+        
+        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selected);
 
-        if(editPart != null && selected.size() == 1) {
-            Object model = editPart.getModel();
-            if(model instanceof IFontAttribute) {
-                setChecked(((IFontAttribute)model).getTextAlignment() == fAlignment);
-            }
+        if(model != null && selected.size() == 1) {
+            setChecked(model.getTextAlignment() == fAlignment);
         }
         
-        return editPart != null;
+        return model != null;
     }
 
-    private ITextAlignedEditPart getFirstSelectedValidEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
-            if(object instanceof ITextAlignedEditPart) {
+            if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
+                if(shouldModify(model)) {
+                    return model;
                 }
-                return (ITextAlignedEditPart)object;
             }
         }
         
@@ -120,10 +117,9 @@ public class TextAlignmentAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
-        ITextAlignedEditPart firstPart = getFirstSelectedValidEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(model instanceof IDiagramModelObject) {
+        Object model = getFirstValidSelectedModelObject(selection);
+        if(model != null) {
+            if(shouldModify(model)) {
                 execute(createCommand(selection));
             }
         }
@@ -133,12 +129,10 @@ public class TextAlignmentAction extends SelectionAction {
         CompoundCommand result = new CompoundCommand(Messages.TextAlignmentAction_3);
         
         for(Object object : selection) {
-            if(object instanceof ITextAlignedEditPart) {
-                ITextAlignedEditPart editPart = (ITextAlignedEditPart)object;
-                Object model = editPart.getModel();
-                if(model instanceof IDiagramModelObject) {
-                    IDiagramModelObject diagramObject = (IDiagramModelObject)model;
-                    Command cmd = new TextAlignmentCommand(diagramObject, fAlignment);
+            if(object instanceof EditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
+                    Command cmd = new TextAlignmentCommand((IFontAttribute)model, fAlignment);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -149,4 +143,13 @@ public class TextAlignmentAction extends SelectionAction {
         return result.unwrap();
     }
     
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
+        return (model instanceof IFontAttribute) && (model instanceof IDiagramModelObject) &&
+                (((IDiagramModelObject)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
+    }
+
 }

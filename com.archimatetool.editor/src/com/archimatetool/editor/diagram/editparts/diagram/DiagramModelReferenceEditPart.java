@@ -14,9 +14,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
-import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
-import com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFigure;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
@@ -33,8 +30,7 @@ import com.archimatetool.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart
-implements IColoredEditPart, ITextAlignedEditPart, ILinedEditPart {
+public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
 
     @Override
     protected void addECoreAdapter() {

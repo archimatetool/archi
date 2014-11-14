@@ -9,8 +9,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -36,10 +34,15 @@ public class LockedSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return (object instanceof EditPart) && ((EditPart)object).getModel() instanceof ILockable;
+        protected boolean isRequiredType(Object object) {
+            return object instanceof ILockable;
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return ILockable.class;
         }
     }
 
@@ -83,12 +86,9 @@ public class LockedSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof EditPart && ((EditPart)element).getModel() instanceof ILockable) {
-            fLockable = (ILockable)((EditPart)element).getModel();
-        }
-
+        fLockable = (ILockable)new Filter().adaptObject(element);
         if(fLockable == null) {
-            throw new RuntimeException("Object was null"); //$NON-NLS-1$
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

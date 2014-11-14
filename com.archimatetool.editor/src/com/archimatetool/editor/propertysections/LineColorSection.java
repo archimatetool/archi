@@ -8,11 +8,10 @@ package com.archimatetool.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -20,12 +19,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.LineColorCommand;
-import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
@@ -41,13 +40,24 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
+    private static EAttribute FEATURE = IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR;
+    
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return (object instanceof ILinedEditPart) && ((ILinedEditPart)object).getModel() instanceof ILineObject;
+        protected boolean isRequiredType(Object object) {
+            boolean result = (object instanceof ILineObject);
+            if(object instanceof IDiagramModelComponent) {
+                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
+            }
+            return result;
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return ILineObject.class;
         }
     }
 
@@ -59,8 +69,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -131,14 +140,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof ILinedEditPart && ((ILinedEditPart)element).getModel() instanceof ILineObject) {
-            fLineObject = (ILineObject)((EditPart)element).getModel();
-            if(fLineObject == null) {
-                throw new RuntimeException("Line Object was null"); //$NON-NLS-1$
-            }
-        }
-        else {
-            throw new RuntimeException("Should have been an ILineObject"); //$NON-NLS-1$
+        fLineObject = (ILineObject)new Filter().adaptObject(element);
+        if(fLineObject == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();
@@ -156,6 +160,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         // Locked
         boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
         fColorChooser.setEnabled(enabled);
+        if(!enabled) {
+            return;
+        }
         
         // If the user pref is to save the color in the file, then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);

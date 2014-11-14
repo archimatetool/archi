@@ -210,11 +210,9 @@
             contributorId="com.archimatetool.editor">
          <propertySection
                class="com.archimatetool.editor.propertysections.ArchimateModelSection"
+               filter="com.archimatetool.editor.propertysections.ArchimateModelSection$Filter"
                id="archimateModelSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.model.IArchimateModel">
-            </input>
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.ArchimateComponentSection"
@@ -255,11 +253,9 @@
          <propertySection
                afterSection="archimateElementSection"
                class="com.archimatetool.editor.propertysections.DiagramConnectionSection"
+               filter="com.archimatetool.editor.propertysections.DiagramConnectionSection$Filter"
                id="connectionAppearanceSection"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.connections.IDiagramConnectionEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="connectionAppearanceSection"
@@ -270,11 +266,9 @@
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.GroupSection"
+               filter="com.archimatetool.editor.propertysections.GroupSection$Filter"
                id="groupSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart">
-            </input>
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.TextContentSection"
@@ -297,47 +291,37 @@
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.FillColorSection"
+               filter="com.archimatetool.editor.propertysections.FillColorSection$Filter"
                id="fillColorSection"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.IColoredEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="fillColorSection"
                class="com.archimatetool.editor.propertysections.FontSection"
+               filter="com.archimatetool.editor.propertysections.FontSection$Filter"
                id="fontSection1"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.ITextEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="connectionTypeSection"
                class="com.archimatetool.editor.propertysections.FontSection"
+               filter="com.archimatetool.editor.propertysections.FontSection$Filter2"
                id="fontSection2"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.connections.IDiagramConnectionEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="fontSection1"
                class="com.archimatetool.editor.propertysections.FontColorSection"
+               filter="com.archimatetool.editor.propertysections.FontColorSection$Filter"
                id="fontColorSection1"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.ITextEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="fontSection2"
                class="com.archimatetool.editor.propertysections.FontColorSection"
+               filter="com.archimatetool.editor.propertysections.FontColorSection$Filter2"
                id="fontColorSection2"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.connections.IDiagramConnectionEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="fontColorSection2"
@@ -349,11 +333,9 @@
          <propertySection
                afterSection="lineColorSection"
                class="com.archimatetool.editor.propertysections.TextAlignmentSection"
+               filter="com.archimatetool.editor.propertysections.TextAlignmentSection$Filter"
                id="textAlignmentSection"
                tab="appearance.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.ITextAlignedEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="textAlignmentSection"
@@ -364,19 +346,15 @@
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.FolderSection"
+               filter="com.archimatetool.editor.propertysections.FolderSection$Filter"
                id="folderSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.model.IFolder">
-            </input>
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.SketchElementSection"
+               filter="com.archimatetool.editor.propertysections.SketchElementSection$Filter"
                id="sketchElementSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="diagramModelSection"
@@ -387,11 +365,9 @@
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.NameSection"
+               filter="com.archimatetool.editor.propertysections.NameSection$Filter"
                id="nameSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart">
-            </input>
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.DiagramFigureTypeSection"
@@ -433,11 +409,9 @@
          </propertySection>
          <propertySection
                class="com.archimatetool.editor.propertysections.DiagramModelReferenceSection"
+               filter="com.archimatetool.editor.propertysections.DiagramModelReferenceSection$Filter"
                id="diagramModelReferenceSection"
                tab="main.tab">
-            <input
-                  type="com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart">
-            </input>
          </propertySection>
          <propertySection
                afterSection="fontColorSection1"

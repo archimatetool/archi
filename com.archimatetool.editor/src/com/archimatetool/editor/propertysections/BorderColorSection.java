@@ -9,12 +9,10 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
@@ -41,10 +39,15 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return (object instanceof EditPart) && ((EditPart)object).getModel() instanceof IBorderObject;
+        protected boolean isRequiredType(Object object) {
+            return object instanceof IBorderObject;
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return IBorderObject.class;
         }
     }
 
@@ -116,12 +119,9 @@ public class BorderColorSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof EditPart && ((EditPart)element).getModel() instanceof IBorderObject) {
-            fBorderObject = (IBorderObject)((EditPart)element).getModel();
-        }
-
+        fBorderObject = (IBorderObject)new Filter().adaptObject(element);
         if(fBorderObject == null) {
-            throw new RuntimeException("Object was null"); //$NON-NLS-1$
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

@@ -10,6 +10,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -425,6 +426,19 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
         ICanvasModelBlock newObject = (ICanvasModelBlock)super.getCopy();
         newObject.getChildren().clear(); // need to do this!
         return newObject;
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(EAttribute eAttribute) {
+        if(eAttribute == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
+            return false;
+        }
+        
+        if(eAttribute == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) {
+            return true;
+        }
+        
+        return super.shouldExposeFeature(eAttribute);
     }
 
     /**

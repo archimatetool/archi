@@ -14,8 +14,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
-import com.archimatetool.editor.diagram.editparts.ITextEditPart;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
@@ -30,8 +28,7 @@ import com.archimatetool.model.ISketchModelActor;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchActorEditPart extends AbstractConnectedEditPart
-implements IColoredEditPart, ITextEditPart  {
+public class SketchActorEditPart extends AbstractConnectedEditPart {
     
     @Override
     protected IFigure createFigure() {

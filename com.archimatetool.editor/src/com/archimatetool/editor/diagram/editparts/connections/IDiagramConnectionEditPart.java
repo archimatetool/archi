@@ -7,8 +7,6 @@ package com.archimatetool.editor.diagram.editparts.connections;
 
 import org.eclipse.gef.ConnectionEditPart;
 
-import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
-
 
 
 /**
@@ -16,6 +14,6 @@ import com.archimatetool.editor.diagram.editparts.ILinedEditPart;
  * 
  * @author Phillip Beauvoir
  */
-public interface IDiagramConnectionEditPart extends ConnectionEditPart, ILinedEditPart {
+public interface IDiagramConnectionEditPart extends ConnectionEditPart {
 
 }

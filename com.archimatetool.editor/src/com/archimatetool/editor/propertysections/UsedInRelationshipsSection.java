@@ -5,13 +5,11 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -46,26 +44,15 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return adaptObject(object) != null;
+        protected boolean isRequiredType(Object object) {
+            return object instanceof IArchimateElement;
         }
-        
-        /**
-         * Get the required object for this Property Section from the given object
-         */
-        public static IArchimateElement adaptObject(Object object) {
-            if(object instanceof IArchimateElement) {
-                return (IArchimateElement)object;
-            }
-            
-            if(object instanceof IAdaptable) {
-                Object o = ((IAdaptable)object).getAdapter(IArchimateElement.class);
-                return (IArchimateElement)((o instanceof IArchimateElement) ? o : null);
-            }
-            
-            return null;
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return IArchimateElement.class;
         }
     }
 
@@ -147,7 +134,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     
     @Override
     protected void setElement(Object element) {
-        fArchimateElement = Filter.adaptObject(element);
+        fArchimateElement = (IArchimateElement)new Filter().adaptObject(element);
         if(fArchimateElement == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }

@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -34,6 +35,32 @@ import com.archimatetool.model.ILockable;
 public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
+
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter implements IFilter {
+        @Override
+        public boolean select(Object object) {
+            return adaptObject(object) != null;
+        }
+        
+        /**
+         * Get the required object for this Property Section from the given object
+         */
+        public static IDiagramModelConnection adaptObject(Object object) {
+            if(object instanceof IDiagramModelConnection) {
+                return (IDiagramModelConnection)object;
+            }
+            
+            if(object instanceof IAdaptable) {
+                Object o = ((IAdaptable)object).getAdapter(IDiagramModelConnection.class);
+                return (IDiagramModelConnection)((o instanceof IDiagramModelConnection) ? o : null);
+            }
+            
+            return null;
+        }
+    }
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -123,11 +150,9 @@ public class DiagramConnectionSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IAdaptable) {
-            fConnection = (IDiagramModelConnection)((IAdaptable)element).getAdapter(IDiagramModelConnection.class);
-        }
-        else {
-            throw new RuntimeException("Should have been an Edit Part"); //$NON-NLS-1$
+        fConnection = Filter.adaptObject(element);
+        if(fConnection == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

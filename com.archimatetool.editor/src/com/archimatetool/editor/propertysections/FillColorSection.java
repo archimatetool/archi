@@ -8,6 +8,7 @@ package com.archimatetool.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -18,7 +19,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
-import com.archimatetool.editor.diagram.editparts.IColoredEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -38,6 +38,23 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
+    private static EAttribute FEATURE = IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR;
+    
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        protected boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModelObject && ((IDiagramModelObject)object).shouldExposeFeature(FEATURE);
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return IDiagramModelObject.class;
+        }
+    }
+    
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
      */
@@ -46,8 +63,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
             // Color event (From Undo/Redo and here)
-            if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR ||
-                    feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
             }
         }
@@ -116,14 +132,9 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IColoredEditPart) {
-            fDiagramModelObject = (IDiagramModelObject)((IColoredEditPart)element).getModel();
-            if(fDiagramModelObject == null) {
-                throw new RuntimeException("Diagram Model Object was null"); //$NON-NLS-1$
-            }
-        }
-        else {
-            throw new RuntimeException("Should have been an IColoredEditPart"); //$NON-NLS-1$
+        fDiagramModelObject = (IDiagramModelObject)new Filter().adaptObject(element);
+        if(fDiagramModelObject == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

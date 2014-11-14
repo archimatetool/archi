@@ -9,12 +9,12 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 
 
@@ -27,6 +27,21 @@ import com.archimatetool.model.IDiagramModelReference;
 public class DiagramModelReferenceSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
+
+    /**
+     * Filter to show or reject this section depending on input value
+     */
+    public static class Filter extends ObjectFilter {
+        @Override
+        protected boolean isRequiredType(Object object) {
+            return object instanceof IDiagramModelReference;
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return IDiagramModelObject.class;
+        }
+    }
 
     /*
      * Adapter to listen to changes made elsewhere (including Undo/Redo commands)
@@ -57,14 +72,14 @@ public class DiagramModelReferenceSection extends AbstractArchimatePropertySecti
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof EditPart && ((EditPart)element).getModel() instanceof IDiagramModelReference) {
-            fDiagramModel = ((IDiagramModelReference)((EditPart)element).getModel()).getReferencedModel();
+        IDiagramModelReference ref = (IDiagramModelReference)new Filter().adaptObject(element);
+        if(ref == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
+        }
+        else {
+            fDiagramModel = ref.getReferencedModel();
         }
 
-        if(fDiagramModel == null) {
-            throw new RuntimeException("Object was null"); //$NON-NLS-1$
-        }
-        
         refreshControls();
     }
     

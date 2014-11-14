@@ -21,7 +21,6 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
-import com.archimatetool.model.IProperties;
 
 
 
@@ -207,10 +206,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
-        if(adapter == IDiagramModelObject.class) {
-            return getModel();
-        }
-        if(adapter == IProperties.class && getModel() instanceof IProperties) {
+        if(getModel() != null && adapter.isInstance(getModel())) {
             return getModel();
         }
         return super.getAdapter(adapter);

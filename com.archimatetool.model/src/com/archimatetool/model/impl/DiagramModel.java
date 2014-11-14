@@ -13,6 +13,7 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -345,6 +346,11 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
         newDiagramModel.setId(null); // need a new ID
         newDiagramModel.getChildren().clear(); // need to do this!
         return newDiagramModel;
+    }
+
+    @Override
+    public boolean shouldExposeFeature(EAttribute eAttribute) {
+        return true;
     }
 
     /**
