@@ -252,7 +252,10 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         // Adaptable, dig in to get to get Element...
         else if(selected instanceof IAdaptable) {
-            object = ((IAdaptable)selected).getAdapter(IArchimateComponent.class);
+            object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class); // This first
+            if(object == null) {
+                object = ((IAdaptable)selected).getAdapter(IArchimateComponent.class);
+            }
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModelObject.class);
             }
@@ -261,9 +264,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModel.class);
-            }
-            if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class);
             }
         }
         // Default
