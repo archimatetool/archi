@@ -160,6 +160,9 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         // Locked
         boolean enabled = fLineObject instanceof ILockable ? !((ILockable)fLineObject).isLocked() : true;
         fColorChooser.setEnabled(enabled);
+        if(!enabled) {
+            return;
+        }
         
         // If the user pref is to save the color in the file, then it's a different meaning of default
         boolean isDefaultColor = (colorValue == null);

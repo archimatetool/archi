@@ -202,6 +202,8 @@ public class FontChooser extends EventManager {
      */
     public void setEnabled(boolean state) {
         getControl().setEnabled(state);
+        fTextButton.setEnabled(state);
+        fMenuButton.setEnabled(state);
     }
 
     /**
