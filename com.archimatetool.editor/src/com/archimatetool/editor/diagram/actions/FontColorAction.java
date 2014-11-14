@@ -17,6 +17,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
 
@@ -40,31 +42,26 @@ public class FontColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstSelectedFontEditPart(getSelectedObjects()) != null;
+        return getFirstSelectedEditPart(getSelectedObjects()) != null;
     }
-
-    private EditPart getFirstSelectedFontEditPart(List<?> selection) {
+    
+    private EditPart getFirstSelectedEditPart(List<?> selection) {
         for(Object object : getSelectedObjects()) {
-            if(isValidEditPart(object)) {
-                return (EditPart)object;
+            if(object instanceof EditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
+                if(shouldFontColor(model)) {
+                    return (EditPart)object;
+                }
             }
         }
         
         return null;
     }
-    
-    private boolean isValidEditPart(Object object) {
-        if(object instanceof EditPart && ((EditPart)object).getModel() instanceof IFontAttribute) {
-            Object model = ((EditPart)object).getModel();
-            if(model instanceof ILockable) {
-                return !((ILockable)model).isLocked();
-            }
-            return true;
-        }
-        
-        return false;
-    }
-    
+
     @Override
     public void run() {
         List<?> selection = getSelectedObjects();
@@ -73,12 +70,14 @@ public class FontColorAction extends SelectionAction {
         
         // Set default RGB on first selected object
         RGB defaultRGB = null;
-        EditPart firstPart = getFirstSelectedFontEditPart(selection);
+        EditPart firstPart = getFirstSelectedEditPart(selection);
         if(firstPart != null) {
-            IFontAttribute model = (IFontAttribute)firstPart.getModel();
-            String s = model.getFontColor();
-            if(s != null) {
-                defaultRGB = ColorFactory.convertStringToRGB(s);
+            Object model = firstPart.getModel();
+            if(shouldFontColor(model)) {
+                String s = ((IFontAttribute)model).getFontColor();
+                if(s != null) {
+                    defaultRGB = ColorFactory.convertStringToRGB(s);
+                }
             }
         }
         
@@ -99,11 +98,19 @@ public class FontColorAction extends SelectionAction {
         CompoundCommand result = new CompoundCommand(Messages.FontColorAction_1);
         
         for(Object object : selection) {
-            if(isValidEditPart(object)) {
+            if(object instanceof EditPart) {
                 EditPart editPart = (EditPart)object;
-                Command cmd = new FontColorCommand((IFontAttribute)editPart.getModel(), ColorFactory.convertRGBToString(newColor));
-                if(cmd.canExecute()) {
-                    result.add(cmd);
+                Object model = editPart.getModel();
+                
+                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+                    continue;
+                }
+                
+                if(shouldFontColor(model)) {
+                    Command cmd = new FontColorCommand((IFontAttribute)model, ColorFactory.convertRGBToString(newColor));
+                    if(cmd.canExecute()) {
+                        result.add(cmd);
+                    }
                 }
             }
         }
@@ -111,4 +118,9 @@ public class FontColorAction extends SelectionAction {
         return result.unwrap();
     }
     
+    private boolean shouldFontColor(Object model) {
+        return (model instanceof IFontAttribute) && (model instanceof IDiagramModelComponent) &&
+                (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR));
+    }
+
 }
