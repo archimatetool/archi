@@ -21,6 +21,7 @@ import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IJunctionElement;
 
@@ -39,6 +40,13 @@ public class FixDefaultSizesHandler implements ICompatibilityHandler {
         
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject element = iter.next();
+            
+            // Prior to 3.0.0 an Image width/height of -1, -1 signified the actual width/height of the image.
+            // However, here, Images with -1, -1 would be converted to a default box size of 200, 150
+            // So ignore it.
+            if(element instanceof IDiagramModelImage) {
+                continue;
+            }
 
             if(element instanceof IDiagramModelObject) {
                 IDiagramModelObject dmo = (IDiagramModelObject)element;
