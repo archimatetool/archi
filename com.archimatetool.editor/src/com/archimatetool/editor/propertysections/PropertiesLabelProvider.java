@@ -34,12 +34,12 @@ public class PropertiesLabelProvider implements ILabelProvider {
         
         object = ((IStructuredSelection)object).getFirstElement();
         
-        object = getWrappedElement(object);
-
         if(object instanceof IAdaptable) {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
-
+        
+        object = getWrappedElement(object);
+        
         return ArchimateLabelProvider.INSTANCE.getImage(object);
     }
 
@@ -50,12 +50,12 @@ public class PropertiesLabelProvider implements ILabelProvider {
         
         object = ((IStructuredSelection)object).getFirstElement();
         
-        object = getWrappedElement(object);
-        
         if(object instanceof IAdaptable) {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
 
+        object = getWrappedElement(object);
+        
         // An Archimate Component is a special text
         if(object instanceof IArchimateComponent) {
             return getArchimateComponentText((IArchimateComponent)object);
