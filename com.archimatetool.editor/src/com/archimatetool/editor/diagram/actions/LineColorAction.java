@@ -45,19 +45,15 @@ public class LineColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstSelectedEditPart(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
     }
 
-    private EditPart getFirstSelectedEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldLineColor(model)) {
-                    return (EditPart)object;
+                if(shouldModify(model)) {
+                    return model;
                 }
             }
         }
@@ -69,19 +65,19 @@ public class LineColorAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
+        ILineObject model = (ILineObject)getFirstValidSelectedModelObject(selection);
+        if(model == null) {
+            return;
+        }
+
         ColorDialog colorDialog = new ColorDialog(getWorkbenchPart().getSite().getShell());
         
         // Set default RGB on first selected object
         RGB defaultRGB = null;
-        EditPart firstPart = getFirstSelectedEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(shouldLineColor(model)) {
-                String s = ((ILineObject)model).getLineColor();
-                if(s != null) {
-                    defaultRGB = ColorFactory.convertStringToRGB(s);
-                }
-            }
+
+        String s = model.getLineColor();
+        if(s != null) {
+            defaultRGB = ColorFactory.convertStringToRGB(s);
         }
         
         if(defaultRGB != null) {
@@ -102,14 +98,8 @@ public class LineColorAction extends SelectionAction {
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
-                EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldLineColor(model)) {
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
                     Command cmd = new LineColorCommand((ILineObject)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -121,7 +111,11 @@ public class LineColorAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldLineColor(Object model) {
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
         if(model instanceof IDiagramModelObject) {
             // Disable if line colours are derived from fill colours as set in Prefs
             if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {

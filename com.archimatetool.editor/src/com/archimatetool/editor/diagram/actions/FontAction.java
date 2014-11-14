@@ -44,19 +44,15 @@ public class FontAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstSelectedEditPart(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
     }
 
-    private EditPart getFirstSelectedEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldFontAction(model)) {
-                    return (EditPart)object;
+                if(shouldModify(model)) {
+                    return model;
                 }
             }
         }
@@ -68,32 +64,31 @@ public class FontAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
+        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selection);
+        if(model == null) {
+            return;
+        }
+
         // Set default font on first selected object
         FontData fontData = FontFactory.getDefaultUserViewFontData();
         String rgbValue = null;
         
-        EditPart firstPart = getFirstSelectedEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(shouldFontAction(model)) {
-                rgbValue = ((IFontAttribute)model).getFontColor();
-                String fontValue = ((IFontAttribute)model).getFont();
-                if(fontValue != null) {
-                    try {
-                        fontData = new FontData(fontValue);
-                    }
-                    catch(Exception ex) {
-                        //ex.printStackTrace();
-                    }
-                }
+        rgbValue = model.getFontColor();
+        String fontValue = model.getFont();
+        if(fontValue != null) {
+            try {
+                fontData = new FontData(fontValue);
+            }
+            catch(Exception ex) {
+                //ex.printStackTrace();
             }
         }
-        
+
         FontDialog dialog = new FontDialog(getWorkbenchPart().getSite().getShell());
         dialog.setText(Messages.FontAction_1);
         dialog.setFontList(new FontData[] { fontData } );
         dialog.setRGB(ColorFactory.convertStringToRGB(rgbValue));
-        
+
         FontData selectedFontData = dialog.open();
         if(selectedFontData != null) {
             execute(createCommand(selection, selectedFontData, dialog.getRGB()));
@@ -105,14 +100,8 @@ public class FontAction extends SelectionAction {
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
-                EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldFontAction(model)) {
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
                     Command cmd = new FontCompoundCommand((IFontAttribute)model, selectedFontData.toString(), newColor);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -124,7 +113,11 @@ public class FontAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldFontAction(Object model) {
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
         return (model instanceof IFontAttribute) && (model instanceof IDiagramModelComponent) &&
                 (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT));
     }

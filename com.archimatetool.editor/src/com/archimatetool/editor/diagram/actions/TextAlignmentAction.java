@@ -90,28 +90,22 @@ public class TextAlignmentAction extends SelectionAction {
         setChecked(false);
         
         List<?> selected = getSelectedObjects();
-        EditPart editPart = getFirstSelectedEditPart(selected);
+        
+        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selected);
 
-        if(editPart != null && selected.size() == 1) {
-            Object model = editPart.getModel();
-            if(model instanceof IFontAttribute) {
-                setChecked(((IFontAttribute)model).getTextAlignment() == fAlignment);
-            }
+        if(model != null && selected.size() == 1) {
+            setChecked(model.getTextAlignment() == fAlignment);
         }
         
-        return editPart != null;
+        return model != null;
     }
 
-    private EditPart getFirstSelectedEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldTextAlign(model)) {
-                    return (EditPart)object;
+                if(shouldModify(model)) {
+                    return model;
                 }
             }
         }
@@ -123,10 +117,9 @@ public class TextAlignmentAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
-        EditPart firstPart = getFirstSelectedEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(shouldTextAlign(model)) {
+        Object model = getFirstValidSelectedModelObject(selection);
+        if(model != null) {
+            if(shouldModify(model)) {
                 execute(createCommand(selection));
             }
         }
@@ -137,16 +130,9 @@ public class TextAlignmentAction extends SelectionAction {
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
-                EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldTextAlign(model)) {
-                    IDiagramModelObject diagramObject = (IDiagramModelObject)model;
-                    Command cmd = new TextAlignmentCommand(diagramObject, fAlignment);
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
+                    Command cmd = new TextAlignmentCommand((IFontAttribute)model, fAlignment);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -157,8 +143,12 @@ public class TextAlignmentAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldTextAlign(Object model) {
-        return (model instanceof IDiagramModelObject) &&
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
+        return (model instanceof IFontAttribute) && (model instanceof IDiagramModelObject) &&
                 (((IDiagramModelObject)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
     }
 

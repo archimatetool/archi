@@ -42,19 +42,15 @@ public class FontColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstSelectedEditPart(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
     }
     
-    private EditPart getFirstSelectedEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldFontColor(model)) {
-                    return (EditPart)object;
+                if(shouldModify(model)) {
+                    return model;
                 }
             }
         }
@@ -66,19 +62,19 @@ public class FontColorAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
+        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selection);
+        if(model == null) {
+            return;
+        }
+
         ColorDialog colorDialog = new ColorDialog(getWorkbenchPart().getSite().getShell());
         
         // Set default RGB on first selected object
         RGB defaultRGB = null;
-        EditPart firstPart = getFirstSelectedEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(shouldFontColor(model)) {
-                String s = ((IFontAttribute)model).getFontColor();
-                if(s != null) {
-                    defaultRGB = ColorFactory.convertStringToRGB(s);
-                }
-            }
+        
+        String s = model.getFontColor();
+        if(s != null) {
+            defaultRGB = ColorFactory.convertStringToRGB(s);
         }
         
         if(defaultRGB != null) {
@@ -99,14 +95,8 @@ public class FontColorAction extends SelectionAction {
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
-                EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldFontColor(model)) {
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
                     Command cmd = new FontColorCommand((IFontAttribute)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -118,7 +108,11 @@ public class FontColorAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldFontColor(Object model) {
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
         return (model instanceof IFontAttribute) && (model instanceof IDiagramModelComponent) &&
                 (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR));
     }

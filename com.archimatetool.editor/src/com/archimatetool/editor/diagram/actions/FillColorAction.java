@@ -41,19 +41,15 @@ public class FillColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstSelectedEditPart(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
     }
 
-    private EditPart getFirstSelectedEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldFillColor(model)) {
-                    return (EditPart)object;
+                if(shouldModify(model)) {
+                    return model;
                 }
             }
         }
@@ -65,28 +61,28 @@ public class FillColorAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
+        IDiagramModelObject model = (IDiagramModelObject)getFirstValidSelectedModelObject(selection);
+        if(model == null) {
+            return;
+        }
+
         ColorDialog colorDialog = new ColorDialog(getWorkbenchPart().getSite().getShell());
         
         // Set default RGB on first selected object
         RGB defaultRGB = null;
-        EditPart firstPart = getFirstSelectedEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(shouldFillColor(model)) {
-                String s = ((IDiagramModelObject)model).getFillColor();
-                if(s == null) {
-                    defaultRGB = ColorFactory.getDefaultFillColor(model).getRGB();
-                }
-                else {
-                    defaultRGB = ColorFactory.convertStringToRGB(s);
-                }
-            }
+
+        String s = model.getFillColor();
+        if(s == null) {
+            defaultRGB = ColorFactory.getDefaultFillColor(model).getRGB();
         }
-        
+        else {
+            defaultRGB = ColorFactory.convertStringToRGB(s);
+        }
+
         if(defaultRGB != null) {
             colorDialog.setRGB(defaultRGB);
         }
-        
+
         RGB newColor = colorDialog.open();
         if(newColor != null) {
             execute(createCommand(selection, newColor));
@@ -98,16 +94,9 @@ public class FillColorAction extends SelectionAction {
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
-                EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldFillColor(model)) {
-                    IDiagramModelObject diagramObject = (IDiagramModelObject)model;
-                    Command cmd = new FillColorCommand(diagramObject, ColorFactory.convertRGBToString(newColor));
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
+                    Command cmd = new FillColorCommand((IDiagramModelObject)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -119,7 +108,11 @@ public class FillColorAction extends SelectionAction {
     }
     
     
-    private boolean shouldFillColor(Object model) {
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
         return (model instanceof IDiagramModelObject) &&
                 (((IDiagramModelObject)model).shouldExposeFeature(IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__FILL_COLOR));
     }

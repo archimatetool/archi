@@ -115,28 +115,22 @@ public class TextPositionAction extends SelectionAction {
         setChecked(false);
         
         List<?> selected = getSelectedObjects();
-        EditPart editPart = getFirstSelectedEditPart(selected);
+        
+        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selected);
 
-        if(editPart != null && selected.size() == 1) {
-            Object model = editPart.getModel();
-            if(model instanceof IDiagramModelObject) {
-                setChecked(((IDiagramModelObject)model).getTextPosition() == fPosition);
-            }
+        if(model != null && selected.size() == 1) {
+            setChecked(model.getTextPosition() == fPosition);
         }
         
-        return editPart != null;
+        return model != null;
     }
     
-    private EditPart getFirstSelectedEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                
-                if(shouldTextPosition(model)) {
-                    return (EditPart)object;
+                if(shouldModify(model)) {
+                    return model;
                 }
             }
         }
@@ -148,8 +142,8 @@ public class TextPositionAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
-        EditPart firstPart = getFirstSelectedEditPart(selection);
-        if(firstPart != null) {
+        Object model = getFirstValidSelectedModelObject(selection);
+        if(model != null) {
             execute(createCommand(selection));
         }
     }
@@ -159,11 +153,9 @@ public class TextPositionAction extends SelectionAction {
         
         for(Object object : selection) {
             if(object instanceof EditPart) {
-                EditPart editPart = (EditPart)object;
-                Object model = editPart.getModel();
-                if(shouldTextPosition(model)) {
-                    IDiagramModelObject fontObject = (IDiagramModelObject)model;
-                    Command cmd = new TextPositionCommand(fontObject, fPosition);
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
+                    Command cmd = new TextPositionCommand((IFontAttribute)model, fPosition);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -174,8 +166,12 @@ public class TextPositionAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldTextPosition(Object model) {
-        return (model instanceof IDiagramModelObject) &&
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
+        return (model instanceof IFontAttribute) && (model instanceof IDiagramModelObject) &&
                 (((IDiagramModelObject)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION));
     }
 

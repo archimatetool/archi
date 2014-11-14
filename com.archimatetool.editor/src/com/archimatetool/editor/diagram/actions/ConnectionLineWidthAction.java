@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.actions;
 
 import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -21,9 +22,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
-import com.archimatetool.editor.diagram.editparts.connections.IDiagramConnectionEditPart;
 import com.archimatetool.editor.propertysections.DiagramConnectionSection;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.ILockable;
 
 
 
@@ -45,13 +48,16 @@ public class ConnectionLineWidthAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstSelectedConnectionEditPart(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
     }
 
-    private IDiagramConnectionEditPart getFirstSelectedConnectionEditPart(List<?> selection) {
+    private Object getFirstValidSelectedModelObject(List<?> selection) {
         for(Object object : getSelectedObjects()) {
-            if(object instanceof IDiagramConnectionEditPart) {
-                return (IDiagramConnectionEditPart)object;
+            if(object instanceof EditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
+                    return model;
+                }
             }
         }
         
@@ -62,17 +68,14 @@ public class ConnectionLineWidthAction extends SelectionAction {
     public void run() {
         List<?> selection = getSelectedObjects();
         
-        int lineWidth = 1;
-        
-        // Set line width on first selected connection
-        IDiagramConnectionEditPart firstPart = getFirstSelectedConnectionEditPart(selection);
-        if(firstPart != null) {
-            Object model = firstPart.getModel();
-            if(model instanceof IDiagramModelConnection) {
-                lineWidth = ((IDiagramModelConnection)model).getLineWidth();
-            }
+        ILineObject model = (ILineObject)getFirstValidSelectedModelObject(selection);
+        if(model == null) {
+            return;
         }
         
+        // Set default line width on first selected connection
+        int lineWidth = model.getLineWidth();
+
         LineWidthDialog dialog = new LineWidthDialog(getWorkbenchPart().getSite().getShell(), lineWidth);
         if(dialog.open() == Window.OK) {
             execute(createCommand(selection, dialog.getLineWidth()));
@@ -83,12 +86,10 @@ public class ConnectionLineWidthAction extends SelectionAction {
         CompoundCommand result = new CompoundCommand(Messages.ConnectionLineWidthAction_1);
         
         for(Object object : selection) {
-            if(object instanceof IDiagramConnectionEditPart) {
-                IDiagramConnectionEditPart editPart = (IDiagramConnectionEditPart)object;
-                Object model = editPart.getModel();
-                if(model instanceof IDiagramModelConnection) {
-                    IDiagramModelConnection diagramConnection = (IDiagramModelConnection)model;
-                    Command cmd = new LineWidthCommand(diagramConnection, newLineWidth);
+            if(object instanceof EditPart) {
+                Object model = ((EditPart)object).getModel();
+                if(shouldModify(model)) {
+                    Command cmd = new LineWidthCommand((ILineObject)model, newLineWidth);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -98,6 +99,16 @@ public class ConnectionLineWidthAction extends SelectionAction {
         
         return result.unwrap();
     }
+    
+    private boolean shouldModify(Object model) {
+        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+            return false;
+        }
+        
+        return (model instanceof ILineObject) && (model instanceof IDiagramModelConnection) &&
+                (((IDiagramModelConnection)model).shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH));
+    }
+
     
     private static class LineWidthDialog extends Dialog {
         private Combo fCombo;
