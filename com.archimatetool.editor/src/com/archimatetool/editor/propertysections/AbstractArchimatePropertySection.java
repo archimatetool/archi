@@ -65,7 +65,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
          * @param object
          * @return The required object or null
          */
-        Object adaptObject(Object object) {
+        public Object adaptObject(Object object) {
             if(isRequiredType(object)) {
                 return object;
             }
@@ -78,8 +78,8 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
             return null;
         }
         
-        abstract boolean isRequiredType(Object object);
-        abstract Class<?> getAdaptableType();
+        protected abstract boolean isRequiredType(Object object);
+        protected abstract Class<?> getAdaptableType();
     }
     
     @Override

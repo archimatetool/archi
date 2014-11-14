@@ -49,7 +49,7 @@ public class FontSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        boolean isRequiredType(Object object) {
+        protected boolean isRequiredType(Object object) {
             boolean result = (object instanceof IFontAttribute);
             if(object instanceof IDiagramModelComponent) {
                 result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE1);
@@ -58,7 +58,7 @@ public class FontSection extends AbstractArchimatePropertySection {
         }
 
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return IDiagramModelObject.class; // only interested in IDiagramModelObject
         }
     }
@@ -68,7 +68,7 @@ public class FontSection extends AbstractArchimatePropertySection {
      */
     public static class Filter2 extends Filter {
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return IDiagramModelConnection.class; // only interested in IDiagramModelConnection
         }
     }

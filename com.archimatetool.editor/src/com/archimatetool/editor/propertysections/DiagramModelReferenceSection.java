@@ -33,12 +33,12 @@ public class DiagramModelReferenceSection extends AbstractArchimatePropertySecti
      */
     public static class Filter extends ObjectFilter {
         @Override
-        boolean isRequiredType(Object object) {
+        protected boolean isRequiredType(Object object) {
             return object instanceof IDiagramModelReference;
         }
 
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return IDiagramModelObject.class;
         }
     }

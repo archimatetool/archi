@@ -38,12 +38,12 @@ public class SketchModelBackgroundSection extends AbstractArchimatePropertySecti
      */
     public static class Filter extends ObjectFilter {
         @Override
-        boolean isRequiredType(Object object) {
+        protected boolean isRequiredType(Object object) {
             return object instanceof ISketchModel;
         }
 
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return ISketchModel.class;
         }
     }

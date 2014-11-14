@@ -9,8 +9,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -40,11 +38,15 @@ public class HintContentSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return (object instanceof IHintProvider) ||
-                    ((object instanceof EditPart) && ((EditPart)object).getModel() instanceof IHintProvider);
+        protected boolean isRequiredType(Object object) {
+            return object instanceof IHintProvider;
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return IHintProvider.class;
         }
     }
 
@@ -107,14 +109,9 @@ public class HintContentSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        if(element instanceof IHintProvider) {
-            fHintProvider = (IHintProvider)element;
-        }
-        else if(element instanceof EditPart && ((EditPart)element).getModel() instanceof IHintProvider) {
-            fHintProvider = (IHintProvider)((EditPart)element).getModel();
-        }
-        else {
-            System.err.println("Hint Provider was null in " + getClass()); //$NON-NLS-1$
+        fHintProvider = (IHintProvider)new Filter().adaptObject(element);
+        if(fHintProvider == null) {
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

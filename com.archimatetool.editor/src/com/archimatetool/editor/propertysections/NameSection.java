@@ -33,12 +33,12 @@ public class NameSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        boolean isRequiredType(Object object) {
+        protected boolean isRequiredType(Object object) {
             return object instanceof ISketchModelSticky;
         }
 
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return INameable.class;
         }
     }

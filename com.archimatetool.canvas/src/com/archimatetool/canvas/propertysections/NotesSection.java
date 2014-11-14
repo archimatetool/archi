@@ -9,8 +9,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -39,10 +37,15 @@ public class NotesSection extends AbstractArchimatePropertySection {
     /**
      * Filter to show or reject this section depending on input value
      */
-    public static class Filter implements IFilter {
+    public static class Filter extends ObjectFilter {
         @Override
-        public boolean select(Object object) {
-            return (object instanceof EditPart) && ((EditPart)object).getModel() instanceof INotesContent;
+        protected boolean isRequiredType(Object object) {
+            return object instanceof INotesContent;
+        }
+
+        @Override
+        protected Class<?> getAdaptableType() {
+            return INotesContent.class;
         }
     }
 
@@ -90,15 +93,9 @@ public class NotesSection extends AbstractArchimatePropertySection {
 
     @Override
     protected void setElement(Object element) {
-        if(element instanceof INotesContent) {
-            fNotesContent = (INotesContent)element;
-        }
-        else if(element instanceof EditPart && ((EditPart)element).getModel() instanceof INotesContent) {
-            fNotesContent = (INotesContent)((EditPart)element).getModel();
-        }
-
+        fNotesContent = (INotesContent)new Filter().adaptObject(element);
         if(fNotesContent == null) {
-            throw new RuntimeException("Notes Content was null"); //$NON-NLS-1$
+            System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
         refreshControls();

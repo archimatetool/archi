@@ -47,7 +47,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
      */
     public static class Filter extends ObjectFilter {
         @Override
-        boolean isRequiredType(Object object) {
+        protected boolean isRequiredType(Object object) {
             boolean result = (object instanceof ILineObject);
             if(object instanceof IDiagramModelComponent) {
                 result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
@@ -56,7 +56,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
         }
 
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return ILineObject.class;
         }
     }

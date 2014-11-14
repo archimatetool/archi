@@ -46,12 +46,12 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
      */
     public static class Filter extends ObjectFilter {
         @Override
-        boolean isRequiredType(Object object) {
+        protected boolean isRequiredType(Object object) {
             return (object instanceof IDiagramModelConnection) && !(object instanceof IDiagramModelArchimateConnection);
         }
 
         @Override
-        Class<?> getAdaptableType() {
+        protected Class<?> getAdaptableType() {
             return IDiagramModelConnection.class;
         }
     }
