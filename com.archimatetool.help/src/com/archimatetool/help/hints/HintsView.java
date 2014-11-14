@@ -262,6 +262,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModel.class);
             }
+            if(object == null) {
+                object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class);
+            }
         }
         // Default
         else {
