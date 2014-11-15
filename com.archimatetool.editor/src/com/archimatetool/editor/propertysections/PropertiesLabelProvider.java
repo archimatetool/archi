@@ -6,7 +6,6 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -15,8 +14,6 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateComponent;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -38,8 +35,6 @@ public class PropertiesLabelProvider implements ILabelProvider {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
         
-        object = getWrappedElement(object);
-        
         return ArchimateLabelProvider.INSTANCE.getImage(object);
     }
 
@@ -54,7 +49,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
 
-        object = getWrappedElement(object);
+        object = ArchimateLabelProvider.INSTANCE.getWrappedElement(object);
         
         // An Archimate Component is a special text
         if(object instanceof IArchimateComponent) {
@@ -70,22 +65,6 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
     
-    private Object getWrappedElement(Object object) {
-        if(object instanceof EditPart) {
-            object = ((EditPart)object).getModel();
-        }
-        
-        if(object instanceof IDiagramModelArchimateObject) {
-            return ((IDiagramModelArchimateObject)object).getArchimateElement();
-        }
-        
-        if(object instanceof IDiagramModelArchimateConnection) {
-            return ((IDiagramModelArchimateConnection)object).getRelationship();
-        }
-        
-        return object;
-    }
-
     String getArchimateComponentText(IArchimateComponent archimateComponent) {
         String name = StringUtils.escapeAmpersandsInText(archimateComponent.getName());
         

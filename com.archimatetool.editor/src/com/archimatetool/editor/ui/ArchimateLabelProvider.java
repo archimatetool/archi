@@ -7,6 +7,7 @@ package com.archimatetool.editor.ui;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
@@ -18,6 +19,8 @@ import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IRelationship;
@@ -44,6 +47,8 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         if(element == null) {
             return ""; //$NON-NLS-1$
         }
+        
+        element = getWrappedElement(element);
         
         String name = null;
         
@@ -87,6 +92,8 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
             return null;
         }
         
+        element = getWrappedElement(element);
+        
         Image image = null;
         
         // This first, since EClass is an EObject
@@ -103,6 +110,30 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         }
         
         return image;
+    }
+    
+    /**
+     * If the wrapper is an EditPart get the EditPart's model first
+     * If then the wrapper is an IDiagramModelArchimateObject return the IArchimateElement
+     * If then the wrapper is an IDiagramModelArchimateConnection return the IRelationship
+     * Else return the object itself
+     * @param object The wrapper objects
+     * @return The actual model element in an object
+     */
+    public Object getWrappedElement(Object object) {
+        if(object instanceof EditPart) {
+            object = ((EditPart)object).getModel();
+        }
+        
+        if(object instanceof IDiagramModelArchimateObject) {
+            return ((IDiagramModelArchimateObject)object).getArchimateElement();
+        }
+        
+        if(object instanceof IDiagramModelArchimateConnection) {
+            return ((IDiagramModelArchimateConnection)object).getRelationship();
+        }
+        
+        return object;
     }
     
     @Override
