@@ -26,7 +26,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -81,11 +80,6 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
      */
     private boolean fIsRefreshing;
     
-    /**
-     * Flag for updating Hints View
-     */
-    private boolean fIsShowing;
-    
     @Override
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.ViewpointSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
@@ -110,8 +104,6 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
                                 fDiagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
                                 viewPoint.getIndex()));
                         fIsExecutingCommand = false;
-                        // update hints view
-                        updateComponentSelection(viewPoint); 
                     }
                 }
             }
@@ -162,17 +154,6 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
         fIsRefreshing = true; // A Viewer will get a selectionChanged event when setting it
         fComboViewer.setSelection(new StructuredSelection(viewPoint));
         fIsRefreshing = false;
-        
-        if(fIsShowing) {
-            updateComponentSelection(viewPoint); 
-        }
-    }
-
-    /**
-     * Update Hints View
-     */
-    protected void updateComponentSelection(IViewpoint viewPoint) {
-        ComponentSelectionManager.INSTANCE.fireSelectionEvent(this, viewPoint);
     }
 
     @Override
@@ -183,15 +164,5 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     @Override
     protected EObject getEObject() {
         return fDiagramModel;
-    }
-    
-    @Override
-    public void aboutToBeHidden() {
-        fIsShowing = false;
-    }
-    
-    @Override
-    public void aboutToBeShown() {
-        fIsShowing = true;
     }
 }
