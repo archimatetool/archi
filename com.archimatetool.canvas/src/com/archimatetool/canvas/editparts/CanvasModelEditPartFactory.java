@@ -5,16 +5,14 @@
  */
 package com.archimatetool.canvas.editparts;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import com.archimatetool.canvas.model.ICanvasModel;
-import com.archimatetool.canvas.model.ICanvasModelBlock;
-import com.archimatetool.canvas.model.ICanvasModelConnection;
-import com.archimatetool.canvas.model.ICanvasModelSticky;
-import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
-import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IDiagramModelReference;
 
 
@@ -27,50 +25,33 @@ public class CanvasModelEditPartFactory
 implements EditPartFactory {
     
     public EditPart createEditPart(EditPart context, Object model) {
-        EditPart child = null;
-        
         if(model == null) {
             return null;
         }
         
-        // Main Diagram Edit Part
-        if(model instanceof ICanvasModel) {
-            child = new CanvasDiagramPart();
-        }
-        
-        // Block
-        else if(model instanceof ICanvasModelBlock) {
-            child = new CanvasBlockEditPart();
-        }
-        
-        // Image
-        else if(model instanceof IDiagramModelImage) {
-            child = new DiagramImageEditPart();
-        }
+        EditPart child = null;
+        IElementUIProvider provider = null;
 
-        // Sticky
-        else if(model instanceof ICanvasModelSticky) {
-            child = new CanvasStickyEditPart();
-        }
-        
-        // Diagram Model Reference
-        else if(model instanceof IDiagramModelReference) {
+        // Diagram Model Reference is an exception to the rule
+        if(model instanceof IDiagramModelReference) {
             child = new CanvasDiagramModelReferenceEditPart();
         }
-        
-        // Connections
-        else if(model instanceof ICanvasModelConnection) {
-            child = new CanvasLineConnectionEditPart();
+        else if(model instanceof EObject) {
+            provider = ElementUIFactory.INSTANCE.getProvider(((EObject)model).eClass());
+            if(provider != null) {
+                child = provider.createEditPart();
+            }
         }
-        
+
         /*
          * It's better to return an Empty Edit Part in case of a corrupt model.
          * Returning null is disastrous and means the Diagram View won't open.
          */
-        else {
+        if(child == null) {
+            Logger.logError("Could not create EditPart for: " + model); //$NON-NLS-1$
             child = new EmptyEditPart();
         }
-        
+
         // Set the Model in the Edit part
         child.setModel(model);
         

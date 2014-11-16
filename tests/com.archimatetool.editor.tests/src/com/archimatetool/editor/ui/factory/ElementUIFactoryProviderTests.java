@@ -18,8 +18,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.editor.ui.factory.business.BusinessActorUIProvider;
-import com.archimatetool.editor.ui.factory.connections.AccessConnectionUIProvider;
-import com.archimatetool.editor.ui.factory.connections.LineConnectionUIProvider;
+import com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider;
+import com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIProvider;
+import com.archimatetool.editor.ui.factory.relationships.AssociationRelationshipUIProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -45,7 +46,7 @@ public class ElementUIFactoryProviderTests {
     public void testInstance() {
         ElementUIFactory factory = ElementUIFactory.INSTANCE;
         assertNotNull(factory);
-        assertEquals(65, factory.map.size());
+        assertEquals(69, factory.map.size());
     }
     
     @Test
@@ -63,7 +64,7 @@ public class ElementUIFactoryProviderTests {
     }
 
     @Test
-    public void testGetProvider_EObject_ArchiMate() {
+    public void testGetProvider_EObject_ArchiMateElement() {
         IElementUIProvider provider = new BusinessActorUIProvider();
         factory.registerProvider(provider);
         
@@ -72,7 +73,16 @@ public class ElementUIFactoryProviderTests {
     }
     
     @Test
-    public void testGetProvider_EObject_Connection() {
+    public void testGetProvider_EObject_Relationship() {
+        IElementUIProvider provider = new AssociationRelationshipUIProvider();
+        factory.registerProvider(provider);
+        
+        EObject eObject = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        assertEquals(provider, factory.getProvider(eObject));
+    }
+
+    @Test
+    public void testGetProvider_EObject_LineConnection() {
         IElementUIProvider provider = new LineConnectionUIProvider();
         factory.registerProvider(provider);
         
@@ -94,7 +104,7 @@ public class ElementUIFactoryProviderTests {
 
     @Test
     public void testGetProvider_EObject_DiagramModelArchimateConnection() {
-        IElementUIProvider provider = new AccessConnectionUIProvider();
+        IElementUIProvider provider = new AccessRelationshipUIProvider();
         factory.registerProvider(provider);
         
         IDiagramModelArchimateConnection eObject = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();

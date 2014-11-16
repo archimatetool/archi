@@ -5,11 +5,9 @@
  */
 package com.archimatetool.editor.ui.factory.junctions;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.junctions.OrJunctionEditPart;
@@ -48,10 +46,5 @@ public class OrJunctionUIProvider extends JunctionUIProvider {
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_JUNCTION_OR_16);
-    }
-
-    @Override
-    public Color getDefaultColor() {
-        return ColorConstants.black;
     }
 }

@@ -12,19 +12,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.figures.diagram.ArchimateDiagramModelGraphicsIcon;
-import com.archimatetool.editor.diagram.sketch.figures.SketchModelGraphicsIcon;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.ISketchModel;
 
 
 
@@ -33,83 +28,112 @@ import com.archimatetool.model.ISketchModel;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateLabelProvider implements IEditorLabelProvider {
+public class ArchimateLabelProvider {
     
     public static ArchimateLabelProvider INSTANCE = new ArchimateLabelProvider();
 
     /**
-     * @return A default name for an element.<br>
-     *         This will be the element's name if of type INameable or the default Archimate name if an Archimate EObject,
-     *         or a default name if blank.
+     * @return A name for an object.<br>
+     *         This will be the element's name if of type INameable or a default name as specified in its ElementUIProvider.
      */
-    @Override
-    public String getLabel(Object element) {
-        if(element == null) {
+    public String getLabel(Object object) {
+        if(object == null) {
             return ""; //$NON-NLS-1$
         }
         
-        element = getWrappedElement(element);
+        object = getWrappedElement(object);
         
         String name = null;
         
         // Get Name
-        if(element instanceof INameable) {
-            name = ((INameable)element).getName();
+        if(object instanceof INameable) {
+            name = ((INameable)object).getName();
         }
         
-        // It's blank. Can we get a default name from its class?
-        if(!StringUtils.isSet(name) && element instanceof EObject) {
-            name = getDefaultName(((EObject)element).eClass());
-        }
-        
-        // Yes
-        if(StringUtils.isSet(name)) {
-            return name;
-        }
-        
-        // Defaults for empty strings
-        if(element instanceof IArchimateDiagramModel) {
-            return Messages.ArchimateLabelProvider_0;
-        }
-        else if(element instanceof ISketchModel) {
-            return Messages.ArchimateLabelProvider_1;
-        }
-        else if(element instanceof IDiagramModelImage) {
-            return Messages.ArchimateLabelProvider_2;
-        }
-       
-        // If it's blank try registered extensions
-        if(!StringUtils.isSet(name)) {
-            name = LabelProviderExtensionHandler.INSTANCE.getLabel(element);
+        // It's blank. Get a default name from its eClass
+        if(!StringUtils.isSet(name) && object instanceof EObject) {
+            name = getDefaultName(((EObject)object).eClass());
         }
         
         return StringUtils.safeString(name);
     }
 
-    @Override
-    public Image getImage(Object element) {
-        if(element == null) {
+    /**
+     * Get a default human-readable name for an EClass
+     * @param eClass The Class
+     * @return A name or null
+     */
+    public String getDefaultName(EClass eClass) {
+        if(eClass == null) {
+            return ""; //$NON-NLS-1$
+        }
+        
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        if(provider != null) {
+            return provider.getDefaultName();
+        }
+        
+        return ""; //$NON-NLS-1$
+    }
+    
+    /**
+     * @param element
+     * @return An image for an object
+     */
+    public Image getImage(Object object) {
+        if(object == null) {
             return null;
         }
         
-        element = getWrappedElement(element);
-        
-        Image image = null;
+        object = getWrappedElement(object);
         
         // This first, since EClass is an EObject
-        if(element instanceof EClass) {
-            image = getEClassImage((EClass)element);
+        if(object instanceof EClass) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EClass)object);
+            if(provider != null) {
+                return provider.getImage();
+            }
         }
-        else if(element instanceof EObject) {
-            image = getObjectImage(((EObject)element));
+        else if(object instanceof EObject) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EObject)object);
+            if(provider != null) {
+                return provider.getImage((EObject)object);
+            }
         }
         
-        // Try registered extensions
-        if(image == null) {
-            image = LabelProviderExtensionHandler.INSTANCE.getImage(element);
+        return null;
+    }
+    
+    /**
+     * @param eClass
+     * @return An ImageDescriptor for an EClass
+     */
+    public ImageDescriptor getImageDescriptor(EClass eClass) {
+        if(eClass == null) {
+            return null;
         }
         
-        return image;
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        if(provider != null) {
+            return provider.getImageDescriptor();
+        }
+        
+        return null;
+    }
+    
+    /**
+     * @param element
+     * @return A IGraphicsIcon for an object
+     */
+    public IGraphicsIcon getGraphicsIcon(Object object) {
+        if(object instanceof EObject) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EObject)object);
+            if(provider != null) {
+                return provider.getGraphicsIcon();
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -136,146 +160,6 @@ public class ArchimateLabelProvider implements IEditorLabelProvider {
         return object;
     }
     
-    @Override
-    public IGraphicsIcon getGraphicsIcon(Object element) {
-        if(element == null) {
-            return null;
-        }
-        
-        IGraphicsIcon graphicsIcon = null;
-        
-        if(element instanceof IArchimateDiagramModel) {
-            graphicsIcon = new ArchimateDiagramModelGraphicsIcon();
-        }
-        else if(element instanceof ISketchModel) {
-            graphicsIcon = new SketchModelGraphicsIcon();
-        }
-        
-        // Try registered extensions
-        if(graphicsIcon == null) {
-            graphicsIcon = LabelProviderExtensionHandler.INSTANCE.getGraphics2dIcon(element);
-        }
-
-        return graphicsIcon;
-    }
-    
-    /**
-     * @return An Image for an EObject instance
-     */
-    private Image getObjectImage(EObject eObject) {
-        if(eObject == null) {
-            return null;
-        }
-        
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eObject.eClass());
-        if(provider != null) {
-            return provider.getImage(eObject);
-        }
-        
-        return getEClassImage(eObject.eClass());
-    }
-    
-    /**
-     * @return An Image for an EClass
-     */
-    private Image getEClassImage(EClass eClass) {
-        if(eClass == null) {
-            return null;
-        }
-        
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
-        if(provider != null) {
-            return provider.getImage();
-        }
-        
-        String imageName = getImageName(eClass);
-        if(imageName != null) {
-            return IArchimateImages.ImageFactory.getImage(imageName);
-        }
-        
-        return null;
-    }
-
-    /**
-     * @param eClass
-     * @return An ImageDescriptor for an EClass
-     */
-    public ImageDescriptor getImageDescriptor(EClass eClass) {
-        if(eClass == null) {
-            return null;
-        }
-        
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
-        if(provider != null) {
-            return provider.getImageDescriptor();
-        }
-        
-        String imageName = getImageName(eClass);
-        if(imageName != null) {
-            return IArchimateImages.ImageFactory.getImageDescriptor(imageName);
-        }
-        
-        return null;
-    }
-    
-    private String getImageName(EClass eClass) {
-        if(eClass == null) {
-            return null;
-        }
-        
-        switch(eClass.getClassifierID()) {
-            // Other
-            case IArchimatePackage.ARCHIMATE_MODEL:
-                return IArchimateImages.ICON_MODELS_16;
-            case IArchimatePackage.ARCHIMATE_DIAGRAM_MODEL:
-                return IArchimateImages.ICON_DIAGRAM_16;
-            case IArchimatePackage.FOLDER:
-                return IArchimateImages.ECLIPSE_IMAGE_FOLDER;
-            
-            // Sketch
-            case IArchimatePackage.SKETCH_MODEL:
-                return IArchimateImages.ICON_SKETCH_16;
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Get a default human-readable name for an EClass
-     * @param eClass The Class
-     * @return A name or null
-     */
-    public String getDefaultName(EClass eClass) {
-        if(eClass == null) {
-            return ""; //$NON-NLS-1$
-        }
-        
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
-        if(provider != null) {
-            return provider.getDefaultName();
-        }
-        
-        return ""; //$NON-NLS-1$
-    }
-    
-    /**
-     * Get a default human-readable short name for an EClass
-     * @param eClass The Class
-     * @return A name or null
-     */
-    public String getDefaultShortName(EClass eClass) {
-        if(eClass == null) {
-            return ""; //$NON-NLS-1$
-        }
-        
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
-        if(provider != null) {
-            return provider.getDefaultShortName();
-        }
-        
-        return ""; //$NON-NLS-1$
-    }
-
     /**
      * @param relation
      * @return A sentence that describes the relationship between the relation's source and target elements

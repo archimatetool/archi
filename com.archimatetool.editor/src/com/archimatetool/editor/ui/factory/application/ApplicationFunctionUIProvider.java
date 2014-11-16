@@ -38,11 +38,6 @@ public class ApplicationFunctionUIProvider extends AbstractApplicationUIProvider
     }
 
     @Override
-    public String getDefaultShortName() {
-        return Messages.ApplicationFunctionUIProvider_1;
-    }
-
-    @Override
     public Image getImage() {
         return getImageWithUserFillColor(IArchimateImages.ICON_APPLICATION_FUNCTION_16);
     }

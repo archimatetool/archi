@@ -41,11 +41,6 @@ public class BusinessInterfaceUIProvider extends AbstractBusinessUIProvider {
     }
 
     @Override
-    public String getDefaultShortName() {
-        return Messages.BusinessInterfaceUIProvider_1;
-    }
-
-    @Override
     public Image getImage() {
         return getImageWithUserFillColor(IArchimateImages.ICON_BUSINESS_INTERFACE_16);
     }

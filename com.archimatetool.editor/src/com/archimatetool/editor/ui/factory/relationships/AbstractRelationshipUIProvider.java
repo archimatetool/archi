@@ -3,10 +3,9 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.editor.ui.factory.connections;
+package com.archimatetool.editor.ui.factory.relationships;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
@@ -14,11 +13,11 @@ import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
 
 
 /**
- * Abstract Connection UI Provider
+ * Abstract Relation UI Provider
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractConnectionUIProvider extends AbstractElementUIProvider {
+public abstract class AbstractRelationshipUIProvider extends AbstractElementUIProvider {
     
     @Override
     public Color getDefaultColor() {
@@ -29,9 +28,4 @@ public abstract class AbstractConnectionUIProvider extends AbstractElementUIProv
     public Color getDefaultLineColor() {
         return ColorConstants.black;
     }
-
-    public Dimension getDefaultSize() {
-        return new Dimension(-1, -1);
-    }
-
 }

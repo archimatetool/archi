@@ -13,29 +13,17 @@ public class Messages extends NLS {
 
     public static String ApplicationCollaborationUIProvider_0;
 
-    public static String ApplicationCollaborationUIProvider_1;
-
     public static String ApplicationComponentUIProvider_0;
-
-    public static String ApplicationComponentUIProvider_1;
 
     public static String ApplicationDataObjectUIProvider_0;
 
     public static String ApplicationFunctionUIProvider_0;
 
-    public static String ApplicationFunctionUIProvider_1;
-
     public static String ApplicationInteractionUIProvider_0;
-
-    public static String ApplicationInteractionUIProvider_1;
 
     public static String ApplicationInterfaceUIProvider_0;
 
-    public static String ApplicationInterfaceUIProvider_1;
-
     public static String ApplicationServiceUIProvider_0;
-
-    public static String ApplicationServiceUIProvider_1;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

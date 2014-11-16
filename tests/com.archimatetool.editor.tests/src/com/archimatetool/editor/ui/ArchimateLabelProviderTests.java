@@ -120,16 +120,6 @@ public class ArchimateLabelProviderTests {
     }
     
     @Test
-    public void testGetDefaultShortName() {
-        // Null object
-        assertEquals("", ArchimateLabelProvider.INSTANCE.getDefaultShortName(null));
-        
-        // EClass
-        EClass eClass = IArchimatePackage.eINSTANCE.getBusinessActor();
-        assertEquals("Actor", ArchimateLabelProvider.INSTANCE.getDefaultShortName(eClass));
-    }
-    
-    @Test
     public void testGetRelationshipSentence() {
         // Null object
         assertEquals("", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(null));

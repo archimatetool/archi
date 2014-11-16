@@ -3,52 +3,47 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.editor.ui.factory.connections;
+package com.archimatetool.editor.ui.factory.relationships;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.AssignmentConnectionEditPart;
+import com.archimatetool.editor.diagram.editparts.connections.AggregationConnectionEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
 
 /**
- * Assignment Connection UI Provider
+ * Aggregation Relationship UI Provider
  * 
  * @author Phillip Beauvoir
  */
-public class AssignmentConnectionUIProvider extends AbstractConnectionUIProvider {
+public class AggregationRelationshipUIProvider extends AbstractRelationshipUIProvider {
 
     public EClass providerFor() {
-        return IArchimatePackage.eINSTANCE.getAssignmentRelationship();
+        return IArchimatePackage.eINSTANCE.getAggregationRelationship();
     }
     
     @Override
     public EditPart createEditPart() {
-        return new AssignmentConnectionEditPart();
+        return new AggregationConnectionEditPart();
     }
 
     @Override
     public String getDefaultName() {
-        return Messages.AssignmentConnectionUIProvider_0;
-    }
-
-    @Override
-    public String getDefaultShortName() {
-        return Messages.AssignmentConnectionUIProvider_1;
+        return Messages.AggregationRelationshipUIProvider_0;
     }
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ASSIGNMENT_CONNECTION_16);
+        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_AGGREGATION_CONNECTION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASSIGNMENT_CONNECTION_16);
+        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_AGGREGATION_CONNECTION_16);
     }
 }

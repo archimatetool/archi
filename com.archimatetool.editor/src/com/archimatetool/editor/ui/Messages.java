@@ -11,10 +11,6 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.ui.messages"; //$NON-NLS-1$
 
-    public static String ArchimateLabelProvider_0;
-
-    public static String ArchimateLabelProvider_1;
-
     public static String ArchimateLabelProvider_10;
 
     public static String ArchimateLabelProvider_11;
@@ -34,8 +30,6 @@ public class Messages extends NLS {
     public static String ArchimateLabelProvider_18;
 
     public static String ArchimateLabelProvider_19;
-
-    public static String ArchimateLabelProvider_2;
 
     public static String ArchimateLabelProvider_20;
 

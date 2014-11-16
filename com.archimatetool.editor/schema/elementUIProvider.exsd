@@ -3,10 +3,10 @@
 <schema targetNamespace="com.archimatetool.editor" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="com.archimatetool.editor" id="com.archimatetool.editor.labelProvider" name="Label Provider"/>
+         <meta.schema plugin="com.archimatetool.editor" id="com.archimatetool.editor.elementUIProvider" name="Element UI Provider"/>
       </appinfo>
       <documentation>
-         Use this extension point to register a Label Provider
+         Use this extension point to register an Element UI Provider
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="labelProvider" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="uiProvider" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,27 +47,27 @@
       </complexType>
    </element>
 
-   <element name="labelProvider">
+   <element name="uiProvider">
       <annotation>
          <documentation>
-            A Label Provider
+            A UI Provider
          </documentation>
       </annotation>
       <complexType>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  The identifier of this factory
+                  The identifier of this provider
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of a Java class that implements com.archimatetool.editor.ui.IEditorLabelProvider
+                  The name of a Java class that implements com.archimatetool.editor.ui.factory.IElementUIProvider. This is the class of the provider.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.ui.IEditorLabelProvider"/>
+                  <meta.attribute kind="java" basedOn=":com.archimatetool.editor.ui.factory.IElementUIProvider"/>
                </appinfo>
             </annotation>
          </attribute>

@@ -6,7 +6,9 @@
 package com.archimatetool.editor.ui.factory;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Color;
@@ -18,6 +20,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IGraphicsIcon;
 
 
 
@@ -32,13 +35,8 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     private static ImageRegistry fImageRegistry = new ImageRegistry();
     
     @Override
-    public Image getImage(EObject instance) {
-        return getImage();
-    }
-    
-    @Override
-    public String getDefaultShortName() {
-        return getDefaultName();
+    public String getDefaultName() {
+        return ""; //$NON-NLS-1$
     }
     
     @Override
@@ -49,6 +47,36 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     @Override
     public Color getDefaultLineColor() {
         return ColorFactory.get(92, 92, 92);
+    }
+    
+    @Override
+    public EditPart createEditPart() {
+        return null;
+    }
+    
+    @Override
+    public Dimension getDefaultSize() {
+        return new Dimension(-1, -1);
+    }
+    
+    @Override
+    public Image getImage() {
+        return null;
+    }
+    
+    @Override
+    public Image getImage(EObject instance) {
+        return getImage();
+    }
+    
+    @Override
+    public ImageDescriptor getImageDescriptor() {
+        return null;
+    }
+    
+    @Override
+    public IGraphicsIcon getGraphicsIcon() {
+        return null;
     }
     
     /**

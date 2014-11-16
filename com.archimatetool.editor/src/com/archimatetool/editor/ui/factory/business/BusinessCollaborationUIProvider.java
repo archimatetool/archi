@@ -38,11 +38,6 @@ public class BusinessCollaborationUIProvider extends AbstractBusinessUIProvider 
     }
 
     @Override
-    public String getDefaultShortName() {
-        return Messages.BusinessCollaborationUIProvider_1;
-    }
-
-    @Override
     public Image getImage() {
         return getImageWithUserFillColor(IArchimateImages.ICON_BUSINESS_COLLABORATION_16);
     }

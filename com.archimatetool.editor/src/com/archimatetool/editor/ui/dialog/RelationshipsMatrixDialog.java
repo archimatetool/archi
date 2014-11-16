@@ -138,7 +138,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         
         String text = ""; //$NON-NLS-1$
         for(Entry<EClass, Character> entry : RelationshipsMatrix.INSTANCE.getRelationshipsValueMap().entrySet()) {
-            text += entry.getValue() + ": " + ArchimateLabelProvider.INSTANCE.getDefaultShortName(entry.getKey()) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+            text += entry.getValue() + ": " + ArchimateLabelProvider.INSTANCE.getDefaultName(entry.getKey()) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         Label label = new Label(client, SWT.NULL);
         label.setText(text);

@@ -13,15 +13,20 @@ public class AllUIFactoryTests {
     public static junit.framework.Test suite() {
         TestSuite suite = new TestSuite("com.archimatetool.editor.ui.factory");
 
+        suite.addTest(ArchimateDiagramModelUIProviderTests.suite());
+        suite.addTest(ArchimateModelUIProviderTests.suite());
+        
         suite.addTest(AllArchiMateElementUIProviderTests.suite());
         suite.addTest(AllConnectionUIProviderTests.suite());
         
         suite.addTest(DiagramModelImageUIProviderTests.suite());
         suite.addTest(DiagramModelReferenceUIProviderTests.suite());
+        suite.addTest(FolderUIProviderTests.suite());
         suite.addTest(GroupUIProviderTests.suite());
         suite.addTest(NoteUIProviderTests.suite());
         
         suite.addTest(SketchActorUIProviderTests.suite());
+        suite.addTest(SketchModelUIProviderTests.suite());
         suite.addTest(SketchStickyUIProviderTests.suite());
         
         suite.addTest(ElementUIFactoryProviderTests.suite());

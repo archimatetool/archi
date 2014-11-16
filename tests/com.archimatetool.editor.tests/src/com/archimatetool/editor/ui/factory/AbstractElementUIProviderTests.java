@@ -59,12 +59,6 @@ public abstract class AbstractElementUIProviderTests {
     }
     
     @Test
-    public void testGetDefaultShortName() {
-        String name = provider.getDefaultShortName();
-        assertNotNull(name);
-    }
-    
-    @Test
     public void testGetDefaultLineColor() {
         Color color = provider.getDefaultLineColor();
         assertEquals(ColorFactory.get(92, 92, 92), color);
@@ -91,8 +85,7 @@ public abstract class AbstractElementUIProviderTests {
     
     @Test
     public void testGetDefaultSize() {
-        Dimension d = provider.getDefaultSize();
-        assertNotNull(d);
+        assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
     }
     
 }

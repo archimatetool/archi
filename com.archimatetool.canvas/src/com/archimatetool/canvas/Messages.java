@@ -35,16 +35,6 @@ public class Messages extends NLS {
 
     public static String CanvasEditorPalette_9;
 
-    public static String CanvasLabelProvider_0;
-
-    public static String CanvasLabelProvider_1;
-
-    public static String CanvasLabelProvider_2;
-
-    public static String CanvasLabelProvider_3;
-
-    public static String CanvasLabelProvider_4;
-
     public static String NewCanvasExtensionContributionFactory_0;
 
     public static String NewCanvasExtensionContributionFactory_1;

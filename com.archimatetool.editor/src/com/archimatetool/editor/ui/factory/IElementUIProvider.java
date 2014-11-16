@@ -13,6 +13,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
+import com.archimatetool.editor.ui.IGraphicsIcon;
+
 
 /**
  * Interface for Element UI Provider
@@ -20,6 +22,8 @@ import org.eclipse.swt.graphics.Image;
  * @author Phillip Beauvoir
  */
 public interface IElementUIProvider {
+    
+    String EXTENSIONPOINT_ID = "com.archimatetool.editor.elementUIProvider"; //$NON-NLS-1$
     
     /**
      * @return The EClass for which this is an Element UI Provider
@@ -37,11 +41,6 @@ public interface IElementUIProvider {
     String getDefaultName();
     
     /**
-     * @return The default short name for this type of object
-     */
-    String getDefaultShortName();
-    
-    /**
      * @return The iconic image to use for this object
      */
     Image getImage();
@@ -57,6 +56,11 @@ public interface IElementUIProvider {
      */
     ImageDescriptor getImageDescriptor();
     
+    /**
+     * @return A Graphics Icon
+     */
+    IGraphicsIcon getGraphicsIcon();
+
     /**
      * @return The default colour to use for this object (usually a fill color)
      */

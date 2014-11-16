@@ -38,11 +38,6 @@ public class ApplicationCollaborationUIProvider extends AbstractApplicationUIPro
     }
 
     @Override
-    public String getDefaultShortName() {
-        return Messages.ApplicationCollaborationUIProvider_1;
-    }
-
-    @Override
     public Image getImage() {
         return getImageWithUserFillColor(IArchimateImages.ICON_APPLICATION_COLLABORATION_16);
     }

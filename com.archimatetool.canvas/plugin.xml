@@ -40,13 +40,6 @@
       </diagramEditorFactory>
    </extension>
    <extension
-         point="com.archimatetool.editor.labelProvider">
-      <labelProvider
-            class="com.archimatetool.canvas.CanvasLabelProvider"
-            id="com.archimatetool.canvas.labelProvider">
-      </labelProvider>
-   </extension>
-   <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs
             contributorId="com.archimatetool.editor">
@@ -155,6 +148,29 @@
       <initializer
             class="com.archimatetool.canvas.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="com.archimatetool.editor.elementUIProvider">
+      <uiProvider
+            class="com.archimatetool.canvas.factory.CanvasModelUIProvider"
+            id="com.archimatetool.canvas.CanvasModelUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.canvas.factory.CanvasBlockUIProvider"
+            id="com.archimatetool.canvas.CanvasBlockUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.canvas.factory.CanvasStickyUIProvider"
+            id="com.archimatetool.canvas.CanvasStickyUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.canvas.factory.CanvasImageUIProvider"
+            id="com.archimatetool.canvas.CanvasImageUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.canvas.factory.CanvasLineConnectionUIProvider"
+            id="com.archimatetool.canvas.CanvasLineConnectionUIProvider">
+      </uiProvider>
    </extension>
 
 </plugin>

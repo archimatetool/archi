@@ -21,6 +21,7 @@ import com.archimatetool.editor.preferences.Preferences;
  */
 public abstract class AbstractArchimateElementUIProvider extends AbstractElementUIProvider {
     
+    @Override
     public Dimension getDefaultSize() {
         int width = Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
         int height = Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);

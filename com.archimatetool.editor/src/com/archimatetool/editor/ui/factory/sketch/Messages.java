@@ -13,6 +13,8 @@ public class Messages extends NLS {
 
     public static String SketchActorUIProvider_0;
 
+    public static String SketchModelUIProvider_0;
+
     public static String SketchStickyUIProvider_0;
     static {
         // initialize resource bundle

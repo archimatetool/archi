@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.editor.ui.factory.connections;
+package com.archimatetool.editor.ui.factory.relationships;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
@@ -17,11 +17,11 @@ import com.archimatetool.model.IArchimatePackage;
 
 
 /**
- * Realisation Connection UI Provider
+ * Realisation Relationship UI Provider
  * 
  * @author Phillip Beauvoir
  */
-public class RealisationConnectionUIProvider extends AbstractConnectionUIProvider {
+public class RealisationRelationshipUIProvider extends AbstractRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getRealisationRelationship();
@@ -34,12 +34,7 @@ public class RealisationConnectionUIProvider extends AbstractConnectionUIProvide
 
     @Override
     public String getDefaultName() {
-        return Messages.RealisationConnectionUIProvider_0;
-    }
-
-    @Override
-    public String getDefaultShortName() {
-        return Messages.RealisationConnectionUIProvider_1;
+        return Messages.RealisationRelationshipUIProvider_0;
     }
 
     @Override

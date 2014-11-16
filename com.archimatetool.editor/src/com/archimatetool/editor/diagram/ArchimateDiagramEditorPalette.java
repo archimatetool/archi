@@ -308,7 +308,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String description) {
         return new CombinedTemplateCreationEntry(
-                ArchimateLabelProvider.INSTANCE.getDefaultShortName(eClass),
+                ArchimateLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
