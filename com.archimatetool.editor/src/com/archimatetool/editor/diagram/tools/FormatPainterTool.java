@@ -28,7 +28,7 @@ import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
-import com.archimatetool.model.IJunction;
+import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
 
@@ -167,7 +167,7 @@ public class FormatPainterTool extends AbstractTool {
         // Junctions are a no-no
         if(object instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)object).getArchimateElement();
-            return !(element instanceof IJunction);
+            return !(element instanceof IJunctionElement);
         }
         
         return object instanceof IDiagramModelObject || object instanceof IDiagramModelConnection;
