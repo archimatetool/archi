@@ -13,10 +13,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.ICanvasImages;
+import com.archimatetool.canvas.editparts.CanvasStickyEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
 
 
 
@@ -25,7 +25,7 @@ import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasStickyUIProvider extends DiagramImageUIProvider {
+public class CanvasStickyUIProvider extends AbstractElementUIProvider {
 
     @Override
     public EClass providerFor() {
@@ -34,7 +34,7 @@ public class CanvasStickyUIProvider extends DiagramImageUIProvider {
     
     @Override
     public EditPart createEditPart() {
-        return new DiagramImageEditPart();
+        return new CanvasStickyEditPart();
     }
 
     @Override
