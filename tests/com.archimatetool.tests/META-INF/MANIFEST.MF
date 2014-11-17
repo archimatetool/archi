@@ -5,7 +5,8 @@ Bundle-SymbolicName: com.archimatetool.tests
 Bundle-Version: 1.2.0
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: com.archimatetool.csv,
+Require-Bundle: com.archimatetool.canvas,
+ com.archimatetool.csv,
  com.archimatetool.editor,
  com.archimatetool.export.svg,
  com.archimatetool.jasperreports,

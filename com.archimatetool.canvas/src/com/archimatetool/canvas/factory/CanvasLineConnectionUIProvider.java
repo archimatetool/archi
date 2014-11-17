@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.canvas.editparts.CanvasLineConnectionEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider;
 
 
 
@@ -22,7 +22,7 @@ import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasLineConnectionUIProvider extends AbstractElementUIProvider {
+public class CanvasLineConnectionUIProvider extends LineConnectionUIProvider {
 
     @Override
     public EClass providerFor() {

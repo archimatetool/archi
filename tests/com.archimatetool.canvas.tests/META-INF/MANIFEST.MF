@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for Archi Canvas Editor
+Bundle-SymbolicName: com.archimatetool.canvas.tests
+Bundle-Version: 1.0.0
+Fragment-Host: com.archimatetool.canvas
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: com.archimatetool.canvas
