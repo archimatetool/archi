@@ -17,8 +17,9 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
 
@@ -49,7 +50,7 @@ public class FontColorAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     return model;
                 }
             }
@@ -96,7 +97,7 @@ public class FontColorAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     Command cmd = new FontColorCommand((IFontAttribute)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -108,13 +109,17 @@ public class FontColorAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldModify(Object model) {
+    private boolean shouldEnable(Object model) {
         if(model instanceof ILockable && ((ILockable)model).isLocked()) {
             return false;
         }
         
-        return (model instanceof IFontAttribute) && (model instanceof IDiagramModelComponent) &&
-                (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR));
+        if(model instanceof IFontAttribute) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
+            return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR);
+        }
+        
+        return false;
     }
 
 }

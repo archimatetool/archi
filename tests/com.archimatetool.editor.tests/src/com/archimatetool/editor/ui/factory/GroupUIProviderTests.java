@@ -6,10 +6,12 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +49,13 @@ public class GroupUIProviderTests extends AbstractElementUIProviderTests {
     @Test
     public void testGetDefaultSize() {
         assertEquals(new Dimension(400, 140), provider.getDefaultSize());
+    }
+
+    @Override
+    public void testShouldExposeFeature() {
+        super.testShouldExposeFeature();
+        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
+        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
     }
 
 }

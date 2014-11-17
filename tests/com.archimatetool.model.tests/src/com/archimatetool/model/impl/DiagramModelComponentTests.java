@@ -6,17 +6,14 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 
 
@@ -51,11 +48,5 @@ public abstract class DiagramModelComponentTests {
         assertNotSame(component, copy);
         assertNull(copy.getId());
         assertEquals(component.getName(), copy.getName());
-    }
-
-    @Test
-    public void testShouldShouldExposeFeature() {
-        assertFalse(component.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION));
-        assertTrue(component.shouldExposeFeature(null));
     }
 }

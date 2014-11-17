@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -132,11 +131,6 @@ public class DiagramModelImage extends DiagramModelObject implements IDiagramMod
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_IMAGE__IMAGE_PATH, oldImagePath, imagePath));
     }
     
-    @Override
-    public boolean shouldExposeFeature(EAttribute eAttribute) {
-        return eAttribute == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR;
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

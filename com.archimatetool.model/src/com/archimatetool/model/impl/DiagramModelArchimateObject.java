@@ -10,7 +10,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -24,7 +23,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.util.Logger;
 
 
@@ -236,16 +234,6 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
         newObject.getChildren().clear();
         
         return newObject;
-    }
-
-    @Override
-    public boolean shouldExposeFeature(EAttribute eAttribute) {
-        // Junctions don't expose UI features
-        if(getArchimateElement() instanceof IJunctionElement) {
-            return false;
-        }
-        
-        return super.shouldExposeFeature(eAttribute);
     }
 
     /**

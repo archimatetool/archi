@@ -19,8 +19,9 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
 
@@ -104,7 +105,7 @@ public class TextAlignmentAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     return model;
                 }
             }
@@ -119,7 +120,7 @@ public class TextAlignmentAction extends SelectionAction {
         
         Object model = getFirstValidSelectedModelObject(selection);
         if(model != null) {
-            if(shouldModify(model)) {
+            if(shouldEnable(model)) {
                 execute(createCommand(selection));
             }
         }
@@ -131,7 +132,7 @@ public class TextAlignmentAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     Command cmd = new TextAlignmentCommand((IFontAttribute)model, fAlignment);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -143,13 +144,17 @@ public class TextAlignmentAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldModify(Object model) {
+    private boolean shouldEnable(Object model) {
         if(model instanceof ILockable && ((ILockable)model).isLocked()) {
             return false;
         }
         
-        return (model instanceof IFontAttribute) && (model instanceof IDiagramModelObject) &&
-                (((IDiagramModelObject)model).shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
+        if(model instanceof IFontAttribute) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
+            return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT);
+        }
+        
+        return false;
     }
 
 }

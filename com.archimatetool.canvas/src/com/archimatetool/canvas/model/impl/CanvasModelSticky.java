@@ -10,7 +10,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -335,18 +334,6 @@ public class CanvasModelSticky extends DiagramModelObject implements ICanvasMode
         notes = newNotes;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, ICanvasPackage.CANVAS_MODEL_STICKY__NOTES, oldNotes, notes));
-    }
-
-    @Override
-    public boolean shouldExposeFeature(EAttribute eAttribute) {
-        if(eAttribute == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
-            return false;
-        }
-        if(eAttribute == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) {
-            return true;
-        }
-
-        return super.shouldExposeFeature(eAttribute);
     }
 
     /**

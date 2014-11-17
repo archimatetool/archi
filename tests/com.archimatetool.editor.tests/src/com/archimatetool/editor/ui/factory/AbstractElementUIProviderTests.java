@@ -6,7 +6,9 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -20,6 +22,7 @@ import org.eclipse.swt.graphics.Image;
 import org.junit.Test;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IArchimatePackage;
 
 
 
@@ -87,4 +90,10 @@ public abstract class AbstractElementUIProviderTests {
         assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
     }
     
+    @Test
+    public void testShouldExposeFeature() {
+        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
+        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION));
+        assertTrue(provider.shouldExposeFeature(instance, null));
+    }
 }

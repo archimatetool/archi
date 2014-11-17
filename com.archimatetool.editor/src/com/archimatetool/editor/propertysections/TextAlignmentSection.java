@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
 
@@ -43,11 +42,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            boolean result = (object instanceof IFontAttribute);
-            if(object instanceof IDiagramModelComponent) {
-                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
-            }
-            return result;
+            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override

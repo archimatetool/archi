@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
@@ -111,12 +110,4 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         assertNotNull(copy.getArchimateElement());
         assertNotSame(copy.getArchimateElement(), object.getArchimateElement());
     }
-    
-    @Test
-    public void testShouldShouldExposeFeatureWithJunction() {
-        // Junctions are special case
-        object.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
-        assertFalse(object.shouldExposeFeature(null));
-    }
-
 }

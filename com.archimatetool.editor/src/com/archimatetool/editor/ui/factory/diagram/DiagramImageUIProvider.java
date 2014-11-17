@@ -6,7 +6,9 @@
 package com.archimatetool.editor.ui.factory.diagram;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -60,4 +62,10 @@ public class DiagramImageUIProvider extends AbstractElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(255, 255, 255);
     }
+    
+    @Override
+    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+        return feature == IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR;
+    }
+
 }

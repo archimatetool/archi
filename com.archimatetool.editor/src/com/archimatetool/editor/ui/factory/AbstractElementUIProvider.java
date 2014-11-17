@@ -7,6 +7,7 @@ package com.archimatetool.editor.ui.factory;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -21,6 +22,7 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.IGraphicsIcon;
+import com.archimatetool.model.IArchimatePackage;
 
 
 
@@ -77,6 +79,15 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     @Override
     public IGraphicsIcon getGraphicsIcon() {
         return null;
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) { // This one is not common
+            return false;
+        }
+
+        return true;
     }
     
     /**

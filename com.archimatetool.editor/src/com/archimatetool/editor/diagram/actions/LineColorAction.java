@@ -19,8 +19,9 @@ import com.archimatetool.editor.diagram.commands.LineColorCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
@@ -52,7 +53,7 @@ public class LineColorAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     return model;
                 }
             }
@@ -99,7 +100,7 @@ public class LineColorAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     Command cmd = new LineColorCommand((ILineObject)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -111,20 +112,24 @@ public class LineColorAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldModify(Object model) {
+    private boolean shouldEnable(Object model) {
         if(model instanceof ILockable && ((ILockable)model).isLocked()) {
             return false;
         }
         
         if(model instanceof IDiagramModelObject) {
-            // Disable if line colours are derived from fill colours as set in Prefs
+            // Disable if diagram model object line colours are derived from fill colours as set in Prefs
             if(Preferences.STORE.getBoolean(IPreferenceConstants.DERIVE_ELEMENT_LINE_COLOR)) {
                 return false;
             }
         }
         
-        return (model instanceof IDiagramModelComponent) &&
-                (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+        if(model instanceof ILineObject) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ILineObject)model));
+            return provider != null && provider.shouldExposeFeature((ILineObject)model, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR);
+        }
+        
+        return false;
     }
 
 }

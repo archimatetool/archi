@@ -18,7 +18,6 @@ import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -228,12 +227,5 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
 
         assertFalse(target.getTargetConnections().contains(connection));
         assertFalse(target.getSourceConnections().contains(connection));        
-    }
-    
-    @Override
-    @Test
-    public void testShouldShouldExposeFeature() {
-        super.testShouldShouldExposeFeature();
-        assertFalse(connection.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
     }
 }

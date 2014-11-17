@@ -24,7 +24,6 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
@@ -48,11 +47,7 @@ public class LineColorSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            boolean result = (object instanceof ILineObject);
-            if(object instanceof IDiagramModelComponent) {
-                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
-            }
-            return result;
+            return (object instanceof ILineObject) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override

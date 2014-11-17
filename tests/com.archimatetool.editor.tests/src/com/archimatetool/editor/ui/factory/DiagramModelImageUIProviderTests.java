@@ -6,10 +6,12 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,4 +44,10 @@ public class DiagramModelImageUIProviderTests extends AbstractElementUIProviderT
         assertEquals(new Dimension(200, 150), provider.getDefaultSize());
     }
 
+    @Override
+    public void testShouldExposeFeature() {
+        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
+        assertTrue(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
+        assertFalse(provider.shouldExposeFeature(instance, null));
+    }
 }

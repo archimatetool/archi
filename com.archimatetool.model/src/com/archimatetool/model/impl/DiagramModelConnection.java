@@ -10,7 +10,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -605,15 +604,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         return TEXT_ALIGNMENT_CENTER;
     }
     
-    @Override
-    public boolean shouldExposeFeature(EAttribute eAttribute) {
-        if(eAttribute == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT) {
-            return false;
-        }
-        
-        return super.shouldExposeFeature(eAttribute);
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

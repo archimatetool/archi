@@ -24,7 +24,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.FontChooser;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
@@ -50,11 +49,7 @@ public class FontSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            boolean result = (object instanceof IFontAttribute);
-            if(object instanceof IDiagramModelComponent) {
-                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE1);
-            }
-            return result;
+            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE1);
         }
 
         @Override

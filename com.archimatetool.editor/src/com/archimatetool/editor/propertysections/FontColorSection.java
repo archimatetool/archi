@@ -22,7 +22,6 @@ import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.components.ColorChooser;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
@@ -47,11 +46,7 @@ public class FontColorSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            boolean result = (object instanceof IFontAttribute);
-            if(object instanceof IDiagramModelComponent) {
-                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
-            }
-            return result;
+            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override

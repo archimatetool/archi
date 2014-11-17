@@ -7,6 +7,7 @@ package com.archimatetool.editor.propertysections;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -26,6 +27,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.StyledTextControl;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -76,6 +79,14 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
             }
             
             return null;
+        }
+        
+        /**
+         * @return True if the feature should be exposed on the object
+         */
+        public boolean shouldExposeFeature(EObject eObject, EAttribute feature) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eObject);
+            return provider == null ? true : provider.shouldExposeFeature(eObject, feature);
         }
         
         protected abstract boolean isRequiredType(Object object);

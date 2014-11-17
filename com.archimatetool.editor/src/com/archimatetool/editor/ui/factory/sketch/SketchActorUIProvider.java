@@ -7,7 +7,9 @@ package com.archimatetool.editor.ui.factory.sketch;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -59,5 +61,14 @@ public class SketchActorUIProvider extends AbstractElementUIProvider {
     @Override
     public Color getDefaultColor() {
         return ColorConstants.black;
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT ||
+                feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
+            return false;
+        }
+        return super.shouldExposeFeature(instance, feature);
     }
 }

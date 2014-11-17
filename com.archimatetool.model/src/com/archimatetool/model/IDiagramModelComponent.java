@@ -5,7 +5,6 @@
  */
 package com.archimatetool.model;
 
-import org.eclipse.emf.ecore.EAttribute;
 
 
 /**
@@ -39,12 +38,4 @@ public interface IDiagramModelComponent extends IIdentifier, ICloneable, IAdapte
      * @generated
      */
     IDiagramModel getDiagramModel();
-
-    
-    /**
-     * @param eAttribute
-     * @return True if a given attribute should be exposed
-     */
-    boolean shouldExposeFeature(EAttribute eAttribute);
-
 } // IDiagramModelComponent

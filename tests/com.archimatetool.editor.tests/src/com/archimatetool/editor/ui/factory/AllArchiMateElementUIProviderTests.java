@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import junit.framework.JUnit4TestAdapter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.junit.Assume;
 import org.junit.Test;
@@ -188,16 +190,26 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
             assertEquals(new Dimension(15, 15), provider.getDefaultSize());
         }
         else {
-            // Default value in preferences
-            Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
-            Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
-            assertEquals(new Dimension(120, 55), provider.getDefaultSize());
-            
             // New value via preferences
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 90);
             assertEquals(new Dimension(150, 90), provider.getDefaultSize());
+
+            // Default value in preferences
+            Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
+            Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
+            assertEquals(new Dimension(120, 55), provider.getDefaultSize());
         }
     }
 
+    @Override
+    public void testShouldExposeFeature() {
+        if(provider instanceof JunctionUIProvider) {
+            EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
+            assertFalse(provider.shouldExposeFeature(instance, null));
+        }
+        else {
+            super.testShouldExposeFeature();
+        }
+    }
 }

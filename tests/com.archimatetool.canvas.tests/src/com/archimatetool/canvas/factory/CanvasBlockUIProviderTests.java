@@ -6,11 +6,13 @@
 package com.archimatetool.canvas.factory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.graphics.Color;
 import org.junit.Before;
@@ -19,6 +21,7 @@ import org.junit.Test;
 import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractElementUIProviderTests;
+import com.archimatetool.model.IArchimatePackage;
 
 public class CanvasBlockUIProviderTests extends AbstractElementUIProviderTests {
     
@@ -48,5 +51,13 @@ public class CanvasBlockUIProviderTests extends AbstractElementUIProviderTests {
     public void testGetDefaultColor() {
         Color color = provider.getDefaultColor();
         assertEquals(ColorConstants.white, color);
+    }
+    
+    @Override
+    public void testShouldExposeFeature() {
+        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
+        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+        assertTrue(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION));
+        assertTrue(provider.shouldExposeFeature(instance, null));
     }
 }

@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -75,4 +76,11 @@ public interface IElementUIProvider {
      * @return The default size width and height for this object
      */
     Dimension getDefaultSize();
+
+    /**
+     * @param instance The instance of the object in question
+     * @param feature The feature in question
+     * @return True if this object should expose a feature in the UI
+     */
+    boolean shouldExposeFeature(EObject instance, EAttribute feature);
 }

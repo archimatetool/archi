@@ -46,7 +46,7 @@ public class FillColorSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelObject && ((IDiagramModelObject)object).shouldExposeFeature(FEATURE);
+            return (object instanceof IDiagramModelObject) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override

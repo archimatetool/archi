@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -189,15 +188,6 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
         IDiagramModelComponent newObject = EcoreUtil.copy(this);
         newObject.setId(null); // need a new ID
         return newObject;
-    }
-
-    @Override
-    public boolean shouldExposeFeature(EAttribute eAttribute) {
-        if(eAttribute == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) { // This one is not common
-            return false;
-        }
-        
-        return true;
     }
 
     /**

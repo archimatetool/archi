@@ -6,14 +6,12 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.ISketchModelActor;
 
@@ -57,13 +55,4 @@ public class SketchModelActorTests extends DiagramModelObjectTests {
     public void testGetProperties() {
         CommonTests.testProperties(actor);
     }
-
-    @Override
-    @Test
-    public void testShouldShouldExposeFeature() {
-        super.testShouldShouldExposeFeature();
-        assertFalse(actor.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
-        assertFalse(actor.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
-    }
-
 }

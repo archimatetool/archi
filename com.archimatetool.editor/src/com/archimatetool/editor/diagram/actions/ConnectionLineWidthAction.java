@@ -23,6 +23,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.propertysections.DiagramConnectionSection;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.ILineObject;
@@ -55,7 +57,7 @@ public class ConnectionLineWidthAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     return model;
                 }
             }
@@ -88,7 +90,7 @@ public class ConnectionLineWidthAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     Command cmd = new LineWidthCommand((ILineObject)model, newLineWidth);
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -100,13 +102,17 @@ public class ConnectionLineWidthAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldModify(Object model) {
+    private boolean shouldEnable(Object model) {
         if(model instanceof ILockable && ((ILockable)model).isLocked()) {
             return false;
         }
         
-        return (model instanceof ILineObject) && (model instanceof IDiagramModelConnection) &&
-                (((IDiagramModelConnection)model).shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH));
+        if(model instanceof IDiagramModelConnection) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IDiagramModelConnection)model));
+            return provider != null && provider.shouldExposeFeature((IDiagramModelConnection)model, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH);
+        }
+        
+        return false;
     }
 
     

@@ -6,7 +6,9 @@
 package com.archimatetool.canvas.factory;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -15,6 +17,7 @@ import com.archimatetool.canvas.ICanvasImages;
 import com.archimatetool.canvas.editparts.CanvasStickyEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.model.IArchimatePackage;
 
 
 
@@ -53,5 +56,18 @@ public class CanvasStickyUIProvider extends AbstractElementUIProvider {
     @Override
     public ImageDescriptor getImageDescriptor() {
         return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_STICKY_16);
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+        if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
+            return false;
+        }
+        
+        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) {
+            return true;
+        }
+        
+        return super.shouldExposeFeature(instance, feature);
     }
 }

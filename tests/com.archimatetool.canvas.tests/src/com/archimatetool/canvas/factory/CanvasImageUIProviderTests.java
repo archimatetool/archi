@@ -5,27 +5,23 @@
  */
 package com.archimatetool.canvas.factory;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
-import org.eclipse.swt.graphics.Color;
 import org.junit.Before;
-import org.junit.Test;
 
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProviderTests;
+import com.archimatetool.editor.ui.factory.DiagramModelImageUIProviderTests;
 
-public class CanvasImageUIProviderTests extends AbstractElementUIProviderTests {
+public class CanvasImageUIProviderTests extends DiagramModelImageUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasImageUIProviderTests.class);
     }
     
+    @Override
     @Before
     public void runOnceBeforeAllTests() {
         provider = new CanvasImageUIProvider();
@@ -36,17 +32,5 @@ public class CanvasImageUIProviderTests extends AbstractElementUIProviderTests {
     public void testCreateEditPart() {
         EditPart editPart = provider.createEditPart();
         assertTrue(editPart instanceof DiagramImageEditPart);
-    }
-    
-    @Override
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(200, 150), provider.getDefaultSize());
-    }
-
-    @Override
-    public void testGetDefaultColor() {
-        Color color = provider.getDefaultColor();
-        assertEquals(ColorConstants.white, color);
     }
 }

@@ -20,7 +20,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
 
@@ -43,11 +42,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            boolean result = (object instanceof IFontAttribute);
-            if(object instanceof IDiagramModelComponent) {
-                result &= ((IDiagramModelComponent)object).shouldExposeFeature(FEATURE);
-            }
-            return result;
+            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override

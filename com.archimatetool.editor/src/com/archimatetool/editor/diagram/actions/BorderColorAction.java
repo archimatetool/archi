@@ -17,9 +17,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBorderObject;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.ILockable;
 
 
@@ -49,7 +50,7 @@ public class BorderColorAction extends SelectionAction {
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     return model;
                 }
             }
@@ -96,7 +97,7 @@ public class BorderColorAction extends SelectionAction {
         for(Object object : selection) {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
-                if(shouldModify(model)) {
+                if(shouldEnable(model)) {
                     Command cmd = new BorderColorCommand((IBorderObject)model, ColorFactory.convertRGBToString(newColor));
                     if(cmd.canExecute()) {
                         result.add(cmd);
@@ -108,13 +109,16 @@ public class BorderColorAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldModify(Object model) {
+    private boolean shouldEnable(Object model) {
         if(model instanceof ILockable && ((ILockable)model).isLocked()) {
             return false;
         }
         
-        return (model instanceof IBorderObject) && (model instanceof IDiagramModelComponent) &&
-                (((IDiagramModelComponent)model).shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
+        if(model instanceof IBorderObject) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IBorderObject)model));
+            return provider != null && provider.shouldExposeFeature((IBorderObject)model, IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR);
+        }
+        
+        return false;
     }
-
 }
