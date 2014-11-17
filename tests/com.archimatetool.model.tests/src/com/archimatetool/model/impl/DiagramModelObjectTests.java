@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
@@ -31,7 +33,25 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         object = (IDiagramModelObject)component;
     }
 
+    @Test
+    public void testGetID() {
+        assertNull(component.getId());
+        
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        dm.getChildren().add(object);
+        
+        assertNotNull(component.getId());
+    }
     
+    @Test
+    public void testGetDiagramModel() {
+        assertNull(object.getDiagramModel());
+        
+        dm.getChildren().add(object);
+        assertSame(dm, object.getDiagramModel());
+    }
+        
     @Test
     public void testGetBounds() {
         assertNull(object.getBounds());

@@ -6,6 +6,7 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
@@ -72,6 +73,13 @@ public class DiagramModelGroupTests extends DiagramModelObjectTests {
     @Test
     public void testGetProperties() {
         CommonTests.testProperties(group);
+    }
+
+    @Override
+    @Test
+    public void testShouldShouldExposeFeature() {
+        super.testShouldShouldExposeFeature();
+        assertFalse(group.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
     }
 
 }

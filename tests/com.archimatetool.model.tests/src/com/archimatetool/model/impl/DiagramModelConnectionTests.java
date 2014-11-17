@@ -7,23 +7,27 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 
 
 @SuppressWarnings("nls")
-public class DiagramModelConnectionTests {
+public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelConnectionTests.class);
@@ -32,20 +36,44 @@ public class DiagramModelConnectionTests {
     private IDiagramModelObject source, target;
     private IDiagramModelConnection connection;
     
-    
-    @Before
-    public void runBeforeEachTest() {
+    @Override
+    protected IDiagramModelComponent getComponent() {
         source = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         target = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         connection = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
+        return connection;
+    }
+
+    @Test
+    public void testGetID() {
+        assertNull(component.getId());
+        
+        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
+        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        IDiagramModelGroup dmo = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dm.getChildren().add(dmo);
+        connection.connect(dmo, dmo);
+        
+        assertNotNull(connection.getId());
     }
     
-    
+    @Test
+    public void testGetDiagramModel() {
+        assertNull(connection.getDiagramModel());
+        
+        IDiagramModelGroup dmo = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        dm.getChildren().add(dmo);
+        connection.connect(dmo, dmo);
+        
+        assertSame(dm, connection.getDiagramModel());
+    }
+
     @Test
     public void testGetBendpoints() {
         assertTrue(connection.getBendpoints().isEmpty());
     }
 
+    @Override
     @Test
     public void testGetCopy() {
         connection.connect(source, target);
@@ -200,5 +228,12 @@ public class DiagramModelConnectionTests {
 
         assertFalse(target.getTargetConnections().contains(connection));
         assertFalse(target.getSourceConnections().contains(connection));        
+    }
+    
+    @Override
+    @Test
+    public void testShouldShouldExposeFeature() {
+        super.testShouldShouldExposeFeature();
+        assertFalse(connection.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
     }
 }

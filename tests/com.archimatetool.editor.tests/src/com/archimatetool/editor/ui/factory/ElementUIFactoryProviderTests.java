@@ -46,7 +46,6 @@ public class ElementUIFactoryProviderTests {
     public void testInstance() {
         ElementUIFactory factory = ElementUIFactory.INSTANCE;
         assertNotNull(factory);
-        assertEquals(69, factory.map.size());
     }
     
     @Test

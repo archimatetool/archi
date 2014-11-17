@@ -20,7 +20,6 @@ import org.eclipse.swt.graphics.Image;
 import org.junit.Test;
 
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IArchimateFactory;
 
 
 
@@ -78,7 +77,7 @@ public abstract class AbstractElementUIProviderTests {
 
     @Test
     public void testGetImageInstance() {
-        EObject instance = IArchimateFactory.eINSTANCE.create(expectedClass);
+        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
         Image image = provider.getImage(instance);
         assertNotNull(image);
     }

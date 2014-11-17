@@ -6,26 +6,25 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 @SuppressWarnings("nls")
 public abstract class DiagramModelComponentTests {
     
     protected IDiagramModelComponent component;
-    private IArchimateDiagramModel dm;
+    protected IArchimateDiagramModel dm;
     
     @Before
     public void runBeforeEachDiagramModelComponentTest() {
@@ -36,29 +35,10 @@ public abstract class DiagramModelComponentTests {
     protected abstract IDiagramModelComponent getComponent();
     
     @Test
-    public void testGetID() {
-        assertNull(component.getId());
-        
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
-        dm.getChildren().add((IDiagramModelObject)component);
-        
-        assertNotNull(component.getId());
-    }
-        
-    @Test
     public void testGetName() {
         CommonTests.testGetName(component);
     }
  
-    @Test
-    public void testGetDiagramModel() {
-        assertNull(component.getDiagramModel());
-        
-        dm.getChildren().add((IDiagramModelObject)component);
-        assertSame(dm, component.getDiagramModel());
-    }
-    
     @Test
     public void testGetAdapter() {
         CommonTests.testGetAdapter(component);
@@ -73,4 +53,9 @@ public abstract class DiagramModelComponentTests {
         assertEquals(component.getName(), copy.getName());
     }
 
+    @Test
+    public void testShouldShouldExposeFeature() {
+        assertFalse(component.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION));
+        assertTrue(component.shouldExposeFeature(null));
+    }
 }

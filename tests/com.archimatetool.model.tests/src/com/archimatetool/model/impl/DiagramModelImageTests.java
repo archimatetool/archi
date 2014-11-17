@@ -6,11 +6,14 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelImage;
 
@@ -45,4 +48,9 @@ public class DiagramModelImageTests extends DiagramModelObjectTests {
         assertEquals("/somepath", image.getImagePath());
     }
 
+    @Override
+    public void testShouldShouldExposeFeature() {
+        assertTrue(component.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
+        assertFalse(component.shouldExposeFeature(null));
+    }
 }

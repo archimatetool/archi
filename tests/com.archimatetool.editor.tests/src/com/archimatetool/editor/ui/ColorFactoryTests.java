@@ -98,6 +98,8 @@ public class ColorFactoryTests {
         assertEquals(2, color.getRed());
         assertEquals(3, color.getGreen());
         assertEquals(4, color.getBlue());
+        
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ELEMENT_LINE_COLOR);
     }
 
     @Test
@@ -112,6 +114,8 @@ public class ColorFactoryTests {
         assertEquals(1, color.getRed());
         assertEquals(2, color.getGreen());
         assertEquals(3, color.getBlue());
+        
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
     }
 
     @Test
