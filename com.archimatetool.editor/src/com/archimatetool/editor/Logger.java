@@ -7,8 +7,6 @@ package com.archimatetool.editor;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Logger utility class
@@ -17,6 +15,8 @@ import org.eclipse.swt.widgets.Display;
  */
 public final class Logger {
 
+    public static boolean enabled = true;
+    
     /**
      * Convenience method to log an OK event
      * 
@@ -107,43 +107,9 @@ public final class Logger {
      * @param t Exception that is thrown
      */
     public static void log(int severity, String message, Throwable t) {
-        ArchimateEditorPlugin.INSTANCE.getLog().log(
-                new Status(severity, ArchimateEditorPlugin.INSTANCE.getId(), IStatus.OK, message, t));
-    }
-    
-    
-    // ==============================================================================
-    // DIALOGS FOR ERRORS AND WARNINGS
-    // ==============================================================================
-    
-    /**
-     * Convenience method to open a standard error dialog
-     * 
-     * @param message
-     *            the message
-     */
-    public static void showErrorDialog(String message) {
-        MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error", message); //$NON-NLS-1$
-    }
-    
-    
-    /**
-     * Convenience method to open a standard warning dialog
-     * 
-     * @param message
-     *            the message
-     */
-    public static void showWarningDialog(String message) {
-        MessageDialog.openWarning(Display.getCurrent().getActiveShell(), "Warning", message); //$NON-NLS-1$
-    }
-
-    /**
-     * Convenience method to open a standard information dialog
-     * 
-     * @param message
-     *            the message
-     */
-    public static void showInformationDialog(String message) {
-        MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Information", message); //$NON-NLS-1$
+        if(enabled) {
+            ArchimateEditorPlugin.INSTANCE.getLog().log(
+                    new Status(severity, ArchimateEditorPlugin.INSTANCE.getId(), IStatus.OK, message, t));
+        }
     }
 }
