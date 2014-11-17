@@ -86,7 +86,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Group
         else if(object instanceof IDiagramModelGroup) {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
-            group.setName(Messages.ArchimateDiagramModelFactory_0);
+            group.setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
         }
         

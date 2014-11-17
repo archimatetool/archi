@@ -44,12 +44,6 @@ public class Messages extends NLS {
     public static String SketchEditorPalette_8;
 
     public static String SketchEditorPalette_9;
-
-    public static String SketchModelFactory_0;
-
-    public static String SketchModelFactory_1;
-
-    public static String SketchModelFactory_2;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

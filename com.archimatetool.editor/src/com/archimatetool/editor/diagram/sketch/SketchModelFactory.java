@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.editor.diagram.ICreationFactory;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -52,13 +53,13 @@ public class SketchModelFactory implements ICreationFactory {
         
         // Actor
         if(object instanceof ISketchModelActor) {
-            ((ISketchModelActor)object).setName(Messages.SketchModelFactory_0);
+            ((ISketchModelActor)object).setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
         }
         
         // Sticky
         else if(object instanceof ISketchModelSticky) {
             ISketchModelSticky sticky = (ISketchModelSticky)object;
-            sticky.setName(Messages.SketchModelFactory_1);
+            sticky.setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
             
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertColorToString((Color)fParam);
@@ -74,7 +75,7 @@ public class SketchModelFactory implements ICreationFactory {
         // Group
         else if(object instanceof IDiagramModelGroup) {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
-            group.setName(Messages.SketchModelFactory_2);
+            group.setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
         }
         
