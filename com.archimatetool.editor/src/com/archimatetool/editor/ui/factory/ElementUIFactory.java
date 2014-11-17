@@ -57,23 +57,26 @@ public class ElementUIFactory {
     }
     
     void registerProvider(IElementUIProvider provider) {
-        map.put(provider.providerFor(), provider);
+        if(provider != null && provider.providerFor() != null) {
+            map.put(provider.providerFor(), provider);
+        }
     }
     
     public IElementUIProvider getProvider(EClass eClass) {
-        return map.get(eClass);
+        return eClass == null ? null : map.get(eClass);
     }
     
     public IElementUIProvider getProvider(EObject eObject) {
         EClass eClass = null;
         
+        // We need to unwrap these here as this is called from diagram model objects
         if(eObject instanceof IDiagramModelArchimateObject) {
             eClass = ((IDiagramModelArchimateObject)eObject).getArchimateElement().eClass();
         }
         else if(eObject instanceof IDiagramModelArchimateConnection) {
             eClass = ((IDiagramModelArchimateConnection)eObject).getRelationship().eClass();
         }
-        else {
+        else if(eObject != null) {
             eClass = eObject.eClass();
         }
         
