@@ -368,6 +368,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
         canvasModelStickyEClass.getESuperTypes().add(theArchimatePackage.getProperties());
         canvasModelStickyEClass.getESuperTypes().add(theArchimatePackage.getLockable());
         canvasModelStickyEClass.getESuperTypes().add(theArchimatePackage.getBorderObject());
+        canvasModelStickyEClass.getESuperTypes().add(theArchimatePackage.getTextPosition());
         canvasModelBlockEClass.getESuperTypes().add(this.getIconic());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getDiagramModelContainer());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getProperties());
@@ -376,6 +377,7 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
         canvasModelBlockEClass.getESuperTypes().add(this.getHelpHintProvider());
         canvasModelBlockEClass.getESuperTypes().add(this.getHintProvider());
         canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getTextContent());
+        canvasModelBlockEClass.getESuperTypes().add(theArchimatePackage.getTextPosition());
         canvasModelImageEClass.getESuperTypes().add(theArchimatePackage.getDiagramModelImage());
         canvasModelImageEClass.getESuperTypes().add(theArchimatePackage.getLockable());
         canvasModelConnectionEClass.getESuperTypes().add(theArchimatePackage.getDiagramModelConnection());
@@ -419,13 +421,13 @@ public class CanvasPackage extends EPackageImpl implements ICanvasPackage {
      * @generated
      */
     protected void createExtendedMetaDataAnnotations() {
-        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
+        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$	
         addAnnotation
           (getHintProvider_HintContent(), 
            source, 
            new String[] {
              "kind", "element" //$NON-NLS-1$ //$NON-NLS-2$
-           });		
+           });	
         addAnnotation
           (getNotesContent_Notes(), 
            source, 

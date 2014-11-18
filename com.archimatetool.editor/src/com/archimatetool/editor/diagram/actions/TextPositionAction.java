@@ -20,8 +20,8 @@ import com.archimatetool.editor.diagram.commands.TextPositionCommand;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -89,15 +89,15 @@ public class TextPositionAction extends SelectionAction {
     public static List<TextPositionAction> createActions(IWorkbenchPart part) {
         List<TextPositionAction> list = new ArrayList<TextPositionAction>();
         
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_TOP_LEFT, ACTION_TOP_LEFT_ID, ACTION_TOP_LEFT_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_TOP_CENTRE, ACTION_TOP_CENTRE_ID, ACTION_TOP_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_TOP_RIGHT, ACTION_TOP_RIGHT_ID, ACTION_TOP_RIGHT_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_MIDDLE_LEFT, ACTION_MIDDLE_LEFT_ID, ACTION_MIDDLE_LEFT_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_MIDDLE_CENTRE, ACTION_MIDDLE_CENTRE_ID, ACTION_MIDDLE_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_MIDDLE_RIGHT, ACTION_MIDDLE_RIGHT_ID, ACTION_MIDDLE_RIGHT_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_BOTTOM_LEFT, ACTION_BOTTOM_LEFT_ID, ACTION_BOTTOM_LEFT_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_BOTTOM_CENTRE, ACTION_BOTTOM_CENTRE_ID, ACTION_BOTTOM_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, IFontAttribute.TEXT_POSITION_BOTTOM_RIGHT, ACTION_BOTTOM_RIGHT_ID, ACTION_BOTTOM_RIGHT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP_LEFT, ACTION_TOP_LEFT_ID, ACTION_TOP_LEFT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP_CENTRE, ACTION_TOP_CENTRE_ID, ACTION_TOP_CENTRE_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP_RIGHT, ACTION_TOP_RIGHT_ID, ACTION_TOP_RIGHT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_MIDDLE_LEFT, ACTION_MIDDLE_LEFT_ID, ACTION_MIDDLE_LEFT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_MIDDLE_CENTRE, ACTION_MIDDLE_CENTRE_ID, ACTION_MIDDLE_CENTRE_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_MIDDLE_RIGHT, ACTION_MIDDLE_RIGHT_ID, ACTION_MIDDLE_RIGHT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM_LEFT, ACTION_BOTTOM_LEFT_ID, ACTION_BOTTOM_LEFT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM_CENTRE, ACTION_BOTTOM_CENTRE_ID, ACTION_BOTTOM_CENTRE_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM_RIGHT, ACTION_BOTTOM_RIGHT_ID, ACTION_BOTTOM_RIGHT_TEXT));
      
         return list;
     }
@@ -117,7 +117,7 @@ public class TextPositionAction extends SelectionAction {
         
         List<?> selected = getSelectedObjects();
         
-        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selected);
+        ITextPosition model = (ITextPosition)getFirstValidSelectedModelObject(selected);
 
         if(model != null && selected.size() == 1) {
             setChecked(model.getTextPosition() == fPosition);
@@ -156,7 +156,7 @@ public class TextPositionAction extends SelectionAction {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
                 if(shouldEnable(model)) {
-                    Command cmd = new TextPositionCommand((IFontAttribute)model, fPosition);
+                    Command cmd = new TextPositionCommand((ITextPosition)model, fPosition);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -172,9 +172,9 @@ public class TextPositionAction extends SelectionAction {
             return false;
         }
         
-        if(model instanceof IFontAttribute) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
-            return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION);
+        if(model instanceof ITextPosition) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ITextPosition)model));
+            return provider != null && provider.shouldExposeFeature((ITextPosition)model, IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION);
         }
         
         return false;

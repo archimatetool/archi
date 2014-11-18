@@ -9,6 +9,7 @@ import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,5 +21,5 @@ import com.archimatetool.model.ITextContent;
  * @model
  * @generated
  */
-public interface ICanvasModelSticky extends IIconic, ITextContent, INotesContent, IProperties, ILockable, IBorderObject {
+public interface ICanvasModelSticky extends IIconic, ITextContent, INotesContent, IProperties, ILockable, IBorderObject, ITextPosition {
 } // ICanvasModelSticky

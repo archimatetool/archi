@@ -30,6 +30,7 @@ import com.archimatetool.model.ILockable;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -110,6 +111,12 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case ICanvasPackage.HELP_HINT_PROVIDER: {
+                IHelpHintProvider helpHintProvider = (IHelpHintProvider)theEObject;
+                T result = caseHelpHintProvider(helpHintProvider);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case ICanvasPackage.NOTES_CONTENT: {
                 INotesContent notesContent = (INotesContent)theEObject;
                 T result = caseNotesContent(notesContent);
@@ -143,6 +150,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(canvasModelSticky);
                 if (result == null) result = caseLockable(canvasModelSticky);
                 if (result == null) result = caseBorderObject(canvasModelSticky);
+                if (result == null) result = caseTextPosition(canvasModelSticky);
                 if (result == null) result = caseDiagramModelObject(canvasModelSticky);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelSticky);
                 if (result == null) result = caseDiagramModelComponent(canvasModelSticky);
@@ -166,6 +174,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseHelpHintProvider(canvasModelBlock);
                 if (result == null) result = caseHintProvider(canvasModelBlock);
                 if (result == null) result = caseTextContent(canvasModelBlock);
+                if (result == null) result = caseTextPosition(canvasModelBlock);
                 if (result == null) result = caseDiagramModelObject(canvasModelBlock);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelBlock);
                 if (result == null) result = caseDiagramModelComponent(canvasModelBlock);
@@ -589,6 +598,21 @@ public class CanvasSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseBorderObject(IBorderObject object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Text Position</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Text Position</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTextPosition(ITextPosition object) {
         return null;
     }
 

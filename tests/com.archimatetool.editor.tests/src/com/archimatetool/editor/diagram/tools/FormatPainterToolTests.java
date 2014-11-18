@@ -17,9 +17,8 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
@@ -36,7 +35,7 @@ public class FormatPainterToolTests {
     // ---------------------------------------------------------------------------------------------
 
     @Test
-    public void testCreateCommand() throws Exception {
+    public void testCreateCommandForDiagramModelArchimateObject() throws Exception {
         // Source component
         IDiagramModelArchimateObject sourceComponent =
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
@@ -67,32 +66,65 @@ public class FormatPainterToolTests {
         sourceComponent.setFontColor("#eeeeee");
         sourceComponent.setLineColor("#eeeeee");
         sourceComponent.setLineWidth(3);
-        sourceComponent.setTextAlignment(6);
-        sourceComponent.setTextPosition(6);
+        sourceComponent.setTextAlignment(1);
         
         compoundCmd = tool.createCommand(pf, targetComponent);
-        assertEquals(7, compoundCmd.getCommands().size());
+        assertEquals(6, compoundCmd.getCommands().size());
     }
     
+    @Test
+    public void testCreateCommandForDiagramModelArchimateConnection() throws Exception {
+        // Source component
+        IDiagramModelArchimateConnection sourceComponent =
+                ArchimateTestModel.createDiagramModelArchimateConnection(IArchimateFactory.eINSTANCE.createAccessRelationship());
+        
+        // Target component
+        IDiagramModelArchimateConnection targetComponent =
+                ArchimateTestModel.createDiagramModelArchimateConnection(IArchimateFactory.eINSTANCE.createAccessRelationship());
+        
+        // Set FormatPainterInfo to Source component
+        FormatPainterInfo.INSTANCE.updatePaintFormat(sourceComponent);
+        PaintFormat pf = FormatPainterInfo.INSTANCE.getPaintFormat();
+
+        // Execute command
+        FormatPainterTool tool = new FormatPainterTool();
+        CompoundCommand compoundCmd = tool.createCommand(pf, targetComponent);
+        
+        // Should be no commands
+        assertEquals(0, compoundCmd.getCommands().size());
+        
+        // Now change some properties on the source component
+        sourceComponent.setFont("Consolas");
+        sourceComponent.setFontColor("#eeeeee");
+        sourceComponent.setLineColor("#eeeeee");
+        sourceComponent.setLineWidth(3);
+        sourceComponent.setTextPosition(3);
+        
+        compoundCmd = tool.createCommand(pf, targetComponent);
+        assertEquals(5, compoundCmd.getCommands().size());
+    }
+
     @Test
     public void isPaintableObject() {
         FormatPainterTool tool = new FormatPainterTool();
         
-        IDiagramModelConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
-        boolean result = tool.isPaintableObject(dmc);
-        assertTrue(result);
+        assertTrue(tool.isPaintableObject(IArchimateFactory.eINSTANCE.createDiagramModelConnection()));
+        assertTrue(tool.isPaintableObject(IArchimateFactory.eINSTANCE.createDiagramModelNote()));
+        assertTrue(tool.isPaintableObject(IArchimateFactory.eINSTANCE.createDiagramModelGroup()));
         
-        IDiagramModelObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelNote();
-        result = tool.isPaintableObject(dmo);
-        assertTrue(result);
+        assertFalse(tool.isPaintableObject(IArchimateFactory.eINSTANCE.createDiagramModelImage()));
         
         IDiagramModelArchimateObject dmao =
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
-        result = tool.isPaintableObject(dmao);
-        assertTrue(result);
+        assertTrue(tool.isPaintableObject(dmao));
         
         dmao = ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createJunction());
-        result = tool.isPaintableObject(dmao);
-        assertFalse(result);
+        assertFalse(tool.isPaintableObject(dmao));
+        
+        dmao = ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createAndJunction());
+        assertFalse(tool.isPaintableObject(dmao));
+        
+        dmao = ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createOrJunction());
+        assertFalse(tool.isPaintableObject(dmao));
     }
 }

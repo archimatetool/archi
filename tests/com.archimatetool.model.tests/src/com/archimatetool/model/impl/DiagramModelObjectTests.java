@@ -107,13 +107,6 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     }
     
     @Test
-    public void testGetTextPosition() {
-        assertEquals(IFontAttribute.TEXT_POSITION_TOP_LEFT, object.getTextPosition());
-        object.setTextPosition(2);
-        assertEquals(2, object.getTextPosition());
-    }
-    
-    @Test
     public void testGetLineWidth() {
         assertEquals(1, object.getLineWidth());
         object.setLineWidth(2);

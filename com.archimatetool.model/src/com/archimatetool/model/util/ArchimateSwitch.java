@@ -106,6 +106,7 @@ import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.ISystemSoftware;
 import com.archimatetool.model.ITechnologyLayerElement;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IUsedByRelationship;
 import com.archimatetool.model.IValue;
@@ -1493,6 +1494,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.TEXT_POSITION: {
+                ITextPosition textPosition = (ITextPosition)theEObject;
+                T result = caseTextPosition(textPosition);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.BORDER_OBJECT: {
                 IBorderObject borderObject = (IBorderObject)theEObject;
                 T result = caseBorderObject(borderObject);
@@ -2454,6 +2461,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseFontAttribute(IFontAttribute object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Text Position</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Text Position</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTextPosition(ITextPosition object) {
         return null;
     }
 
