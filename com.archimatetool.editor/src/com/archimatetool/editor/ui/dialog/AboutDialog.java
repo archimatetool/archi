@@ -10,14 +10,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,8 +29,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.ConfigurationInfo;
-import org.eclipse.ui.internal.about.AboutUtils;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.about.InstallationDialog;
 
 import com.archimatetool.editor.Application;
 import com.archimatetool.editor.ArchimateEditorPlugin;
@@ -52,15 +48,13 @@ public class AboutDialog extends TrayDialog {
     private TabFolder folder;
     
     private TabItem aboutTabItem;
-    private TabItem infoTabItem;
     private TabItem licenseTabItem;
     
-    private Text systemText, licenseText;
+    private Text licenseText;
 
-    private Button errorLogButton, copyClipboardButton;
+    private Button installationDetailsButton;
     
-    private final static int ERRORLOG_ID = IDialogConstants.CLIENT_ID + 1;
-    private final static int CLIPBOARD_ID = IDialogConstants.CLIENT_ID + 2;
+    private final static int INSTALLATION_DETAILS_ID = IDialogConstants.CLIENT_ID + 1;
 
     public AboutDialog(Shell shell) {
         super(shell);
@@ -80,27 +74,8 @@ public class AboutDialog extends TrayDialog {
     
     @Override
     protected void buttonPressed(int buttonId) {
-        if(buttonId == ERRORLOG_ID) {
-            AboutUtils.openErrorLogBrowser(getShell());
-        }
-        else if(buttonId == CLIPBOARD_ID) {
-            Clipboard clipboard = null;
-            try {
-                clipboard = new Clipboard(getShell().getDisplay());
-                String text = ""; //$NON-NLS-1$
-                if(folder.getSelectionIndex() == 1) {
-                    text = systemText.getText();
-                }
-                else if(folder.getSelectionIndex() == 2) {
-                    text = licenseText.getText();
-                }
-                clipboard.setContents(new Object[] { text }, new Transfer[] { TextTransfer.getInstance() } );
-            }
-            finally {
-                if(clipboard != null) {
-                    clipboard.dispose();
-                }
-            }
+        if(buttonId == INSTALLATION_DETAILS_ID) {
+            new InstallationDialog(getShell(), PlatformUI.getWorkbench().getActiveWorkbenchWindow()).open();
         }
         else {
             super.buttonPressed(buttonId);
@@ -120,9 +95,6 @@ public class AboutDialog extends TrayDialog {
                 if(item == aboutTabItem) {
                     populateAboutTab();
                 }
-                else if(item == infoTabItem) {
-                    populateInfoTab();
-                }
                 else if(item == licenseTabItem) {
                     populateLicenseTab();
                 }
@@ -132,7 +104,6 @@ public class AboutDialog extends TrayDialog {
         folder.setLayoutData(new GridData(GridData.FILL_BOTH));
         
         createAboutTab();
-        createInfoTab();
         createLicenseTab();
         
         return composite;
@@ -182,39 +153,9 @@ public class AboutDialog extends TrayDialog {
     }
     
     private void populateAboutTab() {
-        errorLogButton.setVisible(false);
-        copyClipboardButton.setVisible(false);
+        installationDetailsButton.setVisible(true);
     }
     
-    private void createInfoTab() {
-        infoTabItem = new TabItem(folder, SWT.NONE);
-        infoTabItem.setText(Messages.AboutDialog_4);
-
-        Composite control = new Composite(folder, SWT.NONE);
-        control.setLayout(new GridLayout());
-        infoTabItem.setControl(control);
-        
-        systemText = new Text(control, SWT.MULTI | SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL | SWT.NO_FOCUS | SWT.H_SCROLL);
-        systemText.setBackground(control.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-        GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
-        gridData.grabExcessVerticalSpace = true;
-        gridData.grabExcessHorizontalSpace = true;
-        systemText.setLayoutData(gridData);
-        systemText.setFont(JFaceResources.getDialogFont());
-    }
-    
-    private void populateInfoTab() {
-        if(systemText.getText().length() == 0) {
-            systemText.setText(ConfigurationInfo.getSystemSummary());
-        }
-        
-        errorLogButton.setVisible(true);
-        String filename = Platform.getLogFileLocation().toOSString();
-        errorLogButton.setEnabled(new File(filename).exists());
-        
-        copyClipboardButton.setVisible(true);
-    }
-
     private void createLicenseTab() {
         licenseTabItem = new TabItem(folder, SWT.NONE);
         licenseTabItem.setText(Messages.AboutDialog_5);
@@ -233,8 +174,7 @@ public class AboutDialog extends TrayDialog {
     }
 
     private void populateLicenseTab() {
-        errorLogButton.setVisible(false);
-        copyClipboardButton.setVisible(true);
+        installationDetailsButton.setVisible(false);
         
         if(licenseText.getText().length() == 0) {
             File file = new File(ArchimateEditorPlugin.INSTANCE.getPluginFolder(), "LICENSE.txt"); //$NON-NLS-1$
@@ -269,12 +209,9 @@ public class AboutDialog extends TrayDialog {
         layout.marginHeight = 0;
         layout.marginBottom = 5;
         
-        errorLogButton = createButton(parent, ERRORLOG_ID, Messages.AboutDialog_6, false);
-        errorLogButton.setVisible(false);
+        installationDetailsButton = createButton(parent, INSTALLATION_DETAILS_ID, Messages.AboutDialog_4, false);
+        setButtonLayoutData(installationDetailsButton);
         
-        copyClipboardButton = createButton(parent, CLIPBOARD_ID, Messages.AboutDialog_7, false);
-        copyClipboardButton.setVisible(false);
-        
-        createButton(parent, IDialogConstants.OK_ID, Messages.AboutDialog_8, true);
+        createButton(parent, IDialogConstants.OK_ID, Messages.AboutDialog_6, true);
     }
 }

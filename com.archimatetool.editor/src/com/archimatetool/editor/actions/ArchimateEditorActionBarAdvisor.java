@@ -200,6 +200,10 @@ extends ActionBarAdvisor {
         fActionAbout = ActionFactory.ABOUT.create(window);
         register(fActionAbout);
         
+        // Register our own About Handler for our own custom dialog
+        IHandlerService srv = (IHandlerService) window.getService(IHandlerService.class);
+        srv.activateHandler(IWorkbenchCommandConstants.HELP_ABOUT, new AboutHandler());
+        
         // Reset Perspective
         fActionResetPerspective = ActionFactory.RESET_PERSPECTIVE.create(window);
         fActionResetPerspective.setText(Messages.ArchimateEditorActionBarAdvisor_2);
@@ -510,10 +514,6 @@ extends ActionBarAdvisor {
             menu.add(item);
         }
         
-        // Register our own About Handler for our own custom dialog
-        IHandlerService srv = (IHandlerService) window.getService(IHandlerService.class);
-        srv.activateHandler(IWorkbenchCommandConstants.HELP_ABOUT, new AboutHandler());
-
         return menu;
     }
 
