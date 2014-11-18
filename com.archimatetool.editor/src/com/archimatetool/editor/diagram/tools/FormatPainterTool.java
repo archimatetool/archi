@@ -33,6 +33,7 @@ import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -148,6 +149,17 @@ public class FormatPainterTool extends AbstractTool {
             }
         }
         
+        // ITextAlignment
+        if(pf.getSourceComponent() instanceof ITextAlignment && targetComponent instanceof ITextAlignment) {
+            ITextAlignment source = (ITextAlignment)pf.getSourceComponent();
+            ITextAlignment target = (ITextAlignment)targetComponent;
+            
+            Command cmd = new TextAlignmentCommand(target, source.getTextAlignment());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+        }
+        
         // IDiagramModelObject
         if(pf.getSourceComponent() instanceof IDiagramModelObject && targetComponent instanceof IDiagramModelObject) {
             IDiagramModelObject source = (IDiagramModelObject)pf.getSourceComponent();
@@ -160,10 +172,6 @@ public class FormatPainterTool extends AbstractTool {
             }
             
             Command cmd = new FillColorCommand(target, fillColorString);
-            if(cmd.canExecute()) {
-                result.add(cmd);
-            }
-            cmd = new TextAlignmentCommand(target, source.getTextAlignment());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }

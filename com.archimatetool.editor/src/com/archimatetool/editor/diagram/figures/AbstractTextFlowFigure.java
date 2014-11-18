@@ -20,7 +20,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -96,8 +96,8 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
         
         // Alignment default is CENTER
         int alignment = getDiagramModelObject().getTextAlignment();
-        if(alignment == IFontAttribute.TEXT_ALIGNMENT_NONE) {
-            alignment = IFontAttribute.TEXT_ALIGNMENT_CENTER;
+        if(alignment == ITextAlignment.TEXT_ALIGNMENT_NONE) {
+            alignment = ITextAlignment.TEXT_ALIGNMENT_CENTER;
         }
         ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
         

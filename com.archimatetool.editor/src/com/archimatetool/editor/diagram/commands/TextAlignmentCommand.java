@@ -7,7 +7,7 @@ package com.archimatetool.editor.diagram.commands;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -18,7 +18,7 @@ import com.archimatetool.model.IFontAttribute;
  */
 public class TextAlignmentCommand extends EObjectFeatureCommand {
     
-    public TextAlignmentCommand(IFontAttribute object, int value) {
-        super(Messages.TextAlignmentCommand_0, object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT, value);
+    public TextAlignmentCommand(ITextAlignment object, int value) {
+        super(Messages.TextAlignmentCommand_0, object, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT, value);
     }
 }

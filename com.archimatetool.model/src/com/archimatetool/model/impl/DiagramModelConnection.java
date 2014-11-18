@@ -37,7 +37,6 @@ import com.archimatetool.model.IProperty;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getFont <em>Font</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getFontColor <em>Font Color</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getLineWidth <em>Line Width</em>}</li>
@@ -93,26 +92,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @ordered
      */
     protected String fontColor = FONT_COLOR_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTextAlignment()
-     * @generated
-     * @ordered
-     */
-    protected static final int TEXT_ALIGNMENT_EDEFAULT = 0;
-
-    /**
-     * The cached value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTextAlignment()
-     * @generated
-     * @ordered
-     */
-    protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getProperties() <em>Properties</em>}' containment reference list.
@@ -333,27 +312,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         fontColor = newFontColor;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR, oldFontColor, fontColor));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public int getTextAlignment() {
-        return textAlignment;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setTextAlignment(int newTextAlignment) {
-        int oldTextAlignment = textAlignment;
-        textAlignment = newTextAlignment;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT, oldTextAlignment, textAlignment));
     }
 
     /**
@@ -598,15 +556,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public int getDefaultTextAlignment() {
-        return TEXT_ALIGNMENT_CENTER;
-    }
-    
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -640,8 +589,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return getFont();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR:
                 return getFontColor();
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
-                return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 return getProperties();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
@@ -680,9 +627,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR:
                 setFontColor((String)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
-                setTextAlignment((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 getProperties().clear();
@@ -734,9 +678,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR:
                 setFontColor(FONT_COLOR_EDEFAULT);
                 return;
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
-                setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 getProperties().clear();
                 return;
@@ -783,8 +724,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 return FONT_EDEFAULT == null ? font != null : !FONT_EDEFAULT.equals(font);
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR:
                 return FONT_COLOR_EDEFAULT == null ? fontColor != null : !FONT_COLOR_EDEFAULT.equals(fontColor);
-            case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT:
-                return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__PROPERTIES:
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DOCUMENTATION:
@@ -820,7 +759,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT: return IArchimatePackage.FONT_ATTRIBUTE__FONT;
                 case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR: return IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR;
-                case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT: return IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT;
                 default: return -1;
             }
         }
@@ -857,7 +795,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
             switch (baseFeatureID) {
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT;
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR;
-                case IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
                 default: return -1;
             }
         }
@@ -897,8 +834,6 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         result.append(font);
         result.append(", fontColor: "); //$NON-NLS-1$
         result.append(fontColor);
-        result.append(", textAlignment: "); //$NON-NLS-1$
-        result.append(textAlignment);
         result.append(", documentation: "); //$NON-NLS-1$
         result.append(documentation);
         result.append(", lineWidth: "); //$NON-NLS-1$

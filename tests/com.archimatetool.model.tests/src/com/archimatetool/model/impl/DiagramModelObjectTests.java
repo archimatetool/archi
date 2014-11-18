@@ -20,7 +20,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextAlignment;
 
 
 @SuppressWarnings("nls")
@@ -171,7 +171,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
 
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(IFontAttribute.TEXT_ALIGNMENT_CENTER, object.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, object.getDefaultTextAlignment());
     }
     
     @Override

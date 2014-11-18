@@ -30,6 +30,7 @@ import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 
@@ -153,6 +154,10 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseLineObject(ILineObject object) {
                 return createLineObjectAdapter();
+            }
+            @Override
+            public Adapter caseTextAlignment(ITextAlignment object) {
+                return createTextAlignmentAdapter();
             }
             @Override
             public Adapter caseDiagramModelObject(IDiagramModelObject object) {
@@ -517,6 +522,20 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createLineObjectAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITextAlignment <em>Text Alignment</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITextAlignment
+     * @generated
+     */
+    public Adapter createTextAlignmentAdapter() {
         return null;
     }
 

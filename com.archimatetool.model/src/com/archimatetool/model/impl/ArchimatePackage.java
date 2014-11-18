@@ -107,6 +107,7 @@ import com.archimatetool.model.ISpecialisationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.ISystemSoftware;
 import com.archimatetool.model.ITechnologyLayerElement;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
@@ -530,6 +531,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass textPositionEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass textAlignmentEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1838,15 +1846,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getFontAttribute_TextAlignment() {
-        return (EAttribute)fontAttributeEClass.getEStructuralFeatures().get(2);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getTextPosition() {
         return textPositionEClass;
     }
@@ -1858,6 +1857,24 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     public EAttribute getTextPosition_TextPosition() {
         return (EAttribute)textPositionEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getTextAlignment() {
+        return textAlignmentEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getTextAlignment_TextAlignment() {
+        return (EAttribute)textAlignmentEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -2676,10 +2693,12 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         fontAttributeEClass = createEClass(FONT_ATTRIBUTE);
         createEAttribute(fontAttributeEClass, FONT_ATTRIBUTE__FONT);
         createEAttribute(fontAttributeEClass, FONT_ATTRIBUTE__FONT_COLOR);
-        createEAttribute(fontAttributeEClass, FONT_ATTRIBUTE__TEXT_ALIGNMENT);
 
         textPositionEClass = createEClass(TEXT_POSITION);
         createEAttribute(textPositionEClass, TEXT_POSITION__TEXT_POSITION);
+
+        textAlignmentEClass = createEClass(TEXT_ALIGNMENT);
+        createEAttribute(textAlignmentEClass, TEXT_ALIGNMENT__TEXT_ALIGNMENT);
 
         borderObjectEClass = createEClass(BORDER_OBJECT);
         createEAttribute(borderObjectEClass, BORDER_OBJECT__BORDER_COLOR);
@@ -2853,6 +2872,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelObjectEClass.getESuperTypes().add(this.getDiagramModelComponent());
         diagramModelObjectEClass.getESuperTypes().add(this.getFontAttribute());
         diagramModelObjectEClass.getESuperTypes().add(this.getLineObject());
+        diagramModelObjectEClass.getESuperTypes().add(this.getTextAlignment());
         diagramModelGroupEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelGroupEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelGroupEClass.getESuperTypes().add(this.getDocumentable());
@@ -3157,12 +3177,14 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(fontAttributeEClass, IFontAttribute.class, "FontAttribute", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getFontAttribute_Font(), ecorePackage.getEString(), "font", null, 0, 1, IFontAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getFontAttribute_FontColor(), ecorePackage.getEString(), "fontColor", null, 0, 1, IFontAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-        initEAttribute(getFontAttribute_TextAlignment(), ecorePackage.getEInt(), "textAlignment", null, 0, 1, IFontAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-
-        addEOperation(fontAttributeEClass, ecorePackage.getEInt(), "getDefaultTextAlignment", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(textPositionEClass, ITextPosition.class, "TextPosition", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getTextPosition_TextPosition(), ecorePackage.getEInt(), "textPosition", null, 0, 1, ITextPosition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(textAlignmentEClass, ITextAlignment.class, "TextAlignment", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getTextAlignment_TextAlignment(), ecorePackage.getEInt(), "textAlignment", null, 0, 1, ITextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        addEOperation(textAlignmentEClass, ecorePackage.getEInt(), "getDefaultTextAlignment", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(borderObjectEClass, IBorderObject.class, "BorderObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getBorderObject_BorderColor(), ecorePackage.getEString(), "borderColor", null, 0, 1, IBorderObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

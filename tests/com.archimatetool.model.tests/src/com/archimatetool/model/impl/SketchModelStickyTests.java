@@ -15,8 +15,8 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ISketchModelSticky;
+import com.archimatetool.model.ITextAlignment;
 
 
 @SuppressWarnings("nls")
@@ -38,7 +38,7 @@ public class SketchModelStickyTests extends DiagramModelObjectTests {
     @Override
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(IFontAttribute.TEXT_ALIGNMENT_LEFT, sticky.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, sticky.getDefaultTextAlignment());
     }
 
     @Override

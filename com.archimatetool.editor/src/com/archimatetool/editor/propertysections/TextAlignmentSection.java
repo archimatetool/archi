@@ -20,13 +20,13 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextAlignment;
 
 
 
 /**
- * Property Section for a Diagram Model Object Appearance->Text Alignment
+ * Property Section for a Text Alignment object
  * 
  * @author Phillip Beauvoir
  */
@@ -34,7 +34,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
-    private static EAttribute FEATURE = IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT;
+    private static EAttribute FEATURE = IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT;
     
     /**
      * Filter to show or reject this section depending on input value
@@ -42,12 +42,12 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE);
+            return (object instanceof ITextAlignment) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
         protected Class<?> getAdaptableType() {
-            return IFontAttribute.class;
+            return ITextAlignment.class;
         }
     }
 
@@ -65,7 +65,7 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         }
     };
     
-    private IFontAttribute fFontObject;
+    private ITextAlignment fTextAlignmentObject;
     
     private Button[] fAlignmentButtons = new Button[3];
     
@@ -81,10 +81,10 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
                     // Command
                     if(fAlignmentButtons[i] == e.widget) {
                         int alignment = (Integer)fAlignmentButtons[i].getData();
-                        if(fFontObject.getTextAlignment() != alignment) {
+                        if(fTextAlignmentObject.getTextAlignment() != alignment) {
                             if(isAlive()) {
                                 fIsExecutingCommand = true;
-                                getCommandStack().execute(new TextAlignmentCommand(fFontObject, alignment));
+                                getCommandStack().execute(new TextAlignmentCommand(fTextAlignmentObject, alignment));
                                 fIsExecutingCommand = false;
                             }
                         }
@@ -105,15 +105,15 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         
         // Left Button
         fAlignmentButtons[0].setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ALIGN_TEXT_LEFT));
-        fAlignmentButtons[0].setData(IFontAttribute.TEXT_ALIGNMENT_LEFT);
+        fAlignmentButtons[0].setData(ITextAlignment.TEXT_ALIGNMENT_LEFT);
 
         // Center Button
         fAlignmentButtons[1].setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ALIGN_TEXT_CENTER));
-        fAlignmentButtons[1].setData(IFontAttribute.TEXT_ALIGNMENT_CENTER);
+        fAlignmentButtons[1].setData(ITextAlignment.TEXT_ALIGNMENT_CENTER);
 
         // Right Button
         fAlignmentButtons[2].setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ALIGN_TEXT_RIGHT));
-        fAlignmentButtons[2].setData(IFontAttribute.TEXT_ALIGNMENT_RIGHT);
+        fAlignmentButtons[2].setData(ITextAlignment.TEXT_ALIGNMENT_RIGHT);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -121,8 +121,8 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        fFontObject = (IFontAttribute)new Filter().adaptObject(element);
-        if(fFontObject == null) {
+        fTextAlignmentObject = (ITextAlignment)new Filter().adaptObject(element);
+        if(fTextAlignmentObject == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
@@ -136,22 +136,22 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         
         for(int i = 0; i < fAlignmentButtons.length; i++) {
             fAlignmentButtons[i].setSelection(fAlignmentButtons[i] == getAlignmentButton());
-            boolean enabled = fFontObject instanceof ILockable ? !((ILockable)fFontObject).isLocked() : true;
+            boolean enabled = fTextAlignmentObject instanceof ILockable ? !((ILockable)fTextAlignmentObject).isLocked() : true;
             fAlignmentButtons[i].setEnabled(enabled);
         }
     }
     
     private Button getAlignmentButton() {
-        int alignment = fFontObject.getTextAlignment();
+        int alignment = fTextAlignmentObject.getTextAlignment();
         
         switch(alignment) {
-            case IFontAttribute.TEXT_ALIGNMENT_LEFT:
+            case ITextAlignment.TEXT_ALIGNMENT_LEFT:
                 return fAlignmentButtons[0];
 
-            case IFontAttribute.TEXT_ALIGNMENT_CENTER:
+            case ITextAlignment.TEXT_ALIGNMENT_CENTER:
                 return fAlignmentButtons[1];
 
-            case IFontAttribute.TEXT_ALIGNMENT_RIGHT:
+            case ITextAlignment.TEXT_ALIGNMENT_RIGHT:
                 return fAlignmentButtons[2];
 
             default:
@@ -166,6 +166,6 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
 
     @Override
     protected EObject getEObject() {
-        return fFontObject;
+        return fTextAlignmentObject;
     }
 }

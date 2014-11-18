@@ -25,6 +25,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILineObject;
+import com.archimatetool.model.ITextAlignment;
 
 
 /**
@@ -36,9 +37,9 @@ import com.archimatetool.model.ILineObject;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFont <em>Font</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFontColor <em>Font Color</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getLineWidth <em>Line Width</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getLineColor <em>Line Color</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
@@ -90,26 +91,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     protected String fontColor = FONT_COLOR_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTextAlignment()
-     * @generated
-     * @ordered
-     */
-    protected static final int TEXT_ALIGNMENT_EDEFAULT = 0;
-
-    /**
-     * The cached value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTextAlignment()
-     * @generated
-     * @ordered
-     */
-    protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
-
-    /**
      * The default value of the '{@link #getLineWidth() <em>Line Width</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -148,6 +129,26 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
      * @ordered
      */
     protected String lineColor = LINE_COLOR_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextAlignment()
+     * @generated
+     * @ordered
+     */
+    protected static final int TEXT_ALIGNMENT_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextAlignment()
+     * @generated
+     * @ordered
+     */
+    protected int textAlignment = TEXT_ALIGNMENT_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getBounds() <em>Bounds</em>}' containment reference.
@@ -511,12 +512,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return getFont();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR:
                 return getFontColor();
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
-                return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
                 return getLineWidth();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
                 return getLineColor();
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
+                return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return getBounds();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
@@ -544,14 +545,14 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR:
                 setFontColor((String)newValue);
                 return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
-                setTextAlignment((Integer)newValue);
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
                 setLineWidth((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
                 setLineColor((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
+                setTextAlignment((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)newValue);
@@ -585,14 +586,14 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR:
                 setFontColor(FONT_COLOR_EDEFAULT);
                 return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
-                setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
                 setLineWidth(LINE_WIDTH_EDEFAULT);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
                 setLineColor(LINE_COLOR_EDEFAULT);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
+                setTextAlignment(TEXT_ALIGNMENT_EDEFAULT);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)null);
@@ -622,12 +623,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return FONT_EDEFAULT == null ? font != null : !FONT_EDEFAULT.equals(font);
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR:
                 return FONT_COLOR_EDEFAULT == null ? fontColor != null : !FONT_COLOR_EDEFAULT.equals(fontColor);
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
-                return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH:
                 return lineWidth != LINE_WIDTH_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR:
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
+            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT:
+                return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return bounds != null;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
@@ -651,7 +652,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT: return IArchimatePackage.FONT_ATTRIBUTE__FONT;
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR: return IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR;
-                case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT: return IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT;
                 default: return -1;
             }
         }
@@ -659,6 +659,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             switch (derivedFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH: return IArchimatePackage.LINE_OBJECT__LINE_WIDTH;
                 case IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR: return IArchimatePackage.LINE_OBJECT__LINE_COLOR;
+                default: return -1;
+            }
+        }
+        if (baseClass == ITextAlignment.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT: return IArchimatePackage.TEXT_ALIGNMENT__TEXT_ALIGNMENT;
                 default: return -1;
             }
         }
@@ -676,7 +682,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             switch (baseFeatureID) {
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT;
                 case IArchimatePackage.FONT_ATTRIBUTE__FONT_COLOR: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR;
-                case IArchimatePackage.FONT_ATTRIBUTE__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
                 default: return -1;
             }
         }
@@ -684,6 +689,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             switch (baseFeatureID) {
                 case IArchimatePackage.LINE_OBJECT__LINE_WIDTH: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_WIDTH;
                 case IArchimatePackage.LINE_OBJECT__LINE_COLOR: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+                default: return -1;
+            }
+        }
+        if (baseClass == ITextAlignment.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.TEXT_ALIGNMENT__TEXT_ALIGNMENT: return IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
                 default: return -1;
             }
         }
@@ -704,12 +715,12 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         result.append(font);
         result.append(", fontColor: "); //$NON-NLS-1$
         result.append(fontColor);
-        result.append(", textAlignment: "); //$NON-NLS-1$
-        result.append(textAlignment);
         result.append(", lineWidth: "); //$NON-NLS-1$
         result.append(lineWidth);
         result.append(", lineColor: "); //$NON-NLS-1$
         result.append(lineColor);
+        result.append(", textAlignment: "); //$NON-NLS-1$
+        result.append(textAlignment);
         result.append(", fillColor: "); //$NON-NLS-1$
         result.append(fillColor);
         result.append(')');
