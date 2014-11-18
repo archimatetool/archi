@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface IDiagramModelObject extends IDiagramModelComponent, IFontAttribute, ILineObject {
+public interface IDiagramModelObject extends IDiagramModelComponent, IFontAttribute, ILineObject, ITextAlignment {
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.
      * <!-- begin-user-doc -->

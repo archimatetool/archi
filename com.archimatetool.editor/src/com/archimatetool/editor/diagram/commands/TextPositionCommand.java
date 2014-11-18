@@ -7,7 +7,7 @@ package com.archimatetool.editor.diagram.commands;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -18,7 +18,7 @@ import com.archimatetool.model.IFontAttribute;
  */
 public class TextPositionCommand extends EObjectFeatureCommand {
     
-    public TextPositionCommand(IFontAttribute object, int value) {
-        super(Messages.TextPositionCommand_0, object, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION, value);
+    public TextPositionCommand(ITextPosition object, int value) {
+        super(Messages.TextPositionCommand_0, object, IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION, value);
     }
 }

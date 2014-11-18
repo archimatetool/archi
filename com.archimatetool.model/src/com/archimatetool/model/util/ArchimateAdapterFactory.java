@@ -105,7 +105,9 @@ import com.archimatetool.model.ISpecialisationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.ISystemSoftware;
 import com.archimatetool.model.ITechnologyLayerElement;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IUsedByRelationship;
 import com.archimatetool.model.IValue;
@@ -547,6 +549,14 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseFontAttribute(IFontAttribute object) {
                 return createFontAttributeAdapter();
+            }
+            @Override
+            public Adapter caseTextPosition(ITextPosition object) {
+                return createTextPositionAdapter();
+            }
+            @Override
+            public Adapter caseTextAlignment(ITextAlignment object) {
+                return createTextAlignmentAdapter();
             }
             @Override
             public Adapter caseBorderObject(IBorderObject object) {
@@ -1389,6 +1399,34 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createFontAttributeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITextPosition <em>Text Position</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITextPosition
+     * @generated
+     */
+    public Adapter createTextPositionAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITextAlignment <em>Text Alignment</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITextAlignment
+     * @generated
+     */
+    public Adapter createTextAlignmentAdapter() {
         return null;
     }
 

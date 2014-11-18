@@ -64,10 +64,6 @@ public class CanvasStickyUIProvider extends AbstractElementUIProvider {
             return false;
         }
         
-        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) {
-            return true;
-        }
-        
         return super.shouldExposeFeature(instance, feature);
     }
 }

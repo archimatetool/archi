@@ -16,7 +16,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelGroup;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextAlignment;
 
 
 public class DiagramModelGroupTests extends DiagramModelObjectTests {
@@ -36,7 +36,7 @@ public class DiagramModelGroupTests extends DiagramModelObjectTests {
     @Override
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(IFontAttribute.TEXT_ALIGNMENT_LEFT, group.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, group.getDefaultTextAlignment());
     }
 
     @Override

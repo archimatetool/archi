@@ -29,7 +29,9 @@ import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -97,6 +99,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelComponent(iconic);
                 if (result == null) result = caseFontAttribute(iconic);
                 if (result == null) result = caseLineObject(iconic);
+                if (result == null) result = caseTextAlignment(iconic);
                 if (result == null) result = caseIdentifier(iconic);
                 if (result == null) result = caseCloneable(iconic);
                 if (result == null) result = caseAdapter(iconic);
@@ -107,6 +110,12 @@ public class CanvasSwitch<T> extends Switch<T> {
             case ICanvasPackage.HINT_PROVIDER: {
                 IHintProvider hintProvider = (IHintProvider)theEObject;
                 T result = caseHintProvider(hintProvider);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case ICanvasPackage.HELP_HINT_PROVIDER: {
+                IHelpHintProvider helpHintProvider = (IHelpHintProvider)theEObject;
+                T result = caseHelpHintProvider(helpHintProvider);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -143,11 +152,13 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseProperties(canvasModelSticky);
                 if (result == null) result = caseLockable(canvasModelSticky);
                 if (result == null) result = caseBorderObject(canvasModelSticky);
+                if (result == null) result = caseTextPosition(canvasModelSticky);
                 if (result == null) result = caseDiagramModelObject(canvasModelSticky);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelSticky);
                 if (result == null) result = caseDiagramModelComponent(canvasModelSticky);
                 if (result == null) result = caseFontAttribute(canvasModelSticky);
                 if (result == null) result = caseLineObject(canvasModelSticky);
+                if (result == null) result = caseTextAlignment(canvasModelSticky);
                 if (result == null) result = caseIdentifier(canvasModelSticky);
                 if (result == null) result = caseCloneable(canvasModelSticky);
                 if (result == null) result = caseAdapter(canvasModelSticky);
@@ -166,11 +177,13 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseHelpHintProvider(canvasModelBlock);
                 if (result == null) result = caseHintProvider(canvasModelBlock);
                 if (result == null) result = caseTextContent(canvasModelBlock);
+                if (result == null) result = caseTextPosition(canvasModelBlock);
                 if (result == null) result = caseDiagramModelObject(canvasModelBlock);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelBlock);
                 if (result == null) result = caseDiagramModelComponent(canvasModelBlock);
                 if (result == null) result = caseFontAttribute(canvasModelBlock);
                 if (result == null) result = caseLineObject(canvasModelBlock);
+                if (result == null) result = caseTextAlignment(canvasModelBlock);
                 if (result == null) result = caseIdentifier(canvasModelBlock);
                 if (result == null) result = caseCloneable(canvasModelBlock);
                 if (result == null) result = caseAdapter(canvasModelBlock);
@@ -189,6 +202,7 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelComponent(canvasModelImage);
                 if (result == null) result = caseFontAttribute(canvasModelImage);
                 if (result == null) result = caseLineObject(canvasModelImage);
+                if (result == null) result = caseTextAlignment(canvasModelImage);
                 if (result == null) result = caseIdentifier(canvasModelImage);
                 if (result == null) result = caseCloneable(canvasModelImage);
                 if (result == null) result = caseAdapter(canvasModelImage);
@@ -533,6 +547,21 @@ public class CanvasSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Text Alignment</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Text Alignment</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTextAlignment(ITextAlignment object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Diagram Model Object</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -589,6 +618,21 @@ public class CanvasSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseBorderObject(IBorderObject object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Text Position</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Text Position</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTextPosition(ITextPosition object) {
         return null;
     }
 

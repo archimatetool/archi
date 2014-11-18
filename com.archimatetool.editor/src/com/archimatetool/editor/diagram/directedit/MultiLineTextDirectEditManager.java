@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 
 
@@ -35,12 +35,12 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
         
         int alignment = SWT.CENTER;
         
-        if(model instanceof IFontAttribute) {
-            alignment = ((IFontAttribute)model).getTextAlignment();
-            if(alignment == IFontAttribute.TEXT_ALIGNMENT_CENTER) {
+        if(model instanceof ITextAlignment) {
+            alignment = ((ITextAlignment)model).getTextAlignment();
+            if(alignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
                 alignment = SWT.CENTER;
             }
-            else if(alignment == IFontAttribute.TEXT_ALIGNMENT_RIGHT) {
+            else if(alignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
                 alignment = SWT.RIGHT;
             }
             else {

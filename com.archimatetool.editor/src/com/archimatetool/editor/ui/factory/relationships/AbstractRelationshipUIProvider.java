@@ -6,12 +6,9 @@
 package com.archimatetool.editor.ui.factory.relationships;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
-import com.archimatetool.model.IArchimatePackage;
 
 
 
@@ -31,14 +28,4 @@ public abstract class AbstractRelationshipUIProvider extends AbstractElementUIPr
     public Color getDefaultLineColor() {
         return ColorConstants.black;
     }
-    
-    @Override
-    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
-        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT) {
-            return false;
-        }
-
-        return super.shouldExposeFeature(instance, feature);
-    }
-
 }

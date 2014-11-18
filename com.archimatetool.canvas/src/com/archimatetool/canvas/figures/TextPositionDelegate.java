@@ -9,7 +9,7 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
 
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -21,51 +21,51 @@ public class TextPositionDelegate {
     
     private IFigure fParentFigure;
     private IFigure fChildFigure;
-    private IFontAttribute fFontObject;
+    private ITextPosition fTextPositionObject;
     
-    public TextPositionDelegate(IFigure parentFigure, IFigure childFigure, IFontAttribute fontObject) {
+    public TextPositionDelegate(IFigure parentFigure, IFigure childFigure, ITextPosition textPositionObject) {
         fParentFigure = parentFigure;
         fChildFigure = childFigure;
-        fFontObject = fontObject;
+        fTextPositionObject = textPositionObject;
     }
     
     public void updateTextPosition() {
         GridData gd = null;
         
-        switch(fFontObject.getTextPosition()) {
-            case IFontAttribute.TEXT_POSITION_TOP_LEFT:
+        switch(fTextPositionObject.getTextPosition()) {
+            case ITextPosition.TEXT_POSITION_TOP_LEFT:
                 gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_TOP_CENTRE:
+            case ITextPosition.TEXT_POSITION_TOP_CENTRE:
                 gd = new GridData(SWT.CENTER, SWT.TOP, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_TOP_RIGHT:
+            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
                 gd = new GridData(SWT.RIGHT, SWT.TOP, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_MIDDLE_LEFT:
+            case ITextPosition.TEXT_POSITION_MIDDLE_LEFT:
                 gd = new GridData(SWT.LEFT, SWT.CENTER, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_MIDDLE_CENTRE:
+            case ITextPosition.TEXT_POSITION_MIDDLE_CENTRE:
                 gd = new GridData(SWT.CENTER, SWT.CENTER, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_MIDDLE_RIGHT:
+            case ITextPosition.TEXT_POSITION_MIDDLE_RIGHT:
                 gd = new GridData(SWT.RIGHT, SWT.CENTER, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_BOTTOM_LEFT:
+            case ITextPosition.TEXT_POSITION_BOTTOM_LEFT:
                 gd = new GridData(SWT.LEFT, SWT.BOTTOM, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_BOTTOM_CENTRE:
+            case ITextPosition.TEXT_POSITION_BOTTOM_CENTRE:
                 gd = new GridData(SWT.CENTER, SWT.BOTTOM, true, true);
                 break;
 
-            case IFontAttribute.TEXT_POSITION_BOTTOM_RIGHT:
+            case ITextPosition.TEXT_POSITION_BOTTOM_RIGHT:
                 gd = new GridData(SWT.RIGHT, SWT.BOTTOM, true, true);
                 break;
 

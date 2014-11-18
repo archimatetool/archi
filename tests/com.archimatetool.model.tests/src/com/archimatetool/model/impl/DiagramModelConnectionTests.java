@@ -22,7 +22,6 @@ import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IFontAttribute;
 
 
 @SuppressWarnings("nls")
@@ -91,11 +90,6 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
     }
 
     @Test
-    public void testGetDefaultTextAlignment() {
-        assertEquals(IFontAttribute.TEXT_ALIGNMENT_CENTER, connection.getDefaultTextAlignment());
-    }
-
-    @Test
     public void testGetDocumentation() {
         CommonTests.testGetDocumentation(connection);
     }
@@ -145,13 +139,6 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
         assertNull(connection.getTarget());
         connection.connect(source, target);
         assertSame(target, connection.getTarget());
-    }
-    
-    @Test
-    public void testGetTextAlignment() {
-        assertEquals(IFontAttribute.TEXT_ALIGNMENT_NONE, connection.getTextAlignment());
-        connection.setTextAlignment(2);
-        assertEquals(2, connection.getTextAlignment());
     }
     
     @Test

@@ -7,6 +7,9 @@ Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ com.archimatetool.model;visibility:=reexport,
  org.eclipse.help.ui,
  org.eclipse.ui,
  com.archimatetool.editor,

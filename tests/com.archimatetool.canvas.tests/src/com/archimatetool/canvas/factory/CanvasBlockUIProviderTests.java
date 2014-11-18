@@ -57,7 +57,6 @@ public class CanvasBlockUIProviderTests extends AbstractElementUIProviderTests {
     public void testShouldExposeFeature() {
         EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
         assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
-        assertTrue(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION));
         assertTrue(provider.shouldExposeFeature(instance, null));
     }
 }

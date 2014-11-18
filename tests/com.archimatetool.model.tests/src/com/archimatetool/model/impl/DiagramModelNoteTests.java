@@ -5,7 +5,8 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
@@ -13,7 +14,7 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.IFontAttribute;
+import com.archimatetool.model.ITextAlignment;
 
 
 @SuppressWarnings("nls")
@@ -42,7 +43,7 @@ public class DiagramModelNoteTests extends DiagramModelObjectTests {
     @Override
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(IFontAttribute.TEXT_ALIGNMENT_LEFT, note.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, note.getDefaultTextAlignment());
     }
     
     @Override

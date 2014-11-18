@@ -31,7 +31,7 @@ public class CanvasFactory extends EFactoryImpl implements ICanvasFactory {
      */
     public static ICanvasFactory init() {
         try {
-            ICanvasFactory theCanvasFactory = (ICanvasFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.archimatetool.com/archimate/canvas"); //$NON-NLS-1$ 
+            ICanvasFactory theCanvasFactory = (ICanvasFactory)EPackage.Registry.INSTANCE.getEFactory(ICanvasPackage.eNS_URI);
             if (theCanvasFactory != null) {
                 return theCanvasFactory;
             }

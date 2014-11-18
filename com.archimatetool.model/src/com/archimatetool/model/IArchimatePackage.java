@@ -5301,7 +5301,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 99;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 101;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -5447,7 +5447,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 98;
+    int ARCHIMATE_DIAGRAM_MODEL = 100;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5495,31 +5495,13 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_OBJECT__FONT_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__TEXT_POSITION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_OBJECT__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -5528,7 +5510,16 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_OBJECT__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -5537,7 +5528,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__BOUNDS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_OBJECT__BOUNDS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
@@ -5546,7 +5537,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Target Connections</b></em>' reference list.
@@ -5555,7 +5546,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -5564,7 +5555,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__FILL_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
+    int DIAGRAM_MODEL_OBJECT__FILL_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
 
     /**
      * The number of structural features of the '<em>Diagram Model Object</em>' class.
@@ -5573,7 +5564,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
+    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.
@@ -5631,24 +5622,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_REFERENCE__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_REFERENCE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_REFERENCE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5665,6 +5638,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_REFERENCE__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_REFERENCE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -5776,24 +5758,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_GROUP__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_GROUP__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_GROUP__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5810,6 +5774,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_GROUP__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -5939,24 +5912,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_NOTE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_NOTE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5973,6 +5928,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_NOTE__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -6093,24 +6057,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_IMAGE__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_IMAGE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_IMAGE__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6127,6 +6073,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_IMAGE__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -6247,31 +6202,13 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_CONNECTION__FONT_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
-
-    /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__PROPERTIES = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_CONNECTION__PROPERTIES = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -6280,7 +6217,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__DOCUMENTATION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_CONNECTION__DOCUMENTATION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
@@ -6289,7 +6226,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -6298,7 +6235,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -6307,7 +6244,16 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TEXT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_CONNECTION__TEXT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
+
+    /**
+     * The feature id for the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -6316,7 +6262,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__SOURCE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
+    int DIAGRAM_MODEL_CONNECTION__SOURCE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -6325,7 +6271,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TARGET = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
+    int DIAGRAM_MODEL_CONNECTION__TARGET = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
@@ -6334,7 +6280,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 11;
+    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -6343,7 +6289,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TYPE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 12;
+    int DIAGRAM_MODEL_CONNECTION__TYPE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 11;
 
     /**
      * The number of structural features of the '<em>Diagram Model Connection</em>' class.
@@ -6352,7 +6298,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 13;
+    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 12;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelArchimateConnection <em>Diagram Model Archimate Connection</em>}' class.
@@ -6362,7 +6308,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 100;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 102;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -6485,13 +6431,23 @@ public interface IArchimatePackage extends EPackage {
     int FONT_ATTRIBUTE__FONT_COLOR = 1;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * The number of structural features of the '<em>Font Attribute</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int FONT_ATTRIBUTE__TEXT_ALIGNMENT = 2;
+    int FONT_ATTRIBUTE_FEATURE_COUNT = 2;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.model.ITextPosition <em>Text Position</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.ITextPosition
+     * @see com.archimatetool.model.impl.ArchimatePackage#getTextPosition()
+     * @generated
+     */
+    int TEXT_POSITION = 94;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -6500,16 +6456,44 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FONT_ATTRIBUTE__TEXT_POSITION = 3;
+    int TEXT_POSITION__TEXT_POSITION = 0;
 
     /**
-     * The number of structural features of the '<em>Font Attribute</em>' class.
+     * The number of structural features of the '<em>Text Position</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int FONT_ATTRIBUTE_FEATURE_COUNT = 4;
+    int TEXT_POSITION_FEATURE_COUNT = 1;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.model.ITextAlignment <em>Text Alignment</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.ITextAlignment
+     * @see com.archimatetool.model.impl.ArchimatePackage#getTextAlignment()
+     * @generated
+     */
+    int TEXT_ALIGNMENT = 95;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TEXT_ALIGNMENT__TEXT_ALIGNMENT = 0;
+
+    /**
+     * The number of structural features of the '<em>Text Alignment</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TEXT_ALIGNMENT_FEATURE_COUNT = 1;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IBorderObject <em>Border Object</em>}' class.
@@ -6519,7 +6503,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
-    int BORDER_OBJECT = 94;
+    int BORDER_OBJECT = 96;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -6547,7 +6531,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelImageProvider()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE_PROVIDER = 95;
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 97;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -6575,7 +6559,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 96;
+    int BOUNDS = 98;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -6630,7 +6614,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 97;
+    int LOCKABLE = 99;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -6786,24 +6770,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6820,6 +6786,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -6939,24 +6914,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__FONT_COLOR = DIAGRAM_MODEL_CONNECTION__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT_ALIGNMENT = DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT_POSITION = DIAGRAM_MODEL_CONNECTION__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7000,6 +6957,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT = DIAGRAM_MODEL_CONNECTION__TEXT;
+
+    /**
+     * The feature id for the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TEXT_POSITION = DIAGRAM_MODEL_CONNECTION__TEXT_POSITION;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -7063,7 +7029,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 101;
+    int SKETCH_MODEL = 103;
 
     /**
      * The feature id for the '<em><b>Archimate Model</b></em>' reference.
@@ -7163,7 +7129,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 102;
+    int SKETCH_MODEL_STICKY = 104;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7211,24 +7177,6 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_STICKY__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_STICKY__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_STICKY__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7245,6 +7193,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_STICKY__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -7326,7 +7283,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 103;
+    int SKETCH_MODEL_ACTOR = 105;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7374,24 +7331,6 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_ACTOR__FONT_COLOR = DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_ACTOR__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_ACTOR__TEXT_POSITION = DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7408,6 +7347,15 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_ACTOR__LINE_COLOR = DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_ACTOR__TEXT_ALIGNMENT = DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -7480,7 +7428,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 104;
+    int FOLDER_TYPE = 106;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -7490,7 +7438,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 105;
+    int FILE = 107;
 
 
     /**
@@ -8788,6 +8736,17 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getDiagramModelConnection_Text();
 
     /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Text Position</em>'.
+     * @see com.archimatetool.model.IDiagramModelConnection#getTextPosition()
+     * @see #getDiagramModelConnection()
+     * @generated
+     */
+    EAttribute getDiagramModelConnection_TextPosition();
+
+    /**
      * Returns the meta object for the reference '{@link com.archimatetool.model.IDiagramModelConnection#getSource <em>Source</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8971,26 +8930,46 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getFontAttribute_FontColor();
 
     /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.model.IFontAttribute#getTextAlignment <em>Text Alignment</em>}'.
+     * Returns the meta object for class '{@link com.archimatetool.model.ITextPosition <em>Text Position</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Text Alignment</em>'.
-     * @see com.archimatetool.model.IFontAttribute#getTextAlignment()
-     * @see #getFontAttribute()
+     * @return the meta object for class '<em>Text Position</em>'.
+     * @see com.archimatetool.model.ITextPosition
      * @generated
      */
-    EAttribute getFontAttribute_TextAlignment();
+    EClass getTextPosition();
 
     /**
-     * Returns the meta object for the attribute '{@link com.archimatetool.model.IFontAttribute#getTextPosition <em>Text Position</em>}'.
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.ITextPosition#getTextPosition <em>Text Position</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Text Position</em>'.
-     * @see com.archimatetool.model.IFontAttribute#getTextPosition()
-     * @see #getFontAttribute()
+     * @see com.archimatetool.model.ITextPosition#getTextPosition()
+     * @see #getTextPosition()
      * @generated
      */
-    EAttribute getFontAttribute_TextPosition();
+    EAttribute getTextPosition_TextPosition();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.model.ITextAlignment <em>Text Alignment</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Text Alignment</em>'.
+     * @see com.archimatetool.model.ITextAlignment
+     * @generated
+     */
+    EClass getTextAlignment();
+
+    /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.ITextAlignment#getTextAlignment <em>Text Alignment</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Text Alignment</em>'.
+     * @see com.archimatetool.model.ITextAlignment#getTextAlignment()
+     * @see #getTextAlignment()
+     * @generated
+     */
+    EAttribute getTextAlignment_TextAlignment();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IBorderObject <em>Border Object</em>}'.
@@ -10388,6 +10367,14 @@ public interface IArchimatePackage extends EPackage {
         EAttribute DIAGRAM_MODEL_CONNECTION__TEXT = eINSTANCE.getDiagramModelConnection_Text();
 
         /**
+         * The meta object literal for the '<em><b>Text Position</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = eINSTANCE.getDiagramModelConnection_TextPosition();
+
+        /**
          * The meta object literal for the '<em><b>Source</b></em>' reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -10532,12 +10519,14 @@ public interface IArchimatePackage extends EPackage {
         EAttribute FONT_ATTRIBUTE__FONT_COLOR = eINSTANCE.getFontAttribute_FontColor();
 
         /**
-         * The meta object literal for the '<em><b>Text Alignment</b></em>' attribute feature.
+         * The meta object literal for the '{@link com.archimatetool.model.ITextPosition <em>Text Position</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
+         * @see com.archimatetool.model.ITextPosition
+         * @see com.archimatetool.model.impl.ArchimatePackage#getTextPosition()
          * @generated
          */
-        EAttribute FONT_ATTRIBUTE__TEXT_ALIGNMENT = eINSTANCE.getFontAttribute_TextAlignment();
+        EClass TEXT_POSITION = eINSTANCE.getTextPosition();
 
         /**
          * The meta object literal for the '<em><b>Text Position</b></em>' attribute feature.
@@ -10545,7 +10534,25 @@ public interface IArchimatePackage extends EPackage {
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute FONT_ATTRIBUTE__TEXT_POSITION = eINSTANCE.getFontAttribute_TextPosition();
+        EAttribute TEXT_POSITION__TEXT_POSITION = eINSTANCE.getTextPosition_TextPosition();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.ITextAlignment <em>Text Alignment</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.ITextAlignment
+         * @see com.archimatetool.model.impl.ArchimatePackage#getTextAlignment()
+         * @generated
+         */
+        EClass TEXT_ALIGNMENT = eINSTANCE.getTextAlignment();
+
+        /**
+         * The meta object literal for the '<em><b>Text Alignment</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute TEXT_ALIGNMENT__TEXT_ALIGNMENT = eINSTANCE.getTextAlignment_TextAlignment();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.IBorderObject <em>Border Object</em>}' class.

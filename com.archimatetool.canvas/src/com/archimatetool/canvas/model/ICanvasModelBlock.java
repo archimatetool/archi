@@ -11,6 +11,7 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -20,8 +21,8 @@ import com.archimatetool.model.ITextContent;
  *
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getCanvasModelBlock()
- * @model superTypes="com.archimatetool.canvas.model.Iconic com.archimatetool.model.DiagramModelContainer com.archimatetool.model.Properties com.archimatetool.model.Lockable com.archimatetool.model.BorderObject com.archimatetool.canvas.model.HelpHintProvider com.archimatetool.canvas.model.HintProvider com.archimatetool.model.TextContent"
+ * @model superTypes="com.archimatetool.canvas.model.Iconic com.archimatetool.model.DiagramModelContainer com.archimatetool.model.Properties com.archimatetool.model.Lockable com.archimatetool.model.BorderObject com.archimatetool.canvas.model.HelpHintProvider com.archimatetool.canvas.model.HintProvider com.archimatetool.model.TextContent com.archimatetool.model.TextPosition"
  * @generated
  */
-public interface ICanvasModelBlock extends IIconic, IDiagramModelContainer, IProperties, ILockable, IBorderObject, IHelpHintProvider, IHintProvider, ITextContent {
+public interface ICanvasModelBlock extends IIconic, IDiagramModelContainer, IProperties, ILockable, IBorderObject, IHelpHintProvider, IHintProvider, ITextContent, ITextPosition {
 } // ICanvasModelBlock

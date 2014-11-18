@@ -22,7 +22,6 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.IGraphicsIcon;
-import com.archimatetool.model.IArchimatePackage;
 
 
 
@@ -83,10 +82,6 @@ public abstract class AbstractElementUIProvider implements IElementUIProvider {
     
     @Override
     public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
-        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION) { // This one is not common
-            return false;
-        }
-
         return true;
     }
     

@@ -22,8 +22,8 @@ import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextAlignment;
 
 
 
@@ -67,11 +67,11 @@ public class TextAlignmentAction extends SelectionAction {
     public static List<TextAlignmentAction> createActions(IWorkbenchPart part) {
         List<TextAlignmentAction> list = new ArrayList<TextAlignmentAction>();
         
-        list.add(new TextAlignmentAction(part, IFontAttribute.TEXT_ALIGNMENT_LEFT, ACTION_LEFT_ID, ACTION_LEFT_TEXT,
+        list.add(new TextAlignmentAction(part, ITextAlignment.TEXT_ALIGNMENT_LEFT, ACTION_LEFT_ID, ACTION_LEFT_TEXT,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_LEFT)));
-        list.add(new TextAlignmentAction(part, IFontAttribute.TEXT_ALIGNMENT_CENTER, ACTION_CENTER_ID, ACTION_CENTER_TEXT,
+        list.add(new TextAlignmentAction(part, ITextAlignment.TEXT_ALIGNMENT_CENTER, ACTION_CENTER_ID, ACTION_CENTER_TEXT,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_CENTER)));
-        list.add(new TextAlignmentAction(part, IFontAttribute.TEXT_ALIGNMENT_RIGHT, ACTION_RIGHT_ID, ACTION_RIGHT_TEXT,
+        list.add(new TextAlignmentAction(part, ITextAlignment.TEXT_ALIGNMENT_RIGHT, ACTION_RIGHT_ID, ACTION_RIGHT_TEXT,
                 IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_RIGHT)));
      
         return list;
@@ -92,7 +92,7 @@ public class TextAlignmentAction extends SelectionAction {
         
         List<?> selected = getSelectedObjects();
         
-        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selected);
+        ITextAlignment model = (ITextAlignment)getFirstValidSelectedModelObject(selected);
 
         if(model != null && selected.size() == 1) {
             setChecked(model.getTextAlignment() == fAlignment);
@@ -133,7 +133,7 @@ public class TextAlignmentAction extends SelectionAction {
             if(object instanceof EditPart) {
                 Object model = ((EditPart)object).getModel();
                 if(shouldEnable(model)) {
-                    Command cmd = new TextAlignmentCommand((IFontAttribute)model, fAlignment);
+                    Command cmd = new TextAlignmentCommand((ITextAlignment)model, fAlignment);
                     if(cmd.canExecute()) {
                         result.add(cmd);
                     }
@@ -149,9 +149,9 @@ public class TextAlignmentAction extends SelectionAction {
             return false;
         }
         
-        if(model instanceof IFontAttribute) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
-            return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT);
+        if(model instanceof ITextAlignment) {
+            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ITextAlignment)model));
+            return provider != null && provider.shouldExposeFeature((ITextAlignment)model, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT);
         }
         
         return false;

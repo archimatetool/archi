@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
+import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
 import com.archimatetool.editor.diagram.commands.FillColorCommand;
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.diagram.commands.FontStyleCommand;
@@ -26,11 +27,14 @@ import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
+import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -125,7 +129,32 @@ public class FormatPainterTool extends AbstractTool {
 
         // IBorderObject
         if(pf.getSourceComponent() instanceof IBorderObject && targetComponent instanceof IBorderObject) {
-            Command cmd = new BorderColorCommand((IBorderObject)pf.getSourceComponent(), ((IBorderObject)targetComponent).getBorderColor());
+            IBorderObject source = (IBorderObject)pf.getSourceComponent();
+            IBorderObject target = (IBorderObject)targetComponent;
+            
+            Command cmd = new BorderColorCommand(target, source.getBorderColor());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+        }
+        
+        // ITextPosition
+        if(pf.getSourceComponent() instanceof ITextPosition && targetComponent instanceof ITextPosition) {
+            ITextPosition source = (ITextPosition)pf.getSourceComponent();
+            ITextPosition target = (ITextPosition)targetComponent;
+            
+            Command cmd = new TextPositionCommand(target, source.getTextPosition());
+            if(cmd.canExecute()) {
+                result.add(cmd);
+            }
+        }
+        
+        // ITextAlignment
+        if(pf.getSourceComponent() instanceof ITextAlignment && targetComponent instanceof ITextAlignment) {
+            ITextAlignment source = (ITextAlignment)pf.getSourceComponent();
+            ITextAlignment target = (ITextAlignment)targetComponent;
+            
+            Command cmd = new TextAlignmentCommand(target, source.getTextAlignment());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
@@ -146,11 +175,15 @@ public class FormatPainterTool extends AbstractTool {
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
-            cmd = new TextAlignmentCommand(target, source.getTextAlignment());
-            if(cmd.canExecute()) {
-                result.add(cmd);
-            }
-            cmd = new TextPositionCommand(target, source.getTextPosition());
+        }
+        
+        // IDiagramModelConnection
+        if(pf.getSourceComponent() instanceof IDiagramModelConnection && targetComponent instanceof IDiagramModelConnection) {
+            IDiagramModelConnection source = (IDiagramModelConnection)pf.getSourceComponent();
+            IDiagramModelConnection target = (IDiagramModelConnection)targetComponent;
+            
+            // Connection text position
+            Command cmd = new ConnectionTextPositionCommand(target, source.getTextPosition());
             if(cmd.canExecute()) {
                 result.add(cmd);
             }
@@ -168,6 +201,11 @@ public class FormatPainterTool extends AbstractTool {
         if(object instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)object).getArchimateElement();
             return !(element instanceof IJunctionElement);
+        }
+        
+        // No to Image
+        if(object instanceof IDiagramModelImage) {
+            return false;
         }
         
         return object instanceof IDiagramModelObject || object instanceof IDiagramModelConnection;

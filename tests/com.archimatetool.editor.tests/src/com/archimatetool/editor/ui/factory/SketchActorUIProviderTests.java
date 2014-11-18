@@ -56,7 +56,7 @@ public class SketchActorUIProviderTests extends AbstractElementUIProviderTests {
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
         EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT));
+        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
         assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
     }
 

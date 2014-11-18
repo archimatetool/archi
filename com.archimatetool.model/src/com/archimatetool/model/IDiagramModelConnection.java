@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getText <em>Text</em>}</li>
+ *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getSource <em>Source</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getTarget <em>Target</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
@@ -87,6 +88,32 @@ public interface IDiagramModelConnection extends IDiagramModelComponent, IFontAt
      * @generated
      */
     void setText(String value);
+
+    /**
+     * Returns the value of the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Text Position</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Text Position</em>' attribute.
+     * @see #setTextPosition(int)
+     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelConnection_TextPosition()
+     * @model
+     * @generated
+     */
+    int getTextPosition();
+
+    /**
+     * Sets the value of the '{@link com.archimatetool.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Text Position</em>' attribute.
+     * @see #getTextPosition()
+     * @generated
+     */
+    void setTextPosition(int value);
 
     /**
      * Returns the value of the '<em><b>Source</b></em>' reference.

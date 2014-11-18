@@ -116,24 +116,6 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__FONT_COLOR = IArchimatePackage.DIAGRAM_MODEL_OBJECT__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ICONIC__TEXT_ALIGNMENT = IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ICONIC__TEXT_POSITION = IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -150,6 +132,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int ICONIC__LINE_COLOR = IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__TEXT_ALIGNMENT = IArchimatePackage.DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -494,24 +485,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_STICKY__FONT_COLOR = ICONIC__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_STICKY__TEXT_ALIGNMENT = ICONIC__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_STICKY__TEXT_POSITION = ICONIC__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -528,6 +501,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_STICKY__LINE_COLOR = ICONIC__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__TEXT_ALIGNMENT = ICONIC__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -629,13 +611,22 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_STICKY__BORDER_COLOR = ICONIC_FEATURE_COUNT + 4;
 
     /**
+     * The feature id for the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__TEXT_POSITION = ICONIC_FEATURE_COUNT + 5;
+
+    /**
      * The number of structural features of the '<em>Model Sticky</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int CANVAS_MODEL_STICKY_FEATURE_COUNT = ICONIC_FEATURE_COUNT + 5;
+    int CANVAS_MODEL_STICKY_FEATURE_COUNT = ICONIC_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -683,24 +674,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_BLOCK__FONT_COLOR = ICONIC__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__TEXT_ALIGNMENT = ICONIC__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__TEXT_POSITION = ICONIC__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -717,6 +690,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__LINE_COLOR = ICONIC__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__TEXT_ALIGNMENT = ICONIC__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -836,13 +818,22 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_BLOCK__CONTENT = ICONIC_FEATURE_COUNT + 6;
 
     /**
+     * The feature id for the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__TEXT_POSITION = ICONIC_FEATURE_COUNT + 7;
+
+    /**
      * The number of structural features of the '<em>Model Block</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int CANVAS_MODEL_BLOCK_FEATURE_COUNT = ICONIC_FEATURE_COUNT + 7;
+    int CANVAS_MODEL_BLOCK_FEATURE_COUNT = ICONIC_FEATURE_COUNT + 8;
 
     /**
      * The meta object id for the '{@link com.archimatetool.canvas.model.impl.CanvasModelImage <em>Model Image</em>}' class.
@@ -900,24 +891,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_IMAGE__FONT_COLOR = IArchimatePackage.DIAGRAM_MODEL_IMAGE__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_IMAGE__TEXT_ALIGNMENT = IArchimatePackage.DIAGRAM_MODEL_IMAGE__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_IMAGE__TEXT_POSITION = IArchimatePackage.DIAGRAM_MODEL_IMAGE__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -934,6 +907,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_IMAGE__LINE_COLOR = IArchimatePackage.DIAGRAM_MODEL_IMAGE__LINE_COLOR;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__TEXT_ALIGNMENT = IArchimatePackage.DIAGRAM_MODEL_IMAGE__TEXT_ALIGNMENT;
 
     /**
      * The feature id for the '<em><b>Bounds</b></em>' containment reference.
@@ -1063,24 +1045,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_CONNECTION__FONT_COLOR = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__FONT_COLOR;
 
     /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_CONNECTION__TEXT_ALIGNMENT = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_ALIGNMENT;
-
-    /**
-     * The feature id for the '<em><b>Text Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_CONNECTION__TEXT_POSITION = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION;
-
-    /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1124,6 +1088,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_CONNECTION__TEXT = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT;
+
+    /**
+     * The feature id for the '<em><b>Text Position</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_CONNECTION__TEXT_POSITION = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TEXT_POSITION;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.

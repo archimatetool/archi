@@ -65,7 +65,7 @@ public class SketchActorUIProvider extends AbstractElementUIProvider {
     
     @Override
     public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
-        if(feature == IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_ALIGNMENT ||
+        if(feature == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT ||
                 feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
             return false;
         }

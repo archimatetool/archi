@@ -20,8 +20,8 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -34,7 +34,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
-    private static EAttribute FEATURE = IArchimatePackage.Literals.FONT_ATTRIBUTE__TEXT_POSITION;
+    private static EAttribute FEATURE = IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION;
     
     /**
      * Filter to show or reject this section depending on input value
@@ -42,12 +42,12 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            return (object instanceof IFontAttribute) && shouldExposeFeature((EObject)object, FEATURE);
+            return (object instanceof ITextPosition) && shouldExposeFeature((EObject)object, FEATURE);
         }
 
         @Override
         protected Class<?> getAdaptableType() {
-            return IFontAttribute.class;
+            return ITextPosition.class;
         }
     }
 
@@ -68,7 +68,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
         }
     };
     
-    private IFontAttribute fFontAttribute;
+    private ITextPosition fTextPosition;
     
     private Combo fComboPositions;
     
@@ -99,7 +99,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
                     getCommandStack().execute(new EObjectFeatureCommand(Messages.TextPositionSection_10,
-                                                fFontAttribute,
+                                                fTextPosition,
                                                 FEATURE,
                                                 fComboPositions.getSelectionIndex()));
                     fIsExecutingCommand = false;
@@ -116,8 +116,8 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        fFontAttribute = (IFontAttribute)new Filter().adaptObject(element);
-        if(fFontAttribute == null) {
+        fTextPosition = (ITextPosition)new Filter().adaptObject(element);
+        if(fTextPosition == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
@@ -129,11 +129,11 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     }
     
     protected void refreshButtons() {
-        boolean enabled = fFontAttribute instanceof ILockable ? !((ILockable)fFontAttribute).isLocked() : true;
+        boolean enabled = fTextPosition instanceof ILockable ? !((ILockable)fTextPosition).isLocked() : true;
         
-        int position = fFontAttribute.getTextPosition();
-        if(position < IFontAttribute.TEXT_POSITION_TOP_LEFT || position > IFontAttribute.TEXT_POSITION_BOTTOM_RIGHT) {
-            position = IFontAttribute.TEXT_POSITION_TOP_RIGHT;
+        int position = fTextPosition.getTextPosition();
+        if(position < ITextPosition.TEXT_POSITION_TOP_LEFT || position > ITextPosition.TEXT_POSITION_BOTTOM_RIGHT) {
+            position = ITextPosition.TEXT_POSITION_TOP_RIGHT;
         }
         
         if(!fIsExecutingCommand) {
@@ -149,6 +149,6 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
 
     @Override
     protected EObject getEObject() {
-        return fFontAttribute;
+        return fTextPosition;
     }
 }
