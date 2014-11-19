@@ -99,6 +99,8 @@ extends ActionBarAdvisor {
 
     private IAction fActionResetApplication;
     
+    private IAction fInstallPlugin;
+    
     /**
      * Constructor
      * @param configurer
@@ -262,6 +264,8 @@ extends ActionBarAdvisor {
                 WorkbenchCleaner.reset();
             }
         };
+        
+        fInstallPlugin = new InstallPluginAction();
      }
     
     @Override
@@ -498,6 +502,7 @@ extends ActionBarAdvisor {
         
         menu.add(fDonateAction);
         menu.add(fActionCheckForNewVersion);
+        menu.add(fInstallPlugin);
         
         menu.add(new Separator());
         menu.add(fActionResetApplication);

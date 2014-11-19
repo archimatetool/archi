@@ -87,6 +87,14 @@ public class Messages extends NLS {
 
     public static String ImportModelAction_0;
 
+    public static String InstallPluginAction_0;
+
+    public static String InstallPluginAction_1;
+
+    public static String InstallPluginAction_2;
+
+    public static String InstallPluginAction_3;
+
     public static String MRUMenuManager_0;
 
     public static String MRUMenuManager_1;

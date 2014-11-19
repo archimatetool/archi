@@ -41,6 +41,9 @@ public class AllTests {
 
         // views
         suite.addTest(AllViewsTests.suite());
+        
+        
+        suite.addTest(PluginInstallerTests.suite());
 
         return suite;
 	}
