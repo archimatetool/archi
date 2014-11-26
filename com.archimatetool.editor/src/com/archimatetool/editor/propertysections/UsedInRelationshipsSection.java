@@ -8,9 +8,12 @@ package com.archimatetool.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -20,13 +23,22 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
+import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -96,23 +108,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             }
         });
         
-        fTableViewer.setLabelProvider(new LabelProvider() {
-            @Override
-            public String getText(Object element) {
-                IRelationship relationship = (IRelationship)element;
-                String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
-                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
-                name += " - "; //$NON-NLS-1$
-                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
-                name += ")"; //$NON-NLS-1$
-                return name;
-            }
-            
-            @Override
-            public Image getImage(Object element) {
-                return ArchimateLabelProvider.INSTANCE.getImage(element);
-            }
-        });
+        fTableViewer.setLabelProvider(new TableLabelProvider());
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
@@ -130,6 +126,27 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         });
         
         fTableViewer.setSorter(new ViewerSorter());
+        
+        // DND
+        fTableViewer.addDragSupport(DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK, new Transfer[] { LocalSelectionTransfer.getTransfer() },
+                new DragSourceListener() {
+            public void dragStart(DragSourceEvent event) {
+                // Drag started from the Table
+                LocalSelectionTransfer.getTransfer().setSelection(fTableViewer.getSelection());
+                event.doit = true;
+            }
+            
+            public void dragSetData(DragSourceEvent event) {
+                // For consistency set the data to the selection even though
+                // the selection is provided by the LocalSelectionTransfer
+                // to the drop target adapter.
+                event.data = LocalSelectionTransfer.getTransfer().getSelection();
+            }
+            
+            public void dragFinished(DragSourceEvent event) {
+                LocalSelectionTransfer.getTransfer().setSelection(null);
+            }
+        });
     }
     
     @Override
@@ -159,5 +176,37 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     @Override
     public boolean shouldUseExtraSpace() {
         return true;
+    }
+    
+    private static class TableLabelProvider extends LabelProvider implements IFontProvider {
+        Font fontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
+        
+        @Override
+        public String getText(Object element) {
+            IRelationship relationship = (IRelationship)element;
+            String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
+            name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
+            name += " - "; //$NON-NLS-1$
+            name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
+            name += ")"; //$NON-NLS-1$
+            return name;
+        }
+        
+        @Override
+        public Image getImage(Object element) {
+            return ArchimateLabelProvider.INSTANCE.getImage(element);
+        }
+
+        @Override
+        public Font getFont(Object element) {
+            // Italicise unused elements
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateComponent) {
+                if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams((IArchimateComponent)element)) {
+                    return fontItalic;
+                }
+            }
+            
+            return null;
+        }
     }
 }
