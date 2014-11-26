@@ -141,14 +141,12 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
             else if(msg.getEventType() == EObjectNonNotifyingCompoundCommand.END) {
                 ignoreMessages = false;
                 fTableViewer.refresh();
-                fTableLayout.doRelayout();
             }
 
             if(!ignoreMessages) {
                 Object feature = msg.getFeature();
                 if(feature == IArchimatePackage.Literals.PROPERTIES__PROPERTIES) {
                     fTableViewer.refresh();
-                    fTableLayout.doRelayout();
                 }
                 if(feature == IArchimatePackage.Literals.PROPERTY__KEY
                         || feature == IArchimatePackage.Literals.PROPERTY__VALUE) {
@@ -161,7 +159,6 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     private IProperties fPropertiesElement;
 
     private TableViewer fTableViewer;
-    private UpdatingTableColumnLayout fTableLayout;
     private IAction fActionNewProperty, fActionNewMultipleProperty, fActionRemoveProperty, fActionShowKeyEditor;
 
     @Override
@@ -181,7 +178,6 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
     protected void refreshControls() {
         fTableViewer.setInput(fPropertiesElement);
-        fTableLayout.doRelayout();
     }
 
     @Override
@@ -216,7 +212,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
     private void createTableControl(Composite parent) {
         // Table Composite
         Composite tableComp = createTableComposite(parent, SWT.NULL);
-        fTableLayout = (UpdatingTableColumnLayout)tableComp.getLayout();
+        TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
         
         // Table Viewer
         fTableViewer = new TableViewer(tableComp, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
@@ -232,11 +228,11 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         // Columns
         TableViewerColumn columnBlank = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
-        fTableLayout.setColumnData(columnBlank.getColumn(), new ColumnPixelData(24, false));
+        tableLayout.setColumnData(columnBlank.getColumn(), new ColumnPixelData(24, false));
 
         TableViewerColumn columnKey = new TableViewerColumn(fTableViewer, SWT.NONE, 1);
         columnKey.getColumn().setText(Messages.UserPropertiesSection_0);
-        fTableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(20, true));
+        tableLayout.setColumnData(columnKey.getColumn(), new ColumnWeightData(20, true));
         columnKey.setEditingSupport(new KeyEditingSupport(fTableViewer));
 
         // Click on Key Table Header
@@ -249,7 +245,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         TableViewerColumn columnValue = new TableViewerColumn(fTableViewer, SWT.NONE, 2);
         columnValue.getColumn().setText(Messages.UserPropertiesSection_1);
-        fTableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(80, true));
+        tableLayout.setColumnData(columnValue.getColumn(), new ColumnWeightData(80, true));
         columnValue.setEditingSupport(new ValueEditingSupport(fTableViewer));
 
         // Content Provider

@@ -324,24 +324,8 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
         gd.heightHint = 50;
         tableComp.setLayoutData(gd);
 
-        tableComp.setLayout(new UpdatingTableColumnLayout(tableComp));
+        tableComp.setLayout(new TableColumnLayout());
         
         return tableComp;
-    }
-    
-    /**
-     * TableColumnLayout with public method so we can re-layout when the host table adds/removes vertical scroll bar
-     * It's a kludge to stop a bogus horizontal scroll bar being shown.
-     */
-    static class UpdatingTableColumnLayout extends TableColumnLayout {
-        private Composite fParent;
-
-        public UpdatingTableColumnLayout(Composite parent) {
-            fParent = parent;
-        }
-
-        public void doRelayout() {
-            layout(fParent, true);
-        }
     }
 }

@@ -7,6 +7,7 @@ package com.archimatetool.editor.propertysections;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -59,7 +60,6 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     private IArchimateElement fArchimateElement;
     
     private TableViewer fTableViewer;
-    private UpdatingTableColumnLayout fTableLayout;
     
     @Override
     protected void createControls(Composite parent) {
@@ -71,12 +71,12 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         
         // Table
         Composite tableComp = createTableComposite(parent, SWT.NONE);
-        fTableLayout = (UpdatingTableColumnLayout)tableComp.getLayout();
-        fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION);
+        TableColumnLayout tableLayout = (TableColumnLayout)tableComp.getLayout();
+        fTableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
         
         // Column
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE, 0);
-        fTableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
+        tableLayout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         
         // On Mac shows alternate table row colours
         fTableViewer.getTable().setLinesVisible(true);
@@ -144,7 +144,6 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
     
     protected void refreshControls() {
         fTableViewer.setInput(fArchimateElement);
-        fTableLayout.doRelayout();
     }
     
     @Override
