@@ -7,13 +7,11 @@ package com.archimatetool.editor.diagram.figures.business;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -26,13 +24,8 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * @author Phillip Beauvoir
  */
 public class BusinessServiceFigure
-extends AbstractArchimateFigure
-implements IRoundedRectangleFigure {
+extends AbstractArchimateFigure {
     
-    // This figure needs to implement IRoundedRectangleFigure and return getArc() from the delegate
-    // I tried it by directly getting the delegate figure in the EditPart but BusinessServiceFigureDelegate
-    // Needs time to calculate its bounds
-
     protected BusinessServiceFigureDelegate fFigureDelegate1;
     protected RoundedRectangleFigureDelegate fFigureDelegate2;
 
@@ -83,15 +76,5 @@ implements IRoundedRectangleFigure {
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
-    }
-
-    @Override
-    public Dimension getArc() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? fFigureDelegate1.getArc() : fFigureDelegate2.getArc();
-    }
-
-    @Override
-    public void setArc(Dimension arc) {
     }
 }
