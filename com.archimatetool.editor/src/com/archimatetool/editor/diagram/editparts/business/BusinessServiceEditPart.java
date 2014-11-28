@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
-import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessServiceFigure;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -31,7 +30,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
  
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new RoundedRectangleAnchor(this, ((IRoundedRectangleFigure)getFigure()).getArc());
+        return new RoundedRectangleAnchor(this);
     }
 
     @Override

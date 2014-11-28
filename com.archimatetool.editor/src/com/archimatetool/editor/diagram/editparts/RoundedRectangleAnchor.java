@@ -9,6 +9,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 
 
@@ -33,24 +35,13 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 
 	private static final int BOTTOM = 32;
 
-	private final Dimension dimension;
-	
 	private GraphicalEditPart fEditPart;
 	
 	
-	public RoundedRectangleAnchor(final GraphicalEditPart editPart) {
-        this(editPart, null);
+	public RoundedRectangleAnchor(GraphicalEditPart editPart) {
+	    super(editPart.getFigure());
+        fEditPart = editPart;
     }
-
-	/**
-	 * Rounded Rectangle getCornerDimension should be public #302836 then
-	 * Rounded Rectangle would be sufficient.
-	 */
-	public RoundedRectangleAnchor(final GraphicalEditPart editPart, final Dimension corners) {
-		super(editPart.getFigure());
-		dimension = corners;
-		fEditPart = editPart;
-	}
 
 	/**
 	 * Calculates the position with ChopboxAnchor#getLocation() and if the
@@ -64,13 +55,21 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 	 */
 	@Override
     public Point getLocation(final Point ref) {
-		Dimension corner = dimension;
+	    Dimension corner = new Dimension(0, 0);
+	    
 		if(getOwner() instanceof IRoundedRectangleFigure) {
             corner = ((IRoundedRectangleFigure) getOwner()).getArc().scale(getZoom());
         }
 		else if (getOwner() instanceof RoundedRectangle) {
 			corner = ((RoundedRectangle) getOwner()).getCornerDimensions().scale(getZoom());
 		}
+		else if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
+		    IFigureDelegate figureDelegate = ((AbstractDiagramModelObjectFigure)getOwner()).getFigureDelegate();
+		    if(figureDelegate instanceof IRoundedRectangleFigure) {
+		        corner = ((IRoundedRectangleFigure) figureDelegate).getArc().scale(getZoom());
+		    }
+		}
+		
 		final Point location = super.getLocation(ref);
 		final Rectangle r = Rectangle.SINGLETON;
 		r.setBounds(getOwner().getBounds());

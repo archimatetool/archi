@@ -11,8 +11,6 @@ import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessProcessFigure;
 
 
@@ -36,8 +34,7 @@ extends AbstractArchimateEditableTextFlowEditPart {
                 return new ChopboxAnchor(getFigure());
 
             default:
-                IRoundedRectangleFigure figureDelegate = (IRoundedRectangleFigure)((AbstractDiagramModelObjectFigure)getFigure()).getFigureDelegate();
-                return new RoundedRectangleAnchor(this, figureDelegate.getArc());
+                return new RoundedRectangleAnchor(this);
         }
     }
 

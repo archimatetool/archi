@@ -10,7 +10,6 @@ import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditableTextFlowEditPart;
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
-import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.extensions.WorkPackageFigure;
 
 
@@ -29,7 +28,6 @@ extends AbstractArchimateEditableTextFlowEditPart {
  
     @Override
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        IRoundedRectangleFigure figureDelegate = (IRoundedRectangleFigure)((WorkPackageFigure)getFigure()).getFigureDelegate();
-        return new RoundedRectangleAnchor(this, figureDelegate.getArc());
+        return new RoundedRectangleAnchor(this);
     }
 }
