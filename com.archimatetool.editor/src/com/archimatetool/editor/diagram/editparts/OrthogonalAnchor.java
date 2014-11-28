@@ -39,10 +39,9 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
-import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.business.BusinessInterfaceFigure;
 import com.archimatetool.editor.diagram.figures.business.BusinessValueFigure;
 
@@ -365,31 +364,34 @@ public class OrthogonalAnchor extends ChopboxAnchor {
 	 * @return corner dimension
 	 */
 	private Dimension getCornerDimensions(IFigure figure) {
-		// Default is pure rectangle
-		Dimension corner = new Dimension(0, 0);
-		IFigureDelegate figureDelegate = null;
-		
-		try {
-			figureDelegate = ((AbstractTextFlowFigure)figure).getFigureDelegate();
-		} catch (Exception e) {
-		}
-		
-		if (figureDelegate instanceof RoundedRectangleFigureDelegate) {
-			// roundedRectangle case
-			corner = ((IRoundedRectangleFigure) figureDelegate).getArc();
-		} else if (figure instanceof IRoundedRectangleFigure) {
-			// roundedRectangle case
-            corner = ((IRoundedRectangleFigure) figure).getArc();
-        } else if (figure instanceof RoundedRectangle) {
-        	// roundedRectangle case
-			corner = ((RoundedRectangle) figure).getCornerDimensions();
-		} else if(figure instanceof BusinessValueFigure) {
-			// ellipse case
+        // Default is pure rectangle
+        Dimension corner = new Dimension(0, 0);
+        
+        // roundedRectangle case
+        if(figure instanceof AbstractDiagramModelObjectFigure) {
+            IFigureDelegate figureDelegate = ((AbstractDiagramModelObjectFigure)figure).getFigureDelegate();
+            if(figureDelegate instanceof IRoundedRectangleFigure) {
+                return ((IRoundedRectangleFigure)figureDelegate).getArc();
+            }
+        }
+        
+        if(figure instanceof IRoundedRectangleFigure) {
+            // roundedRectangle case
+            corner = ((IRoundedRectangleFigure)figure).getArc();
+        }
+        else if(figure instanceof RoundedRectangle) {
+            // roundedRectangle case
+            corner = ((RoundedRectangle)figure).getCornerDimensions();
+        }
+        else if(figure instanceof BusinessValueFigure) {
+            // ellipse case
             corner = figure.getSize();
-        } else if(figure instanceof BusinessInterfaceFigure) {
-        	// ellipse case
-            if (((BusinessInterfaceFigure)figure).getDiagramModelObject().getType() != 0)
-            	corner = figure.getSize();
+        }
+        else if(figure instanceof BusinessInterfaceFigure) {
+            // ellipse case
+            if(((BusinessInterfaceFigure)figure).getDiagramModelObject().getType() != 0) {
+                corner = figure.getSize();
+            }
         }
 		
 		return corner;
