@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
 import com.archimatetool.editor.model.compatibility.ICompatibilityHandler;
+import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -37,7 +38,7 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
         IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
         String version = model.getVersion();
         
-        if(version != null && version.compareTo("2.1.0") < 0) { //$NON-NLS-1$
+        if(version != null && StringUtils.compareVersionNumbers(version, "2.1.0") < 0) { //$NON-NLS-1$
             for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
                 EObject element = iter.next();
                 
