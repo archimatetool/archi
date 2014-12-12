@@ -12,7 +12,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.draw2d.geometry.Translatable;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractLabelContainerFigure;
@@ -32,7 +31,7 @@ import com.archimatetool.model.IDiagramModelObject;
 public class GroupFigure
 extends AbstractLabelContainerFigure {
     
-    public static final int TOPBAR_HEIGHT = 18;
+    protected static final int TOPBAR_HEIGHT = 18;
     protected static final int SHADOW_OFFSET = 2;
     
     /**
@@ -68,21 +67,15 @@ extends AbstractLabelContainerFigure {
     protected void setUI() {
         super.setUI();
         
-        Locator locator = new Locator() {
+        Locator mainLocator = new Locator() {
             public void relocate(IFigure target) {
-                boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-                int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-                
                 Rectangle bounds = getBounds().getCopy();
-                bounds.x = 0;
-                bounds.y = TOPBAR_HEIGHT;
-                bounds.width -= shadow_offset;
-                bounds.height -= TOPBAR_HEIGHT + shadow_offset;
+                translateFromParent(bounds);
                 target.setBounds(bounds);
             }
         };
-        
-        add(getMainFigure(), locator);
+
+        add(getMainFigure(), mainLocator);
         
         // Have to add this if we want Animation to work on figures!
         AnimationUtil.addFigureForAnimation(getMainFigure());
@@ -101,13 +94,6 @@ extends AbstractLabelContainerFigure {
         return tooltip;
     }
     
-    @Override
-    public void translateMousePointToRelative(Translatable t) {
-        getContentPane().translateToRelative(t);
-        // compensate for content pane offset
-        t.performTranslate(-getContentPane().getBounds().x, -getContentPane().getBounds().y); 
-    }
-
     @Override
     protected Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();

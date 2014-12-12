@@ -48,18 +48,6 @@ public class GroupFigureTests extends AbstractLabelContainerFigureTests {
         return figure;
     }
     
-    @Override
-    @Test
-    public void testTranslateMousePointToRelative() {
-        containerFigure.setLocation(new Point(100, 100));
-
-        Point pt = new Point(300, 400);
-        containerFigure.translateMousePointToRelative(pt);
-        
-        // Will be height minus TOPBAR_HEIGHT
-        assertEquals(new Point(200, 300 - GroupFigure.TOPBAR_HEIGHT), pt);
-    }
-    
     @Test
     public void testGetDefaultSize() {
         IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());

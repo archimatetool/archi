@@ -25,7 +25,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 
-import com.archimatetool.editor.diagram.figures.diagram.GroupFigure;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
@@ -37,7 +36,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
@@ -497,13 +495,6 @@ public final class CopySnapshot {
             IDiagramModelObject parent = (IDiagramModelObject)object.eContainer();
             pt.performTranslate(parent.getBounds().getX(), parent.getBounds().getY());
             translateToAbsolute(parent, pt);
-            
-            // This is a kludge that I hate with all my heart.
-            // Group figures co-ords are offset horizontally by the height of the top bar
-            // I wish it wasn't so but it is
-            if(parent instanceof IDiagramModelGroup) {
-                pt.translate(0, GroupFigure.TOPBAR_HEIGHT);
-            }
         }
     }
     

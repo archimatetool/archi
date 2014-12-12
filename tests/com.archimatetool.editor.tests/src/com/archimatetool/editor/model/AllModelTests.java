@@ -9,7 +9,7 @@ import junit.framework.TestSuite;
 
 import com.archimatetool.editor.model.commands.CommandsTests;
 import com.archimatetool.editor.model.compatibility.ModelCompatibilityTests;
-import com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesTests;
+import com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandlerTests;
 import com.archimatetool.editor.model.impl.ArchiveManagerTests;
 import com.archimatetool.editor.model.impl.ByteArrayStorageTests;
 import com.archimatetool.editor.model.impl.EditorModelManagerTests;
@@ -35,7 +35,7 @@ public class AllModelTests {
         suite.addTest(ModelCompatibilityTests.suite());
         
         // model.compatibility.handlers
-        suite.addTest(FixDefaultSizesTests.suite());
+        suite.addTest(FixDefaultSizesHandlerTests.suite());
 
         // model.impl
         suite.addTest(ArchiveManagerTests.suite());

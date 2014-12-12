@@ -12,7 +12,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
@@ -20,10 +22,11 @@ import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
 
-public class FixDefaultSizesTests {
+@SuppressWarnings("nls")
+public class FixDefaultSizesHandlerTests {
     
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(FixDefaultSizesTests.class);
+        return new JUnit4TestAdapter(FixDefaultSizesHandlerTests.class);
     }
     
     private static FixDefaultSizesHandler handler;
@@ -36,6 +39,30 @@ public class FixDefaultSizesTests {
     }
     
     @Test
+    public void testFixGroupFigureOffset() {
+        ArchimateTestModel tm = new ArchimateTestModel();
+        IArchimateModel model = tm.createSimpleModel();
+        model.setVersion("3.1.1");
+        IArchimateDiagramModel dm = tm.addNewArchimateDiagramModel();
+        
+        IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        group.setBounds(0, 0, 400, 300);
+        dm.getChildren().add(group);
+        
+        IDiagramModelObject note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        note.setBounds(10, 10, 100, 100);
+        group.getChildren().add(note);
+        assertEquals(10, note.getBounds().getY());
+        
+        handler.fixGroupFigureOffset(model);
+        assertEquals(10, note.getBounds().getY());
+        
+        model.setVersion("3.0.0");
+        handler.fixGroupFigureOffset(model);
+        assertEquals(28, note.getBounds().getY());
+    }
+    
+    @Test
     public void testGetNewSize_Group() {
         IDiagramModelGroup group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         group.setBounds(0, 0, -1, -1);
@@ -44,7 +71,7 @@ public class FixDefaultSizesTests {
         note.setBounds(300, 114, -1, -1);
         group.getChildren().add(note);
         
-        assertEquals(new Dimension(495, 222), handler.getNewSize(group));
+        assertEquals(new Dimension(495, 204), handler.getNewSize(group));
     }   
     
     @Test

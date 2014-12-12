@@ -35,9 +35,10 @@ package com.archimatetool.model;
  *       - Archi 2.7.0 added the Metadata element to the model. Keep the same model number as this is not catastrophic
  * 3.0.0 - Default widths and heights are not saved as -1
  * 3.1.0 - Note has border types
+ * 3.1.1 - Group figure removes 18 pixel offset
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "3.1.0"; //$NON-NLS-1$
+    String VERSION = "3.1.1"; //$NON-NLS-1$
 }
