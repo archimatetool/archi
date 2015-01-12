@@ -46,6 +46,13 @@ public class PlatformUtils {
     }
 
     /**
+     * @return True if we're running on a 64-bit platform
+     */
+    public static boolean is64Bit() {
+        return Platform.getOSArch().equals(Platform.ARCH_X86_64);
+    }
+
+    /**
      * @return The App Data folder for each platform
      */
     public static File getApplicationDataFolder() {

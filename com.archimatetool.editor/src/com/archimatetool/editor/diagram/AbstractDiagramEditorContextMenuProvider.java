@@ -26,6 +26,7 @@ import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
 import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -106,7 +107,11 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         IMenuManager exportMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_0, "menu_export"); //$NON-NLS-1$
         menu.add(exportMenu);
         exportMenu.add(actionRegistry.getAction(ExportAsImageAction.ID));
-        exportMenu.add(actionRegistry.getAction(ExportAsImageToClipboardAction.ID));
+        
+        // TODO Export As Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
+        if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
+            exportMenu.add(actionRegistry.getAction(ExportAsImageToClipboardAction.ID));
+        }
         
         menu.add(new Separator(GROUP_ORDER));
         IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_1, "menu_order"); //$NON-NLS-1$
