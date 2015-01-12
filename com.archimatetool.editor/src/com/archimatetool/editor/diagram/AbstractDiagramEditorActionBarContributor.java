@@ -120,10 +120,12 @@ extends ActionBarContributor {
         // Export as Image
         addRetargetAction(new RetargetAction(ExportAsImageAction.ID, ExportAsImageAction.TEXT));
         
-        // Export as Image to Clipboard
-        retargetAction = new RetargetAction(ExportAsImageToClipboardAction.ID, ExportAsImageToClipboardAction.TEXT);
-        retargetAction.setActionDefinitionId(ExportAsImageToClipboardAction.ID); // key binding
-        addRetargetAction(retargetAction);
+        // TODO Export as Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
+        if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
+            retargetAction = new RetargetAction(ExportAsImageToClipboardAction.ID, ExportAsImageToClipboardAction.TEXT);
+            retargetAction.setActionDefinitionId(ExportAsImageToClipboardAction.ID); // key binding
+            addRetargetAction(retargetAction);
+        }
         
         // Fill color, line width, font, color
         addRetargetAction(new RetargetAction(FillColorAction.ID, FillColorAction.TEXT));
@@ -261,7 +263,11 @@ extends ActionBarContributor {
         // Export menu items
         IMenuManager exportMenu = menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_FILE + "/export_menu"); //$NON-NLS-1$
         exportMenu.add(getAction(ExportAsImageAction.ID));
-        exportMenu.add(getAction(ExportAsImageToClipboardAction.ID));
+        
+        // TODO Export as Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
+        if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
+            exportMenu.add(getAction(ExportAsImageToClipboardAction.ID));
+        }
         
         return fileMenu;
     }
