@@ -103,6 +103,9 @@ public class CSVExporter implements CSVConstants {
         String header = createHeader(MODEL_ELEMENTS_HEADER);
         writer.write(header);
         
+        // CRLF
+        writer.write(CRLF);
+        
         // Write Model
         String modelRow = createModelRow();
         writer.write(modelRow);
@@ -131,6 +134,7 @@ public class CSVExporter implements CSVConstants {
         
         for(IArchimateComponent component : components) {
             if(component instanceof IArchimateElement) {
+                writer.write(CRLF);
                 writer.write(createElementRow((IArchimateElement)component));
             }
         }
@@ -157,6 +161,7 @@ public class CSVExporter implements CSVConstants {
         // Write Relationships
         for(IArchimateComponent component : components) {
             if(component instanceof IRelationship) {
+                writer.write(CRLF);
                 writer.write(createRelationshipRow((IRelationship)component));
             }
         }
@@ -181,6 +186,7 @@ public class CSVExporter implements CSVConstants {
         
         // Write Model Properties
         for(IProperty property : fModel.getProperties()) {
+            writer.write(CRLF);
             writer.write(createPropertyRow(fModel.getId(), property));
         }
         
@@ -190,6 +196,7 @@ public class CSVExporter implements CSVConstants {
             if(eObject instanceof IArchimateComponent) {
                 IArchimateComponent component = (IArchimateComponent)eObject;
                 for(IProperty property : component.getProperties()) {
+                    writer.write(CRLF);
                     writer.write(createPropertyRow(component.getId(), property));
                 }
             }
@@ -235,9 +242,6 @@ public class CSVExporter implements CSVConstants {
             }
         }
         
-        // Newline
-        sb.append(CRLF);
-        
         return sb.toString();
     }
     
@@ -261,9 +265,6 @@ public class CSVExporter implements CSVConstants {
         String purpose = normalise(fModel.getPurpose());
         sb.append(surroundWithQuotes(purpose));
         
-        // Newline
-        sb.append(CRLF);
-        
         return sb.toString();
     }
 
@@ -286,9 +287,6 @@ public class CSVExporter implements CSVConstants {
         
         String documentation = normalise(element.getDocumentation());
         sb.append(surroundWithQuotes(documentation));
-        
-        // Newline
-        sb.append(CRLF);
         
         return sb.toString();
     }
@@ -331,9 +329,6 @@ public class CSVExporter implements CSVConstants {
             sb.append("\"\""); //$NON-NLS-1$
         }
         
-        // Newline
-        sb.append(CRLF);
-        
         return sb.toString();
     }
 
@@ -353,9 +348,6 @@ public class CSVExporter implements CSVConstants {
         
         String value = normalise(property.getValue());
         sb.append(surroundWithQuotes(value));
-        
-        // Newline
-        sb.append(CRLF);
         
         return sb.toString();
     }
