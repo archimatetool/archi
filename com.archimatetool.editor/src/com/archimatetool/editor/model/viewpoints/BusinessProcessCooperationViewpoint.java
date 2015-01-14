@@ -28,6 +28,7 @@ public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessRole(),
             IArchimatePackage.eINSTANCE.getBusinessActor(),
             IArchimatePackage.eINSTANCE.getLocation(),
+            IArchimatePackage.eINSTANCE.getBusinessFunction(),
 
             IArchimatePackage.eINSTANCE.getApplicationService(),
             

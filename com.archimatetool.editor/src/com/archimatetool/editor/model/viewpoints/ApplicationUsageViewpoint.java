@@ -18,8 +18,6 @@ import com.archimatetool.model.IArchimatePackage;
 public class ApplicationUsageViewpoint extends AbstractViewpoint {
     
     EClass[] allowed = new EClass[] {
-            IArchimatePackage.eINSTANCE.getBusinessActor(), // Should this be here? BiZZdesign have it
-            IArchimatePackage.eINSTANCE.getBusinessCollaboration(),  // Should this be here? BiZZdesign have it
             IArchimatePackage.eINSTANCE.getBusinessRole(),
             IArchimatePackage.eINSTANCE.getBusinessProcess(),
             IArchimatePackage.eINSTANCE.getBusinessFunction(),
@@ -30,8 +28,6 @@ public class ApplicationUsageViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getApplicationComponent(),
             IArchimatePackage.eINSTANCE.getApplicationCollaboration(),
             IArchimatePackage.eINSTANCE.getApplicationInterface(),
-            IArchimatePackage.eINSTANCE.getApplicationFunction(), // Should this be here? BiZZdesign have it
-            IArchimatePackage.eINSTANCE.getApplicationInteraction(), // Should this be here? BiZZdesign have it
             IArchimatePackage.eINSTANCE.getApplicationService(),
             IArchimatePackage.eINSTANCE.getDataObject(),
 

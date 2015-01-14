@@ -29,7 +29,6 @@ public class BusinessProcessViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessRole(),
             IArchimatePackage.eINSTANCE.getBusinessActor(),
             IArchimatePackage.eINSTANCE.getLocation(),
-            IArchimatePackage.eINSTANCE.getBusinessInterface(), // Should this be here? BiZZdesign have it
             
             IArchimatePackage.eINSTANCE.getApplicationService(),
             
