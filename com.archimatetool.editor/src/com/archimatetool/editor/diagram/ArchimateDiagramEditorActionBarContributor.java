@@ -63,6 +63,14 @@ extends AbstractDiagramEditorActionBarContributor {
     }
     
     @Override
+    protected void declareGlobalActionKeys() {
+        super.declareGlobalActionKeys();
+        
+        // Generate View For
+        addGlobalActionKey(ArchimateEditorActionFactory.GENERATE_VIEW.getId());
+    }
+    
+    @Override
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = super.contributeToEditMenu(menuManager);
         

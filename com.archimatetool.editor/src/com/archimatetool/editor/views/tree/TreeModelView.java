@@ -63,6 +63,7 @@ import com.archimatetool.editor.views.tree.actions.CloseModelAction;
 import com.archimatetool.editor.views.tree.actions.DeleteAction;
 import com.archimatetool.editor.views.tree.actions.DuplicateAction;
 import com.archimatetool.editor.views.tree.actions.FindReplaceAction;
+import com.archimatetool.editor.views.tree.actions.GenerateViewAction;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.LinkToEditorAction;
 import com.archimatetool.editor.views.tree.actions.NewFolderAction;
@@ -116,6 +117,8 @@ implements ITreeModelView, IUIRequestListener {
     private IViewerAction fActionOpenDiagram;
     private IViewerAction fActionNewFolder;
     private IViewerAction fActionDuplicate;
+    
+    private IViewerAction fActionGenerateView;
     
     private TreeModelViewerFindReplaceProvider fFindReplaceProvider;
     
@@ -300,6 +303,8 @@ implements ITreeModelView, IUIRequestListener {
         
         fActionDuplicate = new DuplicateAction(getViewer());
         
+        fActionGenerateView = new GenerateViewAction(getSelectionProvider());
+        
         fActionToggleSearchField = new Action("", IAction.AS_CHECK_BOX) { //$NON-NLS-1$
             @Override
             public void run() {
@@ -363,6 +368,7 @@ implements ITreeModelView, IUIRequestListener {
         actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
         actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.DUPLICATE.getId(), fActionDuplicate);
         actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), fActionFindReplace);
+        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.GENERATE_VIEW.getId(), fActionGenerateView);
     }
     
     /**
@@ -463,6 +469,11 @@ implements ITreeModelView, IUIRequestListener {
                 manager.add(fActionDuplicate);
             }
             
+            manager.add(new Separator("start_extensions")); //$NON-NLS-1$
+            manager.add(fActionGenerateView);
+            manager.add(new GroupMarker("append_extensions")); //$NON-NLS-1$
+            manager.add(new Separator("end_extensions")); //$NON-NLS-1$
+            
             manager.add(new Separator("start_properties")); //$NON-NLS-1$
             manager.add(fActionProperties);
             manager.add(new GroupMarker("append_properties")); //$NON-NLS-1$
@@ -478,6 +489,7 @@ implements ITreeModelView, IUIRequestListener {
      */
     private void updateActions() {
         IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
+        
         fActionSaveModel.update(selection);
         fActionOpenDiagram.update(selection);
         fActionCloseModel.update(selection);
@@ -486,6 +498,8 @@ implements ITreeModelView, IUIRequestListener {
         fActionRename.update(selection);
         fActionProperties.update(selection);
         fActionNewFolder.update(selection);
+        fActionGenerateView.update(selection);
+        
         updateUndoActions();
     }
     

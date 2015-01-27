@@ -8,8 +8,7 @@ package com.archimatetool.editor.diagram.commands;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IRelationship;
@@ -33,9 +32,7 @@ public class AddDiagramArchimateConnectionCommand extends Command {
 
         fSource = src;
         fTarget = tgt;
-        fConnection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        fConnection.setRelationship(relationship);
-        ColorFactory.setDefaultColors(fConnection);
+        fConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relationship);
     }
 
     @Override

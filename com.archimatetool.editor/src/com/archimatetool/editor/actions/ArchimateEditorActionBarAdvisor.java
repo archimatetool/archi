@@ -82,6 +82,8 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionRedo;
 
     private IWorkbenchAction fActionSelectAll;
+    
+    private IWorkbenchAction fActionGenerateView;
 
     private IWorkbenchAction fActionResetPerspective;
     private IAction fActionToggleCoolbar;
@@ -265,7 +267,12 @@ extends ActionBarAdvisor {
             }
         };
         
+        // Install Plugin
         fInstallPlugin = new InstallPluginAction();
+        
+        // Generate View For Element
+        fActionGenerateView = ArchimateEditorActionFactory.GENERATE_VIEW.create(window);
+        register(fActionGenerateView);
      }
     
     @Override
@@ -409,6 +416,9 @@ extends ActionBarAdvisor {
     private MenuManager createToolsMenu() {
         MenuManager menu = new MenuManager(Messages.ArchimateEditorActionBarAdvisor_19, "tools"); //$NON-NLS-1$
         menu.add(new GroupMarker("tools_start")); //$NON-NLS-1$
+        
+        menu.add(fActionGenerateView);
+        
         menu.add(new GroupMarker("tools_end")); //$NON-NLS-1$
         return menu;
     }

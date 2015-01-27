@@ -46,6 +46,20 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         return dmo;
     }
 
+    /**
+     * Factory method for creating a new IDiagramModelArchimateConnection for an IRelationship
+     * @param element
+     * @return a new IDiagramModelArchimateConnection
+     */
+    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IRelationship relation) {
+        IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        connection.setRelationship(relation);
+        
+        // Set user default colors as set in prefs
+        ColorFactory.setDefaultColors(connection);
+        
+        return connection;
+    }
     
     private EClass fTemplate;
     
@@ -70,10 +84,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         
         // Connection created from Relationship Template
         if(object instanceof IRelationship) {
-            IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-            connection.setRelationship((IRelationship)object);
-            ColorFactory.setDefaultColors(connection);
-            return connection;
+            return createDiagramModelArchimateConnection((IRelationship)object);
         }
         
         // Archimate Diagram Object created from Archimate Element Template
