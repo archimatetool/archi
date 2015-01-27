@@ -173,5 +173,9 @@
        <description>Export the current Model to CSV files</description>
        <topic href="help/Text/exporting.html" label="Export As CSV"/>
     </context>
+    <context id="GenerateViewDialog">
+       <description>Generate a View from an Element</description>
+       <topic href="help/Text/generate_view.html" label="Generating a View from an Element"/>
+    </context>
     
 </contexts>

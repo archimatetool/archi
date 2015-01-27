@@ -172,4 +172,22 @@ public final class ArchimateEditorActionFactory {
         }
     };
 
+    /**
+     * A Retargetable Action to Generate a View For element
+     */
+    public static final ActionFactory GENERATE_VIEW = new ActionFactory("com.archimatetool.action.generateView", //$NON-NLS-1$
+                                    "com.archimatetool.action.generateView") { //$NON-NLS-1$
+
+        @Override
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            RetargetAction action = new RetargetAction(getId(), Messages.ArchimateEditorActionFactory_7);
+            window.getPartService().addPartListener(action);
+            // Don't do this unless registering a key binding in plugin.xml
+            action.setActionDefinitionId(getCommandId());
+            return action;
+        }
+    };
 }

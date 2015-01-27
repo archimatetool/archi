@@ -23,7 +23,6 @@ import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
-import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
 import com.archimatetool.editor.diagram.actions.SendBackwardAction;
 import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -99,10 +98,6 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         action = actionRegistry.getAction(ActionFactory.RENAME.getId());
         menu.appendToGroup(GROUP_RENAME, action);
 
-        // Select Element in Tree
-        menu.appendToGroup(GROUP_RENAME, new Separator());
-        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
- 
         menu.add(new Separator(GROUP_EXPORT));
         IMenuManager exportMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_0, "menu_export"); //$NON-NLS-1$
         menu.add(exportMenu);

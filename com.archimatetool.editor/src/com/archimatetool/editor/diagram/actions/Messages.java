@@ -101,6 +101,8 @@ public class Messages extends NLS {
 
     public static String FullScreenAction_2;
 
+    public static String GenerateViewAction_0;
+
     public static String LineColorAction_0;
 
     public static String LineColorAction_1;

@@ -558,6 +558,11 @@
                value="false">
          </parameter>
       </key>
+      <key
+            commandId="com.archimatetool.action.generateView"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+G">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -614,6 +619,10 @@
             description="%command.name.11"
             id="org.eclipse.gef.zoom_normal"
             name="%command.name.11">
+      </command>
+      <command
+            id="com.archimatetool.action.generateView"
+            name="Generate View">
       </command>
    </extension>
    <extension

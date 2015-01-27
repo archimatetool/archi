@@ -67,6 +67,8 @@ public class Messages extends NLS {
 
     public static String ArchimateEditorActionFactory_6;
 
+    public static String ArchimateEditorActionFactory_7;
+
     public static String CheckForNewVersionAction_0;
 
     public static String CheckForNewVersionAction_1;

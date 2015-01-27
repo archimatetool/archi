@@ -23,6 +23,8 @@ public class Messages extends NLS {
 
     public static String DuplicateAction_0;
 
+    public static String GenerateViewAction_0;
+
     public static String LinkToEditorAction_0;
 
     public static String NewFolderAction_0;
