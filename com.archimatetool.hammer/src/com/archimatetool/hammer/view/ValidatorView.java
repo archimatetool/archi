@@ -1,0 +1,387 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
+package com.archimatetool.hammer.view;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.help.HelpSystem;
+import org.eclipse.help.IContext;
+import org.eclipse.help.IContextProvider;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+
+import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
+import com.archimatetool.editor.diagram.IDiagramModelEditor;
+import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.editor.ui.services.ViewManager;
+import com.archimatetool.editor.utils.PlatformUtils;
+import com.archimatetool.editor.views.tree.ITreeModelView;
+import com.archimatetool.hammer.IHammerImages;
+import com.archimatetool.hammer.validation.Validator;
+import com.archimatetool.hammer.validation.issues.IIssue;
+import com.archimatetool.help.hints.IHintsView;
+import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelComponent;
+
+
+/**
+ * Validator View
+ * 
+ * @author Phillip Beauvoir
+ */
+@SuppressWarnings("nls")
+public class ValidatorView extends ViewPart
+implements IValidatorView, ISelectionListener, IContextProvider, ITabbedPropertySheetPageContributor, PropertyChangeListener {
+    
+    private ValidatorViewer fViewer;
+    
+    private IAction fActionValidate;
+    private IAction fActionExplain;
+    private IAction fActionSelectObjects;
+    
+    private IArchimateModel fModel;
+
+    public ValidatorView() {
+    }
+
+    @Override
+    public void createPartControl(Composite parent) {
+        Composite treeComp = new Composite(parent, SWT.NULL);
+        treeComp.setLayout(new TreeColumnLayout());
+        treeComp.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+        fViewer = new ValidatorViewer(treeComp, SWT.NULL);
+        
+        fViewer.addDoubleClickListener(new IDoubleClickListener() {
+            public void doubleClick(DoubleClickEvent event) {
+                selectObjects((IStructuredSelection)event.getSelection());
+            }
+        });
+        
+        makeActions();
+        registerGlobalActions();
+        makeLocalToolBar();
+        hookContextMenu();
+        
+        // Listen to global selections to update the viewer
+        getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(this);
+        
+        // Selection Provider
+        getSite().setSelectionProvider(fViewer);
+
+        // Help
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
+
+        // Register us as a Model Listener
+        IEditorModelManager.INSTANCE.addPropertyChangeListener(this);
+
+        // Initialise with whatever is selected in the workbench
+        selectionChanged(getSite().getWorkbenchWindow().getPartService().getActivePart(),
+                getSite().getWorkbenchWindow().getSelectionService().getSelection());
+        
+        // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
+        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) {
+            Display.getCurrent().asyncExec(new Runnable() {
+                public void run() {
+                    validateModel();
+                }
+            });
+        }
+        else {
+            validateModel();
+        }
+    }
+    
+    /**
+     * Make local actions
+     */
+    private void makeActions() {
+        fActionValidate = new Action("Validate Selected Model") {
+            @Override
+            public void run() {
+                validateModel();
+            }
+            
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return IHammerImages.ImageFactory.getImageDescriptor(IHammerImages.ICON_APP_16);
+            }
+        };
+        fActionValidate.setEnabled(false);
+        
+        fActionExplain = new Action("Show Explanation Hint") {
+            @Override
+            public void run() {
+                ViewManager.showViewPart(IHintsView.ID, false);
+            }
+            
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+            
+            @Override
+            public ImageDescriptor getImageDescriptor() {
+                return AbstractUIPlugin.imageDescriptorFromPlugin("com.archimatetool.help", "img/hint-16.png");
+            }
+        };
+        
+        fActionSelectObjects = new Action("Reveal Object") {
+            @Override
+            public void run() {
+                selectObjects((IStructuredSelection)getViewer().getSelection());
+            }
+            
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+        };
+    }
+
+    /**
+     * Register Global Action Handlers
+     */
+    private void registerGlobalActions() {
+        // None
+    }
+
+    /**
+     * Populate the ToolBar
+     */
+    private void makeLocalToolBar() {
+        IActionBars bars = getViewSite().getActionBars();
+        IToolBarManager manager = bars.getToolBarManager();
+        manager.add(fActionValidate);
+    }
+    
+    /**
+     * Hook into a right-click menu
+     */
+    private void hookContextMenu() {
+        MenuManager menuMgr = new MenuManager("#ValidatorViewPopupMenu"); //$NON-NLS-1$
+        menuMgr.setRemoveAllWhenShown(true);
+        
+        menuMgr.addMenuListener(new IMenuListener() {
+            public void menuAboutToShow(IMenuManager manager) {
+                fillContextMenu(manager);
+            }
+        });
+        
+        Menu menu = menuMgr.createContextMenu(getViewer().getControl());
+        getViewer().getControl().setMenu(menu);
+        
+        getSite().registerContextMenu(menuMgr, getViewer());
+    }
+    
+    /**
+     * Fill context menu when user right-clicks
+     * @param manager
+     */
+    private void fillContextMenu(IMenuManager manager) {
+        IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
+        boolean hasIssueSelected = false;
+        
+        for(Object o : selection.toArray()) {
+            if(o instanceof IIssue && ((IIssue)o).getObject() != null) {
+                hasIssueSelected = true;
+                break;
+            }
+        }
+        
+        manager.add(fActionValidate);
+        
+        if(hasIssueSelected) {
+            manager.add(new Separator());
+            manager.add(fActionSelectObjects);
+            manager.add(fActionExplain);
+        }
+        
+        // Other plug-ins can contribute their actions here
+        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+    }
+
+    @Override
+    public void setFocus() {
+        if(fViewer != null) {
+            fViewer.getControl().setFocus();
+        }
+    }
+    
+    public ValidatorViewer getViewer() {
+        return fViewer;
+    }
+
+    public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+        if(part == this || part == null) {
+            return;
+        }
+        
+        IArchimateModel model = (IArchimateModel)part.getAdapter(IArchimateModel.class);
+        
+        if(model != null) {
+            fModel = model;
+        }
+        
+        fActionValidate.setEnabled(fModel != null);
+    }
+    
+    void selectObjects(IStructuredSelection selection) {
+        if(selection != null) {
+            List<IArchimateComponent> treeList = new ArrayList<IArchimateComponent>();
+            List<IDiagramModel> viewList = new ArrayList<IDiagramModel>();
+            List<IDiagramModelComponent> viewComponentList = new ArrayList<IDiagramModelComponent>();
+            
+            for(Object o : selection.toArray()) {
+                if(o instanceof IIssue) {
+                    IIssue issue = (IIssue)o;
+                    if(issue.getObject() instanceof IArchimateComponent) {
+                        treeList.add((IArchimateComponent)issue.getObject());
+                    }
+                    else if(issue.getObject() instanceof IDiagramModel) {
+                        viewList.add((IDiagramModel)issue.getObject());
+                    }
+                    else if(issue.getObject() instanceof IDiagramModelComponent) {
+                        viewList.add(((IDiagramModelComponent)issue.getObject()).getDiagramModel());
+                        viewComponentList.add(((IDiagramModelComponent)issue.getObject()));
+                    }
+                }
+            }
+            
+            if(!treeList.isEmpty()) {
+                ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, false);
+                if(view != null) {
+                    view.getViewer().setSelection(new StructuredSelection(treeList), true);
+                }
+            }
+            
+            if(!viewList.isEmpty()) {
+                for(IDiagramModel dm : viewList) {
+                    IDiagramModelEditor editor = EditorManager.openDiagramEditor(dm);
+                    if(editor instanceof IArchimateDiagramEditor) {
+                        ((IArchimateDiagramEditor)editor).selectObjects(viewComponentList.toArray());
+                    }
+                }
+            }
+       }
+    }
+    
+    public void validateModel() {
+        BusyIndicator.showWhile(null, new Runnable() {
+            public void run() {
+                Validator validator = new Validator(fModel);
+                List<Object> result = validator.validate();
+                fViewer.setInput(result);
+                fViewer.expandAll();
+            }
+        });
+    }
+    
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Object getAdapter(Class adapter) {
+        /*
+         * Return the PropertySheet Page
+         */
+        if(adapter == IPropertySheetPage.class) {
+            return new TabbedPropertySheetPage(this);
+        }
+        
+        return super.getAdapter(adapter);
+    }
+
+    @Override
+    public String getContributorId() {
+        return ArchimateEditorPlugin.PLUGIN_ID;
+    }
+
+    // =================================================================================
+    //                       Listen to Editor Model Changes
+    // =================================================================================
+    
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        Object newValue = evt.getNewValue();
+        
+        // Model Closed
+        if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
+            if(fModel == newValue) {
+                fModel = null;
+                fViewer.setInput(null);
+                fActionValidate.setEnabled(false);
+            }
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        
+        // Unregister selection listener
+        getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
+        
+        // Unregister us as a Model Manager Listener
+        IEditorModelManager.INSTANCE.removePropertyChangeListener(this);
+    }
+    
+    // =================================================================================
+    //                       Contextual Help support
+    // =================================================================================
+
+    public int getContextChangeMask() {
+        return NONE;
+    }
+
+    public IContext getContext(Object target) {
+        return HelpSystem.getContext(HELP_ID);
+    }
+
+    public String getSearchExpression(Object target) {
+        return "Validator";
+    }
+
+}
