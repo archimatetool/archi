@@ -6,9 +6,11 @@
 package com.archimatetool.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.CompoundBorder;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.PointList;
@@ -47,7 +49,7 @@ extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void setUI() {
-        setBorder(new LineBorder() {
+        setBorder(new CompoundBorder(new LineBorder() {
             @Override
             public void paint(IFigure figure, Graphics graphics, Insets insets) {
                 if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_NONE) {
@@ -85,7 +87,7 @@ extends AbstractDiagramModelObjectFigure {
                 
                 graphics.drawPolygon(list);
             }
-        });
+        }, new MarginBorder(3)));
         
         ToolbarLayout layout = new ToolbarLayout();
         setLayoutManager(layout);
