@@ -14,12 +14,11 @@ import org.eclipse.ui.IViewPart;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public interface IValidatorView extends IViewPart {
 
     String ID = "com.archimatetool.hammer.validatorView"; //$NON-NLS-1$
-    String HELP_ID = "com.archimatetool.hammer.help.validatorViewHelp"; //$NON-NLS-1$
-    String NAME = "Validator";
+    String HELP_ID = "com.archimatetool.help.validatorViewHelp"; //$NON-NLS-1$
+    String NAME = Messages.IValidatorView_0;
     
     void validateModel();
 }

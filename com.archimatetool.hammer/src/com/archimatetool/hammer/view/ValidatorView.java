@@ -67,7 +67,6 @@ import com.archimatetool.model.IDiagramModelComponent;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ValidatorView extends ViewPart
 implements IValidatorView, ISelectionListener, IContextProvider, ITabbedPropertySheetPageContributor, PropertyChangeListener {
     
@@ -118,7 +117,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
                 getSite().getWorkbenchWindow().getSelectionService().getSelection());
         
         // Table row bug on Yosemite https://bugs.eclipse.org/bugs/show_bug.cgi?id=446534
-        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) {
+        if(PlatformUtils.isMac() && System.getProperty("os.version").startsWith("10.10")) {  //$NON-NLS-1$//$NON-NLS-2$
             Display.getCurrent().asyncExec(new Runnable() {
                 public void run() {
                     validateModel();
@@ -134,7 +133,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
      * Make local actions
      */
     private void makeActions() {
-        fActionValidate = new Action("Validate Selected Model") {
+        fActionValidate = new Action(Messages.ValidatorView_0) {
             @Override
             public void run() {
                 validateModel();
@@ -152,7 +151,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         };
         fActionValidate.setEnabled(false);
         
-        fActionExplain = new Action("Show Explanation Hint") {
+        fActionExplain = new Action(Messages.ValidatorView_1) {
             @Override
             public void run() {
                 ViewManager.showViewPart(IHintsView.ID, false);
@@ -165,11 +164,11 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin("com.archimatetool.help", "img/hint-16.png");
+                return AbstractUIPlugin.imageDescriptorFromPlugin("com.archimatetool.help", "img/hint-16.png"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         };
         
-        fActionSelectObjects = new Action("Reveal Object") {
+        fActionSelectObjects = new Action(Messages.ValidatorView_2) {
             @Override
             public void run() {
                 selectObjects((IStructuredSelection)getViewer().getSelection());
@@ -381,7 +380,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     }
 
     public String getSearchExpression(Object target) {
-        return "Validator";
+        return Messages.ValidatorView_3;
     }
 
 }

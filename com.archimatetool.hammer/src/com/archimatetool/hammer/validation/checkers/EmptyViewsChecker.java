@@ -22,13 +22,12 @@ import com.archimatetool.model.IArchimateDiagramModel;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class EmptyViewsChecker extends AbstractChecker {
     
-    final String fName = "Empty View";
-    final String fDescription = "''{0}'' is empty";
-    final String fExplanation = "<p>The ArchiMate View ''<b>{0}</b>'' does not contain any elements or relationships.</p>" +
-                               "<p>If the View does not serve any purpose consider deleting it.</p>";
+    final String fName = Messages.EmptyViewsChecker_0;
+    final String fDescription = Messages.EmptyViewsChecker_1;
+    final String fExplanation = Messages.EmptyViewsChecker_2 +
+                               Messages.EmptyViewsChecker_3;
     
     public EmptyViewsChecker(Validator validator) {
         super(validator);

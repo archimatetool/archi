@@ -16,10 +16,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ArchiHammerPlugin extends AbstractUIPlugin implements IStartup {
 
-    public static final String PLUGIN_ID = "com.archimatetool.hammer";
+    public static final String PLUGIN_ID = "com.archimatetool.hammer"; //$NON-NLS-1$
     
     /**
      * The shared instance

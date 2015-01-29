@@ -18,11 +18,10 @@ import com.archimatetool.hammer.IHammerImages;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class WarningsCategory extends AbstractIssueCategory {
     
     public WarningsCategory(List<WarningType> warningList) {
-        super("Warnings", warningList);
+        super(Messages.WarningsCategory_0, warningList);
     }
     
     @Override

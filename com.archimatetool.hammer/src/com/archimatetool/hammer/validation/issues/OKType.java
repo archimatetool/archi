@@ -16,11 +16,10 @@ import com.archimatetool.hammer.IHammerImages;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class OKType extends AbstractIssueType {
 
     public OKType() {
-        super("OK", "Everything is OK", "No problems found.", null);
+        super(Messages.OKType_0, Messages.OKType_1, Messages.OKType_2, null);
     }
     
     @Override

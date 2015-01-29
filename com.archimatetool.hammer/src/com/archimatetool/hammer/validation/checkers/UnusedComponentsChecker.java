@@ -24,13 +24,12 @@ import com.archimatetool.model.IRelationship;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class UnusedComponentsChecker extends AbstractChecker {
     
-    final String fName = "Unused {0}";
-    final String fDescription = "''{0}'' is not used in a View";
-    final String fExplanation = "<p>The {0}, ''<b>{1}</b>'', is not used in a View.</p>" +
-                               "<p>It may be redundant in which case you should consider deleting it from the Models Tree.</p>";
+    final String fName = Messages.UnusedComponentsChecker_0;
+    final String fDescription = Messages.UnusedComponentsChecker_1;
+    final String fExplanation = Messages.UnusedComponentsChecker_2 +
+                               Messages.UnusedComponentsChecker_3;
 
     public UnusedComponentsChecker(Validator validator) {
         super(validator);
@@ -51,7 +50,7 @@ public class UnusedComponentsChecker extends AbstractChecker {
         
         for(IArchimateComponent archimateComponent : archimateComponents) {
             if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams(archimateComponent)) {
-                String type = (archimateComponent instanceof IRelationship) ? "relation" : "element";
+                String type = (archimateComponent instanceof IRelationship) ? Messages.UnusedComponentsChecker_4 : Messages.UnusedComponentsChecker_5;
                 String name = NLS.bind(fName, type);
                 String description = NLS.bind(fDescription, ArchimateLabelProvider.INSTANCE.getLabel(archimateComponent));
                 String explanation = NLS.bind(fExplanation, new Object[] {

@@ -28,14 +28,13 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class NestedElementsChecker extends AbstractChecker {
     
-    final String fName = "Visual Nesting";
-    final String fDescription = "''{0}'' should not be nested in ''{1}'' unless there is a valid relationship";
-    final String fExplanation = "<p>An element in a View is nested inside of another element. " +
-                                      "However, this is only visual as the two elements do not have a semantic relationship in the model.</p>" +
-                                      "<p>The relationship between the elements should be either Composition, Aggregation, or Assignment.</p>";
+    final String fName = Messages.NestedElementsChecker_0;
+    final String fDescription = Messages.NestedElementsChecker_1;
+    final String fExplanation = Messages.NestedElementsChecker_2 +
+                                      Messages.NestedElementsChecker_3 +
+                                      Messages.NestedElementsChecker_4;
 
     public NestedElementsChecker(Validator validator) {
         super(validator);

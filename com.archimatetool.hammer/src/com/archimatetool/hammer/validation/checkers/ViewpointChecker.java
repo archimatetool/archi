@@ -31,13 +31,12 @@ import com.archimatetool.model.IRelationship;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ViewpointChecker extends AbstractChecker {
     
-    final String fName = "Object in Viewpoint";
-    final String fDescription = "''{0}'' does not belong in ''{1}'' ({2} Viewpoint)";
-    final String fExplanation = "<p>The <b>{0}</b> type does not belong in the <b>{1}</b> Viewpoint.</p>" +
-                                "<p>Either change the Viewpoint or remove the {2} from the View.</p>";
+    final String fName = Messages.ViewpointChecker_0;
+    final String fDescription = Messages.ViewpointChecker_1;
+    final String fExplanation = Messages.ViewpointChecker_2 +
+                                Messages.ViewpointChecker_3;
 
     public ViewpointChecker(Validator validator) {
         super(validator);
@@ -99,11 +98,11 @@ public class ViewpointChecker extends AbstractChecker {
         String type, concept;
         if(object instanceof IDiagramModelArchimateObject) {
             concept = ArchimateLabelProvider.INSTANCE.getDefaultName(((IDiagramModelArchimateObject)object).getArchimateElement().eClass());
-            type = "element";
+            type = Messages.ViewpointChecker_4;
         }
         else {
             concept = ArchimateLabelProvider.INSTANCE.getDefaultName(((IDiagramModelArchimateConnection)object).getRelationship().eClass());
-            type = "relation";
+            type = Messages.ViewpointChecker_5;
         }
         
         String explanation =  NLS.bind(fExplanation, new Object[] {

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Archi Hammer
+Bundle-Name: Archi Validator
 Bundle-SymbolicName: com.archimatetool.hammer;singleton:=true
 Bundle-Localization: plugin
 Bundle-Version: 1.0.0.qualifier

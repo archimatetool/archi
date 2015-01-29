@@ -23,13 +23,12 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class InvalidRelationsChecker extends AbstractChecker {
     
-    final String fName = "Illegal relation";
-    final String fDescription = "{0} is not allowed between ''{1}'' and ''{2}''";
-    final String fExplanation = "<p>The <b>{0}</b> type is not allowed between the <b>{1}</b> and <b>{2}</b> concepts.</p>" +
-                                      "<p>Delete this relation and use a vaild relation instead.</p>";
+    final String fName = Messages.InvalidRelationsChecker_0;
+    final String fDescription = Messages.InvalidRelationsChecker_1;
+    final String fExplanation = Messages.InvalidRelationsChecker_2 +
+                                      Messages.InvalidRelationsChecker_3;
 
     public InvalidRelationsChecker(Validator validator) {
         super(validator);

@@ -35,16 +35,15 @@ import com.archimatetool.hammer.validation.issues.IIssueCategory;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class ValidatorViewer extends TreeViewer {
     
     public static int ASCENDING = 1;
     public static int DESCENDING = -1;
     
     private String[] columnNames = {
-            "Type",
-            "Description",
-            "Object"
+            Messages.ValidatorViewer_0,
+            Messages.ValidatorViewer_1,
+            Messages.ValidatorViewer_2
     };
     
     private int[] columnWeights = {
@@ -168,7 +167,7 @@ public class ValidatorViewer extends TreeViewer {
                 if(columnIndex == 0) {
                     IIssueCategory category = (IIssueCategory)element;
                     int size = category.getIssues().size();
-                    String text = (size == 1) ? "item" : "items";
+                    String text = (size == 1) ? Messages.ValidatorViewer_3 : Messages.ValidatorViewer_4;
                     return category.getName() + " (" + size + " " + text + ")";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
                 }
                 return ""; //$NON-NLS-1$

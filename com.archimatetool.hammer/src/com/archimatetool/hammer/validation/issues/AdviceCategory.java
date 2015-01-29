@@ -18,11 +18,10 @@ import com.archimatetool.hammer.IHammerImages;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class AdviceCategory extends AbstractIssueCategory {
     
     public AdviceCategory(List<AdviceType> adviceList) {
-        super("Advice", adviceList);
+        super(Messages.AdviceCategory_0, adviceList);
     }
     
     @Override
