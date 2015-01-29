@@ -90,14 +90,13 @@ public abstract class AbstractIssueType implements IIssue {
     
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Object getAdapter(Class adapter) {
-        Object object = getObject();
-        
-        if(object == null || adapter == null) {
-            return null;
-        }
-        
         if(adapter == IHelpHintProvider.class) {
             return this;
+        }
+        
+        Object object = getObject();
+        if(object == null) {
+            return null;
         }
         
         if(adapter.isInstance(object) || adapter.isInstance(this)) {
