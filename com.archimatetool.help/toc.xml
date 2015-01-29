@@ -111,6 +111,8 @@
     <topic href="help/Text/tools.html" label="Tools">
        <topic href="help/Text/generate_view.html" label="Generating a View from an Element">
        </topic>
+       <topic href="help/Text/validator.html" label="The Validator">
+       </topic>
     </topic>
     <topic href="help/Text/open_save_print.html" label="Opening, Saving and Printing">
     </topic>

@@ -26,6 +26,10 @@
        <description>Creating Canvasses with the Canvas Modelling Toolkit</description>
        <topic href="help/Text/canvas.html" label="Canvas Modelling Toolkit"/>
     </context>
+    <context id="validatorViewHelp" title="The Validator">
+       <description>The Validator provides hints and tips to improve your model.</description>
+       <topic href="help/Text/validator.html" label="The Validator"/>
+    </context>
     <context id="diagramEditorHelp" title="Diagram View">
        <description>The elements and relationships that constitute an ArchiMate model as represented in the Model Tree can be arranged into one or more "Views" or visual diagrams.</description>
        <topic href="help/Text/views.html" label="Views"/>
@@ -174,8 +178,8 @@
        <topic href="help/Text/exporting.html" label="Export As CSV"/>
     </context>
     <context id="GenerateViewDialog">
-       <description>Generate a View from an Element</description>
-       <topic href="help/Text/generate_view.html" label="Generating a View from an Element"/>
+       <description>Generate a View from Elements</description>
+       <topic href="help/Text/generate_view.html" label="Generate a View from a Elements"/>
     </context>
     
 </contexts>
