@@ -197,6 +197,20 @@
         	<param name="loc.tgt"  					value="${zest.loc.tgt}"/>
     	</antcall>
 
+
+		<!-- com.archimatetool.hammer -->
+        <property name="hammer.prj.src"             value="com.archimatetool.hammer"/>
+        <property name="hammer.prj.tgt"             value="${hammer.prj.src}.${lang_code}"/>
+        <property name="hammer.loc.src"             location="../../${hammer.prj.src}"/>
+        <property name="hammer.loc.tgt"             location="../../${main.dir}/${hammer.prj.tgt}"/>
+        
+        <antcall target="create_archi_project">
+            <param name="prj.src"                   value="${hammer.prj.src}"/>
+            <param name="prj.tgt"                   value="${hammer.prj.tgt}"/>
+            <param name="loc.src"                   value="${hammer.loc.src}"/>
+            <param name="loc.tgt"                   value="${hammer.loc.tgt}"/>
+        </antcall>
+            	
 	</target>
 	
 	<!-- Create target Archi NLS Project -->
