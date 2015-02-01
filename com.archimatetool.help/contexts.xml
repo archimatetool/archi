@@ -108,6 +108,10 @@
        <description>Edit the Jasper Reports Preferences.</description>
        <topic href="help/Text/prefs_jasper.html" label="Jasper Reports Preferences"/>
     </context>
+    <context id="prefsValidator" title="Validator Preferences">
+       <description>Edit the Validator Preferences.</description>
+       <topic href="help/Text/prefs_validator.html" label="Validator Preferences"/>
+    </context>
     <context id="userProperties" title="User Properties">
        <description>Edit User Properties</description>
        <topic href="help/Text/properties_user_properties.html" label="User Properties"/>

@@ -32,17 +32,21 @@ public class Messages extends NLS {
 
     public static String NestedElementsChecker_4;
 
-    public static String UnusedComponentsChecker_0;
+    public static String UnusedElementsChecker_0;
 
-    public static String UnusedComponentsChecker_1;
+    public static String UnusedElementsChecker_1;
 
-    public static String UnusedComponentsChecker_2;
+    public static String UnusedElementsChecker_2;
 
-    public static String UnusedComponentsChecker_3;
+    public static String UnusedElementsChecker_3;
 
-    public static String UnusedComponentsChecker_4;
+    public static String UnusedRelationsChecker_0;
 
-    public static String UnusedComponentsChecker_5;
+    public static String UnusedRelationsChecker_1;
+
+    public static String UnusedRelationsChecker_2;
+
+    public static String UnusedRelationsChecker_3;
 
     public static String ViewpointChecker_0;
 

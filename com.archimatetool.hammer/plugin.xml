@@ -95,5 +95,19 @@
          point="org.eclipse.ui.startup">
       <startup></startup>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.archimatetool.hammer.preferences.ValidatorPreferencePage"
+            id="com.archimatetool.hammer.preferences.ValidatorPreferencePage"
+            name="%page.name">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.archimatetool.hammer.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>

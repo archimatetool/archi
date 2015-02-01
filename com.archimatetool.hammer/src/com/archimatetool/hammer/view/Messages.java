@@ -16,6 +16,8 @@ public class Messages extends NLS {
 
     public static String ValidatorView_3;
 
+    public static String ValidatorView_4;
+
     public static String ValidatorViewer_0;
 
     public static String ValidatorViewer_1;

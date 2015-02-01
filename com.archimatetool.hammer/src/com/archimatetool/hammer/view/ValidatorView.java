@@ -21,6 +21,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -38,6 +39,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -75,6 +77,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     private IAction fActionValidate;
     private IAction fActionExplain;
     private IAction fActionSelectObjects;
+    private IAction fActionShowPreferences;
     
     private IArchimateModel fModel;
 
@@ -179,6 +182,20 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
                 return getText();
             }
         };
+        
+        fActionShowPreferences = new Action(Messages.ValidatorView_4) {
+            @Override
+            public void run() {
+                PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getSite().getShell(),
+                        "com.archimatetool.hammer.preferences.ValidatorPreferencePage", null, null); //$NON-NLS-1$
+                dialog.open();
+            }
+            
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+        };
     }
 
     /**
@@ -195,6 +212,11 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         IActionBars bars = getViewSite().getActionBars();
         IToolBarManager manager = bars.getToolBarManager();
         manager.add(fActionValidate);
+        manager.add(new Separator());
+        manager.add(fActionExplain);
+        
+        final IMenuManager menuManager = bars.getMenuManager();
+        menuManager.add(fActionShowPreferences); 
     }
     
     /**
@@ -238,6 +260,9 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             manager.add(fActionSelectObjects);
             manager.add(fActionExplain);
         }
+        
+        manager.add(new Separator());
+        manager.add(fActionShowPreferences);
         
         // Other plug-ins can contribute their actions here
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));

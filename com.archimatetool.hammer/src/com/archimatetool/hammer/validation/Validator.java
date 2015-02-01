@@ -10,12 +10,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.preference.IPreferenceStore;
 
+import com.archimatetool.hammer.ArchiHammerPlugin;
+import com.archimatetool.hammer.preferences.IPreferenceConstants;
 import com.archimatetool.hammer.validation.checkers.EmptyViewsChecker;
 import com.archimatetool.hammer.validation.checkers.IChecker;
 import com.archimatetool.hammer.validation.checkers.InvalidRelationsChecker;
 import com.archimatetool.hammer.validation.checkers.NestedElementsChecker;
-import com.archimatetool.hammer.validation.checkers.UnusedComponentsChecker;
+import com.archimatetool.hammer.validation.checkers.UnusedElementsChecker;
+import com.archimatetool.hammer.validation.checkers.UnusedRelationsChecker;
 import com.archimatetool.hammer.validation.checkers.ViewpointChecker;
 import com.archimatetool.hammer.validation.issues.AdviceCategory;
 import com.archimatetool.hammer.validation.issues.AdviceType;
@@ -87,21 +91,42 @@ public class Validator {
         fErrorList = new ArrayList<ErrorType>();
         fWarningList = new ArrayList<WarningType>();
         fAdviceList = new ArrayList<AdviceType>();
-
-        // Invalid Relations
-        collectIssues(new InvalidRelationsChecker(this));
         
-        // Unused Components
-        collectIssues(new UnusedComponentsChecker(this));
+        // ------------------ Checkers -----------------------------
+        
+        IPreferenceStore store = ArchiHammerPlugin.INSTANCE.getPreferenceStore();
+        
+        // Invalid Relations
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_INVALID_RELATIONS)) {
+            collectIssues(new InvalidRelationsChecker(this));
+        }
+        
+        // Unused Elements
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_UNUSED_ELEMENTS)) {
+            collectIssues(new UnusedElementsChecker(this));
+        }
+        
+        // Unused Relations
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_UNUSED_RELATIONS)) {
+            collectIssues(new UnusedRelationsChecker(this));
+        }
         
         // Empty Views
-        collectIssues(new EmptyViewsChecker(this));
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_EMPTY_VIEWS)) {
+            collectIssues(new EmptyViewsChecker(this));
+        }
         
         // Components in wrong Viewpoints
-        collectIssues(new ViewpointChecker(this));
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_VIEWPOINT)) {
+            collectIssues(new ViewpointChecker(this));
+        }
         
         // Nested elements
-        collectIssues(new NestedElementsChecker(this));
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_NESTING)) {
+            collectIssues(new NestedElementsChecker(this));
+        }
+
+        // ----------------------------------------------------------
 
         if(!fErrorList.isEmpty()) {
             IIssueCategory category = new ErrorsCategory(fErrorList);
