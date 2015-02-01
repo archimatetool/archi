@@ -46,8 +46,6 @@ public class GenerateViewCommand extends Command {
     private boolean fAddAllConnections;
     private String fViewName;
     
-    private int x, y;
-    
     public GenerateViewCommand(List<IArchimateElement> selectedElements) {
         setLabel(Messages.GenerateViewCommand_0);
         fSelectedElements = selectedElements;
@@ -99,13 +97,29 @@ public class GenerateViewCommand extends Command {
         fParentFolder = fSelectedElements.get(0).getArchimateModel().getDefaultFolderForElement(dm);
         fParentFolder.getElements().add(dm);
         
-        x = 20;
-        y = 20;
+        int x = 20;
+        int y = 20;
         
         getElementsToAdd();
         
+        for(IArchimateElement element : fSelectedElements) {
+            createDiagramNode(element, dm, x, y);
+            y += 100;
+        }
+        
+        x = 170;
+        y = 20;
+
         for(IArchimateElement element : fAddedElements) {
-            createDiagramNode(element, dm);
+            if(!fSelectedElements.contains(element)) {
+                createDiagramNode(element, dm, x, y);
+                y += 80;
+                
+                if(y > 700) {
+                    y = 20;
+                    x += 150;
+                }
+            }
         }
         
         // Add connections
@@ -129,15 +143,13 @@ public class GenerateViewCommand extends Command {
         return dm;
     }
     
-    private void createDiagramNode(IArchimateElement element, IArchimateDiagramModel dm) {
+    private void createDiagramNode(IArchimateElement element, IArchimateDiagramModel dm, int x, int y) {
         IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         dm.getChildren().add(dmo);
         
         // Size
         Dimension defaultSize = getDefaultSizeOfElement(element);
         dmo.setBounds(x, y, defaultSize.width, defaultSize.height);
-        
-        setNextPosition(dmo);
     }
     
     private void getElementsToAdd() {
@@ -163,15 +175,6 @@ public class GenerateViewCommand extends Command {
                     fAddedElements.add(source);
                 }
             }
-        }
-    }
-    
-    private void setNextPosition(IDiagramModelObject dmo) {
-        x += dmo.getBounds().getWidth() + 40;
-                
-        if(x > 700) {
-            y += dmo.getBounds().getHeight() + 40;
-            x = 20;
         }
     }
     
