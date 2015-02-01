@@ -19,6 +19,8 @@ public class Messages extends NLS {
     public static String ValidatorPreferencePage_5;
 
     public static String ValidatorPreferencePage_6;
+
+    public static String ValidatorPreferencePage_7;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

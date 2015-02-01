@@ -21,5 +21,6 @@ public interface IPreferenceConstants {
     String PREFS_HAMMER_CHECK_UNUSED_ELEMENTS = "checkUnusedElements"; //$NON-NLS-1$
     String PREFS_HAMMER_CHECK_UNUSED_RELATIONS = "checkUnusedRelations"; //$NON-NLS-1$
     String PREFS_HAMMER_CHECK_VIEWPOINT = "checkViewpoint"; //$NON-NLS-1$
+    String PREFS_HAMMER_CHECK_DUPLICATE_ELEMENTS = "checkDuplicateElements"; //$NON-NLS-1$
     
 }

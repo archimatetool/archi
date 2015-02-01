@@ -30,5 +30,6 @@ implements IPreferenceConstants {
 		store.setDefault(PREFS_HAMMER_CHECK_UNUSED_ELEMENTS, true);
 		store.setDefault(PREFS_HAMMER_CHECK_UNUSED_RELATIONS, true);
 		store.setDefault(PREFS_HAMMER_CHECK_VIEWPOINT, true);
+        store.setDefault(PREFS_HAMMER_CHECK_DUPLICATE_ELEMENTS, true);
     }
 }

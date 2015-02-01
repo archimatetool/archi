@@ -6,6 +6,12 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.hammer.validation.checkers.messages"; //$NON-NLS-1$
 
+    public static String DuplicateElementChecker_0;
+
+    public static String DuplicateElementChecker_1;
+
+    public static String DuplicateElementChecker_2;
+
     public static String EmptyViewsChecker_0;
 
     public static String EmptyViewsChecker_1;
@@ -29,8 +35,6 @@ public class Messages extends NLS {
     public static String NestedElementsChecker_2;
 
     public static String NestedElementsChecker_3;
-
-    public static String NestedElementsChecker_4;
 
     public static String UnusedElementsChecker_0;
 

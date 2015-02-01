@@ -26,7 +26,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -50,6 +52,7 @@ import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -80,7 +83,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     private IAction fActionShowPreferences;
     
     private IArchimateModel fModel;
-
+    
     public ValidatorView() {
     }
 
@@ -95,6 +98,12 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         fViewer.addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
                 selectObjects((IStructuredSelection)event.getSelection());
+            }
+        });
+        
+        fViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            public void selectionChanged(SelectionChangedEvent event) {
+                updateMenuItems((IStructuredSelection)event.getSelection());
             }
         });
         
@@ -170,6 +179,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
                 return AbstractUIPlugin.imageDescriptorFromPlugin("com.archimatetool.help", "img/hint-16.png"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         };
+        fActionExplain.setEnabled(false);
         
         fActionSelectObjects = new Action(Messages.ValidatorView_2) {
             @Override
@@ -244,20 +254,15 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
      */
     private void fillContextMenu(IMenuManager manager) {
         IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
-        boolean hasIssueSelected = false;
+
+        manager.add(fActionValidate);
+        manager.add(new Separator());
         
-        for(Object o : selection.toArray()) {
-            if(o instanceof IIssue && ((IIssue)o).getObject() != null) {
-                hasIssueSelected = true;
-                break;
-            }
+        if(isIssueObjectSelected(selection)) {
+            manager.add(fActionSelectObjects);
         }
         
-        manager.add(fActionValidate);
-        
-        if(hasIssueSelected) {
-            manager.add(new Separator());
-            manager.add(fActionSelectObjects);
+        if(isIssueSelected(selection)) {
             manager.add(fActionExplain);
         }
         
@@ -336,12 +341,47 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     public void validateModel() {
         BusyIndicator.showWhile(null, new Runnable() {
             public void run() {
+                updateStatusBar();
                 Validator validator = new Validator(fModel);
                 List<Object> result = validator.validate();
                 fViewer.setInput(result);
                 fViewer.expandAll();
             }
         });
+    }
+    
+    private void updateStatusBar() {
+        if(fModel != null) {
+            getViewSite().getActionBars().getStatusLineManager().setMessage(ArchimateLabelProvider.INSTANCE.getImage(fModel),
+                    ArchimateLabelProvider.INSTANCE.getLabel(fModel));
+        }
+        else {
+            getViewSite().getActionBars().getStatusLineManager().setMessage(null, ""); //$NON-NLS-1$
+        }
+    }
+    
+    private void updateMenuItems(IStructuredSelection selection) {
+        fActionExplain.setEnabled(isIssueSelected(selection));
+    }
+    
+    private boolean isIssueSelected(IStructuredSelection selection) {
+        for(Object o : selection.toArray()) {
+            if(o instanceof IIssue) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isIssueObjectSelected(IStructuredSelection selection) {
+        for(Object o : selection.toArray()) {
+            if(o instanceof IIssue && ((IIssue)o).getObject() != null) {
+                if(((IIssue)o).getObject() != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     @SuppressWarnings("rawtypes")

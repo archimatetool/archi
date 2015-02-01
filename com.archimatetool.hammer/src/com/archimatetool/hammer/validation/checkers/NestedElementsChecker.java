@@ -33,9 +33,7 @@ public class NestedElementsChecker extends AbstractChecker {
     final String fName = Messages.NestedElementsChecker_0;
     final String fDescription = Messages.NestedElementsChecker_1;
     final String fExplanation = Messages.NestedElementsChecker_2 +
-                                      Messages.NestedElementsChecker_3 +
-                                      Messages.NestedElementsChecker_4;
-
+                                      Messages.NestedElementsChecker_3;
     public NestedElementsChecker(Validator validator) {
         super(validator);
     }

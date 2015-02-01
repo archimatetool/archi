@@ -40,7 +40,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             PREFS_HAMMER_CHECK_NESTING, Messages.ValidatorPreferencePage_2,
             PREFS_HAMMER_CHECK_UNUSED_ELEMENTS, Messages.ValidatorPreferencePage_3,
             PREFS_HAMMER_CHECK_UNUSED_RELATIONS, Messages.ValidatorPreferencePage_4,
-            PREFS_HAMMER_CHECK_VIEWPOINT, Messages.ValidatorPreferencePage_5
+            PREFS_HAMMER_CHECK_VIEWPOINT, Messages.ValidatorPreferencePage_5,
+            PREFS_HAMMER_CHECK_DUPLICATE_ELEMENTS, Messages.ValidatorPreferencePage_7
     };
     
 	public ValidatorPreferencePage() {

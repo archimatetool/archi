@@ -14,6 +14,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.archimatetool.hammer.ArchiHammerPlugin;
 import com.archimatetool.hammer.preferences.IPreferenceConstants;
+import com.archimatetool.hammer.validation.checkers.DuplicateElementChecker;
 import com.archimatetool.hammer.validation.checkers.EmptyViewsChecker;
 import com.archimatetool.hammer.validation.checkers.IChecker;
 import com.archimatetool.hammer.validation.checkers.InvalidRelationsChecker;
@@ -124,6 +125,11 @@ public class Validator {
         // Nested elements
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_NESTING)) {
             collectIssues(new NestedElementsChecker(this));
+        }
+
+        // Possible Duplicates
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_DUPLICATE_ELEMENTS)) {
+            collectIssues(new DuplicateElementChecker(this));
         }
 
         // ----------------------------------------------------------
