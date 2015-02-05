@@ -45,6 +45,8 @@ public class CSVExporter implements CSVConstants {
     // See http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm#CSVAndExcel
     private boolean fUseLeadingCharsHack = false;
     
+    private String fEncoding = "UTF-8"; //$NON-NLS-1$
+    
     /*
      * Internal option. BUT...
      * If one exports to the csv files with a model that has properties, then edits the model and removes all properties,
@@ -93,11 +95,15 @@ public class CSVExporter implements CSVConstants {
         fUseLeadingCharsHack = set;
     }
     
+    void setEncoding(String encoding) {
+        fEncoding = encoding;
+    }
+    
     /**
      * Write the Model and All Elements
      */
     private void writeModelAndElements(File file) throws IOException {
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
+        Writer writer = createOutputStreamWriter(file);
         
         // Write Header
         String header = createHeader(MODEL_ELEMENTS_HEADER);
@@ -152,7 +158,7 @@ public class CSVExporter implements CSVConstants {
             return;
         }
         
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
+        Writer writer = createOutputStreamWriter(file);
         
         // Write Header
         String header = createHeader(RELATIONSHIPS_HEADER);
@@ -178,7 +184,7 @@ public class CSVExporter implements CSVConstants {
             return;
         }
         
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
+        Writer writer = createOutputStreamWriter(file);
         
         // Write Header
         String header = createHeader(PROPERTIES_HEADER);
@@ -445,5 +451,14 @@ public class CSVExporter implements CSVConstants {
     
     String createPropertiesFileName() {
         return fFilePrefix + PROPERTIES_FILENAME + FILE_EXTENSION;
+    }
+    
+    OutputStreamWriter createOutputStreamWriter(File file) throws IOException {
+        if("ANSI".equals(fEncoding)) { //$NON-NLS-1$
+            return new OutputStreamWriter(new FileOutputStream(file));
+        }
+        else {
+            return new OutputStreamWriter(new FileOutputStream(file), fEncoding);
+        }
     }
 }

@@ -40,4 +40,5 @@ public interface CSVConstants {
     char[] DELIMITERS = { ',', ';', '\t' };
     String[] DELIMITER_NAMES = { "comma", "semicolon", "tab" };
     
+    String[] ENCODINGS = { "UTF-8", "ANSI" };
 }

@@ -22,6 +22,8 @@ public class Messages extends NLS {
 
     public static String ExportAsCSVPage_14;
 
+    public static String ExportAsCSVPage_15;
+
     public static String ExportAsCSVPage_2;
 
     public static String ExportAsCSVPage_3;

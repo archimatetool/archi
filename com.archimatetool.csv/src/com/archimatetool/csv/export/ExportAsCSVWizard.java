@@ -61,6 +61,9 @@ public class ExportAsCSVWizard extends Wizard implements CSVConstants {
         // Leading chars hack
         fExporter.setUseLeadingCharsHack(fPage.getUseLeadingCharsHack());
         
+        // Encoding
+        fExporter.setEncoding(fPage.getEncoding());
+        
         File folder = new File(folderPath);
         
         // Make folder

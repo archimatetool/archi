@@ -21,4 +21,5 @@ public interface IPreferenceConstants {
     String CSV_EXPORT_PREFS_FILE_PREFIX = "filePrefix";
     String CSV_EXPORT_PREFS_STRIP_NEW_LINES = "stripNewLines";
     String CSV_EXPORT_PREFS_LEADING_CHARS_HACK = "leadingCharsHack";
+    String CSV_EXPORT_PREFS_ENCODING = "encoding";
 }

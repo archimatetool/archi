@@ -50,6 +50,8 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     private Label fRelationsFileNameLabel;
     private Label fPropertiesFileNameLabel;
     
+    private Combo fEncodingCombo;
+    
     public ExportAsCSVPage() {
         super("ExportAsCSVPage"); //$NON-NLS-1$
         
@@ -128,6 +130,12 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         // Single text control so strip CRLFs
         UIUtils.conformSingleTextControl(fFilePrefixTextField);
         
+        // Encoding
+        label = new Label(exportGroup, SWT.NULL);
+        label.setText(Messages.ExportAsCSVPage_15);
+        fEncodingCombo = new Combo(exportGroup, SWT.READ_ONLY);
+        fEncodingCombo.setItems(ENCODINGS);
+        
         Group optionsGroup = new Group(container, SWT.NULL);
         optionsGroup.setText(Messages.ExportAsCSVPage_7);
         optionsGroup.setLayout(new GridLayout(1, false));
@@ -195,6 +203,10 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
     boolean getUseLeadingCharsHack() {
         return fLeadingCharsButton.getSelection();
     }
+    
+    String getEncoding() {
+        return fEncodingCombo.getText();
+    }
 
     private String chooseFolderPath() {
         DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
@@ -246,6 +258,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         store.setValue(CSV_EXPORT_PREFS_FILE_PREFIX, getFilenamePrefix());
         store.setValue(CSV_EXPORT_PREFS_STRIP_NEW_LINES, getStripNewlines());
         store.setValue(CSV_EXPORT_PREFS_LEADING_CHARS_HACK, getUseLeadingCharsHack());
+        store.setValue(CSV_EXPORT_PREFS_ENCODING, getEncoding());
     }
     
     void loadPreferences() {
@@ -279,5 +292,9 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         // Leading chars hack
         selected = store.getBoolean(CSV_EXPORT_PREFS_LEADING_CHARS_HACK);
         fLeadingCharsButton.setSelection(selected);
+        
+        // Encoding
+        String encoding = store.getString(CSV_EXPORT_PREFS_ENCODING);
+        fEncodingCombo.setText(encoding);
     }
 }
