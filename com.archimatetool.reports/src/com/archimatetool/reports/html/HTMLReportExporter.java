@@ -15,10 +15,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -34,12 +33,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.utils.FileUtils;
-import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateComponent;
@@ -51,13 +50,16 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.impl.ArchimateComponent;
+import com.archimatetool.reports.ArchimateEditorReportsPlugin;
 
 
 /**
  * Export model to HTML report
  * 
+ * @author Jean-Baptiste Sarrodie
+ * @author Quentin Varquet
  * @author Phillip Beauvoir
  */
 public class HTMLReportExporter extends AbstractUIPlugin {
@@ -67,12 +69,10 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     private File fElementsFolder;
     private File fViewsFolder;
     private File fImagesFolder;
-    //
-    OutputStreamWriter writer;
-    
+
     // Templates
-    STGroupFile groupe;
-    ST model, frame;
+    private STGroupFile groupe;
+    private ST model, frame;
     
     public void export(IArchimateModel model) throws IOException {
         fMainFolder = askSaveFolder();
@@ -97,18 +97,27 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     
     private File createMainHTMLPage() throws IOException {
     	// Instantiate templates files
-    	groupe = new STGroupFile(getTemplatesFolder().getAbsolutePath()+File.separator+"st"+File.separator+"main.stg", '^', '^');
-    	frame = groupe.getInstanceOf("frame");
-    	model = groupe.getInstanceOf("modelreport");
+        File mainFile = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
+    	groupe = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
+    	frame = groupe.getInstanceOf("frame"); //$NON-NLS-1$
+    	model = groupe.getInstanceOf("modelreport"); //$NON-NLS-1$
         
         // Copy HTML skeleton to target
-        File srcDir = new File(getTemplatesFolder(), "html");
+        File srcDir = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "html"); //$NON-NLS-1$
         FileUtils.copyFolder(srcDir, fMainFolder);
         
+        // Copy hints files from the help plug-in
+        Bundle bundle = Platform.getBundle("com.archimatetool.help"); //$NON-NLS-1$
+        URL url = FileLocator.resolve(bundle.getEntry("hints")); //$NON-NLS-1$
+        FileUtils.copyFolder(new File(url.getPath()), new File(fMainFolder, "hints")); //$NON-NLS-1$
+        
         // Set folders
-        fElementsFolder = new File(fMainFolder, "elements");
-        fViewsFolder = new File(fMainFolder, "views");
-        fImagesFolder = new File(fMainFolder, "images");
+        fElementsFolder = new File(fMainFolder, "elements"); //$NON-NLS-1$
+        fElementsFolder.mkdirs(); // Make dir
+        fViewsFolder = new File(fMainFolder, "views"); //$NON-NLS-1$
+        fViewsFolder.mkdirs(); // Make dir
+        fImagesFolder = new File(fMainFolder, "images"); //$NON-NLS-1$
+        fImagesFolder.mkdirs(); // Make dir
         
         // Create model.html
         writeElement(fModel, new File(fViewsFolder, "model.html")); //$NON-NLS-1$
@@ -120,7 +129,6 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         List<EObject> motivationList = new ArrayList<EObject>();
         List<EObject> implementationMigrationList = new ArrayList<EObject>();
         List<EObject> connectorList = new ArrayList<EObject>();
-        List<IDiagramModel> viewList = fModel.getDiagramModels();
         
         // Get elements
         getBusinessElements(businessList);
@@ -134,46 +142,33 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         writeElements(businessList);
         writeElements(applicationList);
         writeElements(technologyList);
-        //writeElements(motivationList);
-        //writeElements(implementationMigrationList);
-        //writeElements(connectorList);
+        writeElements(motivationList);
+        writeElements(implementationMigrationList);
+        writeElements(connectorList);
         writeDiagrams();
         
         // Write root model.html
         File modeltreeF = new File(fMainFolder, "model.html"); //$NON-NLS-1$
         OutputStreamWriter modeltreeW = new OutputStreamWriter(new FileOutputStream(modeltreeF), "UTF8"); //$NON-NLS-1$
-        // model, businessFolder, applicationFolder, technologyFolder, motivationFolder
-        // implementationFolder, connectorsFolder, relationsFolder, viewsFolder
-        model.add("model", fModel);
-        model.add("businessFolder", fModel.getFolder(FolderType.BUSINESS));
-        model.add("applicationFolder", fModel.getFolder(FolderType.APPLICATION));
-        model.add("technologyFolder", fModel.getFolder(FolderType.TECHNOLOGY));
-        model.add("motivationFolder", fModel.getFolder(FolderType.MOTIVATION));
-        model.add("implementationFolder", fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
-        model.add("connectorsFolder", fModel.getFolder(FolderType.CONNECTORS));
-        model.add("relationsFolder", fModel.getFolder(FolderType.RELATIONS));
-        model.add("viewsFolder", fModel.getFolder(FolderType.DIAGRAMS));
-        modeltreeW.write(model.render()); //$NON-NLS-1$
+
+        model.add("model", fModel); //$NON-NLS-1$
+        model.add("businessFolder", fModel.getFolder(FolderType.BUSINESS)); //$NON-NLS-1$
+        model.add("applicationFolder", fModel.getFolder(FolderType.APPLICATION)); //$NON-NLS-1$
+        model.add("technologyFolder", fModel.getFolder(FolderType.TECHNOLOGY)); //$NON-NLS-1$
+        model.add("motivationFolder", fModel.getFolder(FolderType.MOTIVATION)); //$NON-NLS-1$
+        model.add("implementationFolder", fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION)); //$NON-NLS-1$
+        model.add("connectorsFolder", fModel.getFolder(FolderType.CONNECTORS)); //$NON-NLS-1$
+        model.add("relationsFolder", fModel.getFolder(FolderType.RELATIONS)); //$NON-NLS-1$
+        model.add("viewsFolder", fModel.getFolder(FolderType.DIAGRAMS)); //$NON-NLS-1$
+        
+        modeltreeW.write(model.render());
         modeltreeW.close();
         
-        return new File(fMainFolder, "model.html");
+        return new File(fMainFolder, "model.html");  //$NON-NLS-1$
     }
     
-    public File getTemplatesFolder() {
-        URL url = FileLocator.find(getBundle(), new Path("/templates"), null); //$NON-NLS-1$
-        try {
-            url = FileLocator.resolve(url);
-        }
-        catch(IOException ex) {
-            ex.printStackTrace();
-        }
-        return new File(url.getPath()); 
-    }
-        
-    private void getBusinessElements(List<EObject> list) throws IOException {
+    private void getBusinessElements(List<EObject> list) {
         IFolder businessFolder = fModel.getFolder(FolderType.BUSINESS);
-        //String color = ColorFactory.convertColorToString(ColorFactory.COLOR_BUSINESS);
-        //List<EObject> list = new ArrayList<EObject>();
         
         // Business Actors
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessActor());
@@ -196,36 +191,27 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getProduct());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessService());
         getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getValue());
-        
-        //writeElements(list, Messages.HTMLReportExporter_6, color);
     }
     
-    private void getApplicationElements(List<EObject> list) throws IOException {
+    private void getApplicationElements(List<EObject> list) {
         IFolder applicationFolder = fModel.getFolder(FolderType.APPLICATION);
-        //String color = ColorFactory.convertColorToString(ColorFactory.COLOR_APPLICATION);
         
         // Applications
-        //List<EObject> list = new ArrayList<EObject>();
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationCollaboration());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationComponent());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationFunction());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationInteraction());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationInterface());
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationService());
-        //writeElements(list, Messages.HTMLReportExporter_7, color);
         
         // Application Data
-        //list.clear();
         getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getDataObject());
-        //writeElements(list, Messages.HTMLReportExporter_8, color);
     }
     
-    private void getTechnologyElements(List<EObject> list) throws IOException {
+    private void getTechnologyElements(List<EObject> list) {
         IFolder technologyFolder = fModel.getFolder(FolderType.TECHNOLOGY);
-        //String color = ColorFactory.convertColorToString(ColorFactory.COLOR_TECHNOLOGY);
         
         // Infrastructures
-        //List<EObject> list = new ArrayList<EObject>();
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getArtifact());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getCommunicationPath());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getDevice());
@@ -235,14 +221,11 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getNetwork());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureService());
         getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getSystemSoftware());
-        //writeElements(list, Messages.HTMLReportExporter_9, color);
     }
     
-    private void getMotivationElements(List<EObject> list) throws IOException {
+    private void getMotivationElements(List<EObject> list) {
         IFolder motivationFolder = fModel.getFolder(FolderType.MOTIVATION);
-        //String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
         
-        //List<EObject> list = new ArrayList<EObject>();
         getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getStakeholder());
         getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getDriver());
         getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getAssessment());
@@ -250,28 +233,20 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getPrinciple());
         getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getRequirement());
         getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getConstraint());
-        //writeElements(list, Messages.HTMLReportExporter_10, color);
     }
     
-    private void getImplementationMigrationElements(List<EObject> list) throws IOException {
+    private void getImplementationMigrationElements(List<EObject> list) {
         IFolder implmigrationFolder = fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION);
-        //String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
         
-        //List<EObject> list = new ArrayList<EObject>();
         getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getWorkPackage());
         getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getDeliverable());
         getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getPlateau());
         getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getGap());
-        //writeElements(list, Messages.HTMLReportExporter_11, color);
     }
     
-    private void getConnectorElements(List<EObject> list) throws IOException {
+    private void getConnectorElements(List<EObject> list) {
         IFolder connectionsFolder = fModel.getFolder(FolderType.CONNECTORS);
-        //String color = ColorFactory.convertRGBToString(new RGB(220, 235, 235));
-        
-        //List<EObject> list = new ArrayList<EObject>();
         getElements(connectionsFolder, list, null);
-        //writeElements(list, Messages.HTMLReportExporter_12, color);
     }
     
     private void getElements(IFolder folder, List<EObject> list, EClass type) {
@@ -289,42 +264,22 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         }
     }
     
-    /* private void writeElements(List<EObject> list, String title, String color) throws IOException {
-        if(!list.isEmpty()) {
-            writer.write("<h2>" + title + "</h2>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-            
-            // Sort a *copy* of the List
-            List<EObject> copy = new ArrayList<EObject>(list);
-            sort(copy);
-            
-            for(EObject object : copy) {
-                if(object instanceof IArchimateComponent) {
-                    writeTableElement((IArchimateComponent)object, color);
-                    writer.write("<p/>"); //$NON-NLS-1$
-                }
-            }
-            
-            writer.write("<br/>"); //$NON-NLS-1$
-        }
-    } */
-    
     private void writeElements(List<EObject> list) throws IOException {
         if(!list.isEmpty()) {
             for(EObject object : list) {
                 if(object instanceof IArchimateComponent) {
-                	writeElement(object, new File(fElementsFolder, ((ArchimateComponent) object).getId()+".html")); //$NON-NLS-1$
+                	writeElement(object, new File(fElementsFolder, ((IIdentifier) object).getId() + ".html")); //$NON-NLS-1$
                 }
             }
         }
     }
     
     private void writeElement(EObject component, File elementF) throws IOException {
-        //File elementF = new File(fElementsFolder, ((ArchimateComponent) object).getId()+".html"); //$NON-NLS-1$
         OutputStreamWriter elementW = new OutputStreamWriter(new FileOutputStream(elementF), "UTF8"); //$NON-NLS-1$
-        frame.remove("element");
+        frame.remove("element"); //$NON-NLS-1$
         //frame.remove("children");
-        frame.add("element", component);
-        elementW.write(frame.render()); //$NON-NLS-1$
+        frame.add("element", component); //$NON-NLS-1$
+        elementW.write(frame.render());
         elementW.close();
     }
     
@@ -337,27 +292,18 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         List<IDiagramModel> copy = new ArrayList<IDiagramModel>(fModel.getDiagramModels());
         sort(copy);
 
-        Hashtable<IDiagramModel, String> table = saveDiagrams(copy);
+        saveDiagrams(copy);
 
         for(IDiagramModel dm : copy) {
-        	//Name
-            //String name = StringUtils.safeString(dm.getName());
-            //name = parseChars(name);
-            //Doc
-            //String doc = StringUtils.safeString(dm.getDocumentation());
-            //doc = parseCharsAndLinks(doc);
-            // Image
-            //writer.write("<img src=\"" + table.get(dm) + "\"" + "/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            
-            File viewF = new File(fViewsFolder, dm.getId()+".html");
+            File viewF = new File(fViewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
-            frame.remove("element");
-            frame.remove("children");
-            frame.add("element", dm);
+            frame.remove("element"); //$NON-NLS-1$
+            frame.remove("children"); //$NON-NLS-1$
+            frame.add("element", dm); //$NON-NLS-1$
             List<IArchimateElement> fChildren = new ArrayList<IArchimateElement>();
             getAllChildObjects(dm, fChildren);
-            frame.add("children", fChildren);
-            viewW.write(frame.render()); //$NON-NLS-1$
+            frame.add("children", fChildren); //$NON-NLS-1$
+            viewW.write(frame.render());
             viewW.close();
         }
     }
@@ -394,7 +340,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
                 diagramName = s;
             }
             else {
-                diagramName = Messages.HTMLReportExporter_23 + " " + i++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
+                diagramName = Messages.HTMLReportExporter_1 + " " + i++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
             }
 
             table.put(dm, diagramName);
@@ -415,8 +361,8 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     
     private File askSaveFolder() {
         DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
-        dialog.setText(Messages.HTMLReportExporter_24);
-        dialog.setMessage(Messages.HTMLReportExporter_25);
+        dialog.setText(Messages.HTMLReportExporter_2);
+        dialog.setMessage(Messages.HTMLReportExporter_3);
         String path = dialog.open();
         if(path == null) {
             return null;
@@ -427,8 +373,8 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             String[] children = folder.list();
             if(children != null && children.length > 0) {
                 boolean result = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                        Messages.HTMLReportExporter_26,
-                        NLS.bind(Messages.HTMLReportExporter_27, folder));
+                        Messages.HTMLReportExporter_4,
+                        NLS.bind(Messages.HTMLReportExporter_5, folder));
                 if(!result) {
                     return null;
                 }
@@ -439,40 +385,6 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         }
         
         return folder;
-    }
-    
-    private String parseCharsAndLinks(String s) {
-        s = parseChars(s);
-        s = parseLinks(s);
-        return s;
-    }
-    
-    private String parseChars(String s) {
-        // Escape chars
-        s = s.replace("&", "&amp;"); //$NON-NLS-1$ //$NON-NLS-2$  // This first
-        s = s.replace("<", "&lt;"); //$NON-NLS-1$ //$NON-NLS-2$
-        s = s.replace(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
-        s = s.replace("\"", "&quot;"); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        // CRs become breaks
-        s = s.replaceAll("(\r\n|\r|\n)", "<br/>");  //$NON-NLS-1$ //$NON-NLS-2$ // This last
-        
-        return s;
-    }
-    
-    private String parseLinks(String s) {
-        Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(s);
-        List<String> done = new ArrayList<String>();
-        
-        while(matcher.find()) {
-            String group = matcher.group();
-            if(!done.contains(group)) {
-                done.add(group);
-                s = s.replace(group, "<a href=\"" + group + "\">" + group + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            }
-        }
-        
-        return s;
     }
     
     /**
