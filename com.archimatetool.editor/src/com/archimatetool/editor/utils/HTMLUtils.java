@@ -27,12 +27,14 @@ public class HTMLUtils {
     // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%~&=]*)?"            // Added ~
     // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=]*)?"             // Removed space
     // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~&=\\(\\)]*)?"       // Added \\( and \\)
-    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~#!&=\\(\\)]*)?";    // Added # and !
+    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%~#!&=\\(\\)]*)?"     // Added # and !
+    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!:&=\\(\\)]*)?"     // Removed leading / and added :
+    // "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!+:&=\\(\\)]*)?"    // Add +
     
     /**
      * The reg expression for HTML links
      */
-    public static final String HTML_LINK_REGEX = "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!:&=\\(\\)]*)?";  // Removed leading / and added : //$NON-NLS-1$
+    public static final String HTML_LINK_REGEX = "(http|https|ftp)://([\\w-]+\\.)+[\\w-]+([\\w-./?%~#!+:&=\\(\\)]*)?";  //$NON-NLS-1$
     
     /**
      * The compiled pattern to match HTML links
