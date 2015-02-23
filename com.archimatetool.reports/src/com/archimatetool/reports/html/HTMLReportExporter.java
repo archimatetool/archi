@@ -10,15 +10,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
@@ -42,16 +39,10 @@ import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateComponent;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.INameable;
 import com.archimatetool.reports.ArchimateEditorReportsPlugin;
 
 
@@ -98,7 +89,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     private File createMainHTMLPage() throws IOException {
     	// Instantiate templates files
         File mainFile = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
-        
+    	
         STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
         stFrame = groupFile.getInstanceOf("frame"); //$NON-NLS-1$
     	ST stModel = groupFile.getInstanceOf("modelreport"); //$NON-NLS-1$
@@ -119,33 +110,17 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         fViewsFolder.mkdirs(); // Make dir
         fImagesFolder = new File(fMainFolder, "images"); //$NON-NLS-1$
         fImagesFolder.mkdirs(); // Make dir
-        
-        // Create model.html
-        writeElement(fModel, new File(fViewsFolder, "model.html")); //$NON-NLS-1$
-        
-        // Get elements
-        List<EObject> businessList = getBusinessElements();
-        List<EObject> applicationList = getApplicationElements();
-        List<EObject> technologyList = getTechnologyElements();
-        List<EObject> motivationList = getMotivationElements();
-        List<EObject> implementationMigrationList = getImplementationMigrationElements();
-        List<EObject> connectorList = getConnectorElements();
-        
+             
         // write (elements).html
-        writeElements(businessList);
-        writeElements(applicationList);
-        writeElements(technologyList);
-        writeElements(motivationList);
-        writeElements(implementationMigrationList);
-        writeElements(connectorList);
+        writeElement(fModel, new File(fViewsFolder, "model.html")); //$NON-NLS-1$
+        writeFolders(fModel.getFolders());
         
-        // Diagrams
+        // write (diagrams).html
         writeDiagrams();
         
         // Write root model.html
         File modeltreeF = new File(fMainFolder, "model.html"); //$NON-NLS-1$
         OutputStreamWriter modeltreeW = new OutputStreamWriter(new FileOutputStream(modeltreeF), "UTF8"); //$NON-NLS-1$
-
         stModel.add("model", fModel); //$NON-NLS-1$
         stModel.add("businessFolder", fModel.getFolder(FolderType.BUSINESS)); //$NON-NLS-1$
         stModel.add("applicationFolder", fModel.getFolder(FolderType.APPLICATION)); //$NON-NLS-1$
@@ -155,132 +130,21 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         stModel.add("connectorsFolder", fModel.getFolder(FolderType.CONNECTORS)); //$NON-NLS-1$
         stModel.add("relationsFolder", fModel.getFolder(FolderType.RELATIONS)); //$NON-NLS-1$
         stModel.add("viewsFolder", fModel.getFolder(FolderType.DIAGRAMS)); //$NON-NLS-1$
-        
         modeltreeW.write(stModel.render());
         modeltreeW.close();
         
         return new File(fMainFolder, "model.html");  //$NON-NLS-1$
     }
     
-    private List<EObject> getBusinessElements() {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        IFolder businessFolder = fModel.getFolder(FolderType.BUSINESS);
-        
-        // Business Actors
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessActor());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessRole());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessInterface());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessCollaboration());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getLocation());
-        // Business Functions
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessFunction());
-        // Business Information
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessObject());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getRepresentation());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getMeaning());
-        // Business Processes
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessEvent());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessInteraction());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessProcess());
-        // Business Products
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getContract());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getProduct());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getBusinessService());
-        getElements(businessFolder, list, IArchimatePackage.eINSTANCE.getValue());
-        
-        return list;
+    private void writeFolders(EList<IFolder> folders) throws IOException {
+    	for(IFolder folder : folders) {
+    		writeFolder(folder);
+    	}
     }
     
-    private List<EObject> getApplicationElements() {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        IFolder applicationFolder = fModel.getFolder(FolderType.APPLICATION);
-        
-        // Applications
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationCollaboration());
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationComponent());
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationFunction());
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationInteraction());
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationInterface());
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getApplicationService());
-        
-        // Application Data
-        getElements(applicationFolder, list, IArchimatePackage.eINSTANCE.getDataObject());
-        
-        return list;
-    }
-    
-    private List<EObject> getTechnologyElements() {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        IFolder technologyFolder = fModel.getFolder(FolderType.TECHNOLOGY);
-        
-        // Infrastructures
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getArtifact());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getCommunicationPath());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getDevice());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getNode());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureFunction());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureInterface());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getNetwork());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getInfrastructureService());
-        getElements(technologyFolder, list, IArchimatePackage.eINSTANCE.getSystemSoftware());
-        
-        return list;
-    }
-    
-    private List<EObject> getMotivationElements() {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        IFolder motivationFolder = fModel.getFolder(FolderType.MOTIVATION);
-        
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getStakeholder());
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getDriver());
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getAssessment());
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getGoal());
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getPrinciple());
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getRequirement());
-        getElements(motivationFolder, list, IArchimatePackage.eINSTANCE.getConstraint());
-        
-        return list;
-    }
-    
-    private List<EObject> getImplementationMigrationElements() {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        IFolder implmigrationFolder = fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION);
-        
-        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getWorkPackage());
-        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getDeliverable());
-        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getPlateau());
-        getElements(implmigrationFolder, list, IArchimatePackage.eINSTANCE.getGap());
-        
-        return list;
-    }
-    
-    private List<EObject> getConnectorElements() {
-        List<EObject> list = new ArrayList<EObject>();
-        
-        IFolder connectionsFolder = fModel.getFolder(FolderType.CONNECTORS);
-        getElements(connectionsFolder, list, null);
-        
-        return list;
-    }
-    
-    private void getElements(IFolder folder, List<EObject> list, EClass type) {
-        for(EObject object : folder.getElements()) {
-        	if(type == null) {
-                list.add(object);
-            }
-        	else if(object.eClass() == type) {
-                list.add(object);
-            }
-        }
-        
-        for(IFolder f : folder.getFolders()) {
-            getElements(f, list, type);
-        }
+    private void writeFolder(IFolder folder) throws IOException {
+    	writeElements(folder.getElements());
+    	writeFolders(folder.getFolders());
     }
     
     private void writeElements(List<EObject> list) throws IOException {
@@ -296,7 +160,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     private void writeElement(EObject component, File elementF) throws IOException {
         OutputStreamWriter elementW = new OutputStreamWriter(new FileOutputStream(elementF), "UTF8"); //$NON-NLS-1$
         stFrame.remove("element"); //$NON-NLS-1$
-        //stFrame.remove("children");
+        //frame.remove("children");
         stFrame.add("element", component); //$NON-NLS-1$
         elementW.write(stFrame.render());
         elementW.close();
@@ -306,43 +170,16 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         if(fModel.getDiagramModels().isEmpty()) {
             return;
         }
-        
-        // Sort a *copy* of the List
-        List<IDiagramModel> copy = new ArrayList<IDiagramModel>(fModel.getDiagramModels());
-        sort(copy);
 
-        saveDiagrams(copy);
+        saveDiagrams(fModel.getDiagramModels());
 
-        for(IDiagramModel dm : copy) {
+        for(IDiagramModel dm : fModel.getDiagramModels()) {
             File viewF = new File(fViewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
-            
             stFrame.remove("element"); //$NON-NLS-1$
-            stFrame.remove("children"); //$NON-NLS-1$
             stFrame.add("element", dm); //$NON-NLS-1$
-            
-            List<IArchimateElement> fChildren = new ArrayList<IArchimateElement>();
-            getAllChildObjects(dm, fChildren);
-            
-            stFrame.add("children", fChildren); //$NON-NLS-1$
-            
             viewW.write(stFrame.render());
             viewW.close();
-        }
-    }
-    
-    private void getAllChildObjects(IDiagramModelContainer container, List<IArchimateElement> fChildren) {
-        for(IDiagramModelObject child : container.getChildren()) {
-            if(child instanceof IDiagramModelArchimateObject) {
-                IArchimateElement element = ((IDiagramModelArchimateObject)child).getArchimateElement();
-                if(element != null && !fChildren.contains(element)) {
-                    fChildren.add(element);
-                }
-            }
-            
-            if(child instanceof IDiagramModelContainer) {
-                getAllChildObjects((IDiagramModelContainer)child, fChildren);
-            }
         }
     }
     
@@ -408,22 +245,5 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         }
         
         return folder;
-    }
-    
-    /**
-     * Sort a *copy* of the List
-     */
-    private void sort(List<?> list) {
-        Collections.sort(list, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                if(o1 instanceof INameable && o2 instanceof INameable) {
-                    String name1 = StringUtils.safeString(((INameable)o1).getName()).toLowerCase().trim();
-                    String name2 = StringUtils.safeString(((INameable)o2).getName()).toLowerCase().trim();
-                    return name1.compareTo(name2);
-                }
-                return 0;
-            }
-        });
     }
 }

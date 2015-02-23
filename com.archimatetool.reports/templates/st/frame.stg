@@ -1,5 +1,14 @@
-frame(element, children) ::= <<
-﻿﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+expandChildren(children) ::= <<
+^children:{c |
+	<tr><td> <a href="../elements/^c.ArchimateElement.Id^.html" target="element"> ^c.Name^ </a> </td><td class="i18n-elementtype-^c.ArchimateElement.Class.SimpleName^"></td></tr>
+	^if(c.Children)^
+		^expandChildren(c.Children)^		
+	^endif^
+}^
+>>
+
+frame(element) ::= <<
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html class="frame" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -71,7 +80,7 @@ frame(element, children) ::= <<
 								</tr>
 							</thead>
 							<tbody>
-								^children:{c | <tr><td> <a href="../elements/^c.Id^.html" target="element"> ^c.Name^ </a> </td><td> ^c.Class.SimpleName^ </td></tr>}^
+								^expandChildren(element.Children)^
 							</tbody>
 						</table>
 					</div>
