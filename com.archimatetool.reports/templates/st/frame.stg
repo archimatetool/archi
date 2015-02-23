@@ -55,6 +55,12 @@ frame(element) ::= <<
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="documentation">
+						^if(element.Source)^
+							<br>
+							<b class="i18n-relation-source"></b> ^element.Source.Name^ <br>
+							<b class="i18n-relation-target"></b> ^element.Target.Name^ <br>
+							<br>
+						^endif^
 						<xmp>^element.Documentation^^element.Purpose^</xmp>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">

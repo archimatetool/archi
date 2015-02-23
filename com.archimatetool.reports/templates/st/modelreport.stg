@@ -3,7 +3,20 @@ expandFolder(folder, target) ::= <<
 	^folder.Folders:{f | <li class="tree-folder"><span><i class="glyphicon glyphicon-triangle-right"></i> ^f.Name^ </span>
 	^expandFolder(f, target)^
 	</li>}^
-	^folder.Elements:{e | <li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^"> ^e.Name^ </a></li> }^
+	^folder.Elements:{e |
+		^if(e.Source)^
+			<li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^">
+				^if(e.Name.Empty)^
+					<span class="i18n-elementtype-^e.Class.SimpleName^"></span>
+				^else^
+					^e.Name^
+				^endif^
+				(^e.Source.Name^ - ^e.Target.Name^) 
+			</a></li>
+		^else^
+			<li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^"> ^e.Name^ </a></li>
+		^endif^
+	}^
 </ul>
 >>
 

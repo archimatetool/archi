@@ -7,8 +7,10 @@
 :lang(en) .i18n-name:after {content: "Name"}
 :lang(en) .i18n-type:after {content: "Type"}
 
-/* Default element panel */
+/* element panel */
 :lang(en) .i18n-empty_element_message:after {content: "Select an element in the model tree or in a view to show its details here"}
+:lang(en) .i18n-relation-source:after {content: "Source:"}
+:lang(en) .i18n-relation-target:after {content: "Target:"}
 
 /* ViewPoints (com.archimatetool.editor.model.viewpoints.IViewpoint) */
 :lang(en) .i18n-viewpoint-0:after {content: "Total"}
