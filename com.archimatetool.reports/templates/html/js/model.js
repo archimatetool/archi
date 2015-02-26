@@ -2,8 +2,12 @@
 	$('.root-panel-body').css('height', $('.root-panel').outerHeight() - $('.root-panel-heading').outerHeight());
 }
 
-function asc_sort(a, b){
-	return ($(b).text().trim()) < ($(a).text().trim());
+function strcmp(a, b){
+	var aText = $(a).text().trim().toLowerCase();
+	var bText = $(b).text().trim().toLowerCase();
+	if (aText.toString() < bText.toString()) return -1;
+  if (aText.toString() > bText.toString()) return 1;
+  return 0;
 }
 
 $(document).ready(function() {
@@ -50,8 +54,8 @@ $(document).ready(function() {
 		} else {
 			// START SORT
 			$(this).parent('li.parent_li').find(' > ul').each(function(index){
-				$(this).children('li.tree-folder').sort(asc_sort).appendTo($(this));
-				$(this).children('li.tree-element').sort(asc_sort).appendTo($(this));
+				$(this).children('li.tree-folder').sort(strcmp).appendTo($(this));
+				$(this).children('li.tree-element').sort(strcmp).appendTo($(this));
 			});
 			// END SORT
 			children.show('fast');
