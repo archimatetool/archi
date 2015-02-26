@@ -59,8 +59,14 @@ frame(element) ::= <<
 					<div role="tabpanel" class="tab-pane active" id="documentation">
 						^if(element.Source)^
 							<br>
-							<b class="i18n-relation-source"></b> ^element.Source.Name^ <br>
-							<b class="i18n-relation-target"></b> ^element.Target.Name^ <br>
+							<b class="i18n-relation-source"></b>
+								<a href="../elements/^element.Source.Id^.html" target="element">
+									^element.Source.Name^
+								</a> <br>
+							<b class="i18n-relation-target"></b>
+								<a href="../elements/^element.Target.Id^.html" target="element">
+									^element.Target.Name^
+								</a> <br>
 							<br>
 						^endif^
 						<xmp style="white-space:pre-wrap">^element.Documentation^^element.Purpose^</xmp>
