@@ -63,7 +63,7 @@ frame(element) ::= <<
 							<b class="i18n-relation-target"></b> ^element.Target.Name^ <br>
 							<br>
 						^endif^
-						<xmp>^element.Documentation^^element.Purpose^</xmp>
+						<xmp style="white-space:pre-wrap">^element.Documentation^^element.Purpose^</xmp>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">
 						<table class="table table-striped table-hover table-condensed">
