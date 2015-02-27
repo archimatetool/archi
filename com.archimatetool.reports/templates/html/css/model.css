@@ -46,6 +46,9 @@ li.tree-element, ul{
 .no-padding {
 	padding: 0px;
 }
+.no-margin {
+	margin: 0px;
+}
 .navbar {
 	height: 100%;
 }
@@ -72,4 +75,8 @@ p.centered {
 
 img.diagram {
 	max-width: 100%;
+}
+
+xmp {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
