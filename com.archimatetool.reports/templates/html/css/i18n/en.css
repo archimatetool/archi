@@ -1,0 +1,150 @@
+/* View pages */
+:lang(en) .i18n-documentation:after {content: "Documentation"}
+:lang(en) .i18n-properties:after {content: "Properties"}
+:lang(en) .i18n-elements:after {content: "Elements"}
+:lang(en) .i18n-key:after {content: "Key"}
+:lang(en) .i18n-value:after {content: "Value"}
+:lang(en) .i18n-name:after {content: "Name"}
+:lang(en) .i18n-type:after {content: "Type"}
+
+/* element panel */
+:lang(en) .i18n-empty_element_message:after {content: "Select an element in the model tree or in a view to show its details here"}
+:lang(en) .i18n-relation-source:after {content: "Source:"}
+:lang(en) .i18n-relation-target:after {content: "Target:"}
+
+/* ViewPoints (com.archimatetool.editor.model.viewpoints.IViewpoint) */
+:lang(en) .i18n-viewpoint-0:after {content: "Total"}
+:lang(en) .i18n-viewpoint-1:after {content: "Actor Cooperation"}
+:lang(en) .i18n-viewpoint-2:after {content: "Application Behaviour"}
+:lang(en) .i18n-viewpoint-3:after {content: "Application Cooperation"}
+:lang(en) .i18n-viewpoint-4:after {content: "Application Structure"}
+:lang(en) .i18n-viewpoint-5:after {content: "Application Usage"}
+:lang(en) .i18n-viewpoint-6:after {content: "Business Function"}
+:lang(en) .i18n-viewpoint-7:after {content: "Business Process Cooperation"}
+:lang(en) .i18n-viewpoint-8:after {content: "Business Process"}
+:lang(en) .i18n-viewpoint-9:after {content: "Business Product"}
+:lang(en) .i18n-viewpoint-10:after {content: "Implementation And Deployment"}
+:lang(en) .i18n-viewpoint-11:after {content: "Information Structure"}
+:lang(en) .i18n-viewpoint-12:after {content: "Infrastructure Usage"}
+:lang(en) .i18n-viewpoint-13:after {content: "Infrastructure"}
+:lang(en) .i18n-viewpoint-14:after {content: "Layered"}
+:lang(en) .i18n-viewpoint-15:after {content: "Organisation"}
+:lang(en) .i18n-viewpoint-16:after {content: "Service Realisation"}
+:lang(en) .i18n-viewpoint-17:after {content: "Stakeholder"}
+:lang(en) .i18n-viewpoint-18:after {content: "Goal Realisation"}
+:lang(en) .i18n-viewpoint-19:after {content: "Goal Contribution"}
+:lang(en) .i18n-viewpoint-20:after {content: "Principles"}
+:lang(en) .i18n-viewpoint-21:after {content: "Requirements Realisation"}
+:lang(en) .i18n-viewpoint-22:after {content: "Motivation"}
+:lang(en) .i18n-viewpoint-23:after {content: "Project"}
+:lang(en) .i18n-viewpoint-24:after {content: "Migration"}
+:lang(en) .i18n-viewpoint-25:after {content: "Implementation Migration"}
+
+/* Elements (Class.SimpleName from com.archimatetool.model) */
+:lang(en) .i18n-elementtype-AccessRelationship:after {content: "Access"}
+:lang(en) .i18n-elementtype-AggregationRelationship:after {content: "Aggregation"}
+:lang(en) .i18n-elementtype-AndJunction:after {content: "And Junction"}
+:lang(en) .i18n-elementtype-ApplicationCollaboration:after {content: "Application Collaboration"}
+:lang(en) .i18n-elementtype-ApplicationComponent:after {content: "Application Component"}
+:lang(en) .i18n-elementtype-ApplicationFunction:after {content: "Application Function"}
+:lang(en) .i18n-elementtype-ApplicationInteraction:after {content: "Application Interaction"}
+:lang(en) .i18n-elementtype-ApplicationInterface:after {content: "Application Interface"}
+:lang(en) .i18n-elementtype-ApplicationService:after {content: "Application Service"}
+/* :lang(en) .i18n-elementtype-ArchimateComponent:after {content: "Archimate Component"} */
+/* :lang(en) .i18n-elementtype-ArchimateDiagramModel:after {content: "ArchimateDiagramModel"} */
+/* :lang(en) .i18n-elementtype-ArchimateElement:after {content: "ArchimateElement"} */
+/* :lang(en) .i18n-elementtype-ArchimateFactory:after {content: "ArchimateFactory"} */
+/* :lang(en) .i18n-elementtype-ArchimateModel:after {content: "ArchimateModel"} */
+/* :lang(en) .i18n-elementtype-ArchimatePackage:after {content: "ArchimatePackage"} */
+:lang(en) .i18n-elementtype-Artifact:after {content: "Artifact"}
+:lang(en) .i18n-elementtype-Assessment:after {content: "Assessment"}
+:lang(en) .i18n-elementtype-AssignmentRelationship:after {content: "Assignment"}
+:lang(en) .i18n-elementtype-AssociationRelationship:after {content: "Association"}
+/* :lang(en) .i18n-elementtype-Bounds:after {content: "Bounds"} */
+/* :lang(en) .i18n-elementtype-BusinessActivity:after {content: "Business Activity"} */
+:lang(en) .i18n-elementtype-BusinessActor:after {content: "Business Actor"}
+:lang(en) .i18n-elementtype-BusinessCollaboration:after {content: "Business Collaboration"}
+:lang(en) .i18n-elementtype-BusinessEvent:after {content: "Business Event"}
+:lang(en) .i18n-elementtype-BusinessFunction:after {content: "Business Function"}
+:lang(en) .i18n-elementtype-BusinessInteraction:after {content: "Business Interaction"}
+:lang(en) .i18n-elementtype-BusinessInterface:after {content: "Business Interface"}
+:lang(en) .i18n-elementtype-BusinessObject:after {content: "Business Object"}
+:lang(en) .i18n-elementtype-BusinessProcess:after {content: "Business Process"}
+:lang(en) .i18n-elementtype-BusinessRole:after {content: "Business Role"}
+:lang(en) .i18n-elementtype-BusinessService:after {content: "Business Service"}
+:lang(en) .i18n-elementtype-CommunicationPath:after {content: "Communication Path"}
+:lang(en) .i18n-elementtype-CompositionRelationship:after {content: "Composition"}
+:lang(en) .i18n-elementtype-Constraint:after {content: "Constraint"}
+:lang(en) .i18n-elementtype-Contract:after {content: "Contract"}
+:lang(en) .i18n-elementtype-DataObject:after {content: "Data Object"}
+:lang(en) .i18n-elementtype-Deliverable:after {content: "Deliverable"}
+:lang(en) .i18n-elementtype-Device:after {content: "Device"}
+/* :lang(en) .i18n-elementtype-DiagramModelArchimateConnection:after {content: "DiagramModelArchimateConnection"} */
+/* :lang(en) .i18n-elementtype-DiagramModelArchimateObject:after {content: "DiagramModelArchimateObject"} */
+/* :lang(en) .i18n-elementtype-DiagramModelBendpoint:after {content: "DiagramModelBendpoint"} */
+/* :lang(en) .i18n-elementtype-DiagramModelComponent:after {content: "DiagramModelComponent"} */
+/* :lang(en) .i18n-elementtype-DiagramModelConnection:after {content: "DiagramModelConnection"} */
+/* :lang(en) .i18n-elementtype-DiagramModelGroup:after {content: "DiagramModelGroup"} */
+/* :lang(en) .i18n-elementtype-DiagramModelImage:after {content: "DiagramModelImage"} */
+/* :lang(en) .i18n-elementtype-DiagramModel:after {content: "DiagramModel"} */
+/* :lang(en) .i18n-elementtype-DiagramModelNote:after {content: "DiagramModelNote"} */
+/* :lang(en) .i18n-elementtype-DiagramModelObject:after {content: "DiagramModelObject"} */
+/* :lang(en) .i18n-elementtype-DiagramModelReference:after {content: "DiagramModelReference"} */
+:lang(en) .i18n-elementtype-Driver:after {content: "Driver"}
+:lang(en) .i18n-elementtype-FlowRelationship:after {content: "Flow"}
+/* :lang(en) .i18n-elementtype-Folder:after {content: "Folder"} */
+:lang(en) .i18n-elementtype-Gap:after {content: "Gap"}
+:lang(en) .i18n-elementtype-Goal:after {content: "Goal"}
+/* :lang(en) .i18n-elementtype-ImplementationMigrationElement:after {content: "ImplementationMigrationElement"} */
+:lang(en) .i18n-elementtype-InfluenceRelationship:after {content: "Influence"}
+:lang(en) .i18n-elementtype-InfrastructureFunction:after {content: "Infrastructure Function"}
+:lang(en) .i18n-elementtype-InfrastructureInterface:after {content: "Infrastructure Interface"}
+:lang(en) .i18n-elementtype-InfrastructureService:after {content: "Infrastructure Service"}
+:lang(en) .i18n-elementtype-Junction:after {content: "Junction"}
+:lang(en) .i18n-elementtype-Location:after {content: "Location"}
+:lang(en) .i18n-elementtype-Meaning:after {content: "Meaning"}
+/* :lang(en) .i18n-elementtype-Metadata:after {content: "Metadata"} */
+/* :lang(en) .i18n-elementtype-MotivationElement:after {content: "MotivationElement"} */
+:lang(en) .i18n-elementtype-Network:after {content: "Network"}
+:lang(en) .i18n-elementtype-Node:after {content: "Node"}
+:lang(en) .i18n-elementtype-OrJunction:after {content: "Or Junction"}
+:lang(en) .i18n-elementtype-Plateau:after {content: "Plateau"}
+:lang(en) .i18n-elementtype-Principle:after {content: "Principle"}
+:lang(en) .i18n-elementtype-Product:after {content: "Product"}
+/* :lang(en) .i18n-elementtype-Property:after {content: "Property"} */
+:lang(en) .i18n-elementtype-RealisationRelationship:after {content: "Realisation"}
+/* :lang(en) .i18n-elementtype-Relationship:after {content: "Relationship"} */
+:lang(en) .i18n-elementtype-Representation:after {content: "Representation"}
+:lang(en) .i18n-elementtype-Requirement:after {content: "Requirement"}
+/* :lang(en) .i18n-elementtype-SketchModelActor:after {content: "SketchModelActor"} */
+/* :lang(en) .i18n-elementtype-SketchModel:after {content: "SketchModel"} */
+/* :lang(en) .i18n-elementtype-SketchModelSticky:after {content: "SketchModelSticky"} */
+:lang(en) .i18n-elementtype-SpecialisationRelationship:after {content: "Specialisation"}
+:lang(en) .i18n-elementtype-Stakeholder:after {content: "Stakeholder"}
+:lang(en) .i18n-elementtype-SystemSoftware:after {content: "System Software"}
+:lang(en) .i18n-elementtype-TriggeringRelationship:after {content: "Triggering"}
+:lang(en) .i18n-elementtype-UsedByRelationship:after {content: "Used By"}
+:lang(en) .i18n-elementtype-Value:after {content: "Value"}
+:lang(en) .i18n-elementtype-WorkPackage:after {content: "Work Package"}
+
+/* Model Tree */
+:lang(en) .i18n-modeltree:after {content: "Model Tree"}
+:lang(en) .i18n-model_content:after {content: "Model Content"}
+:lang(en) .i18n-business_layer:after {content: "Business Layer"}
+:lang(en) .i18n-application_layer:after {content: "Application Layer"}
+:lang(en) .i18n-technology_layer:after {content: "Technology Layer"}
+:lang(en) .i18n-motivation:after {content: "Motivation"}
+:lang(en) .i18n-implementation:after {content: "Implementation"}
+:lang(en) .i18n-connectors:after {content: "Connectors"}
+:lang(en) .i18n-relations:after {content: "Relations"}
+:lang(en) .i18n-views:after {content: "Views"}
+
+/* Modal Dialogs */
+:lang(en) .i18n-hint:after {content: "Hint"}
+:lang(en) .i18n-close:after {content: "Close"}
+:lang(en) .i18n-about:after {content: "About"}
+:lang(en) .i18n-about-pluginname:after {content: "Archi HTML Report plugin"}
+:lang(en) .i18n-about-pluginversion:after {content: "Version 1.0 beta1"}
+:lang(en) .i18n-about-plugintext1:after {content: "This plugin has been developed by Jean-Baptiste Sarrodie and Quentin Varquet."}
+:lang(en) .i18n-about-plugintext2:after {content: "This document has been created using Archi®. Archi® is a free, open source, cross-platform tool to create ArchiMate models and is targeted toward all levels of Enterprise Architects and Modellers. It provides a low cost to entry solution to users who may be making their first steps in the ArchiMate modelling language, or who are looking for a free, cross-platform ArchiMate modelling tool for their company or institution and wish to engage with the language within a TOGAF® or other Enterprise Architecture framework."}
+:lang(en) .i18n-about-plugintext3:after {content: "is a registered trademark of Phillip Beauvoir."}

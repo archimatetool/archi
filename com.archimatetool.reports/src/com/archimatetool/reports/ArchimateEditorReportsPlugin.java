@@ -43,6 +43,13 @@ public class ArchimateEditorReportsPlugin extends AbstractUIPlugin implements IS
     }
 
     /**
+     * @return The plugins folder
+     */
+    public File getTemplatesFolder() {
+        return new File(getPluginFolder(), "templates"); //$NON-NLS-1$
+    }
+        
+    /**
      * @return The File Location of this plugin
      */
     public File getPluginFolder() {

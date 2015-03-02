@@ -1,0 +1,151 @@
+expandFolder(folder, target) ::= <<
+<ul>
+	^folder.Folders:{f | <li class="tree-folder"><span><i class="glyphicon glyphicon-triangle-right"></i> ^f.Name^ </span>
+	^expandFolder(f, target)^
+	</li>}^
+	^folder.Elements:{e |
+		^if(e.Source)^
+			<li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^">
+				^if(e.Name.Empty)^
+					<span class="i18n-elementtype-^e.Class.SimpleName^"></span>
+				^else^
+					^e.Name^
+				^endif^
+				(^e.Source.Name^ - ^e.Target.Name^) 
+			</a></li>
+		^else^
+			<li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^"> ^e.Name^ </a></li>
+		^endif^
+	}^
+</ul>
+>>
+
+modelreport(model, businessFolder, applicationFolder, technologyFolder, motivationFolder, implementationFolder, connectorsFolder, relationsFolder, viewsFolder) ::= <<
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html class="model" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>^model.Name^</title>
+
+	<!-- JQUERY (use 1.x branch to be compatible with IE 6/7/8) / UI / LAYOUT -->
+	<script type="text/javascript" src="lib/jquery/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui/js/jquery-ui-1.11.2.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui-layout/js/jquery.layout-1.4.4.js"></script>
+	<link type="text/css" rel="stylesheet" href="lib/jquery-ui-layout/css/layout-default-1.4.4.css">
+	<!-- BOOTSTRAP -->
+	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap-3.3.2.min.css">
+	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme-3.3.2.min.css">
+	<script type="text/javascript" src="lib/bootstrap/js/bootstrap-3.3.2.min.js"></script>
+	<!-- REPORT SPECIFIC -->
+	<link type="text/css" rel="stylesheet" href="css/model.css">
+	<link type="text/css" rel="stylesheet" href="css/i18n.css">
+	<script type="text/javascript" src="js/model.js"></script>
+</head>
+
+<body>
+	<!-- "ui-layout-north" class set (topbar) -->
+	<div class="ui-layout-north">
+		<nav class="navbar navbar-default">
+			<div class="navbar-header">
+				<span class="navbar-brand">^model.Name^</span>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#myModal" data-toggle="modal" class="btn go"><span class="i18n-about"></span></a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<iframe name="view" class="ui-layout-center" src="views/model.html" scrolling="no"></iframe>
+
+	<div class="ui-layout-west">
+		<iframe name="element" class="ui-layout-south" src="elements/empty-element.html"  scrolling="no"></iframe>
+		<div class="ui-layout-center">
+			<div class="panel panel-default root-panel">
+				<div class="panel-heading root-panel-heading">
+					<b><span class="i18n-modeltree"></span></b>
+				</div>
+				<div class="panel-body root-panel-body">
+					<b><a href="views/model.html" target="view">^model.Name^</a></b>
+					<ul class="tree">
+					<!-- START OF STRINGTEMPLATE CODE -->
+						<li><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+							<ul>
+								<li><span class="i18n-business_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(businessFolder, "element")^
+								</li>
+								<li><span class="i18n-application_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(applicationFolder, "element")^
+								</li>
+								<li><span class="i18n-technology_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(technologyFolder, "element")^
+								</li>
+								<li><span class="i18n-motivation"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(motivationFolder, "element")^
+								</li>
+								<li><span class="i18n-implementation"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(implementationFolder, "element")^
+								</li>
+								<li><span class="i18n-connectors"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(connectorsFolder, "element")^
+								</li>
+								<li><span class="i18n-relations"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+									^expandFolder(relationsFolder, "element")^
+								</li>
+							</ul>
+						</li>
+						<li><span class="i18n-views"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+							^expandFolder(viewsFolder, "view")^
+						</li>
+					<!-- END OF STRINGTEMPLATE CODE -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- START ABOUT MODAL DIALOG -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<h4 class="modal-title i18n-about"></h4>
+				</div>
+				<div class="modal-body">
+					<p><strong> <span class="i18n-about-pluginname"></span></strong></p>
+					<p><span class="i18n-about-pluginversion"></span></p>
+					<p><span class="i18n-about-plugintext1"></span></p>
+					<p><span class="i18n-about-plugintext2"></span></p>
+					<p><a href="http://www.archimatetool.com" target="_blank">Archi®</a> <span class="i18n-about-plugintext3"></span></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default i18n-close" data-dismiss="modal"></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END ABOUT MODAL DIALOG -->
+	
+	<!-- START HINT MODAL DIALOG -->
+	<div class="modal fade first-load" id="myModalHint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+						<h4 class="modal-title i18n-hint"></h4>
+				</div>
+				<div class="modal-body">
+						<iframe id="frame-hint" name="hint" onload="if($('#myModalHint').hasClass('first-load')) $('#myModalHint').removeClass('first-load'); else $('#myModalHint').modal({show:true});"></iframe>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default i18n-close" data-dismiss="modal"></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END HINT MODAL DIALOG -->
+</body>
+</html>
+>>

@@ -9,6 +9,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  com.archimatetool.editor
-Bundle-ClassPath: com.archimatetool.reports.jar
+Bundle-ClassPath: com.archimatetool.reports.jar,
+ lib/ST-4.0.8.jar,
+ lib/antlr-runtime-4.4.jar
 Bundle-Activator: com.archimatetool.reports.ArchimateEditorReportsPlugin
 Bundle-ActivationPolicy: lazy

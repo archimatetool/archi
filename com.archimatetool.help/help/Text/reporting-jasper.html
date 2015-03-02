@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Jasper Reports</title>
+<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+    <h1 class="pagebreak">Jasper Reports</h1>
+    
+    <br/>
+    
+    <p><a href="https://www.jaspersoft.com/jasperreports" target="_blank">Jasper Reports</a> is the world's most popular Java reporting engine. Combine data sources and produce pixel-perfect documents that can be viewed, printed, or exported into a variety of document formats with this powerful reporting tool. Archi can export models in various formats using Jasper Reports Templates.</p>
+    
+    <p>This option is available from the "Report-&gt;Jasper..." menu item from the main "File" menu. Once a model is selected in the Model Tree or in a View this menu item is enabled. Provide the details in the following wizard page:</p>
+    
+    <img src="../Images/jasper_wizard1.png"/>
+    <p class="caption">Jasper Reports wizard page 1</p>
+      
+    <br/>
+    
+    <p>And then in the next wizard page, choose the report template that you prefer:</p>
+    
+    <img src="../Images/jasper_wizard2.png"/>
+    <p class="caption">Jasper Reports wizard page 2</p>
+    
+    <br/>
+    
+    <h2>Customisable Jasper Reports</h2>
+    
+    <p>If you choose the "Customizable Report" template when exporting, then you can set various properties for the report's layout if you base your model on the "Customizable Report" model template when creating a new model. See <a href="templates_new_model.html">"Creating a New Model from a Template"</a> for more details.</p>
+    
+    <p>If you wish to create your own custom Jasper Report templates you can place these in the folder named "jasper-reports" in the application preference folder. You can change the location of this folder in <a href="prefs_jasper.html">Preferences</a>. Alternatively, you can manually select a template file ("main.jrxml") from the "Choose..." combo option.</p>
+    
+    <p>An example folder structure for custom reports:</p>
+<pre>
+C:\Users\Bagpuss\Application Data\Archi\jasper-reports
+                                                 |------My Custom Report
+                                                                 |------main.jrxml
+                                                                 |------style.jrxt
+                                                                 |------other files...
+</pre>
+    <p>For more information on creating custom Jasper Reports please refer to the developer section of the Archi website.</p>
+
+    <br/>
+    <h2>Output</h2>
+
+    <p>The following is an example of a PDF format report:</p>
+    
+    <img src="../Images/jasper_pdf.png"/>
+    <p class="caption">Part of a Generated Jasper Report in PDF format</p>
+    
+    <p>&nbsp;</p>
+
+</body>
+</html>

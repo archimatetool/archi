@@ -119,6 +119,10 @@
     <topic href="help/Text/exporting.html" label="Importing and Exporting the Model and its Views">
     </topic>
     <topic href="help/Text/reporting.html" label="Reporting">
+       <topic href="help/Text/reporting-html.html" label="HTML Reports">
+       </topic>
+       <topic href="help/Text/reporting-jasper.html" label="Jasper Reports">
+       </topic>
     </topic>
     <topic href="help/Text/templates.html" label="Templates">
        <topic href="help/Text/templates_new.html" label="Creating a New Template">
