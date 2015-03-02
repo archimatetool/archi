@@ -143,11 +143,11 @@
     </context>
     <context id="ExportJasperReportsWizardPage1" title="Jasper Reports">
        <description>Choose the output location, report title and which formats to generate.</description>
-       <topic href="help/Text/reporting.html" label="Jasper Reports"/>
+       <topic href="help/Text/reporting-jasper.html" label="Jasper Reports"/>
     </context>
     <context id="ExportJasperReportsWizardPage2">
        <description>Choose the report template to use.</description>
-       <topic href="help/Text/reporting.html" label="Jasper Reports"/>
+       <topic href="help/Text/reporting-jasper.html" label="Jasper Reports"/>
     </context>
     <context id="ImageManagerDialog" title="Select an Image">
        <description>Select an Image</description>
