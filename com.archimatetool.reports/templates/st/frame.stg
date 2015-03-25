@@ -2,6 +2,10 @@ expandChildren(children) ::= <<
 ^children:{c |
 	^if(c.ArchimateElement)^
 		<tr><td> <a href="../elements/^c.ArchimateElement.Id^.html" target="element"> ^c.Name^ </a> </td><td class="i18n-elementtype-^c.ArchimateElement.Class.SimpleName^"></td></tr>
+	^elseif(c.ReferencedModel)^
+		<tr><td> <a href="../views/^c.ReferencedModel.Id^.html" target="view"> ^c.Name^ </a> </td><td class="i18n-viewpoint-^c.ReferencedModel.Viewpoint^"></td></tr>
+	^else^
+		<!-- DEBUG: Skipping element from class ^c.Class.Name^ -->	
 	^endif^
 	^if(c.Children)^
 		^expandChildren(c.Children)^		
@@ -69,7 +73,8 @@ frame(element) ::= <<
 								</a> <br>
 							<br>
 						^endif^
-						<xmp style="white-space:pre-wrap">^element.Documentation^^element.Purpose^</xmp>
+						<textarea id="docsrc" style="display:none">^element.Documentation^^element.Purpose^</textarea>
+						<div id="doctgt" style="white-space:pre-wrap"></div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">
 						<table class="table table-striped table-hover table-condensed">
