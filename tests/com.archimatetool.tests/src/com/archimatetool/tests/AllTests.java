@@ -20,6 +20,7 @@ public class AllTests {
         suite.addTest(getTest("com.archimatetool.csv.AllTests"));
         suite.addTest(getTest("com.archimatetool.editor.AllTests"));
         suite.addTest(getTest("com.archimatetool.export.svg.AllTests"));
+        suite.addTest(getTest("com.archimatetool.help.AllTests"));
         suite.addTest(getTest("com.archimatetool.jasperreports.AllTests"));
         suite.addTest(getTest("com.archimatetool.jdom.AllTests"));
 		suite.addTest(getTest("com.archimatetool.model.AllTests"));

@@ -17,4 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: com.archimatetool.help.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: com.archimatetool.help.hints
+Export-Package: com.archimatetool.help,
+ com.archimatetool.help.cheatsheets,
+ com.archimatetool.help.hints
