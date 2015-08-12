@@ -227,9 +227,6 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             if(parent != null) {
                 getViewer().refresh(parent);
             }
-            else {
-                getViewer().refresh(); // parent was null - refresh tree - can happen when derived rel folder is created.
-            }
         }
         finally {
             getViewer().getControl().setRedraw(true);
@@ -272,7 +269,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             }
         }
         
-        return (element instanceof IFolder) ? element : null;
+        return (element instanceof IFolder || element instanceof IArchimateModel) ? element : null;
     }
     
     /**
