@@ -11,7 +11,7 @@
       <command
             defaultHandler="com.archimatetool.hammer.ValidateHandler"
             id="com.archimatetool.hammer.command.validate"
-            name="Validate Model">
+            name="%command.name">
       </command>
    </extension>
    <extension
@@ -43,7 +43,7 @@
          <command
                commandId="com.archimatetool.hammer.command.validate"
                id="com.archimatetool.hammer.popupmeu.validate"
-               label="Validate Model"
+               label="%command.name"
                style="push">
          </command>
          <separator
@@ -56,7 +56,7 @@
             locationURI="menu:tools">
          <command
                commandId="com.archimatetool.hammer.command.validate"
-               label="Validate Model"
+               label="%command.name"
                style="push">
          </command>
       </menuContribution>
