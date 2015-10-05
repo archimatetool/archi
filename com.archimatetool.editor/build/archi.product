@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="3.3.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="3.3.1.qualifier" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.archimatetool.editor/img/about.png"/>
