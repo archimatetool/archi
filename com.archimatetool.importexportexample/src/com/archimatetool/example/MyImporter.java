@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.IModelImporter;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -216,7 +217,7 @@ public class MyImporter implements IModelImporter {
             throw new IllegalArgumentException("Eclass type should be of relationship type");
         }
         
-        return (IRelationship)createAndAddArchimateElement(model, type, name, id);
+        return (IRelationship)createAndAddArchimateComponent(model, type, name, id);
     }
     
     protected IArchimateElement createAndAddArchimateElement(IArchimateModel model, EClass type, String name, String id) {
@@ -224,13 +225,17 @@ public class MyImporter implements IModelImporter {
             throw new IllegalArgumentException("Eclass type should be of archimate element type");
         }
 
-        IArchimateElement element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(type);
-        element.setName(name);
-        element.setId(id);
-        IFolder folder = model.getDefaultFolderForElement(element);
-        folder.getElements().add(element);
-        idLookup.put(element.getId(), element);
-        return element;
+        return (IArchimateElement)createAndAddArchimateComponent(model, type, name, id);
+    }
+    
+    protected IArchimateComponent createAndAddArchimateComponent(IArchimateModel model, EClass type, String name, String id) {
+        IArchimateComponent component = (IArchimateComponent)IArchimateFactory.eINSTANCE.create(type);
+        component.setName(name);
+        component.setId(id);
+        IFolder folder = model.getDefaultFolderForElement(component);
+        folder.getElements().add(component);
+        idLookup.put(component.getId(), component);
+        return component;
     }
 
     protected File askOpenFile() {
