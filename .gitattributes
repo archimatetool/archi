@@ -1,26 +1,27 @@
 # Handle line endings automatically for files detected as text
 # and leave all files detected as binary untouched.
-* text=auto
+# USING CRLF!!!!!
+* text eol=crlf
 
 #
 # The above will handle all files NOT found below
 #
-# These files are text and should be normalized (Convert crlf => lf)
-*.css           text
-*.df            text
-*.htm           text
-*.html          text
-*.java          text
-*.js            text
-*.json          text
-*.jsp           text
-*.jspf          text
-*.properties    text
-*.sh            text
-*.svg           text
-*.tld           text
-*.txt           text
-*.xml           text
+# These files are text and should be normalized (CONVERTING TO CRLF!!!!!)
+*.css           text eol=crlf
+*.df            text eol=crlf
+*.htm           text eol=crlf
+*.html          text eol=crlf
+*.java          text eol=crlf
+*.js            text eol=crlf
+*.json          text eol=crlf
+*.jsp           text eol=crlf
+*.jspf          text eol=crlf
+*.properties    text eol=crlf
+*.sh            text eol=crlf
+*.svg           text eol=crlf
+*.tld           text eol=crlf
+*.txt           text eol=crlf
+*.xml           text eol=crlf
 
 # These files are binary and should be left untouched
 # (binary is a macro for -text -diff)
