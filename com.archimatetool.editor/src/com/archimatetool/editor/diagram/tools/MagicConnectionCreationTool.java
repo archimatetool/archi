@@ -44,6 +44,7 @@ import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -68,12 +69,13 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
 
     
     /**
-     * Flags to update Factory elements when hovering on menu items
+     * Flag to update Factory elements when hovering on relationship menu items
+     * This is to ensure that when the user presses escape the menu selection is cancelled
      */
-    private boolean fArmOnElements, fArmOnConnections;
+    private boolean fSetRelationshipTypeWhenHoveringOnConnectionMenuItem;
 
     /**
-     * This flag stops some thread conditions (on Mac) that can re-set the current command when the context menu is showing
+     * This flag stops some thread conditions (on Mac) that can re-set the current command when the popup menu is showing
      */
     private boolean fCanSetCurrentCommand = true;
     
@@ -152,7 +154,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     private boolean createConnection(CreateConnectionRequest request, IDiagramModelArchimateObject sourceDiagramModelObject,
             IDiagramModelArchimateObject targetDiagramModelObject) {
         
-        fArmOnConnections = false;
+        // Only set when a menu selection for a connection is actually made
+        fSetRelationshipTypeWhenHoveringOnConnectionMenuItem = false;
         
         // Set this threading safety guard
         fCanSetCurrentCommand = false;
@@ -169,6 +172,12 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             }
         }
         
+        // Workaround for Bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=480318
+        // SWT Menu does not fire Selection Event when Windows touch display is enabled
+        if(PlatformUtils.isWindows()) {
+            while(display.readAndDispatch());
+        }
+
         if(!menu.isDisposed()) {
             menu.dispose();
         }
@@ -226,16 +235,18 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         elementsFirst ^= modKeyPressed;
         
         Menu menu = new Menu(getCurrentViewer().getControl());
+        
+        // User will hover over element, then connection
         if(elementsFirst) {
-            fArmOnElements = true;
-            fArmOnConnections = false;
+            fSetRelationshipTypeWhenHoveringOnConnectionMenuItem = false; 
             addElementActions(menu, sourceDiagramModelObject);
         }
+        // User will hover over connection, then element
         else {
-            fArmOnConnections = true;
-            fArmOnElements = false;
+            fSetRelationshipTypeWhenHoveringOnConnectionMenuItem = true;
             addConnectionActions(menu, sourceDiagramModelObject);
         }
+        
         menu.setVisible(true);
         
         // Modal menu
@@ -246,6 +257,12 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             }
         }
         
+        // Workaround for Bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=480318
+        // SWT Menu does not fire Selection Event when Windows touch display is enabled
+        if(PlatformUtils.isWindows()) {
+            while(display.readAndDispatch());
+        }
+
         if(!menu.isDisposed()) {
             menu.dispose();
         }
@@ -430,11 +447,11 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         item.setText(ArchimateLabelProvider.INSTANCE.getDefaultName(type));
         item.setImage(ArchimateLabelProvider.INSTANCE.getImage(type));
         
-        // Add hover listener to notify Hints View and also set element if elements first
+        // Add arm listener to notify Hints View and also set element if elements first
         item.addArmListener(new ArmListener() {
             @Override
             public void widgetArmed(ArmEvent e) {
-                if(fArmOnElements) {
+                if(!fSetRelationshipTypeWhenHoveringOnConnectionMenuItem) { // User will hover over element, then connection
                     getFactory().setElementType(type);
                 }
                 ComponentSelectionManager.INSTANCE.fireSelectionEvent(item, type);
@@ -476,11 +493,11 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         item.setText(ArchimateLabelProvider.INSTANCE.getRelationshipPhrase(relationshipType, reverseDirection));
         item.setImage(ArchimateLabelProvider.INSTANCE.getImage(relationshipType));
         
-        // Add hover listener to notify Hints View
+        // Add arm listener to notify Hints View
         item.addArmListener(new ArmListener() {
             @Override
             public void widgetArmed(ArmEvent e) {
-                if(fArmOnConnections) {
+                if(fSetRelationshipTypeWhenHoveringOnConnectionMenuItem) { // User will hover over connection, then element
                     getFactory().setRelationshipType(relationshipType);
                 }
                 ComponentSelectionManager.INSTANCE.fireSelectionEvent(item, relationshipType);
