@@ -46,7 +46,7 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * @author Phillip Beauvoir
  */
 public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
-	private final static int defaultXOffset = 150;
+    private final static int defaultXOffset = 150;
     private final static int defaultYOffset = 100;
     private final static int defaultMaxOriginOffset = 400;
 	
