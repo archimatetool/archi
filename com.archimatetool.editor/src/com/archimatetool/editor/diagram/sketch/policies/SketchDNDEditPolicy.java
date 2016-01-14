@@ -14,9 +14,11 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.archimatetool.editor.diagram.commands.AddDiagramModelReferenceCommand;
+import com.archimatetool.editor.diagram.commands.AddMiniDiagramModelReferenceCommand;
 import com.archimatetool.editor.diagram.dnd.AbstractDNDEditPolicy;
 import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.impl.DiagramModelObject;
 
 
 
@@ -48,7 +50,18 @@ public class SketchDNDEditPolicy extends AbstractDNDEditPolicy {
         // Compound Command
         CompoundCommand result = new CompoundCommand(Messages.SketchDNDEditPolicy_0);
         
-        for(IDiagramModel diagramModel : list) {
+        // Special case for corner mini-reference
+        if (list.size() == 1 && getTargetContainer() instanceof DiagramModelObject) {
+            final DiagramModelObject parent = (DiagramModelObject) getTargetContainer();
+
+            final int rightBottomX = parent.getBounds().getWidth();
+            final int rightBottomY = parent.getBounds().getHeight();
+
+            result.add(new AddMiniDiagramModelReferenceCommand(getTargetContainer(), list.get(0), rightBottomX,
+                    rightBottomY));
+        }
+        // Otherwise add diagram model refs as normal
+        else for(IDiagramModel diagramModel : list) {
             result.add(new AddDiagramModelReferenceCommand(getTargetContainer(), diagramModel, x, y));
             
             x += 150;

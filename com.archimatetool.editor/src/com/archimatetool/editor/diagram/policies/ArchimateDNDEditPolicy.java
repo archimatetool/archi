@@ -18,6 +18,7 @@ import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.diagram.commands.AddDiagramArchimateConnectionCommand;
 import com.archimatetool.editor.diagram.commands.AddDiagramModelReferenceCommand;
 import com.archimatetool.editor.diagram.commands.AddDiagramObjectCommand;
+import com.archimatetool.editor.diagram.commands.AddMiniDiagramModelReferenceCommand;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.dnd.AbstractDNDEditPolicy;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
@@ -34,6 +35,7 @@ import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.impl.DiagramModelObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -102,7 +104,19 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         }
 
         // Then any Diagram Model Ref Commands
-        for(IDiagramModel diagramModel : fDiagramRefsToAdd) {
+        // Special case for corner mini-reference
+        if (fElementsToAdd.isEmpty() && fRelationsToAdd.isEmpty() && fDiagramRefsToAdd.size() == 1
+                && getTargetContainer() instanceof DiagramModelObject) {
+            final DiagramModelObject parent = (DiagramModelObject) getTargetContainer();
+
+            final int rightBottomX = parent.getBounds().getWidth();
+            final int rightBottomY = parent.getBounds().getHeight();
+
+            result.add(new AddMiniDiagramModelReferenceCommand(getTargetContainer(), fDiagramRefsToAdd.get(0),
+                    rightBottomX, rightBottomY));
+        }
+        // Otherwise add diagram model refs as normal
+        else for(IDiagramModel diagramModel : fDiagramRefsToAdd) {
             result.add(new AddDiagramModelReferenceCommand(getTargetContainer(), diagramModel, x, y));
             
             x += 150;
