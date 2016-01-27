@@ -29,6 +29,11 @@ public class BrowserEditorInputFactory implements IElementFactory {
     public static final String TAG_URL = "url"; //$NON-NLS-1$
     
     /**
+     * Tag for Name
+     */
+    public static final String TAG_TITLE = "title"; //$NON-NLS-1$
+
+    /**
      * Tag for whether to persist the Browser's current URL
      */
     public static final String TAG_PERSIST_BROWSER_URL = "persist_browser_url"; //$NON-NLS-1$
@@ -36,7 +41,9 @@ public class BrowserEditorInputFactory implements IElementFactory {
     @Override
     public IAdaptable createElement(IMemento memento) {
         String url = memento.getString(TAG_URL);
-        IBrowserEditorInput input = new BrowserEditorInput(url);
+        String title = memento.getString(TAG_TITLE);
+        
+        IBrowserEditorInput input = new BrowserEditorInput(url, title);
 
         Boolean persistBrowserURL = memento.getBoolean(TAG_PERSIST_BROWSER_URL);
         if(persistBrowserURL != null) {

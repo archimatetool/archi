@@ -22,4 +22,10 @@ public interface IBrowserEditor extends IEditorPart {
      * @return The Browser
      */
     Browser getBrowser();
+    
+    /**
+     * Set new BrowserEditorInput
+     * @param input
+     */
+    void setBrowserEditorInput(BrowserEditorInput input);
 }

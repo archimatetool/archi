@@ -104,6 +104,7 @@ public class BrowserEditorInput implements IBrowserEditorInput {
         }
         if(url != null) {
             memento.putString(BrowserEditorInputFactory.TAG_URL, url);
+            memento.putString(BrowserEditorInputFactory.TAG_TITLE, title);
             if(fPersistBrowserURL) { // don't save if not set
                 memento.putBoolean(BrowserEditorInputFactory.TAG_PERSIST_BROWSER_URL, fPersistBrowserURL);
             }

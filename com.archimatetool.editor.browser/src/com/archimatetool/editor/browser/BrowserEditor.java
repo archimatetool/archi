@@ -27,11 +27,6 @@ import org.eclipse.ui.part.EditorPart;
 public class BrowserEditor extends EditorPart implements IBrowserEditor {
     
     /**
-     * The Input
-     */
-    private BrowserEditorInput fInput;
-    
-    /**
      * The Browser component
      */
     private Browser fBrowser;
@@ -45,10 +40,6 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
 
         setSite(site);
         setInput(input);
-        
-        fInput = (BrowserEditorInput)input;
-        
-        setPartName(input.getName());
     }
 
     @Override
@@ -67,12 +58,16 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
             return;
         }
         
-        fInput.browser = fBrowser;
+        BrowserEditorInput input = (BrowserEditorInput)getEditorInput();
+        
+        input.browser = fBrowser;
         
         // Set URL
-        if(fInput.getURL() != null) {
-            fBrowser.setUrl(fInput.getURL());
+        if(input.getURL() != null) {
+            fBrowser.setUrl(input.getURL());
         }
+        
+        setPartName(input.getName());
     }
     
     /**
@@ -93,6 +88,16 @@ public class BrowserEditor extends EditorPart implements IBrowserEditor {
         }
         
         return browser;
+    }
+    
+    public void setBrowserEditorInput(BrowserEditorInput input) {
+        setInput(input);
+        
+        setPartName(input.getName());
+        
+        if(input.getURL() != null) {
+            fBrowser.setUrl(input.getURL());
+        }
     }
     
     /**
