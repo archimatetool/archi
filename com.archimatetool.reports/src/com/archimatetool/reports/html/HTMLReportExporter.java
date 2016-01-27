@@ -191,7 +191,10 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             Image image = DiagramUtils.createImage(dm, 1, 10);
             String diagramName = dm.getId();
             if(StringUtils.isSet(diagramName)) {
-                diagramName = FileUtils.getValidFileName(diagramName);
+                // removed this because ids can have hyphens in them (when imported from TOG format)
+                // Let's hope that ids are filename friendly...
+                //diagramName = FileUtils.getValidFileName(diagramName);
+                
                 int j = 2;
                 String s = diagramName + ".png";  //$NON-NLS-1$
                 while(table.containsValue(s)) {
