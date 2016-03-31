@@ -297,7 +297,7 @@ public final class CopySnapshot {
     }
     
     private boolean isValidPasteObject(IDiagramModel targetDiagramModel, IDiagramModelObject object) {
-        // Can't paste IDiagramModelReference to another Archimate model
+        // Can't paste IDiagramModelReference to another Archimate model and diagram model must exist
         if(object instanceof IDiagramModelReference) {
             IDiagramModel ref = ((IDiagramModelReference)object).getReferencedModel();
             for(IDiagramModel diagramModel : targetDiagramModel.getArchimateModel().getDiagramModels()) {
@@ -374,9 +374,7 @@ public final class CopySnapshot {
         
         // Diagram objects first
         for(IDiagramModelObject object : fDiagramModelSnapshot.getChildren()) {
-            if(isValidPasteObject(targetDiagramModel, object)) {
-                createPasteObjectCommand(targetDiagramModel, object, result, tmpSnapshotToNewObjectMapping);
-            }
+            createPasteObjectCommand(targetDiagramModel, targetDiagramModel, object, result, tmpSnapshotToNewObjectMapping);
         }
 
         // Then Connections
@@ -390,8 +388,13 @@ public final class CopySnapshot {
     /*
      * Create a single Paste command for an object
      */
-    private void createPasteObjectCommand(IDiagramModelContainer container, IDiagramModelObject snapshotObject,
+    private void createPasteObjectCommand(IDiagramModel targetDiagramModel, IDiagramModelContainer container, IDiagramModelObject snapshotObject,
                                         CompoundCommand result, Hashtable<IDiagramModelObject, IDiagramModelObject> tmpSnapshotToNewObjectMapping) {
+        
+        // Don't paste invalid references
+        if(!isValidPasteObject(targetDiagramModel, snapshotObject)) {
+            return;
+        }
         
         IDiagramModelObject newObject = (IDiagramModelObject)snapshotObject.getCopy();
         
@@ -433,7 +436,7 @@ public final class CopySnapshot {
         // Container
         if(snapshotObject instanceof IDiagramModelContainer) {
             for(IDiagramModelObject child : ((IDiagramModelContainer)snapshotObject).getChildren()) {
-                createPasteObjectCommand((IDiagramModelContainer)newObject, child, result, tmpSnapshotToNewObjectMapping);
+                createPasteObjectCommand(targetDiagramModel, (IDiagramModelContainer)newObject, child, result, tmpSnapshotToNewObjectMapping);
             }
         }
     }
