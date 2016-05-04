@@ -262,8 +262,12 @@ public class CSVImporter implements CSVConstants {
     private void createElementFromRecord(CSVRecord csvRecord) throws CSVParseException {
         // ID
         String id = csvRecord.get(0);
+        
         if(!StringUtils.isSet(id)) {
             id = generateID();
+        }
+        else {
+            checkIDForInvalidCharacters(id);
         }
         
         // Class type
@@ -329,8 +333,12 @@ public class CSVImporter implements CSVConstants {
     private void createRelationFromRecord(CSVRecord csvRecord) throws CSVParseException {
         // ID
         String id = csvRecord.get(0);
+        
         if(!StringUtils.isSet(id)) {
             id = generateID();
+        }
+        else {
+            checkIDForInvalidCharacters(id);
         }
         
         // Type
@@ -412,8 +420,12 @@ public class CSVImporter implements CSVConstants {
     private void createPropertyFromRecord(CSVRecord csvRecord) throws CSVParseException {
         // ID
         String id = csvRecord.get(0);
+        
         if(!StringUtils.isSet(id)) {
             throw new CSVParseException(Messages.CSVImporter_6);
+        }
+        else {
+            checkIDForInvalidCharacters(id);
         }
         
         // Find referenced element in newly created list
@@ -588,19 +600,6 @@ public class CSVImporter implements CSVConstants {
         return true;
     }
     
-    /**
-     * Check a given id is set, and is not a duplicate of one in the CSV file
-     * @throws CSVParseException 
-     */
-    void checkID(String id) throws CSVParseException {
-        if(!StringUtils.isSet(id)) {
-            throw new CSVParseException(Messages.CSVImporter_6);
-        }
-        if(newComponents.containsKey(id)) {
-            throw new CSVParseException(Messages.CSVImporter_8);
-        }
-    }
-    
     String generateID() {
         String id;
         do {
@@ -609,6 +608,12 @@ public class CSVImporter implements CSVConstants {
         while(newComponents.containsKey(id));
         
         return id;
+    }
+    
+    void checkIDForInvalidCharacters(String id) throws CSVParseException {
+        if(!id.matches("^[a-zA-Z0-9_-]+$")) { //$NON-NLS-1$
+            throw new CSVParseException(Messages.CSVImporter_12 + id);
+        }
     }
     
     /**

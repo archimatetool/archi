@@ -298,22 +298,32 @@ public class CSVImporterTests {
     }
     
     @Test
-    public void testCheckID_Null() throws CSVParseException {
-        expectedEx.expect(CSVParseException.class);
-        expectedEx.expectMessage("ID not found");
+    public void testCheckIDForInvalidCharacters_Fail() {
+        String[] testStrings = {
+                "&", " ", "*", "$"
+        };
         
-        importer.checkID(null);
+        for(String s : testStrings) {
+            try {
+                importer.checkIDForInvalidCharacters(s);
+            }
+            catch(CSVParseException ex) {
+                continue;
+            }
+        }
     }
     
     @Test
-    public void testCheckID_Duplicate() throws Exception {
-        expectedEx.expect(CSVParseException.class);
-        expectedEx.expectMessage("Duplicate ID");
+    public void testCheckIDForInvalidCharacters_Pass() throws Exception {
+        String[] testStrings = {
+                "f00aa5b4", "123Za", "_-123uioP"
+        };
         
-        importer.doImport(elements1File);
-        importer.checkID("f00aa5b4");
+        for(String s : testStrings) {
+            importer.checkIDForInvalidCharacters(s);
+        }
     }
-    
+
     @Test
     public void testFindArchimateComponentInModel() throws Exception {
         importer.doImport(elements1File);
