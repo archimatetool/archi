@@ -82,7 +82,7 @@ implements IZestView, ISelectionListener {
     // Depth Actions
     private IAction[] fDepthActions;
     private List<IAction> fViewpointActions;
-    private IAction[] fOrientationActions;
+    private IAction[] fDirectionActions;
 
 
     private DrillDownManager fDrillDownManager;
@@ -282,19 +282,19 @@ implements IZestView, ISelectionListener {
         IMenuManager orientationMenuManager = new MenuManager(Messages.ZestView_32);
         menuManager.add(orientationMenuManager);
         
-        // Orientation Default Actions
-        fOrientationActions = new Action[3];
-        fOrientationActions[0] = createOrientationMenuAction(0, Messages.ZestView_33, ZestViewerContentProvider.DIR_BOTH);
-        orientationMenuManager.add(fOrientationActions[0]);
-        fOrientationActions[1] = createOrientationMenuAction(1, Messages.ZestView_34, ZestViewerContentProvider.DIR_IN);
-        orientationMenuManager.add(fOrientationActions[1]);
-        fOrientationActions[2] = createOrientationMenuAction(2, Messages.ZestView_35, ZestViewerContentProvider.DIR_OUT);
-        orientationMenuManager.add(fOrientationActions[2]);
+        // Direction
+        fDirectionActions = new Action[3];
+        fDirectionActions[0] = createOrientationMenuAction(0, Messages.ZestView_33, ZestViewerContentProvider.DIR_BOTH);
+        orientationMenuManager.add(fDirectionActions[0]);
+        fDirectionActions[1] = createOrientationMenuAction(1, Messages.ZestView_34, ZestViewerContentProvider.DIR_IN);
+        orientationMenuManager.add(fDirectionActions[1]);
+        fDirectionActions[2] = createOrientationMenuAction(2, Messages.ZestView_35, ZestViewerContentProvider.DIR_OUT);
+        orientationMenuManager.add(fDirectionActions[2]);
         
-        // Set orientation from prefs
-        int orientation = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_ORIENTATION);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setOrientation(orientation);
-        fOrientationActions[orientation].setChecked(true);
+        // Set direction from prefs
+        int direction = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(direction);
+        fDirectionActions[direction].setChecked(true);
         
 		menuManager.add(new Separator());
 		
@@ -354,9 +354,9 @@ implements IZestView, ISelectionListener {
             public void run() {
             	IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
             	// Set orientation 
-                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setOrientation(orientation);
+                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(orientation);
             	// Store in prefs
-                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ORIENTATION, actionId);
+                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
                 // update viewer
             	fGraphViewer.setInput(fGraphViewer.getInput());
                 fGraphViewer.setSelection(selection);
@@ -458,12 +458,31 @@ implements IZestView, ISelectionListener {
         manager.add(fActionLayout);
         
         manager.add(new Separator());
+        
+        // Depth
         IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
         manager.add(depthMenuManager); 
         
-        for(int i = 0; i < fDepthActions.length; i++) {
-            depthMenuManager.add(fDepthActions[i]);
+        for(IAction action : fDepthActions) {
+            depthMenuManager.add(action);
         }
+        
+        // Viewpoint filter
+        IMenuManager vpMenuManager = new MenuManager(Messages.ZestView_5);
+        manager.add(vpMenuManager); 
+        
+        for(IAction action : fViewpointActions) {
+            vpMenuManager.add(action);
+        }
+        
+        // Direction
+        IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
+        manager.add(directionMenuManager); 
+        
+        for(IAction action : fDirectionActions) {
+            directionMenuManager.add(action);
+        }
+        
         
         manager.add(new Separator());
         

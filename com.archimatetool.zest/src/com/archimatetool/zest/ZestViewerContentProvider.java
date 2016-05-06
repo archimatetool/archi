@@ -31,15 +31,15 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint;
-    private int fOrientation = DIR_BOTH;
+    private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
         fViewpoint = vp;
     }
     
-    public void setOrientation(int orientation) {
-    	if(orientation == DIR_BOTH || orientation == DIR_IN || orientation == DIR_OUT) {
-    	    fOrientation = orientation;
+    public void setDirection(int direction) {
+    	if(direction == DIR_BOTH || direction == DIR_IN || direction == DIR_OUT) {
+    	    fDirection = direction;
     	}
     }
     
@@ -109,13 +109,13 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 	            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
 	            
 	            if(!mainList.contains(relationship) && fViewpoint.isAllowedType(other.eClass())) {
-	            	if(direction == fOrientation || fOrientation == DIR_BOTH) {
+	            	if(direction == fDirection || fDirection == DIR_BOTH) {
 	            		mainList.add(relationship);
 	            	}
 	            }
 	            
 	            if(fViewpoint.isAllowedType(other.eClass())) {
-	            	if(direction == fOrientation || fOrientation == DIR_BOTH) {
+	            	if(direction == fDirection || fDirection == DIR_BOTH) {
 	            		getRelations(mainList, checkList, other, count);
 	            	}
 	            }
