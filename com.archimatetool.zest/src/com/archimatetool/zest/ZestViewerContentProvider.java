@@ -11,21 +11,37 @@ import java.util.List;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
+import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
-
 /**
  * Graph Viewer Content Provider
  * 
  * @author Phillip Beauvoir
+ * @author Jean-Baptiste Sarrodie
  */
 public class ZestViewerContentProvider implements IGraphContentProvider {
+	final static int DIR_BOTH = 1;
+	final static int DIR_IN = 2;
+	final static int DIR_OUT = 3;
     
     private int fDepth = 0;
+    private IViewpoint fViewpoint;
+    private int fDirection = DIR_BOTH;
+    
+    public void setViewpointFilter(IViewpoint vp) {
+        fViewpoint = vp;
+    }
+    
+    public void setDirection(int direction) {
+    	if(direction == DIR_BOTH || direction == DIR_IN || direction == DIR_OUT) {
+    	    fDirection = direction;
+    	}
+    }
     
     public void setDepth(int depth) {
         fDepth = depth;
@@ -76,26 +92,38 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
             return;
         }
         
-        List<IRelationship> list = ArchimateModelUtils.getRelationships(element);
-        for(IRelationship relationship : list) {
-            if(!mainList.contains(relationship)) {
-                mainList.add(relationship);
-            }
-        }
+        checkList.add(element);
         
-        count++;
         if(count > fDepth) {
             return;
         }
+        count++;
         
-        checkList.add(element);
+        List<IRelationship> list = ArchimateModelUtils.getRelationships(element);
         
         for(IRelationship relationship : list) {
-            IArchimateElement source = relationship.getSource();
-            IArchimateElement target = relationship.getTarget();
-            
-            getRelations(mainList, checkList, source, count);
-            getRelations(mainList, checkList, target, count);
+        	if(fViewpoint.isAllowedType(relationship.eClass())) {
+	            //IArchimateElement source = relationship.getSource();
+	            //IArchimateElement target = relationship.getTarget();
+	            IArchimateElement other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
+	            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
+	            
+	            if(!mainList.contains(relationship) && fViewpoint.isAllowedType(other.eClass())) {
+	            	if(direction == fDirection || fDirection == DIR_BOTH) {
+	            		mainList.add(relationship);
+	            	}
+	            }
+	            
+	            if(fViewpoint.isAllowedType(other.eClass())) {
+	            	if(direction == fDirection || fDirection == DIR_BOTH) {
+	            		getRelations(mainList, checkList, other, count);
+	            	}
+	            }
+	            /*
+	            if(fViewpoint.isAllowedType(((IArchimateElement)target).eClass())) {
+	            	getRelations(mainList, checkList, target, count);	
+	            } */
+        	}
         }
     }
     

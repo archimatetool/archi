@@ -16,5 +16,7 @@ package com.archimatetool.zest;
 public interface IPreferenceConstants {
     
     String VISUALISER_DEPTH = "visualiserDepth"; //$NON-NLS-1$
+    String VISUALISER_VIEWPOINT = "visualiserViewpoint"; //$NON-NLS-1$
+    String VISUALISER_DIRECTION = "visualiserDirection"; //$NON-NLS-1$
     
 }

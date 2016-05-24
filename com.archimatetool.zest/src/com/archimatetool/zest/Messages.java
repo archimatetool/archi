@@ -40,7 +40,17 @@ public class Messages extends NLS {
 
     public static String ZestView_3;
 
+	public static String ZestView_32;
+
+	public static String ZestView_33;
+
+	public static String ZestView_34;
+
+	public static String ZestView_35;
+
     public static String ZestView_4;
+
+	public static String ZestView_5;
 
     public static String ZestViewerLabelProvider_0;
     static {

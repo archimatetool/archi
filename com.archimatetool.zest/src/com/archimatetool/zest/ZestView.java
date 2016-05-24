@@ -6,6 +6,7 @@
 package com.archimatetool.zest;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -44,6 +45,8 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.model.viewpoints.IViewpoint;
+import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -61,6 +64,7 @@ import com.archimatetool.model.IArchimateModelElement;
  * Zest View
  * 
  * @author Phillip Beauvoir
+ * @author Jean-Baptiste Sarrodie
  */
 public class ZestView extends AbstractModelView
 implements IZestView, ISelectionListener {
@@ -77,6 +81,9 @@ implements IZestView, ISelectionListener {
     
     // Depth Actions
     private IAction[] fDepthActions;
+    private List<IAction> fViewpointActions;
+    private IAction[] fDirectionActions;
+
 
     private DrillDownManager fDrillDownManager;
     
@@ -94,6 +101,7 @@ implements IZestView, ISelectionListener {
         fGraphViewer = new ZestGraphViewer(parent, SWT.NONE);
         fGraphViewer.getGraphControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
         
+        // spring is the default - we do need to set this here!
         fGraphViewer.setLayoutAlgorithm(new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
         //fGraphViewer.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
         //fGraphViewer.setLayoutAlgorithm(new RadialLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
@@ -242,23 +250,7 @@ implements IZestView, ISelectionListener {
         // Depth Actions
         fDepthActions = new Action[6];
         for(int i = 0; i < fDepthActions.length; i++) {
-            fDepthActions[i] = new Action(Messages.ZestView_3 + " " + (i + 1), IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
-                @Override
-                public void run() {
-                    IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
-                    // set depth
-                    int depth = Integer.valueOf(getId());
-                    ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
-                    // store in prefs
-                    ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
-                    // update viewer
-                    fGraphViewer.setInput(fGraphViewer.getInput());
-                    fGraphViewer.setSelection(selection);
-                    fGraphViewer.doApplyLayout();
-                }
-            };
-            
-            fDepthActions[i].setId(Integer.toString(i));
+            fDepthActions[i] = createDepthAction(i, i + 1);
             depthMenuManager.add(fDepthActions[i]);
         }
         
@@ -267,14 +259,116 @@ implements IZestView, ISelectionListener {
         ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
         fDepthActions[depth].setChecked(true);
         
-        menuManager.add(new Separator());
+        // Set filter based on Viewpoint
+        IMenuManager viewpointMenuManager = new MenuManager(Messages.ZestView_5);
+        menuManager.add(viewpointMenuManager);
+        
+        // Viewpoints
+        fViewpointActions = new ArrayList<IAction>();
+        
+        int actionID = 0;
+        for(IViewpoint vp : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+            IAction action = createViewpointMenuAction(actionID++, vp);
+            fViewpointActions.add(action);
+            viewpointMenuManager.add(action);
+        }
+        
+        // Set viewpoint from prefs
+        int viewpointIndex = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_VIEWPOINT);
+        fViewpointActions.get(viewpointIndex).setChecked(true);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getAllViewpoints().get(viewpointIndex));
+        
+        // Orientation
+        IMenuManager orientationMenuManager = new MenuManager(Messages.ZestView_32);
+        menuManager.add(orientationMenuManager);
+        
+        // Direction
+        fDirectionActions = new Action[3];
+        fDirectionActions[0] = createOrientationMenuAction(0, Messages.ZestView_33, ZestViewerContentProvider.DIR_BOTH);
+        orientationMenuManager.add(fDirectionActions[0]);
+        fDirectionActions[1] = createOrientationMenuAction(1, Messages.ZestView_34, ZestViewerContentProvider.DIR_IN);
+        orientationMenuManager.add(fDirectionActions[1]);
+        fDirectionActions[2] = createOrientationMenuAction(2, Messages.ZestView_35, ZestViewerContentProvider.DIR_OUT);
+        orientationMenuManager.add(fDirectionActions[2]);
+        
+        // Set direction from prefs
+        int direction = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(direction);
+        fDirectionActions[direction].setChecked(true);
+        
+		menuManager.add(new Separator());
+		
         // TODO Copy as Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
         if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
             menuManager.add(fActionCopyImageToClipboard);
         }
-        menuManager.add(fActionExportImageToFile);
+		menuManager.add(fActionExportImageToFile);
+    }
+    
+    private IAction createDepthAction(final int actionId, final int depth) {
+        IAction act = new Action(Messages.ZestView_3 + " " + depth, IAction.AS_RADIO_BUTTON) { //$NON-NLS-1$
+            @Override
+            public void run() {
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                // set depth
+                int depth = Integer.valueOf(getId());
+                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
+                // store in prefs
+                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
+                // update viewer
+                fGraphViewer.setInput(fGraphViewer.getInput());
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+            }
+        };
+
+        act.setId(Integer.toString(actionId));
+        
+        return act;
     }
 
+    private IAction createViewpointMenuAction(final int actionId, final IViewpoint vp) {
+        IAction act = new Action(vp.getName(), IAction.AS_RADIO_BUTTON) {
+            @Override
+            public void run() {
+            	IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+            	// Set viewpoint filter
+                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(vp);
+            	// Store in prefs
+                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, actionId);
+                // update viewer
+            	fGraphViewer.setInput(fGraphViewer.getInput());
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+            }
+        };
+        
+        act.setId(Integer.toString(actionId));
+        
+        return act;
+    }
+    
+    private IAction createOrientationMenuAction(final int actionId, String label, final int orientation) {
+        IAction act = new Action(label, IAction.AS_RADIO_BUTTON) {
+            @Override
+            public void run() {
+            	IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+            	// Set orientation 
+                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(orientation);
+            	// Store in prefs
+                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
+                // update viewer
+            	fGraphViewer.setInput(fGraphViewer.getInput());
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+            }
+        };
+        
+        act.setId(Integer.toString(actionId));
+        
+        return act;
+    }
+    
     @Override
     public void setFocus() {
         if(fGraphViewer != null) {
@@ -364,12 +458,31 @@ implements IZestView, ISelectionListener {
         manager.add(fActionLayout);
         
         manager.add(new Separator());
+        
+        // Depth
         IMenuManager depthMenuManager = new MenuManager(Messages.ZestView_3);
         manager.add(depthMenuManager); 
         
-        for(int i = 0; i < fDepthActions.length; i++) {
-            depthMenuManager.add(fDepthActions[i]);
+        for(IAction action : fDepthActions) {
+            depthMenuManager.add(action);
         }
+        
+        // Viewpoint filter
+        IMenuManager vpMenuManager = new MenuManager(Messages.ZestView_5);
+        manager.add(vpMenuManager); 
+        
+        for(IAction action : fViewpointActions) {
+            vpMenuManager.add(action);
+        }
+        
+        // Direction
+        IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
+        manager.add(directionMenuManager); 
+        
+        for(IAction action : fDirectionActions) {
+            directionMenuManager.add(action);
+        }
+        
         
         manager.add(new Separator());
         
