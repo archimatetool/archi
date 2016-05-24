@@ -276,7 +276,7 @@ implements IZestView, ISelectionListener {
         // Set viewpoint from prefs
         int viewpointIndex = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_VIEWPOINT);
         fViewpointActions.get(viewpointIndex).setChecked(true);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getAllViewpoints().get(viewpointIndex));
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getViewpoint(viewpointIndex));
         
         // Orientation
         IMenuManager orientationMenuManager = new MenuManager(Messages.ZestView_32);

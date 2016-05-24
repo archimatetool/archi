@@ -16,6 +16,8 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.editor.model.viewpoints.BusinessProductViewpoint;
+import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
@@ -37,6 +39,7 @@ public class ZestViewerContentProviderTests {
         // Load ArchiMate model
         tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         tm.loadModel();
+        
         provider = new ZestViewerContentProvider();
     }
     
@@ -47,6 +50,30 @@ public class ZestViewerContentProviderTests {
         assertEquals(2, provider.getDepth());
     }
     
+    @Test
+    public void testSetDirection() {
+        provider.setDirection(ZestViewerContentProvider.DIR_IN);
+        assertEquals(ZestViewerContentProvider.DIR_IN, provider.getDirection());
+        
+        provider.setDirection(ZestViewerContentProvider.DIR_BOTH);
+        assertEquals(ZestViewerContentProvider.DIR_BOTH, provider.getDirection());
+        
+        provider.setDirection(-1);
+        assertEquals(ZestViewerContentProvider.DIR_BOTH, provider.getDirection());
+    }
+
+    @Test
+    public void testSetViewpointFilter() {
+        // Default VP
+        assertTrue(provider.getViewpointFilter() instanceof TotalViewpoint);
+        
+        provider.setViewpointFilter(new BusinessProductViewpoint());
+        assertTrue(provider.getViewpointFilter() instanceof BusinessProductViewpoint);
+        
+        // Back to default
+        provider.setViewpointFilter(new TotalViewpoint());
+    }
+
     @Test
     public void testGetElements_Element() {
         IArchimateElement inputElement = (IArchimateElement)tm.getObjectByID("521");

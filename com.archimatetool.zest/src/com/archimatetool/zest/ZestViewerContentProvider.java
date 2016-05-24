@@ -12,6 +12,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
+import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
@@ -30,11 +31,15 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 	final static int DIR_OUT = 3;
     
     private int fDepth = 0;
-    private IViewpoint fViewpoint;
+    private IViewpoint fViewpoint = new TotalViewpoint();
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
         fViewpoint = vp;
+    }
+    
+    public IViewpoint getViewpointFilter() {
+        return fViewpoint;
     }
     
     public void setDirection(int direction) {
@@ -43,6 +48,10 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     	}
     }
     
+    public int getDirection() {
+        return fDirection;
+    }
+
     public void setDepth(int depth) {
         fDepth = depth;
     }
