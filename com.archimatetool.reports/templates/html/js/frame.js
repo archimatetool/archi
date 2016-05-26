@@ -6,8 +6,8 @@ function strcmp(a, b){
 	var aText = $(a).text().trim().toLowerCase();
 	var bText = $(b).text().trim().toLowerCase();
 	if (aText.toString() < bText.toString()) return -1;
-  if (aText.toString() > bText.toString()) return 1;
-  return 0;
+    if (aText.toString() > bText.toString()) return 1;
+    return 0;
 }
 
 // Hints URLs
@@ -154,7 +154,7 @@ $(document).ready(function() {
 	var tabElements = $('#elements > table > tbody');
 	var tabElementsRows = tabElements.children('tr');
 	tabElementsRows.sort(strcmp).appendTo(tabElements);
-	var tabProperties = $('#elements > table > tbody');
+	var tabProperties = $('#properties > table > tbody');
 	var tabPropertiesRows = tabProperties.children('tr');
 	tabPropertiesRows.sort(strcmp).appendTo(tabProperties);
 });
