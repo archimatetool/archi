@@ -20,6 +20,9 @@
 	</parameter>
 	<parameter name="elements_report" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="REPORT_PATH" class="java.lang.String"/>
+	<parameter name="REPORT_TAG" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
 	<field name="this" class="com.archimatetool.model.IDiagramModel"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="documentation" class="java.lang.String"/>
@@ -34,6 +37,9 @@
 	<variable name="VIEW_HIDE_DIAGRAM" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
+	<variable name="VIEW_TAGS" class="java.lang.String" calculation="System">
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
 	<variable name="NON_REPORT_ENTRIES" class="java.lang.Integer" calculation="System">
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
@@ -45,25 +51,32 @@
 		<band height="30">
 			<subreport>
 				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="30" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="PROPERTY_1">
-					<subreportParameterExpression><![CDATA["Report:View:Hide"]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="PROPERTY_2">
 					<subreportParameterExpression><![CDATA["Report:View:Detailed"]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_3">
 					<subreportParameterExpression><![CDATA["Report:View:Hide:Diagram"]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="PROPERTY_4">
+					<subreportParameterExpression><![CDATA["Report:View:Tag"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PROPERTY_1">
+					<subreportParameterExpression><![CDATA["Report:View:Hide"]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ViewModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 				<returnValue subreportVariable="RETURNED_VALUE_1" toVariable="VIEW_HIDE"/>
 				<returnValue subreportVariable="RETURNED_VALUE_2" toVariable="VIEW_DETAILED"/>
 				<returnValue subreportVariable="RETURNED_VALUE_3" toVariable="VIEW_HIDE_DIAGRAM"/>
 				<returnValue subreportVariable="NON_REPORT_ENTRIES" toVariable="NON_REPORT_ENTRIES"/>
+				<returnValue subreportVariable="RETURNED_VALUE_4" toVariable="VIEW_TAGS"/>
 				<subreportExpression><![CDATA[$P{properties_report}]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="20">
-			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<break>
 				<reportElement x="0" y="0" width="1" height="1">
 					<printWhenExpression><![CDATA[$V{REPORT_ENTRY} != 1]]></printWhenExpression>
@@ -78,7 +91,10 @@
 		<band height="20">
 			<printWhenExpression><![CDATA[$F{viewpoint} != null
 && !$V{VIEW_HIDE}.equals("true")
-&& !$V{VIEW_HIDE_DIAGRAM}.equals("true")]]></printWhenExpression>
+&& !$V{VIEW_HIDE_DIAGRAM}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<textField>
 				<reportElement style="Italic" x="0" y="0" width="515" height="15"/>
 				<textElement/>
@@ -87,7 +103,10 @@
 		</band>
 		<band height="100">
 			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")
-&& !$V{VIEW_HIDE_DIAGRAM}.equals("true")]]></printWhenExpression>
+&& !$V{VIEW_HIDE_DIAGRAM}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<image scaleImage="RealSize">
 				<reportElement x="0" y="0" width="515" height="100"/>
 				<imageExpression><![CDATA[$F{imagePath}]]></imageExpression>
@@ -95,7 +114,10 @@
 		</band>
 		<band height="54" splitType="Prevent">
 			<printWhenExpression><![CDATA[$F{documentation} != null
-&& !$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+&& !$V{VIEW_HIDE}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<staticText>
 				<reportElement style="Title 3" x="0" y="0" width="515" height="35"/>
 				<textElement verticalAlignment="Bottom"/>
@@ -109,7 +131,10 @@
 		</band>
 		<band height="55" splitType="Prevent">
 			<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0
-&& !$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+&& !$V{VIEW_HIDE}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<staticText>
 				<reportElement style="Title 2" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="35" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$V{COLUMN_NUMBER} == 1]]></printWhenExpression>
@@ -146,7 +171,10 @@
 			</componentElement>
 		</band>
 		<band height="120">
-			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true")
+&& ($P{REPORT_TAG}.equals("")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~"+$P{REPORT_TAG}.toLowerCase()+"~")
+    || ("~"+$V{VIEW_TAGS}+"~").toLowerCase().contains("~all~"))]]></printWhenExpression>
 			<subreport>
 				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="515" height="70" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[!$V{VIEW_HIDE}.equals("true") && !$V{VIEW_DETAILED}.equals("true")]]></printWhenExpression>

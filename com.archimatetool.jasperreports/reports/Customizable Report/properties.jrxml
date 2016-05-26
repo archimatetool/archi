@@ -12,23 +12,33 @@
 	<field name="key" class="java.lang.String"/>
 	<field name="value" class="java.lang.String"/>
 	<variable name="RETURNED_VALUE_1" class="java.lang.String">
-		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_1}) ? $F{value} : $V{RETURNED_VALUE_1}]]></variableExpression>
+		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_1}) ?
+    ($V{RETURNED_VALUE_1} + ($V{RETURNED_VALUE_1}.isEmpty() ? "" : "~") + $F{value})
+    : $V{RETURNED_VALUE_1}]]></variableExpression>
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="RETURNED_VALUE_2" class="java.lang.String">
-		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_2}) ? $F{value} : $V{RETURNED_VALUE_2}]]></variableExpression>
+		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_2}) ?
+    ($V{RETURNED_VALUE_2} + ($V{RETURNED_VALUE_2}.isEmpty() ? "" : "~") + $F{value})
+    : $V{RETURNED_VALUE_2}]]></variableExpression>
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="RETURNED_VALUE_3" class="java.lang.String">
-		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_3}) ? $F{value} : $V{RETURNED_VALUE_3}]]></variableExpression>
+		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_3}) ?
+    ($V{RETURNED_VALUE_3} + ($V{RETURNED_VALUE_3}.isEmpty() ? "" : "~") + $F{value})
+    : $V{RETURNED_VALUE_3}]]></variableExpression>
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="RETURNED_VALUE_4" class="java.lang.String">
-		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_4}) ? $F{value} : $V{RETURNED_VALUE_4}]]></variableExpression>
+		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_4}) ?
+    ($V{RETURNED_VALUE_4} + ($V{RETURNED_VALUE_4}.isEmpty() ? "" : "~") + $F{value})
+    : $V{RETURNED_VALUE_4}]]></variableExpression>
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="RETURNED_VALUE_5" class="java.lang.String">
-		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_5}) ? $F{value} : $V{RETURNED_VALUE_5}]]></variableExpression>
+		<variableExpression><![CDATA[$F{key}.equals($P{PROPERTY_5}) ?
+    ($V{RETURNED_VALUE_5} + ($V{RETURNED_VALUE_5}.isEmpty() ? "" : "~") + $F{value})
+    : $V{RETURNED_VALUE_5}]]></variableExpression>
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="NON_REPORT_ENTRIES" class="java.lang.Integer">

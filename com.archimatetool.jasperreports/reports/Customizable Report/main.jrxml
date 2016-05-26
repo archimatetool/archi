@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="main_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="64"/>
+	<property name="ireport.y" value="0"/>
 	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
 	<subDataset name="PropertiesDataset">
 		<field name="this" class="com.archimatetool.model.IProperty"/>
@@ -65,6 +65,14 @@
 	<variable name="MODEL_HEADER_BACKGROUND" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
+	<variable name="REPORT_TITLE" class="java.lang.String" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$P{REPORT_TITLE}.split("\\#")[0]]]></variableExpression>
+	</variable>
+	<variable name="REPORT_TAG" class="java.lang.String" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$P{REPORT_TITLE}.contains("#") ?
+    $P{REPORT_TITLE}.split("\\#")[1]
+    : ""]]></variableExpression>
+	</variable>
 	<background>
 		<band height="842">
 			<image scaleImage="Clip" onErrorType="Blank" evaluationTime="Report">
@@ -73,7 +81,7 @@
 				</reportElement>
 				<imageExpression><![CDATA[$V{MODEL_COVER_BACKGROUND} != "" ?
     $V{MODEL_COVER_BACKGROUND}
-    : $P{REPORT_PATH}+"default.png"]]></imageExpression>
+    : $P{REPORT_PATH}+"background.png"]]></imageExpression>
 			</image>
 			<image scaleImage="Clip" onErrorType="Blank" evaluationTime="Report">
 				<reportElement x="-40" y="0" width="595" height="50">
@@ -81,7 +89,7 @@
 				</reportElement>
 				<imageExpression><![CDATA[$V{MODEL_HEADER_BACKGROUND} != "" ?
     $V{MODEL_HEADER_BACKGROUND}
-    : $P{REPORT_PATH}+"default.png"]]></imageExpression>
+    : $P{REPORT_PATH}+"background.png"]]></imageExpression>
 			</image>
 		</band>
 	</background>
@@ -92,7 +100,7 @@
 				<textElement textAlignment="Left">
 					<font size="22"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_TITLE}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" x="1" y="349" width="515" height="20"/>
@@ -241,11 +249,14 @@
 				<subreportParameter name="elements_report">
 					<subreportParameterExpression><![CDATA[$P{elements_report}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+				<subreportParameter name="REPORT_TAG">
+					<subreportParameterExpression><![CDATA[$V{REPORT_TAG}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="HIDE_VIEW_NUMBERING">
 					<subreportParameterExpression><![CDATA[$V{MODEL_HIDE_VIEW_NUMBERING}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_PATH">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getViewsDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{view_report}]]></subreportExpression>
