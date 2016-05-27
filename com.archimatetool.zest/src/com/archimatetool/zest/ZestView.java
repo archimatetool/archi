@@ -209,7 +209,8 @@ implements IZestView, ISelectionListener {
     void updateLabel() {
         String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentComponent());
         text = StringUtils.escapeAmpersandsInText(text);
-        fLabel.setText(text);
+        String vp = ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getViewpointFilter().getName();
+        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + vp + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentComponent()));
     }
 
@@ -263,20 +264,23 @@ implements IZestView, ISelectionListener {
         IMenuManager viewpointMenuManager = new MenuManager(Messages.ZestView_5);
         menuManager.add(viewpointMenuManager);
         
-        // Viewpoints
+        // Get viewpoint from prefs
+        int viewpointIndex = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_VIEWPOINT);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getViewpoint(viewpointIndex));
+        
+        // Viewpoint actions
         fViewpointActions = new ArrayList<IAction>();
         
-        int actionID = 0;
         for(IViewpoint vp : ViewpointsManager.INSTANCE.getAllViewpoints()) {
-            IAction action = createViewpointMenuAction(actionID++, vp);
+            IAction action = createViewpointMenuAction(vp);
             fViewpointActions.add(action);
             viewpointMenuManager.add(action);
+            
+            // Set checked
+            if(viewpointIndex == vp.getIndex()) {
+                action.setChecked(true);
+            }
         }
-        
-        // Set viewpoint from prefs
-        int viewpointIndex = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_VIEWPOINT);
-        fViewpointActions.get(viewpointIndex).setChecked(true);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getViewpoint(viewpointIndex));
         
         // Orientation
         IMenuManager orientationMenuManager = new MenuManager(Messages.ZestView_32);
@@ -327,23 +331,25 @@ implements IZestView, ISelectionListener {
         return act;
     }
 
-    private IAction createViewpointMenuAction(final int actionId, final IViewpoint vp) {
+    private IAction createViewpointMenuAction(final IViewpoint vp) {
         IAction act = new Action(vp.getName(), IAction.AS_RADIO_BUTTON) {
             @Override
             public void run() {
-            	IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
             	// Set viewpoint filter
                 ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(vp);
             	// Store in prefs
-                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, actionId);
+                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, Integer.toString(vp.getIndex()));
+
                 // update viewer
             	fGraphViewer.setInput(fGraphViewer.getInput());
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
+                updateLabel();
             }
         };
         
-        act.setId(Integer.toString(actionId));
+        act.setId(Integer.toString(vp.getIndex()));
         
         return act;
     }
