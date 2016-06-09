@@ -124,11 +124,11 @@ public class ModelSelectionHandler implements IPartListener {
         
         // Active Editor first
         if(fActiveEditor != null) {
-            model = (IArchimateModel)fActiveEditor.getAdapter(IArchimateModel.class);
+            model = fActiveEditor.getAdapter(IArchimateModel.class);
         }
         // Then Active View
         else if(fActiveModelView != null) {
-            model = (IArchimateModel)fActiveModelView.getAdapter(IArchimateModel.class);
+            model = fActiveModelView.getAdapter(IArchimateModel.class);
         }
         
         return model;

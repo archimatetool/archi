@@ -120,7 +120,7 @@ public class PasteAction extends SelectionAction {
     }
     
     private IDiagramModel getTargetDiagramModel() {
-        IDiagramModel diagramModel = (IDiagramModel)getWorkbenchPart().getAdapter(IDiagramModel.class);
+        IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
         if(diagramModel == null) {
             System.err.println("DiagramModel was null in " + getClass()); //$NON-NLS-1$
         }

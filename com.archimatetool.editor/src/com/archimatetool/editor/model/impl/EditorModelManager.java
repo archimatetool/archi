@@ -11,7 +11,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -20,7 +19,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.commands.CommandStackListener;
+import org.eclipse.gef.commands.CommandStackEvent;
+import org.eclipse.gef.commands.CommandStackEventListener;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
@@ -524,8 +524,8 @@ implements IEditorModelManager {
         CommandStack cmdStack = new CommandStack();
         
         // Forward on CommandStack Event to Tree
-        cmdStack.addCommandStackListener(new CommandStackListener() {
-            public void commandStackChanged(EventObject event) {
+        cmdStack.addCommandStackEventListener(new CommandStackEventListener() {
+            public void stackChanged(CommandStackEvent event) {
                 // Send notification to Tree
                 firePropertyChange(model, COMMAND_STACK_CHANGED, false, true);
             }

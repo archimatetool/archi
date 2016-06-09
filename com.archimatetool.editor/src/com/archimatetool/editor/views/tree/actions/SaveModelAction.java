@@ -57,6 +57,6 @@ public class SaveModelAction extends ViewerAction {
     }
 
     private IArchimateModel getModel() {
-        return (IArchimateModel)fView.getAdapter(IArchimateModel.class);
+        return fView.getAdapter(IArchimateModel.class);
     }
 }

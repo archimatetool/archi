@@ -176,7 +176,7 @@ implements IZestView, ISelectionListener {
             component = (IArchimateComponent)object;
         }
         else if(object instanceof IAdaptable) {
-            component = (IArchimateComponent)((IAdaptable)object).getAdapter(IArchimateComponent.class);
+            component = ((IAdaptable)object).getAdapter(IArchimateComponent.class);
         }
         
         fDrillDownManager.setNewInput(component);

@@ -63,7 +63,7 @@ public class ViewpointAction extends Action implements Disposable {
     @Override
     public void run() {
         if(isChecked()) {
-            CommandStack stack = (CommandStack)part.getAdapter(CommandStack.class);
+            CommandStack stack = part.getAdapter(CommandStack.class);
             stack.execute(new EObjectFeatureCommand(Messages.ViewpointAction_0,
                                 diagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
                                 viewPoint.getIndex()));

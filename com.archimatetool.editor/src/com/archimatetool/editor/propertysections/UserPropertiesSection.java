@@ -52,7 +52,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -1078,7 +1078,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
             tableViewer.getTable().setLinesVisible(true);
 
-            tableViewer.setSorter(new ViewerSorter());
+            tableViewer.setComparator(new ViewerComparator());
 
             // Column
             TableViewerColumn columnKey = new TableViewerColumn(tableViewer, SWT.NONE, 0);

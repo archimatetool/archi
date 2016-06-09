@@ -95,7 +95,6 @@ public class ValidatorViewer extends TreeViewer {
     
     private void sort(final int columnIndex) {
         setComparator(new ViewerComparator(Collator.getInstance()) {
-            @SuppressWarnings("unchecked")
             @Override
             public int compare(Viewer viewer, Object e1, Object e2) {
                 if(e1 instanceof IIssueCategory && e2 instanceof IIssueCategory) {

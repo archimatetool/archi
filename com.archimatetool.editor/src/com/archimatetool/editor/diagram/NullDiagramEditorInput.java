@@ -53,8 +53,8 @@ implements IEditorInput {
         return getName();
     }
 
-    @SuppressWarnings("rawtypes")
-    public Object getAdapter(Class adapter) {
+    @Override
+    public <T> T getAdapter(Class<T> adapter) {
         return null;
     }
 

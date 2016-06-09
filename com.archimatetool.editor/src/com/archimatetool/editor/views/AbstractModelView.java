@@ -128,30 +128,29 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     public String getContributorId() {
         return ArchimateEditorPlugin.PLUGIN_ID;
     }
-
-    @SuppressWarnings("rawtypes")
+    
     @Override
-    public Object getAdapter(Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         /*
          * Return the PropertySheet Page
          */
         if(adapter == IPropertySheetPage.class) {
-            return new TabbedPropertySheetPage(this);
+            return adapter.cast(new TabbedPropertySheetPage(this));
         }
         
         // The Selected Archimate Model in scope
         if(adapter == IArchimateModel.class) {
-            return getActiveArchimateModel();
+            return adapter.cast(getActiveArchimateModel());
         }
         
         // CommandStack (requested by GEF's UndoAction and RedoAction and our SaveAction)
         if(adapter == CommandStack.class) {
             IArchimateModel model = getActiveArchimateModel();
             if(model != null) {
-                return model.getAdapter(CommandStack.class);
+                return adapter.cast(model.getAdapter(CommandStack.class));
             }
             else {
-                return EMPTY_COMMANDSTACK; // Need an Empty One!
+                return adapter.cast(EMPTY_COMMANDSTACK); // Need an Empty One!
             }
         }
 

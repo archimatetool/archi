@@ -540,13 +540,13 @@ implements ITreeModelView, IUIRequestListener {
     }
     
     @Override
-    public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+    public <T> T getAdapter(Class<T> adapter) {
         // Find/Replace Provider
         if(adapter == IFindReplaceProvider.class) {
             if(fFindReplaceProvider == null) {
                 fFindReplaceProvider = new TreeModelViewerFindReplaceProvider(getViewer());
             }
-            return fFindReplaceProvider;
+            return adapter.cast(fFindReplaceProvider);
         }
         
         return super.getAdapter(adapter);
