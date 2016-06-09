@@ -7,7 +7,6 @@ import java.net.URL;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 
@@ -16,7 +15,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchiHammerPlugin extends AbstractUIPlugin implements IStartup {
+public class ArchiHammerPlugin extends AbstractUIPlugin {
 
     public static final String PLUGIN_ID = "com.archimatetool.hammer"; //$NON-NLS-1$
     
@@ -44,9 +43,4 @@ public class ArchiHammerPlugin extends AbstractUIPlugin implements IStartup {
         
         return new File(url.getPath()); 
     }
-
-    public void earlyStartup() {
-        // Do nothing
-    }
-
 }

@@ -93,7 +93,8 @@
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup></startup>
+      <startup
+            class="com.archimatetool.hammer.Startup"></startup>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

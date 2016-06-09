@@ -11,16 +11,14 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Activator
- * Implement IStartup so that Action Delegates are initialised
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin implements IStartup {
+public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.templates"; //$NON-NLS-1$
 
@@ -38,11 +36,6 @@ public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin implements 
         INSTANCE = this;
     }
 
-    @Override
-    public void earlyStartup() {
-        // Do nothing - this will initialise the "Save As Template..." menu item
-    }
-    
     /**
      * @return The templates folder
      */

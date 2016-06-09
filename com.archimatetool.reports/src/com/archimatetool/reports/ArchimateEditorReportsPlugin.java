@@ -10,16 +10,14 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Activator
- * Implement IStartup so that Action Delegates are initialised
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorReportsPlugin extends AbstractUIPlugin implements IStartup {
+public class ArchimateEditorReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.reports"; //$NON-NLS-1$
 
@@ -35,11 +33,6 @@ public class ArchimateEditorReportsPlugin extends AbstractUIPlugin implements IS
 
     public ArchimateEditorReportsPlugin() {
         INSTANCE = this;
-    }
-
-    @Override
-    public void earlyStartup() {
-        // Do nothing
     }
 
     /**

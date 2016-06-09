@@ -48,7 +48,8 @@
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup></startup>
+      <startup
+            class="com.archimatetool.templates.Startup"></startup>
    </extension>
 
 </plugin>
