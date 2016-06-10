@@ -55,6 +55,18 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
             return;
         }
         
+        // TODO: Hack hack hack!
+        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=485931
+        int methodCount = 0;
+        for(StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+            if(stackTraceElement.getMethodName().equals("processContributions")) { //$NON-NLS-1$
+                methodCount++;
+                if(methodCount == 2) {
+                    return;
+                }
+            }
+        }
+        
         // New Blank Canvas
         IContributionItem item = new ActionContributionItem(new NewCanvasAction());
         additions.addContributionItem(item, diagramFolderExpression);
