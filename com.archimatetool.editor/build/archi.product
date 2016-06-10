@@ -71,7 +71,6 @@
       <plugin id="org.apache.jasper.glassfish"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
-      <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
