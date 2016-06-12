@@ -46,10 +46,8 @@ import com.archimatetool.model.IProperty;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.impl.DiagramModel#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getName <em>Name</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModel#getDiagramModel <em>Diagram Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getProperties <em>Properties</em>}</li>
@@ -371,14 +369,10 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL__ARCHIMATE_MODEL:
-                return getArchimateModel();
             case IArchimatePackage.DIAGRAM_MODEL__ID:
                 return getId();
             case IArchimatePackage.DIAGRAM_MODEL__NAME:
                 return getName();
-            case IArchimatePackage.DIAGRAM_MODEL__DIAGRAM_MODEL:
-                return getDiagramModel();
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 return getChildren();
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
@@ -462,14 +456,10 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL__ARCHIMATE_MODEL:
-                return getArchimateModel() != null;
             case IArchimatePackage.DIAGRAM_MODEL__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case IArchimatePackage.DIAGRAM_MODEL__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case IArchimatePackage.DIAGRAM_MODEL__DIAGRAM_MODEL:
-                return getDiagramModel() != null;
             case IArchimatePackage.DIAGRAM_MODEL__CHILDREN:
                 return children != null && !children.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL__DOCUMENTATION:
@@ -508,7 +498,6 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
         }
         if (baseClass == IDiagramModelComponent.class) {
             switch (derivedFeatureID) {
-                case IArchimatePackage.DIAGRAM_MODEL__DIAGRAM_MODEL: return IArchimatePackage.DIAGRAM_MODEL_COMPONENT__DIAGRAM_MODEL;
                 default: return -1;
             }
         }
@@ -559,7 +548,6 @@ public abstract class DiagramModel extends EObjectImpl implements IDiagramModel 
         }
         if (baseClass == IDiagramModelComponent.class) {
             switch (baseFeatureID) {
-                case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__DIAGRAM_MODEL: return IArchimatePackage.DIAGRAM_MODEL__DIAGRAM_MODEL;
                 default: return -1;
             }
         }

@@ -42,7 +42,6 @@ import com.archimatetool.model.IProperty;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.impl.Folder#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getFolders <em>Folders</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getId <em>Id</em>}</li>
@@ -360,8 +359,6 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.FOLDER__ARCHIMATE_MODEL:
-                return getArchimateModel();
             case IArchimatePackage.FOLDER__FOLDERS:
                 return getFolders();
             case IArchimatePackage.FOLDER__NAME:
@@ -458,8 +455,6 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.FOLDER__ARCHIMATE_MODEL:
-                return getArchimateModel() != null;
             case IArchimatePackage.FOLDER__FOLDERS:
                 return folders != null && !folders.isEmpty();
             case IArchimatePackage.FOLDER__NAME:

@@ -1108,15 +1108,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getArchimateModelElement_ArchimateModel() {
-        return (EReference)archimateModelElementEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getProperty() {
         return propertyEClass;
     }
@@ -1524,15 +1515,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     public EClass getDiagramModelComponent() {
         return diagramModelComponentEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getDiagramModelComponent_DiagramModel() {
-        return (EReference)diagramModelComponentEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -2493,7 +2475,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(folderContainerEClass, FOLDER_CONTAINER__FOLDERS);
 
         archimateModelElementEClass = createEClass(ARCHIMATE_MODEL_ELEMENT);
-        createEReference(archimateModelElementEClass, ARCHIMATE_MODEL_ELEMENT__ARCHIMATE_MODEL);
 
         archimateModelEClass = createEClass(ARCHIMATE_MODEL);
         createEAttribute(archimateModelEClass, ARCHIMATE_MODEL__PURPOSE);
@@ -2648,7 +2629,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         influenceRelationshipEClass = createEClass(INFLUENCE_RELATIONSHIP);
 
         diagramModelComponentEClass = createEClass(DIAGRAM_MODEL_COMPONENT);
-        createEReference(diagramModelComponentEClass, DIAGRAM_MODEL_COMPONENT__DIAGRAM_MODEL);
 
         diagramModelContainerEClass = createEClass(DIAGRAM_MODEL_CONTAINER);
         createEReference(diagramModelContainerEClass, DIAGRAM_MODEL_CONTAINER__CHILDREN);
@@ -2941,7 +2921,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEReference(getFolderContainer_Folders(), this.getFolder(), null, "folders", null, 0, -1, IFolderContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(archimateModelElementEClass, IArchimateModelElement.class, "ArchimateModelElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEReference(getArchimateModelElement_ArchimateModel(), this.getArchimateModel(), null, "archimateModel", null, 0, 1, IArchimateModelElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        addEOperation(archimateModelElementEClass, this.getArchimateModel(), "getArchimateModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(archimateModelEClass, IArchimateModel.class, "ArchimateModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getArchimateModel_Purpose(), ecorePackage.getEString(), "purpose", null, 0, 1, IArchimateModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
@@ -3112,7 +3093,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(influenceRelationshipEClass, IInfluenceRelationship.class, "InfluenceRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(diagramModelComponentEClass, IDiagramModelComponent.class, "DiagramModelComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEReference(getDiagramModelComponent_DiagramModel(), this.getDiagramModel(), null, "diagramModel", null, 0, 1, IDiagramModelComponent.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        addEOperation(diagramModelComponentEClass, this.getDiagramModel(), "getDiagramModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelContainerEClass, IDiagramModelContainer.class, "DiagramModelContainer", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getDiagramModelContainer_Children(), this.getDiagramModelObject(), null, "children", null, 0, -1, IDiagramModelContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

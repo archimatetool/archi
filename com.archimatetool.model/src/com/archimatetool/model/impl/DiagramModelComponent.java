@@ -33,7 +33,6 @@ import com.archimatetool.model.INameable;
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getName <em>Name</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getDiagramModel <em>Diagram Model</em>}</li>
  * </ul>
  *
  * @generated
@@ -202,8 +201,6 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
                 return getId();
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 return getName();
-            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__DIAGRAM_MODEL:
-                return getDiagramModel();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -256,8 +253,6 @@ public abstract class DiagramModelComponent extends EObjectImpl implements IDiag
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case IArchimatePackage.DIAGRAM_MODEL_COMPONENT__DIAGRAM_MODEL:
-                return getDiagramModel() != null;
         }
         return super.eIsSet(featureID);
     }

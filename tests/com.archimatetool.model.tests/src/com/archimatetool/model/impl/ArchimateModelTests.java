@@ -14,8 +14,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Before;
@@ -26,8 +24,9 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.util.IDAdapter;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -231,9 +230,9 @@ public class ArchimateModelTests {
     
     @Test
     public void testGetMetadata() {
-        IMetadata metadata = model.getMetadata();        
-        assertNotNull(metadata);
-        assertEquals(0, model.getMetadata().getEntries().size());
+        assertEquals(null, model.getMetadata());
+        model.setMetadata(IArchimateFactory.eINSTANCE.createMetadata());
+        assertNotNull(model.getMetadata());
     }
 
     @Test

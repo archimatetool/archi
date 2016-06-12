@@ -89,15 +89,6 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__NAME = IArchimatePackage.DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
-     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ICONIC__DIAGRAM_MODEL = IArchimatePackage.DIAGRAM_MODEL_OBJECT__DIAGRAM_MODEL;
-
-    /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -341,15 +332,6 @@ public interface ICanvasPackage extends EPackage {
     int NOTES_CONTENT_FEATURE_COUNT = 1;
 
     /**
-     * The feature id for the '<em><b>Archimate Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL__ARCHIMATE_MODEL = IArchimatePackage.DIAGRAM_MODEL__ARCHIMATE_MODEL;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -366,15 +348,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL__NAME = IArchimatePackage.DIAGRAM_MODEL__NAME;
-
-    /**
-     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL__DIAGRAM_MODEL = IArchimatePackage.DIAGRAM_MODEL__DIAGRAM_MODEL;
 
     /**
      * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -456,15 +429,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_STICKY__NAME = ICONIC__NAME;
-
-    /**
-     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_STICKY__DIAGRAM_MODEL = ICONIC__DIAGRAM_MODEL;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -645,15 +609,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__NAME = ICONIC__NAME;
-
-    /**
-     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__DIAGRAM_MODEL = ICONIC__DIAGRAM_MODEL;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -864,15 +819,6 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_IMAGE__NAME = IArchimatePackage.DIAGRAM_MODEL_IMAGE__NAME;
 
     /**
-     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_IMAGE__DIAGRAM_MODEL = IArchimatePackage.DIAGRAM_MODEL_IMAGE__DIAGRAM_MODEL;
-
-    /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1016,15 +962,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_CONNECTION__NAME = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__NAME;
-
-    /**
-     * The feature id for the '<em><b>Diagram Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_CONNECTION__DIAGRAM_MODEL = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__DIAGRAM_MODEL;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.

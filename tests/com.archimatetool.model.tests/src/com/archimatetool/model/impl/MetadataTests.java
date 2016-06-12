@@ -43,7 +43,8 @@ public class MetadataTests {
     @Before
     public void runBeforeEachTest() {
         model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        metadata = model.getMetadata();
+        metadata = IArchimateFactory.eINSTANCE.createMetadata();
+        model.setMetadata(metadata);
     }
     
     // ---------------------------------------------------------------------------------------------

@@ -11,12 +11,6 @@ package com.archimatetool.model;
  * A representation of the model object '<em><b>Model Element</b></em>'.
  * <!-- end-user-doc -->
  *
- * <p>
- * The following features are supported:
- * </p>
- * <ul>
- *   <li>{@link com.archimatetool.model.IArchimateModelElement#getArchimateModel <em>Archimate Model</em>}</li>
- * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getArchimateModelElement()
  * @model interface="true" abstract="true"
@@ -24,16 +18,13 @@ package com.archimatetool.model;
  */
 public interface IArchimateModelElement extends IAdapter {
     /**
-     * Returns the value of the '<em><b>Archimate Model</b></em>' reference.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Archimate Model</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Archimate Model</em>' reference.
-     * @see com.archimatetool.model.IArchimatePackage#getArchimateModelElement_ArchimateModel()
-     * @model resolveProxies="false" transient="true" changeable="false" volatile="true"
+     * @model kind="operation"
      * @generated
      */
     IArchimateModel getArchimateModel();

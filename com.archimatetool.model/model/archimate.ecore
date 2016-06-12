@@ -86,8 +86,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateModelElement" abstract="true"
       interface="true" eSuperTypes="#//Adapter">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="archimateModel" eType="#//ArchimateModel"
-        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eOperations name="getArchimateModel" eType="#//ArchimateModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateModel" eSuperTypes="#//FolderContainer #//Nameable #//Identifier #//ArchimateModelElement #//Properties">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -216,8 +215,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//Relationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
       eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="diagramModel" eType="#//DiagramModel"
-        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eOperations name="getDiagramModel" eType="#//DiagramModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelContainer" abstract="true"
       interface="true" eSuperTypes="#//DiagramModelComponent">

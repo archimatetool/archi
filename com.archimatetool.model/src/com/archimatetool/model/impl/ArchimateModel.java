@@ -56,7 +56,6 @@ import com.archimatetool.model.util.IDAdapter;
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFolders <em>Folders</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getId <em>Id</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFile <em>File</em>}</li>
@@ -487,12 +486,9 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated NOT
+     * @generated
      */
     public IMetadata getMetadata() {
-        if(metadata == null) {
-            metadata = IArchimateFactory.eINSTANCE.createMetadata();
-        }
         return metadata;
     }
 
@@ -654,8 +650,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return getName();
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 return getId();
-            case IArchimatePackage.ARCHIMATE_MODEL__ARCHIMATE_MODEL:
-                return getArchimateModel();
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return getProperties();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -759,8 +753,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.ARCHIMATE_MODEL__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case IArchimatePackage.ARCHIMATE_MODEL__ARCHIMATE_MODEL:
-                return getArchimateModel() != null;
             case IArchimatePackage.ARCHIMATE_MODEL__PROPERTIES:
                 return properties != null && !properties.isEmpty();
             case IArchimatePackage.ARCHIMATE_MODEL__PURPOSE:
@@ -801,7 +793,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         }
         if (baseClass == IArchimateModelElement.class) {
             switch (derivedFeatureID) {
-                case IArchimatePackage.ARCHIMATE_MODEL__ARCHIMATE_MODEL: return IArchimatePackage.ARCHIMATE_MODEL_ELEMENT__ARCHIMATE_MODEL;
                 default: return -1;
             }
         }
@@ -840,7 +831,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         }
         if (baseClass == IArchimateModelElement.class) {
             switch (baseFeatureID) {
-                case IArchimatePackage.ARCHIMATE_MODEL_ELEMENT__ARCHIMATE_MODEL: return IArchimatePackage.ARCHIMATE_MODEL__ARCHIMATE_MODEL;
                 default: return -1;
             }
         }

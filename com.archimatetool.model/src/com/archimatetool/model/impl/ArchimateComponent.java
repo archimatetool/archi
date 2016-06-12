@@ -41,7 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getDocumentation <em>Documentation</em>}</li>
@@ -287,8 +286,6 @@ public abstract class ArchimateComponent extends EObjectImpl implements IArchima
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_COMPONENT__ARCHIMATE_MODEL:
-                return getArchimateModel();
             case IArchimatePackage.ARCHIMATE_COMPONENT__ID:
                 return getId();
             case IArchimatePackage.ARCHIMATE_COMPONENT__NAME:
@@ -359,8 +356,6 @@ public abstract class ArchimateComponent extends EObjectImpl implements IArchima
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.ARCHIMATE_COMPONENT__ARCHIMATE_MODEL:
-                return getArchimateModel() != null;
             case IArchimatePackage.ARCHIMATE_COMPONENT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case IArchimatePackage.ARCHIMATE_COMPONENT__NAME:
