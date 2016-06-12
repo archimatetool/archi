@@ -15,8 +15,6 @@ import com.archimatetool.model.IAssignmentRelationship;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Assignment Relationship</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

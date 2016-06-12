@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.canvas.model.IHintProvider#getHintTitle <em>Hint Title</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.IHintProvider#getHintContent <em>Hint Content</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getHintProvider()
  * @model interface="true" abstract="true"

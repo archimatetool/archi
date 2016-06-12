@@ -26,10 +26,10 @@ import com.archimatetool.model.util.Logger;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelArchimateConnection#getRelationship <em>Relationship</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

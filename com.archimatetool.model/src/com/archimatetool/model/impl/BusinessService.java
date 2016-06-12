@@ -16,8 +16,6 @@ import com.archimatetool.model.IBusinessService;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Business Service</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

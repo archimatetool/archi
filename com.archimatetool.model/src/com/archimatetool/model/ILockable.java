@@ -14,10 +14,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.ILockable#isLocked <em>Locked</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getLockable()
  * @model interface="true" abstract="true"

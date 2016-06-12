@@ -19,10 +19,10 @@ import com.archimatetool.model.ISketchModel;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.SketchModel#getBackground <em>Background</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

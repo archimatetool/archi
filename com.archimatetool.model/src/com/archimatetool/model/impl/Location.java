@@ -15,8 +15,6 @@ import com.archimatetool.model.ILocation;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Location</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -14,10 +14,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.canvas.model.INotesContent#getNotes <em>Notes</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getNotesContent()
  * @model interface="true" abstract="true"

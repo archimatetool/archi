@@ -15,11 +15,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IRelationship#getSource <em>Source</em>}</li>
  *   <li>{@link com.archimatetool.model.IRelationship#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getRelationship()
  * @model abstract="true"

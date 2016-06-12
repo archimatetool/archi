@@ -21,13 +21,13 @@ import com.archimatetool.model.IBounds;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.Bounds#getX <em>X</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Bounds#getY <em>Y</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Bounds#getWidth <em>Width</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Bounds#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

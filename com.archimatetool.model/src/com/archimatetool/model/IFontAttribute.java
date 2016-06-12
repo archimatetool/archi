@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IFontAttribute#getFont <em>Font</em>}</li>
  *   <li>{@link com.archimatetool.model.IFontAttribute#getFontColor <em>Font Color</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getFontAttribute()
  * @model interface="true" abstract="true"

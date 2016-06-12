@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.ILineObject#getLineWidth <em>Line Width</em>}</li>
  *   <li>{@link com.archimatetool.model.ILineObject#getLineColor <em>Line Color</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getLineObject()
  * @model interface="true" abstract="true"

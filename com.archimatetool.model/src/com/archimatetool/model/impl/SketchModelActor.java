@@ -28,11 +28,11 @@ import com.archimatetool.model.ISketchModelActor;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.SketchModelActor#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelActor#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

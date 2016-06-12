@@ -40,6 +40,7 @@ import com.archimatetool.model.impl.DiagramModelObject;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getImagePath <em>Image Path</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getImagePosition <em>Image Position</em>}</li>
@@ -52,7 +53,6 @@ import com.archimatetool.model.impl.DiagramModelObject;
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelBlock#getTextPosition <em>Text Position</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

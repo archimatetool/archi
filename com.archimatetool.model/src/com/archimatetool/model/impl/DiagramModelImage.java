@@ -21,11 +21,11 @@ import com.archimatetool.model.IDiagramModelImageProvider;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getBorderColor <em>Border Color</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelImage#getImagePath <em>Image Path</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

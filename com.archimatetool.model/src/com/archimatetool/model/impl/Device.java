@@ -15,8 +15,6 @@ import com.archimatetool.model.IDevice;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Device</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

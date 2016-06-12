@@ -18,13 +18,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getFile <em>File</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getVersion <em>Version</em>}</li>
  *   <li>{@link com.archimatetool.model.IArchimateModel#getMetadata <em>Metadata</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getArchimateModel()
  * @model extendedMetaData="name='model'"

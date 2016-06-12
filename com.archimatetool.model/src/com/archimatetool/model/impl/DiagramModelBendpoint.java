@@ -22,13 +22,13 @@ import com.archimatetool.model.IDiagramModelBendpoint;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelBendpoint#getStartX <em>Start X</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelBendpoint#getStartY <em>Start Y</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelBendpoint#getEndX <em>End X</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelBendpoint#getEndY <em>End Y</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

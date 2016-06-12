@@ -15,8 +15,6 @@ import com.archimatetool.model.ICompositionRelationship;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Composition Relationship</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

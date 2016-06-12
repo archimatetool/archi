@@ -23,11 +23,11 @@ import com.archimatetool.model.IRelationship;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.Relationship#getSource <em>Source</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Relationship#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

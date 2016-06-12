@@ -15,8 +15,6 @@ import com.archimatetool.model.IDataObject;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Data Object</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

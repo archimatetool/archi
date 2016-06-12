@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getText <em>Text</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getTextPosition <em>Text Position</em>}</li>
@@ -23,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelConnection#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelConnection()
  * @model

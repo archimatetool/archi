@@ -32,12 +32,12 @@ import com.archimatetool.model.IProperty;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelGroup#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -20,11 +20,11 @@ import com.archimatetool.model.ITextContent;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getBorderType <em>Border Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

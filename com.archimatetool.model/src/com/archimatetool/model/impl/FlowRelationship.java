@@ -15,8 +15,6 @@ import com.archimatetool.model.IFlowRelationship;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Flow Relationship</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

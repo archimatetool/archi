@@ -15,8 +15,6 @@ import com.archimatetool.model.ICommunicationPath;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Communication Path</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -15,8 +15,6 @@ import com.archimatetool.model.IArchimatePackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>And Junction</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

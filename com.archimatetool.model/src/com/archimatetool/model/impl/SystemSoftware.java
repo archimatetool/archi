@@ -15,8 +15,6 @@ import com.archimatetool.model.ISystemSoftware;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>System Software</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

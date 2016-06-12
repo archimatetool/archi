@@ -13,10 +13,10 @@ package com.archimatetool.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelNote#getBorderType <em>Border Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelNote()
  * @model extendedMetaData="name='Note'"

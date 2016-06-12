@@ -34,6 +34,7 @@ import com.archimatetool.model.IProperty;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getFont <em>Font</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getFontColor <em>Font Color</em>}</li>
@@ -48,7 +49,6 @@ import com.archimatetool.model.IProperty;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getBendpoints <em>Bendpoints</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelConnection#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

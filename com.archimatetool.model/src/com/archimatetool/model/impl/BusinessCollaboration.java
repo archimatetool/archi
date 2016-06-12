@@ -15,8 +15,6 @@ import com.archimatetool.model.IBusinessCollaboration;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Business Collaboration</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

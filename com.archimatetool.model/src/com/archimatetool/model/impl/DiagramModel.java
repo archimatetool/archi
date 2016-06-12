@@ -44,6 +44,7 @@ import com.archimatetool.model.IProperty;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getId <em>Id</em>}</li>
@@ -54,7 +55,6 @@ import com.archimatetool.model.IProperty;
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModel#getConnectionRouterType <em>Connection Router Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

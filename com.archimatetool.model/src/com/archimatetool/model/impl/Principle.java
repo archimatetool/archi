@@ -15,8 +15,6 @@ import com.archimatetool.model.IPrinciple;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Principle</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -18,8 +18,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Element</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

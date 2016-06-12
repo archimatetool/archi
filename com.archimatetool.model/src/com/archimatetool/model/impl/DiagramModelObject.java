@@ -34,6 +34,7 @@ import com.archimatetool.model.ITextAlignment;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFont <em>Font</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFontColor <em>Font Color</em>}</li>
@@ -45,7 +46,6 @@ import com.archimatetool.model.ITextAlignment;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFillColor <em>Fill Color</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

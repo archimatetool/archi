@@ -15,8 +15,6 @@ import com.archimatetool.model.IInfrastructureService;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Infrastructure Service</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

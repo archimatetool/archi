@@ -15,8 +15,6 @@ import com.archimatetool.model.IInfluenceRelationship;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Influence Relationship</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

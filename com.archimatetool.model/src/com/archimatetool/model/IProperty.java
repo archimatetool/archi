@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IProperty#getKey <em>Key</em>}</li>
  *   <li>{@link com.archimatetool.model.IProperty#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getProperty()
  * @model

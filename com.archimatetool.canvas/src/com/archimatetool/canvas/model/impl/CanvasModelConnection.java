@@ -26,10 +26,10 @@ import com.archimatetool.model.impl.DiagramModelConnection;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModelConnection#isLocked <em>Locked</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

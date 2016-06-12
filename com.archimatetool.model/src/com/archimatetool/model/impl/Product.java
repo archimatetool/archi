@@ -15,8 +15,6 @@ import com.archimatetool.model.IProduct;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Product</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

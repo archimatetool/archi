@@ -51,6 +51,7 @@ import com.archimatetool.model.util.IDAdapter;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getFolders <em>Folders</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getName <em>Name</em>}</li>
@@ -62,7 +63,6 @@ import com.archimatetool.model.util.IDAdapter;
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getVersion <em>Version</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateModel#getMetadata <em>Metadata</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -15,8 +15,6 @@ import com.archimatetool.model.IMeaning;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Meaning</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -15,8 +15,6 @@ import com.archimatetool.model.IGap;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Gap</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

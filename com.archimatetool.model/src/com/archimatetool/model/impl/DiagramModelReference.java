@@ -20,10 +20,10 @@ import com.archimatetool.model.IDiagramModelReference;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelReference#getReferencedModel <em>Referenced Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

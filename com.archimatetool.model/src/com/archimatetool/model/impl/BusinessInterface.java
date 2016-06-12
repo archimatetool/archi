@@ -20,10 +20,10 @@ import com.archimatetool.model.IInterfaceElement;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.BusinessInterface#getInterfaceType <em>Interface Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

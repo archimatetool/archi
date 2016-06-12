@@ -15,8 +15,6 @@ import com.archimatetool.model.IUsedByRelationship;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Used By Relationship</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

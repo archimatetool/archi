@@ -13,11 +13,11 @@ package com.archimatetool.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelArchimateObject#getArchimateElement <em>Archimate Element</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelArchimateObject#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelArchimateObject()
  * @model extendedMetaData="name='DiagramObject'"

@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IFolder#getElements <em>Elements</em>}</li>
  *   <li>{@link com.archimatetool.model.IFolder#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getFolder()
  * @model

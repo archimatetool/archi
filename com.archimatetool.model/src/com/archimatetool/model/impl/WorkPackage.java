@@ -15,8 +15,6 @@ import com.archimatetool.model.IWorkPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Work Package</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

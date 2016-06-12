@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getId <em>Id</em>}</li>
@@ -46,7 +47,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.ArchimateComponent#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -14,13 +14,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IBounds#getX <em>X</em>}</li>
  *   <li>{@link com.archimatetool.model.IBounds#getY <em>Y</em>}</li>
  *   <li>{@link com.archimatetool.model.IBounds#getWidth <em>Width</em>}</li>
  *   <li>{@link com.archimatetool.model.IBounds#getHeight <em>Height</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getBounds()
  * @model

@@ -15,8 +15,6 @@ import com.archimatetool.model.IAssessment;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Assessment</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

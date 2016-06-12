@@ -13,13 +13,13 @@ package com.archimatetool.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelBendpoint#getStartX <em>Start X</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelBendpoint#getStartY <em>Start Y</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelBendpoint#getEndX <em>End X</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelBendpoint#getEndY <em>End Y</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelBendpoint()
  * @model

@@ -16,10 +16,10 @@ import com.archimatetool.model.IDiagramModelObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.canvas.model.IIconic#getImagePosition <em>Image Position</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.canvas.model.ICanvasPackage#getIconic()
  * @model interface="true" abstract="true"

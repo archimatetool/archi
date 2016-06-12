@@ -13,10 +13,10 @@ package com.archimatetool.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IArchimateModelElement#getArchimateModel <em>Archimate Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getArchimateModelElement()
  * @model interface="true" abstract="true"

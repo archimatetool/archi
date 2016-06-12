@@ -15,8 +15,6 @@ import com.archimatetool.model.IRequirement;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Requirement</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

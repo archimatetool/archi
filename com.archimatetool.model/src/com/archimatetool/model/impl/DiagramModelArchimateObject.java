@@ -32,12 +32,12 @@ import com.archimatetool.model.util.Logger;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelArchimateObject#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelArchimateObject#getArchimateElement <em>Archimate Element</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelArchimateObject#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

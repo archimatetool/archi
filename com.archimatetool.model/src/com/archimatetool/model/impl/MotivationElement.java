@@ -15,8 +15,6 @@ import com.archimatetool.model.IMotivationElement;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Motivation Element</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

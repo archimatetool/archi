@@ -40,6 +40,7 @@ import com.archimatetool.model.IProperty;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.Folder#getArchimateModel <em>Archimate Model</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getFolders <em>Folders</em>}</li>
@@ -50,7 +51,6 @@ import com.archimatetool.model.IProperty;
  *   <li>{@link com.archimatetool.model.impl.Folder#getElements <em>Elements</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

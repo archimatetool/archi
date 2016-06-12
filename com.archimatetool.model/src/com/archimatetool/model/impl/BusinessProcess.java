@@ -15,8 +15,6 @@ import com.archimatetool.model.IBusinessProcess;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Business Process</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

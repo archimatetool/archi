@@ -15,8 +15,6 @@ import com.archimatetool.model.IJunction;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Junction</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

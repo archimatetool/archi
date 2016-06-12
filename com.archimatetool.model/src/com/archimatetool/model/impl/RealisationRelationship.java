@@ -15,8 +15,6 @@ import com.archimatetool.model.IRealisationRelationship;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Realisation Relationship</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

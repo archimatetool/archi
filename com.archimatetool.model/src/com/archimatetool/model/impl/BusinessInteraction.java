@@ -15,8 +15,6 @@ import com.archimatetool.model.IBusinessInteraction;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Business Interaction</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

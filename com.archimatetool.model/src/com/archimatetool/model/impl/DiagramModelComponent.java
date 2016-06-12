@@ -29,12 +29,12 @@ import com.archimatetool.model.INameable;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getId <em>Id</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelComponent#getDiagramModel <em>Diagram Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

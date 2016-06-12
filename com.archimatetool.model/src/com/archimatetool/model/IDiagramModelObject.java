@@ -14,13 +14,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getBounds <em>Bounds</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getFillColor <em>Fill Color</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject()
  * @model abstract="true"

@@ -19,10 +19,10 @@ import com.archimatetool.model.IArchimatePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.AccessRelationship#getAccessType <em>Access Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

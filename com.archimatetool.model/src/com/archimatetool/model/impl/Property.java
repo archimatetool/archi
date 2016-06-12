@@ -20,11 +20,11 @@ import com.archimatetool.model.IProperty;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.Property#getKey <em>Key</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Property#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

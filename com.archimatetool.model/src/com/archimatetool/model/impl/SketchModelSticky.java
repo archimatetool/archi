@@ -32,12 +32,12 @@ import com.archimatetool.model.ITextContent;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

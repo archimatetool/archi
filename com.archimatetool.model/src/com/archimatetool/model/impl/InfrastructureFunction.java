@@ -15,8 +15,6 @@ import com.archimatetool.model.IInfrastructureFunction;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Infrastructure Function</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

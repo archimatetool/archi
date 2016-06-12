@@ -22,11 +22,11 @@ import com.archimatetool.model.impl.DiagramModel;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModel#getHintTitle <em>Hint Title</em>}</li>
  *   <li>{@link com.archimatetool.canvas.model.impl.CanvasModel#getHintContent <em>Hint Content</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
