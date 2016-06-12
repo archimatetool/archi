@@ -565,7 +565,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         registry.registerAction(zoomNormal);
         
         // Add these zoom actions to the key binding service
-        IHandlerService service = (IHandlerService)getEditorSite().getService(IHandlerService.class);
+        IHandlerService service = getEditorSite().getService(IHandlerService.class);
         service.activateHandler(zoomIn.getActionDefinitionId(), new ActionHandler(zoomIn));
         service.activateHandler(zoomOut.getActionDefinitionId(), new ActionHandler(zoomOut));
         service.activateHandler(zoomNormal.getActionDefinitionId(), new ActionHandler(zoomNormal));

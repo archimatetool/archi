@@ -63,12 +63,13 @@ public class ViewManager {
      */
     public static void toggleViewPart(String viewID, boolean activate) {
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-        IViewReference ref = page.findViewReference(viewID);
-        if(ref != null) {
-            page.hideView(ref);
+        IViewPart viewPart = page.findView(viewID);
+        
+        if(viewPart == null) {
+            showViewPart(viewID, activate);
         }
         else {
-            showViewPart(viewID, activate);
+            hideViewPart(viewID);
         }
     }
     

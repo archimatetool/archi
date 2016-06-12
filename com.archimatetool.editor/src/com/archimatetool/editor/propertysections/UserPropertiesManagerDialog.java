@@ -38,7 +38,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -204,7 +204,7 @@ public class UserPropertiesManagerDialog extends ExtendedTitleAreaDialog {
         fTableViewer.getTable().setHeaderVisible(true);
         fTableViewer.getTable().setLinesVisible(true);
 
-        fTableViewer.setSorter(new ViewerSorter());
+        fTableViewer.setComparator(new ViewerComparator());
 
         // Columns
         TableViewerColumn columnOldKey = new TableViewerColumn(fTableViewer, SWT.NONE, 0);

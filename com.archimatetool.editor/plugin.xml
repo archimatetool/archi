@@ -36,11 +36,7 @@
            value="img/about.png"/>
      <property
            name="windowImages"
-           value="img/app-16.png,img/app-32.png,img/app-48.png,img/app-64.png,img/app-128.png"/>
-     <property
-           name="preferenceCustomization"
-           value="plugin_customization.ini">
-     </property>
+           value="img/app-16.png,img/app-32.png,img/app-48.png,img/app-64.png,img/app-128.png,img/app-256.png"/>
      <property
            name="cssTheme"
            value="org.eclipse.e4.ui.css.theme.e4_default">
@@ -60,6 +56,10 @@
      <property
            name="startupForegroundColor"
            value="C0C0C0">
+     </property>
+     <property
+           name="preferenceCustomization"
+           value="plugin_customization.ini">
      </property>
       </product>
 	</extension>

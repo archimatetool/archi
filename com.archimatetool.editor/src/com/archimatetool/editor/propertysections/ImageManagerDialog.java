@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.nebula.widgets.gallery.DefaultGalleryItemRenderer;
 import org.eclipse.nebula.widgets.gallery.Gallery;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
@@ -379,7 +379,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             setColumns();
             setContentProvider(new ModelsViewerContentProvider());
             setLabelProvider(new ModelsViewerLabelProvider());
-            setSorter(new ViewerSorter() {
+            setComparator(new ViewerComparator() {
                 @Override
                 public int category(Object element) {
                     if(element == OPEN) {

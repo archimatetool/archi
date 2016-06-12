@@ -122,7 +122,7 @@ public class FloatingPalette {
         GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         fClient.setLayoutData(gd);
         
-        fPalettePage = (PalettePage)fEditor.getAdapter(PalettePage.class);
+        fPalettePage = fEditor.getAdapter(PalettePage.class);
         fPalettePage.createControl(fClient);
     }
     

@@ -23,7 +23,6 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -73,7 +72,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         super(part);
         setText(TEXT);
         setId(ID);
-        setSelectionProvider((ISelectionProvider)part.getAdapter(GraphicalViewer.class));
+        setSelectionProvider(part.getAdapter(GraphicalViewer.class));
         setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
     }
 
@@ -150,7 +149,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
                 ChainList chainList = dialog.getSelectedChainList();
                 EClass relationshipClass = DerivedRelationsUtils.getWeakestType(chain);
                 IRelationship relation = (IRelationship)IArchimateFactory.eINSTANCE.create(relationshipClass);
-                CommandStack stack = (CommandStack)getWorkbenchPart().getAdapter(CommandStack.class);
+                CommandStack stack = getWorkbenchPart().getAdapter(CommandStack.class);
                 stack.execute(new CreateDerivedConnectionCommand(chainList.srcDiagramObject, chainList.tgtDiagramObject, relation));
             }
         }

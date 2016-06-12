@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.nebula.widgets.gallery.DefaultGalleryItemRenderer;
@@ -141,7 +141,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         // My Templates
         gd = new GridData(SWT.FILL, SWT.FILL, true, true);
         fUserTableViewer = createGroupsTableViewer(tableComposite, Messages.NewModelFromTemplateWizardPage_3, gd);
-        fUserTableViewer.setSorter(new ViewerSorter() {
+        fUserTableViewer.setComparator(new ViewerComparator() {
             @Override
             public int category(Object element) {
                 if(element == fTemplateManager.AllUserTemplatesGroup) {

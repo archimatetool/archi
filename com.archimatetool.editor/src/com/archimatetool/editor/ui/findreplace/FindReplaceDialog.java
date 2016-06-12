@@ -641,7 +641,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
         if(part == null) {
             return null;
         }
-        return (IFindReplaceProvider)part.getAdapter(IFindReplaceProvider.class);
+        return part.getAdapter(IFindReplaceProvider.class);
     }
     
     protected void setOperationProvider(IFindReplaceProvider operationProvider) {

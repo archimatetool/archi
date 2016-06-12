@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
@@ -36,7 +36,7 @@ public class TemplatesTreeViewer extends TreeViewer {
         super(parent, style);
         setContentProvider(new TemplatesTreeViewerContentProvider());
         setLabelProvider(new TemplatesTreeViewerLabelProvider());
-        setSorter(new ViewerSorter());
+        setComparator(new ViewerComparator());
     }
 
     /**

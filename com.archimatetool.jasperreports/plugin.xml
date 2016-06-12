@@ -24,7 +24,8 @@
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup></startup>
+      <startup
+            class="com.archimatetool.jasperreports.Startup"></startup>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

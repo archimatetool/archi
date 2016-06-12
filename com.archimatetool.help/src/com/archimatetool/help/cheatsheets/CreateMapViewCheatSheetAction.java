@@ -43,7 +43,7 @@ implements ICheatSheetAction {
             return;
         }
         
-        IArchimateModel model = (IArchimateModel)viewPart.getAdapter(IArchimateModel.class);
+        IArchimateModel model = viewPart.getAdapter(IArchimateModel.class);
         if(model == null) {
             MessageDialog.openWarning(Display.getCurrent().getActiveShell(), Messages.CreateMapViewCheatSheetAction_2,
                     Messages.CreateMapViewCheatSheetAction_3);

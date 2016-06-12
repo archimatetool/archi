@@ -289,7 +289,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             return;
         }
         
-        IArchimateModel model = (IArchimateModel)part.getAdapter(IArchimateModel.class);
+        IArchimateModel model = part.getAdapter(IArchimateModel.class);
         
         if(model != null) {
             fModel = model;
@@ -384,7 +384,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
         return false;
     }
     
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public Object getAdapter(Class adapter) {
         /*

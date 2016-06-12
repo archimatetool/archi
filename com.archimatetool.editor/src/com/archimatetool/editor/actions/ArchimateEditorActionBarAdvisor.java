@@ -205,7 +205,7 @@ extends ActionBarAdvisor {
         register(fActionAbout);
         
         // Register our own About Handler for our own custom dialog
-        IHandlerService srv = (IHandlerService) window.getService(IHandlerService.class);
+        IHandlerService srv = window.getService(IHandlerService.class);
         srv.activateHandler(IWorkbenchCommandConstants.HELP_ABOUT, new AboutHandler());
         
         // Reset Perspective

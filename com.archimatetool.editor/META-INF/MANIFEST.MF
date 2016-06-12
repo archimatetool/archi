@@ -7,7 +7,6 @@ Bundle-Activator: com.archimatetool.editor.ArchimateEditorPlugin
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.runtime.compatibility,
  org.eclipse.gef;visibility:=reexport,
  org.eclipse.help.ui,
  org.eclipse.ui,

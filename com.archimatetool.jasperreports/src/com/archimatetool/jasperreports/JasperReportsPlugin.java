@@ -11,7 +11,6 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -22,11 +21,10 @@ import com.archimatetool.jasperreports.preferences.IJasperPreferenceConstants;
 
 /**
  * Activator
- * Implement IStartup so that Menu Items are initialised
  * 
  * @author Phillip Beauvoir
  */
-public class JasperReportsPlugin extends AbstractUIPlugin implements IStartup {
+public class JasperReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.jasperreports"; //$NON-NLS-1$
 
@@ -44,11 +42,6 @@ public class JasperReportsPlugin extends AbstractUIPlugin implements IStartup {
         INSTANCE = this;
     }
 
-    @Override
-    public void earlyStartup() {
-        // Do nothing
-    }
-    
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);

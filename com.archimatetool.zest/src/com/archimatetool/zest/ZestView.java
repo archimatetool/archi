@@ -32,7 +32,6 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionListener;
@@ -57,6 +56,7 @@ import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IBounds;
 
 
 
@@ -176,7 +176,7 @@ implements IZestView, ISelectionListener {
             component = (IArchimateComponent)object;
         }
         else if(object instanceof IAdaptable) {
-            component = (IArchimateComponent)((IAdaptable)object).getAdapter(IArchimateComponent.class);
+            component = ((IAdaptable)object).getAdapter(IArchimateComponent.class);
         }
         
         fDrillDownManager.setNewInput(component);
@@ -188,19 +188,7 @@ implements IZestView, ISelectionListener {
     void refresh() {
         updateActions();
         updateLabel();
-
-        /*
-         * Weird thing happening here to do with Draw2D Animation.
-         * If a figure is moved or resized in a Diagram and an Undo or Redo is performed then
-         * this ZestView gets an Ecore change event which needs to refresh or update the GraphViewer.
-         * Under some circumstance the Animation in the Diagram does not happen (just the animation delay time occurs).
-         * It seems that somehow the Zest GraphViewer is calling LayoutAnimator.layout() and nobbling the diagram's animation.
-         */
-        Display.getCurrent().asyncExec(new Runnable() {
-            public void run() {
-                getViewer().refresh();
-            }
-        });
+        getViewer().refresh();
     }
     
     /**
@@ -567,10 +555,13 @@ implements IZestView, ISelectionListener {
                 refresh();
                 break;
             case Notification.SET:
+                // Current component name change
                 if(msg.getNotifier() == fDrillDownManager.getCurrentComponent()) {
                     updateLabel();
                 }
-                super.eCoreChanged(msg);
+                if(!(msg.getNewValue() instanceof IBounds)) { // Don't update on bounds change. This can cause a conflict with Undo/Redo animation
+                    super.eCoreChanged(msg);
+                }
                 break;
 
             default:

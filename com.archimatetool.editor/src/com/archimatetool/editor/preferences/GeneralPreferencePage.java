@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -138,7 +138,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             }
         });
         
-        fThemeComboViewer.setSorter(new ViewerSorter());
+        fThemeComboViewer.setComparator(new ViewerComparator());
         
         // Show Status Line
         fShowStatusLineButton = new Button(appearanceGroup, SWT.CHECK);
@@ -260,7 +260,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     public void init(IWorkbench workbench) {
         // e4 method (taken from org.eclipse.ui.internal.dialogs.ViewsPreferencePage init(IWorkbench))
-        MApplication application = (MApplication)workbench.getService(MApplication.class);
+        MApplication application = workbench.getService(MApplication.class);
         IEclipseContext context = application.getContext();
         fDefaultTheme = (String)context.get("cssTheme"); // This is "org.eclipse.e4.ui.css.theme.e4_default" //$NON-NLS-1$
         fThemeEngine = context.get(IThemeEngine.class);

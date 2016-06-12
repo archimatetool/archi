@@ -49,7 +49,7 @@ public class PrintDiagramAction extends WorkbenchPartAction {
 
     @Override
     public void run() {
-        GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = getWorkbenchPart().getAdapter(GraphicalViewer.class);
 
         int printMode = new PrintModeDialog(viewer.getControl().getShell()).open();
         if(printMode == -1) {

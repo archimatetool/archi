@@ -159,7 +159,7 @@ public class FullScreenAction extends WorkbenchPartAction {
     
     @Override
     public void run() {
-        fGraphicalViewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
+        fGraphicalViewer = getWorkbenchPart().getAdapter(GraphicalViewer.class);
         fOldParent = fGraphicalViewer.getControl().getParent();
         fOldPaletteViewer = fGraphicalViewer.getEditDomain().getPaletteViewer();
         
@@ -241,8 +241,8 @@ public class FullScreenAction extends WorkbenchPartAction {
      */
     private void addKeyBindings() {
         if(keyBindings.isEmpty()) {
-            ActionRegistry registry = (ActionRegistry)getWorkbenchPart().getAdapter(ActionRegistry.class);
-            IBindingService service = (IBindingService)getWorkbenchPart().getSite().getService(IBindingService.class);
+            ActionRegistry registry = getWorkbenchPart().getAdapter(ActionRegistry.class);
+            IBindingService service = getWorkbenchPart().getSite().getService(IBindingService.class);
             
             addKeyBinding(registry, service, ActionFactory.SELECT_ALL);
             addKeyBinding(registry, service, ActionFactory.UNDO);

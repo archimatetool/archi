@@ -377,11 +377,14 @@ public final class CSVFormat implements Serializable {
      * @return the formatted values
      */
     public String format(final Object... values) {
-        final StringWriter out = new StringWriter();
         try {
-            new CSVPrinter(out, this).printRecord(values);
+            StringWriter out = new StringWriter();
+            CSVPrinter printer = new CSVPrinter(out, this);
+            printer.printRecord(values);
+            printer.close();
             return out.toString().trim();
-        } catch (final IOException e) {
+        }
+        catch(final IOException e) {
             // should not happen because a StringWriter does not do IO.
             throw new IllegalStateException(e);
         }

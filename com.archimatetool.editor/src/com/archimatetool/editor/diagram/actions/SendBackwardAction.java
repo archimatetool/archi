@@ -13,7 +13,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.model.IDiagramModelContainer;
@@ -43,7 +42,7 @@ public class SendBackwardAction extends SelectionAction {
          * viewer and selection concur.
          * See SelectionAction#update()
          */
-        setSelectionProvider((ISelectionProvider)part.getAdapter(GraphicalViewer.class));
+        setSelectionProvider(part.getAdapter(GraphicalViewer.class));
     }
 
     @Override
@@ -74,7 +73,7 @@ public class SendBackwardAction extends SelectionAction {
     }
     
     private Command createCommand(List<?> selection) {
-        GraphicalViewer viewer = (GraphicalViewer)getWorkbenchPart().getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = getWorkbenchPart().getAdapter(GraphicalViewer.class);
         
         CompoundCommand result = new CompoundCommand(TEXT);
         

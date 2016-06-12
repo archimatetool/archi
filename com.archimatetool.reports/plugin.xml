@@ -24,7 +24,8 @@
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup>
+      <startup
+            class="com.archimatetool.reports.Startup">
       </startup>
    </extension>
 

@@ -8,6 +8,7 @@ package com.archimatetool.editor.views.properties;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.PropertySheet;
 
@@ -48,6 +49,16 @@ public class CustomPropertiesView extends PropertySheet implements ICustomProper
 //                }
 //            }
 //        }
+    }
+    
+    @Override
+    protected ISaveablePart getSaveablePart() {
+        /*
+         * Eclipse 4.5 and 4.6 calls this to set the Properties View to dirty and shows an asterisk on the title bar.
+         * This is so stupid. Really, really stupid.
+         * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=372799
+         */
+        return null;
     }
         
     @Override

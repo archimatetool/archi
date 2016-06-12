@@ -43,7 +43,7 @@ public class SelectAllAction extends Action {
      */
     @Override
     public void run() {
-        GraphicalViewer viewer = (GraphicalViewer)part.getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = part.getAdapter(GraphicalViewer.class);
         if(viewer != null) {
             viewer.setSelection(new StructuredSelection(getSelectableEditParts(viewer.getContents()).toArray()));
         }

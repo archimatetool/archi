@@ -17,7 +17,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -124,7 +124,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             }
         });
         
-        fTableViewer.setSorter(new ViewerSorter());
+        fTableViewer.setComparator(new ViewerComparator());
     }
     
     @Override
