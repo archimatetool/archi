@@ -3,12 +3,6 @@
 
 <product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="3.3.2.qualifier" useFeatures="true" includeLaunchers="true">
 
-   <aboutInfo>
-      <image path="/com.archimatetool.editor/img/about.png"/>
-      <text>
-         %aboutText
-      </text>
-   </aboutInfo>
 
    <configIni use="default">
       <linux>/com.archimatetool.editor/build/config.ini</linux>
@@ -37,6 +31,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <plugins>
    </plugins>
