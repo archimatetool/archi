@@ -29,9 +29,6 @@
            name="appName"
            value="Archi"/>
      <property
-           name="aboutText"
-           value="%aboutText"/>
-     <property
            name="aboutImage"
            value="img/about.png"/>
      <property
