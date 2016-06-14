@@ -93,6 +93,23 @@ public interface IArchiveManager {
     String addImageFromFile(File file) throws IOException;
 
     /**
+     * Add image bytes keyed by entryName. This has to follow the same pattern as in createArchiveImagePathname()
+     * If the image already exists the existing image path is returned, otherwise path is returned
+     * @param entryName The key path entryname
+     * @param bytes The image bytes
+     * @return If the image already exists the existing image path is returned, otherwise path is returned
+     * @throws IOException
+     */
+    String addByteContentEntry(String entryName, byte[] bytes) throws IOException;
+    
+    /**
+     * Get image bytes by entryName
+     * @param entryName The key path entryname
+     * @return The image bytes or null if not found
+     */
+    byte[] getBytesFromEntry(String entryName);
+    
+    /**
      * Create a new Image for this path entry
      * @param path The image path
      * @return the Image object or null

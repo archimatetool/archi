@@ -1,7 +1,7 @@
 /**
- * This program and the accompanying materials
- * are made available under the terms of the License
- * which accompanies this distribution in the file LICENSE.txt
+ * This program and the accompanying materials are made available under the
+ * terms of the License which accompanies this distribution in the file
+ * LICENSE.txt
  */
 package com.archimatetool.editor.model.impl;
 
@@ -48,7 +48,7 @@ import com.archimatetool.model.util.ArchimateResourceFactory;
 public class ArchiveManager implements IArchiveManager {
     
     /**
-     * Raw image bytes loaded for all images in use in this model
+     * Raw image bytes loaded for all images in use globally in the app
      */
     static ByteArrayStorage BYTE_ARRAY_STORAGE = new ByteArrayStorage();
     
@@ -117,24 +117,15 @@ public class ArchiveManager implements IArchiveManager {
         if(bytes == null) {
             throw new IOException("Could not get bytes from file"); //$NON-NLS-1$
         }
-        
-        // Is this already in the cache?
-        String entryName = BYTE_ARRAY_STORAGE.getKey(bytes);
-        
-        // No, so create a new one
-        if(entryName == null) {
-            // Is this actually a valid Image file? Test it...
-            testImageBytesValid(bytes);
-            
-            // OK, add the bytes
-            entryName = createArchiveImagePathname(file);
-            BYTE_ARRAY_STORAGE.addByteContentEntry(entryName, bytes);
-        }
-        
-        // Once the imagepath has been returned, the caller should call IDiagramModelImageProvider.setImagePath(imagepath)
-        // And this in turn will add the image path to fLoadededImagePaths via the EContentAdapter
-        
-        return entryName;
+
+        String entryName = createArchiveImagePathname(file);
+
+        // Once the imagepath has been returned, the caller should call
+        // IDiagramModelImageProvider.setImagePath(imagepath)
+        // And this in turn will add the image path to fLoadededImagePaths via
+        // the EContentAdapter
+
+        return addByteContentEntry(entryName, bytes);
     }
     
     /**
@@ -235,6 +226,27 @@ public class ArchiveManager implements IArchiveManager {
             }
         }
         return false;
+    }
+
+    public byte[] getBytesFromEntry(String entryName) {
+        return BYTE_ARRAY_STORAGE.getEntry(entryName);
+    }
+
+    public String addByteContentEntry(String path, byte[] bytes) throws IOException {
+        // Is this already in the cache?
+        String entryName = BYTE_ARRAY_STORAGE.getKey(bytes);
+        
+        // No
+        if(entryName == null) {
+            // Is this actually a valid Image file? Test it...
+            testImageBytesValid(bytes);
+           
+            // Add it
+            entryName = path;
+            BYTE_ARRAY_STORAGE.addByteContentEntry(path, bytes);
+        }
+        
+        return entryName;
     }
     
     @Override
