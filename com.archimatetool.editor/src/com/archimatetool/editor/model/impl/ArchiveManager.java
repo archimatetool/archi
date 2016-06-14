@@ -228,10 +228,12 @@ public class ArchiveManager implements IArchiveManager {
         return false;
     }
 
+    @Override
     public byte[] getBytesFromEntry(String entryName) {
         return BYTE_ARRAY_STORAGE.getEntry(entryName);
     }
 
+    @Override
     public String addByteContentEntry(String path, byte[] bytes) throws IOException {
         // Is this already in the cache?
         String entryName = BYTE_ARRAY_STORAGE.getKey(bytes);
