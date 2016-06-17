@@ -3,12 +3,11 @@
 
 <product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="3.3.2.qualifier" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
-      <linux>/com.archimatetool.editor/build/config.ini</linux>
-      <macosx>/com.archimatetool.editor/build/config.ini</macosx>
-      <solaris>/com.archimatetool.editor/build/config.ini</solaris>
-      <win32>/com.archimatetool.editor/build/config.ini</win32>
+      <linux>/com.archimatetool.editor/config.ini</linux>
+      <macosx>/com.archimatetool.editor/config.ini</macosx>
+      <solaris>/com.archimatetool.editor/config.ini</solaris>
+      <win32>/com.archimatetool.editor/config.ini</win32>
    </configIni>
 
    <launcherArgs>
@@ -23,15 +22,21 @@
       startupMessageRect="5,180,0,0"
       startupForegroundColor="C0C0C0" />
    <launcher name="Archi">
-      <linux icon="/com.archimatetool.editor/build/icon.xpm"/>
-      <macosx icon="/com.archimatetool.editor/build/icon.icns"/>
+      <linux icon="/com.archimatetool.product/icons/icon.xpm"/>
+      <macosx icon="/com.archimatetool.product/icons/icon.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/com.archimatetool.editor/build/icon.ico"/>
+         <ico path="/com.archimatetool.product/icons/icon.ico"/>
          <bmp/>
       </win>
    </launcher>
 
+   <vm>
+      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</linux>
+      <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
+      <solaris include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</solaris>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</windows>
+   </vm>
 
    <plugins>
    </plugins>
