@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: All Archi JUnit Tests
 Bundle-SymbolicName: com.archimatetool.tests
-Bundle-Version: 1.2.0
+Bundle-Version: 4.0.0
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: com.archimatetool.canvas,

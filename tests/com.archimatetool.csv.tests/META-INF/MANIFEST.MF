@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for CSV Import/Export
 Bundle-SymbolicName: com.archimatetool.csv.tests
-Bundle-Version: 1.0.0
+Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.csv
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.junit,

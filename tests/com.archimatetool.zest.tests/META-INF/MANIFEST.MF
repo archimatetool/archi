@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for Zest Viewer
 Bundle-SymbolicName: com.archimatetool.zest.tests
-Bundle-Version: 1.0.0
+Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.zest
 Bundle-Vendor: Phillip Beauvoir
 Require-Bundle: org.junit,
