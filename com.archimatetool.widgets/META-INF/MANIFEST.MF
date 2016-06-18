@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.archimatetool.widgets;singleton:=true
 Bundle-Version: 4.0.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.widgets.jar,
  lib/org.eclipse.nebula.widgets.gallery_0.5.3.201111151116.jar,
  lib/org.eclipse.nebula.widgets.grid_1.0.0.201112231516.jar

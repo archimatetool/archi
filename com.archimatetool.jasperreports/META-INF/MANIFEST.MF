@@ -6,6 +6,7 @@ Bundle-Version: 4.0.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Eclipse-BundleShape: dir
 Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/commons-beanutils-1.8.0.jar,
  lib/commons-collections-3.2.1.jar,

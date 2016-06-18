@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.archimatetool.model;singleton:=true
 Bundle-Version: 4.0.0.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.model,
  com.archimatetool.model.impl,
  com.archimatetool.model.util
