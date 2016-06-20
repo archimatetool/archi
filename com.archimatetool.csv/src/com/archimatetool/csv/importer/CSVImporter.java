@@ -611,7 +611,7 @@ public class CSVImporter implements CSVConstants {
     }
     
     void checkIDForInvalidCharacters(String id) throws CSVParseException {
-        if(!id.matches("^[a-zA-Z0-9_-]+$")) { //$NON-NLS-1$
+        if(!id.matches("^[a-zA-Z0-9._-]+$")) { //$NON-NLS-1$
             throw new CSVParseException(Messages.CSVImporter_12 + id);
         }
     }

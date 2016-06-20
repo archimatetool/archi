@@ -300,7 +300,7 @@ public class CSVImporterTests {
     @Test
     public void testCheckIDForInvalidCharacters_Fail() {
         String[] testStrings = {
-                "&", " ", "*", "$"
+                "&", " ", "*", "$", "#"
         };
         
         for(String s : testStrings) {
@@ -316,7 +316,7 @@ public class CSVImporterTests {
     @Test
     public void testCheckIDForInvalidCharacters_Pass() throws Exception {
         String[] testStrings = {
-                "f00aa5b4", "123Za", "_-123uioP"
+                "f00aa5b4", "123Za", "_-123uioP09..-_"
         };
         
         for(String s : testStrings) {
