@@ -10,6 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
@@ -306,6 +307,7 @@ public class CSVImporterTests {
         for(String s : testStrings) {
             try {
                 importer.checkIDForInvalidCharacters(s);
+                fail("Should throw CSVParseException");
             }
             catch(CSVParseException ex) {
                 continue;
