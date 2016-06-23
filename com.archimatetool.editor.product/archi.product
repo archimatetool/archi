@@ -3,6 +3,7 @@
 
 <product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="4.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
       <linux>/com.archimatetool.editor/config.ini</linux>
       <macosx>/com.archimatetool.editor/config.ini</macosx>
@@ -31,6 +32,7 @@
       </win>
    </launcher>
 
+
    <vm>
       <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</linux>
       <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</macos>
@@ -38,11 +40,13 @@
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</windows>
    </vm>
 
+
    <plugins>
    </plugins>
 
    <features>
       <feature id="com.archimatetool.editor.feature"/>
+      <feature id="org.opengroup.archimate.xmlexchange.feature"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.gef"/>

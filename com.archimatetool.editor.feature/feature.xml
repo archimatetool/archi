@@ -76,7 +76,7 @@ OTHER DEALINGS IN THE SOFTWARE.
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.e4.core.contexts"/>
       <import plugin="org.eclipse.e4.ui.css.swt.theme"/>
-      <import plugin="com.archimatetool.editor" version="2.5.0" match="greaterOrEqual"/>
+      <import plugin="com.archimatetool.editor" version="4.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.http.jetty"/>
       <import plugin="org.eclipse.help.webapp"/>
       <import plugin="org.eclipse.zest.core"/>
@@ -222,19 +222,5 @@ OTHER DEALINGS IN THE SOFTWARE.
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="org.opengroup.archimate.xmlexchange"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opengroup.archimate.xmlexchange.help"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
 </feature>
