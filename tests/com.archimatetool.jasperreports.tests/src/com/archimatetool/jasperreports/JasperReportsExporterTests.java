@@ -12,10 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.JUnit4TestAdapter;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperPrint;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,8 +19,11 @@ import org.junit.Test;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
 
 
 @SuppressWarnings("nls")
@@ -48,7 +47,7 @@ public class JasperReportsExporterTests {
     @BeforeClass
     public static void runOnceBeforeAllTests() throws JRException, IOException {
         // Load ArchiMate model
-        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        ArchimateTestModel tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
         
         // Setup some folders

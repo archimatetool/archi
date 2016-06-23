@@ -13,15 +13,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -34,7 +33,7 @@ public class IArchiveManagerTests {
     
     @Test
     public void testFactory_createArchiveManager() throws IOException {
-        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        ArchimateTestModel tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         IArchimateModel model = tm.loadModel();
         IArchiveManager archiveManager = IArchiveManager.FACTORY.createArchiveManager(model);
         assertNotNull(archiveManager);
@@ -42,7 +41,7 @@ public class IArchiveManagerTests {
     
     @Test
     public void testFactory_isArchiveFile() {
-        assertFalse(IArchiveManager.FACTORY.isArchiveFile(TestData.TEST_MODEL_FILE_ARCHISURANCE));
+        assertFalse(IArchiveManager.FACTORY.isArchiveFile(TestSupport.TEST_MODEL_FILE_ARCHISURANCE));
         assertTrue(IArchiveManager.FACTORY.isArchiveFile(TestSupport.TEST_MODEL_FILE_ZIPPED));
     }
     

@@ -15,17 +15,17 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.archimatetool.jasperreports.TestSupport;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
+
+import junit.framework.JUnit4TestAdapter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 
 
 @SuppressWarnings("nls")
@@ -42,7 +42,7 @@ public class ViewModelDataSourceTests {
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
-        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        ArchimateTestModel tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
     }
     

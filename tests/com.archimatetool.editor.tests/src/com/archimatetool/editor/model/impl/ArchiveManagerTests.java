@@ -15,8 +15,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Before;
@@ -31,8 +29,9 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -174,7 +173,7 @@ public class ArchiveManagerTests {
         boolean result = archiveManager.loadImagesFromModelFile(null);
         assertFalse(result);
         
-        result = archiveManager.loadImagesFromModelFile(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        result = archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         assertFalse(result);
         
         assertTrue(archiveManager.getLoadedImagePaths().isEmpty());

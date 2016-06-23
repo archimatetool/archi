@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -28,7 +26,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.tests.TestData;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -185,7 +184,7 @@ public class MRUMenuManagerTests {
         assertTrue(list.isEmpty());
         
         // Open File event - file does exist so it is added to MRU list
-        model.setFile(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        model.setFile(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         IEditorModelManager.INSTANCE.firePropertyChange(this, IEditorModelManager.PROPERTY_MODEL_OPENED, null, model);
         assertEquals(1, list.size());
         

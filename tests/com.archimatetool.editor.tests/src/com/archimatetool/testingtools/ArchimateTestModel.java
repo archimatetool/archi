@@ -54,10 +54,14 @@ public class ArchimateTestModel {
      * @throws IOException
      */
     public IArchimateModel loadModel() throws IOException {
-        if(file == null || !file.exists()) {
-            throw new IllegalArgumentException("Please set the file first!");
+        if(file == null) {
+            throw new IllegalArgumentException("File is null");
         }
         
+        if(!file.exists()) {
+            throw new IllegalArgumentException("File does not exist: " + file);
+        }
+
         Resource resource = ArchimateResourceFactory.createNewResource(file);
         resource.load(null);
         model = (IArchimateModel)resource.getContents().get(0);

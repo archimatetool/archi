@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.zest.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.zest
 Bundle-Vendor: Phillip Beauvoir
-Require-Bundle: org.junit,
- com.archimatetool.testsupport
+Require-Bundle: org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: com.archimatetool.editor
+Import-Package: com.archimatetool.testingtools,
+ com.archimatetool.tests

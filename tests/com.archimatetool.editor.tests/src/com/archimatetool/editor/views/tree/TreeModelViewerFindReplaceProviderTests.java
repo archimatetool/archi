@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -32,7 +30,8 @@ import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.util.ArchimateModelUtils;
-import com.archimatetool.tests.TestData;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -53,7 +52,7 @@ public class TreeModelViewerFindReplaceProviderTests extends AbstractFindReplace
     public static void runOnceBeforeAllTests() {
         // Load two models
         model1 = IEditorModelManager.INSTANCE.loadModel(new File(TestSupport.getTestDataFolder(), "models/testFindReplace.archimate"));
-        model2 = IEditorModelManager.INSTANCE.loadModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        model2 = IEditorModelManager.INSTANCE.loadModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         
         treeViewer = new TreeModelViewer(new Shell(), SWT.NONE);
         treeViewer.setInput(IEditorModelManager.INSTANCE);

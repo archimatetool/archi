@@ -16,14 +16,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
@@ -36,7 +35,8 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
+
+import junit.framework.JUnit4TestAdapter;
 
 @SuppressWarnings("nls")
 public class CopySnapshotTests {
@@ -52,7 +52,7 @@ public class CopySnapshotTests {
     
     @Before
     public void runOnceBeforeEachTest() throws IOException {
-        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModelWithCommandStack();
         sourceDiagramModel = model.getDiagramModels().get(1);
         targetDiagramModel = tm.addNewArchimateDiagramModel();

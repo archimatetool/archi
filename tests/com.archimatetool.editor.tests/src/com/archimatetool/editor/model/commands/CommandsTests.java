@@ -15,8 +15,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.commands.Command;
@@ -24,6 +22,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -31,7 +30,8 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.testingtools.ArchimateTestModel;
-import com.archimatetool.tests.TestData;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -55,7 +55,7 @@ public class CommandsTests {
     
     @Before
     public void runBeforeEachTest() throws IOException {
-        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
         model = tm.loadModel();
     }
     
