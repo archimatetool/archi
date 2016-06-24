@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.archimatetool</groupId>
+        <artifactId>parent</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <artifactId>com.archimatetool.editor.product</artifactId>
+    <packaging>eclipse-repository</packaging>
+
+    <name>Archi Product</name>
+
+    <properties>
+        <product-id>com.archimatetool.editor.product</product-id>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-director-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <executions>
+                    <execution>
+                        <!-- install the product for all configured os/ws/arch environments using p2 director -->
+                        <id>materialize-products</id>
+                        <goals>
+                            <goal>materialize-products</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- (optional) create product zips (one per os/ws/arch) -->
+                        <id>archive-products</id>
+                        <goals>
+                            <goal>archive-products</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- (optional) customize the root folder name of the product zip -->
+                <configuration>
+                    <products>
+                        <product>
+                            <id>${product-id}</id>
+                            <!-- rootFolder>Archi</rootFolder -->
+                            <archiveFileName>Archi</archiveFileName>
+                        </product>
+                    </products>
+                </configuration>
+            </plugin>
+            <!-- But see https://bugs.eclipse.org/bugs/show_bug.cgi?id=349421 -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/${product-id}/icons/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>icons</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
