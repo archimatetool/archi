@@ -24,9 +24,6 @@ Export-Package: com.archimatetool.tests,
  org.mockito.verification
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- org.junit,
- org.eclipse.emf.ecore,
- org.eclipse.gef,
- com.archimatetool.model
+ org.junit
 Bundle-ClassPath: .,
  mockito/mockito-all-1.9.5.jar
