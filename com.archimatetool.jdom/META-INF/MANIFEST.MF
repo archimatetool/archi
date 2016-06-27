@@ -38,7 +38,7 @@ Export-Package: com.archimatetool.jdom,
  org.jdom2.xpath.jaxen,
  org.jdom2.xpath.util,
  org.w3c.dom
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: jaxen-1.1.3.jar,
  jdom-2.0.5.jar,
  com.archimatetool.jdom.jar

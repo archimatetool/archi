@@ -5,5 +5,5 @@ Bundle-SymbolicName: com.archimatetool.editor.fullscreen.macos;singleton:=true
 Bundle-Version: 4.0.0.qualifier
 Bundle-Vendor: Phillip Beauvoir
 Fragment-Host: com.archimatetool.editor
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-PlatformFilter: (osgi.ws=cocoa)
