@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.archimatetool</groupId>
-    <artifactId>com.archimatetool.testing</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
+    
     <parent>
         <groupId>com.archimatetool</groupId>
         <artifactId>parent</artifactId>
         <version>4.0.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
+
+    <artifactId>com.archimatetool.testing</artifactId>
+    <packaging>pom</packaging>
 
     <modules>
         <module>com.archimatetool.testsupport</module>
@@ -27,7 +25,6 @@
         <module>com.archimatetool.editor.tests</module>
         <module>com.archimatetool.canvas.tests</module>
         <module>com.archimatetool.zest.tests</module>
-
     </modules>
 
     <build>
@@ -35,7 +32,6 @@
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-surefire-plugin</artifactId>
-                <version>${tycho-version}</version>
                 <configuration>
                     <includes>
                         <include>**/AllTests.java</include>
