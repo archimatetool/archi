@@ -5,6 +5,6 @@ Bundle-SymbolicName: com.archimatetool.canvas.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.canvas
 Bundle-Vendor: Phillip Beauvoir
-Require-Bundle: org.junit
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.archimatetool.tests

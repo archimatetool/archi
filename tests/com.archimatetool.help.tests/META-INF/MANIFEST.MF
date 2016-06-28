@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.help.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.help
 Bundle-Vendor: Phillip Beauvoir
-Require-Bundle: org.junit
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.archimatetool.testingtools,
- com.archimatetool.tests
+Import-Package: com.archimatetool.testingtools
