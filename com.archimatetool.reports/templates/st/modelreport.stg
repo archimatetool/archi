@@ -5,7 +5,7 @@ expandFolder(folder, target) ::= <<
 	</li>}^
 	^folder.Elements:{e |
 		^if(e.Source)^
-			<li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^">
+			<li class="tree-element"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^">
 				^if(e.Name.Empty)^
 					<span class="i18n-elementtype-^e.Class.SimpleName^"></span>
 				^else^
@@ -14,7 +14,7 @@ expandFolder(folder, target) ::= <<
 				(^e.Source.Name^ - ^e.Target.Name^) 
 			</a></li>
 		^else^
-			<li class="tree-element"><a href="^target^s/^e.Id^.html" target="^target^"> ^e.Name^ </a></li>
+			<li class="tree-element"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^"> ^e.Name^ </a></li>
 		^endif^
 	}^
 </ul>
@@ -57,7 +57,7 @@ modelreport(model, businessFolder, applicationFolder, technologyFolder, motivati
 		</nav>
 	</div>
 
-	<iframe name="view" class="ui-layout-center" src="views/model.html" scrolling="no"></iframe>
+	<iframe name="view" class="ui-layout-center" src="^model.Id^/elements/model.html" scrolling="no"></iframe>
 
 	<div class="ui-layout-west">
 		<iframe name="element" class="ui-layout-south" src="elements/empty-element.html"  scrolling="no"></iframe>
@@ -67,7 +67,7 @@ modelreport(model, businessFolder, applicationFolder, technologyFolder, motivati
 					<b><span class="i18n-modeltree"></span></b>
 				</div>
 				<div class="panel-body root-panel-body">
-					<b><a href="views/model.html" target="view">^model.Name^</a></b>
+					<b><a href="^model.Id^/elements/model.html" target="view">^model.Name^</a></b>
 					<ul class="tree">
 					<!-- START OF STRINGTEMPLATE CODE -->
 						<li><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>

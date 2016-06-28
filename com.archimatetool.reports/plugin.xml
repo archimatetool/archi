@@ -9,7 +9,21 @@
          <command
                commandId="com.archimatetool.reports.command.HTML"
                id="com.archimatetool.reports.menuItem.HTML"
-               label="HTML..."
+               label="%command.label"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:tools">
+         <separator
+               name="com.archimatetool.reports.separator1"
+               visible="true">
+         </separator>
+         <command
+               commandId="com.archimatetool.reports.command.PreviewHTML"
+               id="com.archimatetool.reports.menuItem.PreviewHTML"
+               label="%command.label.0"
                style="push">
          </command>
       </menuContribution>
@@ -20,6 +34,11 @@
             defaultHandler="com.archimatetool.reports.html.HTMLReportHandler"
             id="com.archimatetool.reports.command.HTML"
             name="%action.label">
+      </command>
+      <command
+            defaultHandler="com.archimatetool.reports.html.PreviewHTMLReportHandler"
+            id="com.archimatetool.reports.command.PreviewHTML"
+            name="Preview HTML Report">
       </command>
    </extension>
    <extension

@@ -11,6 +11,10 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
+
+import com.archimatetool.editor.utils.FileUtils;
+import com.archimatetool.reports.html.HTMLReportExporter;
 
 /**
  * Activator
@@ -33,6 +37,27 @@ public class ArchimateEditorReportsPlugin extends AbstractUIPlugin {
 
     public ArchimateEditorReportsPlugin() {
         INSTANCE = this;
+    }
+    
+    @Override
+    public void stop(BundleContext context) throws Exception {
+        try {
+            cleanPreviewFiles();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            super.stop(context);
+        }
+    }
+
+    /**
+     * Clean up preview files
+     * @throws IOException
+     */
+    private void cleanPreviewFiles() throws IOException {
+        FileUtils.deleteFolder(HTMLReportExporter.PREVIEW_FOLDER);
     }
 
     /**
