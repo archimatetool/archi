@@ -106,11 +106,6 @@ public class HTMLReportExporter extends AbstractUIPlugin {
                     public String getName() {
                         return Messages.HTMLReportExporter_0 + super.getName();
                     }
-                    
-                    @Override
-                    public boolean equals(Object obj) {
-                        return super.equals(obj) && getName().equals(((BrowserEditorInput)obj).getName());
-                    }
                 };
                 
                 IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
