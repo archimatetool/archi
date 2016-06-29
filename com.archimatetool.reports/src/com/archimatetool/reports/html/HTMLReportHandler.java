@@ -28,8 +28,8 @@ public class HTMLReportHandler extends AbstractModelSelectionHandler {
         IArchimateModel model = getActiveArchimateModel();
         if(model != null) {
             try {
-                HTMLReportExporter exporter = new HTMLReportExporter();
-                exporter.export(model);
+                HTMLReportExporter exporter = new HTMLReportExporter(model);
+                exporter.export();
             }
             catch(IOException ex) {
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());

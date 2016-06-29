@@ -65,9 +65,11 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     
     private IArchimateModel fModel;
     
-    public void export(IArchimateModel model) throws IOException {
+    public HTMLReportExporter(IArchimateModel model) {
         fModel = model;
-        
+    }
+    
+    public void export() throws IOException {
         File targetFolder = askSaveFolder();
         if(targetFolder == null) {
             return;
@@ -86,17 +88,15 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         }
     }
     
-    public void preview(IArchimateModel model) {
+    public void preview() {
         PREVIEW_FOLDER.mkdirs();
-        
-        fModel = model;
         
         BusyIndicator.showWhile(Display.getCurrent(), () -> {
             try {
                 File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html");  //$NON-NLS-1$//$NON-NLS-2$
                 
                 // Open it in Internal Browser
-                BrowserEditorInput input = new BrowserEditorInput(file.getPath(), model.getName()) {
+                BrowserEditorInput input = new BrowserEditorInput(file.getPath(), fModel.getName()) {
                     @Override
                     public IPersistableElement getPersistable() {
                         return null; // Don't save state
@@ -118,7 +118,15 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         });
     }
     
-    private File createReport(File targetFolder, String indexFileName) throws IOException {
+    /**
+     * Clean up preview files
+     * @throws IOException
+     */
+    public static void cleanPreviewFiles() throws IOException {
+        FileUtils.deleteFolder(PREVIEW_FOLDER);
+    }
+
+    File createReport(File targetFolder, String indexFileName) throws IOException {
         // Copy HTML skeleton to target
         copyHTMLSkeleton(targetFolder);
         

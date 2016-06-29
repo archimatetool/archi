@@ -24,8 +24,8 @@ public class PreviewHTMLReportHandler extends AbstractModelSelectionHandler {
     public Object execute(ExecutionEvent event) throws ExecutionException {
         IArchimateModel model = getActiveArchimateModel();
         if(model != null) {
-            HTMLReportExporter exporter = new HTMLReportExporter();
-            exporter.preview(model);
+            HTMLReportExporter exporter = new HTMLReportExporter(model);
+            exporter.preview();
         }
 
         return null;

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for Archi Reports
+Bundle-SymbolicName: com.archimatetool.reports.tests
+Bundle-Version: 4.0.0
+Fragment-Host: com.archimatetool.reports
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport,
+ com.archimatetool.help
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.archimatetool.testingtools
