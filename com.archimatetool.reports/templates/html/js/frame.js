@@ -147,7 +147,7 @@ $(document).ready(function() {
 	// Replace Hint URL
 	for (var id in hints) {
 		if (document.getElementById('hint-'+id) != null)
-			document.getElementById('hint-'+id).href = "../hints/"+hints[id];
+			document.getElementById('hint-'+id).href = "../../hints/"+hints[id];
 	}
 	
 	// Sort 'elements' and 'properties' tables

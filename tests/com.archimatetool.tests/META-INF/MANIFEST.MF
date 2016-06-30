@@ -13,5 +13,6 @@ Require-Bundle: com.archimatetool.canvas,
  com.archimatetool.jasperreports,
  com.archimatetool.jdom,
  com.archimatetool.model,
+ com.archimatetool.reports,
  com.archimatetool.zest,
  org.junit

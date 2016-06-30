@@ -5,11 +5,8 @@
  */
 package com.archimatetool.reports.html;
 
-import java.io.IOException;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.archimatetool.editor.actions.AbstractModelSelectionHandler;
 import com.archimatetool.model.IArchimateModel;
@@ -17,24 +14,18 @@ import com.archimatetool.model.IArchimateModel;
 
 
 /**
- * Command Action Handler for HTML Report
+ * Command Action Handler for Preview HTML Report
  * 
  * @author Phillip Beauvoir
  */
-public class HTMLReportHandler extends AbstractModelSelectionHandler {
+public class PreviewHTMLReportHandler extends AbstractModelSelectionHandler {
     
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         IArchimateModel model = getActiveArchimateModel();
         if(model != null) {
-            try {
-                HTMLReportExporter exporter = new HTMLReportExporter(model);
-                exporter.export();
-            }
-            catch(IOException ex) {
-                MessageDialog.openError(workbenchWindow.getShell(), Messages.HTMLReportAction_0, ex.getMessage());
-                ex.printStackTrace();
-            }
+            HTMLReportExporter exporter = new HTMLReportExporter(model);
+            exporter.preview();
         }
 
         return null;

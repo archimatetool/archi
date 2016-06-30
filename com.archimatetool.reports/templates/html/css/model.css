@@ -17,6 +17,7 @@ html.frame > body {
 /* ModelTree */
 ul, li {
   list-style-type: none;
+  cursor: default;
 }
 li.tree-element, ul{
 	padding-left: 20px;

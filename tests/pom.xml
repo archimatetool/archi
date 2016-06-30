@@ -25,6 +25,7 @@
         <module>com.archimatetool.editor.tests</module>
         <module>com.archimatetool.canvas.tests</module>
         <module>com.archimatetool.zest.tests</module>
+		<module>com.archimatetool.reports.tests</module>
     </modules>
 
     <build>

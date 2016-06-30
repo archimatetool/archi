@@ -20,11 +20,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -34,7 +36,11 @@ import org.osgi.framework.Bundle;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
+import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.browser.BrowserEditorInput;
+import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
@@ -55,27 +61,23 @@ import com.archimatetool.reports.ArchimateEditorReportsPlugin;
  */
 public class HTMLReportExporter extends AbstractUIPlugin {
     
+    public static File PREVIEW_FOLDER = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
+    
     private IArchimateModel fModel;
     
-    private File fMainFolder;
-    private File fElementsFolder;
-    private File fViewsFolder;
-    private File fImagesFolder;
-
-    // Templates
-    private ST stFrame;
+    public HTMLReportExporter(IArchimateModel model) {
+        fModel = model;
+    }
     
-    public void export(IArchimateModel model) throws IOException {
-        fMainFolder = askSaveFolder();
-        if(fMainFolder == null) {
+    public void export() throws IOException {
+        File targetFolder = askSaveFolder();
+        if(targetFolder == null) {
             return;
         }
         
-        fModel = model;
+        File file = createReport(targetFolder, "index.html"); //$NON-NLS-1$
         
-        File file = createMainHTMLPage();
-        
-        // Open it in Browser
+        // Open it in external Browser
         IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
         try {
             IWebBrowser browser = support.getExternalBrowser();
@@ -86,41 +88,81 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         }
     }
     
-    private File createMainHTMLPage() throws IOException {
-    	// Instantiate templates files
-        File mainFile = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
-    	
-        STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
-        stFrame = groupFile.getInstanceOf("frame"); //$NON-NLS-1$
-    	ST stModel = groupFile.getInstanceOf("modelreport"); //$NON-NLS-1$
+    public void preview() {
+        PREVIEW_FOLDER.mkdirs();
         
+        BusyIndicator.showWhile(Display.getCurrent(), () -> {
+            try {
+                File file = createReport(PREVIEW_FOLDER, "preview-" + fModel.getId() + ".html");  //$NON-NLS-1$//$NON-NLS-2$
+                
+                // Open it in Internal Browser
+                BrowserEditorInput input = new BrowserEditorInput(file.getPath(), fModel.getName()) {
+                    @Override
+                    public IPersistableElement getPersistable() {
+                        return null; // Don't save state
+                    }
+                    
+                    @Override
+                    public String getName() {
+                        return Messages.HTMLReportExporter_0 + super.getName();
+                    }
+                };
+                
+                IBrowserEditor editor = (IBrowserEditor)EditorManager.openEditor(input, IBrowserEditor.ID);
+                editor.getBrowser().refresh();
+            }
+            catch(IOException ex) {
+                MessageDialog.openError(Display.getCurrent().getActiveShell(), Messages.HTMLReportAction_0, ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+    }
+    
+    /**
+     * Clean up preview files
+     * @throws IOException
+     */
+    public static void cleanPreviewFiles() throws IOException {
+        FileUtils.deleteFolder(PREVIEW_FOLDER);
+    }
+
+    File createReport(File targetFolder, String indexFileName) throws IOException {
         // Copy HTML skeleton to target
-        File srcDir = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "html"); //$NON-NLS-1$
-        FileUtils.copyFolder(srcDir, fMainFolder);
+        copyHTMLSkeleton(targetFolder);
         
         // Copy hints files from the help plug-in
-        Bundle bundle = Platform.getBundle("com.archimatetool.help"); //$NON-NLS-1$
-        URL url = FileLocator.resolve(bundle.getEntry("hints")); //$NON-NLS-1$
-        FileUtils.copyFolder(new File(url.getPath()), new File(fMainFolder, "hints")); //$NON-NLS-1$
+        copyHintsFiles(targetFolder);
         
-        // Set folders
-        fElementsFolder = new File(fMainFolder, "elements"); //$NON-NLS-1$
-        fElementsFolder.mkdirs(); // Make dir
-        fViewsFolder = new File(fMainFolder, "views"); //$NON-NLS-1$
-        fViewsFolder.mkdirs(); // Make dir
-        fImagesFolder = new File(fMainFolder, "images"); //$NON-NLS-1$
-        fImagesFolder.mkdirs(); // Make dir
+        // Create sub-folders
+        File elementsFolder = new File(targetFolder, fModel.getId() + "/elements"); //$NON-NLS-1$
+        elementsFolder.mkdirs(); // Make dir
+        
+        File viewsFolder = new File(targetFolder, fModel.getId() + "/views"); //$NON-NLS-1$
+        viewsFolder.mkdirs(); // Make dir
+        
+        File imagesFolder = new File(targetFolder, fModel.getId() + "/images"); //$NON-NLS-1$
+        imagesFolder.mkdirs(); // Make dir
              
-        // write (elements).html
-        writeElement(fModel, new File(fViewsFolder, "model.html")); //$NON-NLS-1$
-        writeFolders(fModel.getFolders());
+        // Instantiate templates files
+        File mainFile = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
+        STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
+        ST stFrame = groupFile.getInstanceOf("frame"); //$NON-NLS-1$
         
-        // write (diagrams).html
-        writeDiagrams();
+        // Write model purpose and properties html
+        writeElement(new File(elementsFolder, "model.html"), stFrame, fModel); //$NON-NLS-1$
         
-        // Write root model.html
-        File modeltreeF = new File(fMainFolder, "model.html"); //$NON-NLS-1$
-        OutputStreamWriter modeltreeW = new OutputStreamWriter(new FileOutputStream(modeltreeF), "UTF8"); //$NON-NLS-1$
+        // Write all folders
+        writeFolders(elementsFolder, stFrame, fModel.getFolders());
+        
+        // Write Diagrams and images
+        writeDiagrams(imagesFolder, viewsFolder, stFrame);
+        
+        // Write root model.html frame
+        File indexFile = new File(targetFolder, indexFileName);
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(indexFile), "UTF8"); //$NON-NLS-1$
+        
+        ST stModel = groupFile.getInstanceOf("modelreport"); //$NON-NLS-1$
+
         stModel.add("model", fModel); //$NON-NLS-1$
         stModel.add("businessFolder", fModel.getFolder(FolderType.BUSINESS)); //$NON-NLS-1$
         stModel.add("applicationFolder", fModel.getFolder(FolderType.APPLICATION)); //$NON-NLS-1$
@@ -130,35 +172,67 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         stModel.add("connectorsFolder", fModel.getFolder(FolderType.CONNECTORS)); //$NON-NLS-1$
         stModel.add("relationsFolder", fModel.getFolder(FolderType.RELATIONS)); //$NON-NLS-1$
         stModel.add("viewsFolder", fModel.getFolder(FolderType.DIAGRAMS)); //$NON-NLS-1$
-        modeltreeW.write(stModel.render());
-        modeltreeW.close();
         
-        return new File(fMainFolder, "model.html");  //$NON-NLS-1$
+        writer.write(stModel.render());
+        writer.close();
+        
+        return indexFile;
     }
     
-    private void writeFolders(EList<IFolder> folders) throws IOException {
+    /**
+     * Copy source HTML files to target folder
+     * @throws IOException 
+     */
+    private void copyHTMLSkeleton(File targetFolder) throws IOException {
+        File srcDir = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "html"); //$NON-NLS-1$
+        FileUtils.copyFolder(srcDir, targetFolder);
+    }
+    
+    /**
+     * Copy hints files to target folder from the help plug-in
+     * @throws IOException 
+     */
+    private void copyHintsFiles(File targetFolder) throws IOException {
+        Bundle bundle = Platform.getBundle("com.archimatetool.help"); //$NON-NLS-1$
+        URL url = FileLocator.resolve(bundle.getEntry("hints")); //$NON-NLS-1$
+        FileUtils.copyFolder(new File(url.getPath()), new File(targetFolder, "hints")); //$NON-NLS-1$
+    }
+
+    /**
+     * Write all folders
+     */
+    private void writeFolders(File elementsFolder, ST stFrame, EList<IFolder> folders) throws IOException {
     	for(IFolder folder : folders) {
-    		writeFolder(folder);
+    		writeFolder(elementsFolder, stFrame, folder);
     	}
     }
     
-    private void writeFolder(IFolder folder) throws IOException {
-    	writeElements(folder.getElements());
-    	writeFolders(folder.getFolders());
+    /**
+     * Write a single folder
+     */
+    private void writeFolder(File elementsFolder, ST stFrame, IFolder folder) throws IOException {
+    	writeElements(elementsFolder, stFrame, folder.getElements());
+    	writeFolders(elementsFolder, stFrame, folder.getFolders());
     }
     
-    private void writeElements(List<EObject> list) throws IOException {
+    /**
+     * Write all elements
+     */
+    private void writeElements(File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
         if(!list.isEmpty()) {
             for(EObject object : list) {
                 if(object instanceof IArchimateComponent) {
-                	writeElement(object, new File(fElementsFolder, ((IIdentifier) object).getId() + ".html")); //$NON-NLS-1$
+                	writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
                 }
             }
         }
     }
     
-    private void writeElement(EObject component, File elementF) throws IOException {
-        OutputStreamWriter elementW = new OutputStreamWriter(new FileOutputStream(elementF), "UTF8"); //$NON-NLS-1$
+    /**
+     * Write a single element
+     */
+    private void writeElement(File elementFile, ST stFrame, EObject component) throws IOException {
+        OutputStreamWriter elementW = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8"); //$NON-NLS-1$
         stFrame.remove("element"); //$NON-NLS-1$
         //frame.remove("children");
         stFrame.add("element", component); //$NON-NLS-1$
@@ -166,15 +240,18 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         elementW.close();
     }
     
-    private void writeDiagrams() throws IOException {
+    /**
+     * Write diagrams
+     */
+    private void writeDiagrams(File imagesFolder, File viewsFolder, ST stFrame) throws IOException {
         if(fModel.getDiagramModels().isEmpty()) {
             return;
         }
 
-        saveDiagrams(fModel.getDiagramModels());
+        saveImages(imagesFolder);
 
         for(IDiagramModel dm : fModel.getDiagramModels()) {
-            File viewF = new File(fViewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
+            File viewF = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
             stFrame.remove("element"); //$NON-NLS-1$
             stFrame.add("element", dm); //$NON-NLS-1$
@@ -183,11 +260,14 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         }
     }
     
-    private Hashtable<IDiagramModel, String> saveDiagrams(List<IDiagramModel> list) {
+    /**
+     * Save diagram images
+     */
+    private void saveImages(File imagesFolder) {
         Hashtable<IDiagramModel, String> table = new Hashtable<IDiagramModel, String>();
         int i = 1;
         
-        for(IDiagramModel dm : list) {
+        for(IDiagramModel dm : fModel.getDiagramModels()) {
             Image image = DiagramUtils.createImage(dm, 1, 10);
             String diagramName = dm.getId();
             if(StringUtils.isSet(diagramName)) {
@@ -211,15 +291,13 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             try {
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { image.getImageData() };
-                File file = new File(fImagesFolder, diagramName);
+                File file = new File(imagesFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
             finally {
                 image.dispose();
             }
         }
-        
-        return table;
     }
     
     private File askSaveFolder() {
