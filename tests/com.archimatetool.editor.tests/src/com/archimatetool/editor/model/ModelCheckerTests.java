@@ -15,7 +15,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.impl.EditorModelManager;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
@@ -27,6 +26,7 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestData;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -50,7 +50,7 @@ public class ModelCheckerTests {
     
     @Test
     public void checkAll() {
-        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         IArchimateModel model = new EditorModelManager().loadModel(file);
         assertNotNull(model);
         ModelChecker modelChecker = new ModelChecker(model);

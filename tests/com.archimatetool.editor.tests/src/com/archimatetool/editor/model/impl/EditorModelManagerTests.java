@@ -19,7 +19,6 @@ import org.eclipse.gef.commands.CommandStack;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -30,6 +29,7 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -89,7 +89,7 @@ public class EditorModelManagerTests {
 
     @Test
     public void openModel_File() {
-        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         
         IArchimateModel model = editorModelManager.openModel(file);
         assertNotNull(model);
@@ -141,7 +141,7 @@ public class EditorModelManagerTests {
         
     @Test
     public void loadModel_File() {
-        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         
         IArchimateModel model = editorModelManager.loadModel(file);
         assertNotNull(model);
@@ -173,7 +173,7 @@ public class EditorModelManagerTests {
     
     @Test
     public void isModelLoaded_File() {
-        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         assertFalse(editorModelManager.isModelLoaded(file));
         
         editorModelManager.loadModel(file);
@@ -208,7 +208,7 @@ public class EditorModelManagerTests {
     
     @Test
     public void saveModel() throws Exception {
-        File file = TestSupport.TEST_MODEL_FILE_ARCHISURANCE;
+        File file = TestData.TEST_MODEL_FILE_ARCHISURANCE;
         
         IArchimateModel model = editorModelManager.loadModel(file);
         assertNotNull(model);

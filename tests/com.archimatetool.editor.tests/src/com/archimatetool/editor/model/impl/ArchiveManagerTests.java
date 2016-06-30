@@ -29,6 +29,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -173,7 +174,7 @@ public class ArchiveManagerTests {
         boolean result = archiveManager.loadImagesFromModelFile(null);
         assertFalse(result);
         
-        result = archiveManager.loadImagesFromModelFile(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        result = archiveManager.loadImagesFromModelFile(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         assertFalse(result);
         
         assertTrue(archiveManager.getLoadedImagePaths().isEmpty());

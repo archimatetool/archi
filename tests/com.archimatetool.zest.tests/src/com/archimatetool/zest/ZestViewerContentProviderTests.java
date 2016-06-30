@@ -19,6 +19,7 @@ import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestData;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -36,7 +37,7 @@ public class ZestViewerContentProviderTests {
     @BeforeClass
     public static void runOnceBeforeAllTests() throws IOException {
         // Load ArchiMate model
-        tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         tm.loadModel();
         
         provider = new ZestViewerContentProvider();

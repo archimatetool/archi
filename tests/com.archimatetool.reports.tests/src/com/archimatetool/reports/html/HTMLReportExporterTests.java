@@ -17,8 +17,8 @@ import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.reports.TestSupport;
 import com.archimatetool.testingtools.ArchimateTestModel;
+import com.archimatetool.tests.TestData;
 import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -34,7 +34,7 @@ public class HTMLReportExporterTests {
     @Test
     public void testCreateReport() throws Exception {
         // Create test model
-        ArchimateTestModel tm = new ArchimateTestModel(TestSupport.TEST_MODEL_FILE_ARCHISURANCE);
+        ArchimateTestModel tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
         IArchimateModel model = tm.loadModel();
         
         // Create Exporter and output folder
