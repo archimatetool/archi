@@ -112,6 +112,7 @@ import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
+import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
@@ -371,6 +372,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Ctrl + Scroll wheel Zooms
         getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
+        
+        // Shift + Scroll wheel horizontal scroll
+        getGraphicalViewer().setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD2), MouseWheelHorizontalScrollHandler.SINGLETON);
     }
 
     /**
