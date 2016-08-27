@@ -49,16 +49,16 @@ public class DerivedRelationsUtilsTests {
         IFolder folder = model.addDerivedRelationsFolder();
         folder.getElements().add(relation1);
         
-        assertEquals(1, ArchimateModelUtils.getRelationships(element1).size());
-        assertEquals(1, ArchimateModelUtils.getRelationships(element2).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
 
         IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation2.setSource(element1);
         relation2.setTarget(element2);
         model.getFolder(FolderType.DERIVED).getElements().add(relation2);
        
-        assertEquals(2, ArchimateModelUtils.getRelationships(element1).size());
-        assertEquals(2, ArchimateModelUtils.getRelationships(element2).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
     }
     
     @Test

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -57,10 +58,10 @@ public class DerivedRelationsUtils {
         }
         
         // Get relations from source element
-        IArchimateElement source = relation.getSource();
+        IArchimateComponent source = relation.getSource();
         if(source != null && source.getArchimateModel() != null) { // An important guard because the element might have been deleted
             // Source has structural target relations
-            for(IRelationship rel : ArchimateModelUtils.getTargetRelationships(source)) {
+            for(IRelationship rel : source.getTargetRelationships()) {
                 if(rel != relation) {
                     if(isStructuralRelationship(rel) && rel.getSource() != relation.getTarget()) {
                         return true;
@@ -69,7 +70,7 @@ public class DerivedRelationsUtils {
             }
             
             // Bi-directional relations
-            for(IRelationship rel : ArchimateModelUtils.getSourceRelationships(source)) {
+            for(IRelationship rel : source.getSourceRelationships()) {
                 if(rel != relation) {
                     if(isBidirectionalRelationship(rel)) {
                         return true;
@@ -82,10 +83,10 @@ public class DerivedRelationsUtils {
         }
         
         // Get relations from target element
-        IArchimateElement target = relation.getTarget();
+        IArchimateComponent target = relation.getTarget();
         if(target != null && target.getArchimateModel() != null) { // An important guard because the element might have been deleted
             // Target has structural source relations
-            for(IRelationship rel : ArchimateModelUtils.getSourceRelationships(target)) {
+            for(IRelationship rel : target.getSourceRelationships()) {
                 if(rel != relation) {
                     if(isStructuralRelationship(rel) && rel.getTarget() != relation.getSource()) {
                         return true;
@@ -94,7 +95,7 @@ public class DerivedRelationsUtils {
             }
             
             // Bi-directional relations
-            for(IRelationship rel : ArchimateModelUtils.getTargetRelationships(target)) {
+            for(IRelationship rel : target.getTargetRelationships()) {
                 if(rel != relation) {
                     if(isBidirectionalRelationship(rel)) {
                         return true;
@@ -134,7 +135,7 @@ public class DerivedRelationsUtils {
      * @return True if element1 has a direct Structural relationship to element2
      */
     public static boolean hasDirectStructuralRelationship(IArchimateElement element1, IArchimateElement element2) {
-        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(element1)) {
+        for(IRelationship relation : element1.getSourceRelationships()) {
             if(relation.getTarget() == element2 && isStructuralRelationship(relation)) {
                 return true;
             }
@@ -283,7 +284,7 @@ public class DerivedRelationsUtils {
         return chains;
     }
     
-    private static void _traverse(IArchimateElement element) throws TooComplicatedException {
+    private static void _traverse(IArchimateComponent component) throws TooComplicatedException {
         // We found the lowest weakest so no point going on
         if(weakestFound == 0) {
             return;
@@ -299,7 +300,7 @@ public class DerivedRelationsUtils {
         /*
          * Traverse thru source relationships first
          */
-        for(IRelationship rel : ArchimateModelUtils.getSourceRelationships(element)) {
+        for(IRelationship rel : component.getSourceRelationships()) {
             if(isStructuralRelationship(rel)) {
                 _addRelationshipToTempChain(rel, true);
             }
@@ -308,7 +309,7 @@ public class DerivedRelationsUtils {
         /*
          * Then thru the Bi-directional target relationships
          */
-        for(IRelationship rel : ArchimateModelUtils.getTargetRelationships(element)) {
+        for(IRelationship rel : component.getTargetRelationships()) {
             if(isBidirectionalRelationship(rel)) {
                 _addRelationshipToTempChain(rel, false);
             }
@@ -323,10 +324,10 @@ public class DerivedRelationsUtils {
         }
         
         // If we get the target element we are traversing fowards, otherwise backwards from a bi-directional check
-        IArchimateElement element = forwards ? relation.getTarget() : relation.getSource();
+        IArchimateComponent component = forwards ? relation.getTarget() : relation.getSource();
         
         // Arrived at target
-        if(finalTarget == element) {
+        if(finalTarget == component) {
             if(temp_chain.size() > 0) { // Only chains of length 2 or greater
                 //System.out.println("Reached target from: " + element.getName());
                 List<IRelationship> chain = new ArrayList<IRelationship>(temp_chain); // make a copy because temp_chain will have relation removed, below
@@ -351,7 +352,7 @@ public class DerivedRelationsUtils {
         else {
             //System.out.println("Adding to temp chain: " + relation.getName());
             temp_chain.add(relation);
-            _traverse(element);
+            _traverse(component);
             temp_chain.remove(relation); // back up
         }
     }
@@ -362,13 +363,13 @@ public class DerivedRelationsUtils {
      * bi-directional relationships then don't bother traversing.
      */
     private static boolean _hasTargetElementValidRelations(IArchimateElement targetElement) {
-        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(targetElement)) {
+        for(IRelationship relation : targetElement.getSourceRelationships()) {
             if(isBidirectionalRelationship(relation)) {
                 return true;
             }
         }
         
-        for(IRelationship relation : ArchimateModelUtils.getTargetRelationships(targetElement)) {
+        for(IRelationship relation : targetElement.getTargetRelationships()) {
             if(isStructuralRelationship(relation)) {
                 return true;
             }

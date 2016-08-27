@@ -10,11 +10,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
@@ -22,6 +22,8 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -86,12 +88,25 @@ public class DiagramModelArchimateConnectionTests {
         assertSame(relationship, connection.getRelationship());
     }
 
+    @Test
+    public void testGetArchimateComponent() {
+        assertSame(relationship, connection.getArchimateComponent());
+    }
+    
+    @Test
+    public void testSetArchimateComponent() {
+        IAccessRelationship r = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        connection.setArchimateComponent(r);
+        assertSame(r, connection.getArchimateComponent());
+        assertSame(r, connection.getRelationship());
+    }
+
     @Test(expected=IllegalArgumentException.class)
     public void testAddRelationshipToModel_AlreadyHasParent() {
         IFolder parent = IArchimateFactory.eINSTANCE.createFolder();
         parent.getElements().add(connection.getRelationship());
         
-        connection.addRelationshipToModel(null);
+        connection.addArchimateComponentToModel(null);
     }
     
     @Test
@@ -106,14 +121,14 @@ public class DiagramModelArchimateConnectionTests {
         
         // Passing null uses a default folder in the model
         IFolder expectedFolder = model.getDefaultFolderForElement(connection.getRelationship());
-        connection.addRelationshipToModel(null);
+        connection.addArchimateComponentToModel(null);
         assertSame(expectedFolder, connection.getRelationship().eContainer());
         
-        connection.removeRelationshipFromModel();
+        connection.removeArchimateComponentFromModel();
         assertNull(connection.getRelationship().eContainer());
         
         expectedFolder = IArchimateFactory.eINSTANCE.createFolder();
-        connection.addRelationshipToModel(expectedFolder);
+        connection.addArchimateComponentToModel(expectedFolder);
         assertSame(expectedFolder, connection.getRelationship().eContainer());
     }
     
@@ -127,6 +142,8 @@ public class DiagramModelArchimateConnectionTests {
         
         assertNotNull(copy.getRelationship());
         assertNotSame(copy.getRelationship(), connection.getRelationship());
+        assertNull(copy.getRelationship().getSource());
+        assertNull(copy.getRelationship().getTarget());
     }
 
 }

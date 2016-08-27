@@ -17,6 +17,7 @@ import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 
+import com.archimatetool.model.IRelationship;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -124,6 +126,11 @@ public abstract class ArchimateComponent extends EObjectImpl implements IArchima
      * Adapter Map for arbitrary objects
      */
     private Map<Object, Object> fAdapterMap = new HashMap<Object, Object>();
+
+    /**
+     * Stored references to connected relationships
+     */
+    protected EList<IRelationship> sourceRelationships, targetRelationships;
 
     /**
      * <!-- begin-user-doc -->
@@ -229,6 +236,22 @@ public abstract class ArchimateComponent extends EObjectImpl implements IArchima
             properties = new EObjectContainmentEList<IProperty>(IProperty.class, this, IArchimatePackage.ARCHIMATE_COMPONENT__PROPERTIES);
         }
         return properties;
+    }
+    
+    @Override
+    public EList<IRelationship> getSourceRelationships() {
+        if(sourceRelationships == null) {
+            sourceRelationships = new UniqueEList<IRelationship>();
+        }
+        return sourceRelationships;
+    }
+    
+    @Override
+    public EList<IRelationship> getTargetRelationships() {
+        if(targetRelationships == null) {
+            targetRelationships = new UniqueEList<IRelationship>();
+        }
+        return targetRelationships;
     }
 
     /**

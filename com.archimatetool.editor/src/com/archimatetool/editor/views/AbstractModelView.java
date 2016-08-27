@@ -342,7 +342,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
      * Find all relationships to update from given element
      */
     private void getRelationshipsToUpdate(List<Object> list, IArchimateElement element) {
-        for(IRelationship relation : ArchimateModelUtils.getRelationships(element)) {
+        for(IRelationship relation : ArchimateModelUtils.getAllRelationshipsForComponent(element)) {
             if(!list.contains(relation)) {
                 list.add(relation);
             }

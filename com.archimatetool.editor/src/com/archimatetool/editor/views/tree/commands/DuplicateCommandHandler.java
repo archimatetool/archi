@@ -7,9 +7,11 @@ package com.archimatetool.editor.views.tree.commands;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -22,9 +24,9 @@ import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.views.tree.TreeSelectionRequest;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
@@ -179,7 +181,7 @@ public class DuplicateCommandHandler {
         /**
          * Mapping of original objects to new copied objects
          */
-        private Hashtable<IDiagramModelObject, IDiagramModelObject> fMapping;
+        private Hashtable<IConnectable, IConnectable> fMapping;
         
         public DuplicateDiagramModelCommand(IDiagramModel dm) {
             fParent = (IFolder)dm.eContainer();
@@ -197,8 +199,13 @@ public class DuplicateCommandHandler {
             
             fNewObjects.add(fDiagramModelCopy);
             
-            // Add children
-            copyChildren();
+            fMapping = new Hashtable<IConnectable, IConnectable>();
+            
+            // Add child objects first
+            copyChildDiagramObjects(fDiagramModelOriginal, fDiagramModelCopy);
+            
+            // Then add connections
+            copyConnections();
 
             // Open Editor
             EditorManager.openDiagramEditor(fDiagramModelCopy);
@@ -218,45 +225,67 @@ public class DuplicateCommandHandler {
             EditorManager.openDiagramEditor(fDiagramModelCopy);
         }
         
-        private void copyChildren() {
-            // Child objects
-            fMapping = new Hashtable<IDiagramModelObject, IDiagramModelObject>();
-            copyChildren(fDiagramModelOriginal, fDiagramModelCopy);
-            
-            // Connections
-            for(Entry<IDiagramModelObject, IDiagramModelObject> entry : fMapping.entrySet()) {
-                IDiagramModelObject original = entry.getKey();
-                for(IDiagramModelConnection conn : original.getSourceConnections()) {
-                    IDiagramModelConnection connCopy = (IDiagramModelConnection)conn.getCopy();
-                    IDiagramModelObject srcCopy = fMapping.get(conn.getSource());
-                    IDiagramModelObject tgtCopy = fMapping.get(conn.getTarget());
+        /*
+         * This is done first and recursively so that the object's parent container can be determined and also to maintain z-order of objects
+         */
+        private void copyChildDiagramObjects(IDiagramModelContainer container, IDiagramModelContainer containerCopy) {
+            for(IDiagramModelObject dmo : container.getChildren()) {
+                IDiagramModelObject dmoCopy = (IDiagramModelObject)createCopy(dmo);
+                containerCopy.getChildren().add(dmoCopy);
+                
+                if(dmo instanceof IDiagramModelContainer) {
+                    copyChildDiagramObjects((IDiagramModelContainer)dmo, (IDiagramModelContainer)dmoCopy);
+                }
+            }
+        }
+        
+        /*
+         * Copy Connections
+         */
+        private void copyConnections() {
+            // Iterate through all connections in original
+            for(Iterator<EObject> iter = fDiagramModelOriginal.eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                
+                // Only Connect ;-)
+                if(eObject instanceof IDiagramModelConnection) {
+                    IDiagramModelConnection conn = (IDiagramModelConnection)eObject;
                     
-                    // Set this before connecting
-                    if(conn instanceof IDiagramModelArchimateConnection) {
-                        ((IDiagramModelArchimateConnection)connCopy).setRelationship(((IDiagramModelArchimateConnection)conn).getRelationship());
+                    IConnectable srcCopy = fMapping.get(conn.getSource());
+                    IConnectable tgtCopy = fMapping.get(conn.getTarget());
+                    
+                    // Source/Target copy does not exist yet - it will therefore be a connection that connects to another connection
+                    if(srcCopy == null) {
+                        srcCopy = createCopy(conn.getSource());
                     }
-
+                    if(tgtCopy == null) {
+                        tgtCopy = createCopy(conn.getTarget());
+                    }
+                    
+                    // Make/get a copy and connect
+                    IDiagramModelConnection connCopy = (IDiagramModelConnection)createCopy(conn);
                     connCopy.connect(srcCopy, tgtCopy);
                 }
             }
         }
         
-        private void copyChildren(IDiagramModelContainer container, IDiagramModelContainer containerCopy) {
-            for(IDiagramModelObject childObject : container.getChildren()) {
-                IDiagramModelObject childCopy = (IDiagramModelObject)childObject.getCopy();
-                
-                if(childObject instanceof IDiagramModelArchimateObject) {
-                    ((IDiagramModelArchimateObject)childCopy).setArchimateElement(((IDiagramModelArchimateObject)childObject).getArchimateElement());
-                }
-                
-                containerCopy.getChildren().add(childCopy);
-                
-                fMapping.put(childObject, childCopy);
-                
-                if(childObject instanceof IDiagramModelContainer) {
-                    copyChildren((IDiagramModelContainer)childObject, (IDiagramModelContainer)childCopy);
-                }
+        /*
+         * Create a copy and map it
+         */
+        private IConnectable createCopy(IConnectable object) {
+            if(fMapping.containsKey(object)) {
+                return fMapping.get(object);
             }
+
+            IConnectable copy = (IConnectable)object.getCopy();
+            
+            if(object instanceof IDiagramModelArchimateComponent) {
+                ((IDiagramModelArchimateComponent)copy).setArchimateComponent(((IDiagramModelArchimateComponent)object).getArchimateComponent());
+            }
+            
+            fMapping.put(object, copy);
+            
+            return copy;
         }
         
         @Override

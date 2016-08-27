@@ -11,11 +11,9 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.diagram.policies.messages"; //$NON-NLS-1$
 
-    public static String ArchimateDiagramConnectionPolicy_0;
-
-    public static String ArchimateDiagramConnectionPolicy_1;
-
     public static String ArchimateDNDEditPolicy_0;
+
+    public static String ArchimateDNDEditPolicy_1;
 
     public static String BasicContainerEditPolicy_0;
 

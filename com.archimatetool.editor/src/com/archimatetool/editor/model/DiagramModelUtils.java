@@ -6,6 +6,7 @@
 package com.archimatetool.editor.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -14,7 +15,9 @@ import org.eclipse.emf.ecore.EObject;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -24,7 +27,6 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -205,8 +207,8 @@ public class DiagramModelUtils {
      * @param archimateComponent The component to check on.
      * @return The list of active Diagram Model Components. May be empty, but never null.
      */
-    public static List<IDiagramModelComponent> findDiagramModelComponentsForArchimateComponent(IDiagramModel diagramModel, IArchimateComponent archimateComponent) {
-        List<IDiagramModelComponent> list = new ArrayList<IDiagramModelComponent>();
+    public static List<IDiagramModelArchimateComponent> findDiagramModelComponentsForArchimateComponent(IDiagramModel diagramModel, IArchimateComponent archimateComponent) {
+        List<IDiagramModelArchimateComponent> list = new ArrayList<IDiagramModelArchimateComponent>();
         
         if(archimateComponent instanceof IArchimateElement) {
             list.addAll(findDiagramModelObjectsForElement(diagramModel, (IArchimateElement)archimateComponent));
@@ -229,7 +231,7 @@ public class DiagramModelUtils {
         //return findDiagramModelObjectsForElementByReference(diagramModel, element);
         
         // Use slower but safer method
-        return findDiagramModelObjectsForElementByRecursiveSearch(diagramModel, element);
+        return findDiagramModelObjectsForElementByIterator(diagramModel, element);
     }
 
     /**
@@ -243,41 +245,37 @@ public class DiagramModelUtils {
         //return findDiagramModelConnectionsForRelationByReference(diagramModel, relationship);
         
         // Use slower but safer method
-        return findDiagramModelConnectionsForRelationByRecursiveSearch(diagramModel, relationship);
+        return findDiagramModelConnectionsForRelationByIterator(diagramModel, relationship);
     }
 
-    // ==================================== Slow, recursive, but safe methods of finding a component ========================================
+    // ==================================== Slower, but safe, methods of finding a component ========================================
     
-    private static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElementByRecursiveSearch(IDiagramModelContainer parent, IArchimateElement element) {
+    private static List<IDiagramModelArchimateObject> findDiagramModelObjectsForElementByIterator(IDiagramModel diagramModel, IArchimateElement element) {
         List<IDiagramModelArchimateObject> list = new ArrayList<IDiagramModelArchimateObject>();
         
-        for(IDiagramModelObject object : parent.getChildren()) {
-            if(object instanceof IDiagramModelArchimateObject) {
-                if(((IDiagramModelArchimateObject)object).getArchimateElement() == element && !list.contains(object)) {
-                    list.add((IDiagramModelArchimateObject)object);
+        for(Iterator<EObject> iter = diagramModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelArchimateObject) {
+                IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)eObject;
+                if(dmo.getArchimateElement() == element && !list.contains(dmo)) {
+                    list.add(dmo);
                 }
-            }
-            if(object instanceof IDiagramModelContainer) {
-                list.addAll(findDiagramModelObjectsForElementByRecursiveSearch((IDiagramModelContainer)object, element));
             }
         }
         
         return list;
     }
 
-    private static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelationByRecursiveSearch(IDiagramModelContainer parent, IRelationship relationship) {
+    private static List<IDiagramModelArchimateConnection> findDiagramModelConnectionsForRelationByIterator(IDiagramModel diagramModel, IRelationship relationship) {
         List<IDiagramModelArchimateConnection> list = new ArrayList<IDiagramModelArchimateConnection>();
-
-        for(IDiagramModelObject object : parent.getChildren()) {
-            for(IDiagramModelConnection connection : object.getSourceConnections()) {
-                if(connection instanceof IDiagramModelArchimateConnection &&
-                                        ((IDiagramModelArchimateConnection)connection).getRelationship() == relationship
-                                        && !list.contains(object)) {
-                    list.add((IDiagramModelArchimateConnection)connection);
+        
+        for(Iterator<EObject> iter = diagramModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelArchimateConnection) {
+                IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)eObject;
+                if(connection.getRelationship() == relationship && !list.contains(connection)) {
+                    list.add(connection);
                 }
-            }
-            if(object instanceof IDiagramModelContainer) {
-                list.addAll(findDiagramModelConnectionsForRelationByRecursiveSearch((IDiagramModelContainer)object, relationship));
             }
         }
         
@@ -311,13 +309,12 @@ public class DiagramModelUtils {
     
     /**
      * Find whether there is a DiagramModelArchimateConnection containing relation between srcObject and tgtObject
-     * @param srcObject The source IDiagramModelArchimateObject
-     * @param tgtObject The target IDiagramModelArchimateObject
+     * @param srcObject The source IConnectable
+     * @param tgtObject The target IConnectable
      * @param relation The relation to check for
      * @return True if there is an IDiagramModelArchimateConnection containing relation between srcObject and tgtObject
      */
-    public static boolean hasDiagramModelArchimateConnection(IDiagramModelArchimateObject srcObject, IDiagramModelArchimateObject tgtObject,
-            IRelationship relation) {
+    public static boolean hasDiagramModelArchimateConnection(IConnectable srcObject, IConnectable tgtObject, IRelationship relation) {
 
         for(IDiagramModelConnection conn : srcObject.getSourceConnections()) {
             if(conn instanceof IDiagramModelArchimateConnection) {
@@ -343,16 +340,21 @@ public class DiagramModelUtils {
      *         in the form of { sourceDiagramModelArchimateObject , targetDiagramModelArchimateObject }
      */
     public static List<IDiagramModelArchimateObject[]> findNestedComponentsForRelationship(IDiagramModel diagramModel, IRelationship relation) {
-        IArchimateElement src = relation.getSource();
-        IArchimateElement tgt = relation.getTarget();
-        
-        // Find all diagram objects that are source of this relationship
-        List<IDiagramModelArchimateObject> srcList = findDiagramModelObjectsForElementByReference(diagramModel, src);
-        
-        // Find all diagram objects that are target of this relationship
-        List<IDiagramModelArchimateObject> tgtList = findDiagramModelObjectsForElementByReference(diagramModel, tgt);
+        IArchimateComponent src = relation.getSource();
+        IArchimateComponent tgt = relation.getTarget();
         
         List<IDiagramModelArchimateObject[]> list = new ArrayList<IDiagramModelArchimateObject[]>();
+        
+        // TODO: A3 Allow connections
+        if(!(src instanceof IArchimateElement && tgt instanceof IArchimateElement)) {
+            return list;
+        }
+        
+        // Find all diagram objects that are source of this relationship
+        List<IDiagramModelArchimateObject> srcList = findDiagramModelObjectsForElementByReference(diagramModel, (IArchimateElement)src);
+        
+        // Find all diagram objects that are target of this relationship
+        List<IDiagramModelArchimateObject> tgtList = findDiagramModelObjectsForElementByReference(diagramModel, (IArchimateElement)tgt);
         
         // If diagram object 1 is the parent of diagram object 2 AND it's deemed to be a valid relationship, add them to the list
         for(IDiagramModelArchimateObject dmo1 : srcList) {
@@ -383,7 +385,7 @@ public class DiagramModelUtils {
      * Check if there is any nested type relationship between parent (source) and child (target)
      */
     public static boolean hasNestedConnectionTypeRelationship(IArchimateElement parent, IArchimateElement child) {
-        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(parent)) {
+        for(IRelationship relation : parent.getSourceRelationships()) {
             if(relation.getTarget() == child && isNestedConnectionTypeRelationship(relation)) {
                 return true;
             }
@@ -393,12 +395,12 @@ public class DiagramModelUtils {
     }
 
     /**
-     * @param relation The realtionship to check
+     * @param relation The relationship to check
      * @return true if relation is of a type that can be represented by a nested container 
      */
     public static boolean isNestedConnectionTypeRelationship(IRelationship relation) {
         // Some element types are not allowed
-        if(!isNestedConnectionTypeElement(relation.getSource()) || !isNestedConnectionTypeElement(relation.getTarget())) {
+        if(!isNestedConnectionTypeComponent(relation.getSource()) || !isNestedConnectionTypeComponent(relation.getTarget())) {
             return false;
         }
         
@@ -411,11 +413,11 @@ public class DiagramModelUtils {
     }
     
     /**
-     * @param element The element to check
-     * @return true if element can be used to calculate an nested type connection as one end of the relation
+     * @param component The component to check
+     * @return true if component can be used to calculate a nested type connection as one end of the relation
      */
-    public static boolean isNestedConnectionTypeElement(IArchimateElement element) {
-        return !(element instanceof IJunctionElement);
+    public static boolean isNestedConnectionTypeComponent(IArchimateComponent component) {
+        return !(component instanceof IJunctionElement);
     }
     
     /**
@@ -426,14 +428,16 @@ public class DiagramModelUtils {
         if(!ConnectionPreferences.useNestedConnections()) {
             return false;
         }
+
+        // TODO: A3 Do this for connections that are connected from a connection to parent? O1---C1---O2
         
         // Only if source and target elements are ArchiMate elements
         if(connection.getSource() instanceof IDiagramModelArchimateObject && connection.getTarget() instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)connection.getSource();
             IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)connection.getTarget();
             
-            // Junction types are excluded
-            if(!isNestedConnectionTypeElement(source.getArchimateElement()) || !isNestedConnectionTypeElement(target.getArchimateElement())) {
+            // Some types are excluded
+            if(!isNestedConnectionTypeComponent(source.getArchimateElement()) || !isNestedConnectionTypeComponent(target.getArchimateElement())) {
                 return false;
             }
             
@@ -489,7 +493,7 @@ public class DiagramModelUtils {
      * @return true if there is a connection cycle between source and target
      *         i.e. source is connected to target, and target is connected to source
      */
-    public static boolean hasCycle(IDiagramModelObject source, IDiagramModelObject target) {
+    public static boolean hasCycle(IConnectable source, IConnectable target) {
         for(IDiagramModelConnection connection : source.getTargetConnections()) {
             if(connection.getSource().equals(target)) {
                 return true;

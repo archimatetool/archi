@@ -8,8 +8,9 @@ package com.archimatetool.model;
 import java.io.File;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.archimatetool.model.util.IDAdapter;
 
 /**
  * <!-- begin-user-doc -->
@@ -192,4 +193,8 @@ public interface IArchimateModel extends IFolderContainer, INameable, IIdentifie
      */
     IFolder getFolder(FolderType type);
 
+    /**
+     * @return The ID adapter for registering new child object IDs
+     */
+    IDAdapter getIDAdapter();
 } // IArchimateModel

@@ -7,29 +7,34 @@ package com.archimatetool.editor.diagram.policies;
 
 import java.util.List;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.osgi.util.NLS;
-import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateConnectionWithDialogCommand;
 import com.archimatetool.editor.diagram.commands.CreateDiagramConnectionCommand;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.commands.ReconnectDiagramConnectionCommand;
+import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -47,17 +52,19 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         CreateDiagramConnectionCommand cmd = null;
         
         EClass classType = (EClass)request.getNewObjectType();
-        IDiagramModelObject source = (IDiagramModelObject)getHost().getModel();
+        IConnectable source = (IConnectable)getHost().getModel();
         
         // Plain Connection
         if(classType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
-            cmd = new CreateLineConnectionCommand(request);
+            if(isValidConnectionSource(source, classType)) {
+                cmd = new CreateDiagramConnectionCommand(request);
+            }
         }
         
-        // Archimate Model Object Source
-        else if(source instanceof IDiagramModelArchimateObject) {
-            if(isValidConnectionSource(((IDiagramModelArchimateObject)source).getArchimateElement(), classType)) {
-                cmd = new CreateArchimateConnectionCommand(request);
+        // Archimate Model Component Source
+        else if(source instanceof IDiagramModelArchimateComponent) {
+            if(isValidConnectionSource(source, classType)) {
+                cmd = new CreateDiagramArchimateConnectionWithDialogCommand(request);
             }
         }
         
@@ -71,48 +78,95 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
 
     @Override
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
-        // Pick up the command that was created in getConnectionCreateCommand(CreateConnectionRequest request)
-        CreateDiagramConnectionCommand cmd = (CreateDiagramConnectionCommand)request.getStartCommand();
-        IDiagramModelObject target = (IDiagramModelObject)getHost().getModel();
-        cmd.setTarget(target);
+        IConnectable source = (IConnectable)request.getSourceEditPart().getModel();
+        IConnectable target = (IConnectable)getHost().getModel();
+        EClass relationshipType = (EClass)request.getNewObjectType();
+        
+        CreateDiagramConnectionCommand cmd = null;
+        
+        if(isValidConnection(source, target, relationshipType)) {
+            // Pick up the command that was created in getConnectionCreateCommand(CreateConnectionRequest request)
+            cmd = (CreateDiagramConnectionCommand)request.getStartCommand();
+            cmd.setTarget(target);
+        }
+        
         return cmd;
     }
 
     @Override
     protected Command getReconnectSourceCommand(ReconnectRequest request) {
+        return getReconnectCommand(request, true);
+    }
+
+    @Override
+    protected Command getReconnectTargetCommand(ReconnectRequest request) {
+        return getReconnectCommand(request, false);
+    }
+
+    /**
+     * Create a ReconnectCommand
+     */
+    protected Command getReconnectCommand(ReconnectRequest request, boolean isSourceCommand) {
         IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
-        IDiagramModelObject newSource = (IDiagramModelObject)getHost().getModel();
         
-        // Re-connect ArchiMate Connection Source to Archimate Element
-        if(connection instanceof IDiagramModelArchimateConnection && newSource instanceof IDiagramModelArchimateObject) {
+        // The re-connected object
+        IConnectable newObject = (IConnectable)getHost().getModel();
+
+        // Get the type of connection (plain) or relationship (if archimate connection) and check if it is valid
+        EClass type = connection.eClass();
+        if(connection instanceof IDiagramModelArchimateConnection) {
+            type = ((IDiagramModelArchimateConnection)connection).getRelationship().eClass();
+        }
+
+        if(isSourceCommand) {
+            if(!isValidConnection(newObject, connection.getTarget(), type)) {
+                return null;
+            }
+        }
+        else {
+            if(!isValidConnection(connection.getSource(), newObject, type)) {
+                return null;
+            }
+        }
+        
+        /*
+         * Re-connect ArchiMate Connection to Archimate Component
+         * In this case we have to check for matching occurences on all diagrams
+         */
+        if(connection instanceof IDiagramModelArchimateConnection && newObject instanceof IDiagramModelArchimateComponent) {
+            IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
+            IArchimateComponent newComponent = ((IDiagramModelArchimateComponent)newObject).getArchimateComponent();
+            
             // Compound Command
             CompoundCommand result = new CompoundCommand();
-            
+
             // Check for matching connections in this and other diagrams
-            IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
-            IArchimateElement newSourceElement = ((IDiagramModelArchimateObject)newSource).getArchimateElement();
-
-            for(IDiagramModel diagramModel : newSourceElement.getArchimateModel().getDiagramModels()) {
+            for(IDiagramModel diagramModel : newComponent.getArchimateModel().getDiagramModels()) {
                 for(IDiagramModelArchimateConnection matchingConnection : DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship)) {
-                    IDiagramModelArchimateObject matchingSource = null;
-
-                    // Same Diagram so use the new source
-                    if(newSource.getDiagramModel() == diagramModel) {
-                        matchingSource = (IDiagramModelArchimateObject)newSource;
+                    IDiagramModelArchimateComponent matchingComponent = null;
+                    
+                    // Same Diagram so use the new target
+                    if(newObject.getDiagramModel() == diagramModel) {
+                        matchingComponent = (IDiagramModelArchimateComponent)newObject;
                     }
                     // Different Diagram so find a match
                     else {
-                        List<IDiagramModelArchimateObject> list = DiagramModelUtils.findDiagramModelObjectsForElement(diagramModel, newSourceElement);
+                        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, newComponent);
                         if(!list.isEmpty()) {
-                            matchingSource = list.get(0);
+                            matchingComponent = list.get(0);
                         }                            
                     }
-
-                    // Does the new source exist on the diagram? Yes, reconnect
-                    if(matchingSource != null) {
-                        ReconnectConnectionCommand cmd2 = new ReconnectConnectionCommand(matchingConnection);
-                        cmd2.setNewSource(matchingSource);
-                        result.add(cmd2);
+                    
+                    // Does the new object exist on the diagram? Yes, reconnect
+                    if(matchingComponent != null) {
+                        ReconnectDiagramConnectionCommand cmd = new ReconnectDiagramConnectionCommand(matchingConnection);
+                        if(isSourceCommand) {
+                            cmd.setNewSource(matchingComponent);
+                        }
+                        else {
+                            cmd.setNewTarget(matchingComponent);
+                        }
+                        result.add(cmd);
                     }
                     // No, so delete the matching connection
                     else {
@@ -124,215 +178,94 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return result.unwrap();
         }
         
-        // Re-connect Line Connection Source
+        // Re-connect other cases
         else {
-            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
-            cmd.setNewSource(newSource);
+            ReconnectDiagramConnectionCommand cmd = new ReconnectDiagramConnectionCommand(connection);
+            
+            if(isSourceCommand) {
+                cmd.setNewSource(newObject);
+            }
+            else {
+                cmd.setNewTarget(newObject);
+            }
+            
             return cmd;
         }
     }
 
     @Override
-    protected Command getReconnectTargetCommand(ReconnectRequest request) {
-        IDiagramModelConnection connection = (IDiagramModelConnection)request.getConnectionEditPart().getModel();
-        IDiagramModelObject newTarget = (IDiagramModelObject)getHost().getModel();
-
-        // Re-connect ArchiMate Connection Target to Archimate Element
-        if(connection instanceof IDiagramModelArchimateConnection && newTarget instanceof IDiagramModelArchimateObject) {
-            // Compound Command
-            CompoundCommand result = new CompoundCommand();
-
-            // Check for matching connections in this and other diagrams
-            IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
-            IArchimateElement newTargetElement = ((IDiagramModelArchimateObject)newTarget).getArchimateElement();
-
-            for(IDiagramModel diagramModel : newTargetElement.getArchimateModel().getDiagramModels()) {
-                for(IDiagramModelArchimateConnection matchingConnection : DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship)) {
-                    IDiagramModelArchimateObject matchingTarget = null;
-                    
-                    // Same Diagram so use the new target
-                    if(newTarget.getDiagramModel() == diagramModel) {
-                        matchingTarget = (IDiagramModelArchimateObject)newTarget;
-                    }
-                    // Different Diagram so find a match
-                    else {
-                        List<IDiagramModelArchimateObject> list = DiagramModelUtils.findDiagramModelObjectsForElement(diagramModel, newTargetElement);
-                        if(!list.isEmpty()) {
-                            matchingTarget = list.get(0);
-                        }                            
-                    }
-                    
-                    // Does the new target exist on the diagram? Yes, reconnect
-                    if(matchingTarget != null) {
-                        ReconnectConnectionCommand cmd2 = new ReconnectConnectionCommand(matchingConnection);
-                        cmd2.setNewTarget(matchingTarget);
-                        result.add(cmd2);
-                    }
-                    // No, so delete the matching connection
-                    else {
-                        result.add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(matchingConnection));
-                    }
-                }
-            }
-            
-            return result.unwrap();
-        }
-        
-        // Re-connect Line Connection Target
-        else {
-            ReconnectConnectionCommand cmd = new ReconnectConnectionCommand(connection);
-            cmd.setNewTarget(newTarget);
-            return cmd;
-        }
-    }
-
-    
-    // ==================================================================================================
-    // ============================================= Commands ===========================================
-    // ==================================================================================================
-    
-    /*
-     * Command to create a line connection for notes
-     */
-    static class CreateLineConnectionCommand extends CreateDiagramConnectionCommand {
-        public CreateLineConnectionCommand(CreateConnectionRequest request) {
-            super(request);
-        }
-        
-        @Override
-        public boolean canExecute() {
-            if(super.canExecute()) {
-                EClass classType = (EClass)fRequest.getNewObjectType();
-                return isValidConnection(fSource, fTarget, classType);
-            }
-            return false;
-        }  
-    }
-    
-    /*
-     * Command to create an Archimate type connection.
-     * Will also add and remove the associated Archimate Relationship to the model
-     */
-    public static class CreateArchimateConnectionCommand extends CreateLineConnectionCommand {
-        // Flag to mark whether a new relationship was created or whether we re-used an existing one
-        private boolean useExistingRelation;
-        
-        public CreateArchimateConnectionCommand(CreateConnectionRequest request) {
-            super(request);
-        }
-        
-        @Override
-        public void execute() {
-            EClass classType = (EClass)fRequest.getNewObjectType();
-            IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)fSource;
-            IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)fTarget;
-            
-            // If there is already a relation of this type in the model...
-            IRelationship relation = getExistingRelationshipOfType(classType, source.getArchimateElement(), target.getArchimateElement());
-            if(relation != null) {
-                // ...then ask the user if they want to re-use it
-                useExistingRelation = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                        Messages.ArchimateDiagramConnectionPolicy_0,
-                        NLS.bind(Messages.ArchimateDiagramConnectionPolicy_1,
-                                source.getName(), target.getName()));
-                // Yes...
-                if(useExistingRelation) {
-                     // ...set connection's relationship to the existing relation
-                    fConnection = createNewConnection();
-                    ((IDiagramModelArchimateConnection)fConnection).setRelationship(relation);
-                }
-            }
-
-            super.execute();
-            
-            // Now add the relationship to the model
-            if(!useExistingRelation) {
-                ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
-            }
-        }
-
-        @Override
-        public void redo() {
-            super.redo();
-            
-            // Now add the relationship to the model
-            if(!useExistingRelation) {
-                ((IDiagramModelArchimateConnection)fConnection).addRelationshipToModel(null);
-            }
-        }
-        
-        @Override
-        public void undo() {
-            super.undo();
-            
-            // Now remove the relationship from its folder
-            if(!useExistingRelation) {
-                ((IDiagramModelArchimateConnection)fConnection).removeRelationshipFromModel();
-            }
-        }
-
-        /**
-         * Swap Source and Target Elements
-         */
-        public void swapSourceAndTargetElements() {
-            IDiagramModelObject tmp = fSource;
-            fSource = fTarget;
-            fTarget = tmp;
+    public void eraseTargetFeedback(Request request) {
+        IFigure figure = ((GraphicalEditPart)getHost()).getFigure();
+        if(figure instanceof ITargetFeedbackFigure) {
+            ((ITargetFeedbackFigure)figure).eraseTargetFeedback();
         }
     }
     
-    /*
-     * Command to reconnect a connection
-     */
-    static class ReconnectConnectionCommand extends ReconnectDiagramConnectionCommand {
-        public ReconnectConnectionCommand(IDiagramModelConnection connection) {
-            super(connection);
+    @Override
+    public void showTargetFeedback(Request request) {
+        if(request.getType().equals(RequestConstants.REQ_CONNECTION_START)) {
+            if(getConnectionCreateCommand((CreateConnectionRequest)request) != null) {
+                showTargetFeedback();
+            }
         }
         
-        @Override
-        protected boolean checkSourceConnection() {
-            if(super.checkSourceConnection()) {
-                if(fConnection instanceof IDiagramModelArchimateConnection) {
-                    return isValidConnection(fNewSource, fOldTarget, ((IDiagramModelArchimateConnection)fConnection).getRelationship().eClass());
-                }
-                else {
-                    return isValidConnection(fNewSource, fOldTarget, fConnection.eClass());
-                }
+        if(request.getType().equals(RequestConstants.REQ_CONNECTION_END)) {
+            if(getConnectionCompleteCommand((CreateConnectionRequest)request) != null) {
+                showTargetFeedback();
             }
-            
-            return false;
         }
-        
-        @Override
-        protected boolean checkTargetConnection() {
-            if(super.checkTargetConnection()) {
-                if(fConnection instanceof IDiagramModelArchimateConnection) {
-                    return isValidConnection(fOldSource, fNewTarget, ((IDiagramModelArchimateConnection)fConnection).getRelationship().eClass());
-                }
-                else {
-                    return isValidConnection(fOldSource, fNewTarget, fConnection.eClass());
-                }
+
+        if(request.getType().equals(RequestConstants.REQ_RECONNECT_SOURCE)) {
+            if(getReconnectSourceCommand((ReconnectRequest)request) != null) {
+                showTargetFeedback();
             }
-            
-            return false;
+        }
+
+        if(request.getType().equals(RequestConstants.REQ_RECONNECT_TARGET)) {
+            if(getReconnectTargetCommand((ReconnectRequest)request) != null) {
+                showTargetFeedback();
+            }
         }
     }
-
+    
+    private void showTargetFeedback() {
+        IFigure figure = ((GraphicalEditPart)getHost()).getFigure();
+        if(figure instanceof ITargetFeedbackFigure) {
+            ((ITargetFeedbackFigure)figure).showTargetFeedback();
+        }
+    }
+    
     
     // ==================================================================================================
     // ========================================= Connection Rules =======================================
     // ==================================================================================================
     
     /**
-     * @return True if valid source for Archimate connection type
+     * @return True if valid source for a connection type
      */
-    static boolean isValidConnectionSource(IArchimateElement element, EClass relationshipType) {
+    static boolean isValidConnectionSource(IConnectable source, EClass relationshipType) {
         // Special case if relationshipType == null. Means that the Magic connector is being used
         if(relationshipType == null) {
             return true;
         }
 
-        return ArchimateModelUtils.isValidRelationshipStart(element, relationshipType);
+        // This first: Diagram Connection from/to notes/groups/diagram refs
+        if(relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
+            return true;
+        }
+        
+        // Archimate Element source
+        if(source instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)source;
+            return ArchimateModelUtils.isValidRelationshipStart(dmo.getArchimateComponent(), relationshipType);
+        }
+        
+        // Archimate Relationship source
+        if(source instanceof IDiagramModelArchimateConnection) {
+            return relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship();
+        }
+
+        return false;
     }
     
     /**
@@ -341,23 +274,31 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
      * @param relationshipType
      * @return True if valid connection source/target for connection type
      */
-    static boolean isValidConnection(IDiagramModelObject source, IDiagramModelObject target, EClass relationshipType) {
-        // Diagram Connection from/to notes/groups/diagram refs
+    static boolean isValidConnection(IConnectable source, IConnectable target, EClass relationshipType) {
+        /*
+         * Diagram Connection from/to notes/groups/diagram refs.
+         * Allowed between notes, visual groups, diagram refs and ArchiMate components
+         * 
+         */
         if(relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
+            // Not circular
             if(source == target) {
                 return false;
             }
-            if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
-                return false;
+            // Notes
+            if(source instanceof IDiagramModelNote || target instanceof IDiagramModelNote) {
+                return true;
             }
-            if(source instanceof IDiagramModelGroup || source instanceof IDiagramModelReference) {
-                return !(target instanceof IDiagramModelArchimateObject);
+            // Groups
+            if(source instanceof IDiagramModelGroup || target instanceof IDiagramModelGroup) {
+                return !(source instanceof IDiagramModelArchimateComponent) && !(target instanceof IDiagramModelArchimateComponent);
             }
-            if(source instanceof IDiagramModelArchimateObject) {
-                return target instanceof IDiagramModelNote;
+            // Diagram Refs
+            if(source instanceof IDiagramModelReference || target instanceof IDiagramModelReference) {
+                return !(source instanceof IDiagramModelArchimateComponent) && !(target instanceof IDiagramModelArchimateComponent);
             }
             
-            return true;
+            return false;
         }
 
         // Connection from Archimate object to Archimate object 
@@ -373,20 +314,29 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return ArchimateModelUtils.isValidRelationship(sourceElement, targetElement, relationshipType);
         }
         
-        return false;
-    }
-    
-    /**
-     * See if there is an existing relationship of the proposed type between source and target elements.
-     * If there is, we can offer to re-use it instead of creating a new one.
-     * @return an existing relationship or null
-     */
-    static IRelationship getExistingRelationshipOfType(EClass classType, IArchimateElement source, IArchimateElement target) {
-        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(source)) {
-            if(relation.eClass().equals(classType) && relation.getTarget() == target) {
-                return relation;
+        // TODO: A3 From/To Connections - put this in the relationship matrix?
+        
+        // Can connect Association relationship from element->relation or relation->element
+        if((source instanceof IDiagramModelArchimateConnection && target instanceof IDiagramModelArchimateObject) || 
+                (source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection)) {
+            if(relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship()) {
+                return true;
             }
         }
-        return null;
+        
+        // Source is element and target is relationship
+        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection) {
+            if(relationshipType == IArchimatePackage.eINSTANCE.getAggregationRelationship() ||
+                    relationshipType == IArchimatePackage.eINSTANCE.getCompositionRelationship()) {
+                IArchimateElement sourceElement = ((IDiagramModelArchimateObject)source).getArchimateElement();
+                // Can connect Aggregation or Composition from Plateau to any kind of relationship
+                if(sourceElement.eClass() == IArchimatePackage.eINSTANCE.getPlateau()) {
+                    return true;
+                }
+                // TODO: A3 Can connect Aggregation or Composition from Grouping to any kind of relationship
+            }
+        }
+        
+        return false;
     }
 }

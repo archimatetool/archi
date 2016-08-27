@@ -43,12 +43,14 @@ import com.archimatetool.model.IBusinessService;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.ICommunicationPath;
 import com.archimatetool.model.ICompositionRelationship;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IConstraint;
 import com.archimatetool.model.IContract;
 import com.archimatetool.model.IDataObject;
 import com.archimatetool.model.IDeliverable;
 import com.archimatetool.model.IDevice;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelBendpoint;
@@ -507,6 +509,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createDiagramModelComponentAdapter();
             }
             @Override
+            public Adapter caseConnectable(IConnectable object) {
+                return createConnectableAdapter();
+            }
+            @Override
             public Adapter caseDiagramModelContainer(IDiagramModelContainer object) {
                 return createDiagramModelContainerAdapter();
             }
@@ -577,6 +583,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseArchimateDiagramModel(IArchimateDiagramModel object) {
                 return createArchimateDiagramModelAdapter();
+            }
+            @Override
+            public Adapter caseDiagramModelArchimateComponent(IDiagramModelArchimateComponent object) {
+                return createDiagramModelArchimateComponentAdapter();
             }
             @Override
             public Adapter caseDiagramModelArchimateObject(IDiagramModelArchimateObject object) {
@@ -1221,6 +1231,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelArchimateComponent <em>Diagram Model Archimate Component</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IDiagramModelArchimateComponent
+     * @generated
+     */
+    public Adapter createDiagramModelArchimateComponentAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDiagramModelReference <em>Diagram Model Reference</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -1245,6 +1269,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDiagramModelComponentAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IConnectable <em>Connectable</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IConnectable
+     * @generated
+     */
+    public Adapter createConnectableAdapter() {
         return null;
     }
 

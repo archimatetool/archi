@@ -35,12 +35,12 @@ public interface IRelationship extends IArchimateComponent {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Source</em>' reference.
-     * @see #setSource(IArchimateElement)
+     * @see #setSource(IArchimateComponent)
      * @see com.archimatetool.model.IArchimatePackage#getRelationship_Source()
      * @model resolveProxies="false"
      * @generated
      */
-    IArchimateElement getSource();
+    IArchimateComponent getSource();
 
     /**
      * Sets the value of the '{@link com.archimatetool.model.IRelationship#getSource <em>Source</em>}' reference.
@@ -50,7 +50,7 @@ public interface IRelationship extends IArchimateComponent {
      * @see #getSource()
      * @generated
      */
-    void setSource(IArchimateElement value);
+    void setSource(IArchimateComponent value);
 
     /**
      * Returns the value of the '<em><b>Target</b></em>' reference.
@@ -61,12 +61,12 @@ public interface IRelationship extends IArchimateComponent {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Target</em>' reference.
-     * @see #setTarget(IArchimateElement)
+     * @see #setTarget(IArchimateComponent)
      * @see com.archimatetool.model.IArchimatePackage#getRelationship_Target()
      * @model resolveProxies="false"
      * @generated
      */
-    IArchimateElement getTarget();
+    IArchimateComponent getTarget();
 
     /**
      * Sets the value of the '{@link com.archimatetool.model.IRelationship#getTarget <em>Target</em>}' reference.
@@ -76,8 +76,32 @@ public interface IRelationship extends IArchimateComponent {
      * @see #getTarget()
      * @generated
      */
-    void setTarget(IArchimateElement value);
-    
+    void setTarget(IArchimateComponent value);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model
+     * @generated
+     */
+    void connect(IArchimateComponent source, IArchimateComponent target);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model
+     * @generated
+     */
+    void reconnect();
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model
+     * @generated
+     */
+    void disconnect();
+
     /**
      * @return A list of diagram connections that reference this Relationship
      */

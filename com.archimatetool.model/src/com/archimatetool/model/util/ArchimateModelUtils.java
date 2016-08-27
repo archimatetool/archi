@@ -13,11 +13,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IRelationship;
 
@@ -30,31 +28,25 @@ import com.archimatetool.model.IRelationship;
  */
 public class ArchimateModelUtils {
     
-    /*
-     * Flags for methods
-     */
-    private static final int SOURCE_RELATIONSHIPS = 1;
-    private static final int TARGET_RELATIONSHIPS = 1 << 1;
-    
     /**
-     * Determine if a given relationship type is allowed as a source for an Archimate element
-     * @param sourceElement The source element
+     * Determine if a given relationship type is allowed as a source for an Archimate component
+     * @param sourceComponent The source component
      * @param relationshipType The class of relationship to check
-     * @return True if relationshipType is a valid source relationship for sourceElement
+     * @return True if relationshipType is a valid source relationship for sourceComponent
      */
-    public static final boolean isValidRelationshipStart(IArchimateElement sourceElement, EClass relationshipType) {
-        return RelationshipsMatrix.INSTANCE.isValidRelationshipStart(sourceElement, relationshipType);
+    public static final boolean isValidRelationshipStart(IArchimateComponent sourceComponent, EClass relationshipType) {
+        return RelationshipsMatrix.INSTANCE.isValidRelationshipStart(sourceComponent, relationshipType);
     }
     
     /**
-     * Determine if a given relationship type is allowed between source and target Archimate elements
-     * @param sourceElement The source element
-     * @param targetElement The target element
+     * Determine if a given relationship type is allowed between source and target Archimate components
+     * @param sourceComponent The source component
+     * @param targetComponent The target component
      * @param relationshipType The relationship type to check
-     * @return True if relationshipType is an allowed relationship type between sourceElement and targetElement
+     * @return True if relationshipType is an allowed relationship type between sourceComponent and targetComponent
      */
-    public static final boolean isValidRelationship(IArchimateElement sourceElement, IArchimateElement targetElement, EClass relationshipType) {
-        return isValidRelationship(sourceElement.eClass(), targetElement.eClass(), relationshipType);
+    public static final boolean isValidRelationship(IArchimateComponent sourceComponent, IArchimateComponent targetComponent, EClass relationshipType) {
+        return isValidRelationship(sourceComponent.eClass(), targetComponent.eClass(), relationshipType);
     }
 
     /**
@@ -69,13 +61,13 @@ public class ArchimateModelUtils {
     }
     
     /**
-     * Get an array of all valid relationship class types between source and target Archimate elements
-     * @param sourceElement The source element
-     * @param targetElement The target element
+     * Get an array of all valid relationship class types between source and target Archimate components
+     * @param sourceComponent The source component
+     * @param targetComponent The target component
      * @return An array of all valid relationship class types between sourceElement and targetElement
      */
-    public static EClass[] getValidRelationships(IArchimateElement sourceElement, IArchimateElement targetElement) {
-        return getValidRelationships(sourceElement.eClass(), targetElement.eClass());
+    public static EClass[] getValidRelationships(IArchimateComponent sourceComponent, IArchimateComponent targetComponent) {
+        return getValidRelationships(sourceComponent.eClass(), targetComponent.eClass());
     }
     
     /**
@@ -97,68 +89,25 @@ public class ArchimateModelUtils {
     }
     
     /**
-     * @param element The Archimate element to check
-     * @return A list of all relationships that an element has, both as target and as source
+     * @param component The Archimate component to get relationships for
+     * @return A list of all relationships that a component has, both as target and as source
      */
-    public static List<IRelationship> getRelationships(IArchimateElement element) {
-        return __getRelationships(element, SOURCE_RELATIONSHIPS | TARGET_RELATIONSHIPS);
-    }
-    
-    /**
-     * @param element The Archimate element to check
-     * @return A list of all source relationships that an element has
-     */
-    public static List<IRelationship> getSourceRelationships(IArchimateElement element) {
-        return __getRelationships(element, SOURCE_RELATIONSHIPS);
-    }
-    
-    /**
-     * @param element The Archimate element to check
-     * @return A list of all target relationships that an element has
-     */
-    public static List<IRelationship> getTargetRelationships(IArchimateElement element) {
-        return __getRelationships(element, TARGET_RELATIONSHIPS);
-    }
-
-    private static List<IRelationship> __getRelationships(IArchimateElement element, int type) {
-        List<IRelationship> relationships = new ArrayList<IRelationship>();
+    public static List<IRelationship> getAllRelationshipsForComponent(IArchimateComponent component) {
+        List<IRelationship> list = new ArrayList<IRelationship>(); // make a copy
         
-        if(element.getArchimateModel() != null) { // An important guard because the element might have been deleted
-            IFolder folder = element.getArchimateModel().getFolder(FolderType.RELATIONS);
-            __getRelationshipsForElement(folder, element, type, relationships);
-            
-            folder = element.getArchimateModel().getFolder(FolderType.DERIVED);
-            __getRelationshipsForElement(folder, element, type, relationships);
-        }
-        
-        return relationships;
-    }
-    
-    private static void __getRelationshipsForElement(IFolder folder, IArchimateElement element, int type, List<IRelationship> relationships) {
-        if(folder == null || element == null) {
-            return;
-        }
-        
-        for(EObject object : folder.getElements()) {
-            if(object instanceof IRelationship) {
-                IRelationship relationship = (IRelationship)object;
-                if((type & SOURCE_RELATIONSHIPS) != 0) {
-                    if(relationship.getSource() == element && !relationships.contains(relationship)) {
-                        relationships.add(relationship);
-                    }
-                }
-                if((type & TARGET_RELATIONSHIPS) != 0) {
-                    if(relationship.getTarget() == element && !relationships.contains(relationship)) {
-                        relationships.add(relationship);
-                    }
-                }
+        for(IRelationship r : component.getSourceRelationships()) {
+            if(!list.contains(r)) {
+                list.add(r);
             }
         }
         
-        // Child folders
-        for(IFolder f : folder.getFolders()) {
-            __getRelationshipsForElement(f, element, type, relationships);
+        for(IRelationship r : component.getTargetRelationships()) {
+            if(!list.contains(r)) {
+                list.add(r);
+            }
         }
+        
+        return list;
     }
     
     /**

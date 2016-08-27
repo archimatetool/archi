@@ -30,11 +30,11 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
+import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateConnectionWithDialogCommand;
 import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
 import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
-import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy.CreateArchimateConnectionCommand;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -196,7 +196,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         // If user selected a reverse connection from target to source then swap the source/target in the Command
         // (Yes, I know this is kludgey, but you try and disentangle GEF's Request/Policy/Factory/Command dance...)
         if(getFactory().swapSourceAndTarget()) {
-            CreateArchimateConnectionCommand cmd = (CreateArchimateConnectionCommand)getCurrentCommand();
+            CreateDiagramArchimateConnectionWithDialogCommand cmd = (CreateDiagramArchimateConnectionWithDialogCommand)getCurrentCommand();
             cmd.swapSourceAndTargetElements();
         }
         
@@ -611,13 +611,13 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         @Override
         public void undo() {
             fParent.getChildren().remove(fChild);
-            fChild.removeArchimateElementFromModel();
+            fChild.removeArchimateComponentFromModel();
         }
 
         @Override
         public void redo() {
             fParent.getChildren().add(fChild);
-            fChild.addArchimateElementToModel(null);
+            fChild.addArchimateComponentToModel(null);
         }
         
         @Override
@@ -647,19 +647,19 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         public void execute() {
             fConnection = (IDiagramModelArchimateConnection)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
             fConnection.connect(fSource, fTarget);
-            fConnection.addRelationshipToModel(null);
+            fConnection.addArchimateComponentToModel(null);
         }
         
         @Override
         public void redo() {
             fConnection.reconnect();
-            fConnection.addRelationshipToModel(null);
+            fConnection.addArchimateComponentToModel(null);
         }
         
         @Override
         public void undo() {
             fConnection.disconnect();
-            fConnection.removeRelationshipFromModel();
+            fConnection.removeArchimateComponentFromModel();
         }
 
         @Override

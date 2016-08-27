@@ -16,8 +16,7 @@ import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IRelationship;
 
@@ -149,12 +148,8 @@ public class ArchimateLabelProvider {
             object = ((EditPart)object).getModel();
         }
         
-        if(object instanceof IDiagramModelArchimateObject) {
-            return ((IDiagramModelArchimateObject)object).getArchimateElement();
-        }
-        
-        if(object instanceof IDiagramModelArchimateConnection) {
-            return ((IDiagramModelArchimateConnection)object).getRelationship();
+        if(object instanceof IDiagramModelArchimateComponent) {
+            return ((IDiagramModelArchimateComponent)object).getArchimateComponent();
         }
         
         return object;

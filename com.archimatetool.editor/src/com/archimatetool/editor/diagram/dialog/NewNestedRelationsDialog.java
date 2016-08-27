@@ -30,6 +30,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -42,6 +43,7 @@ import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -63,20 +65,27 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
     // Keep track of Ctrl key
     private boolean fModKeyPressed;
     
+    public static class SelectedRelationshipType {
+        // The child object
+        public IDiagramModelArchimateObject childObject;
+        // The type of relationship to create
+        public EClass relationshipType;
+    }
+    
     private class Mapping {
-        private IArchimateElement element;
+        private IDiagramModelArchimateObject childObject;
         private List<EClass> validRelations;
         private String[] names;
         private int selectedIndex;
         
-        Mapping(IArchimateElement element) {
-            this.element = element;
-            validRelations = createValidRelations(fParentElement, element);
+        Mapping(IDiagramModelArchimateObject childObject) {
+            this.childObject = childObject;
+            validRelations = createValidRelations(fParentElement, childObject.getArchimateElement());
             selectedIndex = 1;
         }
         
-        IArchimateElement getElement() {
-            return element;
+        IDiagramModelArchimateObject getChildObject() {
+            return childObject;
         }
         
         String getSelectedRelationName() {
@@ -124,16 +133,16 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         }
     }
 
-    public NewNestedRelationsDialog(Shell parentShell, IArchimateElement parentElement, List<IArchimateElement> childElements) {
-        super(parentShell, "NewNestedRelationsDialog"); //$NON-NLS-1$
+    public NewNestedRelationsDialog(IDiagramModelArchimateObject parentObject, List<IDiagramModelArchimateObject> childObjects) {
+        super(Display.getCurrent().getActiveShell(), "NewNestedRelationsDialog"); //$NON-NLS-1$
         setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
-        fParentElement = parentElement;
+        fParentElement = parentObject.getArchimateElement();
         
-        fMappings = new Mapping[childElements.size()];
+        fMappings = new Mapping[childObjects.size()];
         for(int i = 0; i < fMappings.length; i++) {
-            fMappings[i] = new Mapping(childElements.get(i));
+            fMappings[i] = new Mapping(childObjects.get(i));
         }
     }
 
@@ -188,28 +197,19 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         return composite;
     }
     
-    public EClass[] getSelectedTypes() {
-        List<EClass> list = new ArrayList<EClass>();
+    public List<SelectedRelationshipType> getSelectedTypes() {
+        List<SelectedRelationshipType> list = new ArrayList<SelectedRelationshipType>();
         
         for(Mapping mapping : fMappings) {
             if(mapping.getSelectedType() != null) {
-                list.add(mapping.getSelectedType());
+                SelectedRelationshipType selType = new SelectedRelationshipType();
+                selType.childObject = mapping.getChildObject();
+                selType.relationshipType = mapping.getSelectedType();
+                list.add(selType);
             }
         }
         
-        return list.isEmpty() ? null : list.toArray(new EClass[list.size()]);
-    }
-    
-    public IArchimateElement[] getSelectedElements() {
-        List<IArchimateElement> list = new ArrayList<IArchimateElement>();
-        
-        for(Mapping mapping : fMappings) {
-            if(mapping.getSelectedType() != null) {
-                list.add(mapping.getElement());
-            }
-        }
-        
-        return list.isEmpty() ? null : list.toArray(new IArchimateElement[list.size()]);
+        return list;
     }
     
     @Override
@@ -275,7 +275,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         class RelationsTableViewerLabelCellProvider extends LabelProvider implements ITableLabelProvider {
             public Image getColumnImage(Object element, int columnIndex) {
                 if(columnIndex == 0) {
-                    return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getElement());
+                    return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getChildObject());
                 }
                 return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getSelectedType());
             }
@@ -283,7 +283,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
             @Override
             public String getColumnText(Object element, int columnIndex) {
                 if(columnIndex == 0) {
-                    return ((Mapping)element).getElement().getName();
+                    return ((Mapping)element).getChildObject().getName();
                 }
                 return ((Mapping)element).getSelectedRelationName();
             }

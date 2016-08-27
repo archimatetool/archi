@@ -174,8 +174,8 @@ public class TreeViewpointFilterProvider implements IPartListener {
                 IArchimateModel model = ((IArchimateComponent)element).getArchimateModel();
                 if(model == fActiveDiagramModel.getArchimateModel()) {
                     if(element instanceof IRelationship) {
-                        IArchimateElement source = ((IRelationship)element).getSource();
-                        IArchimateElement target = ((IRelationship)element).getTarget();
+                        IArchimateComponent source = ((IRelationship)element).getSource();
+                        IArchimateComponent target = ((IRelationship)element).getTarget();
                         if(!viewpoint.isAllowedType(source.eClass()) || !viewpoint.isAllowedType(target.eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }

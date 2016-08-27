@@ -5,7 +5,6 @@
  */
 package com.archimatetool.model;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,8 +16,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getBounds <em>Bounds</em>}</li>
- *   <li>{@link com.archimatetool.model.IDiagramModelObject#getSourceConnections <em>Source Connections</em>}</li>
- *   <li>{@link com.archimatetool.model.IDiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link com.archimatetool.model.IDiagramModelObject#getFillColor <em>Fill Color</em>}</li>
  * </ul>
  *
@@ -26,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface IDiagramModelObject extends IDiagramModelComponent, IFontAttribute, ILineObject, ITextAlignment {
+public interface IDiagramModelObject extends IConnectable, IFontAttribute, ILineObject, ITextAlignment {
     /**
      * Returns the value of the '<em><b>Bounds</b></em>' containment reference.
      * <!-- begin-user-doc -->
@@ -54,39 +51,6 @@ public interface IDiagramModelObject extends IDiagramModelComponent, IFontAttrib
     void setBounds(IBounds value);
 
     /**
-     * Returns the value of the '<em><b>Source Connections</b></em>' containment reference list.
-     * The list contents are of type {@link com.archimatetool.model.IDiagramModelConnection}.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Source Connections</em>' containment reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Source Connections</em>' containment reference list.
-     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject_SourceConnections()
-     * @model containment="true"
-     *        extendedMetaData="name='sourceConnection' kind='element'"
-     * @generated
-     */
-    EList<IDiagramModelConnection> getSourceConnections();
-
-    /**
-     * Returns the value of the '<em><b>Target Connections</b></em>' reference list.
-     * The list contents are of type {@link com.archimatetool.model.IDiagramModelConnection}.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Target Connections</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Target Connections</em>' reference list.
-     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelObject_TargetConnections()
-     * @model resolveProxies="false"
-     * @generated
-     */
-    EList<IDiagramModelConnection> getTargetConnections();
-
-    /**
      * Returns the value of the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <p>
@@ -111,22 +75,6 @@ public interface IDiagramModelObject extends IDiagramModelComponent, IFontAttrib
      * @generated
      */
     void setFillColor(String value);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void addConnection(IDiagramModelConnection connection);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void removeConnection(IDiagramModelConnection connection);
 
     /**
      * <!-- begin-user-doc -->

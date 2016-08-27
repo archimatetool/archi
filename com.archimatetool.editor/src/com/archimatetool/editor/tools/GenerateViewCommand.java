@@ -18,6 +18,7 @@ import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -26,7 +27,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -125,7 +125,7 @@ public class GenerateViewCommand extends Command {
         // Add connections
         for(IDiagramModelObject dmoSource : dm.getChildren()) {
             IArchimateElement elementSource = ((IDiagramModelArchimateObject)dmoSource).getArchimateElement();
-            for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(elementSource)) {
+            for(IRelationship relation : elementSource.getSourceRelationships()) {
                 for(IDiagramModelObject dmoTarget : dm.getChildren()) {
                     IArchimateElement elementTarget = ((IDiagramModelArchimateObject)dmoTarget).getArchimateElement();
                     // Don't add connections that are not connected to the main elements if option is set
@@ -160,19 +160,21 @@ public class GenerateViewCommand extends Command {
                 fAddedElements.add(element);
             }
             
+            // TODO: A3 add connecting relationships
+            
             // Add connecting target elements
-            for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(element)) {
-                IArchimateElement target = relation.getTarget();
-                if(fViewpoint.isAllowedType(target.eClass()) && !fAddedElements.contains(target)) {
-                    fAddedElements.add(target);
+            for(IRelationship relation : element.getSourceRelationships()) {
+                IArchimateComponent target = relation.getTarget();
+                if(fViewpoint.isAllowedType(target.eClass()) && !fAddedElements.contains(target) && target instanceof IArchimateElement) {
+                    fAddedElements.add((IArchimateElement)target);
                 }
             }
             
             // Add connecting source elements
-            for(IRelationship relation : ArchimateModelUtils.getTargetRelationships(element)) {
-                IArchimateElement source = relation.getSource();
-                if(fViewpoint.isAllowedType(source.eClass()) && !fAddedElements.contains(source)) {
-                    fAddedElements.add(source);
+            for(IRelationship relation : element.getTargetRelationships()) {
+                IArchimateComponent source = relation.getSource();
+                if(fViewpoint.isAllowedType(source.eClass()) && !fAddedElements.contains(source)  && source instanceof IArchimateElement) {
+                    fAddedElements.add((IArchimateElement)source);
                 }
             }
         }

@@ -60,7 +60,7 @@ public class ArchimateModelUtilsTests {
     }
     
     @Test
-    public void testGetRelationships_NotNull() {
+    public void testGetAllRelationshipsForComponent_NotNull() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
@@ -70,12 +70,12 @@ public class ArchimateModelUtilsTests {
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
         model.getDefaultFolderForElement(element2).getElements().add(element2);
         
-        assertNotNull(ArchimateModelUtils.getRelationships(element1));
-        assertNotNull(ArchimateModelUtils.getRelationships(element2));
+        assertNotNull(ArchimateModelUtils.getAllRelationshipsForComponent(element1));
+        assertNotNull(ArchimateModelUtils.getAllRelationshipsForComponent(element2));
     }
 
     @Test
-    public void testGetRelationships_NoRelations() {
+    public void testGetAllRelationshipsForComponent_NoRelations() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
@@ -85,94 +85,28 @@ public class ArchimateModelUtilsTests {
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
         model.getDefaultFolderForElement(element2).getElements().add(element2);
         
-        assertTrue(ArchimateModelUtils.getRelationships(element1).isEmpty());
-        assertTrue(ArchimateModelUtils.getRelationships(element2).isEmpty());
+        assertTrue(ArchimateModelUtils.getAllRelationshipsForComponent(element1).isEmpty());
+        assertTrue(ArchimateModelUtils.getAllRelationshipsForComponent(element2).isEmpty());
     }
 
     @Test
-    public void testGetRelationships() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-
+    public void testGetAllRelationshipsForComponent() {
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
-        
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
         
         IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation1.setSource(element1);
         relation1.setTarget(element2);
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
         
-        assertEquals(1, ArchimateModelUtils.getRelationships(element1).size());
-        assertEquals(1, ArchimateModelUtils.getRelationships(element2).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
 
         IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation2.setSource(element1);
         relation2.setTarget(element2);
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
        
-        assertEquals(2, ArchimateModelUtils.getRelationships(element1).size());
-        assertEquals(2, ArchimateModelUtils.getRelationships(element2).size());
-    }
-    
-    @Test
-    public void testGetSourceRelationships() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-
-        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
-        
-        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
-        
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation1.setSource(element1);
-        relation1.setTarget(element2);
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
-        
-        assertEquals(1, ArchimateModelUtils.getSourceRelationships(element1).size());
-        assertEquals(0, ArchimateModelUtils.getSourceRelationships(element2).size());
-        assertSame(relation1, ArchimateModelUtils.getSourceRelationships(element1).get(0));
-
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation2.setSource(element1);
-        relation2.setTarget(element2);
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
-       
-        assertEquals(2, ArchimateModelUtils.getSourceRelationships(element1).size());
-        assertEquals(0, ArchimateModelUtils.getSourceRelationships(element2).size());
-    }
-    
-    @Test
-    public void testGetTargetRelationships() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-
-        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
-        
-        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
-        
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation1.setSource(element1);
-        relation1.setTarget(element2);
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
-        
-        assertEquals(0, ArchimateModelUtils.getTargetRelationships(element1).size());
-        assertEquals(1, ArchimateModelUtils.getTargetRelationships(element2).size());
-        assertSame(relation1, ArchimateModelUtils.getTargetRelationships(element2).get(0));
-
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation2.setSource(element1);
-        relation2.setTarget(element2);
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
-       
-        assertEquals(0, ArchimateModelUtils.getTargetRelationships(element1).size());
-        assertEquals(2, ArchimateModelUtils.getTargetRelationships(element2).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
     }
     
     @Test

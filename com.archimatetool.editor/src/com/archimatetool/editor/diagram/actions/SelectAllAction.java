@@ -65,10 +65,16 @@ public class SelectAllAction extends Action {
                 if(childPart.isSelectable()) {
                     selected.add(childPart);
                     
-                    // Add connections if selectable (only need to get source connections, not target)
+                    // Add connections if selectable
                     for(Object o : childPart.getSourceConnections()) {
                         GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
-                        if(connectionEditPart.isSelectable()) {
+                        if(connectionEditPart.isSelectable() && !selected.contains(connectionEditPart)) {
+                            selected.add(connectionEditPart);
+                        }
+                    }
+                    for(Object o : childPart.getTargetConnections()) {
+                        GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
+                        if(connectionEditPart.isSelectable() && !selected.contains(connectionEditPart)) {
                             selected.add(connectionEditPart);
                         }
                     }

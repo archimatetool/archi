@@ -206,6 +206,10 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         eAdapters().add(fIDAdapter);
     }
     
+    public IDAdapter getIDAdapter() {
+        return fIDAdapter;
+    }
+    
     /**
      * Add any default folders
      */

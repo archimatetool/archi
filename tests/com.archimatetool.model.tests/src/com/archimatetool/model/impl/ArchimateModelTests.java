@@ -24,7 +24,6 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.util.IDAdapter;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -275,7 +274,7 @@ public class ArchimateModelTests {
    
     @Test
     public void testIDAdapterAddedToArchimateModel() {
-        assertTrue(model.eAdapters().get(0) instanceof IDAdapter);
+        assertNotNull(model.getIDAdapter());
     }
     
     @Test

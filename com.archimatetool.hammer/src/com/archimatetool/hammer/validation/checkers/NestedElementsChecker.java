@@ -20,7 +20,6 @@ import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 /**
@@ -73,7 +72,7 @@ public class NestedElementsChecker extends AbstractChecker {
     }
 
     boolean hasValidNestedRelation(IDiagramModelArchimateObject parent, IDiagramModelArchimateObject child) {
-        for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(parent.getArchimateElement())) {
+        for(IRelationship relation : parent.getArchimateElement().getSourceRelationships()) {
             if(relation.getTarget() == child.getArchimateElement()) {
                 if(relation instanceof ICompositionRelationship || relation instanceof IAggregationRelationship
                         || relation instanceof IAssignmentRelationship) {

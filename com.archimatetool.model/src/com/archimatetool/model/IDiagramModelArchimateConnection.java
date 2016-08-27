@@ -22,7 +22,7 @@ package com.archimatetool.model;
  * @model extendedMetaData="name='Connection'"
  * @generated
  */
-public interface IDiagramModelArchimateConnection extends IDiagramModelConnection {
+public interface IDiagramModelArchimateConnection extends IDiagramModelConnection, IDiagramModelArchimateComponent {
     /**
      * Returns the value of the '<em><b>Relationship</b></em>' reference.
      * <!-- begin-user-doc -->
@@ -50,19 +50,8 @@ public interface IDiagramModelArchimateConnection extends IDiagramModelConnectio
     void setRelationship(IRelationship value);
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
+     * Over-ride to return correct type
      */
-    void addRelationshipToModel(IFolder parent);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void removeRelationshipFromModel();
+    IRelationship getArchimateComponent();
 
 } // IDiagramModelArchimateConnection

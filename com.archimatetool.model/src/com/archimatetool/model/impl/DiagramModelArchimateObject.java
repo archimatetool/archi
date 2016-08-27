@@ -17,8 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
@@ -193,7 +195,28 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void addArchimateElementToModel(IFolder parent) {
+    public IArchimateElement getArchimateComponent() {
+        return getArchimateElement();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void setArchimateComponent(IArchimateComponent component) {
+        if(!(component instanceof IArchimateElement)) {
+            throw new IllegalArgumentException("Should be of type IArchimateElement"); //$NON-NLS-1$
+        }
+        setArchimateElement((IArchimateElement)component);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void addArchimateComponentToModel(IFolder parent) {
         IArchimateElement element = getArchimateElement();
 
         if(element != null && element.eContainer() != null) {
@@ -213,7 +236,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void removeArchimateElementFromModel() {
+    public void removeArchimateComponentFromModel() {
         IArchimateElement element = getArchimateElement();
         if(element != null) {
             IFolder folder = (IFolder)element.eContainer();
@@ -343,6 +366,11 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
                 default: return -1;
             }
         }
+        if (baseClass == IDiagramModelArchimateComponent.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -356,6 +384,11 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
         if (baseClass == IDiagramModelContainer.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.DIAGRAM_MODEL_CONTAINER__CHILDREN: return IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT__CHILDREN;
+                default: return -1;
+            }
+        }
+        if (baseClass == IDiagramModelArchimateComponent.class) {
+            switch (baseFeatureID) {
                 default: return -1;
             }
         }

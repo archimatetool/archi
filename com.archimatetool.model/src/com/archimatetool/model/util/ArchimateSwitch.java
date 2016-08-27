@@ -43,12 +43,14 @@ import com.archimatetool.model.IBusinessService;
 import com.archimatetool.model.ICloneable;
 import com.archimatetool.model.ICommunicationPath;
 import com.archimatetool.model.ICompositionRelationship;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IConstraint;
 import com.archimatetool.model.IContract;
 import com.archimatetool.model.IDataObject;
 import com.archimatetool.model.IDeliverable;
 import com.archimatetool.model.IDevice;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelBendpoint;
@@ -1360,6 +1362,17 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.CONNECTABLE: {
+                IConnectable connectable = (IConnectable)theEObject;
+                T result = caseConnectable(connectable);
+                if (result == null) result = caseDiagramModelComponent(connectable);
+                if (result == null) result = caseIdentifier(connectable);
+                if (result == null) result = caseCloneable(connectable);
+                if (result == null) result = caseAdapter(connectable);
+                if (result == null) result = caseNameable(connectable);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.DIAGRAM_MODEL_CONTAINER: {
                 IDiagramModelContainer diagramModelContainer = (IDiagramModelContainer)theEObject;
                 T result = caseDiagramModelContainer(diagramModelContainer);
@@ -1390,10 +1403,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IDiagramModelReference diagramModelReference = (IDiagramModelReference)theEObject;
                 T result = caseDiagramModelReference(diagramModelReference);
                 if (result == null) result = caseDiagramModelObject(diagramModelReference);
-                if (result == null) result = caseDiagramModelComponent(diagramModelReference);
+                if (result == null) result = caseConnectable(diagramModelReference);
                 if (result == null) result = caseFontAttribute(diagramModelReference);
                 if (result == null) result = caseLineObject(diagramModelReference);
                 if (result == null) result = caseTextAlignment(diagramModelReference);
+                if (result == null) result = caseDiagramModelComponent(diagramModelReference);
                 if (result == null) result = caseIdentifier(diagramModelReference);
                 if (result == null) result = caseCloneable(diagramModelReference);
                 if (result == null) result = caseAdapter(diagramModelReference);
@@ -1404,10 +1418,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT: {
                 IDiagramModelObject diagramModelObject = (IDiagramModelObject)theEObject;
                 T result = caseDiagramModelObject(diagramModelObject);
-                if (result == null) result = caseDiagramModelComponent(diagramModelObject);
+                if (result == null) result = caseConnectable(diagramModelObject);
                 if (result == null) result = caseFontAttribute(diagramModelObject);
                 if (result == null) result = caseLineObject(diagramModelObject);
                 if (result == null) result = caseTextAlignment(diagramModelObject);
+                if (result == null) result = caseDiagramModelComponent(diagramModelObject);
                 if (result == null) result = caseIdentifier(diagramModelObject);
                 if (result == null) result = caseCloneable(diagramModelObject);
                 if (result == null) result = caseAdapter(diagramModelObject);
@@ -1422,10 +1437,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelContainer(diagramModelGroup);
                 if (result == null) result = caseDocumentable(diagramModelGroup);
                 if (result == null) result = caseProperties(diagramModelGroup);
-                if (result == null) result = caseDiagramModelComponent(diagramModelGroup);
+                if (result == null) result = caseConnectable(diagramModelGroup);
                 if (result == null) result = caseFontAttribute(diagramModelGroup);
                 if (result == null) result = caseLineObject(diagramModelGroup);
                 if (result == null) result = caseTextAlignment(diagramModelGroup);
+                if (result == null) result = caseDiagramModelComponent(diagramModelGroup);
                 if (result == null) result = caseIdentifier(diagramModelGroup);
                 if (result == null) result = caseCloneable(diagramModelGroup);
                 if (result == null) result = caseAdapter(diagramModelGroup);
@@ -1438,10 +1454,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseDiagramModelNote(diagramModelNote);
                 if (result == null) result = caseDiagramModelObject(diagramModelNote);
                 if (result == null) result = caseTextContent(diagramModelNote);
-                if (result == null) result = caseDiagramModelComponent(diagramModelNote);
+                if (result == null) result = caseConnectable(diagramModelNote);
                 if (result == null) result = caseFontAttribute(diagramModelNote);
                 if (result == null) result = caseLineObject(diagramModelNote);
                 if (result == null) result = caseTextAlignment(diagramModelNote);
+                if (result == null) result = caseDiagramModelComponent(diagramModelNote);
                 if (result == null) result = caseIdentifier(diagramModelNote);
                 if (result == null) result = caseCloneable(diagramModelNote);
                 if (result == null) result = caseAdapter(diagramModelNote);
@@ -1455,10 +1472,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(diagramModelImage);
                 if (result == null) result = caseBorderObject(diagramModelImage);
                 if (result == null) result = caseDiagramModelImageProvider(diagramModelImage);
-                if (result == null) result = caseDiagramModelComponent(diagramModelImage);
+                if (result == null) result = caseConnectable(diagramModelImage);
                 if (result == null) result = caseFontAttribute(diagramModelImage);
                 if (result == null) result = caseLineObject(diagramModelImage);
                 if (result == null) result = caseTextAlignment(diagramModelImage);
+                if (result == null) result = caseDiagramModelComponent(diagramModelImage);
                 if (result == null) result = caseIdentifier(diagramModelImage);
                 if (result == null) result = caseCloneable(diagramModelImage);
                 if (result == null) result = caseAdapter(diagramModelImage);
@@ -1469,11 +1487,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION: {
                 IDiagramModelConnection diagramModelConnection = (IDiagramModelConnection)theEObject;
                 T result = caseDiagramModelConnection(diagramModelConnection);
-                if (result == null) result = caseDiagramModelComponent(diagramModelConnection);
+                if (result == null) result = caseConnectable(diagramModelConnection);
                 if (result == null) result = caseFontAttribute(diagramModelConnection);
                 if (result == null) result = caseProperties(diagramModelConnection);
                 if (result == null) result = caseDocumentable(diagramModelConnection);
                 if (result == null) result = caseLineObject(diagramModelConnection);
+                if (result == null) result = caseDiagramModelComponent(diagramModelConnection);
                 if (result == null) result = caseIdentifier(diagramModelConnection);
                 if (result == null) result = caseCloneable(diagramModelConnection);
                 if (result == null) result = caseAdapter(diagramModelConnection);
@@ -1552,15 +1571,29 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_COMPONENT: {
+                IDiagramModelArchimateComponent diagramModelArchimateComponent = (IDiagramModelArchimateComponent)theEObject;
+                T result = caseDiagramModelArchimateComponent(diagramModelArchimateComponent);
+                if (result == null) result = caseConnectable(diagramModelArchimateComponent);
+                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateComponent);
+                if (result == null) result = caseIdentifier(diagramModelArchimateComponent);
+                if (result == null) result = caseCloneable(diagramModelArchimateComponent);
+                if (result == null) result = caseAdapter(diagramModelArchimateComponent);
+                if (result == null) result = caseNameable(diagramModelArchimateComponent);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_OBJECT: {
                 IDiagramModelArchimateObject diagramModelArchimateObject = (IDiagramModelArchimateObject)theEObject;
                 T result = caseDiagramModelArchimateObject(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelObject(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelContainer(diagramModelArchimateObject);
-                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelArchimateComponent(diagramModelArchimateObject);
+                if (result == null) result = caseConnectable(diagramModelArchimateObject);
                 if (result == null) result = caseFontAttribute(diagramModelArchimateObject);
                 if (result == null) result = caseLineObject(diagramModelArchimateObject);
                 if (result == null) result = caseTextAlignment(diagramModelArchimateObject);
+                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateObject);
                 if (result == null) result = caseIdentifier(diagramModelArchimateObject);
                 if (result == null) result = caseCloneable(diagramModelArchimateObject);
                 if (result == null) result = caseAdapter(diagramModelArchimateObject);
@@ -1572,11 +1605,13 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IDiagramModelArchimateConnection diagramModelArchimateConnection = (IDiagramModelArchimateConnection)theEObject;
                 T result = caseDiagramModelArchimateConnection(diagramModelArchimateConnection);
                 if (result == null) result = caseDiagramModelConnection(diagramModelArchimateConnection);
-                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateConnection);
+                if (result == null) result = caseDiagramModelArchimateComponent(diagramModelArchimateConnection);
+                if (result == null) result = caseConnectable(diagramModelArchimateConnection);
                 if (result == null) result = caseFontAttribute(diagramModelArchimateConnection);
                 if (result == null) result = caseProperties(diagramModelArchimateConnection);
                 if (result == null) result = caseDocumentable(diagramModelArchimateConnection);
                 if (result == null) result = caseLineObject(diagramModelArchimateConnection);
+                if (result == null) result = caseDiagramModelComponent(diagramModelArchimateConnection);
                 if (result == null) result = caseIdentifier(diagramModelArchimateConnection);
                 if (result == null) result = caseCloneable(diagramModelArchimateConnection);
                 if (result == null) result = caseAdapter(diagramModelArchimateConnection);
@@ -1607,10 +1642,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelContainer(sketchModelSticky);
                 if (result == null) result = caseTextContent(sketchModelSticky);
                 if (result == null) result = caseProperties(sketchModelSticky);
-                if (result == null) result = caseDiagramModelComponent(sketchModelSticky);
+                if (result == null) result = caseConnectable(sketchModelSticky);
                 if (result == null) result = caseFontAttribute(sketchModelSticky);
                 if (result == null) result = caseLineObject(sketchModelSticky);
                 if (result == null) result = caseTextAlignment(sketchModelSticky);
+                if (result == null) result = caseDiagramModelComponent(sketchModelSticky);
                 if (result == null) result = caseIdentifier(sketchModelSticky);
                 if (result == null) result = caseCloneable(sketchModelSticky);
                 if (result == null) result = caseAdapter(sketchModelSticky);
@@ -1624,10 +1660,11 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(sketchModelActor);
                 if (result == null) result = caseDocumentable(sketchModelActor);
                 if (result == null) result = caseProperties(sketchModelActor);
-                if (result == null) result = caseDiagramModelComponent(sketchModelActor);
+                if (result == null) result = caseConnectable(sketchModelActor);
                 if (result == null) result = caseFontAttribute(sketchModelActor);
                 if (result == null) result = caseLineObject(sketchModelActor);
                 if (result == null) result = caseTextAlignment(sketchModelActor);
+                if (result == null) result = caseDiagramModelComponent(sketchModelActor);
                 if (result == null) result = caseIdentifier(sketchModelActor);
                 if (result == null) result = caseCloneable(sketchModelActor);
                 if (result == null) result = caseAdapter(sketchModelActor);
@@ -2285,6 +2322,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Diagram Model Archimate Component</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Diagram Model Archimate Component</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDiagramModelArchimateComponent(IDiagramModelArchimateComponent object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Diagram Model Reference</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2311,6 +2363,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDiagramModelComponent(IDiagramModelComponent object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Connectable</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Connectable</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseConnectable(IConnectable object) {
         return null;
     }
 

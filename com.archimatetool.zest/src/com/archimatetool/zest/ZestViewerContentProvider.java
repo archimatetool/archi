@@ -67,6 +67,8 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
     }
+    
+    // TODO: A3 get relations->relations
 
     @Override
     public Object[] getElements(Object inputElement) {
@@ -84,10 +86,11 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
             }
 
             // Element - Get its relationships
-            List<IRelationship> mainList = new ArrayList<IRelationship>();
-            getRelations(mainList, new ArrayList<IArchimateElement>(), (IArchimateElement)archimateComponent, 0);
-            
-            return mainList.toArray();
+            if(archimateComponent instanceof IArchimateElement) {
+                List<IRelationship> mainList = new ArrayList<IRelationship>();
+                getRelations(mainList, new ArrayList<IArchimateElement>(), (IArchimateElement)archimateComponent, 0);
+                return mainList.toArray();
+            }
         }
         
         return new Object[0];
@@ -108,13 +111,11 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         }
         count++;
         
-        List<IRelationship> list = ArchimateModelUtils.getRelationships(element);
+        List<IRelationship> list = ArchimateModelUtils.getAllRelationshipsForComponent(element);
         
         for(IRelationship relationship : list) {
         	if(fViewpoint.isAllowedType(relationship.eClass())) {
-	            //IArchimateElement source = relationship.getSource();
-	            //IArchimateElement target = relationship.getTarget();
-	            IArchimateElement other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
+	            IArchimateComponent other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
 	            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
 	            
 	            if(!mainList.contains(relationship) && fViewpoint.isAllowedType(other.eClass())) {
@@ -123,9 +124,9 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 	            	}
 	            }
 	            
-	            if(fViewpoint.isAllowedType(other.eClass())) {
+	            if(fViewpoint.isAllowedType(other.eClass()) && other instanceof IArchimateElement) {
 	            	if(direction == fDirection || fDirection == DIR_BOTH) {
-	            		getRelations(mainList, checkList, other, count);
+	            		getRelations(mainList, checkList, (IArchimateElement)other, count);
 	            	}
 	            }
 	            /*

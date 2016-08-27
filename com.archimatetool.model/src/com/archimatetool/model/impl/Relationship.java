@@ -5,13 +5,14 @@
  */
 package com.archimatetool.model.impl;
 
+import com.archimatetool.model.IArchimateComponent;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IRelationship;
@@ -40,7 +41,7 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
      * @generated
      * @ordered
      */
-    protected IArchimateElement source;
+    protected IArchimateComponent source;
 
     /**
      * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -50,7 +51,7 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
      * @generated
      * @ordered
      */
-    protected IArchimateElement target;
+    protected IArchimateComponent target;
 
     /**
      * Stored references to Diagram Connections
@@ -81,18 +82,26 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
      * <!-- end-user-doc -->
      * @generated
      */
-    public IArchimateElement getSource() {
+    public IArchimateComponent getSource() {
         return source;
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
-    public void setSource(IArchimateElement newSource) {
-        IArchimateElement oldSource = source;
+    public void setSource(IArchimateComponent newSource) {
+        IArchimateComponent oldSource = source;
         source = newSource;
+        
+        if(oldSource != null) {
+            oldSource.getSourceRelationships().remove(this);
+        }
+        if(newSource != null) {
+            newSource.getSourceRelationships().add(this);
+        }
+        
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.RELATIONSHIP__SOURCE, oldSource, source));
     }
@@ -102,20 +111,77 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
      * <!-- end-user-doc -->
      * @generated
      */
-    public IArchimateElement getTarget() {
+    public IArchimateComponent getTarget() {
         return target;
     }
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated NOT
      */
-    public void setTarget(IArchimateElement newTarget) {
-        IArchimateElement oldTarget = target;
+    public void setTarget(IArchimateComponent newTarget) {
+        IArchimateComponent oldTarget = target;
         target = newTarget;
+        
+        if(oldTarget != null) {
+            oldTarget.getTargetRelationships().remove(this);
+        }
+        if(newTarget != null) {
+            newTarget.getTargetRelationships().add(this);
+        }
+        
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.RELATIONSHIP__TARGET, oldTarget, target));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void connect(IArchimateComponent source, IArchimateComponent target) {
+        setSource(source);
+        setTarget(target);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void reconnect() {
+        if(source != null) {
+            source.getSourceRelationships().add(this);
+        }
+        if(target != null) {
+            target.getTargetRelationships().add(this);
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void disconnect() {
+        if(source != null) {
+            source.getSourceRelationships().remove(this);
+        }
+        if(target != null) {
+            target.getTargetRelationships().remove(this);
+        }
+    }
+    
+    @Override
+    public EObject getCopy() {
+        IRelationship copy = (IRelationship)super.getCopy();
+        
+        // Clear source and target. This will also clear connected components' references to this
+        copy.setSource(null);
+        copy.setTarget(null);
+        
+        return copy;
     }
 
     /* (non-Javadoc)
@@ -154,10 +220,10 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case IArchimatePackage.RELATIONSHIP__SOURCE:
-                setSource((IArchimateElement)newValue);
+                setSource((IArchimateComponent)newValue);
                 return;
             case IArchimatePackage.RELATIONSHIP__TARGET:
-                setTarget((IArchimateElement)newValue);
+                setTarget((IArchimateComponent)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -172,10 +238,10 @@ public abstract class Relationship extends ArchimateComponent implements IRelati
     public void eUnset(int featureID) {
         switch (featureID) {
             case IArchimatePackage.RELATIONSHIP__SOURCE:
-                setSource((IArchimateElement)null);
+                setSource((IArchimateComponent)null);
                 return;
             case IArchimatePackage.RELATIONSHIP__TARGET:
-                setTarget((IArchimateElement)null);
+                setTarget((IArchimateComponent)null);
                 return;
         }
         super.eUnset(featureID);

@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IIdentifier;
@@ -58,14 +58,14 @@ public class FieldDataFactory {
         
         if("relation_source".equals(fieldName) && dataElement instanceof IRelationship) { //$NON-NLS-1$
             IRelationship relation = (IRelationship)dataElement;
-            IArchimateElement source = relation.getSource();
+            IArchimateComponent source = relation.getSource();
             String s = source.getName();
             return StringUtils.isSet(s) ? s : null;
         }
         
         if("relation_target".equals(fieldName) && dataElement instanceof IRelationship) { //$NON-NLS-1$
             IRelationship relation = (IRelationship)dataElement;
-            IArchimateElement target = relation.getTarget();
+            IArchimateComponent target = relation.getTarget();
             String s = target.getName();
             return StringUtils.isSet(s) ? s : null;
         }

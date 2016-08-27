@@ -19,8 +19,9 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.editor.model.commands.DeleteArchimateElementCommand;
+import com.archimatetool.editor.model.commands.DeleteArchimateRelationshipCommand;
 import com.archimatetool.editor.model.commands.DeleteDiagramModelCommand;
-import com.archimatetool.editor.model.commands.DeleteElementCommand;
 import com.archimatetool.editor.model.commands.DeleteFolderCommand;
 import com.archimatetool.editor.views.tree.TreeModelViewer;
 import com.archimatetool.model.FolderType;
@@ -214,8 +215,12 @@ public class DeleteCommandHandler {
                 Command cmd = new DeleteFolderCommand((IFolder)object);
                 compoundCommand.add(cmd);
             }
-            else if(object instanceof IArchimateComponent) {
-                Command cmd = new DeleteElementCommand((IArchimateComponent)object);
+            else if(object instanceof IArchimateElement) {
+                Command cmd = new DeleteArchimateElementCommand((IArchimateElement)object);
+                compoundCommand.add(cmd);
+            }
+            else if(object instanceof IRelationship) {
+                Command cmd = new DeleteArchimateRelationshipCommand((IRelationship)object);
                 compoundCommand.add(cmd);
             }
             else if(object instanceof IDiagramModelObject) {
@@ -315,11 +320,14 @@ public class DeleteCommandHandler {
                 addElementRelationships(f);
             }
         }
-        // Element
-        else if(object instanceof IArchimateElement) {
-            for(IRelationship relationship : ArchimateModelUtils.getRelationships((IArchimateElement)object)) {
+        // Element/Relation
+        else if(object instanceof IArchimateComponent) {
+            for(IRelationship relationship : ArchimateModelUtils.getAllRelationshipsForComponent((IArchimateComponent)object)) {
                 addToList(relationship, fElementsToDelete);
                 addToList(relationship, fElementsToCheck);
+                
+                // Recurse
+                addElementRelationships(relationship);
             }
         }
     }

@@ -9,13 +9,15 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 
+import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
+
 
 /**
  * Description
  * 
  * @author Phillip Beauvoir
  */
-public interface IDiagramConnectionFigure extends Connection {
+public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFigure {
 
     /**
      * Refresh the visuals for the model

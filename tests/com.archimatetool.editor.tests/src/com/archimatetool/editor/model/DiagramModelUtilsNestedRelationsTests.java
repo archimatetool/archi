@@ -173,16 +173,16 @@ public class DiagramModelUtilsNestedRelationsTests {
     }
     
     @Test
-    public void testIsNestedConnectionTypeElement() {
+    public void testIsNestedConnectionTypeComponent() {
         // All these types are OK
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            assertTrue(DiagramModelUtils.isNestedConnectionTypeElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass)));
+            assertTrue(DiagramModelUtils.isNestedConnectionTypeComponent((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass)));
         }
         
         // Except for Junctions
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeElement(IArchimateFactory.eINSTANCE.createJunction()));
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeElement(IArchimateFactory.eINSTANCE.createOrJunction()));
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeElement(IArchimateFactory.eINSTANCE.createAndJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createOrJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createAndJunction()));
     }
     
     @Test

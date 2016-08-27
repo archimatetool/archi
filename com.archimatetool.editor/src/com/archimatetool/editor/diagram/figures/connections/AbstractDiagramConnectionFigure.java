@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
@@ -46,6 +47,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
 
     protected Color fFontColor;
     protected Color fLineColor;
+    
+    protected boolean SHOW_TARGET_FEEDBACK = false;
     
 	public AbstractDiagramConnectionFigure(IDiagramModelConnection connection) {
 	    fDiagramModelConnection = connection;
@@ -197,4 +200,36 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         }
         return Preferences.doShowViewTooltips() ? super.getToolTip() : null;
     }
+    
+    @Override
+    public void showTargetFeedback() {
+        if(!SHOW_TARGET_FEEDBACK) {
+            SHOW_TARGET_FEEDBACK = true;
+            repaint();
+        }
+    }
+    
+    @Override
+    public void eraseTargetFeedback() {
+        if(SHOW_TARGET_FEEDBACK) {
+            SHOW_TARGET_FEEDBACK = false;
+            repaint();
+        }
+    }
+    
+    @Override
+    public void paintFigure(Graphics graphics) {
+        if(SHOW_TARGET_FEEDBACK) {
+            setForegroundColor(ColorFactory.get(0, 0, 255));
+            setLineWidth(getModelConnection().getLineWidth() + 1);
+        }
+        else {
+            setLineWidth();
+            setForegroundColor(fLineColor);
+        }
+
+        super.paintFigure(graphics);
+    }
+    
+    
 }

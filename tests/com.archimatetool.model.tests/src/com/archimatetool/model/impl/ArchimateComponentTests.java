@@ -63,6 +63,8 @@ public abstract class ArchimateComponentTests {
         assertEquals(component.getDocumentation(), copy.getDocumentation());
         assertNotSame(component.getProperties(), copy.getProperties());
         assertEquals(component.getProperties().size(), copy.getProperties().size());
+        assertNotSame(component.getSourceRelationships(), copy.getSourceRelationships());
+        assertNotSame(component.getTargetRelationships(), copy.getTargetRelationships());
     }
 
     @Test
@@ -87,5 +89,18 @@ public abstract class ArchimateComponentTests {
     public void testGetProperties() {
         CommonTests.testProperties(component);
     }
- 
+    
+    @Test
+    public void testGetSourceRelationships() {
+        assertEquals(0, component.getSourceRelationships().size());
+        component.getSourceRelationships().add(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        assertEquals(1, component.getSourceRelationships().size());
+    }
+    
+    @Test
+    public void testGetTargetRelationships() {
+        assertEquals(0, component.getTargetRelationships().size());
+        component.getTargetRelationships().add(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        assertEquals(1, component.getTargetRelationships().size());
+    }
 }

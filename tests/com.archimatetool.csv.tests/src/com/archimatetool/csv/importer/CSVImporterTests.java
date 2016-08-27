@@ -209,10 +209,10 @@ public class CSVImporterTests {
         assertEquals("cdbfc933", relation.getId());
         assertEquals("Assignment relation", relation.getName());
         assertEquals("Assignment documentation\r\nIs here \"hello\"", relation.getDocumentation());
-        IArchimateElement source = relation.getSource();
+        IArchimateComponent source = relation.getSource();
         assertNotNull(source);
         assertEquals("f00aa5b4", source.getId());
-        IArchimateElement target = relation.getTarget();
+        IArchimateComponent target = relation.getTarget();
         assertNotNull(target);
         assertEquals("f6a18059", target.getId());
         

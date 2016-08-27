@@ -56,10 +56,10 @@ implements NodeEditPart {
             case Notification.REMOVE:
             case Notification.REMOVE_MANY:
             case Notification.MOVE:
-                if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS) {
+                if(feature == IArchimatePackage.Literals.CONNECTABLE__SOURCE_CONNECTIONS) {
                     refreshSourceConnections();
                 }
-                else if(feature == IArchimatePackage.Literals.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS) {
+                else if(feature == IArchimatePackage.Literals.CONNECTABLE__TARGET_CONNECTIONS) {
                     refreshTargetConnections();
                 }
                 else {

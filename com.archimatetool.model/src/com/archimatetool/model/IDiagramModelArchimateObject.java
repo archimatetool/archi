@@ -23,7 +23,7 @@ package com.archimatetool.model;
  * @model extendedMetaData="name='DiagramObject'"
  * @generated
  */
-public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer {
+public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiagramModelContainer, IDiagramModelArchimateComponent {
     /**
      * Returns the value of the '<em><b>Archimate Element</b></em>' reference.
      * <!-- begin-user-doc -->
@@ -78,19 +78,8 @@ public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiag
     void setType(int value);
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
+     * Over-ride to return correct type
      */
-    void addArchimateElementToModel(IFolder parent);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void removeArchimateElementFromModel();
-
+    IArchimateElement getArchimateComponent();
+    
 } // IDiagramModelArchimateObject

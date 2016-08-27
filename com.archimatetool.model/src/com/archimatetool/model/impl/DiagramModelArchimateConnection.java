@@ -10,11 +10,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IConnectable;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.Logger;
@@ -76,27 +76,33 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     }
     
     @Override
-    public void connect(IDiagramModelObject source, IDiagramModelObject target) {
-        if(!(source instanceof IDiagramModelArchimateObject) && !(target instanceof IDiagramModelArchimateObject)) {
-            throw new IllegalArgumentException("Should be Archimate objects for source and target!"); //$NON-NLS-1$
+    public void connect(IConnectable source, IConnectable target) {
+        // Source and Target has to be IDiagramModelArchimateObject or IDiagramModelArchimateConnection
+        if((source instanceof IDiagramModelArchimateComponent) && (target instanceof IDiagramModelArchimateComponent)) {
+            super.connect(source, target);
         }
-        super.connect(source, target);
+        else {
+            throw new IllegalArgumentException("Should be Archimate objects/connections for source and target!"); //$NON-NLS-1$
+        }
     }
+    
 
     @Override
     public void reconnect() {
-        if(source != null && target != null) {
-            super.reconnect();
-
-            // Set the source/target in the Archimate model if need be
+        super.reconnect();
+        
+        // Set the source/target in the Archimate model if need be
+        if(source instanceof IDiagramModelArchimateComponent && target instanceof IDiagramModelArchimateComponent) {
+            IArchimateComponent srcComponent = ((IDiagramModelArchimateComponent)source).getArchimateComponent();
+            IArchimateComponent tgtComponent = ((IDiagramModelArchimateComponent)target).getArchimateComponent();
+            
             IRelationship relationship = getRelationship();
-            IArchimateElement src = ((IDiagramModelArchimateObject)source).getArchimateElement();
-            IArchimateElement tgt = ((IDiagramModelArchimateObject)target).getArchimateElement();
-            if(relationship.getSource() != src) { //optimised
-                relationship.setSource(src); 
+            
+            if(relationship.getSource() != srcComponent) { //optimised
+                relationship.setSource(srcComponent); 
             }
-            if(relationship.getTarget() != tgt) { //optimised
-                relationship.setTarget(tgt);
+            if(relationship.getTarget() != tgtComponent) { //optimised
+                relationship.setTarget(tgtComponent);
             }
         }
     }
@@ -132,7 +138,28 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void addRelationshipToModel(IFolder parent) {
+    public IRelationship getArchimateComponent() {
+        return getRelationship();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void setArchimateComponent(IArchimateComponent component) {
+        if(!(component instanceof IRelationship)) {
+            throw new IllegalArgumentException("Should be of type IRelationship"); //$NON-NLS-1$
+        }
+        setRelationship((IRelationship)component);
+    }
+    
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void addArchimateComponentToModel(IFolder parent) {
         IRelationship relationship = getRelationship();
 
         if(relationship != null && relationship.eContainer() != null) {
@@ -144,7 +171,10 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
             parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(relationship);
         }
         
-        parent.getElements().add(relationship);
+        if(relationship != null) {
+            parent.getElements().add(relationship);
+            relationship.reconnect();
+        }
     }
 
     /**
@@ -152,12 +182,13 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void removeRelationshipFromModel() {
+    public void removeArchimateComponentFromModel() {
         IRelationship relationship = getRelationship();
         if(relationship != null) {
             IFolder folder = (IFolder)relationship.eContainer();
             if(folder != null) {
                 folder.getElements().remove(relationship);
+                relationship.disconnect();
             }
         }
     }

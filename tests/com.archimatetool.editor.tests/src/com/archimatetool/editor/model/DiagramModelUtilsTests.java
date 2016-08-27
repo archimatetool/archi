@@ -24,9 +24,9 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
@@ -170,7 +170,7 @@ public class DiagramModelUtilsTests {
         IDiagramModel diagramModel = tm.addNewArchimateDiagramModel();
         
         // Should not be found
-        List<IDiagramModelComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, element);
+        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, element);
         assertTrue(list.isEmpty());
         
         // Add the element to various IDiagramModelArchimateObject objects
@@ -191,7 +191,7 @@ public class DiagramModelUtilsTests {
         IDiagramModel diagramModel = tm.addNewArchimateDiagramModel();
         
         // Should not be found
-        List<IDiagramModelComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship);
+        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship);
         assertTrue(list.isEmpty());
         
         // Create various IDiagramModelArchimateObject objects
@@ -356,6 +356,15 @@ public class DiagramModelUtilsTests {
         result = DiagramModelUtils.hasDiagramModelArchimateConnection(dmo1, dmo4, relationship);
         assertFalse(result);
     }
+    
+    // =================================================================================================
+
+    @Test
+    public void isNestedConnectionTypeComponent() {
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createOrJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createAndJunction()));
+    }    
     
     // =================================================================================================
 

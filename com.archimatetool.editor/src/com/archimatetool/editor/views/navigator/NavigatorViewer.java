@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -97,10 +96,10 @@ public class NavigatorViewer extends TreeViewer {
             else if(parent instanceof IArchimateElement) {
                 IArchimateElement element = (IArchimateElement)parent;
                 if(fShowTargetElements) {
-                    return ArchimateModelUtils.getSourceRelationships(element).toArray();
+                    return element.getSourceRelationships().toArray();
                 }
                 else {
-                    return ArchimateModelUtils.getTargetRelationships(element).toArray();
+                    return element.getTargetRelationships().toArray();
                 }
             }
             

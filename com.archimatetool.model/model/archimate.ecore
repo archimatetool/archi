@@ -194,9 +194,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="Plateau" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gap" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Relationship" abstract="true" eSuperTypes="#//ArchimateComponent">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateElement"
+    <eOperations name="connect">
+      <eParameters name="source" eType="#//ArchimateComponent"/>
+      <eParameters name="target" eType="#//ArchimateComponent"/>
+    </eOperations>
+    <eOperations name="reconnect"/>
+    <eOperations name="disconnect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateComponent"
         resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateElement"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateComponent"
         resolveProxies="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//Relationship">
@@ -216,6 +222,23 @@
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
       eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
     <eOperations name="getDiagramModel" eType="#//DiagramModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connectable" abstract="true" eSuperTypes="#//DiagramModelComponent">
+    <eOperations name="addConnection">
+      <eParameters name="connection" eType="#//DiagramModelConnection"/>
+    </eOperations>
+    <eOperations name="removeConnection">
+      <eParameters name="connection" eType="#//DiagramModelConnection"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceConnections" upperBound="-1"
+        eType="#//DiagramModelConnection" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="sourceConnection"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetConnections" upperBound="-1"
+        eType="#//DiagramModelConnection" resolveProxies="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelContainer" abstract="true"
       interface="true" eSuperTypes="#//DiagramModelComponent">
@@ -240,13 +263,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelObject" abstract="true"
-      eSuperTypes="#//DiagramModelComponent #//FontAttribute #//LineObject #//TextAlignment">
-    <eOperations name="addConnection">
-      <eParameters name="connection" eType="#//DiagramModelConnection"/>
-    </eOperations>
-    <eOperations name="removeConnection">
-      <eParameters name="connection" eType="#//DiagramModelConnection"/>
-    </eOperations>
+      eSuperTypes="#//Connectable #//FontAttribute #//LineObject #//TextAlignment">
     <eOperations name="setBounds">
       <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -255,15 +272,6 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" eType="#//Bounds"
         containment="true" resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceConnections" upperBound="-1"
-        eType="#//DiagramModelConnection" containment="true" resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="name" value="sourceConnection"/>
-        <details key="kind" value="element"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetConnections" upperBound="-1"
-        eType="#//DiagramModelConnection" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelGroup" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//Documentable #//Properties">
@@ -278,19 +286,19 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="borderType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelImage" eSuperTypes="#//DiagramModelObject #//BorderObject #//DiagramModelImageProvider"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//DiagramModelComponent #//FontAttribute #//Properties #//Documentable #//LineObject">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelConnection" eSuperTypes="#//Connectable #//FontAttribute #//Properties #//Documentable #//LineObject">
     <eOperations name="connect">
-      <eParameters name="source" eType="#//DiagramModelObject"/>
-      <eParameters name="target" eType="#//DiagramModelObject"/>
+      <eParameters name="source" eType="#//Connectable"/>
+      <eParameters name="target" eType="#//Connectable"/>
     </eOperations>
     <eOperations name="disconnect"/>
     <eOperations name="reconnect"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         transient="true" defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//DiagramModelObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Connectable"
         resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//DiagramModelObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Connectable"
         resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bendpoints" upperBound="-1"
         eType="#//DiagramModelBendpoint" containment="true" resolveProxies="false">
@@ -345,27 +353,30 @@
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateDiagramModel" eSuperTypes="#//DiagramModel">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="viewpoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateObject" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateComponent" abstract="true"
+      interface="true" eSuperTypes="#//Connectable">
+    <eOperations name="getArchimateComponent" eType="#//ArchimateComponent"/>
+    <eOperations name="setArchimateComponent">
+      <eParameters name="component" eType="#//ArchimateComponent"/>
+    </eOperations>
+    <eOperations name="addArchimateComponentToModel">
+      <eParameters name="parent" eType="#//Folder"/>
+    </eOperations>
+    <eOperations name="removeArchimateComponentFromModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateObject" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//DiagramModelArchimateComponent">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DiagramObject"/>
     </eAnnotations>
-    <eOperations name="addArchimateElementToModel">
-      <eParameters name="parent" eType="#//Folder"/>
-    </eOperations>
-    <eOperations name="removeArchimateElementFromModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="archimateElement" eType="#//ArchimateElement"
         volatile="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateConnection" eSuperTypes="#//DiagramModelConnection">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateConnection" eSuperTypes="#//DiagramModelConnection #//DiagramModelArchimateComponent">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Connection"/>
     </eAnnotations>
-    <eOperations name="addRelationshipToModel">
-      <eParameters name="parent" eType="#//Folder"/>
-    </eOperations>
-    <eOperations name="removeRelationshipFromModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="relationship" eType="#//Relationship"
         volatile="true" resolveProxies="false"/>
   </eClassifiers>

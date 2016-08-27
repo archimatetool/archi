@@ -26,8 +26,7 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
 import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 
 
 
@@ -139,14 +138,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             for(Object o : ((IStructuredSelection)selection).toArray()) {
                 if(o instanceof EditPart) {
                     Object model = ((EditPart)o).getModel();
-                    // Archimate element
-                    if(model instanceof IDiagramModelArchimateObject) {
-                        model = ((IDiagramModelArchimateObject)model).getArchimateElement();
-                        list.add(model);
-                    }
-                    // Archimate connection
-                    else if(model instanceof IDiagramModelArchimateConnection) {
-                        model = ((IDiagramModelArchimateConnection)model).getRelationship();
+                    // Archimate component
+                    if(model instanceof IDiagramModelArchimateComponent) {
+                        model = ((IDiagramModelArchimateComponent)model).getArchimateComponent();
                         list.add(model);
                     }
                     // Diagram model

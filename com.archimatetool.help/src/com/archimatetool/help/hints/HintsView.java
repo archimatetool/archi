@@ -59,8 +59,7 @@ import com.archimatetool.model.IArchimateComponent;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IBusinessLayerElement;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITechnologyLayerElement;
@@ -420,11 +419,8 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     private Color getTitleColor(Object object) {
         Class<?> clazz;
         
-        if(object instanceof IDiagramModelArchimateObject) {
-            object = ((IDiagramModelArchimateObject)object).getArchimateElement();
-        }
-        else if(object instanceof IDiagramModelArchimateConnection) {
-            object = ((IDiagramModelArchimateConnection)object).getRelationship();
+        if(object instanceof IDiagramModelArchimateComponent) {
+            object = ((IDiagramModelArchimateComponent)object).getArchimateComponent();
         }
         
         if(object instanceof Class<?>) {

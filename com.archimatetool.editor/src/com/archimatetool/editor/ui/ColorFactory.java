@@ -18,8 +18,7 @@ import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
@@ -206,11 +205,8 @@ public class ColorFactory {
         if(object instanceof EClass) {
             eClass = (EClass)object;
         }
-        else if(object instanceof IDiagramModelArchimateObject) {
-            eClass = ((IDiagramModelArchimateObject)object).getArchimateElement().eClass();
-        }
-        else if(object instanceof IDiagramModelArchimateConnection) {
-            eClass = ((IDiagramModelArchimateConnection)object).getRelationship().eClass();
+        else if(object instanceof IDiagramModelArchimateComponent) {
+            eClass = ((IDiagramModelArchimateComponent)object).getArchimateComponent().eClass();
         }
         else if(object instanceof EObject) {
             eClass = ((EObject)object).eClass();

@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
 
@@ -72,7 +73,7 @@ public class CopyAction extends SelectionAction {
 
     @Override
     public void run() {
-        List<IDiagramModelObject> modelObjectsSelected = new ArrayList<IDiagramModelObject>();
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
         
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
@@ -80,13 +81,13 @@ public class CopyAction extends SelectionAction {
                 if(model instanceof ILockable && ((ILockable)model).isLocked()) {
                     continue;
                 }
-                if(model instanceof IDiagramModelObject) {
-                    modelObjectsSelected.add((IDiagramModelObject)model);
+                if(model instanceof IDiagramModelComponent) {
+                    selected.add((IDiagramModelComponent)model);
                 }
             }
         }
         
-        CopySnapshot clipBoardCopy = new CopySnapshot(modelObjectsSelected);
+        CopySnapshot clipBoardCopy = new CopySnapshot(selected);
         Clipboard.getDefault().setContents(clipBoardCopy);
         
         // Reset Paste Action

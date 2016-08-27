@@ -5,6 +5,8 @@
  */
 package com.archimatetool.model;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -17,4 +19,15 @@ package com.archimatetool.model;
  * @generated
  */
 public interface IArchimateComponent extends IArchimateModelElement, IIdentifier, ICloneable, INameable, IDocumentable, IProperties {
+    
+    /**
+     * @return A list of source relationships connected to this component - this is a live list so don't change it!
+     */
+    EList<IRelationship> getSourceRelationships();
+
+    /**
+     * @return A list of target relationships connected to this component - this is a live list so don't change it!
+     */
+    EList<IRelationship> getTargetRelationships();
+
 } // IArchimateComponent

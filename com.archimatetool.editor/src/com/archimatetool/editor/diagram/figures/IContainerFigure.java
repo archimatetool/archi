@@ -15,7 +15,7 @@ import org.eclipse.draw2d.geometry.Translatable;
  * 
  * @author Phillip Beauvoir
  */
-public interface IContainerFigure extends IFigure {
+public interface IContainerFigure extends ITargetFeedbackFigure {
     
     /**
      * @return The Figure into which childrens' Figures will be added. 
@@ -27,14 +27,4 @@ public interface IContainerFigure extends IFigure {
      * @param t
      */
     void translateMousePointToRelative(Translatable t);
-
-    /**
-     * Show some feedback when hovering
-     */
-    void showTargetFeedback();
-
-    /**
-     * Erase some feedback when hovering
-     */
-    void eraseTargetFeedback();
 }

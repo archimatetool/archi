@@ -36,9 +36,10 @@ package com.archimatetool.model;
  * 3.0.0 - Default widths and heights are not saved as -1
  * 3.1.0 - Note has border types
  * 3.1.1 - Group figure removes 18 pixel offset
+ * 4.0.0 - Everything changed for ArchiMate 3.0
  * 
  * @author Phillip Beauvoir
  */
 public interface ModelVersion {
-    String VERSION = "3.1.1"; //$NON-NLS-1$
+    String VERSION = "4.0.0"; //$NON-NLS-1$
 }

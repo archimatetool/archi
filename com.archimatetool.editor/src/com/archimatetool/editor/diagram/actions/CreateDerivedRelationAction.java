@@ -477,13 +477,13 @@ public class CreateDerivedRelationAction extends SelectionAction {
                 folder = fConnection.getDiagramModel().getArchimateModel().addDerivedRelationsFolder();
                 fDerivedFolderWasCreated = true;
             }
-            fConnection.addRelationshipToModel(folder);
+            fConnection.addArchimateComponentToModel(folder);
         }
         
         @Override
         public void undo() {
             // Remove the model relationship from its model folder
-            fConnection.removeRelationshipFromModel();
+            fConnection.removeArchimateComponentFromModel();
             
             // If the Derived Relations folder was created, remove it
             if(fDerivedFolderWasCreated) {

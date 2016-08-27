@@ -16,8 +16,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.Logger;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 
 
 
@@ -70,11 +69,8 @@ public class ElementUIFactory {
         EClass eClass = null;
         
         // We need to unwrap these here as this is called from diagram model objects
-        if(eObject instanceof IDiagramModelArchimateObject) {
-            eClass = ((IDiagramModelArchimateObject)eObject).getArchimateElement().eClass();
-        }
-        else if(eObject instanceof IDiagramModelArchimateConnection) {
-            eClass = ((IDiagramModelArchimateConnection)eObject).getRelationship().eClass();
+        if(eObject instanceof IDiagramModelArchimateComponent) {
+            eClass = ((IDiagramModelArchimateComponent)eObject).getArchimateComponent().eClass();
         }
         else if(eObject != null) {
             eClass = eObject.eClass();

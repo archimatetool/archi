@@ -28,6 +28,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -69,8 +70,8 @@ public class CommandsTests {
         assertNotNull(dm);
 
         DeleteDiagramModelCommand cmd = new DeleteDiagramModelCommand(dm);
-        
         cmd.execute();
+        
         assertNull(dm.eContainer());
         assertFalse(model.getDiagramModels().contains(dm));
         
@@ -79,15 +80,15 @@ public class CommandsTests {
     }
 
     @Test
-    public void testDeleteElementCommand() {
+    public void testDeleteArchimateElementCommand() {
         IArchimateElement element = (IArchimateElement)tm.getObjectByID("1544");
         assertNotNull(element);
         
         IFolder parent = (IFolder)element.eContainer();
 
-        DeleteElementCommand cmd = new DeleteElementCommand(element);
-        
+        DeleteArchimateElementCommand cmd = new DeleteArchimateElementCommand(element);
         cmd.execute();
+        
         assertNull(element.eContainer());
         assertFalse(parent.getElements().contains(element));
         
@@ -96,6 +97,29 @@ public class CommandsTests {
     }
 
     @Test
+    public void testDeleteArchimateRelationshipCommand() {
+        IRelationship relationship = (IRelationship)tm.getObjectByID("670aa5ed");
+        assertNotNull(relationship);
+        
+        assertTrue(relationship.getSource().getSourceRelationships().contains(relationship));
+        assertTrue(relationship.getTarget().getTargetRelationships().contains(relationship));
+
+        IFolder parent = (IFolder)relationship.eContainer();
+        
+        DeleteArchimateRelationshipCommand cmd = new DeleteArchimateRelationshipCommand(relationship);
+        cmd.execute();
+        
+        assertNull(relationship.eContainer());
+        assertFalse(parent.getElements().contains(relationship));
+        
+        assertFalse(relationship.getSource().getSourceRelationships().contains(relationship));
+        assertFalse(relationship.getTarget().getTargetRelationships().contains(relationship));
+
+        cmd.undo();
+        assertEquals(11, parent.getElements().indexOf(relationship));
+    }
+    
+    @Test
     public void testDeleteFolderCommand() {
         IFolder folder = (IFolder)tm.getObjectByID("403e5717");
         assertNotNull(folder);
@@ -103,8 +127,8 @@ public class CommandsTests {
         IFolder parent = (IFolder)folder.eContainer();
 
         DeleteFolderCommand cmd = new DeleteFolderCommand(folder);
-        
         cmd.execute();
+        
         assertNull(folder.eContainer());
         assertFalse(parent.getFolders().contains(folder));
         

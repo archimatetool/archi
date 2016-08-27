@@ -18,9 +18,9 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelBendpoint;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILineObject;
@@ -52,7 +52,7 @@ import com.archimatetool.model.IProperty;
  *
  * @generated
  */
-public class DiagramModelConnection extends DiagramModelComponent implements IDiagramModelConnection {
+public class DiagramModelConnection extends Connectable implements IDiagramModelConnection {
     /**
      * The default value of the '{@link #getFont() <em>Font</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -211,7 +211,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @generated
      * @ordered
      */
-    protected IDiagramModelObject source;
+    protected IConnectable source;
 
     /**
      * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -221,7 +221,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * @generated
      * @ordered
      */
-    protected IDiagramModelObject target;
+    protected IConnectable target;
 
     /**
      * The cached value of the '{@link #getBendpoints() <em>Bendpoints</em>}' containment reference list.
@@ -375,7 +375,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
-    public IDiagramModelObject getSource() {
+    public IConnectable getSource() {
         return source;
     }
 
@@ -384,8 +384,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setSource(IDiagramModelObject newSource) {
-        IDiagramModelObject oldSource = source;
+    public void setSource(IConnectable newSource) {
+        IConnectable oldSource = source;
         source = newSource;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE, oldSource, source));
@@ -396,7 +396,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
-    public IDiagramModelObject getTarget() {
+    public IConnectable getTarget() {
         return target;
     }
 
@@ -405,8 +405,8 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setTarget(IDiagramModelObject newTarget) {
-        IDiagramModelObject oldTarget = target;
+    public void setTarget(IConnectable newTarget) {
+        IConnectable oldTarget = target;
         target = newTarget;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TARGET, oldTarget, target));
@@ -513,7 +513,7 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void connect(IDiagramModelObject source, IDiagramModelObject target) {
+    public void connect(IConnectable source, IConnectable target) {
         if(source == null || target == null) {
             throw new IllegalArgumentException("Source or Target cannot be null"); //$NON-NLS-1$
         }
@@ -524,8 +524,11 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
         }
         
         disconnect();
+        
+        // TODO: Why isn't this setSource() and setTarget()? Surely that would fire the correct eNotification?
         this.source = source;
-        this.target = target;        
+        this.target = target;  
+        
         reconnect();
     }
 
@@ -572,8 +575,13 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
     @Override
     public EObject getCopy() {
         IDiagramModelConnection newConnection = (IDiagramModelConnection)super.getCopy();
+
         newConnection.setSource(null);
         newConnection.setTarget(null);
+        
+        newConnection.getSourceConnections().clear();
+        newConnection.getTargetConnections().clear();
+
         return newConnection;
     }
 
@@ -648,10 +656,10 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 setTextPosition((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
-                setSource((IDiagramModelObject)newValue);
+                setSource((IConnectable)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TARGET:
-                setTarget((IDiagramModelObject)newValue);
+                setTarget((IConnectable)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 getBendpoints().clear();
@@ -697,10 +705,10 @@ public class DiagramModelConnection extends DiagramModelComponent implements IDi
                 setTextPosition(TEXT_POSITION_EDEFAULT);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE:
-                setSource((IDiagramModelObject)null);
+                setSource((IConnectable)null);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TARGET:
-                setTarget((IDiagramModelObject)null);
+                setTarget((IConnectable)null);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_CONNECTION__BENDPOINTS:
                 getBendpoints().clear();

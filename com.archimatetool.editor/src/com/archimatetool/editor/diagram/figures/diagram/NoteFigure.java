@@ -22,6 +22,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
@@ -33,9 +34,11 @@ import com.archimatetool.model.IDiagramModelNote;
  * 
  * @author Phillip Beauvoir
  */
-public class NoteFigure
-extends AbstractDiagramModelObjectFigure {
+public class NoteFigure extends AbstractDiagramModelObjectFigure 
+implements ITargetFeedbackFigure {
     
+    protected boolean SHOW_TARGET_FEEDBACK = false;
+
     private TextFlow fTextFlow;
     
     public NoteFigure(IDiagramModelNote diagramModelNote) {
@@ -186,5 +189,44 @@ extends AbstractDiagramModelObjectFigure {
         graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPolygon(fillPoints);
+        
+        if(SHOW_TARGET_FEEDBACK) {
+            drawTargetFeedback(graphics);
+        }
     }
+
+    /**
+     * Draw hover-over highlighting
+     * @param graphics
+     */
+    protected void drawTargetFeedback(Graphics graphics) {
+        graphics.pushState();
+        
+        if(!isEnabled()) {
+            setDisabledState(graphics);
+        }
+
+        Rectangle bounds = getBounds().getCopy();
+        bounds.shrink(1, 1);
+        graphics.setForegroundColor(ColorConstants.blue);
+        graphics.setLineWidth(2);
+        graphics.drawRectangle(bounds);
+        
+        graphics.popState();
+    }
+    
+    public void eraseTargetFeedback() {
+        if(SHOW_TARGET_FEEDBACK) {
+            SHOW_TARGET_FEEDBACK = false;
+            repaint();
+        }
+    }
+
+    public void showTargetFeedback() {
+        if(!SHOW_TARGET_FEEDBACK) {
+            SHOW_TARGET_FEEDBACK = true;
+            repaint();
+        }
+    }
+
 }

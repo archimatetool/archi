@@ -4587,7 +4587,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModel()
      * @generated
      */
-    int DIAGRAM_MODEL = 84;
+    int DIAGRAM_MODEL = 85;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelComponent <em>Diagram Model Component</em>}' class.
@@ -4627,6 +4627,61 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT = IDENTIFIER_FEATURE_COUNT + 1;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.impl.Connectable <em>Connectable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.impl.Connectable
+     * @see com.archimatetool.model.impl.ArchimatePackage#getConnectable()
+     * @generated
+     */
+    int CONNECTABLE = 83;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECTABLE__ID = DIAGRAM_MODEL_COMPONENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECTABLE__NAME = DIAGRAM_MODEL_COMPONENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECTABLE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECTABLE__TARGET_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Connectable</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECTABLE_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
+
+    /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelObject <em>Diagram Model Object</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4634,7 +4689,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelObject()
      * @generated
      */
-    int DIAGRAM_MODEL_OBJECT = 86;
+    int DIAGRAM_MODEL_OBJECT = 87;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}' class.
@@ -4644,7 +4699,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 101;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 103;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -4654,7 +4709,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelContainer()
      * @generated
      */
-    int DIAGRAM_MODEL_CONTAINER = 83;
+    int DIAGRAM_MODEL_CONTAINER = 84;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4763,7 +4818,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 100;
+    int ARCHIMATE_DIAGRAM_MODEL = 101;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4772,7 +4827,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__ID = DIAGRAM_MODEL_COMPONENT__ID;
+    int DIAGRAM_MODEL_OBJECT__ID = CONNECTABLE__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4781,61 +4836,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__NAME = DIAGRAM_MODEL_COMPONENT__NAME;
-
-    /**
-     * The feature id for the '<em><b>Font</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__FONT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Font Color</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__FONT_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 1;
-
-    /**
-     * The feature id for the '<em><b>Line Width</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
-
-    /**
-     * The feature id for the '<em><b>Line Color</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
-
-    /**
-     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
-
-    /**
-     * The feature id for the '<em><b>Bounds</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_OBJECT__BOUNDS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_OBJECT__NAME = CONNECTABLE__NAME;
 
     /**
      * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
@@ -4844,7 +4845,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = CONNECTABLE__SOURCE_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Target Connections</b></em>' reference list.
@@ -4853,7 +4854,61 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = CONNECTABLE__TARGET_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Font</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__FONT = CONNECTABLE_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Font Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__FONT_COLOR = CONNECTABLE_FEATURE_COUNT + 1;
+
+    /**
+     * The feature id for the '<em><b>Line Width</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__LINE_WIDTH = CONNECTABLE_FEATURE_COUNT + 2;
+
+    /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__LINE_COLOR = CONNECTABLE_FEATURE_COUNT + 3;
+
+    /**
+     * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__TEXT_ALIGNMENT = CONNECTABLE_FEATURE_COUNT + 4;
+
+    /**
+     * The feature id for the '<em><b>Bounds</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_OBJECT__BOUNDS = CONNECTABLE_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -4862,7 +4917,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT__FILL_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_OBJECT__FILL_COLOR = CONNECTABLE_FEATURE_COUNT + 6;
 
     /**
      * The number of structural features of the '<em>Diagram Model Object</em>' class.
@@ -4871,7 +4926,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
+    int DIAGRAM_MODEL_OBJECT_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 7;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.
@@ -4881,7 +4936,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelReference()
      * @generated
      */
-    int DIAGRAM_MODEL_REFERENCE = 85;
+    int DIAGRAM_MODEL_REFERENCE = 86;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4900,6 +4955,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_REFERENCE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_REFERENCE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_REFERENCE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -4956,24 +5029,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_REFERENCE__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
 
     /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_REFERENCE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_REFERENCE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
-
-    /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5008,7 +5063,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelGroup()
      * @generated
      */
-    int DIAGRAM_MODEL_GROUP = 87;
+    int DIAGRAM_MODEL_GROUP = 88;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5027,6 +5082,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_GROUP__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_GROUP__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5083,24 +5156,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_GROUP__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
 
     /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_GROUP__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_GROUP__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
-
-    /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5153,7 +5208,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelNote()
      * @generated
      */
-    int DIAGRAM_MODEL_NOTE = 88;
+    int DIAGRAM_MODEL_NOTE = 89;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5172,6 +5227,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_NOTE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_NOTE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5228,24 +5301,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_NOTE__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
 
     /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_NOTE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_NOTE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
-
-    /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5289,7 +5344,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelImage()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE = 89;
+    int DIAGRAM_MODEL_IMAGE = 90;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5308,6 +5363,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_IMAGE__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_IMAGE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5364,24 +5437,6 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_IMAGE__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
 
     /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_IMAGE__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_IMAGE__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
-
-    /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5425,7 +5480,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_CONNECTION = 90;
+    int DIAGRAM_MODEL_CONNECTION = 91;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -5434,7 +5489,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__ID = DIAGRAM_MODEL_COMPONENT__ID;
+    int DIAGRAM_MODEL_CONNECTION__ID = CONNECTABLE__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -5443,7 +5498,25 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__NAME = DIAGRAM_MODEL_COMPONENT__NAME;
+    int DIAGRAM_MODEL_CONNECTION__NAME = CONNECTABLE__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__SOURCE_CONNECTIONS = CONNECTABLE__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_CONNECTION__TARGET_CONNECTIONS = CONNECTABLE__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5452,7 +5525,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__FONT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 0;
+    int DIAGRAM_MODEL_CONNECTION__FONT = CONNECTABLE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Font Color</b></em>' attribute.
@@ -5461,7 +5534,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__FONT_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 1;
+    int DIAGRAM_MODEL_CONNECTION__FONT_COLOR = CONNECTABLE_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -5470,7 +5543,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__PROPERTIES = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 2;
+    int DIAGRAM_MODEL_CONNECTION__PROPERTIES = CONNECTABLE_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -5479,7 +5552,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__DOCUMENTATION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 3;
+    int DIAGRAM_MODEL_CONNECTION__DOCUMENTATION = CONNECTABLE_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
@@ -5488,7 +5561,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 4;
+    int DIAGRAM_MODEL_CONNECTION__LINE_WIDTH = CONNECTABLE_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -5497,7 +5570,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 5;
+    int DIAGRAM_MODEL_CONNECTION__LINE_COLOR = CONNECTABLE_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -5506,7 +5579,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TEXT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 6;
+    int DIAGRAM_MODEL_CONNECTION__TEXT = CONNECTABLE_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -5515,7 +5588,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 7;
+    int DIAGRAM_MODEL_CONNECTION__TEXT_POSITION = CONNECTABLE_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -5524,7 +5597,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__SOURCE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 8;
+    int DIAGRAM_MODEL_CONNECTION__SOURCE = CONNECTABLE_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -5533,7 +5606,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TARGET = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 9;
+    int DIAGRAM_MODEL_CONNECTION__TARGET = CONNECTABLE_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
@@ -5542,7 +5615,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 10;
+    int DIAGRAM_MODEL_CONNECTION__BENDPOINTS = CONNECTABLE_FEATURE_COUNT + 10;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -5551,7 +5624,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION__TYPE = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 11;
+    int DIAGRAM_MODEL_CONNECTION__TYPE = CONNECTABLE_FEATURE_COUNT + 11;
 
     /**
      * The number of structural features of the '<em>Diagram Model Connection</em>' class.
@@ -5560,7 +5633,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = DIAGRAM_MODEL_COMPONENT_FEATURE_COUNT + 12;
+    int DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 12;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelArchimateConnection <em>Diagram Model Archimate Connection</em>}' class.
@@ -5570,7 +5643,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 102;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 104;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -5580,7 +5653,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelBendpoint()
      * @generated
      */
-    int DIAGRAM_MODEL_BENDPOINT = 91;
+    int DIAGRAM_MODEL_BENDPOINT = 92;
 
     /**
      * The feature id for the '<em><b>Start X</b></em>' attribute.
@@ -5635,7 +5708,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLineObject()
      * @generated
      */
-    int LINE_OBJECT = 92;
+    int LINE_OBJECT = 93;
 
     /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
@@ -5672,7 +5745,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 93;
+    int FONT_ATTRIBUTE = 94;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -5709,7 +5782,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTextPosition()
      * @generated
      */
-    int TEXT_POSITION = 94;
+    int TEXT_POSITION = 95;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -5737,7 +5810,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTextAlignment()
      * @generated
      */
-    int TEXT_ALIGNMENT = 95;
+    int TEXT_ALIGNMENT = 96;
 
     /**
      * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
@@ -5765,7 +5838,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
-    int BORDER_OBJECT = 96;
+    int BORDER_OBJECT = 97;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -5793,7 +5866,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelImageProvider()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE_PROVIDER = 97;
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 98;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -5821,7 +5894,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 98;
+    int BOUNDS = 99;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -5876,7 +5949,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 99;
+    int LOCKABLE = 100;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -5969,6 +6042,61 @@ public interface IArchimatePackage extends EPackage {
     int ARCHIMATE_DIAGRAM_MODEL_FEATURE_COUNT = DIAGRAM_MODEL_FEATURE_COUNT + 1;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.IDiagramModelArchimateComponent <em>Diagram Model Archimate Component</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.IDiagramModelArchimateComponent
+     * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateComponent()
+     * @generated
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 102;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT__ID = CONNECTABLE__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT__NAME = CONNECTABLE__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT__SOURCE_CONNECTIONS = CONNECTABLE__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT__TARGET_CONNECTIONS = CONNECTABLE__TARGET_CONNECTIONS;
+
+    /**
+     * The number of structural features of the '<em>Diagram Model Archimate Component</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT_FEATURE_COUNT = CONNECTABLE_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5985,6 +6113,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -6039,24 +6185,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_OBJECT__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
-
-    /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -6120,6 +6248,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__NAME = DIAGRAM_MODEL_CONNECTION__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__SOURCE_CONNECTIONS = DIAGRAM_MODEL_CONNECTION__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TARGET_CONNECTIONS = DIAGRAM_MODEL_CONNECTION__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -6255,7 +6401,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 103;
+    int SKETCH_MODEL = 105;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6337,7 +6483,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 104;
+    int SKETCH_MODEL_STICKY = 106;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6356,6 +6502,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_STICKY__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_STICKY__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -6412,24 +6576,6 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_STICKY__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
 
     /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_STICKY__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_STICKY__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
-
-    /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6482,7 +6628,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 105;
+    int SKETCH_MODEL_ACTOR = 107;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6501,6 +6647,24 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int SKETCH_MODEL_ACTOR__NAME = DIAGRAM_MODEL_OBJECT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_ACTOR__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SKETCH_MODEL_ACTOR__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -6557,24 +6721,6 @@ public interface IArchimatePackage extends EPackage {
     int SKETCH_MODEL_ACTOR__BOUNDS = DIAGRAM_MODEL_OBJECT__BOUNDS;
 
     /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_ACTOR__SOURCE_CONNECTIONS = DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SKETCH_MODEL_ACTOR__TARGET_CONNECTIONS = DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
-
-    /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6618,7 +6764,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 106;
+    int FOLDER_TYPE = 108;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -6628,7 +6774,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 107;
+    int FILE = 109;
 
 
     /**
@@ -7704,6 +7850,16 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getArchimateDiagramModel_Viewpoint();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelArchimateComponent <em>Diagram Model Archimate Component</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Diagram Model Archimate Component</em>'.
+     * @see com.archimatetool.model.IDiagramModelArchimateComponent
+     * @generated
+     */
+    EClass getDiagramModelArchimateComponent();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelReference <em>Diagram Model Reference</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7735,6 +7891,38 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelComponent();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IConnectable <em>Connectable</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Connectable</em>'.
+     * @see com.archimatetool.model.IConnectable
+     * @generated
+     */
+    EClass getConnectable();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link com.archimatetool.model.IConnectable#getSourceConnections <em>Source Connections</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Source Connections</em>'.
+     * @see com.archimatetool.model.IConnectable#getSourceConnections()
+     * @see #getConnectable()
+     * @generated
+     */
+    EReference getConnectable_SourceConnections();
+
+    /**
+     * Returns the meta object for the reference list '{@link com.archimatetool.model.IConnectable#getTargetConnections <em>Target Connections</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Target Connections</em>'.
+     * @see com.archimatetool.model.IConnectable#getTargetConnections()
+     * @see #getConnectable()
+     * @generated
+     */
+    EReference getConnectable_TargetConnections();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelObject <em>Diagram Model Object</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7754,28 +7942,6 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EReference getDiagramModelObject_Bounds();
-
-    /**
-     * Returns the meta object for the containment reference list '{@link com.archimatetool.model.IDiagramModelObject#getSourceConnections <em>Source Connections</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Source Connections</em>'.
-     * @see com.archimatetool.model.IDiagramModelObject#getSourceConnections()
-     * @see #getDiagramModelObject()
-     * @generated
-     */
-    EReference getDiagramModelObject_SourceConnections();
-
-    /**
-     * Returns the meta object for the reference list '{@link com.archimatetool.model.IDiagramModelObject#getTargetConnections <em>Target Connections</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Target Connections</em>'.
-     * @see com.archimatetool.model.IDiagramModelObject#getTargetConnections()
-     * @see #getDiagramModelObject()
-     * @generated
-     */
-    EReference getDiagramModelObject_TargetConnections();
 
     /**
      * Returns the meta object for the attribute '{@link com.archimatetool.model.IDiagramModelObject#getFillColor <em>Fill Color</em>}'.
@@ -9349,6 +9515,16 @@ public interface IArchimatePackage extends EPackage {
         EAttribute ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT = eINSTANCE.getArchimateDiagramModel_Viewpoint();
 
         /**
+         * The meta object literal for the '{@link com.archimatetool.model.IDiagramModelArchimateComponent <em>Diagram Model Archimate Component</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.IDiagramModelArchimateComponent
+         * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateComponent()
+         * @generated
+         */
+        EClass DIAGRAM_MODEL_ARCHIMATE_COMPONENT = eINSTANCE.getDiagramModelArchimateComponent();
+
+        /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModelReference <em>Diagram Model Reference</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -9377,6 +9553,32 @@ public interface IArchimatePackage extends EPackage {
         EClass DIAGRAM_MODEL_COMPONENT = eINSTANCE.getDiagramModelComponent();
 
         /**
+         * The meta object literal for the '{@link com.archimatetool.model.impl.Connectable <em>Connectable</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.impl.Connectable
+         * @see com.archimatetool.model.impl.ArchimatePackage#getConnectable()
+         * @generated
+         */
+        EClass CONNECTABLE = eINSTANCE.getConnectable();
+
+        /**
+         * The meta object literal for the '<em><b>Source Connections</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CONNECTABLE__SOURCE_CONNECTIONS = eINSTANCE.getConnectable_SourceConnections();
+
+        /**
+         * The meta object literal for the '<em><b>Target Connections</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CONNECTABLE__TARGET_CONNECTIONS = eINSTANCE.getConnectable_TargetConnections();
+
+        /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModelObject <em>Diagram Model Object</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -9393,22 +9595,6 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EReference DIAGRAM_MODEL_OBJECT__BOUNDS = eINSTANCE.getDiagramModelObject_Bounds();
-
-        /**
-         * The meta object literal for the '<em><b>Source Connections</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS = eINSTANCE.getDiagramModelObject_SourceConnections();
-
-        /**
-         * The meta object literal for the '<em><b>Target Connections</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS = eINSTANCE.getDiagramModelObject_TargetConnections();
 
         /**
          * The meta object literal for the '<em><b>Fill Color</b></em>' attribute feature.

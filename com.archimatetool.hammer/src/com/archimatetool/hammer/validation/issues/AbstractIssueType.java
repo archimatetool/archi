@@ -9,8 +9,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.help.hints.IHelpHintProvider;
 import com.archimatetool.model.IArchimateComponent;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 
 
 
@@ -104,11 +103,8 @@ public abstract class AbstractIssueType implements IIssue {
         }
         
         if(adapter.isAssignableFrom(IArchimateComponent.class)) {
-            if(object instanceof IDiagramModelArchimateObject) {
-                return ((IDiagramModelArchimateObject)object).getArchimateElement();
-            }
-            if(object instanceof IDiagramModelArchimateConnection) {
-                return ((IDiagramModelArchimateConnection)object).getRelationship();
+            if(object instanceof IDiagramModelArchimateComponent) {
+                return ((IDiagramModelArchimateComponent)object).getArchimateComponent();
             }
         }
         

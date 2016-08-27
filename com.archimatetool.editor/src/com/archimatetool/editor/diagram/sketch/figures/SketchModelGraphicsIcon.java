@@ -26,6 +26,8 @@ public class SketchModelGraphicsIcon implements IGraphicsIcon {
     static Color color2 = ColorFactory.get(255, 214, 123);
 
     public void drawIcon(Graphics graphics, Point origin) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(ColorConstants.darkGray);
         
@@ -45,6 +47,8 @@ public class SketchModelGraphicsIcon implements IGraphicsIcon {
         path.lineTo(origin.x + 4, origin.y + 11);
         graphics.drawPath(path);
         path.dispose();
+        
+        graphics.popState();
     }
 
 }

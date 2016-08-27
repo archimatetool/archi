@@ -104,7 +104,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             }
             
             public Object[] getElements(Object inputElement) {
-                return ArchimateModelUtils.getRelationships((IArchimateElement)inputElement).toArray();
+                return ArchimateModelUtils.getAllRelationshipsForComponent((IArchimateElement)inputElement).toArray();
             }
         });
         

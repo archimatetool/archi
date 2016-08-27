@@ -7,15 +7,24 @@ package com.archimatetool.editor.diagram.editparts.connections;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.requests.ReconnectRequest;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
+import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.DerivedRelationsUtils;
 
@@ -26,18 +35,18 @@ import com.archimatetool.model.util.DerivedRelationsUtils;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateConnectionEditPart extends AbstractDiagramConnectionEditPart 
-implements IArchimateConnectionEditPart {
+implements IArchimateConnectionEditPart, NodeEditPart {
     
     private IArchimateModel fArchimateModel;
     
     /**
-     * Listen to all model changes to refresh Structural color.
+     * Add an additional adapter to listen to *all* model changes to refresh Structural color.
      */
     private Adapter fModelAdapter = new EContentAdapter() {
         @Override
         public void notifyChanged(Notification msg) {
             super.notifyChanged(msg);
-
+            
             Object feature = msg.getFeature();
             if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE
                                                     || feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET
@@ -46,6 +55,29 @@ implements IArchimateConnectionEditPart {
             }
         }
     };
+    
+    @Override
+    protected void eCoreChanged(Notification msg) {
+        Object feature = msg.getFeature();
+        
+        switch(msg.getEventType()) {
+            // Children added or removed or moved
+            case Notification.ADD:
+            case Notification.ADD_MANY:
+            case Notification.REMOVE:
+            case Notification.REMOVE_MANY:
+            case Notification.MOVE:
+                if(feature == IArchimatePackage.Literals.CONNECTABLE__SOURCE_CONNECTIONS) {
+                    refreshSourceConnections();
+                }
+                else if(feature == IArchimatePackage.Literals.CONNECTABLE__TARGET_CONNECTIONS) {
+                    refreshTargetConnections();
+                }
+                break;
+        }
+        
+        super.eCoreChanged(msg);
+    }
     
     /**
      * Listen to user toggling on/off show structural chains
@@ -139,5 +171,54 @@ implements IArchimateConnectionEditPart {
         }
 
         return super.getAdapter(adapter);
+    }
+    
+    
+    @Override
+    public void createEditPolicies() {
+        super.createEditPolicies();
+        
+        // Connection to connection
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ArchimateDiagramConnectionPolicy());
+    }
+    
+    @Override
+    protected List<IDiagramModelConnection> getModelSourceConnections() {
+        return getFilteredModelSourceConnections();
+    }
+
+    @Override
+    protected List<IDiagramModelConnection> getModelTargetConnections() {
+        return getFilteredModelTargetConnections();
+    }
+
+    public List<IDiagramModelConnection> getFilteredModelSourceConnections() {
+        return getModel().getSourceConnections();
+    }
+    
+    public List<IDiagramModelConnection> getFilteredModelTargetConnections() {
+        return getModel().getTargetConnections();
+    }
+    
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+        return new LineConnectionAnchor(getFigure());
+    }
+
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+        return new LineConnectionAnchor(getFigure());
+    }
+
+    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+        if(request instanceof ReconnectRequest) {
+            return null;
+        }
+        return new LineConnectionAnchor(getFigure());
+    }
+
+    public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+        if(request instanceof ReconnectRequest) {
+            return null;
+        }
+        return new LineConnectionAnchor(getFigure());
     }
 }
