@@ -19,7 +19,6 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -201,20 +200,22 @@ implements IEditPartFilterProvider {
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
         
         switch(getModel().getConnectionRouterType()) {
-            case IDiagramModel.CONNECTION_ROUTER_BENDPOINT:
-                AutomaticRouter router = new FanRouter();
-                router.setNextRouter(new BendpointConnectionRouter());
-                cLayer.setConnectionRouter(router);
-                break;
-                
-            case IDiagramModel.CONNECTION_ROUTER_SHORTEST_PATH:
-                router = new FanRouter();
-                router.setNextRouter(new ShortestPathConnectionRouter(getFigure()));
-                cLayer.setConnectionRouter(router);
-                break;
+// Doesn't work with Connection to Connection
+//            case IDiagramModel.CONNECTION_ROUTER_SHORTEST_PATH:
+//                router = new FanRouter();
+//                router.setNextRouter(new ShortestPathConnectionRouter(getFigure()));
+//                cLayer.setConnectionRouter(router);
+//                break;
                 
             case IDiagramModel.CONNECTION_ROUTER_MANHATTAN:
                 cLayer.setConnectionRouter(new ManhattanConnectionRouter());
+                break;
+            
+            case IDiagramModel.CONNECTION_ROUTER_BENDPOINT:
+            default:
+                AutomaticRouter router = new FanRouter();
+                router.setNextRouter(new BendpointConnectionRouter());
+                cLayer.setConnectionRouter(router);
                 break;
         }
         

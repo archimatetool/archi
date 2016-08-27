@@ -142,7 +142,8 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_3, "menu_connection_router"); //$NON-NLS-1$
         menu.appendToGroup(GROUP_CONNECTIONS, connectionMenu);
         connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
-        connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
+// Doesn't work with Connection to Connection
+//      connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
         connectionMenu.add(actionRegistry.getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
         
         menu.add(new Separator(GROUP_PROPERTIES));

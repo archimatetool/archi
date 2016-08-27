@@ -720,7 +720,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Connection Router types
         action = new ConnectionRouterAction.BendPointConnectionRouterAction(this);
         registry.registerAction(action);
-        action = new ConnectionRouterAction.ShortestPathConnectionRouterAction(this);
+// Doesn't work with Connection to Connection
+//        action = new ConnectionRouterAction.ShortestPathConnectionRouterAction(this);
         registry.registerAction(action);
         action = new ConnectionRouterAction.ManhattanConnectionRouterAction(this);
         registry.registerAction(action);

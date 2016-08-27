@@ -66,10 +66,11 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
     
     private String[] comboItems = {
             ConnectionRouterAction.CONNECTION_ROUTER_BENDPONT,
-            ConnectionRouterAction.CONNECTION_ROUTER_SHORTEST_PATH,
+            // Doesn't work with C2C
+            //ConnectionRouterAction.CONNECTION_ROUTER_SHORTEST_PATH,
             ConnectionRouterAction.CONNECTION_ROUTER_MANHATTAN
     };
-
+    
     private IDiagramModel fDiagramModel;
     
     @Override
@@ -92,7 +93,8 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
             public void widgetSelected(SelectionEvent e) {
                 if(isAlive()) {
                     fIsExecutingCommand = true;
-                    getCommandStack().execute(new ConnectionRouterTypeCommand(fDiagramModel, fComboRouterType.getSelectionIndex()));
+                    getCommandStack().execute(new ConnectionRouterTypeCommand(fDiagramModel,
+                            ConnectionRouterAction.CONNECTION_ROUTER_TYPES.get(fComboRouterType.getSelectionIndex())));
                     fIsExecutingCommand = false;
                 }
             }
@@ -118,7 +120,13 @@ public class DiagramModelConnectionSection extends AbstractArchimatePropertySect
             return; 
         }
         
-        fComboRouterType.select(fDiagramModel.getConnectionRouterType());
+        int type = fDiagramModel.getConnectionRouterType();
+        
+        if(ConnectionRouterAction.CONNECTION_ROUTER_TYPES.indexOf(type) == -1) {
+            type = 0;
+        }
+        
+        fComboRouterType.select(ConnectionRouterAction.CONNECTION_ROUTER_TYPES.indexOf(type));
     }
 
     @Override
