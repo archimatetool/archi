@@ -17,6 +17,7 @@ import com.archimatetool.editor.tools.GenerateViewCommand;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateModelElement;
 
 
 
@@ -53,22 +54,37 @@ public class GenerateViewAction extends ViewerAction {
     private List<IArchimateElement> getValidSelectedObjects(IStructuredSelection selection) {
         List<IArchimateElement> list = new ArrayList<IArchimateElement>();
         
+        if(isSameModel(selection)) {
+            for(Object o : selection.toArray()) {
+                // Only Elements
+                if(o instanceof IArchimateElement) {
+                    if(!list.contains(o)) {
+                        list.add((IArchimateElement)o);
+                    }
+                }
+            }
+        }
+
+        return list;
+    }
+    
+    /**
+     * As this action is for the models tree, it's possible a user could select objects
+     * from different models. We don't want this.
+     */
+    private boolean isSameModel(IStructuredSelection selection) {
         IArchimateModel model = null;
         
         for(Object o : selection.toArray()) {
-            // Only Elements
-            if(o instanceof IArchimateElement) {
-                IArchimateElement element = (IArchimateElement)o;
-                IArchimateModel nextModel = element.getArchimateModel(); // From the same model
-                if(model == null || model == nextModel) {
-                    if(!list.contains(element)) {
-                        list.add(element);
-                    }
+            if(o instanceof IArchimateModelElement) {
+                IArchimateModel nextModel = ((IArchimateModelElement)o).getArchimateModel();
+                if(model != null && model != nextModel) {
+                    return false;
                 }
                 model = nextModel;
             }
         }
-        
-        return list;
+
+        return true;
     }
 }
