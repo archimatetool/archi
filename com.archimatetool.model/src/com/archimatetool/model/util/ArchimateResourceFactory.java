@@ -8,8 +8,6 @@ package com.archimatetool.model.util;
 import java.io.File;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
@@ -17,8 +15,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
-import com.archimatetool.model.IArchimatePackage;
 
 
 /**
@@ -85,18 +81,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
         XMLResource result = new ArchimateResource(uri);
         
         // Ensure we have ExtendedMetaData for both Saving and Loading
-        ExtendedMetaData ext = new BasicExtendedMetaData() {
-            /*
-             * Backwards compatibility for the old "DiagramModel" type
-             */
-            @Override
-            public EClassifier getType(EPackage ePackage, String name) {
-                if(ePackage == IArchimatePackage.eINSTANCE && "DiagramModel".equals(name)) { //$NON-NLS-1$
-                    return IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL;
-                }
-                return super.getType(ePackage, name);
-            }
-        };
+        ExtendedMetaData ext = new BasicExtendedMetaData();
 
         result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
         result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
