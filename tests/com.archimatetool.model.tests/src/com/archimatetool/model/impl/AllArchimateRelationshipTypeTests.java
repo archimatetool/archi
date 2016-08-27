@@ -34,14 +34,14 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
     @Parameters
     public static Collection<EClass[]> eObjects() {
         return Arrays.asList(new EClass[][] {
-                { IArchimatePackage.eINSTANCE.getSpecialisationRelationship() },
+                { IArchimatePackage.eINSTANCE.getSpecializationRelationship() },
                 { IArchimatePackage.eINSTANCE.getCompositionRelationship() },
                 { IArchimatePackage.eINSTANCE.getAggregationRelationship() },
                 { IArchimatePackage.eINSTANCE.getAssignmentRelationship() },
-                { IArchimatePackage.eINSTANCE.getRealisationRelationship() },
+                { IArchimatePackage.eINSTANCE.getRealizationRelationship() },
                 { IArchimatePackage.eINSTANCE.getTriggeringRelationship() },
                 { IArchimatePackage.eINSTANCE.getFlowRelationship() },
-                { IArchimatePackage.eINSTANCE.getUsedByRelationship() },
+                { IArchimatePackage.eINSTANCE.getServingRelationship() },
                 { IArchimatePackage.eINSTANCE.getAccessRelationship() },
                 { IArchimatePackage.eINSTANCE.getAssociationRelationship() },
                 { IArchimatePackage.eINSTANCE.getInfluenceRelationship() }

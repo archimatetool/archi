@@ -8,8 +8,8 @@
 	<key char="i" relationship="AssignmentRelationship" />
 	<key char="n" relationship="InfluenceRelationship" />
 	<key char="o" relationship="AssociationRelationship" />
-	<key char="r" relationship="RealisationRelationship" />
-	<key char="s" relationship="SpecialisationRelationship" />
+	<key char="r" relationship="RealizationRelationship" />
+	<key char="s" relationship="SpecializationRelationship" />
 	<key char="t" relationship="TriggeringRelationship" />
-	<key char="u" relationship="UsedByRelationship" />
+	<key char="v" relationship="ServingRelationship" />
 </relationshipskeys>

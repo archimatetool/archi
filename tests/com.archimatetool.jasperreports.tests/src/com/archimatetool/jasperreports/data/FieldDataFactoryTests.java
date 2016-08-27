@@ -66,7 +66,7 @@ public class FieldDataFactoryTests {
 
     @Test
     public void testGetFieldValue_RelationSource() {
-        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createServingRelationship();
         IArtifact source = IArchimateFactory.eINSTANCE.createArtifact();
         source.setName("source");
         relation.setSource(source);
@@ -76,7 +76,7 @@ public class FieldDataFactoryTests {
 
     @Test
     public void testGetFieldValue_RelationTarget() {
-        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createServingRelationship();
         IArtifact target = IArchimateFactory.eINSTANCE.createArtifact();
         target.setName("target");
         relation.setTarget(target);

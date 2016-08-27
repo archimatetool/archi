@@ -219,11 +219,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//ArchimateRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RealisationRelationship" eSuperTypes="#//ArchimateRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SpecialisationRelationship" eSuperTypes="#//ArchimateRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//ArchimateRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="UsedByRelationship" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RealizationRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServingRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecializationRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
       eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
     <eOperations name="getDiagramModel" eType="#//DiagramModel"/>

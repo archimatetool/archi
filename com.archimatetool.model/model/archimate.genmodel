@@ -111,7 +111,6 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//Resource"/>
-    <genClasses ecoreClass="archimate.ecore#//Junction"/>
     <genClasses ecoreClass="archimate.ecore#//AndJunction"/>
     <genClasses ecoreClass="archimate.ecore#//OrJunction"/>
     <genClasses ecoreClass="archimate.ecore#//BusinessActor"/>
@@ -166,11 +165,11 @@
     <genClasses ecoreClass="archimate.ecore#//AssociationRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//CompositionRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//FlowRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//RealisationRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//SpecialisationRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//TriggeringRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//UsedByRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//InfluenceRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//RealizationRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//ServingRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//SpecializationRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//TriggeringRelationship"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//DiagramModelComponent">
       <genOperations ecoreOperation="archimate.ecore#//DiagramModelComponent/getDiagramModel"/>
     </genClasses>

@@ -703,26 +703,6 @@ public interface IArchimatePackage extends EPackage {
     int FLOW_RELATIONSHIP = 78;
 
     /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.RealisationRelationship <em>Realisation Relationship</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.RealisationRelationship
-     * @see com.archimatetool.model.impl.ArchimatePackage#getRealisationRelationship()
-     * @generated
-     */
-    int REALISATION_RELATIONSHIP = 79;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.SpecialisationRelationship <em>Specialisation Relationship</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.SpecialisationRelationship
-     * @see com.archimatetool.model.impl.ArchimatePackage#getSpecialisationRelationship()
-     * @generated
-     */
-    int SPECIALISATION_RELATIONSHIP = 80;
-
-    /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TriggeringRelationship <em>Triggering Relationship</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -730,17 +710,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTriggeringRelationship()
      * @generated
      */
-    int TRIGGERING_RELATIONSHIP = 81;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.UsedByRelationship <em>Used By Relationship</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.UsedByRelationship
-     * @see com.archimatetool.model.impl.ArchimatePackage#getUsedByRelationship()
-     * @generated
-     */
-    int USED_BY_RELATIONSHIP = 82;
+    int TRIGGERING_RELATIONSHIP = 83;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.InfluenceRelationship <em>Influence Relationship</em>}' class.
@@ -750,7 +720,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getInfluenceRelationship()
      * @generated
      */
-    int INFLUENCE_RELATIONSHIP = 83;
+    int INFLUENCE_RELATIONSHIP = 79;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.BusinessActor <em>Business Actor</em>}' class.
@@ -4381,7 +4351,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
+    int INFLUENCE_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4390,7 +4360,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
+    int INFLUENCE_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4399,7 +4369,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
+    int INFLUENCE_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4408,7 +4378,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
+    int INFLUENCE_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4417,7 +4387,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
+    int INFLUENCE_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4426,16 +4396,26 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
+    int INFLUENCE_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
-     * The number of structural features of the '<em>Realisation Relationship</em>' class.
+     * The number of structural features of the '<em>Influence Relationship</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
+    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.model.impl.RealizationRelationship <em>Realization Relationship</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.impl.RealizationRelationship
+     * @see com.archimatetool.model.impl.ArchimatePackage#getRealizationRelationship()
+     * @generated
+     */
+    int REALIZATION_RELATIONSHIP = 80;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4444,7 +4424,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
+    int REALIZATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4453,7 +4433,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
+    int REALIZATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4462,7 +4442,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
+    int REALIZATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4471,7 +4451,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
+    int REALIZATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4480,7 +4460,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
+    int REALIZATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4489,16 +4469,162 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
+    int REALIZATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
-     * The number of structural features of the '<em>Specialisation Relationship</em>' class.
+     * The number of structural features of the '<em>Realization Relationship</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
+    int REALIZATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.model.impl.ServingRelationship <em>Serving Relationship</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.impl.ServingRelationship
+     * @see com.archimatetool.model.impl.ArchimatePackage#getServingRelationship()
+     * @generated
+     */
+    int SERVING_RELATIONSHIP = 81;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>Target</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
+
+    /**
+     * The number of structural features of the '<em>Serving Relationship</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SERVING_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link com.archimatetool.model.impl.SpecializationRelationship <em>Specialization Relationship</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.impl.SpecializationRelationship
+     * @see com.archimatetool.model.impl.ArchimatePackage#getSpecializationRelationship()
+     * @generated
+     */
+    int SPECIALIZATION_RELATIONSHIP = 82;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>Target</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
+
+    /**
+     * The number of structural features of the '<em>Specialization Relationship</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPECIALIZATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4562,132 +4688,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int TRIGGERING_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
-
-    /**
-     * The feature id for the '<em><b>Documentation</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
-
-    /**
-     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
-
-    /**
-     * The feature id for the '<em><b>Source</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
-
-    /**
-     * The feature id for the '<em><b>Target</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
-
-    /**
-     * The number of structural features of the '<em>Used By Relationship</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int USED_BY_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
-
-    /**
-     * The feature id for the '<em><b>Documentation</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
-
-    /**
-     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
-
-    /**
-     * The feature id for the '<em><b>Source</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
-
-    /**
-     * The feature id for the '<em><b>Target</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
-
-    /**
-     * The number of structural features of the '<em>Influence Relationship</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModel <em>Diagram Model</em>}' class.
@@ -7385,26 +7385,6 @@ public interface IArchimatePackage extends EPackage {
     EClass getFlowRelationship();
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.model.IRealisationRelationship <em>Realisation Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Realisation Relationship</em>'.
-     * @see com.archimatetool.model.IRealisationRelationship
-     * @generated
-     */
-    EClass getRealisationRelationship();
-
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.model.ISpecialisationRelationship <em>Specialisation Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Specialisation Relationship</em>'.
-     * @see com.archimatetool.model.ISpecialisationRelationship
-     * @generated
-     */
-    EClass getSpecialisationRelationship();
-
-    /**
      * Returns the meta object for class '{@link com.archimatetool.model.ITriggeringRelationship <em>Triggering Relationship</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7415,16 +7395,6 @@ public interface IArchimatePackage extends EPackage {
     EClass getTriggeringRelationship();
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.model.IUsedByRelationship <em>Used By Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Used By Relationship</em>'.
-     * @see com.archimatetool.model.IUsedByRelationship
-     * @generated
-     */
-    EClass getUsedByRelationship();
-
-    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IInfluenceRelationship <em>Influence Relationship</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -7433,6 +7403,36 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EClass getInfluenceRelationship();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IRealizationRelationship <em>Realization Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Realization Relationship</em>'.
+     * @see com.archimatetool.model.IRealizationRelationship
+     * @generated
+     */
+    EClass getRealizationRelationship();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IServingRelationship <em>Serving Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Serving Relationship</em>'.
+     * @see com.archimatetool.model.IServingRelationship
+     * @generated
+     */
+    EClass getServingRelationship();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.model.ISpecializationRelationship <em>Specialization Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Specialization Relationship</em>'.
+     * @see com.archimatetool.model.ISpecializationRelationship
+     * @generated
+     */
+    EClass getSpecializationRelationship();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IBusinessActor <em>Business Actor</em>}'.
@@ -9082,26 +9082,6 @@ public interface IArchimatePackage extends EPackage {
         EClass FLOW_RELATIONSHIP = eINSTANCE.getFlowRelationship();
 
         /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.RealisationRelationship <em>Realisation Relationship</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.RealisationRelationship
-         * @see com.archimatetool.model.impl.ArchimatePackage#getRealisationRelationship()
-         * @generated
-         */
-        EClass REALISATION_RELATIONSHIP = eINSTANCE.getRealisationRelationship();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.SpecialisationRelationship <em>Specialisation Relationship</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.SpecialisationRelationship
-         * @see com.archimatetool.model.impl.ArchimatePackage#getSpecialisationRelationship()
-         * @generated
-         */
-        EClass SPECIALISATION_RELATIONSHIP = eINSTANCE.getSpecialisationRelationship();
-
-        /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.TriggeringRelationship <em>Triggering Relationship</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -9112,16 +9092,6 @@ public interface IArchimatePackage extends EPackage {
         EClass TRIGGERING_RELATIONSHIP = eINSTANCE.getTriggeringRelationship();
 
         /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.UsedByRelationship <em>Used By Relationship</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.UsedByRelationship
-         * @see com.archimatetool.model.impl.ArchimatePackage#getUsedByRelationship()
-         * @generated
-         */
-        EClass USED_BY_RELATIONSHIP = eINSTANCE.getUsedByRelationship();
-
-        /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.InfluenceRelationship <em>Influence Relationship</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -9130,6 +9100,36 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass INFLUENCE_RELATIONSHIP = eINSTANCE.getInfluenceRelationship();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.impl.RealizationRelationship <em>Realization Relationship</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.impl.RealizationRelationship
+         * @see com.archimatetool.model.impl.ArchimatePackage#getRealizationRelationship()
+         * @generated
+         */
+        EClass REALIZATION_RELATIONSHIP = eINSTANCE.getRealizationRelationship();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.impl.ServingRelationship <em>Serving Relationship</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.impl.ServingRelationship
+         * @see com.archimatetool.model.impl.ArchimatePackage#getServingRelationship()
+         * @generated
+         */
+        EClass SERVING_RELATIONSHIP = eINSTANCE.getServingRelationship();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.impl.SpecializationRelationship <em>Specialization Relationship</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.impl.SpecializationRelationship
+         * @see com.archimatetool.model.impl.ArchimatePackage#getSpecializationRelationship()
+         * @generated
+         */
+        EClass SPECIALIZATION_RELATIONSHIP = eINSTANCE.getSpecializationRelationship();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.BusinessActor <em>Business Actor</em>}' class.

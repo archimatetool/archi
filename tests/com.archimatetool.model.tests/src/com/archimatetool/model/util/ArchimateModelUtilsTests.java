@@ -53,7 +53,7 @@ public class ArchimateModelUtilsTests {
         assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), classes[0]);
         assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes[1]);
         assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes[2]);
-        assertEquals(IArchimatePackage.eINSTANCE.getUsedByRelationship(), classes[3]);
+        assertEquals(IArchimatePackage.eINSTANCE.getServingRelationship(), classes[3]);
         assertEquals(IArchimatePackage.eINSTANCE.getAssociationRelationship(), classes[4]);
         
         // How much more can we test this...?
@@ -129,6 +129,16 @@ public class ArchimateModelUtilsTests {
     }
     
     @Test
+    public void testGetStrategyClasses() {
+        EClass[] classes = ArchimateModelUtils.getStrategyClasses();
+        assertEquals(1, classes.length);
+        
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getStrategyElement().isSuperTypeOf(eClass));
+        }
+    }
+    
+    @Test
     public void testGetBusinessClasses() {
         EClass[] classes = ArchimateModelUtils.getBusinessClasses();
         assertEquals(16, classes.length);
@@ -155,6 +165,16 @@ public class ArchimateModelUtilsTests {
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getTechnologyElement().isSuperTypeOf(eClass));
+        }
+    }
+    
+    @Test
+    public void testGetPhysicalClasses() {
+        EClass[] classes = ArchimateModelUtils.getPhysicalClasses();
+        assertEquals(1, classes.length);
+        
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getPhysicalElement().isSuperTypeOf(eClass));
         }
     }
     

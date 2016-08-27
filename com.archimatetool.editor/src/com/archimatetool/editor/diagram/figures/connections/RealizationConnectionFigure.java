@@ -9,18 +9,19 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.swt.SWT;
 
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
 
 /**
- * Specialisation Connection Figure
+ * Realization Connection Figure
  * 
  * @author Phillip Beauvoir
  */
-public class SpecialisationConnectionFigure extends AbstractArchimateConnectionFigure {
-	
+public class RealizationConnectionFigure extends AbstractArchimateConnectionFigure {
+    
     /**
      * @return Decoration to use on Target Node
      */
@@ -33,19 +34,23 @@ public class SpecialisationConnectionFigure extends AbstractArchimateConnectionF
                 super.fillShape(g);
             }
         };
-        
         decoration.setScale(10, 7);
         decoration.setBackgroundColor(ColorConstants.white);
+        
         return decoration;
     }
-
-    public SpecialisationConnectionFigure(IDiagramModelArchimateConnection connection) {
+	
+    public RealizationConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	
     @Override
     protected void setFigureProperties() {
         setTargetDecoration(createFigureTargetDecoration());
+        
+        setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
+        setLineDash(new float[] { 4 });
     }
     
+
 }

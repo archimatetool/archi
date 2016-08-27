@@ -7,20 +7,20 @@ package com.archimatetool.editor.diagram.editparts.connections;
 
 import org.eclipse.draw2d.IFigure;
 
-import com.archimatetool.editor.diagram.figures.connections.UsedByConnectionFigure;
+import com.archimatetool.editor.diagram.figures.connections.ServingConnectionFigure;
 
 
 
 /**
- * Used By Connection Edit Part
+ * Serving Connection Edit Part
  * 
  * @author Phillip Beauvoir
  */
-public class UsedByConnectionEditPart extends AbstractArchimateConnectionEditPart {
+public class ServingConnectionEditPart extends AbstractArchimateConnectionEditPart {
 	
     @Override
     protected IFigure createFigure() {
-		return new UsedByConnectionFigure(getModel());
+		return new ServingConnectionFigure(getModel());
 	}
 	
 }

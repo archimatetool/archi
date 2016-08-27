@@ -27,10 +27,10 @@ import com.archimatetool.editor.diagram.figures.connections.AssignmentConnection
 import com.archimatetool.editor.diagram.figures.connections.CompositionConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.FlowConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.InfluenceConnectionFigure;
-import com.archimatetool.editor.diagram.figures.connections.RealisationConnectionFigure;
-import com.archimatetool.editor.diagram.figures.connections.SpecialisationConnectionFigure;
+import com.archimatetool.editor.diagram.figures.connections.RealizationConnectionFigure;
+import com.archimatetool.editor.diagram.figures.connections.ServingConnectionFigure;
+import com.archimatetool.editor.diagram.figures.connections.SpecializationConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure;
-import com.archimatetool.editor.diagram.figures.connections.UsedByConnectionFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
@@ -41,10 +41,10 @@ import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRealisationRelationship;
-import com.archimatetool.model.ISpecialisationRelationship;
+import com.archimatetool.model.IRealizationRelationship;
+import com.archimatetool.model.IServingRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.ITriggeringRelationship;
-import com.archimatetool.model.IUsedByRelationship;
 
 
 /**
@@ -175,8 +175,8 @@ implements ILabelProvider, ISelfStyleProvider {
         
         PolylineConnection conn = (PolylineConnection)connection.getConnectionFigure();
         
-        if(element instanceof ISpecialisationRelationship) {
-            conn.setTargetDecoration(SpecialisationConnectionFigure.createFigureTargetDecoration());
+        if(element instanceof ISpecializationRelationship) {
+            conn.setTargetDecoration(SpecializationConnectionFigure.createFigureTargetDecoration());
         }
         else if(element instanceof ICompositionRelationship) {
             conn.setSourceDecoration(CompositionConnectionFigure.createFigureSourceDecoration());
@@ -188,8 +188,8 @@ implements ILabelProvider, ISelfStyleProvider {
             conn.setSourceDecoration(AssignmentConnectionFigure.createFigureSourceDecoration());
             conn.setTargetDecoration(AssignmentConnectionFigure.createFigureTargetDecoration());
         }
-        else if(element instanceof IRealisationRelationship) {
-            conn.setTargetDecoration(RealisationConnectionFigure.createFigureTargetDecoration());
+        else if(element instanceof IRealizationRelationship) {
+            conn.setTargetDecoration(RealizationConnectionFigure.createFigureTargetDecoration());
             connection.setLineStyle(SWT.LINE_CUSTOM);
             conn.setLineDash(new float[] { 4 });
         }
@@ -201,8 +201,8 @@ implements ILabelProvider, ISelfStyleProvider {
             connection.setLineStyle(SWT.LINE_CUSTOM);
             conn.setLineDash(new float[] { 6, 3 });
         }
-        else if(element instanceof IUsedByRelationship) {
-            conn.setTargetDecoration(UsedByConnectionFigure.createFigureTargetDecoration());
+        else if(element instanceof IServingRelationship) {
+            conn.setTargetDecoration(ServingConnectionFigure.createFigureTargetDecoration());
         }
         else if(element instanceof IAccessRelationship) {
             switch(((IAccessRelationship)element).getAccessType()) {

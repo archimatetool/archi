@@ -96,15 +96,16 @@ import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRealisationRelationship;
+import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IResource;
 import com.archimatetool.model.IServiceElement;
+import com.archimatetool.model.IServingRelationship;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
-import com.archimatetool.model.ISpecialisationRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.ISystemSoftware;
@@ -113,7 +114,6 @@ import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
-import com.archimatetool.model.IUsedByRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IWorkPackage;
 import org.eclipse.emf.ecore.EObject;
@@ -1309,33 +1309,63 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.REALISATION_RELATIONSHIP: {
-                IRealisationRelationship realisationRelationship = (IRealisationRelationship)theEObject;
-                T result = caseRealisationRelationship(realisationRelationship);
-                if (result == null) result = caseArchimateRelationship(realisationRelationship);
-                if (result == null) result = caseArchimateConcept(realisationRelationship);
-                if (result == null) result = caseArchimateModelElement(realisationRelationship);
-                if (result == null) result = caseIdentifier(realisationRelationship);
-                if (result == null) result = caseCloneable(realisationRelationship);
-                if (result == null) result = caseNameable(realisationRelationship);
-                if (result == null) result = caseDocumentable(realisationRelationship);
-                if (result == null) result = caseProperties(realisationRelationship);
-                if (result == null) result = caseAdapter(realisationRelationship);
+            case IArchimatePackage.INFLUENCE_RELATIONSHIP: {
+                IInfluenceRelationship influenceRelationship = (IInfluenceRelationship)theEObject;
+                T result = caseInfluenceRelationship(influenceRelationship);
+                if (result == null) result = caseArchimateRelationship(influenceRelationship);
+                if (result == null) result = caseArchimateConcept(influenceRelationship);
+                if (result == null) result = caseArchimateModelElement(influenceRelationship);
+                if (result == null) result = caseIdentifier(influenceRelationship);
+                if (result == null) result = caseCloneable(influenceRelationship);
+                if (result == null) result = caseNameable(influenceRelationship);
+                if (result == null) result = caseDocumentable(influenceRelationship);
+                if (result == null) result = caseProperties(influenceRelationship);
+                if (result == null) result = caseAdapter(influenceRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.SPECIALISATION_RELATIONSHIP: {
-                ISpecialisationRelationship specialisationRelationship = (ISpecialisationRelationship)theEObject;
-                T result = caseSpecialisationRelationship(specialisationRelationship);
-                if (result == null) result = caseArchimateRelationship(specialisationRelationship);
-                if (result == null) result = caseArchimateConcept(specialisationRelationship);
-                if (result == null) result = caseArchimateModelElement(specialisationRelationship);
-                if (result == null) result = caseIdentifier(specialisationRelationship);
-                if (result == null) result = caseCloneable(specialisationRelationship);
-                if (result == null) result = caseNameable(specialisationRelationship);
-                if (result == null) result = caseDocumentable(specialisationRelationship);
-                if (result == null) result = caseProperties(specialisationRelationship);
-                if (result == null) result = caseAdapter(specialisationRelationship);
+            case IArchimatePackage.REALIZATION_RELATIONSHIP: {
+                IRealizationRelationship realizationRelationship = (IRealizationRelationship)theEObject;
+                T result = caseRealizationRelationship(realizationRelationship);
+                if (result == null) result = caseArchimateRelationship(realizationRelationship);
+                if (result == null) result = caseArchimateConcept(realizationRelationship);
+                if (result == null) result = caseArchimateModelElement(realizationRelationship);
+                if (result == null) result = caseIdentifier(realizationRelationship);
+                if (result == null) result = caseCloneable(realizationRelationship);
+                if (result == null) result = caseNameable(realizationRelationship);
+                if (result == null) result = caseDocumentable(realizationRelationship);
+                if (result == null) result = caseProperties(realizationRelationship);
+                if (result == null) result = caseAdapter(realizationRelationship);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.SERVING_RELATIONSHIP: {
+                IServingRelationship servingRelationship = (IServingRelationship)theEObject;
+                T result = caseServingRelationship(servingRelationship);
+                if (result == null) result = caseArchimateRelationship(servingRelationship);
+                if (result == null) result = caseArchimateConcept(servingRelationship);
+                if (result == null) result = caseArchimateModelElement(servingRelationship);
+                if (result == null) result = caseIdentifier(servingRelationship);
+                if (result == null) result = caseCloneable(servingRelationship);
+                if (result == null) result = caseNameable(servingRelationship);
+                if (result == null) result = caseDocumentable(servingRelationship);
+                if (result == null) result = caseProperties(servingRelationship);
+                if (result == null) result = caseAdapter(servingRelationship);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.SPECIALIZATION_RELATIONSHIP: {
+                ISpecializationRelationship specializationRelationship = (ISpecializationRelationship)theEObject;
+                T result = caseSpecializationRelationship(specializationRelationship);
+                if (result == null) result = caseArchimateRelationship(specializationRelationship);
+                if (result == null) result = caseArchimateConcept(specializationRelationship);
+                if (result == null) result = caseArchimateModelElement(specializationRelationship);
+                if (result == null) result = caseIdentifier(specializationRelationship);
+                if (result == null) result = caseCloneable(specializationRelationship);
+                if (result == null) result = caseNameable(specializationRelationship);
+                if (result == null) result = caseDocumentable(specializationRelationship);
+                if (result == null) result = caseProperties(specializationRelationship);
+                if (result == null) result = caseAdapter(specializationRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1351,36 +1381,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(triggeringRelationship);
                 if (result == null) result = caseProperties(triggeringRelationship);
                 if (result == null) result = caseAdapter(triggeringRelationship);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.USED_BY_RELATIONSHIP: {
-                IUsedByRelationship usedByRelationship = (IUsedByRelationship)theEObject;
-                T result = caseUsedByRelationship(usedByRelationship);
-                if (result == null) result = caseArchimateRelationship(usedByRelationship);
-                if (result == null) result = caseArchimateConcept(usedByRelationship);
-                if (result == null) result = caseArchimateModelElement(usedByRelationship);
-                if (result == null) result = caseIdentifier(usedByRelationship);
-                if (result == null) result = caseCloneable(usedByRelationship);
-                if (result == null) result = caseNameable(usedByRelationship);
-                if (result == null) result = caseDocumentable(usedByRelationship);
-                if (result == null) result = caseProperties(usedByRelationship);
-                if (result == null) result = caseAdapter(usedByRelationship);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.INFLUENCE_RELATIONSHIP: {
-                IInfluenceRelationship influenceRelationship = (IInfluenceRelationship)theEObject;
-                T result = caseInfluenceRelationship(influenceRelationship);
-                if (result == null) result = caseArchimateRelationship(influenceRelationship);
-                if (result == null) result = caseArchimateConcept(influenceRelationship);
-                if (result == null) result = caseArchimateModelElement(influenceRelationship);
-                if (result == null) result = caseIdentifier(influenceRelationship);
-                if (result == null) result = caseCloneable(influenceRelationship);
-                if (result == null) result = caseNameable(influenceRelationship);
-                if (result == null) result = caseDocumentable(influenceRelationship);
-                if (result == null) result = caseProperties(influenceRelationship);
-                if (result == null) result = caseAdapter(influenceRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -3149,36 +3149,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Realisation Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Realisation Relationship</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseRealisationRelationship(IRealisationRelationship object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Specialisation Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Specialisation Relationship</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseSpecialisationRelationship(ISpecialisationRelationship object) {
-        return null;
-    }
-
-    /**
      * Returns the result of interpreting the object as an instance of '<em>Triggering Relationship</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -3194,21 +3164,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Used By Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Used By Relationship</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseUsedByRelationship(IUsedByRelationship object) {
-        return null;
-    }
-
-    /**
      * Returns the result of interpreting the object as an instance of '<em>Influence Relationship</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -3220,6 +3175,51 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseInfluenceRelationship(IInfluenceRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Realization Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Realization Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseRealizationRelationship(IRealizationRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Serving Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Serving Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseServingRelationship(IServingRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Specialization Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Specialization Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseSpecializationRelationship(ISpecializationRelationship object) {
         return null;
     }
 

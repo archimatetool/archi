@@ -28,7 +28,7 @@
   </folder>
   <folder name="Relations" id="bb382708" type="relations">
     <folder name="New Folder" id="f04f5133">
-      <element xsi:type="archimate:SpecialisationRelationship" id="9d271a81" name="FindMe 9" source="b3b3a0b2" target="2f8182cb"/>
+      <element xsi:type="archimate:SpecializationRelationship" id="9d271a81" name="FindMe 9" source="b3b3a0b2" target="2f8182cb"/>
     </folder>
   </folder>
   <folder name="Views" id="84172b06" type="diagrams">

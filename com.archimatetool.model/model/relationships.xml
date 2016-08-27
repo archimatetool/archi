@@ -3,16 +3,16 @@
 <relationships version="2.1">
 	<elements>
 		<source element="BusinessActor">
-			<target element="BusinessActor" relations="cfgostu" />
-			<target element="BusinessRole" relations="fiotu" />
-			<target element="BusinessCollaboration" relations="fiotu" />
+			<target element="BusinessActor" relations="cfgostv" />
+			<target element="BusinessRole" relations="fiotv" />
+			<target element="BusinessCollaboration" relations="fiotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="cfiotu" />
-			<target element="BusinessProcess" relations="fiotu" />
-			<target element="BusinessFunction" relations="fiotu" />
-			<target element="BusinessInteraction" relations="cfiotu" />
+			<target element="BusinessInterface" relations="cfiotv" />
+			<target element="BusinessProcess" relations="fiotv" />
+			<target element="BusinessFunction" relations="fiotv" />
+			<target element="BusinessInteraction" relations="cfiotv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessService" relations="iorv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -56,16 +56,16 @@
 		</source>
 		
 		<source element="BusinessRole">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="cfgostu" />
-			<target element="BusinessCollaboration" relations="cfgostu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="cfgostv" />
+			<target element="BusinessCollaboration" relations="cfgostv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="cfgiotu" />
-			<target element="BusinessProcess" relations="fiotu" />
-			<target element="BusinessFunction" relations="fiotu" />
-			<target element="BusinessInteraction" relations="fiotu" />
+			<target element="BusinessInterface" relations="cfgiotv" />
+			<target element="BusinessProcess" relations="fiotv" />
+			<target element="BusinessFunction" relations="fiotv" />
+			<target element="BusinessInteraction" relations="fiotv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessService" relations="iorv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -109,16 +109,16 @@
 		</source>
 		
 		<source element="BusinessCollaboration">
-			<target element="BusinessActor" relations="fgotu" />
-			<target element="BusinessRole" relations="cfgostu" />
-			<target element="BusinessCollaboration" relations="cfgostu" />
+			<target element="BusinessActor" relations="fgotv" />
+			<target element="BusinessRole" relations="cfgostv" />
+			<target element="BusinessCollaboration" relations="cfgostv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="cfgotu" />
-			<target element="BusinessProcess" relations="fiotu" />
-			<target element="BusinessFunction" relations="fiotu" />
-			<target element="BusinessInteraction" relations="fiotu" />
+			<target element="BusinessInterface" relations="cfgotv" />
+			<target element="BusinessProcess" relations="fiotv" />
+			<target element="BusinessFunction" relations="fiotv" />
+			<target element="BusinessInteraction" relations="fiotv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessService" relations="iorv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -162,13 +162,13 @@
 		</source>
 		
 		<source element="Location">
-			<target element="BusinessActor" relations="fiotu" />
-			<target element="BusinessRole" relations="fiotu" />
-			<target element="BusinessCollaboration" relations="fiotu" />
-			<target element="Location" relations="cfgostu" />
-			<target element="BusinessInterface" relations="fiotu" />
+			<target element="BusinessActor" relations="fiotv" />
+			<target element="BusinessRole" relations="fiotv" />
+			<target element="BusinessCollaboration" relations="fiotv" />
+			<target element="Location" relations="cfgostv" />
+			<target element="BusinessInterface" relations="fiotv" />
 			<target element="BusinessProcess" relations="io" />
-			<target element="BusinessFunction" relations="fiotu" />
+			<target element="BusinessFunction" relations="fiotv" />
 			<target element="BusinessInteraction" relations="io" />
 			<target element="BusinessEvent" relations="iot" />
 			<target element="BusinessService" relations="io" />
@@ -215,16 +215,16 @@
 		</source>
 		
 		<source element="BusinessInterface">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="fotu" />
-			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="fotv" />
+			<target element="BusinessCollaboration" relations="fotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="cfgostu" />
-			<target element="BusinessProcess" relations="ou" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="cfgostv" />
+			<target element="BusinessProcess" relations="ov" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="iou" />
+			<target element="BusinessService" relations="iov" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -268,16 +268,16 @@
 		</source>
 		
 		<source element="BusinessProcess">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="fotu" />
-			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="fotv" />
+			<target element="BusinessCollaboration" relations="fotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="cfgostu" />
-			<target element="BusinessFunction" relations="cfgostu" />
-			<target element="BusinessInteraction" relations="cfgostu" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="cfgostv" />
+			<target element="BusinessFunction" relations="cfgostv" />
+			<target element="BusinessInteraction" relations="cfgostv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="fortu" />
+			<target element="BusinessService" relations="fortv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -321,16 +321,16 @@
 		</source>
 		
 		<source element="BusinessFunction">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="fotu" />
-			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="fotv" />
+			<target element="BusinessCollaboration" relations="fotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="cfgostu" />
-			<target element="BusinessFunction" relations="cfgostu" />
-			<target element="BusinessInteraction" relations="cfgostu" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="cfgostv" />
+			<target element="BusinessFunction" relations="cfgostv" />
+			<target element="BusinessInteraction" relations="cfgostv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="fortu" />
+			<target element="BusinessService" relations="fortv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -374,16 +374,16 @@
 		</source>
 		
 		<source element="BusinessInteraction">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="fotu" />
-			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="fotv" />
+			<target element="BusinessCollaboration" relations="fotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="cfgostu" />
-			<target element="BusinessFunction" relations="cfgostu" />
-			<target element="BusinessInteraction" relations="cfgostu" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="cfgostv" />
+			<target element="BusinessFunction" relations="cfgostv" />
+			<target element="BusinessInteraction" relations="cfgostv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="fortu" />
+			<target element="BusinessService" relations="fortv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -480,16 +480,16 @@
 		</source>
 		
 		<source element="BusinessService">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="fotu" />
-			<target element="BusinessFunction" relations="fotu" />
-			<target element="BusinessInteraction" relations="fotu" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="fotv" />
+			<target element="BusinessFunction" relations="fotv" />
+			<target element="BusinessInteraction" relations="fotv" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="cfgostu" />
+			<target element="BusinessService" relations="cfgostv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -633,16 +633,16 @@
 		</source>
 		
 		<source element="Product">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="ou" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="ov" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="gou" />
+			<target element="BusinessService" relations="gov" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="cgos" />
@@ -650,22 +650,22 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="ou" />
-			<target element="ApplicationCollaboration" relations="ou" />
-			<target element="ApplicationInterface" relations="ou" />
-			<target element="ApplicationFunction" relations="ou" />
+			<target element="ApplicationComponent" relations="ov" />
+			<target element="ApplicationCollaboration" relations="ov" />
+			<target element="ApplicationInterface" relations="ov" />
+			<target element="ApplicationFunction" relations="ov" />
 			<target element="ApplicationInteraction" relations="o" />
-			<target element="ApplicationService" relations="gou" />
+			<target element="ApplicationService" relations="gov" />
 			<target element="DataObject" relations="ao" />
 
-			<target element="Node" relations="ou" />
-			<target element="Device" relations="ou" />
-			<target element="SystemSoftware" relations="ou" />
-			<target element="InfrastructureInterface" relations="ou" />
+			<target element="Node" relations="ov" />
+			<target element="Device" relations="ov" />
+			<target element="SystemSoftware" relations="ov" />
+			<target element="InfrastructureInterface" relations="ov" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="ou" />
-			<target element="InfrastructureService" relations="gou" />
+			<target element="InfrastructureFunction" relations="ov" />
+			<target element="InfrastructureService" relations="gov" />
 			<target element="Artifact" relations="ao" />
 
 			<target element="Stakeholder" relations="o" />
@@ -820,16 +820,16 @@
 		</source>
 		
 		<source element="ApplicationComponent">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="fotu" />
-			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="fotv" />
+			<target element="BusinessCollaboration" relations="fotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="fiotu" />
-			<target element="BusinessFunction" relations="fiotu" />
-			<target element="BusinessInteraction" relations="fiotu" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="fiotv" />
+			<target element="BusinessFunction" relations="fiotv" />
+			<target element="BusinessInteraction" relations="fiotv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessService" relations="iorv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -837,12 +837,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="cfgostu" />
-			<target element="ApplicationCollaboration" relations="cfgostu" />
-			<target element="ApplicationInterface" relations="cfgotu" />
-			<target element="ApplicationFunction" relations="iou" />
-			<target element="ApplicationInteraction" relations="iou" />
-			<target element="ApplicationService" relations="ioru" />
+			<target element="ApplicationComponent" relations="cfgostv" />
+			<target element="ApplicationCollaboration" relations="cfgostv" />
+			<target element="ApplicationInterface" relations="cfgotv" />
+			<target element="ApplicationFunction" relations="iov" />
+			<target element="ApplicationInteraction" relations="iov" />
+			<target element="ApplicationService" relations="iorv" />
 			<target element="DataObject" relations="ao" />
 
 			<target element="Node" relations="o" />
@@ -873,16 +873,16 @@
 		</source>
 		
 		<source element="ApplicationCollaboration">
-			<target element="BusinessActor" relations="fotu" />
-			<target element="BusinessRole" relations="fotu" />
-			<target element="BusinessCollaboration" relations="fotu" />
+			<target element="BusinessActor" relations="fotv" />
+			<target element="BusinessRole" relations="fotv" />
+			<target element="BusinessCollaboration" relations="fotv" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="fiotu" />
-			<target element="BusinessFunction" relations="fiotu" />
-			<target element="BusinessInteraction" relations="fiotu" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="fiotv" />
+			<target element="BusinessFunction" relations="fiotv" />
+			<target element="BusinessInteraction" relations="fiotv" />
 			<target element="BusinessEvent" relations="ot" />
-			<target element="BusinessService" relations="ioru" />
+			<target element="BusinessService" relations="iorv" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -890,12 +890,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="cfgostu" />
-			<target element="ApplicationCollaboration" relations="cfgostu" />
-			<target element="ApplicationInterface" relations="cfgotu" />
-			<target element="ApplicationFunction" relations="iou" />
-			<target element="ApplicationInteraction" relations="iou" />
-			<target element="ApplicationService" relations="ioru" />
+			<target element="ApplicationComponent" relations="cfgostv" />
+			<target element="ApplicationCollaboration" relations="cfgostv" />
+			<target element="ApplicationInterface" relations="cfgotv" />
+			<target element="ApplicationFunction" relations="iov" />
+			<target element="ApplicationInteraction" relations="iov" />
+			<target element="ApplicationService" relations="iorv" />
 			<target element="DataObject" relations="ao" />
 
 			<target element="Node" relations="o" />
@@ -926,16 +926,16 @@
 		</source>
 		
 		<source element="ApplicationInterface">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="fotu" />
-			<target element="BusinessFunction" relations="fotu" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="fotv" />
+			<target element="BusinessFunction" relations="fotv" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="iou" />
+			<target element="BusinessService" relations="iov" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -943,12 +943,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="fotu" />
-			<target element="ApplicationCollaboration" relations="fotu" />
-			<target element="ApplicationInterface" relations="cfgostu" />
-			<target element="ApplicationFunction" relations="ou" />
-			<target element="ApplicationInteraction" relations="ou" />
-			<target element="ApplicationService" relations="iou" />
+			<target element="ApplicationComponent" relations="fotv" />
+			<target element="ApplicationCollaboration" relations="fotv" />
+			<target element="ApplicationInterface" relations="cfgostv" />
+			<target element="ApplicationFunction" relations="ov" />
+			<target element="ApplicationInteraction" relations="ov" />
+			<target element="ApplicationService" relations="iov" />
 			<target element="DataObject" relations="ao" />
 
 			<target element="Node" relations="o" />
@@ -979,16 +979,16 @@
 		</source>
 		
 		<source element="ApplicationFunction">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="fotu" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="fotv" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="ou" />
+			<target element="BusinessService" relations="ov" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -996,12 +996,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="ou" />
-			<target element="ApplicationCollaboration" relations="ou" />
-			<target element="ApplicationInterface" relations="ou" />
-			<target element="ApplicationFunction" relations="cfgostu" />
+			<target element="ApplicationComponent" relations="ov" />
+			<target element="ApplicationCollaboration" relations="ov" />
+			<target element="ApplicationInterface" relations="ov" />
+			<target element="ApplicationFunction" relations="cfgostv" />
 			<target element="ApplicationInteraction" relations="fot" />
-			<target element="ApplicationService" relations="fortu" />
+			<target element="ApplicationService" relations="fortv" />
 			<target element="DataObject" relations="ao" />
 
 			<target element="Node" relations="o" />
@@ -1032,16 +1032,16 @@
 		</source>
 		
 		<source element="ApplicationInteraction">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="fotu" />
-			<target element="BusinessProcess" relations="fotu" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="fotv" />
+			<target element="BusinessProcess" relations="fotv" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="ou" />
+			<target element="BusinessService" relations="ov" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -1049,12 +1049,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="ou" />
-			<target element="ApplicationCollaboration" relations="ou" />
-			<target element="ApplicationInterface" relations="ou" />
-			<target element="ApplicationFunction" relations="fotu" />
+			<target element="ApplicationComponent" relations="ov" />
+			<target element="ApplicationCollaboration" relations="ov" />
+			<target element="ApplicationInterface" relations="ov" />
+			<target element="ApplicationFunction" relations="fotv" />
 			<target element="ApplicationInteraction" relations="cfgost" />
-			<target element="ApplicationService" relations="oru" />
+			<target element="ApplicationService" relations="orv" />
 			<target element="DataObject" relations="ao" />
 
 			<target element="Node" relations="o" />
@@ -1085,16 +1085,16 @@
 		</source>
 		
 		<source element="ApplicationService">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="ou" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="ov" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="ou" />
+			<target element="BusinessService" relations="ov" />
 			<target element="BusinessObject" relations="ao" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -1102,12 +1102,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="ou" />
-			<target element="ApplicationCollaboration" relations="ou" />
-			<target element="ApplicationInterface" relations="ou" />
-			<target element="ApplicationFunction" relations="fortu" />
-			<target element="ApplicationInteraction" relations="ou" />
-			<target element="ApplicationService" relations="cfgostu" />
+			<target element="ApplicationComponent" relations="ov" />
+			<target element="ApplicationCollaboration" relations="ov" />
+			<target element="ApplicationInterface" relations="ov" />
+			<target element="ApplicationFunction" relations="fortv" />
+			<target element="ApplicationInteraction" relations="ov" />
+			<target element="ApplicationService" relations="cfgostv" />
 			<target element="DataObject" relations="ao" />
 
 			<target element="Node" relations="o" />
@@ -1188,40 +1188,40 @@
 		</source>
 		
 		<source element="Node">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="oru" />
-			<target element="BusinessFunction" relations="oru" />
-			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="orv" />
+			<target element="BusinessFunction" relations="orv" />
+			<target element="BusinessInteraction" relations="orv" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="oru" />
-			<target element="BusinessObject" relations="aoru" />
+			<target element="BusinessService" relations="orv" />
+			<target element="BusinessObject" relations="aorv" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
-			<target element="Contract" relations="aoru" />
+			<target element="Contract" relations="aorv" />
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="aoru" />
-			<target element="ApplicationCollaboration" relations="aoru" />
-			<target element="ApplicationInterface" relations="aoru" />
-			<target element="ApplicationFunction" relations="aoru" />
-			<target element="ApplicationInteraction" relations="aoru" />
-			<target element="ApplicationService" relations="aoru" />
-			<target element="DataObject" relations="aoru" />
+			<target element="ApplicationComponent" relations="aorv" />
+			<target element="ApplicationCollaboration" relations="aorv" />
+			<target element="ApplicationInterface" relations="aorv" />
+			<target element="ApplicationFunction" relations="aorv" />
+			<target element="ApplicationInteraction" relations="aorv" />
+			<target element="ApplicationService" relations="aorv" />
+			<target element="DataObject" relations="aorv" />
 
-			<target element="Node" relations="cfgostu" />
-			<target element="Device" relations="cfgostu" />
-			<target element="SystemSoftware" relations="cfgostu" />
-			<target element="InfrastructureInterface" relations="cfgotu" />
+			<target element="Node" relations="cfgostv" />
+			<target element="Device" relations="cfgostv" />
+			<target element="SystemSoftware" relations="cfgostv" />
+			<target element="InfrastructureInterface" relations="cfgotv" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="iou" />
-			<target element="InfrastructureService" relations="ioru" />
-			<target element="Artifact" relations="aiou" />
+			<target element="InfrastructureFunction" relations="iov" />
+			<target element="InfrastructureService" relations="iorv" />
+			<target element="Artifact" relations="aiov" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1241,40 +1241,40 @@
 		</source>
 		
 		<source element="Device">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="oru" />
-			<target element="BusinessFunction" relations="oru" />
-			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="orv" />
+			<target element="BusinessFunction" relations="orv" />
+			<target element="BusinessInteraction" relations="orv" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="oru" />
-			<target element="BusinessObject" relations="aoru" />
+			<target element="BusinessService" relations="orv" />
+			<target element="BusinessObject" relations="aorv" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
-			<target element="Contract" relations="aoru" />
+			<target element="Contract" relations="aorv" />
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="aoru" />
-			<target element="ApplicationCollaboration" relations="aoru" />
-			<target element="ApplicationInterface" relations="aoru" />
-			<target element="ApplicationFunction" relations="aoru" />
-			<target element="ApplicationInteraction" relations="aoru" />
-			<target element="ApplicationService" relations="aoru" />
-			<target element="DataObject" relations="aoru" />
+			<target element="ApplicationComponent" relations="aorv" />
+			<target element="ApplicationCollaboration" relations="aorv" />
+			<target element="ApplicationInterface" relations="aorv" />
+			<target element="ApplicationFunction" relations="aorv" />
+			<target element="ApplicationInteraction" relations="aorv" />
+			<target element="ApplicationService" relations="aorv" />
+			<target element="DataObject" relations="aorv" />
 
-			<target element="Node" relations="cfgostu" />
-			<target element="Device" relations="cfgostu" />
-			<target element="SystemSoftware" relations="cfgiostu" />
-			<target element="InfrastructureInterface" relations="cfgotu" />
+			<target element="Node" relations="cfgostv" />
+			<target element="Device" relations="cfgostv" />
+			<target element="SystemSoftware" relations="cfgiostv" />
+			<target element="InfrastructureInterface" relations="cfgotv" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="iou" />
-			<target element="InfrastructureService" relations="ioru" />
-			<target element="Artifact" relations="aiou" />
+			<target element="InfrastructureFunction" relations="iov" />
+			<target element="InfrastructureService" relations="iorv" />
+			<target element="Artifact" relations="aiov" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1294,40 +1294,40 @@
 		</source>
 		
 		<source element="SystemSoftware">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="oru" />
-			<target element="BusinessFunction" relations="oru" />
-			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="orv" />
+			<target element="BusinessFunction" relations="orv" />
+			<target element="BusinessInteraction" relations="orv" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="oru" />
-			<target element="BusinessObject" relations="aoru" />
+			<target element="BusinessService" relations="orv" />
+			<target element="BusinessObject" relations="aorv" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
-			<target element="Contract" relations="aoru" />
+			<target element="Contract" relations="aorv" />
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="aoru" />
-			<target element="ApplicationCollaboration" relations="aoru" />
-			<target element="ApplicationInterface" relations="aoru" />
-			<target element="ApplicationFunction" relations="aoru" />
-			<target element="ApplicationInteraction" relations="aoru" />
-			<target element="ApplicationService" relations="aoru" />
-			<target element="DataObject" relations="aoru" />
+			<target element="ApplicationComponent" relations="aorv" />
+			<target element="ApplicationCollaboration" relations="aorv" />
+			<target element="ApplicationInterface" relations="aorv" />
+			<target element="ApplicationFunction" relations="aorv" />
+			<target element="ApplicationInteraction" relations="aorv" />
+			<target element="ApplicationService" relations="aorv" />
+			<target element="DataObject" relations="aorv" />
 
-			<target element="Node" relations="cfgostu" />
-			<target element="Device" relations="cfgostu" />
-			<target element="SystemSoftware" relations="cfgostu" />
-			<target element="InfrastructureInterface" relations="cfgotu" />
+			<target element="Node" relations="cfgostv" />
+			<target element="Device" relations="cfgostv" />
+			<target element="SystemSoftware" relations="cfgostv" />
+			<target element="InfrastructureInterface" relations="cfgotv" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="iou" />
-			<target element="InfrastructureService" relations="ioru" />
-			<target element="Artifact" relations="aiou" />
+			<target element="InfrastructureFunction" relations="iov" />
+			<target element="InfrastructureService" relations="iorv" />
+			<target element="Artifact" relations="aiov" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1347,40 +1347,40 @@
 		</source>
 		
 		<source element="InfrastructureInterface">
-			<target element="BusinessActor" relations="aou" />
-			<target element="BusinessRole" relations="aou" />
-			<target element="BusinessCollaboration" relations="aou" />
+			<target element="BusinessActor" relations="aov" />
+			<target element="BusinessRole" relations="aov" />
+			<target element="BusinessCollaboration" relations="aov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="aou" />
-			<target element="BusinessProcess" relations="aou" />
-			<target element="BusinessFunction" relations="aou" />
-			<target element="BusinessInteraction" relations="aou" />
+			<target element="BusinessInterface" relations="aov" />
+			<target element="BusinessProcess" relations="aov" />
+			<target element="BusinessFunction" relations="aov" />
+			<target element="BusinessInteraction" relations="aov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="aou" />
-			<target element="BusinessObject" relations="aou" />
+			<target element="BusinessService" relations="aov" />
+			<target element="BusinessObject" relations="aov" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
-			<target element="Contract" relations="aou" />
+			<target element="Contract" relations="aov" />
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="aou" />
-			<target element="ApplicationCollaboration" relations="aou" />
-			<target element="ApplicationInterface" relations="aou" />
-			<target element="ApplicationFunction" relations="aou" />
-			<target element="ApplicationInteraction" relations="aou" />
-			<target element="ApplicationService" relations="aou" />
-			<target element="DataObject" relations="aou" />
+			<target element="ApplicationComponent" relations="aov" />
+			<target element="ApplicationCollaboration" relations="aov" />
+			<target element="ApplicationInterface" relations="aov" />
+			<target element="ApplicationFunction" relations="aov" />
+			<target element="ApplicationInteraction" relations="aov" />
+			<target element="ApplicationService" relations="aov" />
+			<target element="DataObject" relations="aov" />
 
-			<target element="Node" relations="fotu" />
-			<target element="Device" relations="fotu" />
-			<target element="SystemSoftware" relations="fotu" />
-			<target element="InfrastructureInterface" relations="cfgostu" />
+			<target element="Node" relations="fotv" />
+			<target element="Device" relations="fotv" />
+			<target element="SystemSoftware" relations="fotv" />
+			<target element="InfrastructureInterface" relations="cfgostv" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="ou" />
-			<target element="InfrastructureService" relations="iou" />
-			<target element="Artifact" relations="aou" />
+			<target element="InfrastructureFunction" relations="ov" />
+			<target element="InfrastructureService" relations="iov" />
+			<target element="Artifact" relations="aov" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1499,40 +1499,40 @@
 		</source>
 		
 		<source element="InfrastructureFunction">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="ou" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="ov" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="ou" />
-			<target element="BusinessObject" relations="aou" />
+			<target element="BusinessService" relations="ov" />
+			<target element="BusinessObject" relations="aov" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
-			<target element="Contract" relations="aou" />
+			<target element="Contract" relations="aov" />
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="aou" />
-			<target element="ApplicationCollaboration" relations="aou" />
-			<target element="ApplicationInterface" relations="aou" />
-			<target element="ApplicationFunction" relations="aou" />
-			<target element="ApplicationInteraction" relations="aou" />
-			<target element="ApplicationService" relations="aou" />
-			<target element="DataObject" relations="aou" />
+			<target element="ApplicationComponent" relations="aov" />
+			<target element="ApplicationCollaboration" relations="aov" />
+			<target element="ApplicationInterface" relations="aov" />
+			<target element="ApplicationFunction" relations="aov" />
+			<target element="ApplicationInteraction" relations="aov" />
+			<target element="ApplicationService" relations="aov" />
+			<target element="DataObject" relations="aov" />
 
-			<target element="Node" relations="ou" />
-			<target element="Device" relations="ou" />
-			<target element="SystemSoftware" relations="ou" />
-			<target element="InfrastructureInterface" relations="ou" />
+			<target element="Node" relations="ov" />
+			<target element="Device" relations="ov" />
+			<target element="SystemSoftware" relations="ov" />
+			<target element="InfrastructureInterface" relations="ov" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="cfgostu" />
-			<target element="InfrastructureService" relations="oru" />
-			<target element="Artifact" relations="aou" />
+			<target element="InfrastructureFunction" relations="cfgostv" />
+			<target element="InfrastructureService" relations="orv" />
+			<target element="Artifact" relations="aov" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1552,40 +1552,40 @@
 		</source>
 		
 		<source element="InfrastructureService">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="ou" />
-			<target element="BusinessFunction" relations="ou" />
-			<target element="BusinessInteraction" relations="ou" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="ov" />
+			<target element="BusinessFunction" relations="ov" />
+			<target element="BusinessInteraction" relations="ov" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="ou" />
-			<target element="BusinessObject" relations="aou" />
+			<target element="BusinessService" relations="ov" />
+			<target element="BusinessObject" relations="aov" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
-			<target element="Contract" relations="aou" />
+			<target element="Contract" relations="aov" />
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="ou" />
-			<target element="ApplicationCollaboration" relations="ou" />
-			<target element="ApplicationInterface" relations="ou" />
-			<target element="ApplicationFunction" relations="ou" />
-			<target element="ApplicationInteraction" relations="ou" />
-			<target element="ApplicationService" relations="ou" />
-			<target element="DataObject" relations="aou" />
+			<target element="ApplicationComponent" relations="ov" />
+			<target element="ApplicationCollaboration" relations="ov" />
+			<target element="ApplicationInterface" relations="ov" />
+			<target element="ApplicationFunction" relations="ov" />
+			<target element="ApplicationInteraction" relations="ov" />
+			<target element="ApplicationService" relations="ov" />
+			<target element="DataObject" relations="aov" />
 
-			<target element="Node" relations="ou" />
-			<target element="Device" relations="ou" />
-			<target element="SystemSoftware" relations="ou" />
-			<target element="InfrastructureInterface" relations="ou" />
+			<target element="Node" relations="ov" />
+			<target element="Device" relations="ov" />
+			<target element="SystemSoftware" relations="ov" />
+			<target element="InfrastructureInterface" relations="ov" />
 			<target element="Network" relations="o" />
 			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="ou" />
-			<target element="InfrastructureService" relations="cfgostu" />
-			<target element="Artifact" relations="aou" />
+			<target element="InfrastructureFunction" relations="ov" />
+			<target element="InfrastructureService" relations="cfgostv" />
+			<target element="Artifact" relations="aov" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1605,16 +1605,16 @@
 		</source>
 		
 		<source element="Artifact">
-			<target element="BusinessActor" relations="ou" />
-			<target element="BusinessRole" relations="ou" />
-			<target element="BusinessCollaboration" relations="ou" />
+			<target element="BusinessActor" relations="ov" />
+			<target element="BusinessRole" relations="ov" />
+			<target element="BusinessCollaboration" relations="ov" />
 			<target element="Location" relations="o" />
-			<target element="BusinessInterface" relations="ou" />
-			<target element="BusinessProcess" relations="oru" />
-			<target element="BusinessFunction" relations="oru" />
-			<target element="BusinessInteraction" relations="oru" />
+			<target element="BusinessInterface" relations="ov" />
+			<target element="BusinessProcess" relations="orv" />
+			<target element="BusinessFunction" relations="orv" />
+			<target element="BusinessInteraction" relations="orv" />
 			<target element="BusinessEvent" relations="o" />
-			<target element="BusinessService" relations="oru" />
+			<target element="BusinessService" relations="orv" />
 			<target element="BusinessObject" relations="aor" />
 			<target element="Representation" relations="o" />
 			<target element="Product" relations="o" />
@@ -1622,12 +1622,12 @@
 			<target element="Meaning" relations="o" />
 			<target element="Value" relations="o" />
 			
-			<target element="ApplicationComponent" relations="oru" />
-			<target element="ApplicationCollaboration" relations="oru" />
-			<target element="ApplicationInterface" relations="oru" />
-			<target element="ApplicationFunction" relations="oru" />
-			<target element="ApplicationInteraction" relations="oru" />
-			<target element="ApplicationService" relations="oru" />
+			<target element="ApplicationComponent" relations="orv" />
+			<target element="ApplicationCollaboration" relations="orv" />
+			<target element="ApplicationInterface" relations="orv" />
+			<target element="ApplicationFunction" relations="orv" />
+			<target element="ApplicationInteraction" relations="orv" />
+			<target element="ApplicationService" relations="orv" />
 			<target element="DataObject" relations="aor" />
 
 			<target element="Node" relations="o" />

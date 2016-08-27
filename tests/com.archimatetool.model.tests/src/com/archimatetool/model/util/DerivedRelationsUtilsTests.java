@@ -72,13 +72,13 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement applicationService = IArchimateFactory.eINSTANCE.createApplicationService();
         model.getDefaultFolderForElement(applicationService).getElements().add(applicationService);
         
-        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createServingRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
         relation1.setSource(businessProcess);
         relation1.setTarget(applicationService);
         
-        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createServingRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation2);
 
         relation2.setSource(applicationService);
@@ -102,7 +102,7 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement network = IArchimateFactory.eINSTANCE.createNetwork();
         model.getDefaultFolderForElement(network).getElements().add(network);
         
-        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createServingRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
         IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
@@ -145,10 +145,10 @@ public class DerivedRelationsUtilsTests {
         IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
-        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createServingRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation2);
         
-        IArchimateRelationship relation3 = IArchimateFactory.eINSTANCE.createRealisationRelationship();
+        IArchimateRelationship relation3 = IArchimateFactory.eINSTANCE.createRealizationRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation3);
 
         relation1.setSource(actor);

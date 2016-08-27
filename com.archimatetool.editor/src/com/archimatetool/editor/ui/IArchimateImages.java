@@ -55,10 +55,10 @@ public interface IArchimateImages {
     String ICON_COMPOSITION_RELATION_16 = ARCHIMATE_IMGPATH + "composition-16.png"; //$NON-NLS-1$
     String ICON_FLOW_RELATION_16 = ARCHIMATE_IMGPATH + "flow-16.png"; //$NON-NLS-1$
     String ICON_INFLUENCE_RELATION_16 = ARCHIMATE_IMGPATH + "influence-16.png"; //$NON-NLS-1$
-    String ICON_REALISATION_RELATION_16 = ARCHIMATE_IMGPATH + "realisation-16.png"; //$NON-NLS-1$
-    String ICON_SPECIALISATION_RELATION_16 = ARCHIMATE_IMGPATH + "specialisation-16.png"; //$NON-NLS-1$
+    String ICON_REALIZATION_RELATION_16 = ARCHIMATE_IMGPATH + "realization-16.png"; //$NON-NLS-1$
+    String ICON_SPECIALIZATION_RELATION_16 = ARCHIMATE_IMGPATH + "specialization-16.png"; //$NON-NLS-1$
     String ICON_TRIGGERING_RELATION_16 = ARCHIMATE_IMGPATH + "triggering-16.png"; //$NON-NLS-1$
-    String ICON_USED_BY_RELATION_16 = ARCHIMATE_IMGPATH + "used-by-16.png"; //$NON-NLS-1$
+    String ICON_SERVING_RELATION_16 = ARCHIMATE_IMGPATH + "serving-16.png"; //$NON-NLS-1$
     
     // Junctions
     String ICON_AND_JUNCTION_16 = ARCHIMATE_IMGPATH + "junction-and-16.png"; //$NON-NLS-1$

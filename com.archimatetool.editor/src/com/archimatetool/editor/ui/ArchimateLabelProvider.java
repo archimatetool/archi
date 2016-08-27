@@ -166,7 +166,7 @@ public class ArchimateLabelProvider {
                 String nameTarget = ArchimateLabelProvider.INSTANCE.getLabel(relation.getTarget());
                 
                 switch(relation.eClass().getClassifierID()) {
-                    case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
+                    case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
                         return NLS.bind(Messages.ArchimateLabelProvider_3, nameSource, nameTarget);
 
                     case IArchimatePackage.COMPOSITION_RELATIONSHIP:
@@ -190,10 +190,10 @@ public class ArchimateLabelProvider {
                     case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
                         return NLS.bind(Messages.ArchimateLabelProvider_10, nameSource, nameTarget);
 
-                    case IArchimatePackage.REALISATION_RELATIONSHIP:
+                    case IArchimatePackage.REALIZATION_RELATIONSHIP:
                         return NLS.bind(Messages.ArchimateLabelProvider_11, nameSource, nameTarget);
 
-                    case IArchimatePackage.USED_BY_RELATIONSHIP:
+                    case IArchimatePackage.SERVING_RELATIONSHIP:
                         return NLS.bind(Messages.ArchimateLabelProvider_12, nameSource, nameTarget);
 
                     case IArchimatePackage.INFLUENCE_RELATIONSHIP:
@@ -219,7 +219,7 @@ public class ArchimateLabelProvider {
         }
         
         switch(eClass.getClassifierID()) {
-            case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
+            case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
                 return reverseDirection ? Messages.ArchimateLabelProvider_14 : Messages.ArchimateLabelProvider_15;
 
             case IArchimatePackage.COMPOSITION_RELATIONSHIP:
@@ -243,10 +243,10 @@ public class ArchimateLabelProvider {
             case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
                 return reverseDirection ? Messages.ArchimateLabelProvider_28 : Messages.ArchimateLabelProvider_29;
 
-            case IArchimatePackage.REALISATION_RELATIONSHIP:
+            case IArchimatePackage.REALIZATION_RELATIONSHIP:
                 return reverseDirection ? Messages.ArchimateLabelProvider_30 : Messages.ArchimateLabelProvider_31;
 
-            case IArchimatePackage.USED_BY_RELATIONSHIP:
+            case IArchimatePackage.SERVING_RELATIONSHIP:
                 return reverseDirection ? Messages.ArchimateLabelProvider_32 : Messages.ArchimateLabelProvider_33;
 
             case IArchimatePackage.INFLUENCE_RELATIONSHIP:

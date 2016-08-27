@@ -10,40 +10,40 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.SpecialisationConnectionEditPart;
+import com.archimatetool.editor.diagram.editparts.connections.ServingConnectionEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
 
 /**
- * Specialisation Relationship UI Provider
+ * Serving Relationship UI Provider
  * 
  * @author Phillip Beauvoir
  */
-public class SpecialisationRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class ServingRelationshipUIProvider extends AbstractRelationshipUIProvider {
 
     public EClass providerFor() {
-        return IArchimatePackage.eINSTANCE.getSpecialisationRelationship();
+        return IArchimatePackage.eINSTANCE.getServingRelationship();
     }
     
     @Override
     public EditPart createEditPart() {
-        return new SpecialisationConnectionEditPart();
+        return new ServingConnectionEditPart();
     }
 
     @Override
     public String getDefaultName() {
-        return Messages.SpecialisationRelationshipUIProvider_0;
+        return Messages.ServingRelationshipUIProvider_0;
     }
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SPECIALISATION_RELATION_16);
+        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SERVING_RELATION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SPECIALISATION_RELATION_16);
+        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SERVING_RELATION_16);
     }
 }

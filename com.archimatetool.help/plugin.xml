@@ -157,11 +157,6 @@
             title="%hint.title.4">
       </hint>
       <hint
-            class="com.archimatetool.model.IBusinessActivity"
-            file="hints/business_activity.html"
-            title="%hint.title.5">
-      </hint>
-      <hint
             class="com.archimatetool.model.IBusinessFunction"
             file="hints/business_function.html"
             title="%hint.title.6">
@@ -307,13 +302,13 @@
             title="%hint.title.34">
       </hint>
       <hint
-            class="com.archimatetool.model.IRealisationRelationship"
-            file="hints/realisation.html"
+            class="com.archimatetool.model.IRealizationRelationship"
+            file="hints/realization.html"
             title="%hint.title.35">
       </hint>
       <hint
-            class="com.archimatetool.model.IUsedByRelationship"
-            file="hints/used_by.html"
+            class="com.archimatetool.model.IServingRelationship"
+            file="hints/serving.html"
             title="%hint.title.36">
       </hint>
       <hint
@@ -337,19 +332,14 @@
             title="%hint.title.40">
       </hint>
       <hint
-            class="com.archimatetool.model.ISpecialisationRelationship"
-            file="hints/specialisation.html"
+            class="com.archimatetool.model.ISpecializationRelationship"
+            file="hints/specialization.html"
             title="%hint.title.41">
       </hint>
       <hint
             class="com.archimatetool.model.IInfluenceRelationship"
             file="hints/influence.html"
             title="%hint.title.42">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IJunction"
-            file="hints/junction.html"
-            title="%hint.title.43">
       </hint>
       <hint
             class="com.archimatetool.model.IAndJunction"

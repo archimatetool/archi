@@ -13,11 +13,11 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
 /**
- * Used By Connection Figure class
+ * Serving Connection Figure class
  * 
  * @author Phillip Beauvoir
  */
-public class UsedByConnectionFigure extends AbstractArchimateConnectionFigure {
+public class ServingConnectionFigure extends AbstractArchimateConnectionFigure {
 	
     /**
      * @return Decoration to use on Target Node
@@ -26,7 +26,7 @@ public class UsedByConnectionFigure extends AbstractArchimateConnectionFigure {
         return new PolylineDecoration();
     }
 
-    public UsedByConnectionFigure(IDiagramModelArchimateConnection connection) {
+    public ServingConnectionFigure(IDiagramModelArchimateConnection connection) {
         super(connection);
     }
 	

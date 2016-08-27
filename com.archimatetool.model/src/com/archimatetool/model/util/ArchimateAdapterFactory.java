@@ -96,15 +96,16 @@ import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRealisationRelationship;
+import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IResource;
 import com.archimatetool.model.IServiceElement;
+import com.archimatetool.model.IServingRelationship;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
-import com.archimatetool.model.ISpecialisationRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.ISystemSoftware;
@@ -113,7 +114,6 @@ import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
-import com.archimatetool.model.IUsedByRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IWorkPackage;
 import org.eclipse.emf.common.notify.Adapter;
@@ -495,24 +495,24 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createFlowRelationshipAdapter();
             }
             @Override
-            public Adapter caseRealisationRelationship(IRealisationRelationship object) {
-                return createRealisationRelationshipAdapter();
+            public Adapter caseInfluenceRelationship(IInfluenceRelationship object) {
+                return createInfluenceRelationshipAdapter();
             }
             @Override
-            public Adapter caseSpecialisationRelationship(ISpecialisationRelationship object) {
-                return createSpecialisationRelationshipAdapter();
+            public Adapter caseRealizationRelationship(IRealizationRelationship object) {
+                return createRealizationRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseServingRelationship(IServingRelationship object) {
+                return createServingRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseSpecializationRelationship(ISpecializationRelationship object) {
+                return createSpecializationRelationshipAdapter();
             }
             @Override
             public Adapter caseTriggeringRelationship(ITriggeringRelationship object) {
                 return createTriggeringRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseUsedByRelationship(IUsedByRelationship object) {
-                return createUsedByRelationshipAdapter();
-            }
-            @Override
-            public Adapter caseInfluenceRelationship(IInfluenceRelationship object) {
-                return createInfluenceRelationshipAdapter();
             }
             @Override
             public Adapter caseDiagramModelComponent(IDiagramModelComponent object) {
@@ -1983,34 +1983,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IRealisationRelationship <em>Realisation Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IRealisationRelationship
-     * @generated
-     */
-    public Adapter createRealisationRelationshipAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ISpecialisationRelationship <em>Specialisation Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.ISpecialisationRelationship
-     * @generated
-     */
-    public Adapter createSpecialisationRelationshipAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITriggeringRelationship <em>Triggering Relationship</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -2025,20 +1997,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IUsedByRelationship <em>Used By Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IUsedByRelationship
-     * @generated
-     */
-    public Adapter createUsedByRelationshipAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IInfluenceRelationship <em>Influence Relationship</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -2049,6 +2007,48 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createInfluenceRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IRealizationRelationship <em>Realization Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IRealizationRelationship
+     * @generated
+     */
+    public Adapter createRealizationRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IServingRelationship <em>Serving Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IServingRelationship
+     * @generated
+     */
+    public Adapter createServingRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ISpecializationRelationship <em>Specialization Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ISpecializationRelationship
+     * @generated
+     */
+    public Adapter createSpecializationRelationshipAdapter() {
         return null;
     }
 

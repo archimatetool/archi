@@ -55,7 +55,7 @@ public class RelationshipsMatrixTests {
         relationship = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
         assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
         
-        relationship = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        relationship = IArchimateFactory.eINSTANCE.createServingRelationship();
         assertFalse(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
 
         sourceElement = IArchimateFactory.eINSTANCE.createSystemSoftware();
@@ -75,7 +75,7 @@ public class RelationshipsMatrixTests {
         relationship = IArchimatePackage.eINSTANCE.getTriggeringRelationship();
         assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
-        relationship = IArchimatePackage.eINSTANCE.getUsedByRelationship();
+        relationship = IArchimatePackage.eINSTANCE.getServingRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         sourceClass = IArchimatePackage.eINSTANCE.getSystemSoftware();

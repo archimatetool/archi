@@ -20,8 +20,8 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.ICompositionRelationship;
-import com.archimatetool.model.IRealisationRelationship;
-import com.archimatetool.model.IUsedByRelationship;
+import com.archimatetool.model.IRealizationRelationship;
+import com.archimatetool.model.IServingRelationship;
 
 
 
@@ -41,8 +41,8 @@ public class DerivedRelationsUtils {
     static {
         weaklist.add(IArchimatePackage.eINSTANCE.getAssociationRelationship());
         weaklist.add(IArchimatePackage.eINSTANCE.getAccessRelationship());
-        weaklist.add(IArchimatePackage.eINSTANCE.getUsedByRelationship());
-        weaklist.add(IArchimatePackage.eINSTANCE.getRealisationRelationship());
+        weaklist.add(IArchimatePackage.eINSTANCE.getServingRelationship());
+        weaklist.add(IArchimatePackage.eINSTANCE.getRealizationRelationship());
         weaklist.add(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
         weaklist.add(IArchimatePackage.eINSTANCE.getAggregationRelationship());
         weaklist.add(IArchimatePackage.eINSTANCE.getCompositionRelationship());
@@ -124,7 +124,7 @@ public class DerivedRelationsUtils {
      */
     public static boolean isStructuralRelationship(IArchimateRelationship relation) {
         return relation instanceof IAssociationRelationship || relation instanceof IAccessRelationship ||
-                relation instanceof IUsedByRelationship || relation instanceof IRealisationRelationship ||
+                relation instanceof IServingRelationship || relation instanceof IRealizationRelationship ||
                 relation instanceof IAssignmentRelationship || relation instanceof IAggregationRelationship
                 || relation instanceof ICompositionRelationship;
     }

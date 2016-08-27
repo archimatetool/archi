@@ -97,14 +97,14 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
                 return "Composition relation"; //$NON-NLS-1$
             case IArchimatePackage.FLOW_RELATIONSHIP:
                 return "Flow relation"; //$NON-NLS-1$
-            case IArchimatePackage.REALISATION_RELATIONSHIP:
-                return "Realisation relation"; //$NON-NLS-1$
-            case IArchimatePackage.SPECIALISATION_RELATIONSHIP:
-                return "Specialisation relation"; //$NON-NLS-1$
+            case IArchimatePackage.REALIZATION_RELATIONSHIP:
+                return "Realization relation"; //$NON-NLS-1$
+            case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
+                return "Specialization relation"; //$NON-NLS-1$
             case IArchimatePackage.TRIGGERING_RELATIONSHIP:
                 return "Triggering relation"; //$NON-NLS-1$
-            case IArchimatePackage.USED_BY_RELATIONSHIP:
-                return "Used By relation"; //$NON-NLS-1$
+            case IArchimatePackage.SERVING_RELATIONSHIP:
+                return "Serving relation"; //$NON-NLS-1$
         }
         return ""; //$NON-NLS-1$
     }

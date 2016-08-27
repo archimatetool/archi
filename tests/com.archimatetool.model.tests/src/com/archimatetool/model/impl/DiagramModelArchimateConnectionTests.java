@@ -45,7 +45,7 @@ public class DiagramModelArchimateConnectionTests {
         target = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         target.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessRole());
 
-        relationship = IArchimateFactory.eINSTANCE.createRealisationRelationship();
+        relationship = IArchimateFactory.eINSTANCE.createRealizationRelationship();
         connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         connection.setArchimateRelationship(relationship);
     }

@@ -25,7 +25,7 @@ public class StakeholderViewpoint extends AbstractViewpoint {
             
             IArchimatePackage.eINSTANCE.getAssociationRelationship(),
             IArchimatePackage.eINSTANCE.getAggregationRelationship(),
-            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getSpecializationRelationship(),
             IArchimatePackage.eINSTANCE.getCompositionRelationship(),
             IArchimatePackage.eINSTANCE.getInfluenceRelationship()
     };

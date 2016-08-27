@@ -31,10 +31,10 @@ import com.archimatetool.editor.ui.factory.relationships.AssociationRelationship
 import com.archimatetool.editor.ui.factory.relationships.CompositionRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.FlowRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider;
-import com.archimatetool.editor.ui.factory.relationships.RealisationRelationshipUIProvider;
-import com.archimatetool.editor.ui.factory.relationships.SpecialisationRelationshipUIProvider;
+import com.archimatetool.editor.ui.factory.relationships.RealizationRelationshipUIProvider;
+import com.archimatetool.editor.ui.factory.relationships.SpecializationRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider;
-import com.archimatetool.editor.ui.factory.relationships.UsedByRelationshipUIProvider;
+import com.archimatetool.editor.ui.factory.relationships.ServingRelationshipUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.tests.TestUtils;
 
@@ -59,10 +59,10 @@ public class AllConnectionUIProviderTests extends AbstractElementUIProviderTests
                 { new AssociationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getAssociationRelationship() },
                 { new CompositionRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getCompositionRelationship() },
                 { new FlowRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getFlowRelationship() },
-                { new RealisationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getRealisationRelationship() },
-                { new SpecialisationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getSpecialisationRelationship() },
+                { new RealizationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getRealizationRelationship() },
+                { new SpecializationRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getSpecializationRelationship() },
                 { new TriggeringRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getTriggeringRelationship() },
-                { new UsedByRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getUsedByRelationship() },
+                { new ServingRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getServingRelationship() },
                 { new InfluenceRelationshipUIProvider(), IArchimatePackage.eINSTANCE.getInfluenceRelationship() },
                 
                 { new LineConnectionUIProvider(), IArchimatePackage.eINSTANCE.getDiagramModelConnection() }

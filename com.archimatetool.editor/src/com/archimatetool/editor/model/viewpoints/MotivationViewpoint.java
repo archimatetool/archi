@@ -27,9 +27,9 @@ public class MotivationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getConstraint(),
             
             IArchimatePackage.eINSTANCE.getAssociationRelationship(),
-            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getRealizationRelationship(),
             IArchimatePackage.eINSTANCE.getAggregationRelationship(),
-            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getSpecializationRelationship(),
             IArchimatePackage.eINSTANCE.getInfluenceRelationship(),
             IArchimatePackage.eINSTANCE.getCompositionRelationship()
     };

@@ -98,15 +98,16 @@ import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRealisationRelationship;
+import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IResource;
 import com.archimatetool.model.IServiceElement;
+import com.archimatetool.model.IServingRelationship;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
-import com.archimatetool.model.ISpecialisationRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.ISystemSoftware;
@@ -115,7 +116,6 @@ import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
 import com.archimatetool.model.ITriggeringRelationship;
-import com.archimatetool.model.IUsedByRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IWorkPackage;
 import java.io.File;
@@ -828,20 +828,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass realisationRelationshipEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass specialisationRelationshipEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     private EClass triggeringRelationshipEClass = null;
 
     /**
@@ -849,14 +835,28 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass usedByRelationshipEClass = null;
+    private EClass influenceRelationshipEClass = null;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass influenceRelationshipEClass = null;
+    private EClass realizationRelationshipEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass servingRelationshipEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass specializationRelationshipEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2355,24 +2355,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getRealisationRelationship() {
-        return realisationRelationshipEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EClass getSpecialisationRelationship() {
-        return specialisationRelationshipEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getTriggeringRelationship() {
         return triggeringRelationshipEClass;
     }
@@ -2382,8 +2364,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getUsedByRelationship() {
-        return usedByRelationshipEClass;
+    public EClass getInfluenceRelationship() {
+        return influenceRelationshipEClass;
     }
 
     /**
@@ -2391,8 +2373,26 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getInfluenceRelationship() {
-        return influenceRelationshipEClass;
+    public EClass getRealizationRelationship() {
+        return realizationRelationshipEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getServingRelationship() {
+        return servingRelationshipEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getSpecializationRelationship() {
+        return specializationRelationshipEClass;
     }
 
     /**
@@ -2690,15 +2690,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         flowRelationshipEClass = createEClass(FLOW_RELATIONSHIP);
 
-        realisationRelationshipEClass = createEClass(REALISATION_RELATIONSHIP);
+        influenceRelationshipEClass = createEClass(INFLUENCE_RELATIONSHIP);
 
-        specialisationRelationshipEClass = createEClass(SPECIALISATION_RELATIONSHIP);
+        realizationRelationshipEClass = createEClass(REALIZATION_RELATIONSHIP);
+
+        servingRelationshipEClass = createEClass(SERVING_RELATIONSHIP);
+
+        specializationRelationshipEClass = createEClass(SPECIALIZATION_RELATIONSHIP);
 
         triggeringRelationshipEClass = createEClass(TRIGGERING_RELATIONSHIP);
-
-        usedByRelationshipEClass = createEClass(USED_BY_RELATIONSHIP);
-
-        influenceRelationshipEClass = createEClass(INFLUENCE_RELATIONSHIP);
 
         diagramModelComponentEClass = createEClass(DIAGRAM_MODEL_COMPONENT);
 
@@ -2912,11 +2912,11 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         associationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
         compositionRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
         flowRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
-        realisationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
-        specialisationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
-        triggeringRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
-        usedByRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
         influenceRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        realizationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        servingRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        specializationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        triggeringRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
         diagramModelComponentEClass.getESuperTypes().add(this.getIdentifier());
         diagramModelComponentEClass.getESuperTypes().add(this.getCloneable());
         diagramModelComponentEClass.getESuperTypes().add(this.getAdapter());
@@ -3176,15 +3176,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(flowRelationshipEClass, IFlowRelationship.class, "FlowRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
-        initEClass(realisationRelationshipEClass, IRealisationRelationship.class, "RealisationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEClass(influenceRelationshipEClass, IInfluenceRelationship.class, "InfluenceRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
-        initEClass(specialisationRelationshipEClass, ISpecialisationRelationship.class, "SpecialisationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEClass(realizationRelationshipEClass, IRealizationRelationship.class, "RealizationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(servingRelationshipEClass, IServingRelationship.class, "ServingRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(specializationRelationshipEClass, ISpecializationRelationship.class, "SpecializationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(triggeringRelationshipEClass, ITriggeringRelationship.class, "TriggeringRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-
-        initEClass(usedByRelationshipEClass, IUsedByRelationship.class, "UsedByRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-
-        initEClass(influenceRelationshipEClass, IInfluenceRelationship.class, "InfluenceRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(diagramModelComponentEClass, IDiagramModelComponent.class, "DiagramModelComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

@@ -984,20 +984,20 @@
             id="com.archimatetool.editor.FlowRelationshipUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.RealisationRelationshipUIProvider"
-            id="com.archimatetool.editor.RealisationRelationshipUIProvider">
+            class="com.archimatetool.editor.ui.factory.relationships.RealizationRelationshipUIProvider"
+            id="com.archimatetool.editor.RealizationRelationshipUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.SpecialisationRelationshipUIProvider"
-            id="com.archimatetool.editor.SpecialisationRelationshipUIProvider">
+            class="com.archimatetool.editor.ui.factory.relationships.SpecializationRelationshipUIProvider"
+            id="com.archimatetool.editor.SpecializationRelationshipUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider"
             id="com.archimatetool.editor.TriggeringRelationshipUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.UsedByRelationshipUIProvider"
-            id="com.archimatetool.editor.UsedByRelationshipUIProvider">
+            class="com.archimatetool.editor.ui.factory.relationships.ServingRelationshipUIProvider"
+            id="com.archimatetool.editor.ServingRelationshipUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider"

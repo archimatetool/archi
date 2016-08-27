@@ -666,24 +666,6 @@ public interface IArchimateFactory extends EFactory {
     IFlowRelationship createFlowRelationship();
 
     /**
-     * Returns a new object of class '<em>Realisation Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Realisation Relationship</em>'.
-     * @generated
-     */
-    IRealisationRelationship createRealisationRelationship();
-
-    /**
-     * Returns a new object of class '<em>Specialisation Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Specialisation Relationship</em>'.
-     * @generated
-     */
-    ISpecialisationRelationship createSpecialisationRelationship();
-
-    /**
      * Returns a new object of class '<em>Triggering Relationship</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -693,15 +675,6 @@ public interface IArchimateFactory extends EFactory {
     ITriggeringRelationship createTriggeringRelationship();
 
     /**
-     * Returns a new object of class '<em>Used By Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Used By Relationship</em>'.
-     * @generated
-     */
-    IUsedByRelationship createUsedByRelationship();
-
-    /**
      * Returns a new object of class '<em>Influence Relationship</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -709,6 +682,33 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IInfluenceRelationship createInfluenceRelationship();
+
+    /**
+     * Returns a new object of class '<em>Realization Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Realization Relationship</em>'.
+     * @generated
+     */
+    IRealizationRelationship createRealizationRelationship();
+
+    /**
+     * Returns a new object of class '<em>Serving Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Serving Relationship</em>'.
+     * @generated
+     */
+    IServingRelationship createServingRelationship();
+
+    /**
+     * Returns a new object of class '<em>Specialization Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Specialization Relationship</em>'.
+     * @generated
+     */
+    ISpecializationRelationship createSpecializationRelationship();
 
     /**
      * Returns the package supported by this factory.

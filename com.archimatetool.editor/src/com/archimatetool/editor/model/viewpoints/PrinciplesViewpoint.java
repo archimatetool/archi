@@ -21,9 +21,9 @@ public class PrinciplesViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getGoal(),
             IArchimatePackage.eINSTANCE.getPrinciple(),
             
-            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getRealizationRelationship(),
             IArchimatePackage.eINSTANCE.getAggregationRelationship(),
-            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getSpecializationRelationship(),
             IArchimatePackage.eINSTANCE.getInfluenceRelationship(),
             IArchimatePackage.eINSTANCE.getCompositionRelationship(),
             IArchimatePackage.eINSTANCE.getAssociationRelationship()

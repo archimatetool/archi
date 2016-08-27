@@ -76,18 +76,18 @@ import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRealisationRelationship;
+import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IResource;
+import com.archimatetool.model.IServingRelationship;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
-import com.archimatetool.model.ISpecialisationRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.ISystemSoftware;
 import com.archimatetool.model.ITriggeringRelationship;
-import com.archimatetool.model.IUsedByRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IWorkPackage;
 
@@ -193,11 +193,11 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.ASSOCIATION_RELATIONSHIP: return createAssociationRelationship();
             case IArchimatePackage.COMPOSITION_RELATIONSHIP: return createCompositionRelationship();
             case IArchimatePackage.FLOW_RELATIONSHIP: return createFlowRelationship();
-            case IArchimatePackage.REALISATION_RELATIONSHIP: return createRealisationRelationship();
-            case IArchimatePackage.SPECIALISATION_RELATIONSHIP: return createSpecialisationRelationship();
-            case IArchimatePackage.TRIGGERING_RELATIONSHIP: return createTriggeringRelationship();
-            case IArchimatePackage.USED_BY_RELATIONSHIP: return createUsedByRelationship();
             case IArchimatePackage.INFLUENCE_RELATIONSHIP: return createInfluenceRelationship();
+            case IArchimatePackage.REALIZATION_RELATIONSHIP: return createRealizationRelationship();
+            case IArchimatePackage.SERVING_RELATIONSHIP: return createServingRelationship();
+            case IArchimatePackage.SPECIALIZATION_RELATIONSHIP: return createSpecializationRelationship();
+            case IArchimatePackage.TRIGGERING_RELATIONSHIP: return createTriggeringRelationship();
             case IArchimatePackage.DIAGRAM_MODEL_REFERENCE: return createDiagramModelReference();
             case IArchimatePackage.DIAGRAM_MODEL_GROUP: return createDiagramModelGroup();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE: return createDiagramModelNote();
@@ -980,26 +980,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public IRealisationRelationship createRealisationRelationship() {
-        RealisationRelationship realisationRelationship = new RealisationRelationship();
-        return realisationRelationship;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ISpecialisationRelationship createSpecialisationRelationship() {
-        SpecialisationRelationship specialisationRelationship = new SpecialisationRelationship();
-        return specialisationRelationship;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public ITriggeringRelationship createTriggeringRelationship() {
         TriggeringRelationship triggeringRelationship = new TriggeringRelationship();
         return triggeringRelationship;
@@ -1010,9 +990,9 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public IUsedByRelationship createUsedByRelationship() {
-        UsedByRelationship usedByRelationship = new UsedByRelationship();
-        return usedByRelationship;
+    public IInfluenceRelationship createInfluenceRelationship() {
+        InfluenceRelationship influenceRelationship = new InfluenceRelationship();
+        return influenceRelationship;
     }
 
     /**
@@ -1020,9 +1000,29 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public IInfluenceRelationship createInfluenceRelationship() {
-        InfluenceRelationship influenceRelationship = new InfluenceRelationship();
-        return influenceRelationship;
+    public IRealizationRelationship createRealizationRelationship() {
+        RealizationRelationship realizationRelationship = new RealizationRelationship();
+        return realizationRelationship;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IServingRelationship createServingRelationship() {
+        ServingRelationship servingRelationship = new ServingRelationship();
+        return servingRelationship;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ISpecializationRelationship createSpecializationRelationship() {
+        SpecializationRelationship specializationRelationship = new SpecializationRelationship();
+        return specializationRelationship;
     }
 
     /**

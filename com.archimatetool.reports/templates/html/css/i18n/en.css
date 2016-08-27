@@ -112,18 +112,18 @@
 :lang(en) .i18n-elementtype-Principle:after {content: "Principle"}
 :lang(en) .i18n-elementtype-Product:after {content: "Product"}
 /* :lang(en) .i18n-elementtype-Property:after {content: "Property"} */
-:lang(en) .i18n-elementtype-RealisationRelationship:after {content: "Realisation"}
+:lang(en) .i18n-elementtype-RealizationRelationship:after {content: "Realization"}
 /* :lang(en) .i18n-elementtype-Relationship:after {content: "Relationship"} */
 :lang(en) .i18n-elementtype-Representation:after {content: "Representation"}
 :lang(en) .i18n-elementtype-Requirement:after {content: "Requirement"}
 /* :lang(en) .i18n-elementtype-SketchModelActor:after {content: "SketchModelActor"} */
 /* :lang(en) .i18n-elementtype-SketchModel:after {content: "SketchModel"} */
 /* :lang(en) .i18n-elementtype-SketchModelSticky:after {content: "SketchModelSticky"} */
-:lang(en) .i18n-elementtype-SpecialisationRelationship:after {content: "Specialisation"}
+:lang(en) .i18n-elementtype-SpecializationRelationship:after {content: "Specialization"}
 :lang(en) .i18n-elementtype-Stakeholder:after {content: "Stakeholder"}
 :lang(en) .i18n-elementtype-SystemSoftware:after {content: "System Software"}
 :lang(en) .i18n-elementtype-TriggeringRelationship:after {content: "Triggering"}
-:lang(en) .i18n-elementtype-UsedByRelationship:after {content: "Used By"}
+:lang(en) .i18n-elementtype-ServingRelationship:after {content: "Serving"}
 :lang(en) .i18n-elementtype-Value:after {content: "Value"}
 :lang(en) .i18n-elementtype-WorkPackage:after {content: "Work Package"}
 

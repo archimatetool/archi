@@ -156,15 +156,15 @@
         <element xsi:type="archimate:AccessRelationship" id="706" name="read" source="572" target="675"/>
         <element xsi:type="archimate:AccessRelationship" id="704" name="read" source="572" target="673" accessType="1"/>
         <element xsi:type="archimate:AccessRelationship" id="695" name="read" source="572" target="674" accessType="1"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1329" source="1311" target="1208"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1323" source="556" target="1202"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1327" source="1302" target="1214"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1321" source="596" target="1196"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1325" source="556" target="1226"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1434" source="588" target="1226"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1430" source="564" target="1202"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1432" source="572" target="1214"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1436" source="580" target="1214"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1329" source="1311" target="1208"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1323" source="556" target="1202"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1327" source="1302" target="1214"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1321" source="596" target="1196"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1325" source="556" target="1226"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1434" source="588" target="1226"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1430" source="564" target="1202"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1432" source="572" target="1214"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1436" source="580" target="1214"/>
         <element xsi:type="archimate:TriggeringRelationship" id="655" source="651" target="564"/>
         <element xsi:type="archimate:TriggeringRelationship" id="1335" source="1302" target="1311"/>
         <element xsi:type="archimate:TriggeringRelationship" id="657" source="564" target="572"/>
@@ -222,14 +222,14 @@
         <element xsi:type="archimate:FlowRelationship" id="1634" name="payment" source="331" target="528"/>
         <element xsi:type="archimate:FlowRelationship" id="1632" name="payment order" source="324" target="331"/>
         <element xsi:type="archimate:FlowRelationship" id="1750" name="Product Information" source="507" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="f19393d1" name="call" source="1536" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="7f9b43e9" name="write" source="1538" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="16871b47" name="write" source="1544" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="f19393d1" name="call" source="1536" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="7f9b43e9" name="write" source="1538" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="16871b47" name="write" source="1544" target="521"/>
         <element xsi:type="archimate:AssociationRelationship" id="a2243077" source="282" target="1536"/>
         <element xsi:type="archimate:AssociationRelationship" id="659978dc" source="1538" target="282"/>
         <element xsi:type="archimate:AssociationRelationship" id="be2dbdfd" source="1544" target="352"/>
-        <element xsi:type="archimate:UsedByRelationship" id="09da63b3" source="1540" target="507"/>
-        <element xsi:type="archimate:UsedByRelationship" id="8d85d21d" source="1542" target="507"/>
+        <element xsi:type="archimate:ServingRelationship" id="09da63b3" source="1540" target="507"/>
+        <element xsi:type="archimate:ServingRelationship" id="8d85d21d" source="1542" target="507"/>
         <element xsi:type="archimate:AssociationRelationship" id="58ee7df2" source="1540" target="289"/>
         <element xsi:type="archimate:AssociationRelationship" id="4a4cdf33" source="1542" target="289"/>
         <element xsi:type="archimate:AggregationRelationship" id="81b9d07c" source="1546" target="352"/>
@@ -243,12 +243,12 @@
         <element xsi:type="archimate:CompositionRelationship" id="812" source="674" target="673"/>
         <element xsi:type="archimate:CompositionRelationship" id="810" source="674" target="675"/>
         <element xsi:type="archimate:CompositionRelationship" id="808" source="674" target="792"/>
-        <element xsi:type="archimate:RealisationRelationship" id="718" source="676" target="673"/>
-        <element xsi:type="archimate:SpecialisationRelationship" id="826" source="796" target="675"/>
-        <element xsi:type="archimate:SpecialisationRelationship" id="818" source="793" target="675"/>
-        <element xsi:type="archimate:SpecialisationRelationship" id="824" source="795" target="675"/>
-        <element xsi:type="archimate:SpecialisationRelationship" id="822" source="803" target="675"/>
-        <element xsi:type="archimate:SpecialisationRelationship" id="820" source="794" target="675"/>
+        <element xsi:type="archimate:RealizationRelationship" id="718" source="676" target="673"/>
+        <element xsi:type="archimate:SpecializationRelationship" id="826" source="796" target="675"/>
+        <element xsi:type="archimate:SpecializationRelationship" id="818" source="793" target="675"/>
+        <element xsi:type="archimate:SpecializationRelationship" id="824" source="795" target="675"/>
+        <element xsi:type="archimate:SpecializationRelationship" id="822" source="803" target="675"/>
+        <element xsi:type="archimate:SpecializationRelationship" id="820" source="794" target="675"/>
       </folder>
       <folder name="Functions" id="3de37d5c">
         <element xsi:type="archimate:FlowRelationship" id="1762" name="asset info" source="495" target="483"/>
@@ -268,74 +268,74 @@
       </folder>
       <folder name="Products" id="c122a424">
         <element xsi:type="archimate:AssociationRelationship" id="1274" source="1250" target="1208"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1295" source="1226" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1293" source="1202" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1297" source="1214" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1282" source="1196" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1299" source="1208" target="521"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1438" source="1202" target="1368"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1444" source="1196" target="564"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1446" source="1220" target="564"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1448" source="1208" target="588"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1442" source="1226" target="1368"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1440" source="1214" target="1368"/>
-        <element xsi:type="archimate:UsedByRelationship" id="b74a5ecd" source="1407" target="612"/>
+        <element xsi:type="archimate:ServingRelationship" id="1295" source="1226" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="1293" source="1202" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="1297" source="1214" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="1282" source="1196" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="1299" source="1208" target="521"/>
+        <element xsi:type="archimate:ServingRelationship" id="1438" source="1202" target="1368"/>
+        <element xsi:type="archimate:ServingRelationship" id="1444" source="1196" target="564"/>
+        <element xsi:type="archimate:ServingRelationship" id="1446" source="1220" target="564"/>
+        <element xsi:type="archimate:ServingRelationship" id="1448" source="1208" target="588"/>
+        <element xsi:type="archimate:ServingRelationship" id="1442" source="1226" target="1368"/>
+        <element xsi:type="archimate:ServingRelationship" id="1440" source="1214" target="1368"/>
+        <element xsi:type="archimate:ServingRelationship" id="b74a5ecd" source="1407" target="612"/>
       </folder>
     </folder>
     <folder name="Application" id="4c3245b7">
       <folder name="Data" id="f8fb6af9">
-        <element xsi:type="archimate:RealisationRelationship" id="955" source="837" target="674"/>
-        <element xsi:type="archimate:RealisationRelationship" id="957" source="839" target="673"/>
-        <element xsi:type="archimate:RealisationRelationship" id="965" source="838" target="794"/>
-        <element xsi:type="archimate:RealisationRelationship" id="953" source="946" target="792"/>
-        <element xsi:type="archimate:RealisationRelationship" id="967" source="838" target="793"/>
-        <element xsi:type="archimate:RealisationRelationship" id="961" source="838" target="795"/>
-        <element xsi:type="archimate:RealisationRelationship" id="959" source="838" target="796"/>
-        <element xsi:type="archimate:RealisationRelationship" id="963" source="838" target="803"/>
+        <element xsi:type="archimate:RealizationRelationship" id="955" source="837" target="674"/>
+        <element xsi:type="archimate:RealizationRelationship" id="957" source="839" target="673"/>
+        <element xsi:type="archimate:RealizationRelationship" id="965" source="838" target="794"/>
+        <element xsi:type="archimate:RealizationRelationship" id="953" source="946" target="792"/>
+        <element xsi:type="archimate:RealizationRelationship" id="967" source="838" target="793"/>
+        <element xsi:type="archimate:RealizationRelationship" id="961" source="838" target="795"/>
+        <element xsi:type="archimate:RealizationRelationship" id="959" source="838" target="796"/>
+        <element xsi:type="archimate:RealizationRelationship" id="963" source="838" target="803"/>
       </folder>
       <folder name="Applications" id="74944b84">
         <element xsi:type="archimate:AccessRelationship" id="976" source="891" target="946" accessType="1"/>
         <element xsi:type="archimate:AccessRelationship" id="882" source="867" target="839"/>
         <element xsi:type="archimate:AccessRelationship" id="884" source="861" target="838"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1452" source="861" target="1220"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1450" source="1393" target="1196"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1454" source="1399" target="1208"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1731" source="935" target="722"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1733" source="1414" target="721"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1452" source="861" target="1220"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1450" source="1393" target="1196"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1454" source="1399" target="1208"/>
+        <element xsi:type="archimate:ServingRelationship" id="1731" source="935" target="722"/>
+        <element xsi:type="archimate:ServingRelationship" id="1733" source="1414" target="721"/>
         <element xsi:type="archimate:AccessRelationship" id="880" source="855" target="837"/>
         <element xsi:type="archimate:AccessRelationship" id="974" source="909" target="837"/>
         <element xsi:type="archimate:AccessRelationship" id="972" source="903" target="838"/>
         <element xsi:type="archimate:CompositionRelationship" id="1831" source="843" target="855"/>
         <element xsi:type="archimate:CompositionRelationship" id="1833" source="843" target="861"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1424" source="861" target="1414"/>
-        <element xsi:type="archimate:RealisationRelationship" id="1422" source="1393" target="1407"/>
-        <element xsi:type="archimate:RealisationRelationship" id="943" source="843" target="935"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1424" source="861" target="1414"/>
+        <element xsi:type="archimate:RealizationRelationship" id="1422" source="1393" target="1407"/>
+        <element xsi:type="archimate:RealizationRelationship" id="943" source="843" target="935"/>
         <element xsi:type="archimate:TriggeringRelationship" id="930" source="891" target="897"/>
         <element xsi:type="archimate:TriggeringRelationship" id="932" source="897" target="903"/>
         <element xsi:type="archimate:TriggeringRelationship" id="934" source="903" target="909"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1428" source="1414" target="1399"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1426" source="1407" target="861"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1821" source="1793" target="1800"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1823" source="1393" target="1800"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1825" source="849" target="1800"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1829" source="1399" target="843"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1827" source="855" target="849"/>
-        <element xsi:type="archimate:UsedByRelationship" id="1835" source="855" target="1793"/>
-        <element xsi:type="archimate:UsedByRelationship" id="853128f7" source="1813" target="1399"/>
+        <element xsi:type="archimate:ServingRelationship" id="1428" source="1414" target="1399"/>
+        <element xsi:type="archimate:ServingRelationship" id="1426" source="1407" target="861"/>
+        <element xsi:type="archimate:ServingRelationship" id="1821" source="1793" target="1800"/>
+        <element xsi:type="archimate:ServingRelationship" id="1823" source="1393" target="1800"/>
+        <element xsi:type="archimate:ServingRelationship" id="1825" source="849" target="1800"/>
+        <element xsi:type="archimate:ServingRelationship" id="1829" source="1399" target="843"/>
+        <element xsi:type="archimate:ServingRelationship" id="1827" source="855" target="849"/>
+        <element xsi:type="archimate:ServingRelationship" id="1835" source="855" target="1793"/>
+        <element xsi:type="archimate:ServingRelationship" id="853128f7" source="1813" target="1399"/>
       </folder>
     </folder>
     <folder name="Technology" id="9e73d08e">
-      <element xsi:type="archimate:RealisationRelationship" id="1127" source="1065" target="1110"/>
-      <element xsi:type="archimate:RealisationRelationship" id="1125" source="998" target="1116"/>
-      <element xsi:type="archimate:RealisationRelationship" id="1136" source="986" target="1128"/>
-      <element xsi:type="archimate:RealisationRelationship" id="1482" source="986" target="1455"/>
-      <element xsi:type="archimate:RealisationRelationship" id="1480" source="1065" target="1462"/>
-      <element xsi:type="archimate:RealisationRelationship" id="1892" source="1882" target="1813"/>
-      <element xsi:type="archimate:RealisationRelationship" id="1879" source="1870" target="1399"/>
-      <element xsi:type="archimate:UsedByRelationship" id="40e2692a" source="1455" target="1393"/>
-      <element xsi:type="archimate:UsedByRelationship" id="63eeca37" source="1455" target="861"/>
-      <element xsi:type="archimate:UsedByRelationship" id="bc36ad29" source="1462" target="861"/>
-      <element xsi:type="archimate:UsedByRelationship" id="776f61b0" source="1462" target="1399"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1127" source="1065" target="1110"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1125" source="998" target="1116"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1136" source="986" target="1128"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1482" source="986" target="1455"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1480" source="1065" target="1462"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1892" source="1882" target="1813"/>
+      <element xsi:type="archimate:RealizationRelationship" id="1879" source="1870" target="1399"/>
+      <element xsi:type="archimate:ServingRelationship" id="40e2692a" source="1455" target="1393"/>
+      <element xsi:type="archimate:ServingRelationship" id="63eeca37" source="1455" target="861"/>
+      <element xsi:type="archimate:ServingRelationship" id="bc36ad29" source="1462" target="861"/>
+      <element xsi:type="archimate:ServingRelationship" id="776f61b0" source="1462" target="1399"/>
       <element xsi:type="archimate:AssociationRelationship" id="670aa5ed" source="986" target="1089"/>
       <element xsi:type="archimate:AssociationRelationship" id="197b66d6" source="1089" target="998"/>
       <element xsi:type="archimate:AssociationRelationship" id="e479d313" source="998" target="1095"/>

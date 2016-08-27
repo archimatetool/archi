@@ -46,11 +46,11 @@ public class ConnectionPreferences extends Preferences {
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getCompositionRelationship(), 1 << 9);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAggregationRelationship(), 1 << 8);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), 1 << 7);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getSpecialisationRelationship(), 1 << 6);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getRealisationRelationship(), 1 << 5);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getSpecializationRelationship(), 1 << 6);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getRealizationRelationship(), 1 << 5);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), 1 << 4);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getFlowRelationship(), 1 << 3);
-        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getUsedByRelationship(), 1 << 2);
+        RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getServingRelationship(), 1 << 2);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAccessRelationship(), 1 << 1);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getAssociationRelationship(), 1 << 0);
         RELATION_KEYMAP.put(IArchimatePackage.eINSTANCE.getInfluenceRelationship(), 1 << 10);

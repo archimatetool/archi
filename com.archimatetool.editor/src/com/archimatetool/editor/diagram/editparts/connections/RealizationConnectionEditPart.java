@@ -7,20 +7,20 @@ package com.archimatetool.editor.diagram.editparts.connections;
 
 import org.eclipse.draw2d.IFigure;
 
-import com.archimatetool.editor.diagram.figures.connections.SpecialisationConnectionFigure;
+import com.archimatetool.editor.diagram.figures.connections.RealizationConnectionFigure;
 
 
 
 /**
- * Specialisation Connection Edit Part
+ * Realization Connection Edit Part
  * 
  * @author Phillip Beauvoir
  */
-public class SpecialisationConnectionEditPart extends AbstractArchimateConnectionEditPart {
+public class RealizationConnectionEditPart extends AbstractArchimateConnectionEditPart {
 	
     @Override
     protected IFigure createFigure() {
-		return new SpecialisationConnectionFigure(getModel());
+		return new RealizationConnectionFigure(getModel());
 	}
 	
 }

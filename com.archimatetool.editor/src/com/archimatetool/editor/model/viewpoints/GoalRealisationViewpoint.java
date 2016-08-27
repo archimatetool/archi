@@ -23,9 +23,9 @@ public class GoalRealisationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getRequirement(),
             IArchimatePackage.eINSTANCE.getConstraint(),
             
-            IArchimatePackage.eINSTANCE.getRealisationRelationship(),
+            IArchimatePackage.eINSTANCE.getRealizationRelationship(),
             IArchimatePackage.eINSTANCE.getAggregationRelationship(),
-            IArchimatePackage.eINSTANCE.getSpecialisationRelationship(),
+            IArchimatePackage.eINSTANCE.getSpecializationRelationship(),
             IArchimatePackage.eINSTANCE.getCompositionRelationship(),
             IArchimatePackage.eINSTANCE.getAssociationRelationship(),
             IArchimatePackage.eINSTANCE.getInfluenceRelationship()
