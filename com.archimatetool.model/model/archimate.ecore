@@ -84,10 +84,58 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelElement #//FolderContainer #//Nameable #//Identifier #//Documentable #//Properties">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"
+        resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="element"/>
+        <details key="kind" value="element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FolderType"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateModelElement" abstract="true"
       interface="true" eSuperTypes="#//Adapter">
     <eOperations name="getArchimateModel" eType="#//ArchimateModel"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelElement #//Identifier #//Cloneable #//Nameable #//Documentable #//Properties"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateConcept"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateRelationship" abstract="true"
+      eSuperTypes="#//ArchimateConcept">
+    <eOperations name="connect">
+      <eParameters name="source" eType="#//ArchimateConcept"/>
+      <eParameters name="target" eType="#//ArchimateConcept"/>
+    </eOperations>
+    <eOperations name="reconnect"/>
+    <eOperations name="disconnect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateConcept"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateConcept"
+        resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JunctionElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationElement" abstract="true"
+      interface="true" eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnologyElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MotivationElement" abstract="true" eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementationMigrationElement" abstract="true"
+      eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StrategyElement" abstract="true" interface="true"
+      eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateModel" eSuperTypes="#//FolderContainer #//Nameable #//Identifier #//ArchimateModelElement #//Properties">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="model"/>
@@ -114,71 +162,42 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" eType="#//Metadata"
         containment="true" resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelElement #//FolderContainer #//Nameable #//Identifier #//Documentable #//Properties">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
-        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"
-        resolveProxies="false">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="name" value="element"/>
-        <details key="kind" value="element"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FolderType"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelElement #//Identifier #//Cloneable #//Nameable #//Documentable #//Properties"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateConcept"/>
-  <eClassifiers xsi:type="ecore:EClass" name="JunctionElement" abstract="true" interface="true"
-      eSuperTypes="#//ArchimateElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InterfaceElement" abstract="true" interface="true"
-      eSuperTypes="#//ArchimateElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ServiceElement" abstract="true" interface="true"
-      eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Junction" eSuperTypes="#//JunctionElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="AndJunction" eSuperTypes="#//JunctionElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OrJunction" eSuperTypes="#//JunctionElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessLayerElement" abstract="true"
-      interface="true" eSuperTypes="#//ArchimateElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessActivity" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessActor" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessCollaboration" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Contract" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessEvent" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessFunction" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessInteraction" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessInterface" eSuperTypes="#//BusinessLayerElement #//InterfaceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Meaning" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessObject" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessProcess" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Representation" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessRole" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessLayerElement #//ServiceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//BusinessLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationLayerElement" abstract="true"
-      interface="true" eSuperTypes="#//ArchimateElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationCollaboration" eSuperTypes="#//ApplicationLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationComponent" eSuperTypes="#//ApplicationLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationFunction" eSuperTypes="#//ApplicationLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationInteraction" eSuperTypes="#//ApplicationLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationInterface" eSuperTypes="#//ApplicationLayerElement #//InterfaceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//ApplicationLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ApplicationService" eSuperTypes="#//ApplicationLayerElement #//ServiceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TechnologyLayerElement" abstract="true"
-      interface="true" eSuperTypes="#//ArchimateElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CommunicationPath" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Network" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureInterface" eSuperTypes="#//TechnologyLayerElement #//InterfaceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureService" eSuperTypes="#//TechnologyLayerElement #//ServiceElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureFunction" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SystemSoftware" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Device" eSuperTypes="#//TechnologyLayerElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MotivationElement" abstract="true" eSuperTypes="#//ArchimateElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessActivity" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessActor" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessCollaboration" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessEvent" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessFunction" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessInteraction" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessInterface" eSuperTypes="#//BusinessElement #//InterfaceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Meaning" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessObject" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessProcess" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Representation" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessRole" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessService" eSuperTypes="#//BusinessElement #//ServiceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//BusinessElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationCollaboration" eSuperTypes="#//ApplicationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationComponent" eSuperTypes="#//ApplicationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationFunction" eSuperTypes="#//ApplicationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationInteraction" eSuperTypes="#//ApplicationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationInterface" eSuperTypes="#//ApplicationElement #//InterfaceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//ApplicationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationService" eSuperTypes="#//ApplicationElement #//ServiceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationPath" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Network" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureInterface" eSuperTypes="#//TechnologyElement #//InterfaceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureService" eSuperTypes="#//TechnologyElement #//ServiceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfrastructureFunction" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemSoftware" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Device" eSuperTypes="#//TechnologyElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Stakeholder" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Driver" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Assessment" eSuperTypes="#//MotivationElement"/>
@@ -186,25 +205,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Principle" eSuperTypes="#//MotivationElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ImplementationMigrationElement" abstract="true"
-      eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="WorkPackage" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Deliverable" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Plateau" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gap" eSuperTypes="#//ImplementationMigrationElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateRelationship" abstract="true"
-      eSuperTypes="#//ArchimateConcept">
-    <eOperations name="connect">
-      <eParameters name="source" eType="#//ArchimateConcept"/>
-      <eParameters name="target" eType="#//ArchimateConcept"/>
-    </eOperations>
-    <eOperations name="reconnect"/>
-    <eOperations name="disconnect"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateConcept"
-        resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateConcept"
-        resolveProxies="false"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//ArchimateRelationship">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>

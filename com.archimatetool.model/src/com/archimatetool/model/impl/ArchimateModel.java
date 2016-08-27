@@ -8,6 +8,7 @@ package com.archimatetool.model.impl;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -20,28 +21,29 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAdapter;
-import com.archimatetool.model.IApplicationLayerElement;
+import com.archimatetool.model.IApplicationElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IBusinessLayerElement;
+import com.archimatetool.model.IBusinessElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.ITechnologyLayerElement;
+import com.archimatetool.model.ITechnologyElement;
 import com.archimatetool.model.util.IDAdapter;
 
 
@@ -310,13 +312,13 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     public IFolder getDefaultFolderForElement(EObject element) {
         addDefaultFolders(); // Check they haven't been deleted
         
-        if(element instanceof IBusinessLayerElement) {
+        if(element instanceof IBusinessElement) {
             return getFolder(FolderType.BUSINESS);
         }
-        if(element instanceof IApplicationLayerElement) {
+        if(element instanceof IApplicationElement) {
             return getFolder(FolderType.APPLICATION);
         }
-        if(element instanceof ITechnologyLayerElement) {
+        if(element instanceof ITechnologyElement) {
             return getFolder(FolderType.TECHNOLOGY);
         }
         if(element instanceof IMotivationElement) {
@@ -344,9 +346,12 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated NOT
      */
     public IFolder getFolder(FolderType type) {
-        for(IFolder folder : getFolders()) {
-            if(folder.getType().equals(type)) {
-                return folder;
+        for(Iterator<EObject> iter =  EcoreUtil.getAllContents(getFolders()); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IFolder) {
+                if(((IFolder)eObject).getType() == type) {
+                    return (IFolder)eObject;
+                }
             }
         }
         
@@ -397,23 +402,18 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         
         IFolder folder = getFolder(FolderType.DIAGRAMS);
         if(folder != null) {
-            _getDiagramModels(folder, list);
+            for(Iterator<EObject> iter = folder.eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                if(eObject instanceof IDiagramModel) {
+                    list.add((IDiagramModel)eObject);
+                }
+            }
+
         }
         
         return list;
     }
     
-    private void _getDiagramModels(IFolder folder, EList<IDiagramModel> list) {
-        for(EObject object : folder.getElements()) {
-            if(object instanceof IDiagramModel) {
-                list.add((IDiagramModel)object);
-            }
-        }
-        for(IFolder f : folder.getFolders()) {
-            _getDiagramModels(f, list);
-        }
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

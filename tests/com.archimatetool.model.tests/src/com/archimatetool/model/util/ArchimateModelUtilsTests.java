@@ -134,7 +134,7 @@ public class ArchimateModelUtilsTests {
         assertEquals(16, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getBusinessLayerElement().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getBusinessElement().isSuperTypeOf(eClass));
         }
     }
     
@@ -144,7 +144,7 @@ public class ArchimateModelUtilsTests {
         assertEquals(7, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getApplicationLayerElement().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getApplicationElement().isSuperTypeOf(eClass));
         }
     }
 
@@ -154,7 +154,7 @@ public class ArchimateModelUtilsTests {
         assertEquals(9, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getTechnologyLayerElement().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getTechnologyElement().isSuperTypeOf(eClass));
         }
     }
     

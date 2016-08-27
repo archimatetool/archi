@@ -138,8 +138,8 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
         switch (eClass.getClassifierID()) {
             case IArchimatePackage.PROPERTY: return createProperty();
             case IArchimatePackage.METADATA: return createMetadata();
-            case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.FOLDER: return createFolder();
+            case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.JUNCTION: return createJunction();
             case IArchimatePackage.AND_JUNCTION: return createAndJunction();
             case IArchimatePackage.OR_JUNCTION: return createOrJunction();

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ICommunicationPath extends ITechnologyLayerElement {
+public interface ICommunicationPath extends ITechnologyElement {
 } // ICommunicationPath

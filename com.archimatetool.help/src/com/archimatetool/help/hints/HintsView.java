@@ -54,15 +54,15 @@ import com.archimatetool.editor.ui.services.IComponentSelectionListener;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchimateEditorHelpPlugin;
-import com.archimatetool.model.IApplicationLayerElement;
+import com.archimatetool.model.IApplicationElement;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IBusinessLayerElement;
+import com.archimatetool.model.IBusinessElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.ITechnologyLayerElement;
+import com.archimatetool.model.ITechnologyElement;
 
 
 
@@ -430,13 +430,13 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             clazz = object.getClass();
         }
         
-        if(IBusinessLayerElement.class.isAssignableFrom(clazz)) {
+        if(IBusinessElement.class.isAssignableFrom(clazz)) {
             return ColorFactory.COLOR_BUSINESS;
         }
-        if(IApplicationLayerElement.class.isAssignableFrom(clazz)) {
+        if(IApplicationElement.class.isAssignableFrom(clazz)) {
             return ColorFactory.COLOR_APPLICATION;
         }
-        if(ITechnologyLayerElement.class.isAssignableFrom(clazz)) {
+        if(ITechnologyElement.class.isAssignableFrom(clazz)) {
             return ColorFactory.COLOR_TECHNOLOGY;
         }
         

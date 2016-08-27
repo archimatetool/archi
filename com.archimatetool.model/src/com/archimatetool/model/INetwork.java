@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface INetwork extends ITechnologyLayerElement {
+public interface INetwork extends ITechnologyElement {
 } // INetwork
