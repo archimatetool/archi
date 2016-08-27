@@ -611,13 +611,13 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         @Override
         public void undo() {
             fParent.getChildren().remove(fChild);
-            fChild.removeArchimateComponentFromModel();
+            fChild.removeArchimateConceptFromModel();
         }
 
         @Override
         public void redo() {
             fParent.getChildren().add(fChild);
-            fChild.addArchimateComponentToModel(null);
+            fChild.addArchimateConceptToModel(null);
         }
         
         @Override
@@ -647,19 +647,19 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         public void execute() {
             fConnection = (IDiagramModelArchimateConnection)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
             fConnection.connect(fSource, fTarget);
-            fConnection.addArchimateComponentToModel(null);
+            fConnection.addArchimateConceptToModel(null);
         }
         
         @Override
         public void redo() {
             fConnection.reconnect();
-            fConnection.addArchimateComponentToModel(null);
+            fConnection.addArchimateConceptToModel(null);
         }
         
         @Override
         public void undo() {
             fConnection.disconnect();
-            fConnection.removeArchimateComponentFromModel();
+            fConnection.removeArchimateConceptFromModel();
         }
 
         @Override

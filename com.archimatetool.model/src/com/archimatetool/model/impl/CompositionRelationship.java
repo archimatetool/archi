@@ -18,7 +18,7 @@ import com.archimatetool.model.ICompositionRelationship;
  *
  * @generated
  */
-public class CompositionRelationship extends Relationship implements ICompositionRelationship {
+public class CompositionRelationship extends ArchimateRelationship implements ICompositionRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

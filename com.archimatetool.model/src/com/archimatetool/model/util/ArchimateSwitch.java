@@ -16,12 +16,13 @@ import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
 import com.archimatetool.model.IApplicationLayerElement;
 import com.archimatetool.model.IApplicationService;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IAssessment;
 import com.archimatetool.model.IAssignmentRelationship;
@@ -96,7 +97,6 @@ import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealisationRelationship;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IServiceElement;
@@ -268,23 +268,23 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.ARCHIMATE_COMPONENT: {
-                IArchimateComponent archimateComponent = (IArchimateComponent)theEObject;
-                T result = caseArchimateComponent(archimateComponent);
-                if (result == null) result = caseArchimateModelElement(archimateComponent);
-                if (result == null) result = caseIdentifier(archimateComponent);
-                if (result == null) result = caseCloneable(archimateComponent);
-                if (result == null) result = caseNameable(archimateComponent);
-                if (result == null) result = caseDocumentable(archimateComponent);
-                if (result == null) result = caseProperties(archimateComponent);
-                if (result == null) result = caseAdapter(archimateComponent);
+            case IArchimatePackage.ARCHIMATE_CONCEPT: {
+                IArchimateConcept archimateConcept = (IArchimateConcept)theEObject;
+                T result = caseArchimateConcept(archimateConcept);
+                if (result == null) result = caseArchimateModelElement(archimateConcept);
+                if (result == null) result = caseIdentifier(archimateConcept);
+                if (result == null) result = caseCloneable(archimateConcept);
+                if (result == null) result = caseNameable(archimateConcept);
+                if (result == null) result = caseDocumentable(archimateConcept);
+                if (result == null) result = caseProperties(archimateConcept);
+                if (result == null) result = caseAdapter(archimateConcept);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case IArchimatePackage.ARCHIMATE_ELEMENT: {
                 IArchimateElement archimateElement = (IArchimateElement)theEObject;
                 T result = caseArchimateElement(archimateElement);
-                if (result == null) result = caseArchimateComponent(archimateElement);
+                if (result == null) result = caseArchimateConcept(archimateElement);
                 if (result == null) result = caseArchimateModelElement(archimateElement);
                 if (result == null) result = caseIdentifier(archimateElement);
                 if (result == null) result = caseCloneable(archimateElement);
@@ -299,7 +299,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IJunctionElement junctionElement = (IJunctionElement)theEObject;
                 T result = caseJunctionElement(junctionElement);
                 if (result == null) result = caseArchimateElement(junctionElement);
-                if (result == null) result = caseArchimateComponent(junctionElement);
+                if (result == null) result = caseArchimateConcept(junctionElement);
                 if (result == null) result = caseArchimateModelElement(junctionElement);
                 if (result == null) result = caseIdentifier(junctionElement);
                 if (result == null) result = caseCloneable(junctionElement);
@@ -314,7 +314,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IInterfaceElement interfaceElement = (IInterfaceElement)theEObject;
                 T result = caseInterfaceElement(interfaceElement);
                 if (result == null) result = caseArchimateElement(interfaceElement);
-                if (result == null) result = caseArchimateComponent(interfaceElement);
+                if (result == null) result = caseArchimateConcept(interfaceElement);
                 if (result == null) result = caseArchimateModelElement(interfaceElement);
                 if (result == null) result = caseIdentifier(interfaceElement);
                 if (result == null) result = caseCloneable(interfaceElement);
@@ -329,7 +329,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IServiceElement serviceElement = (IServiceElement)theEObject;
                 T result = caseServiceElement(serviceElement);
                 if (result == null) result = caseArchimateElement(serviceElement);
-                if (result == null) result = caseArchimateComponent(serviceElement);
+                if (result == null) result = caseArchimateConcept(serviceElement);
                 if (result == null) result = caseArchimateModelElement(serviceElement);
                 if (result == null) result = caseIdentifier(serviceElement);
                 if (result == null) result = caseCloneable(serviceElement);
@@ -345,7 +345,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseJunction(junction);
                 if (result == null) result = caseJunctionElement(junction);
                 if (result == null) result = caseArchimateElement(junction);
-                if (result == null) result = caseArchimateComponent(junction);
+                if (result == null) result = caseArchimateConcept(junction);
                 if (result == null) result = caseArchimateModelElement(junction);
                 if (result == null) result = caseIdentifier(junction);
                 if (result == null) result = caseCloneable(junction);
@@ -361,7 +361,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseAndJunction(andJunction);
                 if (result == null) result = caseJunctionElement(andJunction);
                 if (result == null) result = caseArchimateElement(andJunction);
-                if (result == null) result = caseArchimateComponent(andJunction);
+                if (result == null) result = caseArchimateConcept(andJunction);
                 if (result == null) result = caseArchimateModelElement(andJunction);
                 if (result == null) result = caseIdentifier(andJunction);
                 if (result == null) result = caseCloneable(andJunction);
@@ -377,7 +377,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseOrJunction(orJunction);
                 if (result == null) result = caseJunctionElement(orJunction);
                 if (result == null) result = caseArchimateElement(orJunction);
-                if (result == null) result = caseArchimateComponent(orJunction);
+                if (result == null) result = caseArchimateConcept(orJunction);
                 if (result == null) result = caseArchimateModelElement(orJunction);
                 if (result == null) result = caseIdentifier(orJunction);
                 if (result == null) result = caseCloneable(orJunction);
@@ -392,7 +392,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IBusinessLayerElement businessLayerElement = (IBusinessLayerElement)theEObject;
                 T result = caseBusinessLayerElement(businessLayerElement);
                 if (result == null) result = caseArchimateElement(businessLayerElement);
-                if (result == null) result = caseArchimateComponent(businessLayerElement);
+                if (result == null) result = caseArchimateConcept(businessLayerElement);
                 if (result == null) result = caseArchimateModelElement(businessLayerElement);
                 if (result == null) result = caseIdentifier(businessLayerElement);
                 if (result == null) result = caseCloneable(businessLayerElement);
@@ -408,7 +408,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessActivity(businessActivity);
                 if (result == null) result = caseBusinessLayerElement(businessActivity);
                 if (result == null) result = caseArchimateElement(businessActivity);
-                if (result == null) result = caseArchimateComponent(businessActivity);
+                if (result == null) result = caseArchimateConcept(businessActivity);
                 if (result == null) result = caseArchimateModelElement(businessActivity);
                 if (result == null) result = caseIdentifier(businessActivity);
                 if (result == null) result = caseCloneable(businessActivity);
@@ -424,7 +424,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessActor(businessActor);
                 if (result == null) result = caseBusinessLayerElement(businessActor);
                 if (result == null) result = caseArchimateElement(businessActor);
-                if (result == null) result = caseArchimateComponent(businessActor);
+                if (result == null) result = caseArchimateConcept(businessActor);
                 if (result == null) result = caseArchimateModelElement(businessActor);
                 if (result == null) result = caseIdentifier(businessActor);
                 if (result == null) result = caseCloneable(businessActor);
@@ -440,7 +440,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessCollaboration(businessCollaboration);
                 if (result == null) result = caseBusinessLayerElement(businessCollaboration);
                 if (result == null) result = caseArchimateElement(businessCollaboration);
-                if (result == null) result = caseArchimateComponent(businessCollaboration);
+                if (result == null) result = caseArchimateConcept(businessCollaboration);
                 if (result == null) result = caseArchimateModelElement(businessCollaboration);
                 if (result == null) result = caseIdentifier(businessCollaboration);
                 if (result == null) result = caseCloneable(businessCollaboration);
@@ -456,7 +456,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseContract(contract);
                 if (result == null) result = caseBusinessLayerElement(contract);
                 if (result == null) result = caseArchimateElement(contract);
-                if (result == null) result = caseArchimateComponent(contract);
+                if (result == null) result = caseArchimateConcept(contract);
                 if (result == null) result = caseArchimateModelElement(contract);
                 if (result == null) result = caseIdentifier(contract);
                 if (result == null) result = caseCloneable(contract);
@@ -472,7 +472,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessEvent(businessEvent);
                 if (result == null) result = caseBusinessLayerElement(businessEvent);
                 if (result == null) result = caseArchimateElement(businessEvent);
-                if (result == null) result = caseArchimateComponent(businessEvent);
+                if (result == null) result = caseArchimateConcept(businessEvent);
                 if (result == null) result = caseArchimateModelElement(businessEvent);
                 if (result == null) result = caseIdentifier(businessEvent);
                 if (result == null) result = caseCloneable(businessEvent);
@@ -488,7 +488,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessFunction(businessFunction);
                 if (result == null) result = caseBusinessLayerElement(businessFunction);
                 if (result == null) result = caseArchimateElement(businessFunction);
-                if (result == null) result = caseArchimateComponent(businessFunction);
+                if (result == null) result = caseArchimateConcept(businessFunction);
                 if (result == null) result = caseArchimateModelElement(businessFunction);
                 if (result == null) result = caseIdentifier(businessFunction);
                 if (result == null) result = caseCloneable(businessFunction);
@@ -504,7 +504,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessInteraction(businessInteraction);
                 if (result == null) result = caseBusinessLayerElement(businessInteraction);
                 if (result == null) result = caseArchimateElement(businessInteraction);
-                if (result == null) result = caseArchimateComponent(businessInteraction);
+                if (result == null) result = caseArchimateConcept(businessInteraction);
                 if (result == null) result = caseArchimateModelElement(businessInteraction);
                 if (result == null) result = caseIdentifier(businessInteraction);
                 if (result == null) result = caseCloneable(businessInteraction);
@@ -521,7 +521,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseBusinessLayerElement(businessInterface);
                 if (result == null) result = caseInterfaceElement(businessInterface);
                 if (result == null) result = caseArchimateElement(businessInterface);
-                if (result == null) result = caseArchimateComponent(businessInterface);
+                if (result == null) result = caseArchimateConcept(businessInterface);
                 if (result == null) result = caseArchimateModelElement(businessInterface);
                 if (result == null) result = caseIdentifier(businessInterface);
                 if (result == null) result = caseCloneable(businessInterface);
@@ -537,7 +537,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseMeaning(meaning);
                 if (result == null) result = caseBusinessLayerElement(meaning);
                 if (result == null) result = caseArchimateElement(meaning);
-                if (result == null) result = caseArchimateComponent(meaning);
+                if (result == null) result = caseArchimateConcept(meaning);
                 if (result == null) result = caseArchimateModelElement(meaning);
                 if (result == null) result = caseIdentifier(meaning);
                 if (result == null) result = caseCloneable(meaning);
@@ -553,7 +553,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessObject(businessObject);
                 if (result == null) result = caseBusinessLayerElement(businessObject);
                 if (result == null) result = caseArchimateElement(businessObject);
-                if (result == null) result = caseArchimateComponent(businessObject);
+                if (result == null) result = caseArchimateConcept(businessObject);
                 if (result == null) result = caseArchimateModelElement(businessObject);
                 if (result == null) result = caseIdentifier(businessObject);
                 if (result == null) result = caseCloneable(businessObject);
@@ -569,7 +569,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessProcess(businessProcess);
                 if (result == null) result = caseBusinessLayerElement(businessProcess);
                 if (result == null) result = caseArchimateElement(businessProcess);
-                if (result == null) result = caseArchimateComponent(businessProcess);
+                if (result == null) result = caseArchimateConcept(businessProcess);
                 if (result == null) result = caseArchimateModelElement(businessProcess);
                 if (result == null) result = caseIdentifier(businessProcess);
                 if (result == null) result = caseCloneable(businessProcess);
@@ -585,7 +585,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseProduct(product);
                 if (result == null) result = caseBusinessLayerElement(product);
                 if (result == null) result = caseArchimateElement(product);
-                if (result == null) result = caseArchimateComponent(product);
+                if (result == null) result = caseArchimateConcept(product);
                 if (result == null) result = caseArchimateModelElement(product);
                 if (result == null) result = caseIdentifier(product);
                 if (result == null) result = caseCloneable(product);
@@ -601,7 +601,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseRepresentation(representation);
                 if (result == null) result = caseBusinessLayerElement(representation);
                 if (result == null) result = caseArchimateElement(representation);
-                if (result == null) result = caseArchimateComponent(representation);
+                if (result == null) result = caseArchimateConcept(representation);
                 if (result == null) result = caseArchimateModelElement(representation);
                 if (result == null) result = caseIdentifier(representation);
                 if (result == null) result = caseCloneable(representation);
@@ -617,7 +617,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseBusinessRole(businessRole);
                 if (result == null) result = caseBusinessLayerElement(businessRole);
                 if (result == null) result = caseArchimateElement(businessRole);
-                if (result == null) result = caseArchimateComponent(businessRole);
+                if (result == null) result = caseArchimateConcept(businessRole);
                 if (result == null) result = caseArchimateModelElement(businessRole);
                 if (result == null) result = caseIdentifier(businessRole);
                 if (result == null) result = caseCloneable(businessRole);
@@ -634,7 +634,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseBusinessLayerElement(businessService);
                 if (result == null) result = caseServiceElement(businessService);
                 if (result == null) result = caseArchimateElement(businessService);
-                if (result == null) result = caseArchimateComponent(businessService);
+                if (result == null) result = caseArchimateConcept(businessService);
                 if (result == null) result = caseArchimateModelElement(businessService);
                 if (result == null) result = caseIdentifier(businessService);
                 if (result == null) result = caseCloneable(businessService);
@@ -650,7 +650,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseValue(value);
                 if (result == null) result = caseBusinessLayerElement(value);
                 if (result == null) result = caseArchimateElement(value);
-                if (result == null) result = caseArchimateComponent(value);
+                if (result == null) result = caseArchimateConcept(value);
                 if (result == null) result = caseArchimateModelElement(value);
                 if (result == null) result = caseIdentifier(value);
                 if (result == null) result = caseCloneable(value);
@@ -666,7 +666,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseLocation(location);
                 if (result == null) result = caseBusinessLayerElement(location);
                 if (result == null) result = caseArchimateElement(location);
-                if (result == null) result = caseArchimateComponent(location);
+                if (result == null) result = caseArchimateConcept(location);
                 if (result == null) result = caseArchimateModelElement(location);
                 if (result == null) result = caseIdentifier(location);
                 if (result == null) result = caseCloneable(location);
@@ -681,7 +681,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IApplicationLayerElement applicationLayerElement = (IApplicationLayerElement)theEObject;
                 T result = caseApplicationLayerElement(applicationLayerElement);
                 if (result == null) result = caseArchimateElement(applicationLayerElement);
-                if (result == null) result = caseArchimateComponent(applicationLayerElement);
+                if (result == null) result = caseArchimateConcept(applicationLayerElement);
                 if (result == null) result = caseArchimateModelElement(applicationLayerElement);
                 if (result == null) result = caseIdentifier(applicationLayerElement);
                 if (result == null) result = caseCloneable(applicationLayerElement);
@@ -697,7 +697,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseApplicationCollaboration(applicationCollaboration);
                 if (result == null) result = caseApplicationLayerElement(applicationCollaboration);
                 if (result == null) result = caseArchimateElement(applicationCollaboration);
-                if (result == null) result = caseArchimateComponent(applicationCollaboration);
+                if (result == null) result = caseArchimateConcept(applicationCollaboration);
                 if (result == null) result = caseArchimateModelElement(applicationCollaboration);
                 if (result == null) result = caseIdentifier(applicationCollaboration);
                 if (result == null) result = caseCloneable(applicationCollaboration);
@@ -713,7 +713,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseApplicationComponent(applicationComponent);
                 if (result == null) result = caseApplicationLayerElement(applicationComponent);
                 if (result == null) result = caseArchimateElement(applicationComponent);
-                if (result == null) result = caseArchimateComponent(applicationComponent);
+                if (result == null) result = caseArchimateConcept(applicationComponent);
                 if (result == null) result = caseArchimateModelElement(applicationComponent);
                 if (result == null) result = caseIdentifier(applicationComponent);
                 if (result == null) result = caseCloneable(applicationComponent);
@@ -729,7 +729,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseApplicationFunction(applicationFunction);
                 if (result == null) result = caseApplicationLayerElement(applicationFunction);
                 if (result == null) result = caseArchimateElement(applicationFunction);
-                if (result == null) result = caseArchimateComponent(applicationFunction);
+                if (result == null) result = caseArchimateConcept(applicationFunction);
                 if (result == null) result = caseArchimateModelElement(applicationFunction);
                 if (result == null) result = caseIdentifier(applicationFunction);
                 if (result == null) result = caseCloneable(applicationFunction);
@@ -745,7 +745,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseApplicationInteraction(applicationInteraction);
                 if (result == null) result = caseApplicationLayerElement(applicationInteraction);
                 if (result == null) result = caseArchimateElement(applicationInteraction);
-                if (result == null) result = caseArchimateComponent(applicationInteraction);
+                if (result == null) result = caseArchimateConcept(applicationInteraction);
                 if (result == null) result = caseArchimateModelElement(applicationInteraction);
                 if (result == null) result = caseIdentifier(applicationInteraction);
                 if (result == null) result = caseCloneable(applicationInteraction);
@@ -762,7 +762,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseApplicationLayerElement(applicationInterface);
                 if (result == null) result = caseInterfaceElement(applicationInterface);
                 if (result == null) result = caseArchimateElement(applicationInterface);
-                if (result == null) result = caseArchimateComponent(applicationInterface);
+                if (result == null) result = caseArchimateConcept(applicationInterface);
                 if (result == null) result = caseArchimateModelElement(applicationInterface);
                 if (result == null) result = caseIdentifier(applicationInterface);
                 if (result == null) result = caseCloneable(applicationInterface);
@@ -778,7 +778,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseDataObject(dataObject);
                 if (result == null) result = caseApplicationLayerElement(dataObject);
                 if (result == null) result = caseArchimateElement(dataObject);
-                if (result == null) result = caseArchimateComponent(dataObject);
+                if (result == null) result = caseArchimateConcept(dataObject);
                 if (result == null) result = caseArchimateModelElement(dataObject);
                 if (result == null) result = caseIdentifier(dataObject);
                 if (result == null) result = caseCloneable(dataObject);
@@ -795,7 +795,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseApplicationLayerElement(applicationService);
                 if (result == null) result = caseServiceElement(applicationService);
                 if (result == null) result = caseArchimateElement(applicationService);
-                if (result == null) result = caseArchimateComponent(applicationService);
+                if (result == null) result = caseArchimateConcept(applicationService);
                 if (result == null) result = caseArchimateModelElement(applicationService);
                 if (result == null) result = caseIdentifier(applicationService);
                 if (result == null) result = caseCloneable(applicationService);
@@ -810,7 +810,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 ITechnologyLayerElement technologyLayerElement = (ITechnologyLayerElement)theEObject;
                 T result = caseTechnologyLayerElement(technologyLayerElement);
                 if (result == null) result = caseArchimateElement(technologyLayerElement);
-                if (result == null) result = caseArchimateComponent(technologyLayerElement);
+                if (result == null) result = caseArchimateConcept(technologyLayerElement);
                 if (result == null) result = caseArchimateModelElement(technologyLayerElement);
                 if (result == null) result = caseIdentifier(technologyLayerElement);
                 if (result == null) result = caseCloneable(technologyLayerElement);
@@ -826,7 +826,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseArtifact(artifact);
                 if (result == null) result = caseTechnologyLayerElement(artifact);
                 if (result == null) result = caseArchimateElement(artifact);
-                if (result == null) result = caseArchimateComponent(artifact);
+                if (result == null) result = caseArchimateConcept(artifact);
                 if (result == null) result = caseArchimateModelElement(artifact);
                 if (result == null) result = caseIdentifier(artifact);
                 if (result == null) result = caseCloneable(artifact);
@@ -842,7 +842,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseCommunicationPath(communicationPath);
                 if (result == null) result = caseTechnologyLayerElement(communicationPath);
                 if (result == null) result = caseArchimateElement(communicationPath);
-                if (result == null) result = caseArchimateComponent(communicationPath);
+                if (result == null) result = caseArchimateConcept(communicationPath);
                 if (result == null) result = caseArchimateModelElement(communicationPath);
                 if (result == null) result = caseIdentifier(communicationPath);
                 if (result == null) result = caseCloneable(communicationPath);
@@ -858,7 +858,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseNetwork(network);
                 if (result == null) result = caseTechnologyLayerElement(network);
                 if (result == null) result = caseArchimateElement(network);
-                if (result == null) result = caseArchimateComponent(network);
+                if (result == null) result = caseArchimateConcept(network);
                 if (result == null) result = caseArchimateModelElement(network);
                 if (result == null) result = caseIdentifier(network);
                 if (result == null) result = caseCloneable(network);
@@ -875,7 +875,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseTechnologyLayerElement(infrastructureInterface);
                 if (result == null) result = caseInterfaceElement(infrastructureInterface);
                 if (result == null) result = caseArchimateElement(infrastructureInterface);
-                if (result == null) result = caseArchimateComponent(infrastructureInterface);
+                if (result == null) result = caseArchimateConcept(infrastructureInterface);
                 if (result == null) result = caseArchimateModelElement(infrastructureInterface);
                 if (result == null) result = caseIdentifier(infrastructureInterface);
                 if (result == null) result = caseCloneable(infrastructureInterface);
@@ -892,7 +892,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseTechnologyLayerElement(infrastructureService);
                 if (result == null) result = caseServiceElement(infrastructureService);
                 if (result == null) result = caseArchimateElement(infrastructureService);
-                if (result == null) result = caseArchimateComponent(infrastructureService);
+                if (result == null) result = caseArchimateConcept(infrastructureService);
                 if (result == null) result = caseArchimateModelElement(infrastructureService);
                 if (result == null) result = caseIdentifier(infrastructureService);
                 if (result == null) result = caseCloneable(infrastructureService);
@@ -908,7 +908,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseInfrastructureFunction(infrastructureFunction);
                 if (result == null) result = caseTechnologyLayerElement(infrastructureFunction);
                 if (result == null) result = caseArchimateElement(infrastructureFunction);
-                if (result == null) result = caseArchimateComponent(infrastructureFunction);
+                if (result == null) result = caseArchimateConcept(infrastructureFunction);
                 if (result == null) result = caseArchimateModelElement(infrastructureFunction);
                 if (result == null) result = caseIdentifier(infrastructureFunction);
                 if (result == null) result = caseCloneable(infrastructureFunction);
@@ -924,7 +924,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseNode(node);
                 if (result == null) result = caseTechnologyLayerElement(node);
                 if (result == null) result = caseArchimateElement(node);
-                if (result == null) result = caseArchimateComponent(node);
+                if (result == null) result = caseArchimateConcept(node);
                 if (result == null) result = caseArchimateModelElement(node);
                 if (result == null) result = caseIdentifier(node);
                 if (result == null) result = caseCloneable(node);
@@ -940,7 +940,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseSystemSoftware(systemSoftware);
                 if (result == null) result = caseTechnologyLayerElement(systemSoftware);
                 if (result == null) result = caseArchimateElement(systemSoftware);
-                if (result == null) result = caseArchimateComponent(systemSoftware);
+                if (result == null) result = caseArchimateConcept(systemSoftware);
                 if (result == null) result = caseArchimateModelElement(systemSoftware);
                 if (result == null) result = caseIdentifier(systemSoftware);
                 if (result == null) result = caseCloneable(systemSoftware);
@@ -956,7 +956,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseDevice(device);
                 if (result == null) result = caseTechnologyLayerElement(device);
                 if (result == null) result = caseArchimateElement(device);
-                if (result == null) result = caseArchimateComponent(device);
+                if (result == null) result = caseArchimateConcept(device);
                 if (result == null) result = caseArchimateModelElement(device);
                 if (result == null) result = caseIdentifier(device);
                 if (result == null) result = caseCloneable(device);
@@ -971,7 +971,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IMotivationElement motivationElement = (IMotivationElement)theEObject;
                 T result = caseMotivationElement(motivationElement);
                 if (result == null) result = caseArchimateElement(motivationElement);
-                if (result == null) result = caseArchimateComponent(motivationElement);
+                if (result == null) result = caseArchimateConcept(motivationElement);
                 if (result == null) result = caseArchimateModelElement(motivationElement);
                 if (result == null) result = caseIdentifier(motivationElement);
                 if (result == null) result = caseCloneable(motivationElement);
@@ -987,7 +987,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseStakeholder(stakeholder);
                 if (result == null) result = caseMotivationElement(stakeholder);
                 if (result == null) result = caseArchimateElement(stakeholder);
-                if (result == null) result = caseArchimateComponent(stakeholder);
+                if (result == null) result = caseArchimateConcept(stakeholder);
                 if (result == null) result = caseArchimateModelElement(stakeholder);
                 if (result == null) result = caseIdentifier(stakeholder);
                 if (result == null) result = caseCloneable(stakeholder);
@@ -1003,7 +1003,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseDriver(driver);
                 if (result == null) result = caseMotivationElement(driver);
                 if (result == null) result = caseArchimateElement(driver);
-                if (result == null) result = caseArchimateComponent(driver);
+                if (result == null) result = caseArchimateConcept(driver);
                 if (result == null) result = caseArchimateModelElement(driver);
                 if (result == null) result = caseIdentifier(driver);
                 if (result == null) result = caseCloneable(driver);
@@ -1019,7 +1019,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseAssessment(assessment);
                 if (result == null) result = caseMotivationElement(assessment);
                 if (result == null) result = caseArchimateElement(assessment);
-                if (result == null) result = caseArchimateComponent(assessment);
+                if (result == null) result = caseArchimateConcept(assessment);
                 if (result == null) result = caseArchimateModelElement(assessment);
                 if (result == null) result = caseIdentifier(assessment);
                 if (result == null) result = caseCloneable(assessment);
@@ -1035,7 +1035,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseGoal(goal);
                 if (result == null) result = caseMotivationElement(goal);
                 if (result == null) result = caseArchimateElement(goal);
-                if (result == null) result = caseArchimateComponent(goal);
+                if (result == null) result = caseArchimateConcept(goal);
                 if (result == null) result = caseArchimateModelElement(goal);
                 if (result == null) result = caseIdentifier(goal);
                 if (result == null) result = caseCloneable(goal);
@@ -1051,7 +1051,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseRequirement(requirement);
                 if (result == null) result = caseMotivationElement(requirement);
                 if (result == null) result = caseArchimateElement(requirement);
-                if (result == null) result = caseArchimateComponent(requirement);
+                if (result == null) result = caseArchimateConcept(requirement);
                 if (result == null) result = caseArchimateModelElement(requirement);
                 if (result == null) result = caseIdentifier(requirement);
                 if (result == null) result = caseCloneable(requirement);
@@ -1067,7 +1067,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseConstraint(constraint);
                 if (result == null) result = caseMotivationElement(constraint);
                 if (result == null) result = caseArchimateElement(constraint);
-                if (result == null) result = caseArchimateComponent(constraint);
+                if (result == null) result = caseArchimateConcept(constraint);
                 if (result == null) result = caseArchimateModelElement(constraint);
                 if (result == null) result = caseIdentifier(constraint);
                 if (result == null) result = caseCloneable(constraint);
@@ -1083,7 +1083,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = casePrinciple(principle);
                 if (result == null) result = caseMotivationElement(principle);
                 if (result == null) result = caseArchimateElement(principle);
-                if (result == null) result = caseArchimateComponent(principle);
+                if (result == null) result = caseArchimateConcept(principle);
                 if (result == null) result = caseArchimateModelElement(principle);
                 if (result == null) result = caseIdentifier(principle);
                 if (result == null) result = caseCloneable(principle);
@@ -1098,7 +1098,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IImplementationMigrationElement implementationMigrationElement = (IImplementationMigrationElement)theEObject;
                 T result = caseImplementationMigrationElement(implementationMigrationElement);
                 if (result == null) result = caseArchimateElement(implementationMigrationElement);
-                if (result == null) result = caseArchimateComponent(implementationMigrationElement);
+                if (result == null) result = caseArchimateConcept(implementationMigrationElement);
                 if (result == null) result = caseArchimateModelElement(implementationMigrationElement);
                 if (result == null) result = caseIdentifier(implementationMigrationElement);
                 if (result == null) result = caseCloneable(implementationMigrationElement);
@@ -1114,7 +1114,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseWorkPackage(workPackage);
                 if (result == null) result = caseImplementationMigrationElement(workPackage);
                 if (result == null) result = caseArchimateElement(workPackage);
-                if (result == null) result = caseArchimateComponent(workPackage);
+                if (result == null) result = caseArchimateConcept(workPackage);
                 if (result == null) result = caseArchimateModelElement(workPackage);
                 if (result == null) result = caseIdentifier(workPackage);
                 if (result == null) result = caseCloneable(workPackage);
@@ -1130,7 +1130,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseDeliverable(deliverable);
                 if (result == null) result = caseImplementationMigrationElement(deliverable);
                 if (result == null) result = caseArchimateElement(deliverable);
-                if (result == null) result = caseArchimateComponent(deliverable);
+                if (result == null) result = caseArchimateConcept(deliverable);
                 if (result == null) result = caseArchimateModelElement(deliverable);
                 if (result == null) result = caseIdentifier(deliverable);
                 if (result == null) result = caseCloneable(deliverable);
@@ -1146,7 +1146,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = casePlateau(plateau);
                 if (result == null) result = caseImplementationMigrationElement(plateau);
                 if (result == null) result = caseArchimateElement(plateau);
-                if (result == null) result = caseArchimateComponent(plateau);
+                if (result == null) result = caseArchimateConcept(plateau);
                 if (result == null) result = caseArchimateModelElement(plateau);
                 if (result == null) result = caseIdentifier(plateau);
                 if (result == null) result = caseCloneable(plateau);
@@ -1162,7 +1162,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseGap(gap);
                 if (result == null) result = caseImplementationMigrationElement(gap);
                 if (result == null) result = caseArchimateElement(gap);
-                if (result == null) result = caseArchimateComponent(gap);
+                if (result == null) result = caseArchimateConcept(gap);
                 if (result == null) result = caseArchimateModelElement(gap);
                 if (result == null) result = caseIdentifier(gap);
                 if (result == null) result = caseCloneable(gap);
@@ -1173,25 +1173,25 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.RELATIONSHIP: {
-                IRelationship relationship = (IRelationship)theEObject;
-                T result = caseRelationship(relationship);
-                if (result == null) result = caseArchimateComponent(relationship);
-                if (result == null) result = caseArchimateModelElement(relationship);
-                if (result == null) result = caseIdentifier(relationship);
-                if (result == null) result = caseCloneable(relationship);
-                if (result == null) result = caseNameable(relationship);
-                if (result == null) result = caseDocumentable(relationship);
-                if (result == null) result = caseProperties(relationship);
-                if (result == null) result = caseAdapter(relationship);
+            case IArchimatePackage.ARCHIMATE_RELATIONSHIP: {
+                IArchimateRelationship archimateRelationship = (IArchimateRelationship)theEObject;
+                T result = caseArchimateRelationship(archimateRelationship);
+                if (result == null) result = caseArchimateConcept(archimateRelationship);
+                if (result == null) result = caseArchimateModelElement(archimateRelationship);
+                if (result == null) result = caseIdentifier(archimateRelationship);
+                if (result == null) result = caseCloneable(archimateRelationship);
+                if (result == null) result = caseNameable(archimateRelationship);
+                if (result == null) result = caseDocumentable(archimateRelationship);
+                if (result == null) result = caseProperties(archimateRelationship);
+                if (result == null) result = caseAdapter(archimateRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case IArchimatePackage.ACCESS_RELATIONSHIP: {
                 IAccessRelationship accessRelationship = (IAccessRelationship)theEObject;
                 T result = caseAccessRelationship(accessRelationship);
-                if (result == null) result = caseRelationship(accessRelationship);
-                if (result == null) result = caseArchimateComponent(accessRelationship);
+                if (result == null) result = caseArchimateRelationship(accessRelationship);
+                if (result == null) result = caseArchimateConcept(accessRelationship);
                 if (result == null) result = caseArchimateModelElement(accessRelationship);
                 if (result == null) result = caseIdentifier(accessRelationship);
                 if (result == null) result = caseCloneable(accessRelationship);
@@ -1205,8 +1205,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.AGGREGATION_RELATIONSHIP: {
                 IAggregationRelationship aggregationRelationship = (IAggregationRelationship)theEObject;
                 T result = caseAggregationRelationship(aggregationRelationship);
-                if (result == null) result = caseRelationship(aggregationRelationship);
-                if (result == null) result = caseArchimateComponent(aggregationRelationship);
+                if (result == null) result = caseArchimateRelationship(aggregationRelationship);
+                if (result == null) result = caseArchimateConcept(aggregationRelationship);
                 if (result == null) result = caseArchimateModelElement(aggregationRelationship);
                 if (result == null) result = caseIdentifier(aggregationRelationship);
                 if (result == null) result = caseCloneable(aggregationRelationship);
@@ -1220,8 +1220,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ASSIGNMENT_RELATIONSHIP: {
                 IAssignmentRelationship assignmentRelationship = (IAssignmentRelationship)theEObject;
                 T result = caseAssignmentRelationship(assignmentRelationship);
-                if (result == null) result = caseRelationship(assignmentRelationship);
-                if (result == null) result = caseArchimateComponent(assignmentRelationship);
+                if (result == null) result = caseArchimateRelationship(assignmentRelationship);
+                if (result == null) result = caseArchimateConcept(assignmentRelationship);
                 if (result == null) result = caseArchimateModelElement(assignmentRelationship);
                 if (result == null) result = caseIdentifier(assignmentRelationship);
                 if (result == null) result = caseCloneable(assignmentRelationship);
@@ -1235,8 +1235,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ASSOCIATION_RELATIONSHIP: {
                 IAssociationRelationship associationRelationship = (IAssociationRelationship)theEObject;
                 T result = caseAssociationRelationship(associationRelationship);
-                if (result == null) result = caseRelationship(associationRelationship);
-                if (result == null) result = caseArchimateComponent(associationRelationship);
+                if (result == null) result = caseArchimateRelationship(associationRelationship);
+                if (result == null) result = caseArchimateConcept(associationRelationship);
                 if (result == null) result = caseArchimateModelElement(associationRelationship);
                 if (result == null) result = caseIdentifier(associationRelationship);
                 if (result == null) result = caseCloneable(associationRelationship);
@@ -1250,8 +1250,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.COMPOSITION_RELATIONSHIP: {
                 ICompositionRelationship compositionRelationship = (ICompositionRelationship)theEObject;
                 T result = caseCompositionRelationship(compositionRelationship);
-                if (result == null) result = caseRelationship(compositionRelationship);
-                if (result == null) result = caseArchimateComponent(compositionRelationship);
+                if (result == null) result = caseArchimateRelationship(compositionRelationship);
+                if (result == null) result = caseArchimateConcept(compositionRelationship);
                 if (result == null) result = caseArchimateModelElement(compositionRelationship);
                 if (result == null) result = caseIdentifier(compositionRelationship);
                 if (result == null) result = caseCloneable(compositionRelationship);
@@ -1265,8 +1265,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.FLOW_RELATIONSHIP: {
                 IFlowRelationship flowRelationship = (IFlowRelationship)theEObject;
                 T result = caseFlowRelationship(flowRelationship);
-                if (result == null) result = caseRelationship(flowRelationship);
-                if (result == null) result = caseArchimateComponent(flowRelationship);
+                if (result == null) result = caseArchimateRelationship(flowRelationship);
+                if (result == null) result = caseArchimateConcept(flowRelationship);
                 if (result == null) result = caseArchimateModelElement(flowRelationship);
                 if (result == null) result = caseIdentifier(flowRelationship);
                 if (result == null) result = caseCloneable(flowRelationship);
@@ -1280,8 +1280,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.REALISATION_RELATIONSHIP: {
                 IRealisationRelationship realisationRelationship = (IRealisationRelationship)theEObject;
                 T result = caseRealisationRelationship(realisationRelationship);
-                if (result == null) result = caseRelationship(realisationRelationship);
-                if (result == null) result = caseArchimateComponent(realisationRelationship);
+                if (result == null) result = caseArchimateRelationship(realisationRelationship);
+                if (result == null) result = caseArchimateConcept(realisationRelationship);
                 if (result == null) result = caseArchimateModelElement(realisationRelationship);
                 if (result == null) result = caseIdentifier(realisationRelationship);
                 if (result == null) result = caseCloneable(realisationRelationship);
@@ -1295,8 +1295,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.SPECIALISATION_RELATIONSHIP: {
                 ISpecialisationRelationship specialisationRelationship = (ISpecialisationRelationship)theEObject;
                 T result = caseSpecialisationRelationship(specialisationRelationship);
-                if (result == null) result = caseRelationship(specialisationRelationship);
-                if (result == null) result = caseArchimateComponent(specialisationRelationship);
+                if (result == null) result = caseArchimateRelationship(specialisationRelationship);
+                if (result == null) result = caseArchimateConcept(specialisationRelationship);
                 if (result == null) result = caseArchimateModelElement(specialisationRelationship);
                 if (result == null) result = caseIdentifier(specialisationRelationship);
                 if (result == null) result = caseCloneable(specialisationRelationship);
@@ -1310,8 +1310,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.TRIGGERING_RELATIONSHIP: {
                 ITriggeringRelationship triggeringRelationship = (ITriggeringRelationship)theEObject;
                 T result = caseTriggeringRelationship(triggeringRelationship);
-                if (result == null) result = caseRelationship(triggeringRelationship);
-                if (result == null) result = caseArchimateComponent(triggeringRelationship);
+                if (result == null) result = caseArchimateRelationship(triggeringRelationship);
+                if (result == null) result = caseArchimateConcept(triggeringRelationship);
                 if (result == null) result = caseArchimateModelElement(triggeringRelationship);
                 if (result == null) result = caseIdentifier(triggeringRelationship);
                 if (result == null) result = caseCloneable(triggeringRelationship);
@@ -1325,8 +1325,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.USED_BY_RELATIONSHIP: {
                 IUsedByRelationship usedByRelationship = (IUsedByRelationship)theEObject;
                 T result = caseUsedByRelationship(usedByRelationship);
-                if (result == null) result = caseRelationship(usedByRelationship);
-                if (result == null) result = caseArchimateComponent(usedByRelationship);
+                if (result == null) result = caseArchimateRelationship(usedByRelationship);
+                if (result == null) result = caseArchimateConcept(usedByRelationship);
                 if (result == null) result = caseArchimateModelElement(usedByRelationship);
                 if (result == null) result = caseIdentifier(usedByRelationship);
                 if (result == null) result = caseCloneable(usedByRelationship);
@@ -1340,8 +1340,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.INFLUENCE_RELATIONSHIP: {
                 IInfluenceRelationship influenceRelationship = (IInfluenceRelationship)theEObject;
                 T result = caseInfluenceRelationship(influenceRelationship);
-                if (result == null) result = caseRelationship(influenceRelationship);
-                if (result == null) result = caseArchimateComponent(influenceRelationship);
+                if (result == null) result = caseArchimateRelationship(influenceRelationship);
+                if (result == null) result = caseArchimateConcept(influenceRelationship);
                 if (result == null) result = caseArchimateModelElement(influenceRelationship);
                 if (result == null) result = caseIdentifier(influenceRelationship);
                 if (result == null) result = caseCloneable(influenceRelationship);
@@ -1872,17 +1872,17 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Concept</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Component</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Concept</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public T caseArchimateComponent(IArchimateComponent object) {
+    public T caseArchimateConcept(IArchimateConcept object) {
         return null;
     }
 
@@ -2288,6 +2288,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseGap(IGap object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseArchimateRelationship(IArchimateRelationship object) {
         return null;
     }
 
@@ -3023,21 +3038,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseApplicationCollaboration(IApplicationCollaboration object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Relationship</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Relationship</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseRelationship(IRelationship object) {
         return null;
     }
 

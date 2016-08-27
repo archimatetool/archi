@@ -20,10 +20,10 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 /**
@@ -132,12 +132,12 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         IArchimateElement childElement = childObject.getArchimateElement();
         
         // Disallow certain types
-        if(!(DiagramModelUtils.isNestedConnectionTypeComponent(parentElement) && DiagramModelUtils.isNestedConnectionTypeComponent(childElement))) {
+        if(!(DiagramModelUtils.isNestedConnectionTypeConcept(parentElement) && DiagramModelUtils.isNestedConnectionTypeConcept(childElement))) {
             return false;
         }
         
         // Not if there is already a relationship of an allowed type between the two
-        for(IRelationship relation : parentElement.getSourceRelationships()) {
+        for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
             if(relation.getTarget() == childElement) {
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
                     if(relation.eClass() == eClass) {
@@ -172,11 +172,11 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
             IArchimateElement childElement = childObject.getArchimateElement();
             
             // Disallow certain types
-            if(!(DiagramModelUtils.isNestedConnectionTypeComponent(parentElement) && DiagramModelUtils.isNestedConnectionTypeComponent(childElement))) {
+            if(!(DiagramModelUtils.isNestedConnectionTypeConcept(parentElement) && DiagramModelUtils.isNestedConnectionTypeConcept(childElement))) {
                 continue;
             }
 
-            for(IRelationship relation : parentElement.getSourceRelationships()) {
+            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
                 if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
                     // And there's not one already there...
                     if(!DiagramModelUtils.hasDiagramModelArchimateConnection(fParentObject, childObject, relation)) {
@@ -192,7 +192,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         CreateRelationshioAndDiagramArchimateConnectionCommand(IDiagramModelArchimateObject sourceObject,
                 IDiagramModelArchimateObject targetObject, EClass relationshipType) {
             
-            IRelationship relationship = (IRelationship)IArchimateFactory.eINSTANCE.create(relationshipType);
+            IArchimateRelationship relationship = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(relationshipType);
             
             Command cmd = new AddRelationshipCommand(sourceObject.getArchimateElement(), targetObject.getArchimateElement(), relationship);
             add(cmd);
@@ -205,10 +205,10 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
     static class AddRelationshipCommand extends Command {
         private IArchimateElement source;
         private IArchimateElement target;
-        private IRelationship relationship;
+        private IArchimateRelationship relationship;
         private IFolder folder;
         
-        public AddRelationshipCommand(IArchimateElement source, IArchimateElement target, IRelationship relationship) {
+        public AddRelationshipCommand(IArchimateElement source, IArchimateElement target, IArchimateRelationship relationship) {
             this.source = source;
             this.target = target;
             this.relationship = relationship;
@@ -249,9 +249,9 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         IDiagramModelArchimateConnection connection;
         IDiagramModelArchimateObject source;
         IDiagramModelArchimateObject target;
-        IRelationship relationship;
+        IArchimateRelationship relationship;
         
-        CreateDiagramArchimateConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target, IRelationship relationship) {
+        CreateDiagramArchimateConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target, IArchimateRelationship relationship) {
             this.source = source;
             this.target = target;
             this.relationship = relationship;
@@ -260,7 +260,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         @Override
         public void execute() {
             connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-            connection.setRelationship(relationship);
+            connection.setArchimateRelationship(relationship);
             connection.connect(source, target);
         }
         

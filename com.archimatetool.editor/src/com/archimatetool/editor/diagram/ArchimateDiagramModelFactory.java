@@ -13,13 +13,13 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -51,9 +51,9 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
      * @param element
      * @return a new IDiagramModelArchimateConnection
      */
-    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IRelationship relation) {
+    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IArchimateRelationship relation) {
         IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setRelationship(relation);
+        connection.setArchimateRelationship(relation);
         
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(connection);
@@ -83,8 +83,8 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         Object object = IArchimateFactory.eINSTANCE.create(fTemplate);
         
         // Connection created from Relationship Template
-        if(object instanceof IRelationship) {
-            return createDiagramModelArchimateConnection((IRelationship)object);
+        if(object instanceof IArchimateRelationship) {
+            return createDiagramModelArchimateConnection((IArchimateRelationship)object);
         }
         
         // Archimate Diagram Object created from Archimate Element Template

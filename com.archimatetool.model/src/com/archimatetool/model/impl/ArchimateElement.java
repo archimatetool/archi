@@ -21,7 +21,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  *
  * @generated
  */
-public abstract class ArchimateElement extends ArchimateComponent implements IArchimateElement {
+public abstract class ArchimateElement extends ArchimateConcept implements IArchimateElement {
     
     /**
      * Stored references to Diagram Objects

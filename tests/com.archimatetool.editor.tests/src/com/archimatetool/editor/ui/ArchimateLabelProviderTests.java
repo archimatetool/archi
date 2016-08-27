@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -20,13 +19,15 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -129,7 +130,7 @@ public class ArchimateLabelProviderTests {
         IBusinessRole role = IArchimateFactory.eINSTANCE.createBusinessRole();
         role.setName("Nobody");
 
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relation.setSource(actor);
         relation.setTarget(role);
         assertEquals("Fred is assigned to Nobody", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation));

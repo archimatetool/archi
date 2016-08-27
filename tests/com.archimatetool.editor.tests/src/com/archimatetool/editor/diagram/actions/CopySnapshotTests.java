@@ -31,6 +31,7 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -38,7 +39,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -163,7 +163,7 @@ public class CopySnapshotTests {
         dmoParent.getChildren().add(dmoChild);
         
         // Create relationship
-        IRelationship relationship = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relationship.setSource(dmoParent.getArchimateElement());
         relationship.setTarget(dmoChild.getArchimateElement());
         
@@ -249,8 +249,8 @@ public class CopySnapshotTests {
                 assertNotNull(((IIdentifier)eObject).getId());
             }
             if(eObject instanceof IDiagramModelArchimateComponent) {
-                assertNotNull(((IDiagramModelArchimateComponent)eObject).getArchimateComponent());
-                assertNotNull(((IDiagramModelArchimateComponent)eObject).getArchimateComponent().eContainer());
+                assertNotNull(((IDiagramModelArchimateComponent)eObject).getArchimateConcept());
+                assertNotNull(((IDiagramModelArchimateComponent)eObject).getArchimateConcept().eContainer());
             }
         }
     }

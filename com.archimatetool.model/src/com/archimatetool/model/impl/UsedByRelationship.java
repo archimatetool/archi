@@ -18,7 +18,7 @@ import com.archimatetool.model.IUsedByRelationship;
  *
  * @generated
  */
-public class UsedByRelationship extends Relationship implements IUsedByRelationship {
+public class UsedByRelationship extends ArchimateRelationship implements IUsedByRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

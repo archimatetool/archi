@@ -8,7 +8,7 @@ package com.archimatetool.editor.diagram.dnd;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.dnd.DND;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -42,8 +42,8 @@ public class ArchimateDiagramTransferDropTargetListener extends AbstractDiagramT
     
     @Override
     protected boolean isEnabled(Object element) {
-        // Archimate Component
-        if(element instanceof IArchimateComponent) {
+        // Archimate Concept
+        if(element instanceof IArchimateConcept) {
             return true;
         }
         // Diagram Model Reference

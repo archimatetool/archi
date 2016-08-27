@@ -19,7 +19,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -109,8 +109,8 @@ public class RelationshipsMatrix {
         return Collections.unmodifiableMap(relationsValueMap);
     }
 
-    boolean isValidRelationshipStart(IArchimateComponent sourceComponent, EClass relationshipType) {
-        EClass sourceType = getSuperEClass(sourceComponent.eClass());
+    boolean isValidRelationshipStart(IArchimateConcept sourceConcept, EClass relationshipType) {
+        EClass sourceType = getSuperEClass(sourceConcept.eClass());
         
         List<TargetMatrix> listMatrix = matrixMap.get(sourceType);
         if(listMatrix != null) {
@@ -129,7 +129,7 @@ public class RelationshipsMatrix {
             return false;
         }
         
-        if(!IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(relationshipType)) {
+        if(!IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(relationshipType)) {
             return false;
         }
         

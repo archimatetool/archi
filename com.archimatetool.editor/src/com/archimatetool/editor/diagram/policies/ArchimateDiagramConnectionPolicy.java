@@ -24,9 +24,10 @@ import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.commands.ReconnectDiagramConnectionCommand;
 import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -36,7 +37,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -115,7 +115,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         // Get the type of connection (plain) or relationship (if archimate connection) and check if it is valid
         EClass type = connection.eClass();
         if(connection instanceof IDiagramModelArchimateConnection) {
-            type = ((IDiagramModelArchimateConnection)connection).getRelationship().eClass();
+            type = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship().eClass();
         }
 
         if(isSourceCommand) {
@@ -134,14 +134,14 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
          * In this case we have to check for matching occurences on all diagrams
          */
         if(connection instanceof IDiagramModelArchimateConnection && newObject instanceof IDiagramModelArchimateComponent) {
-            IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
-            IArchimateComponent newComponent = ((IDiagramModelArchimateComponent)newObject).getArchimateComponent();
+            IArchimateRelationship relationship = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship();
+            IArchimateConcept newConcept = ((IDiagramModelArchimateComponent)newObject).getArchimateConcept();
             
             // Compound Command
             CompoundCommand result = new CompoundCommand();
 
             // Check for matching connections in this and other diagrams
-            for(IDiagramModel diagramModel : newComponent.getArchimateModel().getDiagramModels()) {
+            for(IDiagramModel diagramModel : newConcept.getArchimateModel().getDiagramModels()) {
                 for(IDiagramModelArchimateConnection matchingConnection : DiagramModelUtils.findDiagramModelConnectionsForRelation(diagramModel, relationship)) {
                     IDiagramModelArchimateComponent matchingComponent = null;
                     
@@ -151,7 +151,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
                     }
                     // Different Diagram so find a match
                     else {
-                        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, newComponent);
+                        List<IDiagramModelArchimateComponent> list = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, newConcept);
                         if(!list.isEmpty()) {
                             matchingComponent = list.get(0);
                         }                            
@@ -257,7 +257,7 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         // Archimate Element source
         if(source instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)source;
-            return ArchimateModelUtils.isValidRelationshipStart(dmo.getArchimateComponent(), relationshipType);
+            return ArchimateModelUtils.isValidRelationshipStart(dmo.getArchimateConcept(), relationshipType);
         }
         
         // Archimate Relationship source

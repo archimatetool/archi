@@ -23,9 +23,9 @@ import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.DerivedRelationsUtils;
 
 
@@ -48,8 +48,8 @@ implements IArchimateConnectionEditPart, NodeEditPart {
             super.notifyChanged(msg);
             
             Object feature = msg.getFeature();
-            if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE
-                                                    || feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET
+            if(feature == IArchimatePackage.Literals.ARCHIMATE_RELATIONSHIP__SOURCE
+                                                    || feature == IArchimatePackage.Literals.ARCHIMATE_RELATIONSHIP__TARGET
                                                     || feature == IArchimatePackage.Literals.FOLDER__ELEMENTS) {
                 showStructural();
             }
@@ -107,7 +107,7 @@ implements IArchimateConnectionEditPart, NodeEditPart {
 			// Store this
             fArchimateModel = getModel().getDiagramModel().getArchimateModel();
 			// Listen to Archimate Relationship changes
-			getModel().getRelationship().eAdapters().add(getECoreAdapter());
+			getModel().getArchimateRelationship().eAdapters().add(getECoreAdapter());
 			// Register to listen to overall model changes that affect the structural relationship chains
 			if(isShowStructural()) {
 	            fArchimateModel.eAdapters().add(fModelAdapter);
@@ -121,7 +121,7 @@ implements IArchimateConnectionEditPart, NodeEditPart {
     public void deactivate() {
         if(isActive()) {
             super.deactivate();
-            getModel().getRelationship().eAdapters().remove(getECoreAdapter());
+            getModel().getArchimateRelationship().eAdapters().remove(getECoreAdapter());
             fArchimateModel.eAdapters().remove(fModelAdapter);
             getViewer().removePropertyChangeListener(propertyListener);
         }
@@ -154,7 +154,7 @@ implements IArchimateConnectionEditPart, NodeEditPart {
     }
     
     protected void showStructural() {
-        IRelationship relation = getModel().getRelationship();
+        IArchimateRelationship relation = getModel().getArchimateRelationship();
         boolean doHighlight = DerivedRelationsUtils.isInDerivedChain(relation);
         getFigure().highlight(doHighlight);
     }
@@ -166,8 +166,8 @@ implements IArchimateConnectionEditPart, NodeEditPart {
     @SuppressWarnings("rawtypes")
     @Override
     public Object getAdapter(Class adapter) {
-        if(getModel() != null && getModel().getRelationship() != null && adapter.isInstance(getModel().getRelationship())) {
-            return getModel().getRelationship();
+        if(getModel() != null && getModel().getArchimateRelationship() != null && adapter.isInstance(getModel().getArchimateRelationship())) {
+            return getModel().getArchimateRelationship();
         }
 
         return super.getAdapter(adapter);

@@ -8,7 +8,7 @@ package com.archimatetool.hammer.validation.issues;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.help.hints.IHelpHintProvider;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 
 
@@ -102,9 +102,9 @@ public abstract class AbstractIssueType implements IIssue {
             return object;
         }
         
-        if(adapter.isAssignableFrom(IArchimateComponent.class)) {
+        if(adapter.isAssignableFrom(IArchimateConcept.class)) {
             if(object instanceof IDiagramModelArchimateComponent) {
-                return ((IDiagramModelArchimateComponent)object).getArchimateComponent();
+                return ((IDiagramModelArchimateComponent)object).getArchimateConcept();
             }
         }
         

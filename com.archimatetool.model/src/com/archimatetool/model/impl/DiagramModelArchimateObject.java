@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -195,7 +195,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public IArchimateElement getArchimateComponent() {
+    public IArchimateElement getArchimateConcept() {
         return getArchimateElement();
     }
 
@@ -204,11 +204,11 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void setArchimateComponent(IArchimateComponent component) {
-        if(!(component instanceof IArchimateElement)) {
+    public void setArchimateConcept(IArchimateConcept concept) {
+        if(!(concept instanceof IArchimateElement)) {
             throw new IllegalArgumentException("Should be of type IArchimateElement"); //$NON-NLS-1$
         }
-        setArchimateElement((IArchimateElement)component);
+        setArchimateElement((IArchimateElement)concept);
     }
 
     /**
@@ -216,7 +216,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void addArchimateComponentToModel(IFolder parent) {
+    public void addArchimateConceptToModel(IFolder parent) {
         IArchimateElement element = getArchimateElement();
 
         if(element != null && element.eContainer() != null) {
@@ -236,7 +236,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void removeArchimateComponentFromModel() {
+    public void removeArchimateConceptFromModel() {
         IArchimateElement element = getArchimateElement();
         if(element != null) {
             IFolder folder = (IFolder)element.eContainer();

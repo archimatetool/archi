@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -35,13 +35,13 @@ public abstract class AbstractViewpointTests {
         if(types != null) {
             for(EClass eClass : types) {
                 // All allowed types
-                IArchimateComponent component = (IArchimateComponent)IArchimateFactory.eINSTANCE.create(eClass);
-                assertTrue(vp.isElementVisible(component));
+                IArchimateConcept concept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(eClass);
+                assertTrue(vp.isElementVisible(concept));
                 
                 // All allowed types as diagram objects
-                if(component instanceof IArchimateElement) {
+                if(concept instanceof IArchimateElement) {
                     IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-                    dmo.setArchimateElement((IArchimateElement)component);
+                    dmo.setArchimateElement((IArchimateElement)concept);
                     assertTrue(vp.isElementVisible(dmo));
                 }
             }

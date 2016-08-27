@@ -26,9 +26,9 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -98,7 +98,7 @@ public class CommandsTests {
 
     @Test
     public void testDeleteArchimateRelationshipCommand() {
-        IRelationship relationship = (IRelationship)tm.getObjectByID("670aa5ed");
+        IArchimateRelationship relationship = (IArchimateRelationship)tm.getObjectByID("670aa5ed");
         assertNotNull(relationship);
         
         assertTrue(relationship.getSource().getSourceRelationships().contains(relationship));

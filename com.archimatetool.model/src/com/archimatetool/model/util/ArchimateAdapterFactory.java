@@ -16,12 +16,13 @@ import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
 import com.archimatetool.model.IApplicationLayerElement;
 import com.archimatetool.model.IApplicationService;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IAssessment;
 import com.archimatetool.model.IAssignmentRelationship;
@@ -96,7 +97,6 @@ import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealisationRelationship;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IServiceElement;
@@ -229,8 +229,8 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createFolderAdapter();
             }
             @Override
-            public Adapter caseArchimateComponent(IArchimateComponent object) {
-                return createArchimateComponentAdapter();
+            public Adapter caseArchimateConcept(IArchimateConcept object) {
+                return createArchimateConceptAdapter();
             }
             @Override
             public Adapter caseArchimateElement(IArchimateElement object) {
@@ -457,8 +457,8 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createGapAdapter();
             }
             @Override
-            public Adapter caseRelationship(IRelationship object) {
-                return createRelationshipAdapter();
+            public Adapter caseArchimateRelationship(IArchimateRelationship object) {
+                return createArchimateRelationshipAdapter();
             }
             @Override
             public Adapter caseAccessRelationship(IAccessRelationship object) {
@@ -811,16 +811,16 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateComponent <em>Component</em>}'.
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateConcept <em>Concept</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see com.archimatetool.model.IArchimateComponent
+     * @see com.archimatetool.model.IArchimateConcept
      * @generated
      */
-    public Adapter createArchimateComponentAdapter() {
+    public Adapter createArchimateConceptAdapter() {
         return null;
     }
 
@@ -1199,6 +1199,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createGapAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateRelationship <em>Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IArchimateRelationship
+     * @generated
+     */
+    public Adapter createArchimateRelationshipAdapter() {
         return null;
     }
 
@@ -1885,20 +1899,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createApplicationCollaborationAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IRelationship <em>Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IRelationship
-     * @generated
-     */
-    public Adapter createRelationshipAdapter() {
         return null;
     }
 

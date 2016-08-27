@@ -61,7 +61,7 @@ import com.archimatetool.hammer.IHammerImages;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.help.hints.IHintsView;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -300,15 +300,15 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     
     void selectObjects(IStructuredSelection selection) {
         if(selection != null) {
-            List<IArchimateComponent> treeList = new ArrayList<IArchimateComponent>();
+            List<IArchimateConcept> treeList = new ArrayList<IArchimateConcept>();
             List<IDiagramModel> viewList = new ArrayList<IDiagramModel>();
             List<IDiagramModelComponent> viewComponentList = new ArrayList<IDiagramModelComponent>();
             
             for(Object o : selection.toArray()) {
                 if(o instanceof IIssue) {
                     IIssue issue = (IIssue)o;
-                    if(issue.getObject() instanceof IArchimateComponent) {
-                        treeList.add((IArchimateComponent)issue.getObject());
+                    if(issue.getObject() instanceof IArchimateConcept) {
+                        treeList.add((IArchimateConcept)issue.getObject());
                     }
                     else if(issue.getObject() instanceof IDiagramModel) {
                         viewList.add((IDiagramModel)issue.getObject());

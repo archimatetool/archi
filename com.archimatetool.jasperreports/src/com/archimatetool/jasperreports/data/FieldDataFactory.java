@@ -9,12 +9,12 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -56,16 +56,16 @@ public class FieldDataFactory {
             return StringUtils.isSet(s) ? s : null;
         }
         
-        if("relation_source".equals(fieldName) && dataElement instanceof IRelationship) { //$NON-NLS-1$
-            IRelationship relation = (IRelationship)dataElement;
-            IArchimateComponent source = relation.getSource();
+        if("relation_source".equals(fieldName) && dataElement instanceof IArchimateRelationship) { //$NON-NLS-1$
+            IArchimateRelationship relation = (IArchimateRelationship)dataElement;
+            IArchimateConcept source = relation.getSource();
             String s = source.getName();
             return StringUtils.isSet(s) ? s : null;
         }
         
-        if("relation_target".equals(fieldName) && dataElement instanceof IRelationship) { //$NON-NLS-1$
-            IRelationship relation = (IRelationship)dataElement;
-            IArchimateComponent target = relation.getTarget();
+        if("relation_target".equals(fieldName) && dataElement instanceof IArchimateRelationship) { //$NON-NLS-1$
+            IArchimateRelationship relation = (IArchimateRelationship)dataElement;
+            IArchimateConcept target = relation.getTarget();
             String s = target.getName();
             return StringUtils.isSet(s) ? s : null;
         }

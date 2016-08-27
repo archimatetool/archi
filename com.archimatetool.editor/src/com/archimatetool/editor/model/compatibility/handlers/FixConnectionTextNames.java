@@ -15,9 +15,9 @@ import com.archimatetool.editor.model.compatibility.ICompatibilityHandler;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -43,8 +43,8 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
                 EObject element = iter.next();
                 
                 // Set all Relationship names to empty if they have the default name
-                if(element instanceof IRelationship) {
-                    IRelationship relationship = (IRelationship)element;
+                if(element instanceof IArchimateRelationship) {
+                    IArchimateRelationship relationship = (IArchimateRelationship)element;
                     String name = relationship.getName();
                     if(name != null && name.equalsIgnoreCase(getRelationshipDefaultName(relationship))) {
                         relationship.setName(""); //$NON-NLS-1$
@@ -56,7 +56,7 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
                     @SuppressWarnings("deprecation")
                     String text = connection.getText();
                     if(text != null && text.length() > 0) {
-                        IRelationship relationship = connection.getRelationship();
+                        IArchimateRelationship relationship = connection.getArchimateRelationship();
                         relationship.setName(text);
                     }
                 }
@@ -83,7 +83,7 @@ public class FixConnectionTextNames implements ICompatibilityHandler {
      * Get the default names as added to relationships in models up until 2.1.0
      * Don't externalise or change these!
      */
-    private String getRelationshipDefaultName(IRelationship relationship) {
+    private String getRelationshipDefaultName(IArchimateRelationship relationship) {
         switch(relationship.eClass().getClassifierID()) {
             case IArchimatePackage.ACCESS_RELATIONSHIP:
                 return "Access relation"; //$NON-NLS-1$

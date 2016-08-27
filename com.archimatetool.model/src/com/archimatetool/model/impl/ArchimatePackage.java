@@ -17,13 +17,14 @@ import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
 import com.archimatetool.model.IApplicationLayerElement;
 import com.archimatetool.model.IApplicationService;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IAssessment;
 import com.archimatetool.model.IAssignmentRelationship;
@@ -98,7 +99,6 @@ import com.archimatetool.model.IProduct;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealisationRelationship;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IServiceElement;
@@ -231,7 +231,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass archimateComponentEClass = null;
+    private EClass archimateConceptEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -421,6 +421,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass gapEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass archimateRelationshipEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -778,13 +785,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass applicationCollaborationEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass relationshipEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1223,8 +1223,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getArchimateComponent() {
-        return archimateComponentEClass;
+    public EClass getArchimateConcept() {
+        return archimateConceptEClass;
     }
 
     /**
@@ -1468,6 +1468,33 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     public EClass getGap() {
         return gapEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getArchimateRelationship() {
+        return archimateRelationshipEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getArchimateRelationship_Source() {
+        return (EReference)archimateRelationshipEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getArchimateRelationship_Target() {
+        return (EReference)archimateRelationshipEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -1754,7 +1781,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDiagramModelArchimateConnection_Relationship() {
+    public EReference getDiagramModelArchimateConnection_ArchimateRelationship() {
         return (EReference)diagramModelArchimateConnectionEClass.getEStructuralFeatures().get(0);
     }
 
@@ -2258,33 +2285,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getRelationship() {
-        return relationshipEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getRelationship_Source() {
-        return (EReference)relationshipEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getRelationship_Target() {
-        return (EReference)relationshipEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getAccessRelationship() {
         return accessRelationshipEClass;
     }
@@ -2520,7 +2520,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEReference(folderEClass, FOLDER__ELEMENTS);
         createEAttribute(folderEClass, FOLDER__TYPE);
 
-        archimateComponentEClass = createEClass(ARCHIMATE_COMPONENT);
+        archimateConceptEClass = createEClass(ARCHIMATE_CONCEPT);
 
         archimateElementEClass = createEClass(ARCHIMATE_ELEMENT);
 
@@ -2635,9 +2635,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         gapEClass = createEClass(GAP);
 
-        relationshipEClass = createEClass(RELATIONSHIP);
-        createEReference(relationshipEClass, RELATIONSHIP__SOURCE);
-        createEReference(relationshipEClass, RELATIONSHIP__TARGET);
+        archimateRelationshipEClass = createEClass(ARCHIMATE_RELATIONSHIP);
+        createEReference(archimateRelationshipEClass, ARCHIMATE_RELATIONSHIP__SOURCE);
+        createEReference(archimateRelationshipEClass, ARCHIMATE_RELATIONSHIP__TARGET);
 
         accessRelationshipEClass = createEClass(ACCESS_RELATIONSHIP);
         createEAttribute(accessRelationshipEClass, ACCESS_RELATIONSHIP__ACCESS_TYPE);
@@ -2741,7 +2741,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         createEAttribute(diagramModelArchimateObjectEClass, DIAGRAM_MODEL_ARCHIMATE_OBJECT__TYPE);
 
         diagramModelArchimateConnectionEClass = createEClass(DIAGRAM_MODEL_ARCHIMATE_CONNECTION);
-        createEReference(diagramModelArchimateConnectionEClass, DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP);
+        createEReference(diagramModelArchimateConnectionEClass, DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP);
 
         sketchModelEClass = createEClass(SKETCH_MODEL);
         createEAttribute(sketchModelEClass, SKETCH_MODEL__BACKGROUND);
@@ -2797,13 +2797,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         folderEClass.getESuperTypes().add(this.getIdentifier());
         folderEClass.getESuperTypes().add(this.getDocumentable());
         folderEClass.getESuperTypes().add(this.getProperties());
-        archimateComponentEClass.getESuperTypes().add(this.getArchimateModelElement());
-        archimateComponentEClass.getESuperTypes().add(this.getIdentifier());
-        archimateComponentEClass.getESuperTypes().add(this.getCloneable());
-        archimateComponentEClass.getESuperTypes().add(this.getNameable());
-        archimateComponentEClass.getESuperTypes().add(this.getDocumentable());
-        archimateComponentEClass.getESuperTypes().add(this.getProperties());
-        archimateElementEClass.getESuperTypes().add(this.getArchimateComponent());
+        archimateConceptEClass.getESuperTypes().add(this.getArchimateModelElement());
+        archimateConceptEClass.getESuperTypes().add(this.getIdentifier());
+        archimateConceptEClass.getESuperTypes().add(this.getCloneable());
+        archimateConceptEClass.getESuperTypes().add(this.getNameable());
+        archimateConceptEClass.getESuperTypes().add(this.getDocumentable());
+        archimateConceptEClass.getESuperTypes().add(this.getProperties());
+        archimateElementEClass.getESuperTypes().add(this.getArchimateConcept());
         junctionElementEClass.getESuperTypes().add(this.getArchimateElement());
         interfaceElementEClass.getESuperTypes().add(this.getArchimateElement());
         serviceElementEClass.getESuperTypes().add(this.getArchimateElement());
@@ -2865,18 +2865,18 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         deliverableEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         plateauEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         gapEClass.getESuperTypes().add(this.getImplementationMigrationElement());
-        relationshipEClass.getESuperTypes().add(this.getArchimateComponent());
-        accessRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        aggregationRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        assignmentRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        associationRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        compositionRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        flowRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        realisationRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        specialisationRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        triggeringRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        usedByRelationshipEClass.getESuperTypes().add(this.getRelationship());
-        influenceRelationshipEClass.getESuperTypes().add(this.getRelationship());
+        archimateRelationshipEClass.getESuperTypes().add(this.getArchimateConcept());
+        accessRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        aggregationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        assignmentRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        associationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        compositionRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        flowRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        realisationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        specialisationRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        triggeringRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        usedByRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
+        influenceRelationshipEClass.getESuperTypes().add(this.getArchimateRelationship());
         diagramModelComponentEClass.getESuperTypes().add(this.getIdentifier());
         diagramModelComponentEClass.getESuperTypes().add(this.getCloneable());
         diagramModelComponentEClass.getESuperTypes().add(this.getAdapter());
@@ -2992,7 +2992,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEReference(getFolder_Elements(), ecorePackage.getEObject(), null, "elements", null, 0, -1, IFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getFolder_Type(), this.getFolderType(), "type", null, 0, 1, IFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(archimateComponentEClass, IArchimateComponent.class, "ArchimateComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEClass(archimateConceptEClass, IArchimateConcept.class, "ArchimateConcept", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(archimateElementEClass, IArchimateElement.class, "ArchimateElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
@@ -3107,17 +3107,17 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(gapEClass, IGap.class, "Gap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
-        initEClass(relationshipEClass, IRelationship.class, "Relationship", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEReference(getRelationship_Source(), this.getArchimateComponent(), null, "source", null, 0, 1, IRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-        initEReference(getRelationship_Target(), this.getArchimateComponent(), null, "target", null, 0, 1, IRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEClass(archimateRelationshipEClass, IArchimateRelationship.class, "ArchimateRelationship", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEReference(getArchimateRelationship_Source(), this.getArchimateConcept(), null, "source", null, 0, 1, IArchimateRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEReference(getArchimateRelationship_Target(), this.getArchimateConcept(), null, "target", null, 0, 1, IArchimateRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-        op = addEOperation(relationshipEClass, null, "connect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-        addEParameter(op, this.getArchimateComponent(), "source", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-        addEParameter(op, this.getArchimateComponent(), "target", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        op = addEOperation(archimateRelationshipEClass, null, "connect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEParameter(op, this.getArchimateConcept(), "source", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEParameter(op, this.getArchimateConcept(), "target", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        addEOperation(relationshipEClass, null, "reconnect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEOperation(archimateRelationshipEClass, null, "reconnect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        addEOperation(relationshipEClass, null, "disconnect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEOperation(archimateRelationshipEClass, null, "disconnect", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(accessRelationshipEClass, IAccessRelationship.class, "AccessRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getAccessRelationship_AccessType(), ecorePackage.getEInt(), "accessType", "0", 0, 1, IAccessRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
@@ -3242,22 +3242,22 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(diagramModelArchimateComponentEClass, IDiagramModelArchimateComponent.class, "DiagramModelArchimateComponent", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
-        addEOperation(diagramModelArchimateComponentEClass, this.getArchimateComponent(), "getArchimateComponent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEOperation(diagramModelArchimateComponentEClass, this.getArchimateConcept(), "getArchimateConcept", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        op = addEOperation(diagramModelArchimateComponentEClass, null, "setArchimateComponent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-        addEParameter(op, this.getArchimateComponent(), "component", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        op = addEOperation(diagramModelArchimateComponentEClass, null, "setArchimateConcept", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEParameter(op, this.getArchimateConcept(), "concept", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        op = addEOperation(diagramModelArchimateComponentEClass, null, "addArchimateComponentToModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        op = addEOperation(diagramModelArchimateComponentEClass, null, "addArchimateConceptToModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
         addEParameter(op, this.getFolder(), "parent", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        addEOperation(diagramModelArchimateComponentEClass, null, "removeArchimateComponentFromModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+        addEOperation(diagramModelArchimateComponentEClass, null, "removeArchimateConceptFromModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(diagramModelArchimateObjectEClass, IDiagramModelArchimateObject.class, "DiagramModelArchimateObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getDiagramModelArchimateObject_ArchimateElement(), this.getArchimateElement(), null, "archimateElement", null, 0, 1, IDiagramModelArchimateObject.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getDiagramModelArchimateObject_Type(), ecorePackage.getEInt(), "type", "0", 0, 1, IDiagramModelArchimateObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(diagramModelArchimateConnectionEClass, IDiagramModelArchimateConnection.class, "DiagramModelArchimateConnection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-        initEReference(getDiagramModelArchimateConnection_Relationship(), this.getRelationship(), null, "relationship", null, 0, 1, IDiagramModelArchimateConnection.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+        initEReference(getDiagramModelArchimateConnection_ArchimateRelationship(), this.getArchimateRelationship(), null, "archimateRelationship", null, 0, 1, IDiagramModelArchimateConnection.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(sketchModelEClass, ISketchModel.class, "SketchModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getSketchModel_Background(), ecorePackage.getEInt(), "background", "1", 0, 1, ISketchModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$

@@ -95,16 +95,16 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
     }
     
     @Override
-    protected IArchimateElement getArchimateComponent() {
+    protected IArchimateElement getArchimateConcept() {
         return (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
     }
 
     @Test
     public void testGetInterfaceType() {
         // Only IInterfaceElement types
-        Assume.assumeTrue(component instanceof IInterfaceElement);
+        Assume.assumeTrue(concept instanceof IInterfaceElement);
 
-        IInterfaceElement interfaceElement = (IInterfaceElement)component;
+        IInterfaceElement interfaceElement = (IInterfaceElement)concept;
         assertEquals(IInterfaceElement.PROVIDED, interfaceElement.getInterfaceType());
         interfaceElement.setInterfaceType(IInterfaceElement.REQUIRED);
         assertEquals(IInterfaceElement.REQUIRED, interfaceElement.getInterfaceType());

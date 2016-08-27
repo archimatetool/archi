@@ -14,7 +14,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
 import com.archimatetool.editor.tools.GenerateViewCommand;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 
 
@@ -42,7 +42,7 @@ public class GenerateViewAction extends SelectionAction {
         
         for(Object object : getSelectedObjects()) {
             if(object instanceof EditPart) {
-                Object o = ((EditPart)object).getAdapter(IArchimateComponent.class);
+                Object o = ((EditPart)object).getAdapter(IArchimateConcept.class);
                 if(o instanceof IArchimateElement) {
                     if(!list.contains(o)) {
                         list.add((IArchimateElement)o);

@@ -6,15 +6,16 @@
 package com.archimatetool.jasperreports.data;
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IBusinessActor;
-import com.archimatetool.model.IRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -65,7 +66,7 @@ public class FieldDataFactoryTests {
 
     @Test
     public void testGetFieldValue_RelationSource() {
-        IRelationship relation = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createUsedByRelationship();
         IArtifact source = IArchimateFactory.eINSTANCE.createArtifact();
         source.setName("source");
         relation.setSource(source);
@@ -75,7 +76,7 @@ public class FieldDataFactoryTests {
 
     @Test
     public void testGetFieldValue_RelationTarget() {
-        IRelationship relation = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createUsedByRelationship();
         IArtifact target = IArchimateFactory.eINSTANCE.createArtifact();
         target.setName("target");
         relation.setTarget(target);

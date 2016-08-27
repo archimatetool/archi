@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 
 
 /**
@@ -21,8 +21,8 @@ public interface IArchimateDiagramEditor extends IDiagramModelEditor {
     String PROPERTY_SHOW_STRUCTURAL_CHAIN = "_prop_showStructuralChain"; //$NON-NLS-1$
     
     /**
-     * Select the graphical objects wrapping the Archimate components
-     * @param elements
+     * Select the graphical objects wrapping the Archimate concepts
+     * @param archimateConcepts
      */
-    void selectArchimateComponents(IArchimateComponent[] archimateComponents);
+    void selectArchimateConcepts(IArchimateConcept[] archimateConcepts);
 }

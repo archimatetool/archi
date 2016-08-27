@@ -24,7 +24,7 @@ import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 
@@ -138,9 +138,9 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
             for(Object o : ((IStructuredSelection)selection).toArray()) {
                 if(o instanceof EditPart) {
                     Object model = ((EditPart)o).getModel();
-                    // Archimate component
+                    // Archimate concept
                     if(model instanceof IDiagramModelArchimateComponent) {
-                        model = ((IDiagramModelArchimateComponent)model).getArchimateComponent();
+                        model = ((IDiagramModelArchimateComponent)model).getArchimateConcept();
                         list.add(model);
                     }
                     // Diagram model
@@ -156,19 +156,19 @@ public class TreeSelectionSynchroniser implements ISelectionChangedListener {
         
         // Archimate objects selection from Tree View, so update any Archimate Diagram Editors
         else if(source instanceof TreeViewer) {
-            List<IArchimateComponent> list = new ArrayList<IArchimateComponent>();
+            List<IArchimateConcept> list = new ArrayList<IArchimateConcept>();
             
             // Archimate elements
             for(Object o : ((IStructuredSelection)selection).toArray()) {
-                if(o instanceof IArchimateComponent) {
-                    list.add((IArchimateComponent)o);
+                if(o instanceof IArchimateConcept) {
+                    list.add((IArchimateConcept)o);
                 }
             }
             
             // Select these in the Diagram Editors
             for(IDiagramModelEditor diagramEditor : fDiagramEditors) {
                 if(diagramEditor instanceof IArchimateDiagramEditor) {
-                    ((IArchimateDiagramEditor)diagramEditor).selectArchimateComponents(list.toArray(new IArchimateComponent[list.size()]));
+                    ((IArchimateDiagramEditor)diagramEditor).selectArchimateConcepts(list.toArray(new IArchimateConcept[list.size()]));
                 }
             }
         }

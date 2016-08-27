@@ -49,10 +49,10 @@ import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.DerivedRelationsUtils;
 import com.archimatetool.model.util.DerivedRelationsUtils.TooComplicatedException;
 
@@ -144,11 +144,11 @@ public class CreateDerivedRelationAction extends SelectionAction {
                 chainList1, chainList2);
         
         if(dialog.open() == IDialogConstants.OK_ID) {
-            List<IRelationship> chain = dialog.getSelectedChain();
+            List<IArchimateRelationship> chain = dialog.getSelectedChain();
             if(chain != null) {
                 ChainList chainList = dialog.getSelectedChainList();
                 EClass relationshipClass = DerivedRelationsUtils.getWeakestType(chain);
-                IRelationship relation = (IRelationship)IArchimateFactory.eINSTANCE.create(relationshipClass);
+                IArchimateRelationship relation = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(relationshipClass);
                 CommandStack stack = getWorkbenchPart().getAdapter(CommandStack.class);
                 stack.execute(new CreateDerivedConnectionCommand(chainList.srcDiagramObject, chainList.tgtDiagramObject, relation));
             }
@@ -165,7 +165,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         IDiagramModelArchimateObject tgtDiagramObject;
         IArchimateElement srcElement;
         IArchimateElement tgtElement;
-        List<List<IRelationship>> chains;
+        List<List<IArchimateRelationship>> chains;
         boolean isTooComplicated;
         
         ChainList(IDiagramModelArchimateObject srcDiagramObject, IDiagramModelArchimateObject tgtDiagramObject) {
@@ -192,7 +192,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
             }
         }
         
-        List<List<IRelationship>> getChains() {
+        List<List<IArchimateRelationship>> getChains() {
             if(hasExistingDirectRelationship()) {
                 return null;
             }
@@ -209,7 +209,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         private static final String DIALOG_SETTINGS_SECTION = "CreateDerivedConnectionDialog"; //$NON-NLS-1$
 
         private ChainList chainList1, chainList2;
-        private List<IRelationship> selectedChain;
+        private List<IArchimateRelationship> selectedChain;
         private ChainList selectedChainList;
         
         public CreateDerivedConnectionDialog(Shell parentShell, ChainList chainList1, ChainList chainList2) {
@@ -292,7 +292,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
             getButton(IDialogConstants.OK_ID).setEnabled(false);
         }
         
-        public List<IRelationship> getSelectedChain() {
+        public List<IArchimateRelationship> getSelectedChain() {
             return selectedChain;
         }
         
@@ -304,7 +304,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         @Override
         public void selectionChanged(SelectionChangedEvent event) {
             IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-            selectedChain = (List<IRelationship>)selection.getFirstElement();
+            selectedChain = (List<IArchimateRelationship>)selection.getFirstElement();
             selectedChainList = (ChainList)((TableViewer)event.getSource()).getInput();
             getButton(IDialogConstants.OK_ID).setEnabled(!selection.isEmpty());
         }
@@ -389,7 +389,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
                 }
 
                 @SuppressWarnings("unchecked")
-                List<IRelationship> chain = (List<IRelationship>)element;
+                List<IArchimateRelationship> chain = (List<IArchimateRelationship>)element;
                 ChainList chainList = (ChainList)getInput();
 
                 switch(columnIndex) {
@@ -398,7 +398,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
                         String s = chainList.srcElement.getName();
                         s += " --> "; //$NON-NLS-1$
                         for(int i = 1; i < chain.size(); i++) {
-                            IRelationship relation = chain.get(i);
+                            IArchimateRelationship relation = chain.get(i);
                             s += getRelationshipText(chain, relation);
                             if(DerivedRelationsUtils.isBidirectionalRelationship(relation)) {
                                 s += " <-> "; //$NON-NLS-1$
@@ -419,11 +419,11 @@ public class CreateDerivedRelationAction extends SelectionAction {
                 return ""; //$NON-NLS-1$
             }
             
-            private String getRelationshipText(List<IRelationship> chain, IRelationship relation) {
+            private String getRelationshipText(List<IArchimateRelationship> chain, IArchimateRelationship relation) {
                 if(DerivedRelationsUtils.isBidirectionalRelationship(relation)) {
                     int index = chain.indexOf(relation);
                     if(index > 0) {
-                        IRelationship previous = chain.get(index - 1);
+                        IArchimateRelationship previous = chain.get(index - 1);
                         if(relation.getTarget() == previous.getTarget()) {
                             return relation.getTarget().getName();
                         }
@@ -442,14 +442,14 @@ public class CreateDerivedRelationAction extends SelectionAction {
      * Command Stack Command
      */
     private static class CreateDerivedConnectionCommand extends Command {
-        private IRelationship fRelation;
+        private IArchimateRelationship fRelation;
         private IDiagramModelArchimateConnection fConnection;
         private IDiagramModelArchimateObject fSource;
         private IDiagramModelArchimateObject fTarget;
         private boolean fDerivedFolderWasCreated;
         
         public CreateDerivedConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target,
-                IRelationship relation) {
+                IArchimateRelationship relation) {
             fSource = source;
             fTarget = target;
             fRelation = relation;
@@ -459,7 +459,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         @Override
         public void execute() {
             fConnection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-            fConnection.setRelationship(fRelation);
+            fConnection.setArchimateRelationship(fRelation);
             fConnection.connect(fSource, fTarget);
             addToModel();
         }
@@ -477,13 +477,13 @@ public class CreateDerivedRelationAction extends SelectionAction {
                 folder = fConnection.getDiagramModel().getArchimateModel().addDerivedRelationsFolder();
                 fDerivedFolderWasCreated = true;
             }
-            fConnection.addArchimateComponentToModel(folder);
+            fConnection.addArchimateConceptToModel(folder);
         }
         
         @Override
         public void undo() {
             // Remove the model relationship from its model folder
-            fConnection.removeArchimateComponentFromModel();
+            fConnection.removeArchimateConceptFromModel();
             
             // If the Derived Relations folder was created, remove it
             if(fDerivedFolderWasCreated) {

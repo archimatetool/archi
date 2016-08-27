@@ -18,7 +18,7 @@ import com.archimatetool.model.IRealisationRelationship;
  *
  * @generated
  */
-public class RealisationRelationship extends Relationship implements IRealisationRelationship {
+public class RealisationRelationship extends ArchimateRelationship implements IRealisationRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

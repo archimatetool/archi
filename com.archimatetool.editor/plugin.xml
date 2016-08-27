@@ -209,8 +209,8 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.ArchimateComponentSection"
-               filter="com.archimatetool.editor.propertysections.ArchimateComponentSection$Filter"
+               class="com.archimatetool.editor.propertysections.ArchimateConceptSection"
+               filter="com.archimatetool.editor.propertysections.ArchimateConceptSection$Filter"
                id="archimateElementSection"
                tab="main.tab">
          </propertySection>

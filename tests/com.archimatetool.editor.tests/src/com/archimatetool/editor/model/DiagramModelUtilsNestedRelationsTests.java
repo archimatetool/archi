@@ -11,8 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +21,14 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 /**
@@ -45,7 +45,7 @@ public class DiagramModelUtilsNestedRelationsTests {
     private IDiagramModel dm;
     private IDiagramModelArchimateObject dmo1, dmo2, dmo3, dmo4, dmo5;
     private IArchimateElement element1, element2, element3;
-    private IRelationship relationship1, relationship2;
+    private IArchimateRelationship relationship1, relationship2;
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelUtilsNestedRelationsTests.class);
@@ -157,7 +157,7 @@ public class DiagramModelUtilsNestedRelationsTests {
     
     @Test
     public void testIsNestedConnectionTypeRelationship() {
-        IRelationship rel = IArchimateFactory.eINSTANCE.createCompositionRelationship();
+        IArchimateRelationship rel = IArchimateFactory.eINSTANCE.createCompositionRelationship();
         assertTrue(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
         
         rel = IArchimateFactory.eINSTANCE.createAggregationRelationship();
@@ -173,22 +173,22 @@ public class DiagramModelUtilsNestedRelationsTests {
     }
     
     @Test
-    public void testIsNestedConnectionTypeComponent() {
+    public void testIsNestedConnectionTypeConcept() {
         // All these types are OK
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            assertTrue(DiagramModelUtils.isNestedConnectionTypeComponent((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass)));
+            assertTrue(DiagramModelUtils.isNestedConnectionTypeConcept((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass)));
         }
         
         // Except for Junctions
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createJunction()));
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createOrJunction()));
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeComponent(IArchimateFactory.eINSTANCE.createAndJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createOrJunction()));
+        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createAndJunction()));
     }
     
     @Test
     public void testShouldBeHiddenConnection() {
         IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setRelationship(relationship1);
+        connection.setArchimateRelationship(relationship1);
         connection.connect(dmo1, dmo2);
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
@@ -207,7 +207,7 @@ public class DiagramModelUtilsNestedRelationsTests {
         
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
-        connection.setRelationship(relationship2);
+        connection.setArchimateRelationship(relationship2);
         connection.connect(dmo4, dmo5);
         assertFalse(DiagramModelUtils.shouldBeHiddenConnection(connection));
     }

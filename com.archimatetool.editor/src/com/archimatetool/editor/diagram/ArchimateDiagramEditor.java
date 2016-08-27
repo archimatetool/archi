@@ -39,12 +39,12 @@ import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -174,20 +174,20 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
-    public void selectArchimateComponents(IArchimateComponent[] archimateComponents) {
+    public void selectArchimateConcepts(IArchimateConcept[] archimateConcepts) {
         List<Object> objects = new ArrayList<Object>();
         
-        for(IArchimateComponent archimateComponent : archimateComponents) {
-            // Find Diagram Components
-            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getModel(), archimateComponent)) {
+        for(IArchimateConcept archimateConcept : archimateConcepts) {
+            // Find Diagram Concepts
+            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getModel(), archimateConcept)) {
                 if(!objects.contains(dc)) {
                     objects.add(dc);
                 }
             }
             
             // Find Components from nested connections
-            if(ConnectionPreferences.useNestedConnections() && archimateComponent instanceof IRelationship) {
-                for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)archimateComponent)) {
+            if(ConnectionPreferences.useNestedConnections() && archimateConcept instanceof IArchimateRelationship) {
+                for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IArchimateRelationship)archimateConcept)) {
                     if(!objects.contains(list[0])) {
                         objects.add(list[0]);
                     }

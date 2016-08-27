@@ -18,10 +18,10 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 
@@ -148,9 +148,9 @@ public class ArchimateTestModel {
      * Create a DiagramModelArchimateConnection and add an Archimate relationship to it.
      * The relationship will be added to its default container folder in the model
      */
-    public IDiagramModelArchimateConnection createDiagramModelArchimateConnectionAndAddToModel(IRelationship relationship) {
+    public IDiagramModelArchimateConnection createDiagramModelArchimateConnectionAndAddToModel(IArchimateRelationship relationship) {
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(relationship);
+        conn.setArchimateRelationship(relationship);
         if(relationship.eContainer() == null) {
             model.getArchimateModel().getDefaultFolderForElement(relationship).getElements().add(relationship);
         }
@@ -210,9 +210,9 @@ public class ArchimateTestModel {
     /**
      * Create a DiagramModelArchimateConnection and add an Archimate relationship to it
      */
-    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IRelationship relationship) {
+    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IArchimateRelationship relationship) {
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(relationship);
+        conn.setArchimateRelationship(relationship);
         return conn;
     }
 }

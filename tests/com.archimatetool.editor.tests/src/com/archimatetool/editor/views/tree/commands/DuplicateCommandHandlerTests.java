@@ -5,7 +5,12 @@
  */
 package com.archimatetool.editor.views.tree.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +25,13 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestUtils;
 
@@ -109,7 +114,7 @@ public class DuplicateCommandHandlerTests {
         assertEquals(2, folder.getElements().size());
         assertSame(element2, folder.getElements().get(1));
         
-        IRelationship relation = (IRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
+        IArchimateRelationship relation = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
         relation.connect(element1, element2);
         assertTrue(element1.getSourceRelationships().contains(relation));
         assertTrue(element2.getTargetRelationships().contains(relation));
@@ -154,7 +159,7 @@ public class DuplicateCommandHandlerTests {
         IDiagramModelArchimateObject dmo2 = tm.createDiagramModelArchimateObjectAndAddToModel(role);
         dm.getChildren().add(dmo2);
         
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relation.setSource(actor);
         relation.setTarget(role);
         IDiagramModelArchimateConnection dmc1 = tm.createDiagramModelArchimateConnectionAndAddToModel(relation);
@@ -175,15 +180,15 @@ public class DuplicateCommandHandlerTests {
         IDiagramModelArchimateObject dmo2Copy = (IDiagramModelArchimateObject)children.get(1);
         assertNotSame(dmo1, dmo1Copy);
         assertNotSame(dmo2, dmo2Copy);
-        assertSame(actor, dmo1Copy.getArchimateComponent());
-        assertSame(role, dmo2Copy.getArchimateComponent());
+        assertSame(actor, dmo1Copy.getArchimateConcept());
+        assertSame(role, dmo2Copy.getArchimateConcept());
         
         EList<IDiagramModelConnection> connections = dmo1Copy.getSourceConnections();
         assertEquals(1, connections.size());
         
         IDiagramModelArchimateConnection dmc1Copy = (IDiagramModelArchimateConnection)connections.get(0);
         assertNotSame(dmc1, dmc1Copy);
-        assertSame(relation, dmc1Copy.getArchimateComponent());
+        assertSame(relation, dmc1Copy.getArchimateConcept());
     }
     
     @Test
@@ -204,13 +209,13 @@ public class DuplicateCommandHandlerTests {
         IDiagramModelArchimateObject dmo3 = tm.createDiagramModelArchimateObjectAndAddToModel(element3);
         dm.getChildren().add(dmo3);
 
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relation1.setSource(element1);
         relation1.setTarget(element2);
         IDiagramModelArchimateConnection dmc1 = tm.createDiagramModelArchimateConnectionAndAddToModel(relation1);
         dmc1.connect(dmo1, dmo2);
         
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation2.setSource(element3);
         relation2.setTarget(relation1);
         IDiagramModelArchimateConnection dmc2 = tm.createDiagramModelArchimateConnectionAndAddToModel(relation2);
@@ -228,12 +233,12 @@ public class DuplicateCommandHandlerTests {
         IDiagramModelArchimateObject dmo2Copy = (IDiagramModelArchimateObject)children.get(1);
         IDiagramModelArchimateObject dmo3Copy = (IDiagramModelArchimateObject)children.get(2);
         
-        assertSame(element1, dmo1Copy.getArchimateComponent());
-        assertSame(element2, dmo2Copy.getArchimateComponent());
-        assertSame(element3, dmo3Copy.getArchimateComponent());
+        assertSame(element1, dmo1Copy.getArchimateConcept());
+        assertSame(element2, dmo2Copy.getArchimateConcept());
+        assertSame(element3, dmo3Copy.getArchimateConcept());
         
         IDiagramModelArchimateConnection dmc1Copy = (IDiagramModelArchimateConnection)dmo1Copy.getSourceConnections().get(0);
-        assertSame(relation1, dmc1Copy.getArchimateComponent());
+        assertSame(relation1, dmc1Copy.getArchimateConcept());
         assertSame(dmo2Copy, dmc1Copy.getTarget());
         
         // Connection to Connection

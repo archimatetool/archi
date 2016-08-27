@@ -55,7 +55,7 @@ import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchimateEditorHelpPlugin;
 import com.archimatetool.model.IApplicationLayerElement;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IBusinessLayerElement;
 import com.archimatetool.model.IDiagramModel;
@@ -253,7 +253,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         else if(selected instanceof IAdaptable) {
             object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class); // This first
             if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IArchimateComponent.class);
+                object = ((IAdaptable)selected).getAdapter(IArchimateConcept.class);
             }
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModelObject.class);
@@ -420,7 +420,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         Class<?> clazz;
         
         if(object instanceof IDiagramModelArchimateComponent) {
-            object = ((IDiagramModelArchimateComponent)object).getArchimateComponent();
+            object = ((IDiagramModelArchimateComponent)object).getArchimateConcept();
         }
         
         if(object instanceof Class<?>) {

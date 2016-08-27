@@ -26,9 +26,10 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
@@ -41,7 +42,6 @@ import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -441,8 +441,8 @@ public final class CopySnapshot {
         
         fTargetDiagramModel = targetDiagramModel;
         
-        // Create new copies of Archimate components or not
-        fDoCreateNewArchimateComponents = needsNewArchimateComponents();
+        // Create new copies of Archimate concepts or not
+        fDoCreateNewArchimateComponents = needsNewArchimateConcepts();
 
         // Find x,y origin offset to paste at
         calculateXYOffset(mousePosition);
@@ -550,8 +550,8 @@ public final class CopySnapshot {
                 // Re-use original Archimate relationship if required
                 if(!fDoCreateNewArchimateComponents && snapshotConnection instanceof IDiagramModelArchimateConnection) {
                     IDiagramModelArchimateConnection originalDiagramConnection = (IDiagramModelArchimateConnection)fOriginalToSnapshotComponentsMapping.getKey(snapshotConnection);
-                    IRelationship relationship = originalDiagramConnection.getRelationship();
-                    ((IDiagramModelArchimateConnection)newConnection).setRelationship(relationship);
+                    IArchimateRelationship relationship = originalDiagramConnection.getArchimateRelationship();
+                    ((IDiagramModelArchimateConnection)newConnection).setArchimateRelationship(relationship);
                 }
             }
         }
@@ -593,10 +593,10 @@ public final class CopySnapshot {
     // ================================================================================================================
     
     /*
-     * @return True if the target diagram model already contains at least one reference to the copied Archimate Components.
+     * @return True if the target diagram model already contains at least one reference to the copied Archimate Concepts.
      * If this is true then we need to paste new copies.
      */
-    private boolean needsNewArchimateComponents() {
+    private boolean needsNewArchimateConcepts() {
         // If pasting between different Archimate Models then yes we do!
         if(!isSourceAndTargetArchiMateModelSame()) {
             return true;
@@ -604,15 +604,15 @@ public final class CopySnapshot {
         
         for(IConnectable object : fOriginalToSnapshotComponentsMapping.keySet()) {
             if(object instanceof IDiagramModelArchimateComponent) {
-                IArchimateComponent originalComponent = ((IDiagramModelArchimateComponent)object).getArchimateComponent();
+                IArchimateConcept originalConcept = ((IDiagramModelArchimateComponent)object).getArchimateConcept();
                 
-                // Component was deleted
-                if(originalComponent == null || originalComponent.eContainer() == null) {
+                // Concept was deleted
+                if(originalConcept == null || originalConcept.eContainer() == null) {
                     return true;
                 }
                 
-                // Component already on diagram
-                if(!DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(fTargetDiagramModel, originalComponent).isEmpty()) {
+                // Concept already on diagram
+                if(!DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(fTargetDiagramModel, originalConcept).isEmpty()) {
                     return true;
                 }
             }
@@ -731,9 +731,9 @@ public final class CopySnapshot {
             if(doAddArchimateComponentToModel) {
                 for(IDiagramModelConnection dmc : connections) {
                     // If it's an Archimate model type Add relationship to default folder
-                    // This action will assign an ID to the component
+                    // This action will assign an ID to the concept
                     if(dmc instanceof IDiagramModelArchimateConnection) {
-                        ((IDiagramModelArchimateConnection)dmc).addArchimateComponentToModel(null);
+                        ((IDiagramModelArchimateConnection)dmc).addArchimateConceptToModel(null);
                     }
                 }
             }
@@ -758,7 +758,7 @@ public final class CopySnapshot {
                 for(IDiagramModelConnection dmc : connections) {
                     // If it's an Archimate model type remove relationship from model
                     if(dmc instanceof IDiagramModelArchimateConnection) {
-                        ((IDiagramModelArchimateConnection)dmc).removeArchimateComponentFromModel();
+                        ((IDiagramModelArchimateConnection)dmc).removeArchimateConceptFromModel();
                     }
                 }
             }
@@ -771,7 +771,7 @@ public final class CopySnapshot {
             // If it's an Archimate model type then add the Archimate model object to a default folder
             // This action will assign an ID to the component
             if(dmo instanceof IDiagramModelArchimateObject) {
-                ((IDiagramModelArchimateObject)dmo).addArchimateComponentToModel(null);
+                ((IDiagramModelArchimateObject)dmo).addArchimateConceptToModel(null);
             }
 
             // Recurse
@@ -788,7 +788,7 @@ public final class CopySnapshot {
         private void removeArchimateComponentsFromModel(IDiagramModelObject dmo) {
             // If it's an Archimate model type then remove the Archimate model object from its folder
             if(dmo instanceof IDiagramModelArchimateObject) {
-                ((IDiagramModelArchimateObject)dmo).removeArchimateComponentFromModel();
+                ((IDiagramModelArchimateObject)dmo).removeArchimateConceptFromModel();
             }
 
             // Recurse

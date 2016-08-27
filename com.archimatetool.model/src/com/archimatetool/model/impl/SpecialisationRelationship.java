@@ -18,7 +18,7 @@ import com.archimatetool.model.ISpecialisationRelationship;
  *
  * @generated
  */
-public class SpecialisationRelationship extends Relationship implements ISpecialisationRelationship {
+public class SpecialisationRelationship extends ArchimateRelationship implements ISpecialisationRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

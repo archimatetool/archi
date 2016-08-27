@@ -13,9 +13,9 @@ import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -72,23 +72,23 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 
     @Override
     public Object[] getElements(Object inputElement) {
-        if(inputElement instanceof IArchimateComponent) {
-            IArchimateComponent archimateComponent = (IArchimateComponent)inputElement;
+        if(inputElement instanceof IArchimateConcept) {
+            IArchimateConcept archimateConcept = (IArchimateConcept)inputElement;
             
             // Check if it was deleted
-            if(archimateComponent.eContainer() == null) {
+            if(archimateConcept.eContainer() == null) {
                 return new Object[0];
             }
             
             // Relationship
-            if(archimateComponent instanceof IRelationship) {
+            if(archimateConcept instanceof IArchimateRelationship) {
                 return new Object[]  { inputElement };
             }
 
             // Element - Get its relationships
-            if(archimateComponent instanceof IArchimateElement) {
-                List<IRelationship> mainList = new ArrayList<IRelationship>();
-                getRelations(mainList, new ArrayList<IArchimateElement>(), (IArchimateElement)archimateComponent, 0);
+            if(archimateConcept instanceof IArchimateElement) {
+                List<IArchimateRelationship> mainList = new ArrayList<IArchimateRelationship>();
+                getRelations(mainList, new ArrayList<IArchimateElement>(), (IArchimateElement)archimateConcept, 0);
                 return mainList.toArray();
             }
         }
@@ -99,7 +99,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     /**
      * Get all relations from source and target of element and add to list, no more than DEPTH
      */
-    private void getRelations(List<IRelationship> mainList, List<IArchimateElement> checkList, IArchimateElement element, int count) {
+    private void getRelations(List<IArchimateRelationship> mainList, List<IArchimateElement> checkList, IArchimateElement element, int count) {
         if(checkList.contains(element)) {
             return;
         }
@@ -111,11 +111,11 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         }
         count++;
         
-        List<IRelationship> list = ArchimateModelUtils.getAllRelationshipsForComponent(element);
+        List<IArchimateRelationship> list = ArchimateModelUtils.getAllRelationshipsForConcept(element);
         
-        for(IRelationship relationship : list) {
+        for(IArchimateRelationship relationship : list) {
         	if(fViewpoint.isAllowedType(relationship.eClass())) {
-	            IArchimateComponent other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
+	            IArchimateConcept other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
 	            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
 	            
 	            if(!mainList.contains(relationship) && fViewpoint.isAllowedType(other.eClass())) {
@@ -139,16 +139,16 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     @Override
     public Object getSource(Object rel) {
-        if(rel instanceof IRelationship) {
-            return ((IRelationship)rel).getSource();
+        if(rel instanceof IArchimateRelationship) {
+            return ((IArchimateRelationship)rel).getSource();
         }
         return null;
     }
 
     @Override
     public Object getDestination(Object rel) {
-        if(rel instanceof IRelationship) {
-            return ((IRelationship)rel).getTarget();
+        if(rel instanceof IArchimateRelationship) {
+            return ((IArchimateRelationship)rel).getTarget();
         }
         return null;
     }

@@ -7,7 +7,7 @@ package com.archimatetool.model.impl;
 
 
 
-public abstract class ArchimateElementTests extends ArchimateComponentTests {
+public abstract class ArchimateElementTests extends ArchimateConceptTests {
     
      
 }

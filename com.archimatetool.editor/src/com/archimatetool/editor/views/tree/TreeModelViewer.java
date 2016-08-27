@@ -37,10 +37,10 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -288,8 +288,8 @@ public class TreeModelViewer extends TreeViewer {
                 }
             }
             
-            if(element instanceof IRelationship) {
-                IRelationship relationship = (IRelationship)element;
+            if(element instanceof IArchimateRelationship) {
+                IArchimateRelationship relationship = (IArchimateRelationship)element;
                 name += " ("; //$NON-NLS-1$
                 name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
                 name += " - "; //$NON-NLS-1$
@@ -313,8 +313,8 @@ public class TreeModelViewer extends TreeViewer {
             }
             
             // Italicise unused elements
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateComponent) {
-                if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams((IArchimateComponent)element)) {
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
+                if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
                     return fontItalic;
                 }
             }

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IRealisationRelationship extends IRelationship {
+public interface IRealisationRelationship extends IArchimateRelationship {
 } // IRealisationRelationship

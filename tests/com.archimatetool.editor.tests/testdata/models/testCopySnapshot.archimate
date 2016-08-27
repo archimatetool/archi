@@ -27,8 +27,8 @@
       </child>
       <child xsi:type="archimate:DiagramObject" id="bdb0dd69" textAlignment="2" archimateElement="440788c3">
         <bounds x="120" y="48" width="120" height="55"/>
-        <sourceConnection xsi:type="archimate:Connection" id="9f83beb6" targetConnections="70635c80" source="bdb0dd69" target="1245569a" relationship="cf6fb437">
-          <sourceConnection xsi:type="archimate:Connection" id="49ca207a" source="9f83beb6" target="e059ecf9" relationship="b0d2a000"/>
+        <sourceConnection xsi:type="archimate:Connection" id="9f83beb6" targetConnections="70635c80" source="bdb0dd69" target="1245569a" archimateRelationship="cf6fb437">
+          <sourceConnection xsi:type="archimate:Connection" id="49ca207a" source="9f83beb6" target="e059ecf9" archimateRelationship="b0d2a000"/>
         </sourceConnection>
       </child>
       <child xsi:type="archimate:Note" id="e249378c" targetConnections="01707f8e b0b06ebb" textAlignment="1">
@@ -52,10 +52,10 @@
         <bounds x="36" y="312" width="457" height="140"/>
         <child xsi:type="archimate:DiagramObject" id="f74dc890" textAlignment="2" archimateElement="b21c42e2">
           <bounds x="252" y="60" width="120" height="55"/>
-          <sourceConnection xsi:type="archimate:Connection" id="70635c80" targetConnections="807d8f49" source="f74dc890" target="9f83beb6" relationship="e7e61f82">
-            <sourceConnection xsi:type="archimate:Connection" id="095aa391" source="70635c80" target="e059ecf9" relationship="16de4a0c"/>
+          <sourceConnection xsi:type="archimate:Connection" id="70635c80" targetConnections="807d8f49" source="f74dc890" target="9f83beb6" archimateRelationship="e7e61f82">
+            <sourceConnection xsi:type="archimate:Connection" id="095aa391" source="70635c80" target="e059ecf9" archimateRelationship="16de4a0c"/>
           </sourceConnection>
-          <sourceConnection xsi:type="archimate:Connection" id="f2a84554" targetConnections="8faa57ef" source="f74dc890" target="1245569a" relationship="fae6df8d"/>
+          <sourceConnection xsi:type="archimate:Connection" id="f2a84554" targetConnections="8faa57ef" source="f74dc890" target="1245569a" archimateRelationship="fae6df8d"/>
         </child>
       </child>
     </element>

@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.editparts;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
@@ -25,13 +24,15 @@ import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 public class ArchimateDiagramEditPartFactoryTests {
@@ -85,9 +86,9 @@ public class ArchimateDiagramEditPartFactoryTests {
     
     @Test
     public void testArchimateConnectionEditPart() {
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(relation);
+        conn.setArchimateRelationship(relation);
         
         EditPart editPart = editPartFactory.createEditPart(null, conn);
         assertTrue(editPart instanceof AccessConnectionEditPart);

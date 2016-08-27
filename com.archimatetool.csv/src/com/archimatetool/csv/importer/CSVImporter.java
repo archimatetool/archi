@@ -30,15 +30,15 @@ import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -51,8 +51,8 @@ public class CSVImporter implements CSVConstants {
     
     private IArchimateModel fModel;
     
-    // ID -> IArchimateComponent: new elements and relations added
-    Map<String, IArchimateComponent> newComponents = new HashMap<String, IArchimateComponent>();
+    // ID -> IArchimateConcept: new elements and relations added
+    Map<String, IArchimateConcept> newConcepts = new HashMap<String, IArchimateConcept>();
     
     // IProperty -> IProperties object: new Property added
     Map<IProperty, IProperties> newProperties = new HashMap<IProperty, IProperties>();
@@ -60,8 +60,8 @@ public class CSVImporter implements CSVConstants {
     // IProperty -> Value: updated Property
     Map<IProperty, String> updatedProperties = new HashMap<IProperty, String>();
 
-    // IArchimateComponent -> String[] : Updated components' name and documentation
-    Map<IArchimateComponent, String[]> updatedComponents = new HashMap<IArchimateComponent, String[]>();
+    // IArchimateConcept -> String[] : Updated concepts' name and documentation
+    Map<IArchimateConcept, String[]> updatedConcepts = new HashMap<IArchimateConcept, String[]>();
 
     // CSV Model id. This might be set as a reference for Properties. Might be null.
     private String modelID;
@@ -125,18 +125,18 @@ public class CSVImporter implements CSVConstants {
         }
         
         // New elements/relations
-        for(final IArchimateComponent component : newComponents.values()) {
+        for(final IArchimateConcept concept : newConcepts.values()) {
             Command cmd = new Command() {
-                IFolder folder = fModel.getDefaultFolderForElement(component);
+                IFolder folder = fModel.getDefaultFolderForElement(concept);
                 
                 @Override
                 public void execute() {
-                    folder.getElements().add(component);
+                    folder.getElements().add(concept);
                 }
                 
                 @Override
                 public void undo() {
-                    folder.getElements().remove(component);
+                    folder.getElements().remove(concept);
                 }
             };
             
@@ -146,7 +146,7 @@ public class CSVImporter implements CSVConstants {
         }
         
         // Updated elements/relations' name and documentation
-        for(final Entry<IArchimateComponent, String[]> entry : updatedComponents.entrySet()) {
+        for(final Entry<IArchimateConcept, String[]> entry : updatedConcepts.entrySet()) {
             // Name
             Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.NAMEABLE__NAME, entry.getValue()[0]);
             if(cmd.canExecute()) {
@@ -282,11 +282,11 @@ public class CSVImporter implements CSVConstants {
         String documentation = csvRecord.get(3);
         
         // Is the element already in the model?
-        IArchimateElement element = (IArchimateElement)findArchimateComponentInModel(id, eClass);
+        IArchimateElement element = (IArchimateElement)findArchimateConceptInModel(id, eClass);
         
         // Yes
         if(element != null) {
-            updatedComponents.put(element, new String[] { name, documentation });
+            updatedConcepts.put(element, new String[] { name, documentation });
         }
         // No, create a new one
         else {
@@ -294,7 +294,7 @@ public class CSVImporter implements CSVConstants {
             element.setId(id);
             element.setName(name);
             element.setDocumentation(documentation);
-            newComponents.put(id, element);
+            newConcepts.put(id, element);
         }
     }
     
@@ -352,15 +352,15 @@ public class CSVImporter implements CSVConstants {
         String documentation = csvRecord.get(3);
         
         // Is the relation already in the model?
-        IRelationship relation = (IRelationship)findArchimateComponentInModel(id, eClass);
+        IArchimateRelationship relation = (IArchimateRelationship)findArchimateConceptInModel(id, eClass);
         
         // Yes
         if(relation != null) {
-            updatedComponents.put(relation, new String[] { name, documentation});
+            updatedConcepts.put(relation, new String[] { name, documentation});
         }
         // No, create a new one
         else {
-            relation = (IRelationship)IArchimateFactory.eINSTANCE.create(eClass);
+            relation = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(eClass);
             
             // Find source and target elements
             String sourceID = csvRecord.get(4);
@@ -381,7 +381,7 @@ public class CSVImporter implements CSVConstants {
             relation.setName(name);
             relation.setDocumentation(documentation);
 
-            newComponents.put(id, relation);
+            newConcepts.put(id, relation);
         }
     }
 
@@ -429,7 +429,7 @@ public class CSVImporter implements CSVConstants {
         }
         
         // Find referenced element in newly created list
-        IProperties propertiesObject = newComponents.get(id);
+        IProperties propertiesObject = newConcepts.get(id);
         
         // Not found, check if it's referencing an existing element in the model
         if(propertiesObject == null) {
@@ -605,7 +605,7 @@ public class CSVImporter implements CSVConstants {
         do {
             id = UUID.randomUUID().toString().split("-")[0]; //$NON-NLS-1$
         }
-        while(newComponents.containsKey(id));
+        while(newConcepts.containsKey(id));
         
         return id;
     }
@@ -617,17 +617,17 @@ public class CSVImporter implements CSVConstants {
     }
     
     /**
-     * Find an existing archimate component in the model given its id and class type. Return null if not found.
+     * Find an existing archimate concept in the model given its id and class type. Return null if not found.
      * @throws CSVParseException 
      */
-    IArchimateComponent findArchimateComponentInModel(String id, EClass eClass) throws CSVParseException {
+    IArchimateConcept findArchimateConceptInModel(String id, EClass eClass) throws CSVParseException {
         EObject eObject = ArchimateModelUtils.getObjectByID(fModel, id);
         
         // Found an element with this id
         if(eObject != null) {
             // class matches
             if(eObject.eClass() == eClass) {
-                return (IArchimateComponent)eObject;
+                return (IArchimateConcept)eObject;
             }
             // Not the right class, so that's an error we should report
             else {
@@ -644,7 +644,7 @@ public class CSVImporter implements CSVConstants {
      */
     IArchimateElement findReferencedElement(String id) throws CSVParseException {
         // Do we have it as a newly created element?
-        EObject eObject = newComponents.get(id);
+        EObject eObject = newConcepts.get(id);
         
         // No. How about in the model?
         if(eObject == null) {
@@ -669,7 +669,7 @@ public class CSVImporter implements CSVConstants {
     }
     
     boolean isRelationshipEClass(EClass eClass) {
-        return eClass != null && IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(eClass);
+        return eClass != null && IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass);
     }
     
     boolean hasProperty(IProperties propertiesObject, String key, String value) {

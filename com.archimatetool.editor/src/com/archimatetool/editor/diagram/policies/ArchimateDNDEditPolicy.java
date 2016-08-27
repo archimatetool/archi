@@ -28,17 +28,17 @@ import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -52,7 +52,7 @@ import com.archimatetool.model.util.ArchimateModelUtils;
 public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
 
     private List<IArchimateElement> fElementsToAdd;
-    private List<IRelationship> fRelationsToAdd;
+    private List<IArchimateRelationship> fRelationsToAdd;
     private List<IDiagramModel> fDiagramRefsToAdd;
     
     @Override
@@ -69,7 +69,7 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         int y = pt.y;
 
         fElementsToAdd = new ArrayList<IArchimateElement>();
-        fRelationsToAdd = new ArrayList<IRelationship>();
+        fRelationsToAdd = new ArrayList<IArchimateRelationship>();
         fDiagramRefsToAdd = new ArrayList<IDiagramModel>();
         
         // Gather an actual list of elements dragged onto the container, omitting duplicates and anything already on the diagram
@@ -118,10 +118,10 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         }
 
         // Add selected Relations to create connections to those elements on the diagram that don't already have them
-        for(IRelationship relation : fRelationsToAdd) {
+        for(IArchimateRelationship relation : fRelationsToAdd) {
             // Find existing source & target components on the diagram that the new connection will link to
-            List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getTargetDiagramModel(), relation.getSource());
-            List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getTargetDiagramModel(), relation.getTarget());
+            List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getTargetDiagramModel(), relation.getSource());
+            List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getTargetDiagramModel(), relation.getTarget());
 
             for(IDiagramModelComponent dcSource : sources) {
                 for(IDiagramModelComponent dcTarget : targets) {
@@ -142,11 +142,11 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         Boolean value = (Boolean)request.getExtendedData().get(ArchimateDiagramTransferDropTargetListener.ADD_ELEMENT_CONNECTIONS);
         boolean addConnectionsToElements = value != null && value.booleanValue();
         
-        // Newly added components will need new connections to both existing and newly added components
+        // Newly added concepts will need new connections to both existing and newly added concepts
         for(IDiagramModelArchimateComponent dmComponent : diagramComponentsThatWereAdded) {
-            IArchimateComponent archimateComponent = dmComponent.getArchimateComponent();
+            IArchimateConcept archimateConcept = dmComponent.getArchimateConcept();
 
-            for(IRelationship relation : ArchimateModelUtils.getAllRelationshipsForComponent(archimateComponent)) {
+            for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(archimateConcept)) {
                 /*
                  * If the user holds down the Copy key (Ctrl on win/lnx, Alt on Mac) then linked connections
                  * are not added on drag and drop. However, any selected relations' linked objects are added.
@@ -156,15 +156,15 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
                 }
 
                 // Find existing objects
-                List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getTargetDiagramModel(), relation.getSource());
-                List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getTargetDiagramModel(), relation.getTarget());
+                List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getTargetDiagramModel(), relation.getSource());
+                List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getTargetDiagramModel(), relation.getTarget());
 
                 // Add new ones too
                 for(IDiagramModelArchimateComponent dmComponent2 : diagramComponentsThatWereAdded) {
                     if(dmComponent != dmComponent2) {
-                        IArchimateComponent archimateComponent2 = dmComponent2.getArchimateComponent();
+                        IArchimateConcept archimateConcept2 = dmComponent2.getArchimateConcept();
                         
-                        if(archimateComponent2 == relation.getSource()) { // Only need to add sources, not targets
+                        if(archimateConcept2 == relation.getSource()) { // Only need to add sources, not targets
                             sources.add(dmComponent2);
                         }
                     }
@@ -172,13 +172,13 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
 
                 // Make the Commands...
                 for(IDiagramModelComponent dcSource : sources) {
-                    if(dcSource instanceof IConnectable && archimateComponent == relation.getTarget()) {
+                    if(dcSource instanceof IConnectable && archimateConcept == relation.getTarget()) {
                         result.add(new AddDiagramArchimateConnectionCommand((IConnectable)dcSource, (IConnectable)dmComponent, relation));
                     }
                 }
 
                 for(IDiagramModelComponent dcTarget : targets) {
-                    if(dcTarget instanceof IConnectable && archimateComponent == relation.getSource()) {
+                    if(dcTarget instanceof IConnectable && archimateConcept == relation.getSource()) {
                         result.add(new AddDiagramArchimateConnectionCommand((IConnectable)dmComponent, (IConnectable)dcTarget, relation));
                     }
                 }
@@ -226,12 +226,12 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
                 addUniqueObjectToList(fElementsToAdd, (IArchimateElement)object);
             }
             // It's a selected relationship - also add any connected components
-            else if(object instanceof IRelationship) {
-                IRelationship relationship = (IRelationship)object;
+            else if(object instanceof IArchimateRelationship) {
+                IArchimateRelationship relationship = (IArchimateRelationship)object;
                 addUniqueObjectToList(fRelationsToAdd, relationship);
                 
-                // Add relationship's connected components
-                addRelationshipComponents(relationship);
+                // Add relationship's connected concepts
+                addRelationshipConcepts(relationship);
             }
             // It's a selected diagram models (reference)
             else if(object instanceof IDiagramModel && object != getTargetDiagramModel()) { // not the same diagram
@@ -241,31 +241,31 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
     }
     
     /**
-     * Add connected components
+     * Add connected concepts
      * @param relationship
      */
-    private void addRelationshipComponents(IRelationship relationship) {
+    private void addRelationshipConcepts(IArchimateRelationship relationship) {
         // Connected Source Element if not on Diagram
-        if(DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getTargetDiagramModel(), relationship.getSource()).isEmpty()) {
+        if(DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getTargetDiagramModel(), relationship.getSource()).isEmpty()) {
             if(relationship.getSource() instanceof IArchimateElement) {
                 addUniqueObjectToList(fElementsToAdd, (IArchimateElement)relationship.getSource());
             }
-            else if(relationship.getSource() instanceof IRelationship) {
-                IRelationship source = (IRelationship)relationship.getSource();
+            else if(relationship.getSource() instanceof IArchimateRelationship) {
+                IArchimateRelationship source = (IArchimateRelationship)relationship.getSource();
                 addUniqueObjectToList(fRelationsToAdd, source);
-                addRelationshipComponents(source);
+                addRelationshipConcepts(source);
             }
         }
         
         // Connected Target Element if not on Diagram
-        if(DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getTargetDiagramModel(), relationship.getTarget()).isEmpty()) {
+        if(DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getTargetDiagramModel(), relationship.getTarget()).isEmpty()) {
             if(relationship.getTarget() instanceof IArchimateElement) {
                 addUniqueObjectToList(fElementsToAdd, (IArchimateElement)relationship.getTarget());
             }
-            else if(relationship.getTarget() instanceof IRelationship) {
-                IRelationship target = (IRelationship)relationship.getTarget();
+            else if(relationship.getTarget() instanceof IArchimateRelationship) {
+                IArchimateRelationship target = (IArchimateRelationship)relationship.getTarget();
                 addUniqueObjectToList(fRelationsToAdd, target);
-                addRelationshipComponents(target);
+                addRelationshipConcepts(target);
             }
         }
         
@@ -297,7 +297,7 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
      * @return Whether we can DND an object onto the Container
      */
     private boolean canDropObject(Object object) {
-        return (object instanceof IArchimateComponent) || (object instanceof IDiagramModel);
+        return (object instanceof IArchimateConcept) || (object instanceof IDiagramModel);
     }
     
     
@@ -306,7 +306,7 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         private IDiagramModelArchimateConnection fConnection;
         private IConnectable fSource, fTarget;
         
-        public AddDiagramArchimateConnectionCommand(IConnectable src, IConnectable tgt, IRelationship relationship) {
+        public AddDiagramArchimateConnectionCommand(IConnectable src, IConnectable tgt, IArchimateRelationship relationship) {
             setLabel(NLS.bind(Messages.ArchimateDNDEditPolicy_1, relationship.getName()));
 
             fSource = src;

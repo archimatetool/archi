@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 
 
 
@@ -51,9 +51,9 @@ public class PropertiesLabelProvider implements ILabelProvider {
 
         object = ArchimateLabelProvider.INSTANCE.getWrappedElement(object);
         
-        // An Archimate Component is a special text
-        if(object instanceof IArchimateComponent) {
-            return getArchimateComponentText((IArchimateComponent)object);
+        // An Archimate Concept is a special text
+        if(object instanceof IArchimateConcept) {
+            return getArchimateConceptText((IArchimateConcept)object);
         }
 
         // Check the main label provider
@@ -65,10 +65,10 @@ public class PropertiesLabelProvider implements ILabelProvider {
         return " "; // Ensure the title bar is displayed //$NON-NLS-1$
     }
     
-    String getArchimateComponentText(IArchimateComponent archimateComponent) {
-        String name = StringUtils.escapeAmpersandsInText(archimateComponent.getName());
+    String getArchimateConceptText(IArchimateConcept archimateConcept) {
+        String name = StringUtils.escapeAmpersandsInText(archimateConcept.getName());
         
-        String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(archimateComponent.eClass());
+        String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(archimateConcept.eClass());
         
         if(StringUtils.isSet(name)) {
             return name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$

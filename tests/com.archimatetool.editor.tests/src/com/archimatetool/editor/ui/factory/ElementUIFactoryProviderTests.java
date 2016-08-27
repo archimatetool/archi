@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -23,9 +22,11 @@ import com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIPro
 import com.archimatetool.editor.ui.factory.relationships.AssociationRelationshipUIProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -107,8 +108,8 @@ public class ElementUIFactoryProviderTests {
         factory.registerProvider(provider);
         
         IDiagramModelArchimateConnection eObject = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
-        eObject.setRelationship(relation);
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        eObject.setArchimateRelationship(relation);
         
         assertEquals(provider, factory.getProvider(eObject));
     }

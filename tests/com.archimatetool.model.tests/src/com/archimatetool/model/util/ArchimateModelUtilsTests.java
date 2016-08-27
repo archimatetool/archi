@@ -20,7 +20,7 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 
 
 
@@ -60,7 +60,7 @@ public class ArchimateModelUtilsTests {
     }
     
     @Test
-    public void testGetAllRelationshipsForComponent_NotNull() {
+    public void testGetAllRelationshipsForConcept_NotNull() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
@@ -70,12 +70,12 @@ public class ArchimateModelUtilsTests {
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
         model.getDefaultFolderForElement(element2).getElements().add(element2);
         
-        assertNotNull(ArchimateModelUtils.getAllRelationshipsForComponent(element1));
-        assertNotNull(ArchimateModelUtils.getAllRelationshipsForComponent(element2));
+        assertNotNull(ArchimateModelUtils.getAllRelationshipsForConcept(element1));
+        assertNotNull(ArchimateModelUtils.getAllRelationshipsForConcept(element2));
     }
 
     @Test
-    public void testGetAllRelationshipsForComponent_NoRelations() {
+    public void testGetAllRelationshipsForConcept_NoRelations() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
@@ -85,28 +85,28 @@ public class ArchimateModelUtilsTests {
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
         model.getDefaultFolderForElement(element2).getElements().add(element2);
         
-        assertTrue(ArchimateModelUtils.getAllRelationshipsForComponent(element1).isEmpty());
-        assertTrue(ArchimateModelUtils.getAllRelationshipsForComponent(element2).isEmpty());
+        assertTrue(ArchimateModelUtils.getAllRelationshipsForConcept(element1).isEmpty());
+        assertTrue(ArchimateModelUtils.getAllRelationshipsForConcept(element2).isEmpty());
     }
 
     @Test
-    public void testGetAllRelationshipsForComponent() {
+    public void testGetAllRelationshipsForConcept() {
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation1.setSource(element1);
         relation1.setTarget(element2);
         
-        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
-        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForConcept(element1).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForConcept(element2).size());
 
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation2.setSource(element1);
         relation2.setTarget(element2);
        
-        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
-        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForConcept(element1).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForConcept(element2).size());
     }
     
     @Test
@@ -184,7 +184,7 @@ public class ArchimateModelUtilsTests {
         assertEquals(11, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass));
         }
     }
     

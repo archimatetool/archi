@@ -42,7 +42,7 @@ public class UnusedElementsChecker extends AbstractChecker {
         List<IIssue> issues = new ArrayList<IIssue>();
         
         for(IArchimateElement element : archimateElements) {
-            if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element)) {
+            if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams(element)) {
                 String name = ArchimateLabelProvider.INSTANCE.getLabel(element);
                 String description = NLS.bind(DESCRIPTION, name);
                 String explanation = NLS.bind(EXPLANATION, name);

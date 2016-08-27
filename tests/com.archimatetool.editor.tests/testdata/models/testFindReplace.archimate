@@ -35,7 +35,7 @@
     <element xsi:type="archimate:ArchimateDiagramModel" id="6a346079" name="FindMe 10">
       <child xsi:type="archimate:DiagramObject" id="75169540" textAlignment="2" archimateElement="b3b3a0b2">
         <bounds x="36" y="72" width="169" height="180"/>
-        <sourceConnection xsi:type="archimate:Connection" id="d5138494" source="75169540" target="c76c0d2a" relationship="9d271a81"/>
+        <sourceConnection xsi:type="archimate:Connection" id="d5138494" source="75169540" target="c76c0d2a" archimateRelationship="9d271a81"/>
         <child xsi:type="archimate:DiagramObject" id="c1c958bd" textAlignment="2" archimateElement="44cb6838">
           <bounds x="24" y="96"/>
         </child>

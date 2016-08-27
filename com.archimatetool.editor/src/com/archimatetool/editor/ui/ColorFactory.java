@@ -161,7 +161,7 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
-                IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(eClass)) {
+                IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
             // User preference
             String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
             if(StringUtils.isSet(value)) {
@@ -206,7 +206,7 @@ public class ColorFactory {
             eClass = (EClass)object;
         }
         else if(object instanceof IDiagramModelArchimateComponent) {
-            eClass = ((IDiagramModelArchimateComponent)object).getArchimateComponent().eClass();
+            eClass = ((IDiagramModelArchimateComponent)object).getArchimateConcept().eClass();
         }
         else if(object instanceof EObject) {
             eClass = ((EObject)object).eClass();

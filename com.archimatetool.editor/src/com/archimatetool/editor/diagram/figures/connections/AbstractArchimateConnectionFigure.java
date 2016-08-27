@@ -10,8 +10,8 @@ import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -53,7 +53,7 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
             return null;
         }
         
-        IRelationship relation = getModelConnection().getRelationship();
+        IArchimateRelationship relation = getModelConnection().getArchimateRelationship();
         
         String text = ArchimateLabelProvider.INSTANCE.getLabel(relation);
         toolTipFigure.setText(text);

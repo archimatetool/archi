@@ -10,13 +10,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.Logger;
 
 
@@ -28,16 +28,17 @@ import com.archimatetool.model.util.Logger;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelArchimateConnection#getRelationship <em>Relationship</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelArchimateConnection#getArchimateRelationship <em>Archimate Relationship</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class DiagramModelArchimateConnection extends DiagramModelConnection implements IDiagramModelArchimateConnection {
+
     /**
      * Wrapped Archimate relationship
      */
-    private IRelationship fRelationship;
+    private IArchimateRelationship fRelationship;
 
     /**
      * <!-- begin-user-doc -->
@@ -60,8 +61,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
 
     @Override
     public String getName() {
-        if(getRelationship() != null) {
-            return getRelationship().getName();
+        if(getArchimateRelationship() != null) {
+            return getArchimateRelationship().getName();
         }
         else {
             return super.getName();
@@ -70,8 +71,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
 
     @Override
     public void setName(String name) {
-        if(getRelationship() != null) {
-            getRelationship().setName(name);
+        if(getArchimateRelationship() != null) {
+            getArchimateRelationship().setName(name);
         }
     }
     
@@ -85,7 +86,6 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
             throw new IllegalArgumentException("Should be Archimate objects/connections for source and target!"); //$NON-NLS-1$
         }
     }
-    
 
     @Override
     public void reconnect() {
@@ -93,16 +93,16 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
         
         // Set the source/target in the Archimate model if need be
         if(source instanceof IDiagramModelArchimateComponent && target instanceof IDiagramModelArchimateComponent) {
-            IArchimateComponent srcComponent = ((IDiagramModelArchimateComponent)source).getArchimateComponent();
-            IArchimateComponent tgtComponent = ((IDiagramModelArchimateComponent)target).getArchimateComponent();
+            IArchimateConcept srcConcept = ((IDiagramModelArchimateComponent)source).getArchimateConcept();
+            IArchimateConcept tgtConcept = ((IDiagramModelArchimateComponent)target).getArchimateConcept();
             
-            IRelationship relationship = getRelationship();
+            IArchimateRelationship relationship = getArchimateRelationship();
             
-            if(relationship.getSource() != srcComponent) { //optimised
-                relationship.setSource(srcComponent); 
+            if(relationship.getSource() != srcConcept) { //optimised
+                relationship.setSource(srcConcept); 
             }
-            if(relationship.getTarget() != tgtComponent) { //optimised
-                relationship.setTarget(tgtComponent);
+            if(relationship.getTarget() != tgtConcept) { //optimised
+                relationship.setTarget(tgtConcept);
             }
         }
     }
@@ -112,9 +112,9 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public IRelationship getRelationship() {
+    public IArchimateRelationship getArchimateRelationship() {
         if(fRelationship == null) {
-            Logger.logError("getRelationship() returning null", new Throwable()); //$NON-NLS-1$
+            Logger.logError("getArchimateRelationship() returning null", new Throwable()); //$NON-NLS-1$
         }
         
         return fRelationship;
@@ -125,9 +125,9 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void setRelationship(IRelationship relationship) {
+    public void setArchimateRelationship(IArchimateRelationship relationship) {
         if(relationship == null) {
-            Logger.logError("setRelationship() setting null", new Throwable()); //$NON-NLS-1$
+            Logger.logError("setArchimateRelationship() setting null", new Throwable()); //$NON-NLS-1$
         }
         
         fRelationship = relationship;
@@ -138,8 +138,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public IRelationship getArchimateComponent() {
-        return getRelationship();
+    public IArchimateRelationship getArchimateConcept() {
+        return getArchimateRelationship();
     }
 
     /**
@@ -147,11 +147,11 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void setArchimateComponent(IArchimateComponent component) {
-        if(!(component instanceof IRelationship)) {
-            throw new IllegalArgumentException("Should be of type IRelationship"); //$NON-NLS-1$
+    public void setArchimateConcept(IArchimateConcept concept) {
+        if(!(concept instanceof IArchimateRelationship)) {
+            throw new IllegalArgumentException("Should be of type IArchimateRelationship"); //$NON-NLS-1$
         }
-        setRelationship((IRelationship)component);
+        setArchimateRelationship((IArchimateRelationship)concept);
     }
     
     /**
@@ -159,8 +159,9 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void addArchimateComponentToModel(IFolder parent) {
-        IRelationship relationship = getRelationship();
+    @Override
+    public void addArchimateConceptToModel(IFolder parent) {
+        IArchimateRelationship relationship = getArchimateRelationship();
 
         if(relationship != null && relationship.eContainer() != null) {
             throw new IllegalArgumentException("Relationship already has parent folder"); //$NON-NLS-1$
@@ -182,8 +183,9 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void removeArchimateComponentFromModel() {
-        IRelationship relationship = getRelationship();
+    @Override
+    public void removeArchimateConceptFromModel() {
+        IArchimateRelationship relationship = getArchimateRelationship();
         if(relationship != null) {
             IFolder folder = (IFolder)relationship.eContainer();
             if(folder != null) {
@@ -196,8 +198,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     @Override
     public EObject getCopy() {
         IDiagramModelArchimateConnection newConnection = (IDiagramModelArchimateConnection)super.getCopy();
-        IRelationship relationship = (IRelationship)getRelationship().getCopy();
-        newConnection.setRelationship(relationship);
+        IArchimateRelationship relationship = (IArchimateRelationship)getArchimateRelationship().getCopy();
+        newConnection.setArchimateRelationship(relationship);
         return newConnection;
     }
     
@@ -227,8 +229,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP:
-                return getRelationship();
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP:
+                return getArchimateRelationship();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -241,8 +243,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP:
-                setRelationship((IRelationship)newValue);
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP:
+                setArchimateRelationship((IArchimateRelationship)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -256,8 +258,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP:
-                setRelationship((IRelationship)null);
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP:
+                setArchimateRelationship((IArchimateRelationship)null);
                 return;
         }
         super.eUnset(featureID);
@@ -271,8 +273,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP:
-                return getRelationship() != null;
+            case IArchimatePackage.DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP:
+                return getArchimateRelationship() != null;
         }
         return super.eIsSet(featureID);
     }

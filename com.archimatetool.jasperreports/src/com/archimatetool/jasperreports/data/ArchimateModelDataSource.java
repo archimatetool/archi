@@ -54,7 +54,7 @@ public class ArchimateModelDataSource implements JRDataSource, IPropertiesDataSo
      * @return true if there are elements of type to print
      */
     public boolean hasElements(String type) {
-        return !new ElementsDataSource(fModel, type).fElements.isEmpty(); 
+        return !new ElementsDataSource(fModel, type).fConcepts.isEmpty(); 
     }
 
     @Override

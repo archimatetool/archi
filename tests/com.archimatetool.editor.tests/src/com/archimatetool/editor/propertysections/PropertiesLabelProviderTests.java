@@ -24,10 +24,10 @@ import com.archimatetool.editor.diagram.editparts.technology.TechnologyArtifactE
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.tests.TestUtils;
 
 
@@ -82,7 +82,7 @@ public class PropertiesLabelProviderTests {
 
     @Test
     public void testGetImageRelation() {
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         
         // Image for relation
         Image image1 = provider.getImage(new StructuredSelection(relation));
@@ -90,7 +90,7 @@ public class PropertiesLabelProviderTests {
     
         // Image for DiagramModelArchimateConnection
         IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setRelationship(relation);
+        connection.setArchimateRelationship(relation);
         Image image2 = provider.getImage(new StructuredSelection(connection));
         assertEquals(image1, image2);
         
@@ -134,13 +134,13 @@ public class PropertiesLabelProviderTests {
     @Test
     public void testGetTextRelation() {
         // Text for relation
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         String text = provider.getText(new StructuredSelection(relation));
         assertEquals("Assignment relation", text);
         
         // Text for DiagramModelArchimateConnection
         IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setRelationship(relation);
+        connection.setArchimateRelationship(relation);
         text = provider.getText(new StructuredSelection(relation));
         assertEquals("Assignment relation", text);
 
@@ -202,22 +202,22 @@ public class PropertiesLabelProviderTests {
     }
 
     @Test
-    public void testGetArchimateComponentText() {
+    public void testGetArchimateConceptText() {
         // Type of element
         IArchimateElement element = IArchimateFactory.eINSTANCE.createArtifact();
-        assertEquals("Artifact", provider.getArchimateComponentText(element));
+        assertEquals("Artifact", provider.getArchimateConceptText(element));
         
         // Type of relation
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        assertEquals("Assignment relation", provider.getArchimateComponentText(relation));
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        assertEquals("Assignment relation", provider.getArchimateConceptText(relation));
         
         // Name + type
         relation.setName("Hello");
-        assertEquals("Hello (Assignment relation)", provider.getArchimateComponentText(relation));
+        assertEquals("Hello (Assignment relation)", provider.getArchimateConceptText(relation));
         
         // Null is OK
         relation.setName(null);
-        assertEquals("Assignment relation", provider.getArchimateComponentText(relation));
+        assertEquals("Assignment relation", provider.getArchimateConceptText(relation));
     }
     
 }

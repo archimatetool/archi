@@ -44,7 +44,7 @@ import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
@@ -221,7 +221,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     private void writeElements(File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
         if(!list.isEmpty()) {
             for(EObject object : list) {
-                if(object instanceof IArchimateComponent) {
+                if(object instanceof IArchimateConcept) {
                 	writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
                 }
             }

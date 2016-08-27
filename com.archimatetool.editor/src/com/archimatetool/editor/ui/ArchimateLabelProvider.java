@@ -16,9 +16,9 @@ import com.archimatetool.editor.ui.factory.ElementUIFactory;
 import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -149,7 +149,7 @@ public class ArchimateLabelProvider {
         }
         
         if(object instanceof IDiagramModelArchimateComponent) {
-            return ((IDiagramModelArchimateComponent)object).getArchimateComponent();
+            return ((IDiagramModelArchimateComponent)object).getArchimateConcept();
         }
         
         return object;
@@ -159,7 +159,7 @@ public class ArchimateLabelProvider {
      * @param relation
      * @return A sentence that describes the relationship between the relation's source and target elements
      */
-    public String getRelationshipSentence(IRelationship relation) {
+    public String getRelationshipSentence(IArchimateRelationship relation) {
         if(relation != null) {
             if(relation.getSource() != null && relation.getTarget() != null) {
                 String nameSource = ArchimateLabelProvider.INSTANCE.getLabel(relation.getSource());

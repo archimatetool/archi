@@ -23,7 +23,7 @@ public interface IDiagramModelArchimateComponent extends IConnectable {
      * @model kind="operation"
      * @generated
      */
-    IArchimateComponent getArchimateComponent();
+    IArchimateConcept getArchimateConcept();
 
     /**
      * <!-- begin-user-doc -->
@@ -31,7 +31,7 @@ public interface IDiagramModelArchimateComponent extends IConnectable {
      * @model
      * @generated
      */
-    void setArchimateComponent(IArchimateComponent component);
+    void setArchimateConcept(IArchimateConcept concept);
 
     /**
      * <!-- begin-user-doc -->
@@ -39,7 +39,7 @@ public interface IDiagramModelArchimateComponent extends IConnectable {
      * @model
      * @generated
      */
-    void addArchimateComponentToModel(IFolder parent);
+    void addArchimateConceptToModel(IFolder parent);
 
     /**
      * <!-- begin-user-doc -->
@@ -47,6 +47,6 @@ public interface IDiagramModelArchimateComponent extends IConnectable {
      * @model
      * @generated
      */
-    void removeArchimateComponentFromModel();
+    void removeArchimateConceptFromModel();
 
 } // IDiagramModelArchimateComponent

@@ -524,14 +524,14 @@ public interface IArchimatePackage extends EPackage {
     int FOLDER_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.ArchimateComponent <em>Component</em>}' class.
+     * The meta object id for the '{@link com.archimatetool.model.impl.ArchimateConcept <em>Concept</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.ArchimateComponent
-     * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateComponent()
+     * @see com.archimatetool.model.impl.ArchimateConcept
+     * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateConcept()
      * @generated
      */
-    int ARCHIMATE_COMPONENT = 13;
+    int ARCHIMATE_CONCEPT = 13;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -540,7 +540,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_COMPONENT__ID = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 0;
+    int ARCHIMATE_CONCEPT__ID = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -549,7 +549,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_COMPONENT__NAME = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 1;
+    int ARCHIMATE_CONCEPT__NAME = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -558,7 +558,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_COMPONENT__DOCUMENTATION = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 2;
+    int ARCHIMATE_CONCEPT__DOCUMENTATION = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -567,16 +567,16 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_COMPONENT__PROPERTIES = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 3;
+    int ARCHIMATE_CONCEPT__PROPERTIES = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
-     * The number of structural features of the '<em>Component</em>' class.
+     * The number of structural features of the '<em>Concept</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ARCHIMATE_COMPONENT_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 4;
+    int ARCHIMATE_CONCEPT_FEATURE_COUNT = ARCHIMATE_MODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.ArchimateElement <em>Element</em>}' class.
@@ -595,7 +595,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT__ID = ARCHIMATE_COMPONENT__ID;
+    int ARCHIMATE_ELEMENT__ID = ARCHIMATE_CONCEPT__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -604,7 +604,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT__NAME = ARCHIMATE_COMPONENT__NAME;
+    int ARCHIMATE_ELEMENT__NAME = ARCHIMATE_CONCEPT__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -613,7 +613,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT__DOCUMENTATION = ARCHIMATE_COMPONENT__DOCUMENTATION;
+    int ARCHIMATE_ELEMENT__DOCUMENTATION = ARCHIMATE_CONCEPT__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -622,7 +622,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT__PROPERTIES = ARCHIMATE_COMPONENT__PROPERTIES;
+    int ARCHIMATE_ELEMENT__PROPERTIES = ARCHIMATE_CONCEPT__PROPERTIES;
 
     /**
      * The number of structural features of the '<em>Element</em>' class.
@@ -631,7 +631,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ARCHIMATE_ELEMENT_FEATURE_COUNT = ARCHIMATE_COMPONENT_FEATURE_COUNT + 0;
+    int ARCHIMATE_ELEMENT_FEATURE_COUNT = ARCHIMATE_CONCEPT_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IJunctionElement <em>Junction Element</em>}' class.
@@ -971,16 +971,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int OR_JUNCTION_FEATURE_COUNT = JUNCTION_ELEMENT_FEATURE_COUNT + 0;
-
-    /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.Relationship <em>Relationship</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.Relationship
-     * @see com.archimatetool.model.impl.ArchimatePackage#getRelationship()
-     * @generated
-     */
-    int RELATIONSHIP = 70;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.AccessRelationship <em>Access Relationship</em>}' class.
@@ -3815,13 +3805,23 @@ public interface IArchimatePackage extends EPackage {
     int GAP_FEATURE_COUNT = IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.impl.ArchimateRelationship <em>Relationship</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.impl.ArchimateRelationship
+     * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateRelationship()
+     * @generated
+     */
+    int ARCHIMATE_RELATIONSHIP = 70;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int RELATIONSHIP__ID = ARCHIMATE_COMPONENT__ID;
+    int ARCHIMATE_RELATIONSHIP__ID = ARCHIMATE_CONCEPT__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3830,7 +3830,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RELATIONSHIP__NAME = ARCHIMATE_COMPONENT__NAME;
+    int ARCHIMATE_RELATIONSHIP__NAME = ARCHIMATE_CONCEPT__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -3839,7 +3839,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RELATIONSHIP__DOCUMENTATION = ARCHIMATE_COMPONENT__DOCUMENTATION;
+    int ARCHIMATE_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_CONCEPT__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -3848,7 +3848,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RELATIONSHIP__PROPERTIES = ARCHIMATE_COMPONENT__PROPERTIES;
+    int ARCHIMATE_RELATIONSHIP__PROPERTIES = ARCHIMATE_CONCEPT__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -3857,7 +3857,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RELATIONSHIP__SOURCE = ARCHIMATE_COMPONENT_FEATURE_COUNT + 0;
+    int ARCHIMATE_RELATIONSHIP__SOURCE = ARCHIMATE_CONCEPT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -3866,7 +3866,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RELATIONSHIP__TARGET = ARCHIMATE_COMPONENT_FEATURE_COUNT + 1;
+    int ARCHIMATE_RELATIONSHIP__TARGET = ARCHIMATE_CONCEPT_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Relationship</em>' class.
@@ -3875,7 +3875,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_COMPONENT_FEATURE_COUNT + 2;
+    int ARCHIMATE_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_CONCEPT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -3884,7 +3884,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int ACCESS_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3893,7 +3893,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int ACCESS_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -3902,7 +3902,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int ACCESS_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -3911,7 +3911,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int ACCESS_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -3920,7 +3920,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int ACCESS_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -3929,7 +3929,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int ACCESS_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The feature id for the '<em><b>Access Type</b></em>' attribute.
@@ -3938,7 +3938,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP__ACCESS_TYPE = RELATIONSHIP_FEATURE_COUNT + 0;
+    int ACCESS_RELATIONSHIP__ACCESS_TYPE = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Access Relationship</em>' class.
@@ -3947,7 +3947,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACCESS_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 1;
+    int ACCESS_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -3956,7 +3956,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int AGGREGATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3965,7 +3965,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int AGGREGATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -3974,7 +3974,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int AGGREGATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -3983,7 +3983,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int AGGREGATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -3992,7 +3992,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int AGGREGATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4001,7 +4001,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int AGGREGATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Aggregation Relationship</em>' class.
@@ -4010,7 +4010,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int AGGREGATION_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int AGGREGATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4019,7 +4019,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int ASSIGNMENT_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4028,7 +4028,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int ASSIGNMENT_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4037,7 +4037,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int ASSIGNMENT_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4046,7 +4046,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int ASSIGNMENT_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4055,7 +4055,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int ASSIGNMENT_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4064,7 +4064,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int ASSIGNMENT_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Assignment Relationship</em>' class.
@@ -4073,7 +4073,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSIGNMENT_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int ASSIGNMENT_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4082,7 +4082,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int ASSOCIATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4091,7 +4091,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int ASSOCIATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4100,7 +4100,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int ASSOCIATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4109,7 +4109,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int ASSOCIATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4118,7 +4118,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int ASSOCIATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4127,7 +4127,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int ASSOCIATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Association Relationship</em>' class.
@@ -4136,7 +4136,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ASSOCIATION_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int ASSOCIATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4145,7 +4145,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int COMPOSITION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4154,7 +4154,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int COMPOSITION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4163,7 +4163,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int COMPOSITION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4172,7 +4172,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int COMPOSITION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4181,7 +4181,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int COMPOSITION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4190,7 +4190,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int COMPOSITION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Composition Relationship</em>' class.
@@ -4199,7 +4199,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMPOSITION_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int COMPOSITION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4208,7 +4208,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int FLOW_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4217,7 +4217,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int FLOW_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4226,7 +4226,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int FLOW_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4235,7 +4235,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int FLOW_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4244,7 +4244,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int FLOW_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4253,7 +4253,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int FLOW_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Flow Relationship</em>' class.
@@ -4262,7 +4262,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int FLOW_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int FLOW_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4271,7 +4271,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int REALISATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4280,7 +4280,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int REALISATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4289,7 +4289,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int REALISATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4298,7 +4298,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int REALISATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4307,7 +4307,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int REALISATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4316,7 +4316,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int REALISATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Realisation Relationship</em>' class.
@@ -4325,7 +4325,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REALISATION_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int REALISATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4334,7 +4334,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int SPECIALISATION_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4343,7 +4343,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int SPECIALISATION_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4352,7 +4352,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int SPECIALISATION_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4361,7 +4361,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int SPECIALISATION_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4370,7 +4370,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int SPECIALISATION_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4379,7 +4379,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int SPECIALISATION_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Specialisation Relationship</em>' class.
@@ -4388,7 +4388,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIALISATION_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int SPECIALISATION_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4397,7 +4397,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int TRIGGERING_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4406,7 +4406,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int TRIGGERING_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4415,7 +4415,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int TRIGGERING_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4424,7 +4424,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int TRIGGERING_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4433,7 +4433,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int TRIGGERING_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4442,7 +4442,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int TRIGGERING_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Triggering Relationship</em>' class.
@@ -4451,7 +4451,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int TRIGGERING_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int TRIGGERING_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4460,7 +4460,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int USED_BY_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4469,7 +4469,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int USED_BY_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4478,7 +4478,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int USED_BY_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4487,7 +4487,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int USED_BY_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4496,7 +4496,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int USED_BY_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4505,7 +4505,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int USED_BY_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Used By Relationship</em>' class.
@@ -4514,7 +4514,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int USED_BY_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int USED_BY_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -4523,7 +4523,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP__ID = RELATIONSHIP__ID;
+    int INFLUENCE_RELATIONSHIP__ID = ARCHIMATE_RELATIONSHIP__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4532,7 +4532,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP__NAME = RELATIONSHIP__NAME;
+    int INFLUENCE_RELATIONSHIP__NAME = ARCHIMATE_RELATIONSHIP__NAME;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' attribute.
@@ -4541,7 +4541,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP__DOCUMENTATION = RELATIONSHIP__DOCUMENTATION;
+    int INFLUENCE_RELATIONSHIP__DOCUMENTATION = ARCHIMATE_RELATIONSHIP__DOCUMENTATION;
 
     /**
      * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -4550,7 +4550,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP__PROPERTIES = RELATIONSHIP__PROPERTIES;
+    int INFLUENCE_RELATIONSHIP__PROPERTIES = ARCHIMATE_RELATIONSHIP__PROPERTIES;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -4559,7 +4559,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP__SOURCE = RELATIONSHIP__SOURCE;
+    int INFLUENCE_RELATIONSHIP__SOURCE = ARCHIMATE_RELATIONSHIP__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -4568,7 +4568,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP__TARGET = RELATIONSHIP__TARGET;
+    int INFLUENCE_RELATIONSHIP__TARGET = ARCHIMATE_RELATIONSHIP__TARGET;
 
     /**
      * The number of structural features of the '<em>Influence Relationship</em>' class.
@@ -4577,7 +4577,7 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 0;
+    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = ARCHIMATE_RELATIONSHIP_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModel <em>Diagram Model</em>}' class.
@@ -6376,13 +6376,13 @@ public interface IArchimatePackage extends EPackage {
     int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__TYPE = DIAGRAM_MODEL_CONNECTION__TYPE;
 
     /**
-     * The feature id for the '<em><b>Relationship</b></em>' reference.
+     * The feature id for the '<em><b>Archimate Relationship</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP = DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT + 0;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP = DIAGRAM_MODEL_CONNECTION_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Diagram Model Archimate Connection</em>' class.
@@ -7041,14 +7041,14 @@ public interface IArchimatePackage extends EPackage {
     EAttribute getFolder_Type();
 
     /**
-     * Returns the meta object for class '{@link com.archimatetool.model.IArchimateComponent <em>Component</em>}'.
+     * Returns the meta object for class '{@link com.archimatetool.model.IArchimateConcept <em>Concept</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Component</em>'.
-     * @see com.archimatetool.model.IArchimateComponent
+     * @return the meta object for class '<em>Concept</em>'.
+     * @see com.archimatetool.model.IArchimateConcept
      * @generated
      */
-    EClass getArchimateComponent();
+    EClass getArchimateConcept();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IProperty <em>Property</em>}'.
@@ -7162,38 +7162,6 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EClass getOrJunction();
-
-    /**
-     * Returns the meta object for class '{@link com.archimatetool.model.IRelationship <em>Relationship</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Relationship</em>'.
-     * @see com.archimatetool.model.IRelationship
-     * @generated
-     */
-    EClass getRelationship();
-
-    /**
-     * Returns the meta object for the reference '{@link com.archimatetool.model.IRelationship#getSource <em>Source</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Source</em>'.
-     * @see com.archimatetool.model.IRelationship#getSource()
-     * @see #getRelationship()
-     * @generated
-     */
-    EReference getRelationship_Source();
-
-    /**
-     * Returns the meta object for the reference '{@link com.archimatetool.model.IRelationship#getTarget <em>Target</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Target</em>'.
-     * @see com.archimatetool.model.IRelationship#getTarget()
-     * @see #getRelationship()
-     * @generated
-     */
-    EReference getRelationship_Target();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IAccessRelationship <em>Access Relationship</em>}'.
@@ -7808,6 +7776,38 @@ public interface IArchimatePackage extends EPackage {
     EClass getGap();
 
     /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IArchimateRelationship <em>Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Relationship</em>'.
+     * @see com.archimatetool.model.IArchimateRelationship
+     * @generated
+     */
+    EClass getArchimateRelationship();
+
+    /**
+     * Returns the meta object for the reference '{@link com.archimatetool.model.IArchimateRelationship#getSource <em>Source</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Source</em>'.
+     * @see com.archimatetool.model.IArchimateRelationship#getSource()
+     * @see #getArchimateRelationship()
+     * @generated
+     */
+    EReference getArchimateRelationship_Source();
+
+    /**
+     * Returns the meta object for the reference '{@link com.archimatetool.model.IArchimateRelationship#getTarget <em>Target</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Target</em>'.
+     * @see com.archimatetool.model.IArchimateRelationship#getTarget()
+     * @see #getArchimateRelationship()
+     * @generated
+     */
+    EReference getArchimateRelationship_Target();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModel <em>Diagram Model</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -8135,15 +8135,15 @@ public interface IArchimatePackage extends EPackage {
     EClass getDiagramModelArchimateConnection();
 
     /**
-     * Returns the meta object for the reference '{@link com.archimatetool.model.IDiagramModelArchimateConnection#getRelationship <em>Relationship</em>}'.
+     * Returns the meta object for the reference '{@link com.archimatetool.model.IDiagramModelArchimateConnection#getArchimateRelationship <em>Archimate Relationship</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Relationship</em>'.
-     * @see com.archimatetool.model.IDiagramModelArchimateConnection#getRelationship()
+     * @return the meta object for the reference '<em>Archimate Relationship</em>'.
+     * @see com.archimatetool.model.IDiagramModelArchimateConnection#getArchimateRelationship()
      * @see #getDiagramModelArchimateConnection()
      * @generated
      */
-    EReference getDiagramModelArchimateConnection_Relationship();
+    EReference getDiagramModelArchimateConnection_ArchimateRelationship();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IDiagramModelBendpoint <em>Diagram Model Bendpoint</em>}'.
@@ -8731,14 +8731,14 @@ public interface IArchimatePackage extends EPackage {
         EAttribute FOLDER__TYPE = eINSTANCE.getFolder_Type();
 
         /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.ArchimateComponent <em>Component</em>}' class.
+         * The meta object literal for the '{@link com.archimatetool.model.impl.ArchimateConcept <em>Concept</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.ArchimateComponent
-         * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateComponent()
+         * @see com.archimatetool.model.impl.ArchimateConcept
+         * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateConcept()
          * @generated
          */
-        EClass ARCHIMATE_COMPONENT = eINSTANCE.getArchimateComponent();
+        EClass ARCHIMATE_CONCEPT = eINSTANCE.getArchimateConcept();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.Property <em>Property</em>}' class.
@@ -8843,32 +8843,6 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass OR_JUNCTION = eINSTANCE.getOrJunction();
-
-        /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.Relationship <em>Relationship</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.Relationship
-         * @see com.archimatetool.model.impl.ArchimatePackage#getRelationship()
-         * @generated
-         */
-        EClass RELATIONSHIP = eINSTANCE.getRelationship();
-
-        /**
-         * The meta object literal for the '<em><b>Source</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference RELATIONSHIP__SOURCE = eINSTANCE.getRelationship_Source();
-
-        /**
-         * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference RELATIONSHIP__TARGET = eINSTANCE.getRelationship_Target();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.AccessRelationship <em>Access Relationship</em>}' class.
@@ -9479,6 +9453,32 @@ public interface IArchimatePackage extends EPackage {
         EClass GAP = eINSTANCE.getGap();
 
         /**
+         * The meta object literal for the '{@link com.archimatetool.model.impl.ArchimateRelationship <em>Relationship</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.impl.ArchimateRelationship
+         * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateRelationship()
+         * @generated
+         */
+        EClass ARCHIMATE_RELATIONSHIP = eINSTANCE.getArchimateRelationship();
+
+        /**
+         * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ARCHIMATE_RELATIONSHIP__SOURCE = eINSTANCE.getArchimateRelationship_Source();
+
+        /**
+         * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ARCHIMATE_RELATIONSHIP__TARGET = eINSTANCE.getArchimateRelationship_Target();
+
+        /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModel <em>Diagram Model</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -9755,12 +9755,12 @@ public interface IArchimatePackage extends EPackage {
         EClass DIAGRAM_MODEL_ARCHIMATE_CONNECTION = eINSTANCE.getDiagramModelArchimateConnection();
 
         /**
-         * The meta object literal for the '<em><b>Relationship</b></em>' reference feature.
+         * The meta object literal for the '<em><b>Archimate Relationship</b></em>' reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EReference DIAGRAM_MODEL_ARCHIMATE_CONNECTION__RELATIONSHIP = eINSTANCE.getDiagramModelArchimateConnection_Relationship();
+        EReference DIAGRAM_MODEL_ARCHIMATE_CONNECTION__ARCHIMATE_RELATIONSHIP = eINSTANCE.getDiagramModelArchimateConnection_ArchimateRelationship();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.

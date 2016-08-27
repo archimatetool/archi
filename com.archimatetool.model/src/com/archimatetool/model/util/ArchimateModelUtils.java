@@ -13,11 +13,11 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -29,24 +29,24 @@ import com.archimatetool.model.IRelationship;
 public class ArchimateModelUtils {
     
     /**
-     * Determine if a given relationship type is allowed as a source for an Archimate component
-     * @param sourceComponent The source component
+     * Determine if a given relationship type is allowed as a source for an Archimate concept
+     * @param sourceConcept The source concept
      * @param relationshipType The class of relationship to check
      * @return True if relationshipType is a valid source relationship for sourceComponent
      */
-    public static final boolean isValidRelationshipStart(IArchimateComponent sourceComponent, EClass relationshipType) {
-        return RelationshipsMatrix.INSTANCE.isValidRelationshipStart(sourceComponent, relationshipType);
+    public static final boolean isValidRelationshipStart(IArchimateConcept sourceConcept, EClass relationshipType) {
+        return RelationshipsMatrix.INSTANCE.isValidRelationshipStart(sourceConcept, relationshipType);
     }
     
     /**
      * Determine if a given relationship type is allowed between source and target Archimate components
-     * @param sourceComponent The source component
-     * @param targetComponent The target component
+     * @param sourceConcept The source concept
+     * @param targetConcept The target concept
      * @param relationshipType The relationship type to check
      * @return True if relationshipType is an allowed relationship type between sourceComponent and targetComponent
      */
-    public static final boolean isValidRelationship(IArchimateComponent sourceComponent, IArchimateComponent targetComponent, EClass relationshipType) {
-        return isValidRelationship(sourceComponent.eClass(), targetComponent.eClass(), relationshipType);
+    public static final boolean isValidRelationship(IArchimateConcept sourceConcept, IArchimateConcept targetConcept, EClass relationshipType) {
+        return isValidRelationship(sourceConcept.eClass(), targetConcept.eClass(), relationshipType);
     }
 
     /**
@@ -62,12 +62,12 @@ public class ArchimateModelUtils {
     
     /**
      * Get an array of all valid relationship class types between source and target Archimate components
-     * @param sourceComponent The source component
-     * @param targetComponent The target component
+     * @param sourceConcept The source concept
+     * @param targetConcept The target concept
      * @return An array of all valid relationship class types between sourceElement and targetElement
      */
-    public static EClass[] getValidRelationships(IArchimateComponent sourceComponent, IArchimateComponent targetComponent) {
-        return getValidRelationships(sourceComponent.eClass(), targetComponent.eClass());
+    public static EClass[] getValidRelationships(IArchimateConcept sourceConcept, IArchimateConcept targetConcept) {
+        return getValidRelationships(sourceConcept.eClass(), targetConcept.eClass());
     }
     
     /**
@@ -89,19 +89,19 @@ public class ArchimateModelUtils {
     }
     
     /**
-     * @param component The Archimate component to get relationships for
-     * @return A list of all relationships that a component has, both as target and as source
+     * @param concept The Archimate concept to get relationships for
+     * @return A list of all relationships that a concept has, both as target and as source
      */
-    public static List<IRelationship> getAllRelationshipsForComponent(IArchimateComponent component) {
-        List<IRelationship> list = new ArrayList<IRelationship>(); // make a copy
+    public static List<IArchimateRelationship> getAllRelationshipsForConcept(IArchimateConcept concept) {
+        List<IArchimateRelationship> list = new ArrayList<IArchimateRelationship>(); // make a copy
         
-        for(IRelationship r : component.getSourceRelationships()) {
+        for(IArchimateRelationship r : concept.getSourceRelationships()) {
             if(!list.contains(r)) {
                 list.add(r);
             }
         }
         
-        for(IRelationship r : component.getTargetRelationships()) {
+        for(IArchimateRelationship r : concept.getTargetRelationships()) {
             if(!list.contains(r)) {
                 list.add(r);
             }

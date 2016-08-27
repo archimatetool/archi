@@ -43,7 +43,7 @@ import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
@@ -68,7 +68,7 @@ implements INavigatorView, ISelectionListener {
     
     private NavigatorDrillDownAdapter fDrillDownAdapter;
     
-    private IArchimateComponent fCurrentArchimateComponent;
+    private IArchimateConcept fCurrentArchimateConcept;
     
     private class NavigatorDrillDownAdapter extends DrillDownAdapter {
         public NavigatorDrillDownAdapter() {
@@ -300,34 +300,34 @@ implements INavigatorView, ISelectionListener {
     private void setElement(Object object) {
         fDrillDownAdapter.reset();
         
-        IArchimateComponent component = null;
+        IArchimateConcept concept = null;
         
-        if(object instanceof IArchimateComponent) {
-            component = (IArchimateComponent)object;
+        if(object instanceof IArchimateConcept) {
+            concept = (IArchimateConcept)object;
         }
         else if(object instanceof IAdaptable) {
-            component = ((IAdaptable)object).getAdapter(IArchimateComponent.class);
+            concept = ((IAdaptable)object).getAdapter(IArchimateConcept.class);
         }
         
-        if(component != null) {
-            getViewer().setInput(new Object[] { component }); // Need to use an array
+        if(concept != null) {
+            getViewer().setInput(new Object[] { concept }); // Need to use an array
         }
         else {
             getViewer().setInput(null);
         }
         
-        fCurrentArchimateComponent = component;
+        fCurrentArchimateConcept = concept;
     }
     
     private void reset() {
         fDrillDownAdapter.reset();
         getViewer().setInput(null);
-        fCurrentArchimateComponent = null;
+        fCurrentArchimateConcept = null;
     }
     
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        return fCurrentArchimateComponent != null ? fCurrentArchimateComponent.getArchimateModel() : null;
+        return fCurrentArchimateConcept != null ? fCurrentArchimateConcept.getArchimateModel() : null;
     }
 
     @Override
@@ -382,8 +382,8 @@ implements INavigatorView, ISelectionListener {
                 Object feature = msg.getFeature();
 
                 // Relationship/Connection changed - requires full refresh
-                if(feature == IArchimatePackage.Literals.RELATIONSHIP__SOURCE ||
-                                            feature == IArchimatePackage.Literals.RELATIONSHIP__TARGET) {
+                if(feature == IArchimatePackage.Literals.ARCHIMATE_RELATIONSHIP__SOURCE ||
+                                            feature == IArchimatePackage.Literals.ARCHIMATE_RELATIONSHIP__TARGET) {
                     getViewer().refresh();
                 }
                 else {

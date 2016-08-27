@@ -70,7 +70,7 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
         super.undo();
         
         // Remove the Archimate model object from its containing folder
-        ((IDiagramModelArchimateObject)fChild).removeArchimateComponentFromModel();
+        ((IDiagramModelArchimateObject)fChild).removeArchimateConceptFromModel();
         
         subCommand.undo();
     }
@@ -81,7 +81,7 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
         super.redo();
 
         // Add the Archimate model object to a default folder
-        ((IDiagramModelArchimateObject)fChild).addArchimateComponentToModel(null);
+        ((IDiagramModelArchimateObject)fChild).addArchimateConceptToModel(null);
         
         subCommand.redo();
     }

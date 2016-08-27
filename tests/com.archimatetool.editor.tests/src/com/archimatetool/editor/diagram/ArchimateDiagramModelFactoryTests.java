@@ -75,7 +75,7 @@ public class ArchimateDiagramModelFactoryTests {
         
         ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
         IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)factory.getNewObject();
-        assertTrue(connection.getRelationship() instanceof IAssignmentRelationship);
+        assertTrue(connection.getArchimateRelationship() instanceof IAssignmentRelationship);
         assertEquals("#ababab", connection.getLineColor());
         assertEquals("", connection.getName());
         

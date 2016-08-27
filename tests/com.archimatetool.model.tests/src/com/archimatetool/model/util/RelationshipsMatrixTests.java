@@ -11,16 +11,16 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.ecore.EClass;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.RelationshipsMatrix.TargetMatrix;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -47,7 +47,7 @@ public class RelationshipsMatrixTests {
     @Test
     public void testIsValidRelationshipStart() {
         IArchimateElement sourceElement = IArchimateFactory.eINSTANCE.createAndJunction();
-        IRelationship relationship = IArchimateFactory.eINSTANCE.createFlowRelationship();
+        IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createFlowRelationship();
         
         assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
         assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));

@@ -53,7 +53,7 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IBounds;
@@ -170,16 +170,16 @@ implements IZestView, ISelectionListener {
     }
     
     private void setElement(Object object) {
-        IArchimateComponent component = null;
+        IArchimateConcept concept = null;
         
-        if(object instanceof IArchimateComponent) {
-            component = (IArchimateComponent)object;
+        if(object instanceof IArchimateConcept) {
+            concept = (IArchimateConcept)object;
         }
         else if(object instanceof IAdaptable) {
-            component = ((IAdaptable)object).getAdapter(IArchimateComponent.class);
+            concept = ((IAdaptable)object).getAdapter(IArchimateConcept.class);
         }
         
-        fDrillDownManager.setNewInput(component);
+        fDrillDownManager.setNewInput(concept);
         updateActions();
         
         updateLabel();
@@ -195,11 +195,11 @@ implements IZestView, ISelectionListener {
      * Update local label
      */
     void updateLabel() {
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentComponent());
+        String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentConcept());
         text = StringUtils.escapeAmpersandsInText(text);
         String vp = ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getViewpointFilter().getName();
         fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + vp + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentComponent()));
+        fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
     /**
@@ -498,8 +498,8 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        IArchimateComponent component = fDrillDownManager.getCurrentComponent();
-        return component != null ? component.getArchimateModel() : null;
+        IArchimateConcept concept = fDrillDownManager.getCurrentConcept();
+        return concept != null ? concept.getArchimateModel() : null;
     }
     
     @Override
@@ -556,7 +556,7 @@ implements IZestView, ISelectionListener {
                 break;
             case Notification.SET:
                 // Current component name change
-                if(msg.getNotifier() == fDrillDownManager.getCurrentComponent()) {
+                if(msg.getNotifier() == fDrillDownManager.getCurrentConcept()) {
                     updateLabel();
                 }
                 if(!(msg.getNewValue() instanceof IBounds)) { // Don't update on bounds change. This can cause a conflict with Undo/Redo animation

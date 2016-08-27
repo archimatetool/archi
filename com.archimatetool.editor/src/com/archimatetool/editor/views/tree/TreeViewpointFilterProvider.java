@@ -22,11 +22,11 @@ import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 
 
 
@@ -166,16 +166,16 @@ public class TreeViewpointFilterProvider implements IPartListener {
      * @return Color or null
      */
     Color getTextColor(Object element) {
-        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateComponent) {
+        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateConcept) {
             int index = fActiveDiagramModel.getViewpoint();
             IViewpoint viewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
             if(viewpoint != null) {
                 // From same model as active diagram
-                IArchimateModel model = ((IArchimateComponent)element).getArchimateModel();
+                IArchimateModel model = ((IArchimateConcept)element).getArchimateModel();
                 if(model == fActiveDiagramModel.getArchimateModel()) {
-                    if(element instanceof IRelationship) {
-                        IArchimateComponent source = ((IRelationship)element).getSource();
-                        IArchimateComponent target = ((IRelationship)element).getTarget();
+                    if(element instanceof IArchimateRelationship) {
+                        IArchimateConcept source = ((IArchimateRelationship)element).getSource();
+                        IArchimateConcept target = ((IArchimateRelationship)element).getTarget();
                         if(!viewpoint.isAllowedType(source.eClass()) || !viewpoint.isAllowedType(target.eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }

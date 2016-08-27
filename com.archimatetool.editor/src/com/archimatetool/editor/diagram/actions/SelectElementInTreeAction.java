@@ -50,7 +50,7 @@ public class SelectElementInTreeAction extends SelectionAction {
                     elements.add(model);
                 }
                 else if(model instanceof IDiagramModelArchimateComponent) {
-                    elements.add(((IDiagramModelArchimateComponent)model).getArchimateComponent());
+                    elements.add(((IDiagramModelArchimateComponent)model).getArchimateConcept());
                 }
             }
         }

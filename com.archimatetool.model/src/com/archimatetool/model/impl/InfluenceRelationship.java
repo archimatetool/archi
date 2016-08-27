@@ -18,7 +18,7 @@ import com.archimatetool.model.IInfluenceRelationship;
  *
  * @generated
  */
-public class InfluenceRelationship extends Relationship implements IInfluenceRelationship {
+public class InfluenceRelationship extends ArchimateRelationship implements IInfluenceRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

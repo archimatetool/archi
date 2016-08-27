@@ -80,6 +80,7 @@ public interface IDiagramModelArchimateObject extends IDiagramModelObject, IDiag
     /**
      * Over-ride to return correct type
      */
-    IArchimateElement getArchimateComponent();
+    @Override
+    IArchimateElement getArchimateConcept();
     
 } // IDiagramModelArchimateObject

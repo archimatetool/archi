@@ -85,7 +85,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Folder/elements"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Folder/type"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateComponent"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateConcept"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//JunctionElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//InterfaceElement">
@@ -144,15 +144,15 @@
     <genClasses ecoreClass="archimate.ecore#//Deliverable"/>
     <genClasses ecoreClass="archimate.ecore#//Plateau"/>
     <genClasses ecoreClass="archimate.ecore#//Gap"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//Relationship">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//Relationship/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//Relationship/target"/>
-      <genOperations ecoreOperation="archimate.ecore#//Relationship/connect">
-        <genParameters ecoreParameter="archimate.ecore#//Relationship/connect/source"/>
-        <genParameters ecoreParameter="archimate.ecore#//Relationship/connect/target"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateRelationship">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateRelationship/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateRelationship/target"/>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/connect">
+        <genParameters ecoreParameter="archimate.ecore#//ArchimateRelationship/connect/source"/>
+        <genParameters ecoreParameter="archimate.ecore#//ArchimateRelationship/connect/target"/>
       </genOperations>
-      <genOperations ecoreOperation="archimate.ecore#//Relationship/reconnect"/>
-      <genOperations ecoreOperation="archimate.ecore#//Relationship/disconnect"/>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/reconnect"/>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/disconnect"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//AccessRelationship">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AccessRelationship/accessType"/>
@@ -259,21 +259,21 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateDiagramModel/viewpoint"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//DiagramModelArchimateComponent">
-      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/getArchimateComponent"/>
-      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/setArchimateComponent">
-        <genParameters ecoreParameter="archimate.ecore#//DiagramModelArchimateComponent/setArchimateComponent/component"/>
+      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/getArchimateConcept"/>
+      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/setArchimateConcept">
+        <genParameters ecoreParameter="archimate.ecore#//DiagramModelArchimateComponent/setArchimateConcept/concept"/>
       </genOperations>
-      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/addArchimateComponentToModel">
-        <genParameters ecoreParameter="archimate.ecore#//DiagramModelArchimateComponent/addArchimateComponentToModel/parent"/>
+      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/addArchimateConceptToModel">
+        <genParameters ecoreParameter="archimate.ecore#//DiagramModelArchimateComponent/addArchimateConceptToModel/parent"/>
       </genOperations>
-      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/removeArchimateComponentFromModel"/>
+      <genOperations ecoreOperation="archimate.ecore#//DiagramModelArchimateComponent/removeArchimateConceptFromModel"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelArchimateObject">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelArchimateObject/archimateElement"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//DiagramModelArchimateObject/type"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//DiagramModelArchimateConnection">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelArchimateConnection/relationship"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//DiagramModelArchimateConnection/archimateRelationship"/>
     </genClasses>
     <genClasses ecoreClass="archimate.ecore#//SketchModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//SketchModel/background"/>

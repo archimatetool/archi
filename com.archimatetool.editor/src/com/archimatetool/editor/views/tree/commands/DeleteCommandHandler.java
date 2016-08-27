@@ -26,8 +26,9 @@ import com.archimatetool.editor.model.commands.DeleteFolderCommand;
 import com.archimatetool.editor.views.tree.TreeModelViewer;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAdapter;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -35,7 +36,6 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -80,7 +80,7 @@ public class DeleteCommandHandler {
      */
     public static boolean canDelete(Object element) {
         // Elements, Relations, and Diagrams
-        if(element instanceof IArchimateComponent || element instanceof IDiagramModel) {
+        if(element instanceof IArchimateConcept || element instanceof IDiagramModel) {
             return true;
         }
         
@@ -147,8 +147,8 @@ public class DeleteCommandHandler {
             }
         }
         
-        else if(object instanceof IArchimateComponent) {
-            return DiagramModelUtils.isArchimateComponentReferencedInDiagrams((IArchimateComponent)object);
+        else if(object instanceof IArchimateConcept) {
+            return DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)object);
         }
         
         return false;
@@ -219,8 +219,8 @@ public class DeleteCommandHandler {
                 Command cmd = new DeleteArchimateElementCommand((IArchimateElement)object);
                 compoundCommand.add(cmd);
             }
-            else if(object instanceof IRelationship) {
-                Command cmd = new DeleteArchimateRelationshipCommand((IRelationship)object);
+            else if(object instanceof IArchimateRelationship) {
+                Command cmd = new DeleteArchimateRelationshipCommand((IArchimateRelationship)object);
                 compoundCommand.add(cmd);
             }
             else if(object instanceof IDiagramModelObject) {
@@ -257,12 +257,12 @@ public class DeleteCommandHandler {
         // Gather referenced diagram objects to be deleted checking that the parent diagram model is not also selected to be deleted
         for(Object object : fElementsToCheck) {
             // Archimate Components
-            if(object instanceof IArchimateComponent) {
-                IArchimateComponent archimateComponent = (IArchimateComponent)object;
-                for(IDiagramModel diagramModel : archimateComponent.getArchimateModel().getDiagramModels()) {
+            if(object instanceof IArchimateConcept) {
+                IArchimateConcept archimateConcept = (IArchimateConcept)object;
+                for(IDiagramModel diagramModel : archimateConcept.getArchimateModel().getDiagramModels()) {
                     // Check diagram model is not selected to be deleted - no point in deleting any of its children
                     if(!fElementsToDelete.contains(diagramModel)) {
-                        for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, archimateComponent)) {
+                        for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, archimateConcept)) {
                             addToList(dc, fElementsToDelete);
                         }
                     }
@@ -321,8 +321,8 @@ public class DeleteCommandHandler {
             }
         }
         // Element/Relation
-        else if(object instanceof IArchimateComponent) {
-            for(IRelationship relationship : ArchimateModelUtils.getAllRelationshipsForComponent((IArchimateComponent)object)) {
+        else if(object instanceof IArchimateConcept) {
+            for(IArchimateRelationship relationship : ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateConcept)object)) {
                 addToList(relationship, fElementsToDelete);
                 addToList(relationship, fElementsToCheck);
                 

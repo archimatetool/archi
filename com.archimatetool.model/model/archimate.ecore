@@ -125,9 +125,8 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FolderType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateComponent" abstract="true"
-      eSuperTypes="#//ArchimateModelElement #//Identifier #//Cloneable #//Nameable #//Documentable #//Properties"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelElement #//Identifier #//Cloneable #//Nameable #//Documentable #//Properties"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateConcept"/>
   <eClassifiers xsi:type="ecore:EClass" name="JunctionElement" abstract="true" interface="true"
       eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceElement" abstract="true" interface="true"
@@ -193,32 +192,33 @@
   <eClassifiers xsi:type="ecore:EClass" name="Deliverable" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Plateau" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gap" eSuperTypes="#//ImplementationMigrationElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Relationship" abstract="true" eSuperTypes="#//ArchimateComponent">
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateRelationship" abstract="true"
+      eSuperTypes="#//ArchimateConcept">
     <eOperations name="connect">
-      <eParameters name="source" eType="#//ArchimateComponent"/>
-      <eParameters name="target" eType="#//ArchimateComponent"/>
+      <eParameters name="source" eType="#//ArchimateConcept"/>
+      <eParameters name="target" eType="#//ArchimateConcept"/>
     </eOperations>
     <eOperations name="reconnect"/>
     <eOperations name="disconnect"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateComponent"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ArchimateConcept"
         resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateComponent"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ArchimateConcept"
         resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//Relationship">
+  <eClassifiers xsi:type="ecore:EClass" name="AccessRelationship" eSuperTypes="#//ArchimateRelationship">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AggregationRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AssignmentRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RealisationRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SpecialisationRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="UsedByRelationship" eSuperTypes="#//Relationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//Relationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregationRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RealisationRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecialisationRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TriggeringRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UsedByRelationship" eSuperTypes="#//ArchimateRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelComponent" abstract="true"
       eSuperTypes="#//Identifier #//Cloneable #//Adapter #//Nameable">
     <eOperations name="getDiagramModel" eType="#//DiagramModel"/>
@@ -355,14 +355,14 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateComponent" abstract="true"
       interface="true" eSuperTypes="#//Connectable">
-    <eOperations name="getArchimateComponent" eType="#//ArchimateComponent"/>
-    <eOperations name="setArchimateComponent">
-      <eParameters name="component" eType="#//ArchimateComponent"/>
+    <eOperations name="getArchimateConcept" eType="#//ArchimateConcept"/>
+    <eOperations name="setArchimateConcept">
+      <eParameters name="concept" eType="#//ArchimateConcept"/>
     </eOperations>
-    <eOperations name="addArchimateComponentToModel">
+    <eOperations name="addArchimateConceptToModel">
       <eParameters name="parent" eType="#//Folder"/>
     </eOperations>
-    <eOperations name="removeArchimateComponentFromModel"/>
+    <eOperations name="removeArchimateConceptFromModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelArchimateObject" eSuperTypes="#//DiagramModelObject #//DiagramModelContainer #//DiagramModelArchimateComponent">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -377,8 +377,8 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Connection"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="relationship" eType="#//Relationship"
-        volatile="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archimateRelationship"
+        eType="#//ArchimateRelationship" volatile="true" resolveProxies="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SketchModel" eSuperTypes="#//DiagramModel">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"

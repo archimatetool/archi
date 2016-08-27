@@ -12,11 +12,11 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IRelationship;
 
 /**
  * Command that will create a new ArchiMate Connection from a given CreateConnectionRequest
@@ -42,7 +42,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
         
         // Now add the relationship to the model
         if(!fUseExistingRelation) {
-            ((IDiagramModelArchimateConnection)fConnection).addArchimateComponentToModel(null);
+            ((IDiagramModelArchimateConnection)fConnection).addArchimateConceptToModel(null);
         }
     }
 
@@ -52,7 +52,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
         
         // Now add the relationship to the model if we haven't re-used existing one
         if(!fUseExistingRelation) {
-            ((IDiagramModelArchimateConnection)fConnection).addArchimateComponentToModel(null);
+            ((IDiagramModelArchimateConnection)fConnection).addArchimateConceptToModel(null);
         }
     }
     
@@ -62,7 +62,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
         
         // Now remove the relationship from its folder if we haven't re-used existing one
         if(!fUseExistingRelation) {
-            ((IDiagramModelArchimateConnection)fConnection).removeArchimateComponentFromModel();
+            ((IDiagramModelArchimateConnection)fConnection).removeArchimateConceptFromModel();
         }
     }
     
@@ -75,7 +75,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
             IDiagramModelArchimateComponent target = (IDiagramModelArchimateComponent)fTarget;
 
             // If there is already a relation of this type in the model...
-            IRelationship relation = getExistingRelationshipOfType(classType, source.getArchimateComponent(), target.getArchimateComponent());
+            IArchimateRelationship relation = getExistingRelationshipOfType(classType, source.getArchimateConcept(), target.getArchimateConcept());
             if(relation != null) {
                 // ...then ask the user if they want to re-use it
                 boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
@@ -87,7 +87,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
                 if(answer) {
                      // ...set connection's relationship to the existing relation
                     fConnection = createNewConnection();
-                    ((IDiagramModelArchimateConnection)fConnection).setRelationship(relation);
+                    ((IDiagramModelArchimateConnection)fConnection).setArchimateRelationship(relation);
                     return true;
                 }
             }
@@ -110,8 +110,8 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
      * If there is, we can offer to re-use it instead of creating a new one.
      * @return an existing relationship or null
      */
-    IRelationship getExistingRelationshipOfType(EClass classType, IArchimateComponent source, IArchimateComponent target) {
-        for(IRelationship relation : source.getSourceRelationships()) {
+    IArchimateRelationship getExistingRelationshipOfType(EClass classType, IArchimateConcept source, IArchimateConcept target) {
+        for(IArchimateRelationship relation : source.getSourceRelationships()) {
             if(relation.eClass().equals(classType) && relation.getTarget() == target) {
                 return relation;
             }

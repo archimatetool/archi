@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFolder;
 
@@ -78,9 +78,9 @@ public class SortFolderCommand extends Command implements Comparator<EObject>  {
             name1 = ((IDiagramModelComponent)o1).getName();
             name2 = ((IDiagramModelComponent)o2).getName();
         }
-        else if(o1 instanceof IArchimateComponent && o2 instanceof IArchimateComponent) {
-            name1 = ((IArchimateComponent)o1).getName();
-            name2 = ((IArchimateComponent)o2).getName();
+        else if(o1 instanceof IArchimateConcept && o2 instanceof IArchimateConcept) {
+            name1 = ((IArchimateConcept)o1).getName();
+            name2 = ((IArchimateConcept)o2).getName();
         }
         
         if(name1 == null) {

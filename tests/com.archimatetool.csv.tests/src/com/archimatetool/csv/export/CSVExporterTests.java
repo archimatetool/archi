@@ -16,12 +16,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.csv.export.CSVExporter;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
 
 
 @SuppressWarnings("nls")
@@ -162,7 +162,7 @@ public class CSVExporterTests {
         IArchimateElement elementTarget = IArchimateFactory.eINSTANCE.createBusinessActor();
         elementTarget.setId("b1234dff");
         
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
         relation.setId("56435fd6");
         relation.setName("My relation");
         relation.setDocumentation("This is the Documentation");
@@ -197,7 +197,7 @@ public class CSVExporterTests {
         IArchimateElement element4 = IArchimateFactory.eINSTANCE.createApplicationCollaboration();
         element4.setName("ZZ");
         
-        List<IArchimateComponent> list = new ArrayList<IArchimateComponent>();
+        List<IArchimateConcept> list = new ArrayList<IArchimateConcept>();
         list.add(element1);
         list.add(element2);
         list.add(element3);

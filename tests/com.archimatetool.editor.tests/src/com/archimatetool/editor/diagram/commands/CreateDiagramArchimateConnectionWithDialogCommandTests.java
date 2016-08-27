@@ -21,12 +21,12 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 import junit.framework.JUnit4TestAdapter;
@@ -72,7 +72,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommandTests {
         assertSame(dmo1, connection.getSource());
         assertSame(dmo2, connection.getTarget());
         
-        IRelationship relationship = ((IDiagramModelArchimateConnection)connection).getRelationship();
+        IArchimateRelationship relationship = ((IDiagramModelArchimateConnection)connection).getArchimateRelationship();
         assertTrue(relationship instanceof IAssignmentRelationship);
         assertNotNull(relationship.eContainer());
         
@@ -100,8 +100,8 @@ public class CreateDiagramArchimateConnectionWithDialogCommandTests {
         IArchimateElement source = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         IArchimateElement target = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         
-        IRelationship relation1 = (IRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
-        IRelationship relation2 = (IRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getFlowRelationship());
+        IArchimateRelationship relation1 = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
+        IArchimateRelationship relation2 = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getFlowRelationship());
         
         assertNull(cmd.getExistingRelationshipOfType(IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
                 source, target));

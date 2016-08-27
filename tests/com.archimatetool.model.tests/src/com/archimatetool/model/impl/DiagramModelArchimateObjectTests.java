@@ -69,15 +69,15 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
     }
     
     @Test
-    public void testGetArchimateComponent() {
-        assertSame(element, object.getArchimateComponent());
+    public void testGetArchimateConcept() {
+        assertSame(element, object.getArchimateConcept());
     }
     
     @Test
-    public void testSetArchimateComponent() {
+    public void testSetArchimateConcept() {
         IApplicationInterface e = IArchimateFactory.eINSTANCE.createApplicationInterface();
-        object.setArchimateComponent(e);
-        assertSame(e, object.getArchimateComponent());
+        object.setArchimateConcept(e);
+        assertSame(e, object.getArchimateConcept());
         assertSame(e, object.getArchimateElement());
     }
 
@@ -93,7 +93,7 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         IFolder parent = IArchimateFactory.eINSTANCE.createFolder();
         parent.getElements().add(object.getArchimateElement());
         
-        object.addArchimateComponentToModel(null);
+        object.addArchimateConceptToModel(null);
     }
     
     @Test
@@ -105,14 +105,14 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         
         // Passing null uses a default folder in the model
         IFolder expectedFolder = model.getDefaultFolderForElement(object.getArchimateElement());
-        object.addArchimateComponentToModel(null);
+        object.addArchimateConceptToModel(null);
         assertSame(expectedFolder, object.getArchimateElement().eContainer());
         
-        object.removeArchimateComponentFromModel();
+        object.removeArchimateConceptFromModel();
         assertNull(object.getArchimateElement().eContainer());
         
         expectedFolder = IArchimateFactory.eINSTANCE.createFolder();
-        object.addArchimateComponentToModel(expectedFolder);
+        object.addArchimateConceptToModel(expectedFolder);
         assertSame(expectedFolder, object.getArchimateElement().eContainer());
     }
 

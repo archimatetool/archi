@@ -75,7 +75,7 @@ import com.archimatetool.editor.views.tree.actions.TreeModelViewActionFactory;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
@@ -207,7 +207,7 @@ implements ITreeModelView, IUIRequestListener {
     private void handleOpenAction() {
         for(Object selected : ((IStructuredSelection)getViewer().getSelection()).toArray()) {
             // Element or Relation - open Properties view
-            if(selected instanceof IArchimateComponent) {
+            if(selected instanceof IArchimateConcept) {
                 ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
             }
             // Folder - open Properties view

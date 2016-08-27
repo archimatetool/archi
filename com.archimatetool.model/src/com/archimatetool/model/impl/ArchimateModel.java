@@ -29,6 +29,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessLayerElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
@@ -40,7 +41,6 @@ import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.ITechnologyLayerElement;
 import com.archimatetool.model.util.IDAdapter;
 
@@ -328,7 +328,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         if(element instanceof IJunctionElement) {
             return getFolder(FolderType.CONNECTORS);
         }
-        if(element instanceof IRelationship) {
+        if(element instanceof IArchimateRelationship) {
             return getFolder(FolderType.RELATIONS);
         }
         if(element instanceof IDiagramModel) {

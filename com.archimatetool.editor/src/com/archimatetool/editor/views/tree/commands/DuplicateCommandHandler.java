@@ -280,7 +280,7 @@ public class DuplicateCommandHandler {
             IConnectable copy = (IConnectable)object.getCopy();
             
             if(object instanceof IDiagramModelArchimateComponent) {
-                ((IDiagramModelArchimateComponent)copy).setArchimateComponent(((IDiagramModelArchimateComponent)object).getArchimateComponent());
+                ((IDiagramModelArchimateComponent)copy).setArchimateConcept(((IDiagramModelArchimateComponent)object).getArchimateConcept());
             }
             
             fMapping.put(object, copy);

@@ -70,7 +70,7 @@ public class ElementUIFactory {
         
         // We need to unwrap these here as this is called from diagram model objects
         if(eObject instanceof IDiagramModelArchimateComponent) {
-            eClass = ((IDiagramModelArchimateComponent)eObject).getArchimateComponent().eClass();
+            eClass = ((IDiagramModelArchimateComponent)eObject).getArchimateConcept().eClass();
         }
         else if(eObject != null) {
             eClass = eObject.eClass();

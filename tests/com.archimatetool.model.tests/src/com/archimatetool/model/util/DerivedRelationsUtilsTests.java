@@ -16,8 +16,8 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -43,22 +43,22 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
         model.getDefaultFolderForElement(element2).getElements().add(element2);
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation1.setSource(element1);
         relation1.setTarget(element2);
         IFolder folder = model.addDerivedRelationsFolder();
         folder.getElements().add(relation1);
         
-        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
-        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForConcept(element1).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForConcept(element2).size());
 
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation2.setSource(element1);
         relation2.setTarget(element2);
         model.getFolder(FolderType.DERIVED).getElements().add(relation2);
        
-        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element1).size());
-        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForComponent(element2).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForConcept(element1).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForConcept(element2).size());
     }
     
     @Test
@@ -72,13 +72,13 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement applicationService = IArchimateFactory.eINSTANCE.createApplicationService();
         model.getDefaultFolderForElement(applicationService).getElements().add(applicationService);
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
         relation1.setSource(businessProcess);
         relation1.setTarget(applicationService);
         
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation2);
 
         relation2.setSource(applicationService);
@@ -102,10 +102,10 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement network = IArchimateFactory.eINSTANCE.createNetwork();
         model.getDefaultFolderForElement(network).getElements().add(network);
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation2);
 
         relation1.setSource(device);
@@ -142,13 +142,13 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement process = IArchimateFactory.eINSTANCE.createBusinessProcess();
         model.getDefaultFolderForElement(process).getElements().add(process);
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         model.getDefaultFolderForElement(relation1).getElements().add(relation1);
 
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createUsedByRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation2);
         
-        IRelationship relation3 = IArchimateFactory.eINSTANCE.createRealisationRelationship();
+        IArchimateRelationship relation3 = IArchimateFactory.eINSTANCE.createRealisationRelationship();
         model.getDefaultFolderForElement(relation2).getElements().add(relation3);
 
         relation1.setSource(actor);

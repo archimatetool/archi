@@ -16,9 +16,9 @@ import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -205,7 +205,7 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
             return false;
         }
         
-        if(object instanceof IRelationship && !isIncludeRelations()) { // relations not included
+        if(object instanceof IArchimateRelationship && !isIncludeRelations()) { // relations not included
             return false;
         }
         

@@ -41,7 +41,7 @@ public abstract class AbstractViewpoint implements IViewpoint {
             eClass = object.eClass();
         }
         
-        // eClass is IArchimateComponent type
+        // eClass is IArchimateConcept type
         if(eClass != null && !getAllowedList().contains(eClass)) {
             return false;
         }
@@ -58,7 +58,7 @@ public abstract class AbstractViewpoint implements IViewpoint {
     @Override
     public boolean isAllowedType(EClass type) {
         // Only Archimate elements and relations
-        if(!IArchimatePackage.eINSTANCE.getArchimateComponent().isSuperTypeOf(type)) {
+        if(!IArchimatePackage.eINSTANCE.getArchimateConcept().isSuperTypeOf(type)) {
             return false;
         }
         

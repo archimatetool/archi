@@ -8,8 +8,8 @@ package com.archimatetool.editor.model.commands;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -20,11 +20,11 @@ import com.archimatetool.model.IRelationship;
  */
 public class DeleteArchimateRelationshipCommand extends Command {
     
-    private IRelationship fRelationship;
+    private IArchimateRelationship fRelationship;
     private int fIndex;
     private IFolder fFolder;
     
-    public DeleteArchimateRelationshipCommand(IRelationship relationship) {
+    public DeleteArchimateRelationshipCommand(IArchimateRelationship relationship) {
         fFolder = (IFolder)relationship.eContainer();
         fRelationship = relationship;
         

@@ -8,7 +8,7 @@ package com.archimatetool.model;
 import junit.framework.TestSuite;
 
 import com.archimatetool.model.impl.AllArchimateElementTypeTests;
-import com.archimatetool.model.impl.AllRelationshipTypeTests;
+import com.archimatetool.model.impl.AllArchimateRelationshipTypeTests;
 import com.archimatetool.model.impl.ArchimateDiagramModelTests;
 import com.archimatetool.model.impl.ArchimateFactoryTests;
 import com.archimatetool.model.impl.ArchimateModelTests;
@@ -65,7 +65,7 @@ public class AllTests {
         suite.addTest(SketchModelStickyTests.suite());
 		
         suite.addTest(AllArchimateElementTypeTests.suite());
-        suite.addTest(AllRelationshipTypeTests.suite());
+        suite.addTest(AllArchimateRelationshipTypeTests.suite());
         
         // util
         suite.addTest(ArchimateModelUtilsTests.suite());

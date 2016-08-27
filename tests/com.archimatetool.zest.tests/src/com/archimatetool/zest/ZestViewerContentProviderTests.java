@@ -17,7 +17,7 @@ import org.junit.Test;
 import com.archimatetool.editor.model.viewpoints.BusinessProductViewpoint;
 import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -80,13 +80,13 @@ public class ZestViewerContentProviderTests {
         Object[] elements = provider.getElements(inputElement);
         assertEquals(17, elements.length);
         for(Object object : elements) {
-            assertTrue(object instanceof IRelationship);
+            assertTrue(object instanceof IArchimateRelationship);
         }
     }
 
     @Test
     public void testGetElements_Relationship() {
-        IRelationship inputElement = (IRelationship)tm.getObjectByID("460");
+        IArchimateRelationship inputElement = (IArchimateRelationship)tm.getObjectByID("460");
         Object[] elements = provider.getElements(inputElement);
         assertEquals(inputElement, elements[0]);
     }
@@ -100,7 +100,7 @@ public class ZestViewerContentProviderTests {
     
     @Test
     public void testGetSource_Relationship() {
-        IRelationship inputElement = (IRelationship)tm.getObjectByID("460");
+        IArchimateRelationship inputElement = (IArchimateRelationship)tm.getObjectByID("460");
         IArchimateElement expected = (IArchimateElement)tm.getObjectByID("409");
         Object source = provider.getSource(inputElement);
         assertEquals(expected, source);
@@ -115,7 +115,7 @@ public class ZestViewerContentProviderTests {
     
     @Test
     public void testGetDestination_Relationship() {
-        IRelationship inputElement = (IRelationship)tm.getObjectByID("460");
+        IArchimateRelationship inputElement = (IArchimateRelationship)tm.getObjectByID("460");
         IArchimateElement expected = (IArchimateElement)tm.getObjectByID("289");
         Object destination = provider.getDestination(inputElement);
         assertEquals(expected, destination);

@@ -35,12 +35,12 @@ import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -299,7 +299,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
         
         // If it's a diagram connection get the relationship
         if(element instanceof IDiagramModelArchimateConnection) {
-            element = ((IDiagramModelArchimateConnection)element).getRelationship();
+            element = ((IDiagramModelArchimateConnection)element).getArchimateRelationship();
         }
         
         // Got either a folder, a relationship or an element
@@ -340,9 +340,10 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     
     /**
      * Find all relationships to update from given element
+     * TODO: A3 Does this need to be for all concepts?
      */
     private void getRelationshipsToUpdate(List<Object> list, IArchimateElement element) {
-        for(IRelationship relation : ArchimateModelUtils.getAllRelationshipsForComponent(element)) {
+        for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
             if(!list.contains(relation)) {
                 list.add(relation);
             }

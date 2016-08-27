@@ -53,7 +53,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     @Override
     public void refreshVisuals() {
         // Access type
-        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getRelationship();
+        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:
             default:
@@ -91,7 +91,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         
         // Show access type in tooltip
         
-        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getRelationship();
+        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
         String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         
         switch(relation.getAccessType()) {

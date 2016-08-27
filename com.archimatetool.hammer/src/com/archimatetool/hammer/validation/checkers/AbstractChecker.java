@@ -11,7 +11,7 @@ import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 
 
 /**
@@ -23,7 +23,7 @@ public abstract class AbstractChecker implements IChecker {
 
     protected IArchimateModel model;
     protected List<IArchimateElement> archimateElements;
-    protected List<IRelationship> archimateRelations;
+    protected List<IArchimateRelationship> archimateRelations;
     protected List<IArchimateDiagramModel> archimateViews;
     
     protected AbstractChecker(Validator validator) {

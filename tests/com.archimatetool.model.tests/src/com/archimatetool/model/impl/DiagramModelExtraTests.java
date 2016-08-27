@@ -13,12 +13,12 @@ import org.junit.Test;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 
 
 /**
@@ -130,9 +130,9 @@ public class DiagramModelExtraTests {
         IArchimateElement element3 = IArchimateFactory.eINSTANCE.createBusinessActor();
         IArchimateElement element4 = IArchimateFactory.eINSTANCE.createBusinessActor();
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        IRelationship relation3 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation3 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         
         relation1.setSource(element1);
         relation1.setTarget(element2);
@@ -159,10 +159,10 @@ public class DiagramModelExtraTests {
         // conn3a shares a relationship with conn3
         IDiagramModelArchimateConnection conn3a = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         
-        conn1.setRelationship(relation1);
-        conn2.setRelationship(relation2);
-        conn3.setRelationship(relation3);
-        conn3a.setRelationship(relation3); // same
+        conn1.setArchimateRelationship(relation1);
+        conn2.setArchimateRelationship(relation2);
+        conn3.setArchimateRelationship(relation3);
+        conn3a.setArchimateRelationship(relation3); // same
         
         
         // Set up model and diagram model
@@ -185,40 +185,40 @@ public class DiagramModelExtraTests {
         dm.getChildren().add(dmo4);
 
         // Starts at zero size
-        assertEquals(0, conn1.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn2.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn3.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn3a.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
         
         // Connect
         conn1.connect(dmo1, dmo2);
-        assertEquals(1, conn1.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
 
         conn2.connect(dmo2, dmo3);
-        assertEquals(1, conn2.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
         
         conn3.connect(dmo3, dmo4);
-        assertEquals(1, conn2.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
 
         conn3a.connect(dmo3, dmo4);
-        assertEquals(2, conn3.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3a.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
         
         // Remove diagram model, should be the same
         ((IFolder)dm.eContainer()).getElements().remove(dm);
         
-        assertEquals(1, conn1.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(1, conn2.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3a.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
        
         // Add diagram model back again
         model.getDefaultFolderForElement(dm).getElements().add(dm);
         
-        assertEquals(1, conn1.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(1, conn2.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(2, conn3a.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
         
         // Disconnect
         conn1.disconnect();
@@ -226,10 +226,10 @@ public class DiagramModelExtraTests {
         conn3.disconnect();
         conn3a.disconnect();
 
-        assertEquals(0, conn1.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn2.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn3.getRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn3a.getRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(0, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
     }
     
 }

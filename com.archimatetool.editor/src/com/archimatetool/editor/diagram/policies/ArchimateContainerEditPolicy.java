@@ -16,10 +16,10 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -64,7 +64,7 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
 	            IArchimateElement childElement = childObject.getArchimateElement();
 
 	            // See if there are any (nested type) relationships between parent element and child element...
-	            for(IRelationship relation : parentElement.getSourceRelationships()) {
+	            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
 	                if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
 	                    // And there's not a connection already there then add one
 	                    if(!DiagramModelUtils.hasDiagramModelArchimateConnection(parentObject, childObject, relation)) {
@@ -83,9 +83,9 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
         IDiagramModelArchimateConnection fConnection;
         IDiagramModelArchimateObject fSource;
         IDiagramModelArchimateObject fTarget;
-        IRelationship fRelation;
+        IArchimateRelationship fRelation;
         
-        CreateDiagramArchimateConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target, IRelationship relation) {
+        CreateDiagramArchimateConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target, IArchimateRelationship relation) {
             fSource = source;
             fTarget = target;
             fRelation = relation;
@@ -94,7 +94,7 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
         @Override
         public void execute() {
             fConnection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-            fConnection.setRelationship(fRelation);
+            fConnection.setArchimateRelationship(fRelation);
             fConnection.connect(fSource, fTarget);
         }
         

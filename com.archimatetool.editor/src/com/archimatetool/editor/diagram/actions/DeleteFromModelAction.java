@@ -19,8 +19,9 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.commands.DeleteArchimateElementCommand;
 import com.archimatetool.editor.model.commands.DeleteArchimateRelationshipCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -28,7 +29,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -72,7 +72,7 @@ public class DeleteFromModelAction extends SelectionAction {
     @Override
     public void run() {
         List<?> selection = getSelectedObjects();
-        List<IArchimateComponent> archimateComponents = new ArrayList<IArchimateComponent>();
+        List<IArchimateConcept> archimateConcepts = new ArrayList<IArchimateConcept>();
         List<IDiagramModelComponent> diagramObjects = new ArrayList<IDiagramModelComponent>();
         
         // Gather Model elements, relations
@@ -81,31 +81,31 @@ public class DeleteFromModelAction extends SelectionAction {
                 Object model = ((EditPart)object).getModel();
                 if(model instanceof IDiagramModelArchimateObject) {
                     IArchimateElement element = ((IDiagramModelArchimateObject)model).getArchimateElement();
-                    if(!archimateComponents.contains(element)) {
-                        archimateComponents.add(element);
+                    if(!archimateConcepts.contains(element)) {
+                        archimateConcepts.add(element);
                     }
                     // Element's relationships
-                    for(IRelationship relation :  ArchimateModelUtils.getAllRelationshipsForComponent(element)) {
-                        if(!archimateComponents.contains(relation)) {
-                            archimateComponents.add(relation);
+                    for(IArchimateRelationship relation :  ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
+                        if(!archimateConcepts.contains(relation)) {
+                            archimateConcepts.add(relation);
                         }
                         // Relation's relationships
-                        for(IRelationship r :  ArchimateModelUtils.getAllRelationshipsForComponent(relation)) {
-                            if(!archimateComponents.contains(r)) {
-                                archimateComponents.add(r);
+                        for(IArchimateRelationship r :  ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
+                            if(!archimateConcepts.contains(r)) {
+                                archimateConcepts.add(r);
                             }
                         }
                     }
                 }
                 else if(model instanceof IDiagramModelArchimateConnection) {
-                    IRelationship relation = ((IDiagramModelArchimateConnection)model).getRelationship();
-                    if(!archimateComponents.contains(relation)) {
-                        archimateComponents.add(relation);
+                    IArchimateRelationship relation = ((IDiagramModelArchimateConnection)model).getArchimateRelationship();
+                    if(!archimateConcepts.contains(relation)) {
+                        archimateConcepts.add(relation);
                     }
                     // Relation's relationships
-                    for(IRelationship r :  ArchimateModelUtils.getAllRelationshipsForComponent(relation)) {
-                        if(!archimateComponents.contains(r)) {
-                            archimateComponents.add(r);
+                    for(IArchimateRelationship r :  ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
+                        if(!archimateConcepts.contains(r)) {
+                            archimateConcepts.add(r);
                         }
                     }
                 }
@@ -113,9 +113,9 @@ public class DeleteFromModelAction extends SelectionAction {
         }
         
         // Gather referenced diagram objects
-        for(IArchimateComponent archimateComponent : archimateComponents) {
-            for(IDiagramModel diagramModel : archimateComponent.getArchimateModel().getDiagramModels()) {
-                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, archimateComponent)) {
+        for(IArchimateConcept archimateConcept : archimateConcepts) {
+            for(IDiagramModel diagramModel : archimateConcept.getArchimateModel().getDiagramModels()) {
+                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, archimateConcept)) {
                     diagramObjects.add(dc);
                 }
             }
@@ -125,13 +125,13 @@ public class DeleteFromModelAction extends SelectionAction {
         
         CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(TEXT);
         
-        for(IArchimateComponent archimateComponent : archimateComponents) {
-            if(archimateComponent instanceof IArchimateElement) {
-                Command cmd = new DeleteArchimateElementCommand((IArchimateElement)archimateComponent);
+        for(IArchimateConcept archimateConcept : archimateConcepts) {
+            if(archimateConcept instanceof IArchimateElement) {
+                Command cmd = new DeleteArchimateElementCommand((IArchimateElement)archimateConcept);
                 compoundCommand.add(cmd);
             }
-            else if(archimateComponent instanceof IRelationship) {
-                Command cmd = new DeleteArchimateRelationshipCommand((IRelationship)archimateComponent);
+            else if(archimateConcept instanceof IArchimateRelationship) {
+                Command cmd = new DeleteArchimateRelationshipCommand((IArchimateRelationship)archimateConcept);
                 compoundCommand.add(cmd);
             }
         }
