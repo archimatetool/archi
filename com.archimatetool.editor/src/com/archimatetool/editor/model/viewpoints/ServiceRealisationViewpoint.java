@@ -33,7 +33,6 @@ public class ServiceRealisationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getApplicationService(),
             IArchimatePackage.eINSTANCE.getDataObject(),
 
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

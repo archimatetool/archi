@@ -21,7 +21,6 @@ public class MigrationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getGap(),
             IArchimatePackage.eINSTANCE.getPlateau(),
             
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

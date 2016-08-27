@@ -138,6 +138,15 @@ public class ArchimateModelUtils {
 
     
     /**
+     * @return A list of all EClass types in the Strategy layer in preferred order
+     */
+    public static EClass[] getStrategyClasses() {
+        return new EClass[] {
+                IArchimatePackage.eINSTANCE.getResource(),
+        };
+    }
+
+    /**
      * @return A list of all EClass types in the Business layer in preferred order
      */
     public static EClass[] getBusinessClasses() {
@@ -148,7 +157,6 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getBusinessInterface(),
                 IArchimatePackage.eINSTANCE.getBusinessFunction(),
                 IArchimatePackage.eINSTANCE.getBusinessProcess(),
-                //IArchimatePackage.eINSTANCE.getBusinessActivity(), // Deprecated in ArchiMate 2.0
                 IArchimatePackage.eINSTANCE.getBusinessEvent(),
                 IArchimatePackage.eINSTANCE.getBusinessInteraction(),
                 IArchimatePackage.eINSTANCE.getProduct(),
@@ -191,6 +199,15 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getNode(),
                 IArchimatePackage.eINSTANCE.getSystemSoftware(),
                 IArchimatePackage.eINSTANCE.getDevice()
+        };
+    }
+
+    /**
+     * @return A list of all EClass types in the Physical layer in preferred order
+     */
+    public static EClass[] getPhysicalClasses() {
+        return new EClass[] {
+                IArchimatePackage.eINSTANCE.getEquipment(),
         };
     }
 
@@ -245,7 +262,6 @@ public class ArchimateModelUtils {
      */
     public static EClass[] getConnectorClasses() {
         return new EClass[] {
-                IArchimatePackage.eINSTANCE.getJunction(),
                 IArchimatePackage.eINSTANCE.getAndJunction(),
                 IArchimatePackage.eINSTANCE.getOrJunction()
         };

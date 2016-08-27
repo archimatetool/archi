@@ -26,7 +26,6 @@ public class InformationStructureViewpoint extends AbstractViewpoint {
             
             IArchimatePackage.eINSTANCE.getArtifact(),
             
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

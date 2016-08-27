@@ -5,15 +5,9 @@
  */
 package com.archimatetool.editor.diagram.figures.junctions;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -23,7 +17,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class OrJunctionFigure extends AbstractDiagramModelObjectFigure {
+public class OrJunctionFigure extends AndJunctionFigure {
     
     public OrJunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -40,38 +34,9 @@ public class OrJunctionFigure extends AbstractDiagramModelObjectFigure {
         }
         
         graphics.setBackgroundColor(getFillColor());
-        graphics.drawRectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
+        graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
         
         graphics.popState();
     }
 
-    @Override
-    public void refreshVisuals() {
-        // Set Enabled according to current Viewpoint
-        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getDiagramModelObject());
-        setEnabled(enabled);
-    }
-    
-    @Override
-    public IFigure getTextControl() {
-        return null;
-    }
-
-    @Override
-    public void dispose() {
-    }
-
-    @Override
-    public Color getFillColor() {
-        return ColorConstants.white;
-    }
-
-    @Override
-    public boolean didClickTextControl(Point requestLoc) {
-        return false;
-    }
-
-    @Override
-    protected void setUI() {
-    }
 }

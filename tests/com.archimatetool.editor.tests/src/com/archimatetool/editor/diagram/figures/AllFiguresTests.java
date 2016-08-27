@@ -12,7 +12,6 @@ import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFig
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
 import com.archimatetool.editor.diagram.figures.junctions.AndJunctionFigureTests;
-import com.archimatetool.editor.diagram.figures.junctions.JunctionFigureTests;
 import com.archimatetool.editor.diagram.figures.junctions.OrJunctionFigureTests;
 
 @SuppressWarnings("nls")
@@ -31,7 +30,6 @@ public class AllFiguresTests {
         suite.addTest(NoteFigureTests.suite());
 
         // figures.junctions
-        suite.addTest(JunctionFigureTests.suite());
         suite.addTest(OrJunctionFigureTests.suite());
         suite.addTest(AndJunctionFigureTests.suite());
 

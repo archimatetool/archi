@@ -65,12 +65,12 @@ public class ModelCheckerTests {
         model.getFolders().remove(0);
         messages = modelChecker.checkFolderStructure();
         assertEquals(1, messages.size());
-        assertEquals("Business Folder Missing", messages.get(0));
+        assertEquals("Strategy Folder Missing", messages.get(0));
         
         model.getFolders().remove(0);
         messages = modelChecker.checkFolderStructure();
         assertEquals(2, messages.size());
-        assertEquals("Application Folder Missing", messages.get(1));
+        assertEquals("Business Folder Missing", messages.get(1));
     }
     
     @Test

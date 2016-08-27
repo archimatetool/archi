@@ -39,11 +39,11 @@ public class AssociationRelationshipUIProvider extends AbstractRelationshipUIPro
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ASSOCIATION_CONNECTION_16);
+        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ASSOCIATION_RELATION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASSOCIATION_CONNECTION_16);
+        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASSOCIATION_RELATION_16);
     }
 }

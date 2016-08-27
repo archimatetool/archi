@@ -53,6 +53,15 @@ public interface IArchimateFactory extends EFactory {
     IArchimateModel createArchimateModel();
 
     /**
+     * Returns a new object of class '<em>Resource</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Resource</em>'.
+     * @generated
+     */
+    IResource createResource();
+
+    /**
      * Returns a new object of class '<em>Folder</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -60,16 +69,6 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IFolder createFolder();
-
-    /**
-     * Returns a new object of class '<em>Business Activity</em>'.
-     * <!-- begin-user-doc -->
-     * @deprecated As of ArchiMate version 2.0
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Business Activity</em>'.
-     * @generated
-     */
-    IBusinessActivity createBusinessActivity();
 
     /**
      * Returns a new object of class '<em>Business Actor</em>'.
@@ -351,6 +350,15 @@ public interface IArchimateFactory extends EFactory {
     IDevice createDevice();
 
     /**
+     * Returns a new object of class '<em>Equipment</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Equipment</em>'.
+     * @generated
+     */
+    IEquipment createEquipment();
+
+    /**
      * Returns a new object of class '<em>Stakeholder</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -584,15 +592,6 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IApplicationCollaboration createApplicationCollaboration();
-
-    /**
-     * Returns a new object of class '<em>Junction</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Junction</em>'.
-     * @generated
-     */
-    IJunction createJunction();
 
     /**
      * Returns a new object of class '<em>And Junction</em>'.

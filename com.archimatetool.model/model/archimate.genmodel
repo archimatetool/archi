@@ -22,6 +22,7 @@
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/derived"/>
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/motivation"/>
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/implementation_migration"/>
+      <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/strategy"/>
     </genEnums>
     <genDataTypes ecoreDataType="archimate.ecore#//File"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//Adapter">
@@ -61,9 +62,37 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//FolderContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//FolderContainer/folders"/>
     </genClasses>
+    <genClasses ecoreClass="archimate.ecore#//Folder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Folder/elements"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Folder/type"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateModelElement">
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModelElement/getArchimateModel"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateConcept"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateRelationship">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateRelationship/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateRelationship/target"/>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/connect">
+        <genParameters ecoreParameter="archimate.ecore#//ArchimateRelationship/connect/source"/>
+        <genParameters ecoreParameter="archimate.ecore#//ArchimateRelationship/connect/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/reconnect"/>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/disconnect"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//JunctionElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//InterfaceElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//InterfaceElement/interfaceType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ServiceElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//BusinessElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ApplicationElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//TechnologyElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//PhysicalElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//MotivationElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ImplementationMigrationElement"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//StrategyElement"/>
     <genClasses ecoreClass="archimate.ecore#//ArchimateModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/purpose"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/file"/>
@@ -81,22 +110,10 @@
         <genParameters ecoreParameter="archimate.ecore#//ArchimateModel/getFolder/type"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="archimate.ecore#//Folder">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Folder/elements"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Folder/type"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateConcept"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateElement"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//JunctionElement"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//InterfaceElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//InterfaceElement/interfaceType"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ServiceElement"/>
+    <genClasses ecoreClass="archimate.ecore#//Resource"/>
     <genClasses ecoreClass="archimate.ecore#//Junction"/>
     <genClasses ecoreClass="archimate.ecore#//AndJunction"/>
     <genClasses ecoreClass="archimate.ecore#//OrJunction"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//BusinessLayerElement"/>
-    <genClasses ecoreClass="archimate.ecore#//BusinessActivity"/>
     <genClasses ecoreClass="archimate.ecore#//BusinessActor"/>
     <genClasses ecoreClass="archimate.ecore#//BusinessCollaboration"/>
     <genClasses ecoreClass="archimate.ecore#//Contract"/>
@@ -113,7 +130,6 @@
     <genClasses ecoreClass="archimate.ecore#//BusinessService"/>
     <genClasses ecoreClass="archimate.ecore#//Value"/>
     <genClasses ecoreClass="archimate.ecore#//Location"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ApplicationLayerElement"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationCollaboration"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationComponent"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationFunction"/>
@@ -121,7 +137,6 @@
     <genClasses ecoreClass="archimate.ecore#//ApplicationInterface"/>
     <genClasses ecoreClass="archimate.ecore#//DataObject"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationService"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//TechnologyLayerElement"/>
     <genClasses ecoreClass="archimate.ecore#//Artifact"/>
     <genClasses ecoreClass="archimate.ecore#//CommunicationPath"/>
     <genClasses ecoreClass="archimate.ecore#//Network"/>
@@ -131,7 +146,7 @@
     <genClasses ecoreClass="archimate.ecore#//Node"/>
     <genClasses ecoreClass="archimate.ecore#//SystemSoftware"/>
     <genClasses ecoreClass="archimate.ecore#//Device"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//MotivationElement"/>
+    <genClasses ecoreClass="archimate.ecore#//Equipment"/>
     <genClasses ecoreClass="archimate.ecore#//Stakeholder"/>
     <genClasses ecoreClass="archimate.ecore#//Driver"/>
     <genClasses ecoreClass="archimate.ecore#//Assessment"/>
@@ -139,21 +154,10 @@
     <genClasses ecoreClass="archimate.ecore#//Requirement"/>
     <genClasses ecoreClass="archimate.ecore#//Constraint"/>
     <genClasses ecoreClass="archimate.ecore#//Principle"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ImplementationMigrationElement"/>
     <genClasses ecoreClass="archimate.ecore#//WorkPackage"/>
     <genClasses ecoreClass="archimate.ecore#//Deliverable"/>
     <genClasses ecoreClass="archimate.ecore#//Plateau"/>
     <genClasses ecoreClass="archimate.ecore#//Gap"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateRelationship">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateRelationship/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateRelationship/target"/>
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/connect">
-        <genParameters ecoreParameter="archimate.ecore#//ArchimateRelationship/connect/source"/>
-        <genParameters ecoreParameter="archimate.ecore#//ArchimateRelationship/connect/target"/>
-      </genOperations>
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/reconnect"/>
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/disconnect"/>
-    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//AccessRelationship">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//AccessRelationship/accessType"/>
     </genClasses>

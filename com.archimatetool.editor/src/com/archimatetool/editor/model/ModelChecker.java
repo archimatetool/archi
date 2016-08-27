@@ -76,6 +76,9 @@ public class ModelChecker {
     List<String> checkFolderStructure() {
         List<String> messages = new ArrayList<String>();
         
+        if(fModel.getFolder(FolderType.STRATEGY) == null) {
+            messages.add(Messages.ModelChecker_23);
+        }
         if(fModel.getFolder(FolderType.BUSINESS) == null) {
             messages.add(Messages.ModelChecker_2);
         }

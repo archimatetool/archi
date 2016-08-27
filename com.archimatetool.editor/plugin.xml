@@ -776,10 +776,6 @@
             id="com.archimatetool.editor.BusinessInterfaceUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessActivityUIProvider"
-            id="com.archimatetool.editor.BusinessActivityUIProvider">
-      </uiProvider>
-      <uiProvider
             class="com.archimatetool.editor.ui.factory.business.BusinessCollaborationUIProvider"
             id="com.archimatetool.editor.BusinessCollaborationUIProvider">
       </uiProvider>
@@ -955,10 +951,6 @@
    </extension>
    <extension
          point="com.archimatetool.editor.elementUIProvider">
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.junctions.JunctionUIProvider"
-            id="com.archimatetool.editor.JunctionUIProvider">
-      </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.junctions.AndJunctionUIProvider"
             id="com.archimatetool.editor.AndJunctionUIProvider">

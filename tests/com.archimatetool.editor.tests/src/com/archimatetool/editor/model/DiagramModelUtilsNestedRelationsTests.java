@@ -164,8 +164,8 @@ public class DiagramModelUtilsNestedRelationsTests {
         assertTrue(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
         
         // Not junctions
-        rel.setSource(IArchimateFactory.eINSTANCE.createJunction());
-        rel.setTarget(IArchimateFactory.eINSTANCE.createJunction());
+        rel.setSource(IArchimateFactory.eINSTANCE.createAndJunction());
+        rel.setTarget(IArchimateFactory.eINSTANCE.createAndJunction());
         assertFalse(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
         
         rel = IArchimateFactory.eINSTANCE.createAssociationRelationship();
@@ -180,7 +180,6 @@ public class DiagramModelUtilsNestedRelationsTests {
         }
         
         // Except for Junctions
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createJunction()));
         assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createOrJunction()));
         assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createAndJunction()));
     }

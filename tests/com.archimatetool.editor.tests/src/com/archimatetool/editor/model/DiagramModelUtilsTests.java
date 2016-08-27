@@ -361,7 +361,6 @@ public class DiagramModelUtilsTests {
 
     @Test
     public void isNestedConnectionTypeConcept() {
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createJunction()));
         assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createOrJunction()));
         assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createAndJunction()));
     }    

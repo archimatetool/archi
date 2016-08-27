@@ -24,7 +24,6 @@ public class ProjectViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessActor(),
             IArchimatePackage.eINSTANCE.getBusinessRole(),
             
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

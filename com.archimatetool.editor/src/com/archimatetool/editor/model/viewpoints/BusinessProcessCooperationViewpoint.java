@@ -32,7 +32,6 @@ public class BusinessProcessCooperationViewpoint extends AbstractViewpoint {
 
             IArchimatePackage.eINSTANCE.getApplicationService(),
             
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

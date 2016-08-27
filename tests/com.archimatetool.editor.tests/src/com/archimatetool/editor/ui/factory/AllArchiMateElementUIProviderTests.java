@@ -12,8 +12,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collection;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
@@ -65,8 +63,8 @@ import com.archimatetool.editor.ui.factory.extensions.PrincipleUIProvider;
 import com.archimatetool.editor.ui.factory.extensions.RequirementUIProvider;
 import com.archimatetool.editor.ui.factory.extensions.StakeholderUIProvider;
 import com.archimatetool.editor.ui.factory.extensions.WorkPackageUIProvider;
+import com.archimatetool.editor.ui.factory.junctions.AbstractJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.junctions.AndJunctionUIProvider;
-import com.archimatetool.editor.ui.factory.junctions.JunctionUIProvider;
 import com.archimatetool.editor.ui.factory.junctions.OrJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.technology.AbstractTechnologyUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologyArtifactUIProvider;
@@ -80,6 +78,8 @@ import com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 @RunWith(Parameterized.class)
 public class AllArchiMateElementUIProviderTests extends AbstractElementUIProviderTests {
@@ -131,7 +131,6 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
                 { new TechnologyDeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
                 { new TechnologyInfrastructureFunctionUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureFunction() },
                 
-                { new JunctionUIProvider(), IArchimatePackage.eINSTANCE.getJunction() },
                 { new AndJunctionUIProvider(), IArchimatePackage.eINSTANCE.getAndJunction() },
                 { new OrJunctionUIProvider(), IArchimatePackage.eINSTANCE.getOrJunction() },
                 
@@ -176,7 +175,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
         else if(provider instanceof AbstractTechnologyUIProvider) {
             assertEquals(ColorFactory.COLOR_TECHNOLOGY, provider.getDefaultColor());
         }
-        else if(provider instanceof JunctionUIProvider) {
+        else if(provider instanceof AbstractJunctionUIProvider) {
             assertEquals(ColorConstants.black, provider.getDefaultColor());
         }
     }
@@ -186,7 +185,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
     public void testGetDefaultSize() {
         Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
 
-        if(provider instanceof JunctionUIProvider) {
+        if(provider instanceof AbstractJunctionUIProvider) {
             assertEquals(new Dimension(15, 15), provider.getDefaultSize());
         }
         else {
@@ -204,7 +203,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
 
     @Override
     public void testShouldExposeFeature() {
-        if(provider instanceof JunctionUIProvider) {
+        if(provider instanceof AbstractJunctionUIProvider) {
             EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
             assertFalse(provider.shouldExposeFeature(instance, null));
         }

@@ -60,33 +60,34 @@ public class ArchimateModelTests {
         list = model.getFolders();
         
         // Correct number of folders
-        assertEquals(8, list.size());
+        assertEquals(9, list.size());
         
         // Types
-        assertEquals(FolderType.BUSINESS, list.get(0).getType());
-        assertEquals(FolderType.APPLICATION, list.get(1).getType());
-        assertEquals(FolderType.TECHNOLOGY, list.get(2).getType());
-        assertEquals(FolderType.MOTIVATION, list.get(3).getType());
-        assertEquals(FolderType.IMPLEMENTATION_MIGRATION, list.get(4).getType());
-        assertEquals(FolderType.CONNECTORS, list.get(5).getType());
-        assertEquals(FolderType.RELATIONS, list.get(6).getType());
-        assertEquals(FolderType.DIAGRAMS, list.get(7).getType());
+        assertEquals(FolderType.STRATEGY, list.get(0).getType());
+        assertEquals(FolderType.BUSINESS, list.get(1).getType());
+        assertEquals(FolderType.APPLICATION, list.get(2).getType());
+        assertEquals(FolderType.TECHNOLOGY, list.get(3).getType());
+        assertEquals(FolderType.MOTIVATION, list.get(4).getType());
+        assertEquals(FolderType.IMPLEMENTATION_MIGRATION, list.get(5).getType());
+        assertEquals(FolderType.CONNECTORS, list.get(6).getType());
+        assertEquals(FolderType.RELATIONS, list.get(7).getType());
+        assertEquals(FolderType.DIAGRAMS, list.get(8).getType());
         
         // Test can't do it twice
         model.addDefaultFolders();
         list = model.getFolders();
-        assertEquals(8, list.size());
+        assertEquals(9, list.size());
     }
     
     @Test
     public void testAdd_Remove_DerivedRelationsFolder() {
         IFolder folder = model.addDerivedRelationsFolder();
         assertTrue(folder.getType() == FolderType.DERIVED);
-        assertEquals(9, model.getFolders().size());
-        assertEquals(7, model.getFolders().indexOf(folder));
+        assertEquals(10, model.getFolders().size());
+        assertEquals(8, model.getFolders().indexOf(folder));
         
         model.removeDerivedRelationsFolder();
-        assertEquals(8, model.getFolders().size());
+        assertEquals(9, model.getFolders().size());
         assertFalse(model.getFolders().contains(folder));
     }
     
@@ -94,8 +95,13 @@ public class ArchimateModelTests {
     public void testGetDefaultFolderForElement() {
         model.addDerivedRelationsFolder();
         
-        EObject element = IArchimateFactory.eINSTANCE.createBusinessEvent();
+        EObject element = IArchimateFactory.eINSTANCE.createResource();
         IFolder folder = model.getDefaultFolderForElement(element);
+        assertNotNull(folder);
+        assertEquals(FolderType.STRATEGY, folder.getType());
+        
+        element = IArchimateFactory.eINSTANCE.createBusinessEvent();
+        folder = model.getDefaultFolderForElement(element);
         assertNotNull(folder);
         assertEquals(FolderType.BUSINESS, folder.getType());
         
@@ -109,6 +115,11 @@ public class ArchimateModelTests {
         assertNotNull(folder);
         assertEquals(FolderType.TECHNOLOGY, folder.getType());
         
+        element = IArchimateFactory.eINSTANCE.createEquipment();
+        folder = model.getDefaultFolderForElement(element);
+        assertNotNull(folder);
+        assertEquals(FolderType.TECHNOLOGY, folder.getType());
+
         element = IArchimateFactory.eINSTANCE.createAndJunction();
         folder = model.getDefaultFolderForElement(element);
         assertNotNull(folder);
@@ -152,6 +163,7 @@ public class ArchimateModelTests {
     
     @Test
     public void testGetFolder() {
+        assertNull(model.getFolder(FolderType.STRATEGY));
         assertNull(model.getFolder(FolderType.BUSINESS));
         assertNull(model.getFolder(FolderType.APPLICATION));
         assertNull(model.getFolder(FolderType.TECHNOLOGY));
@@ -161,6 +173,7 @@ public class ArchimateModelTests {
         
         model.setDefaults();
         
+        assertEquals(FolderType.STRATEGY, model.getFolder(FolderType.STRATEGY).getType());
         assertEquals(FolderType.BUSINESS, model.getFolder(FolderType.BUSINESS).getType());
         assertEquals(FolderType.APPLICATION, model.getFolder(FolderType.APPLICATION).getType());
         assertEquals(FolderType.TECHNOLOGY, model.getFolder(FolderType.TECHNOLOGY).getType());
@@ -265,7 +278,7 @@ public class ArchimateModelTests {
     public void testSetDefaults() {
         model.setDefaults();
         assertNotNull(model.getId());
-        assertEquals(8, model.getFolders().size());
+        assertEquals(9, model.getFolders().size());
     }
     
     // ---------------------------------------------------------------------------------------------

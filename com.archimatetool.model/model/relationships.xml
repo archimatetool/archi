@@ -38,7 +38,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+			<target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="io" />
 			<target element="Driver" relations="o" />
@@ -90,7 +91,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -142,7 +144,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -194,7 +197,8 @@
 			<target element="InfrastructureService" relations="io" />
 			<target element="Artifact" relations="io" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="io" />
 			<target element="Driver" relations="o" />
@@ -246,7 +250,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -298,7 +303,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -350,7 +356,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -402,7 +409,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -454,7 +462,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="t" />
+            <target element="AndJunction" relations="t" />
+            <target element="OrJunction" relations="t" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -506,7 +515,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -845,7 +855,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -897,7 +908,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -949,7 +961,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1001,7 +1014,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1053,7 +1067,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1105,7 +1120,8 @@
 			<target element="InfrastructureService" relations="o" />
 			<target element="Artifact" relations="o" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1207,7 +1223,8 @@
 			<target element="InfrastructureService" relations="ioru" />
 			<target element="Artifact" relations="aiou" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1259,7 +1276,8 @@
 			<target element="InfrastructureService" relations="ioru" />
 			<target element="Artifact" relations="aiou" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1311,7 +1329,8 @@
 			<target element="InfrastructureService" relations="ioru" />
 			<target element="Artifact" relations="aiou" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1363,7 +1382,8 @@
 			<target element="InfrastructureService" relations="iou" />
 			<target element="Artifact" relations="aou" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1514,7 +1534,8 @@
 			<target element="InfrastructureService" relations="oru" />
 			<target element="Artifact" relations="aou" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1566,7 +1587,8 @@
 			<target element="InfrastructureService" relations="cfgostu" />
 			<target element="Artifact" relations="aou" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 			
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -1632,7 +1654,7 @@
 			<target element="Gap" relations="o" />
 		</source>
 		
-		<source element="Junction">
+		<source element="AndJunction">
 			<target element="BusinessActor" relations="ft" />
 			<target element="BusinessRole" relations="ft" />
 			<target element="BusinessCollaboration" relations="ft" />
@@ -1658,13 +1680,48 @@
 			<target element="InfrastructureFunction" relations="ft" />
 			<target element="InfrastructureService" relations="ft" />
 
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 
 			<!-- Added from spec metamodel diagram -->
 			<target element="WorkPackage" relations="ft" />
 			<target element="Plateau" relations="t" />
 		</source>
 		
+        <source element="OrJunction">
+            <target element="BusinessActor" relations="ft" />
+            <target element="BusinessRole" relations="ft" />
+            <target element="BusinessCollaboration" relations="ft" />
+            <target element="Location" relations="ft" />
+            <target element="BusinessInterface" relations="ft" />
+            <target element="BusinessProcess" relations="ft" />
+            <target element="BusinessFunction" relations="ft" />
+            <target element="BusinessInteraction" relations="ft" />
+            <target element="BusinessEvent" relations="t" />
+            <target element="BusinessService" relations="ft" />
+            
+            <target element="ApplicationComponent" relations="ft" />
+            <target element="ApplicationCollaboration" relations="ft" />
+            <target element="ApplicationInterface" relations="ft" />
+            <target element="ApplicationFunction" relations="ft" />
+            <target element="ApplicationInteraction" relations="ft" />
+            <target element="ApplicationService" relations="ft" />
+
+            <target element="Node" relations="ft" />
+            <target element="Device" relations="ft" />
+            <target element="SystemSoftware" relations="ft" />
+            <target element="InfrastructureInterface" relations="ft" />
+            <target element="InfrastructureFunction" relations="ft" />
+            <target element="InfrastructureService" relations="ft" />
+
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
+
+            <!-- Added from spec metamodel diagram -->
+            <target element="WorkPackage" relations="ft" />
+            <target element="Plateau" relations="t" />
+        </source>
+        
 		<source element="Stakeholder">
 			<target element="BusinessActor" relations="o" />
 			<target element="BusinessRole" relations="o" />
@@ -2043,7 +2100,8 @@
 			<target element="Artifact" relations="or" />
 			
 			<!-- Added from spec metamodel diagram -->
-			<target element="Junction" relations="ft" />
+            <target element="AndJunction" relations="ft" />
+            <target element="OrJunction" relations="ft" />
 
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />
@@ -2144,7 +2202,8 @@
 			<target element="Artifact" relations="go" />
 			
 			<!-- Added from spec metamodel diagram -->
-			<target element="Junction" relations="t" />
+            <target element="AndJunction" relations="t" />
+            <target element="OrJunction" relations="t" />
 
 			<target element="Stakeholder" relations="o" />
 			<target element="Driver" relations="o" />

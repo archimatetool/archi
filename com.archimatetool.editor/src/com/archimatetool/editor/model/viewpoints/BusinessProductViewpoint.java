@@ -34,7 +34,6 @@ public class BusinessProductViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getApplicationInterface(),
             IArchimatePackage.eINSTANCE.getApplicationComponent(),
 
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

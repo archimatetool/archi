@@ -23,7 +23,6 @@ public class ApplicationStructureViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getApplicationComponent(),
             IArchimatePackage.eINSTANCE.getApplicationCollaboration(),
 
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

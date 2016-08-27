@@ -29,7 +29,6 @@ import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IBounds;
-import com.archimatetool.model.IBusinessActivity;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessCollaboration;
 import com.archimatetool.model.IBusinessElement;
@@ -66,6 +65,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IDriver;
+import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
@@ -79,7 +79,6 @@ import com.archimatetool.model.IInfrastructureFunction;
 import com.archimatetool.model.IInfrastructureInterface;
 import com.archimatetool.model.IInfrastructureService;
 import com.archimatetool.model.IInterfaceElement;
-import com.archimatetool.model.IJunction;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
@@ -100,6 +99,7 @@ import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealisationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
+import com.archimatetool.model.IResource;
 import com.archimatetool.model.IServiceElement;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
@@ -461,19 +461,19 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.JUNCTION: {
-                IJunction junction = (IJunction)theEObject;
-                T result = caseJunction(junction);
-                if (result == null) result = caseJunctionElement(junction);
-                if (result == null) result = caseArchimateElement(junction);
-                if (result == null) result = caseArchimateConcept(junction);
-                if (result == null) result = caseArchimateModelElement(junction);
-                if (result == null) result = caseIdentifier(junction);
-                if (result == null) result = caseCloneable(junction);
-                if (result == null) result = caseNameable(junction);
-                if (result == null) result = caseDocumentable(junction);
-                if (result == null) result = caseProperties(junction);
-                if (result == null) result = caseAdapter(junction);
+            case IArchimatePackage.RESOURCE: {
+                IResource resource = (IResource)theEObject;
+                T result = caseResource(resource);
+                if (result == null) result = caseStrategyElement(resource);
+                if (result == null) result = caseArchimateElement(resource);
+                if (result == null) result = caseArchimateConcept(resource);
+                if (result == null) result = caseArchimateModelElement(resource);
+                if (result == null) result = caseIdentifier(resource);
+                if (result == null) result = caseCloneable(resource);
+                if (result == null) result = caseNameable(resource);
+                if (result == null) result = caseDocumentable(resource);
+                if (result == null) result = caseProperties(resource);
+                if (result == null) result = caseAdapter(resource);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -506,22 +506,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(orJunction);
                 if (result == null) result = caseProperties(orJunction);
                 if (result == null) result = caseAdapter(orJunction);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_ACTIVITY: {
-                IBusinessActivity businessActivity = (IBusinessActivity)theEObject;
-                T result = caseBusinessActivity(businessActivity);
-                if (result == null) result = caseBusinessElement(businessActivity);
-                if (result == null) result = caseArchimateElement(businessActivity);
-                if (result == null) result = caseArchimateConcept(businessActivity);
-                if (result == null) result = caseArchimateModelElement(businessActivity);
-                if (result == null) result = caseIdentifier(businessActivity);
-                if (result == null) result = caseCloneable(businessActivity);
-                if (result == null) result = caseNameable(businessActivity);
-                if (result == null) result = caseDocumentable(businessActivity);
-                if (result == null) result = caseProperties(businessActivity);
-                if (result == null) result = caseAdapter(businessActivity);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1040,6 +1024,22 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(device);
                 if (result == null) result = caseProperties(device);
                 if (result == null) result = caseAdapter(device);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.EQUIPMENT: {
+                IEquipment equipment = (IEquipment)theEObject;
+                T result = caseEquipment(equipment);
+                if (result == null) result = casePhysicalElement(equipment);
+                if (result == null) result = caseArchimateElement(equipment);
+                if (result == null) result = caseArchimateConcept(equipment);
+                if (result == null) result = caseArchimateModelElement(equipment);
+                if (result == null) result = caseIdentifier(equipment);
+                if (result == null) result = caseCloneable(equipment);
+                if (result == null) result = caseNameable(equipment);
+                if (result == null) result = caseDocumentable(equipment);
+                if (result == null) result = caseProperties(equipment);
+                if (result == null) result = caseAdapter(equipment);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1889,6 +1889,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Resource</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Resource</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseResource(IResource object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Folder</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -1930,21 +1945,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseArchimateElement(IArchimateElement object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Business Activity</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Business Activity</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseBusinessActivity(IBusinessActivity object) {
         return null;
     }
 
@@ -2080,6 +2080,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDevice(IDevice object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Equipment</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Equipment</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseEquipment(IEquipment object) {
         return null;
     }
 
@@ -3310,21 +3325,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T casePhysicalElement(IPhysicalElement object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Junction</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Junction</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseJunction(IJunction object) {
         return null;
     }
 

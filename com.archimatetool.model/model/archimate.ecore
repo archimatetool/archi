@@ -74,6 +74,7 @@
     <eLiterals name="derived" value="7" literal="derived"/>
     <eLiterals name="motivation" value="8" literal="motivation"/>
     <eLiterals name="implementation_migration" value="9" literal="implementation_migration"/>
+    <eLiterals name="strategy" value="10" literal="strategy"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FolderContainer" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"
@@ -162,10 +163,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metadata" eType="#//Metadata"
         containment="true" resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Junction" eSuperTypes="#//JunctionElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//StrategyElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="AndJunction" eSuperTypes="#//JunctionElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="OrJunction" eSuperTypes="#//JunctionElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BusinessActivity" eSuperTypes="#//BusinessElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessActor" eSuperTypes="#//BusinessElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessCollaboration" eSuperTypes="#//BusinessElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Contract" eSuperTypes="#//BusinessElement"/>
@@ -198,6 +198,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="SystemSoftware" eSuperTypes="#//TechnologyElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Device" eSuperTypes="#//TechnologyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment" eSuperTypes="#//PhysicalElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Stakeholder" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Driver" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Assessment" eSuperTypes="#//MotivationElement"/>

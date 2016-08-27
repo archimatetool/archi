@@ -13,8 +13,6 @@ public class Messages extends NLS {
 
     public static String AndJunctionUIProvider_0;
 
-    public static String JunctionUIProvider_0;
-
     public static String OrJunctionUIProvider_0;
     static {
         // initialize resource bundle

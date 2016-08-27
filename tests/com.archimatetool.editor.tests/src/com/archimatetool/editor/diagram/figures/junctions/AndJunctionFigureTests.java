@@ -6,17 +6,22 @@
 package com.archimatetool.editor.diagram.figures.junctions;
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.JUnit4TestAdapter;
+import static org.junit.Assert.assertNull;
 
 import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
+import com.archimatetool.editor.ui.factory.ElementUIFactory;
+import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
+import junit.framework.JUnit4TestAdapter;
 
 
-public class AndJunctionFigureTests extends OrJunctionFigureTests {
+
+public class AndJunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AndJunctionFigureTests.class);
@@ -37,6 +42,17 @@ public class AndJunctionFigureTests extends OrJunctionFigureTests {
         return (AndJunctionFigure)editor.findFigure(dmo);
     }
     
+    @Test
+    public void testGetTextControl() {
+        assertNull(abstractFigure.getTextControl());
+    }
+
+    @Test
+    public void testGetDefaultSize() {
+        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
+        assertEquals(provider.getDefaultSize(), abstractFigure.getDefaultSize());
+    }
+
     @Override
     @Test
     public void testSetFillColor() {

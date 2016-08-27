@@ -1,14 +1,9 @@
-/**
- * This program and the accompanying materials
- * are made available under the terms of the License
- * which accompanies this distribution in the file LICENSE.txt
- */
 package com.archimatetool.model;
+
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.emf.common.util.Enumerator;
 
 /**
@@ -90,7 +85,7 @@ public enum FolderType implements Enumerator {
      * @ordered
      */
     DIAGRAMS(6, "diagrams", "diagrams"), //$NON-NLS-1$ //$NON-NLS-2$
-    
+
     /**
      * The '<em><b>Derived</b></em>' literal object.
      * <!-- begin-user-doc -->
@@ -100,7 +95,7 @@ public enum FolderType implements Enumerator {
      * @ordered
      */
     DERIVED(7, "derived", "derived"), //$NON-NLS-1$ //$NON-NLS-2$
-    
+
     /**
      * The '<em><b>Motivation</b></em>' literal object.
      * <!-- begin-user-doc -->
@@ -110,7 +105,7 @@ public enum FolderType implements Enumerator {
      * @ordered
      */
     MOTIVATION(8, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
-    
+
     /**
      * The '<em><b>Implementation migration</b></em>' literal object.
      * <!-- begin-user-doc -->
@@ -119,7 +114,17 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    IMPLEMENTATION_MIGRATION(9, "implementation_migration", "implementation_migration"); //$NON-NLS-1$ //$NON-NLS-2$
+    IMPLEMENTATION_MIGRATION(9, "implementation_migration", "implementation_migration"), //$NON-NLS-1$ //$NON-NLS-2$
+
+    /**
+     * The '<em><b>Strategy</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #STRATEGY_VALUE
+     * @generated
+     * @ordered
+     */
+    STRATEGY(10, "strategy", "strategy"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>User</b></em>' literal value.
@@ -272,6 +277,21 @@ public enum FolderType implements Enumerator {
     public static final int IMPLEMENTATION_MIGRATION_VALUE = 9;
 
     /**
+     * The '<em><b>Strategy</b></em>' literal value.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Strategy</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @see #STRATEGY
+     * @model name="strategy"
+     * @generated
+     * @ordered
+     */
+    public static final int STRATEGY_VALUE = 10;
+
+    /**
      * An array of all the '<em><b>Folder Type</b></em>' enumerators.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -289,6 +309,7 @@ public enum FolderType implements Enumerator {
             DERIVED,
             MOTIVATION,
             IMPLEMENTATION_MIGRATION,
+            STRATEGY,
         };
 
     /**
@@ -355,6 +376,7 @@ public enum FolderType implements Enumerator {
             case DERIVED_VALUE: return DERIVED;
             case MOTIVATION_VALUE: return MOTIVATION;
             case IMPLEMENTATION_MIGRATION_VALUE: return IMPLEMENTATION_MIGRATION;
+            case STRATEGY_VALUE: return STRATEGY;
         }
         return null;
     }

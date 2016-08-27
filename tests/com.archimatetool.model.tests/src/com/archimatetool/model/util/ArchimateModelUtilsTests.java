@@ -191,7 +191,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetConnectorClasses() {
         EClass[] classes = ArchimateModelUtils.getConnectorClasses();
-        assertEquals(3, classes.length);
+        assertEquals(2, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf(eClass));

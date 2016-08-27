@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.editparts.junctions;
 
-import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.junctions.AndJunctionFigure;
@@ -18,15 +16,11 @@ import com.archimatetool.editor.diagram.figures.junctions.AndJunctionFigure;
  * @author Phillip Beauvoir
  */
 public class AndJunctionEditPart
-extends JunctionEditPart {            
+extends AbstractJunctionEditPart {            
     
     @Override
     protected IFigure createFigure() {
         return new AndJunctionFigure(getModel());
     }
 
-    @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new ChopboxAnchor(getFigure());
-    }
 }

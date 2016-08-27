@@ -110,9 +110,7 @@ public class RelationshipsMatrix {
     }
 
     boolean isValidRelationshipStart(IArchimateConcept sourceConcept, EClass relationshipType) {
-        EClass sourceType = getSuperEClass(sourceConcept.eClass());
-        
-        List<TargetMatrix> listMatrix = matrixMap.get(sourceType);
+        List<TargetMatrix> listMatrix = matrixMap.get(sourceConcept.eClass());
         if(listMatrix != null) {
             for(TargetMatrix targetMatrix : listMatrix) {
                 if(targetMatrix.getRelationships().contains(relationshipType)) {
@@ -133,9 +131,6 @@ public class RelationshipsMatrix {
             return false;
         }
         
-        sourceType = getSuperEClass(sourceType);
-        targetType = getSuperEClass(targetType);
-        
         List<TargetMatrix> listMatrix = matrixMap.get(sourceType);
         if(listMatrix != null) {
             for(TargetMatrix targetMatrix : listMatrix) {
@@ -146,18 +141,6 @@ public class RelationshipsMatrix {
         }
         
         return false;
-    }
-    
-    /**
-     * @return The actual super EClass of an EClass
-     */
-    private EClass getSuperEClass(EClass eClass) {
-        // Use one super class type for Junctions
-        if(IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf(eClass)) {
-            return IArchimatePackage.eINSTANCE.getJunction();
-        }
-        
-        return eClass;
     }
     
     private void loadKeyLetters() {

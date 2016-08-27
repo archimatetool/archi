@@ -82,7 +82,6 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
                 { IArchimatePackage.eINSTANCE.getPlateau() },
                 { IArchimatePackage.eINSTANCE.getGap() },
                 
-                { IArchimatePackage.eINSTANCE.getJunction() },
                 { IArchimatePackage.eINSTANCE.getAndJunction() },
                 { IArchimatePackage.eINSTANCE.getOrJunction() }
         });

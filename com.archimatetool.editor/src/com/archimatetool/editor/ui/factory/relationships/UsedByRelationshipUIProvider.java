@@ -39,11 +39,11 @@ public class UsedByRelationshipUIProvider extends AbstractRelationshipUIProvider
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_USED_BY_CONNECTION_16);
+        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_USED_BY_RELATION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_USED_BY_CONNECTION_16);
+        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_USED_BY_RELATION_16);
     }
 }

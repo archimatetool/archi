@@ -22,7 +22,6 @@ public class BusinessFunctionViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessRole(),
             IArchimatePackage.eINSTANCE.getBusinessFunction(),
 
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

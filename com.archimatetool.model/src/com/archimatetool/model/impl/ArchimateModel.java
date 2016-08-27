@@ -41,8 +41,10 @@ import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
+import com.archimatetool.model.IPhysicalElement;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
+import com.archimatetool.model.IStrategyElement;
 import com.archimatetool.model.ITechnologyElement;
 import com.archimatetool.model.util.IDAdapter;
 
@@ -216,60 +218,69 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * Add any default folders
      */
     protected void addDefaultFolders() {
+        int position = 0;
+        
+        if(getFolder(FolderType.STRATEGY) == null) {
+            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
+            folder.setName(Messages.ArchimateModel_9);
+            folder.setType(FolderType.STRATEGY);
+            getFolders().add(position++, folder);
+        }
+
         if(getFolder(FolderType.BUSINESS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_0);
             folder.setType(FolderType.BUSINESS);
-            getFolders().add(0, folder);
+            getFolders().add(position++, folder);
         }
 
         if(getFolder(FolderType.APPLICATION) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_1);
             folder.setType(FolderType.APPLICATION);
-            getFolders().add(1, folder);
+            getFolders().add(position++, folder);
         }
 
         if(getFolder(FolderType.TECHNOLOGY) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_2);
             folder.setType(FolderType.TECHNOLOGY);
-            getFolders().add(2, folder);
+            getFolders().add(position++, folder);
         }
 
         if(getFolder(FolderType.MOTIVATION) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_3);
             folder.setType(FolderType.MOTIVATION);
-            getFolders().add(3, folder);
+            getFolders().add(position++, folder);
         }
 
         if(getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_4);
             folder.setType(FolderType.IMPLEMENTATION_MIGRATION);
-            getFolders().add(4, folder);
+            getFolders().add(position++, folder);
         }
         
         if(getFolder(FolderType.CONNECTORS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_5);
             folder.setType(FolderType.CONNECTORS);
-            getFolders().add(5, folder);
+            getFolders().add(position++, folder);
         }
 
         if(getFolder(FolderType.RELATIONS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_6);
             folder.setType(FolderType.RELATIONS);
-            getFolders().add(6, folder);
+            getFolders().add(position++, folder);
         }
 
         if(getFolder(FolderType.DIAGRAMS) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
             folder.setName(Messages.ArchimateModel_7);
             folder.setType(FolderType.DIAGRAMS);
-            getFolders().add(getFolders().size(), folder); // Make sure this is last
+            getFolders().add(position++, folder); // Make sure this is last
         }
     }
     
@@ -312,13 +323,16 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     public IFolder getDefaultFolderForElement(EObject element) {
         addDefaultFolders(); // Check they haven't been deleted
         
+        if(element instanceof IStrategyElement) {
+            return getFolder(FolderType.STRATEGY);
+        }
         if(element instanceof IBusinessElement) {
             return getFolder(FolderType.BUSINESS);
         }
         if(element instanceof IApplicationElement) {
             return getFolder(FolderType.APPLICATION);
         }
-        if(element instanceof ITechnologyElement) {
+        if(element instanceof ITechnologyElement || element instanceof IPhysicalElement) {
             return getFolder(FolderType.TECHNOLOGY);
         }
         if(element instanceof IMotivationElement) {

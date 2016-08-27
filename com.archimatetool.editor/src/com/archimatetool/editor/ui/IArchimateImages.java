@@ -47,23 +47,22 @@ public interface IArchimateImages {
     
     // ARCHIMATE IMAGES
     
-    // Connections
-    String ICON_ACESS_CONNECTION_16 = ARCHIMATE_IMGPATH + "access-16.png"; //$NON-NLS-1$
-    String ICON_AGGREGATION_CONNECTION_16 = ARCHIMATE_IMGPATH + "aggregation-16.png"; //$NON-NLS-1$
-    String ICON_ASSIGNMENT_CONNECTION_16 = ARCHIMATE_IMGPATH + "assignment-16.png"; //$NON-NLS-1$
-    String ICON_ASSOCIATION_CONNECTION_16 = ARCHIMATE_IMGPATH + "association-16.png"; //$NON-NLS-1$
-    String ICON_COMPOSITION_CONNECTION_16 = ARCHIMATE_IMGPATH + "composition-16.png"; //$NON-NLS-1$
-    String ICON_FLOW_CONNECTION_16 = ARCHIMATE_IMGPATH + "flow-16.png"; //$NON-NLS-1$
-    String ICON_INFLUENCE_CONNECTION_16 = ARCHIMATE_IMGPATH + "influence-16.png"; //$NON-NLS-1$
-    String ICON_REALISATION_CONNECTION_16 = ARCHIMATE_IMGPATH + "realisation-16.png"; //$NON-NLS-1$
-    String ICON_SPECIALISATION_CONNECTION_16 = ARCHIMATE_IMGPATH + "specialisation-16.png"; //$NON-NLS-1$
-    String ICON_TRIGGERING_CONNECTION_16 = ARCHIMATE_IMGPATH + "triggering-16.png"; //$NON-NLS-1$
-    String ICON_USED_BY_CONNECTION_16 = ARCHIMATE_IMGPATH + "used-by-16.png"; //$NON-NLS-1$
+    // Relations
+    String ICON_ACESS_RELATION_16 = ARCHIMATE_IMGPATH + "access-16.png"; //$NON-NLS-1$
+    String ICON_AGGREGATION_RELATION_16 = ARCHIMATE_IMGPATH + "aggregation-16.png"; //$NON-NLS-1$
+    String ICON_ASSIGNMENT_RELATION_16 = ARCHIMATE_IMGPATH + "assignment-16.png"; //$NON-NLS-1$
+    String ICON_ASSOCIATION_RELATION_16 = ARCHIMATE_IMGPATH + "association-16.png"; //$NON-NLS-1$
+    String ICON_COMPOSITION_RELATION_16 = ARCHIMATE_IMGPATH + "composition-16.png"; //$NON-NLS-1$
+    String ICON_FLOW_RELATION_16 = ARCHIMATE_IMGPATH + "flow-16.png"; //$NON-NLS-1$
+    String ICON_INFLUENCE_RELATION_16 = ARCHIMATE_IMGPATH + "influence-16.png"; //$NON-NLS-1$
+    String ICON_REALISATION_RELATION_16 = ARCHIMATE_IMGPATH + "realisation-16.png"; //$NON-NLS-1$
+    String ICON_SPECIALISATION_RELATION_16 = ARCHIMATE_IMGPATH + "specialisation-16.png"; //$NON-NLS-1$
+    String ICON_TRIGGERING_RELATION_16 = ARCHIMATE_IMGPATH + "triggering-16.png"; //$NON-NLS-1$
+    String ICON_USED_BY_RELATION_16 = ARCHIMATE_IMGPATH + "used-by-16.png"; //$NON-NLS-1$
     
     // Junctions
-    String ICON_JUNCTION_16 = ARCHIMATE_IMGPATH + "junction-16.png"; //$NON-NLS-1$
-    String ICON_JUNCTION_AND_16 = ARCHIMATE_IMGPATH + "junction-and-16.png"; //$NON-NLS-1$
-    String ICON_JUNCTION_OR_16 = ARCHIMATE_IMGPATH + "junction-or-16.png"; //$NON-NLS-1$
+    String ICON_AND_JUNCTION_16 = ARCHIMATE_IMGPATH + "junction-and-16.png"; //$NON-NLS-1$
+    String ICON_OR_JUNCTION_16 = ARCHIMATE_IMGPATH + "junction-or-16.png"; //$NON-NLS-1$
     
     // Plain
     String ICON_ACTIVITY_16 = ARCHIMATE_IMGPATH + "activity-16.png"; //$NON-NLS-1$
@@ -93,7 +92,6 @@ public interface IArchimateImages {
     String ICON_VALUE_16 = ARCHIMATE_IMGPATH + "value-16.png"; //$NON-NLS-1$
 
     // Business Coloured
-    String ICON_BUSINESS_ACTIVITY_16 = ARCHIMATE_IMGPATH + "business-activity-16.png"; //$NON-NLS-1$
     String ICON_BUSINESS_ACTOR_16 = ARCHIMATE_IMGPATH + "business-actor-16.png"; //$NON-NLS-1$
     String ICON_BUSINESS_COLLABORATION_16 = ARCHIMATE_IMGPATH + "business-collaboration-16.png"; //$NON-NLS-1$
     String ICON_BUSINESS_CONTRACT_16 = ARCHIMATE_IMGPATH + "business-contract-16.png"; //$NON-NLS-1$

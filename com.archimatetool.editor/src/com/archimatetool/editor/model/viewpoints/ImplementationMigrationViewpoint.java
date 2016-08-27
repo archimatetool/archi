@@ -58,7 +58,6 @@ public class ImplementationMigrationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getRequirement(),
             IArchimatePackage.eINSTANCE.getConstraint(),
             
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

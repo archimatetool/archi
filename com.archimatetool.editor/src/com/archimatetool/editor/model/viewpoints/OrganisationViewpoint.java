@@ -24,7 +24,6 @@ public class OrganisationViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getBusinessInterface(),
             IArchimatePackage.eINSTANCE.getLocation(),
 
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

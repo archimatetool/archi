@@ -21,7 +21,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class AndJunctionUIProvider extends JunctionUIProvider {
+public class AndJunctionUIProvider extends AbstractJunctionUIProvider {
 
     @Override
     public EClass providerFor() {
@@ -40,11 +40,11 @@ public class AndJunctionUIProvider extends JunctionUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_JUNCTION_AND_16);
+        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_AND_JUNCTION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_JUNCTION_AND_16);
+        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_AND_JUNCTION_16);
     }
 }

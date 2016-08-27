@@ -30,7 +30,6 @@ public class InfrastructureUsageViewpoint extends AbstractViewpoint {
             IArchimatePackage.eINSTANCE.getSystemSoftware(),
             IArchimatePackage.eINSTANCE.getNetwork(),
 
-            IArchimatePackage.eINSTANCE.getJunction(),
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),
             

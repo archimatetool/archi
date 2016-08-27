@@ -31,7 +31,6 @@ import com.archimatetool.model.IAssessment;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
 import com.archimatetool.model.IBounds;
-import com.archimatetool.model.IBusinessActivity;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessCollaboration;
 import com.archimatetool.model.IBusinessEvent;
@@ -58,6 +57,7 @@ import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IDriver;
+import com.archimatetool.model.IEquipment;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGap;
@@ -66,7 +66,6 @@ import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IInfrastructureFunction;
 import com.archimatetool.model.IInfrastructureInterface;
 import com.archimatetool.model.IInfrastructureService;
-import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IMeaning;
 import com.archimatetool.model.IMetadata;
@@ -80,6 +79,7 @@ import com.archimatetool.model.IProperty;
 import com.archimatetool.model.IRealisationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
+import com.archimatetool.model.IResource;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
@@ -140,10 +140,9 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.FOLDER: return createFolder();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
-            case IArchimatePackage.JUNCTION: return createJunction();
+            case IArchimatePackage.RESOURCE: return createResource();
             case IArchimatePackage.AND_JUNCTION: return createAndJunction();
             case IArchimatePackage.OR_JUNCTION: return createOrJunction();
-            case IArchimatePackage.BUSINESS_ACTIVITY: return createBusinessActivity();
             case IArchimatePackage.BUSINESS_ACTOR: return createBusinessActor();
             case IArchimatePackage.BUSINESS_COLLABORATION: return createBusinessCollaboration();
             case IArchimatePackage.CONTRACT: return createContract();
@@ -176,6 +175,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.NODE: return createNode();
             case IArchimatePackage.SYSTEM_SOFTWARE: return createSystemSoftware();
             case IArchimatePackage.DEVICE: return createDevice();
+            case IArchimatePackage.EQUIPMENT: return createEquipment();
             case IArchimatePackage.STAKEHOLDER: return createStakeholder();
             case IArchimatePackage.DRIVER: return createDriver();
             case IArchimatePackage.ASSESSMENT: return createAssessment();
@@ -281,20 +281,19 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public IFolder createFolder() {
-        Folder folder = new Folder();
-        return folder;
+    public IResource createResource() {
+        Resource resource = new Resource();
+        return resource;
     }
 
     /**
      * <!-- begin-user-doc -->
-     * @deprecated As of ArchiMate version 2.0
      * <!-- end-user-doc -->
      * @generated
      */
-    public IBusinessActivity createBusinessActivity() {
-        BusinessActivity businessActivity = new BusinessActivity();
-        return businessActivity;
+    public IFolder createFolder() {
+        Folder folder = new Folder();
+        return folder;
     }
 
     /**
@@ -612,6 +611,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public IEquipment createEquipment() {
+        Equipment equipment = new Equipment();
+        return equipment;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IStakeholder createStakeholder() {
         Stakeholder stakeholder = new Stakeholder();
         return stakeholder;
@@ -884,16 +893,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IApplicationCollaboration createApplicationCollaboration() {
         ApplicationCollaboration applicationCollaboration = new ApplicationCollaboration();
         return applicationCollaboration;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IJunction createJunction() {
-        Junction junction = new Junction();
-        return junction;
     }
 
     /**

@@ -218,6 +218,13 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             }
         }
         
+        for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
+            if(isAllowedType(eClass)) {
+                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+                group.add(entry);
+            }
+        }
+        
         return group;
     }
 
@@ -278,16 +285,10 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
         
         // Junctions
-        PaletteStack stack = null;
-        
         for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
             if(isAllowedType(eClass)) {
-                if(stack == null) {
-                    stack = new PaletteStack(Messages.ArchimateDiagramEditorPalette_16, Messages.ArchimateDiagramEditorPalette_16, null);
-                    group.add(stack);
-                }
                 PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                stack.add(entry);
+                group.add(entry);
             }
         }
         
