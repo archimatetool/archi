@@ -14,7 +14,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -88,8 +88,8 @@ public abstract class AbstractDiagramTransferDropTargetListener extends Abstract
         IArchimateModel targetArchimateModel = getTargetDiagramModel().getArchimateModel();
         
         for(Object object : selection.toArray()) {
-            if(object instanceof IArchimateModelElement) {
-                IArchimateModel sourceArchimateModel = ((IArchimateModelElement)object).getArchimateModel();
+            if(object instanceof IArchimateModelObject) {
+                IArchimateModel sourceArchimateModel = ((IArchimateModelObject)object).getArchimateModel();
                 if(sourceArchimateModel != targetArchimateModel) {
                     return false;
                 }

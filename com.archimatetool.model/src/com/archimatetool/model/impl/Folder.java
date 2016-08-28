@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFolder;
@@ -42,9 +42,9 @@ import com.archimatetool.model.IProperty;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.impl.Folder#getFolders <em>Folders</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getName <em>Name</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getId <em>Id</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.Folder#getFolders <em>Folders</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getProperties <em>Properties</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.Folder#getElements <em>Elements</em>}</li>
@@ -54,15 +54,6 @@ import com.archimatetool.model.IProperty;
  * @generated
  */
 public class Folder extends EObjectImpl implements IFolder {
-    /**
-     * The cached value of the '{@link #getFolders() <em>Folders</em>}' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getFolders()
-     * @generated
-     * @ordered
-     */
-    protected EList<IFolder> folders;
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -99,6 +90,15 @@ public class Folder extends EObjectImpl implements IFolder {
      * @ordered
      */
     protected String id = ID_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getFolders() <em>Folders</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFolders()
+     * @generated
+     * @ordered
+     */
+    protected EList<IFolder> folders;
     /**
      * The default value of the '{@link #getDocumentation() <em>Documentation</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -318,7 +318,7 @@ public class Folder extends EObjectImpl implements IFolder {
         if(eContainer() == null) {
             return null;
         }
-        return ((IArchimateModelElement)eContainer()).getArchimateModel();
+        return ((IArchimateModelObject)eContainer()).getArchimateModel();
     }
 
     /**
@@ -359,12 +359,12 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case IArchimatePackage.FOLDER__FOLDERS:
-                return getFolders();
             case IArchimatePackage.FOLDER__NAME:
                 return getName();
             case IArchimatePackage.FOLDER__ID:
                 return getId();
+            case IArchimatePackage.FOLDER__FOLDERS:
+                return getFolders();
             case IArchimatePackage.FOLDER__DOCUMENTATION:
                 return getDocumentation();
             case IArchimatePackage.FOLDER__PROPERTIES:
@@ -386,15 +386,15 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case IArchimatePackage.FOLDER__FOLDERS:
-                getFolders().clear();
-                getFolders().addAll((Collection<? extends IFolder>)newValue);
-                return;
             case IArchimatePackage.FOLDER__NAME:
                 setName((String)newValue);
                 return;
             case IArchimatePackage.FOLDER__ID:
                 setId((String)newValue);
+                return;
+            case IArchimatePackage.FOLDER__FOLDERS:
+                getFolders().clear();
+                getFolders().addAll((Collection<? extends IFolder>)newValue);
                 return;
             case IArchimatePackage.FOLDER__DOCUMENTATION:
                 setDocumentation((String)newValue);
@@ -422,14 +422,14 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.FOLDER__FOLDERS:
-                getFolders().clear();
-                return;
             case IArchimatePackage.FOLDER__NAME:
                 setName(NAME_EDEFAULT);
                 return;
             case IArchimatePackage.FOLDER__ID:
                 setId(ID_EDEFAULT);
+                return;
+            case IArchimatePackage.FOLDER__FOLDERS:
+                getFolders().clear();
                 return;
             case IArchimatePackage.FOLDER__DOCUMENTATION:
                 setDocumentation(DOCUMENTATION_EDEFAULT);
@@ -455,12 +455,12 @@ public class Folder extends EObjectImpl implements IFolder {
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case IArchimatePackage.FOLDER__FOLDERS:
-                return folders != null && !folders.isEmpty();
             case IArchimatePackage.FOLDER__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case IArchimatePackage.FOLDER__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case IArchimatePackage.FOLDER__FOLDERS:
+                return folders != null && !folders.isEmpty();
             case IArchimatePackage.FOLDER__DOCUMENTATION:
                 return DOCUMENTATION_EDEFAULT == null ? documentation != null : !DOCUMENTATION_EDEFAULT.equals(documentation);
             case IArchimatePackage.FOLDER__PROPERTIES:
@@ -480,12 +480,6 @@ public class Folder extends EObjectImpl implements IFolder {
      */
     @Override
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-        if (baseClass == IFolderContainer.class) {
-            switch (derivedFeatureID) {
-                case IArchimatePackage.FOLDER__FOLDERS: return IArchimatePackage.FOLDER_CONTAINER__FOLDERS;
-                default: return -1;
-            }
-        }
         if (baseClass == INameable.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.FOLDER__NAME: return IArchimatePackage.NAMEABLE__NAME;
@@ -495,6 +489,12 @@ public class Folder extends EObjectImpl implements IFolder {
         if (baseClass == IIdentifier.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.FOLDER__ID: return IArchimatePackage.IDENTIFIER__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFolderContainer.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.FOLDER__FOLDERS: return IArchimatePackage.FOLDER_CONTAINER__FOLDERS;
                 default: return -1;
             }
         }
@@ -520,12 +520,6 @@ public class Folder extends EObjectImpl implements IFolder {
      */
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-        if (baseClass == IFolderContainer.class) {
-            switch (baseFeatureID) {
-                case IArchimatePackage.FOLDER_CONTAINER__FOLDERS: return IArchimatePackage.FOLDER__FOLDERS;
-                default: return -1;
-            }
-        }
         if (baseClass == INameable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.NAMEABLE__NAME: return IArchimatePackage.FOLDER__NAME;
@@ -535,6 +529,12 @@ public class Folder extends EObjectImpl implements IFolder {
         if (baseClass == IIdentifier.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.IDENTIFIER__ID: return IArchimatePackage.FOLDER__ID;
+                default: return -1;
+            }
+        }
+        if (baseClass == IFolderContainer.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.FOLDER_CONTAINER__FOLDERS: return IArchimatePackage.FOLDER__FOLDERS;
                 default: return -1;
             }
         }

@@ -169,7 +169,7 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
         
         // If parent is null use default folder
         if(parent == null) {
-            parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(relationship);
+            parent = getDiagramModel().getArchimateModel().getDefaultFolderForObject(relationship);
         }
         
         if(relationship != null) {

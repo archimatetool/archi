@@ -65,10 +65,10 @@ public class ArchimateModelUtilsTests {
         model.setDefaults();
 
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
+        model.getDefaultFolderForObject(element1).getElements().add(element1);
         
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
+        model.getDefaultFolderForObject(element2).getElements().add(element2);
         
         assertNotNull(ArchimateModelUtils.getAllRelationshipsForConcept(element1));
         assertNotNull(ArchimateModelUtils.getAllRelationshipsForConcept(element2));
@@ -80,10 +80,10 @@ public class ArchimateModelUtilsTests {
         model.setDefaults();
 
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
+        model.getDefaultFolderForObject(element1).getElements().add(element1);
         
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
+        model.getDefaultFolderForObject(element2).getElements().add(element2);
         
         assertTrue(ArchimateModelUtils.getAllRelationshipsForConcept(element1).isEmpty());
         assertTrue(ArchimateModelUtils.getAllRelationshipsForConcept(element2).isEmpty());
@@ -117,9 +117,9 @@ public class ArchimateModelUtilsTests {
         assertNull(element);
         
         IArchimateElement newElement1 = IArchimateFactory.eINSTANCE.createApplicationFunction();
-        model.getDefaultFolderForElement(newElement1).getElements().add(newElement1);
+        model.getDefaultFolderForObject(newElement1).getElements().add(newElement1);
         IArchimateElement newElement2 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(newElement2).getElements().add(newElement2);
+        model.getDefaultFolderForObject(newElement2).getElements().add(newElement2);
         
         element = ArchimateModelUtils.getObjectByID(model, newElement1.getId());
         assertSame(newElement1, element);

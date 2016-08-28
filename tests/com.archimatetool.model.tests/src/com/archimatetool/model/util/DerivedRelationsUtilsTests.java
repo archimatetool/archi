@@ -38,10 +38,10 @@ public class DerivedRelationsUtilsTests {
         model.setDefaults();
 
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
+        model.getDefaultFolderForObject(element1).getElements().add(element1);
         
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
+        model.getDefaultFolderForObject(element2).getElements().add(element2);
         
         IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation1.setSource(element1);
@@ -67,19 +67,19 @@ public class DerivedRelationsUtilsTests {
         model.setDefaults();
 
         IArchimateElement businessProcess = IArchimateFactory.eINSTANCE.createBusinessProcess();
-        model.getDefaultFolderForElement(businessProcess).getElements().add(businessProcess);
+        model.getDefaultFolderForObject(businessProcess).getElements().add(businessProcess);
         
         IArchimateElement applicationService = IArchimateFactory.eINSTANCE.createApplicationService();
-        model.getDefaultFolderForElement(applicationService).getElements().add(applicationService);
+        model.getDefaultFolderForObject(applicationService).getElements().add(applicationService);
         
         IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createServingRelationship();
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
+        model.getDefaultFolderForObject(relation1).getElements().add(relation1);
 
         relation1.setSource(businessProcess);
         relation1.setTarget(applicationService);
         
         IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createServingRelationship();
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
+        model.getDefaultFolderForObject(relation2).getElements().add(relation2);
 
         relation2.setSource(applicationService);
         relation2.setTarget(businessProcess);
@@ -94,19 +94,19 @@ public class DerivedRelationsUtilsTests {
         model.setDefaults();
 
         IArchimateElement applicationComponent = IArchimateFactory.eINSTANCE.createApplicationComponent();
-        model.getDefaultFolderForElement(applicationComponent).getElements().add(applicationComponent);
+        model.getDefaultFolderForObject(applicationComponent).getElements().add(applicationComponent);
         
         IArchimateElement device = IArchimateFactory.eINSTANCE.createDevice();
-        model.getDefaultFolderForElement(device).getElements().add(device);
+        model.getDefaultFolderForObject(device).getElements().add(device);
         
         IArchimateElement network = IArchimateFactory.eINSTANCE.createCommunicationNetwork();
-        model.getDefaultFolderForElement(network).getElements().add(network);
+        model.getDefaultFolderForObject(network).getElements().add(network);
         
         IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createServingRelationship();
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
+        model.getDefaultFolderForObject(relation1).getElements().add(relation1);
 
         IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
+        model.getDefaultFolderForObject(relation2).getElements().add(relation2);
 
         relation1.setSource(device);
         relation1.setTarget(applicationComponent);
@@ -131,25 +131,25 @@ public class DerivedRelationsUtilsTests {
         model.setDefaults();
 
         IArchimateElement actor = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(actor).getElements().add(actor);
+        model.getDefaultFolderForObject(actor).getElements().add(actor);
         
         IArchimateElement role = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(role).getElements().add(role);
+        model.getDefaultFolderForObject(role).getElements().add(role);
         
         IArchimateElement service = IArchimateFactory.eINSTANCE.createBusinessService();
-        model.getDefaultFolderForElement(service).getElements().add(service);
+        model.getDefaultFolderForObject(service).getElements().add(service);
         
         IArchimateElement process = IArchimateFactory.eINSTANCE.createBusinessProcess();
-        model.getDefaultFolderForElement(process).getElements().add(process);
+        model.getDefaultFolderForObject(process).getElements().add(process);
         
         IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
+        model.getDefaultFolderForObject(relation1).getElements().add(relation1);
 
         IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createServingRelationship();
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
+        model.getDefaultFolderForObject(relation2).getElements().add(relation2);
         
         IArchimateRelationship relation3 = IArchimateFactory.eINSTANCE.createRealizationRelationship();
-        model.getDefaultFolderForElement(relation2).getElements().add(relation3);
+        model.getDefaultFolderForObject(relation2).getElements().add(relation3);
 
         relation1.setSource(actor);
         relation1.setTarget(role);

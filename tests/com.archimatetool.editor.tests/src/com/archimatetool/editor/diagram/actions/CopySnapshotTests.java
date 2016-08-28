@@ -105,7 +105,7 @@ public class CopySnapshotTests {
         // Target model
         IArchimateModel model2 = IArchimateFactory.eINSTANCE.createArchimateModel();
         IArchimateDiagramModel targetDiagramModel2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model2.getDefaultFolderForElement(targetDiagramModel2).getElements().add(targetDiagramModel2);
+        model2.getDefaultFolderForObject(targetDiagramModel2).getElements().add(targetDiagramModel2);
         
         List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
         selected.add(reference);

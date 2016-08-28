@@ -118,7 +118,7 @@ public class DiagramModelUtilsTests {
         
         // This should not be in a diagram
         element = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element).getElements().add(element);
+        model.getDefaultFolderForObject(element).getElements().add(element);
         assertFalse(DiagramModelUtils.isArchimateConceptReferencedInDiagrams(element));
         
         // Unless we add it to a diagram

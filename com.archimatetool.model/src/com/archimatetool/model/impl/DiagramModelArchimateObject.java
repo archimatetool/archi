@@ -225,7 +225,7 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
         
         // If parent is null use default folder
         if(parent == null) {
-            parent = getDiagramModel().getArchimateModel().getDefaultFolderForElement(element);
+            parent = getDiagramModel().getArchimateModel().getDefaultFolderForObject(element);
         }
 
         parent.getElements().add(element);

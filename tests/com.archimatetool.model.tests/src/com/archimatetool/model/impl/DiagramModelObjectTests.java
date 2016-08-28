@@ -38,7 +38,7 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertNull(component.getId());
         
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         dm.getChildren().add(object);
         
         assertNotNull(component.getId());

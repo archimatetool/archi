@@ -127,7 +127,7 @@ public class CSVImporter implements CSVConstants {
         // New elements/relations
         for(final IArchimateConcept concept : newConcepts.values()) {
             Command cmd = new Command() {
-                IFolder folder = fModel.getDefaultFolderForElement(concept);
+                IFolder folder = fModel.getDefaultFolderForObject(concept);
                 
                 @Override
                 public void execute() {

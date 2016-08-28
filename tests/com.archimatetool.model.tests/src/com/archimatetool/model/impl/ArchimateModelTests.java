@@ -92,51 +92,51 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testGetDefaultFolderForElement() {
+    public void testGetDefaultFolderForObject() {
         model.addDerivedRelationsFolder();
         
         EObject element = IArchimateFactory.eINSTANCE.createResource();
-        IFolder folder = model.getDefaultFolderForElement(element);
+        IFolder folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.STRATEGY, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createBusinessEvent();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.BUSINESS, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createApplicationComponent();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.APPLICATION, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createNode();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.TECHNOLOGY, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createEquipment();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.TECHNOLOGY, folder.getType());
 
         element = IArchimateFactory.eINSTANCE.createAndJunction();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.OTHER, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.RELATIONS, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.DIAGRAMS, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createSketchModel();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.DIAGRAMS, folder.getType());
     }
@@ -144,20 +144,20 @@ public class ArchimateModelTests {
     @Test
     public void testGetDefaultFolderForWrongElement() {
         // Null
-        IFolder folder = model.getDefaultFolderForElement(null);
+        IFolder folder = model.getDefaultFolderForObject(null);
         assertNull(folder);
         
         // Folder
         EObject element = IArchimateFactory.eINSTANCE.createFolder();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNull(folder);
         
         element = IArchimateFactory.eINSTANCE.createSketchModelActor();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNull(folder);
 
         element = IArchimateFactory.eINSTANCE.createSketchModelSticky();
-        folder = model.getDefaultFolderForElement(element);
+        folder = model.getDefaultFolderForObject(element);
         assertNull(folder);
     }
     
@@ -192,9 +192,9 @@ public class ArchimateModelTests {
         assertNull(model.getDefaultDiagramModel());
         
         IDiagramModel dm1 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm1).getElements().add(dm1);
+        model.getDefaultFolderForObject(dm1).getElements().add(dm1);
         IDiagramModel dm2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm2).getElements().add(dm2);
+        model.getDefaultFolderForObject(dm2).getElements().add(dm2);
         
         assertSame(dm1, model.getDefaultDiagramModel());
     }
@@ -206,9 +206,9 @@ public class ArchimateModelTests {
         assertTrue(list.isEmpty());
         
         IDiagramModel dm1 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm1).getElements().add(dm1);
+        model.getDefaultFolderForObject(dm1).getElements().add(dm1);
         IDiagramModel dm2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm2).getElements().add(dm2);
+        model.getDefaultFolderForObject(dm2).getElements().add(dm2);
         
         list = model.getDiagramModels();
         assertEquals(2, list.size());
@@ -295,7 +295,7 @@ public class ArchimateModelTests {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationService();
         assertNull(element.getId());
         
-        model.getDefaultFolderForElement(element).getElements().add(element);
+        model.getDefaultFolderForObject(element).getElements().add(element);
         String id = element.getId();
         assertNotNull(id);
         assertEquals(8, id.length());

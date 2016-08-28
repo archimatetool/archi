@@ -100,11 +100,11 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
     public void testAdd_Remove_ArchimateElementToModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         dm.getChildren().add(object);
         
         // Passing null uses a default folder in the model
-        IFolder expectedFolder = model.getDefaultFolderForElement(object.getArchimateElement());
+        IFolder expectedFolder = model.getDefaultFolderForObject(object.getArchimateElement());
         object.addArchimateConceptToModel(null);
         assertSame(expectedFolder, object.getArchimateElement().eContainer());
         

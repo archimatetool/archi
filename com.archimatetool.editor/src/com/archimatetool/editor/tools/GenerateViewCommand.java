@@ -94,7 +94,7 @@ public class GenerateViewCommand extends Command {
         dm.setName(fViewName);
         dm.setViewpoint(fViewpoint.getIndex());
         
-        fParentFolder = fSelectedElements.get(0).getArchimateModel().getDefaultFolderForElement(dm);
+        fParentFolder = fSelectedElements.get(0).getArchimateModel().getDefaultFolderForObject(dm);
         fParentFolder.getElements().add(dm);
         
         int x = 20;

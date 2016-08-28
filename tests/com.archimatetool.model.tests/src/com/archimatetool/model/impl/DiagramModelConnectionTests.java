@@ -47,7 +47,7 @@ public class DiagramModelConnectionTests extends DiagramModelComponentTests {
         assertNull(component.getId());
         
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         IDiagramModelGroup dmo = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
         dm.getChildren().add(dmo);
         connection.connect(dmo, dmo);

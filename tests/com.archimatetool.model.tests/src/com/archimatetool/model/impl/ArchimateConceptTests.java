@@ -45,7 +45,7 @@ public abstract class ArchimateConceptTests {
     public void testGetArchimateModel() {
         assertNull(concept.getArchimateModel());
         
-        model.getDefaultFolderForElement(concept).getElements().add(concept);
+        model.getDefaultFolderForObject(concept).getElements().add(concept);
         assertSame(model, concept.getArchimateModel());
     }
     
@@ -76,7 +76,7 @@ public abstract class ArchimateConceptTests {
     public void testGetID() {
         assertNull(concept.getId());
         
-        model.getDefaultFolderForElement(concept).getElements().add(concept);
+        model.getDefaultFolderForObject(concept).getElements().add(concept);
         assertNotNull(concept.getId());
     }
         

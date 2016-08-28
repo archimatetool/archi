@@ -18,7 +18,7 @@ import org.eclipse.ui.IMemento;
 
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -94,7 +94,7 @@ public class TreeStateHelper {
         
         for(Object o : fExpandedElements) {
             // Actual object
-            if(o instanceof IArchimateModelElement) {
+            if(o instanceof IArchimateModelObject) {
                 fTreeViewer.expandToLevel(o, 1);
             }
             
@@ -148,9 +148,9 @@ public class TreeStateHelper {
         IMemento expandedMem = memento.createChild(MEMENTO_EXPANDED);
 
         for(Object element : fTreeViewer.getVisibleExpandedElements()) {
-            if(element instanceof IIdentifier && element instanceof IArchimateModelElement) {
+            if(element instanceof IIdentifier && element instanceof IArchimateModelObject) {
                 // Only store if saved in a file
-                File file = ((IArchimateModelElement)element).getArchimateModel().getFile();
+                File file = ((IArchimateModelObject)element).getArchimateModel().getFile();
                 if(file != null) {
                     String id = ((IIdentifier)element).getId();
                     String string = map.get(file);

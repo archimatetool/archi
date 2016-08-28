@@ -31,7 +31,7 @@ import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
@@ -214,8 +214,8 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             }
             
             // Can only add to the same model
-            if(object instanceof IArchimateModelElement) {
-                IArchimateModel sourceArchimateModel = ((IArchimateModelElement)object).getArchimateModel();
+            if(object instanceof IArchimateModelObject) {
+                IArchimateModel sourceArchimateModel = ((IArchimateModelObject)object).getArchimateModel();
                 if(sourceArchimateModel != targetArchimateModel) {
                     continue;
                 }

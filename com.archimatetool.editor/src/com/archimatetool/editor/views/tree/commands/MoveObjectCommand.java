@@ -7,8 +7,8 @@ package com.archimatetool.editor.views.tree.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.INameable;
 
 
 /**
@@ -19,38 +19,38 @@ import com.archimatetool.model.INameable;
 public class MoveObjectCommand extends Command {
     private IFolder fOldParent;
     private IFolder fNewParent;
-    private INameable fElement;
+    private IArchimateModelObject fObject;
     private int fOldPos;
     
-    public MoveObjectCommand(IFolder newParent, INameable element) {
-        super(Messages.MoveObjectCommand_0 + " " + element.getName()); //$NON-NLS-1$
-        fOldParent = (IFolder)element.eContainer();
+    public MoveObjectCommand(IFolder newParent, IArchimateModelObject object) {
+        super(Messages.MoveObjectCommand_0 + " " + object.getName()); //$NON-NLS-1$
+        fOldParent = (IFolder)object.eContainer();
         fNewParent = newParent;
-        fElement = element;
+        fObject = object;
     }
     
     @Override
     public void execute() {
-        fOldPos = fOldParent.getElements().indexOf(fElement); // do this here as its part of a compound command
+        fOldPos = fOldParent.getElements().indexOf(fObject); // do this here as its part of a compound command
         redo();
     }
     
     @Override
     public void undo() {
-        fNewParent.getElements().remove(fElement);
-        fOldParent.getElements().add(fOldPos, fElement);
+        fNewParent.getElements().remove(fObject);
+        fOldParent.getElements().add(fOldPos, fObject);
     }
     
     @Override
     public void redo() {
-        fOldParent.getElements().remove(fElement);
-        fNewParent.getElements().add(fElement);
+        fOldParent.getElements().remove(fObject);
+        fNewParent.getElements().add(fObject);
     }
     
     @Override
     public void dispose() {
         fOldParent = null;
         fNewParent = null;
-        fElement = null;
+        fObject = null;
     }
 }

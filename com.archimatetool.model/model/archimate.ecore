@@ -85,7 +85,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelElement #//FolderContainer #//Nameable #//Identifier #//Documentable #//Properties">
+  <eClassifiers xsi:type="ecore:EClass" name="Folder" eSuperTypes="#//ArchimateModelObject #//FolderContainer #//Documentable #//Properties">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"
         resolveProxies="false">
@@ -96,11 +96,11 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FolderType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateModelElement" abstract="true"
-      interface="true" eSuperTypes="#//Adapter">
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateModelObject" abstract="true"
+      interface="true" eSuperTypes="#//Adapter #//Nameable #//Identifier">
     <eOperations name="getArchimateModel" eType="#//ArchimateModel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelElement #//Identifier #//Cloneable #//Nameable #//Documentable #//Properties"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateConcept" abstract="true" eSuperTypes="#//ArchimateModelObject #//Cloneable #//Documentable #//Properties"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateElement" abstract="true" eSuperTypes="#//ArchimateConcept"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArchimateRelationship" abstract="true"
       eSuperTypes="#//ArchimateConcept">
@@ -156,16 +156,16 @@
       interface="true" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="OtherRelationship" abstract="true" interface="true"
       eSuperTypes="#//ArchimateRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ArchimateModel" eSuperTypes="#//FolderContainer #//Nameable #//Identifier #//ArchimateModelElement #//Properties">
+  <eClassifiers xsi:type="ecore:EClass" name="ArchimateModel" eSuperTypes="#//FolderContainer #//ArchimateModelObject #//Properties">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="model"/>
     </eAnnotations>
     <eOperations name="setDefaults"/>
+    <eOperations name="getDefaultFolderForObject" eType="#//Folder">
+      <eParameters name="object" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eOperations>
     <eOperations name="addDerivedRelationsFolder" eType="#//Folder"/>
     <eOperations name="removeDerivedRelationsFolder"/>
-    <eOperations name="getDefaultFolderForElement" eType="#//Folder">
-      <eParameters name="element" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
     <eOperations name="getDefaultDiagramModel" eType="#//DiagramModel"/>
     <eOperations name="getDiagramModels" upperBound="-1" eType="#//DiagramModel"/>
     <eOperations name="getFolder" eType="#//Folder">
@@ -287,7 +287,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModel" abstract="true" eSuperTypes="#//ArchimateModelElement #//DiagramModelContainer #//Documentable #//Properties">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModel" abstract="true" eSuperTypes="#//ArchimateModelObject #//DiagramModelContainer #//Documentable #//Properties">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionRouterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DiagramModelReference" eSuperTypes="#//DiagramModelObject">

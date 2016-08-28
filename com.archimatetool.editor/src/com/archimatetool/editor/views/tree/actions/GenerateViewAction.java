@@ -17,7 +17,7 @@ import com.archimatetool.editor.tools.GenerateViewCommand;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 
 
 
@@ -76,8 +76,8 @@ public class GenerateViewAction extends ViewerAction {
         IArchimateModel model = null;
         
         for(Object o : selection.toArray()) {
-            if(o instanceof IArchimateModelElement) {
-                IArchimateModel nextModel = ((IArchimateModelElement)o).getArchimateModel();
+            if(o instanceof IArchimateModelObject) {
+                IArchimateModel nextModel = ((IArchimateModelObject)o).getArchimateModel();
                 if(model != null && model != nextModel) {
                     return false;
                 }

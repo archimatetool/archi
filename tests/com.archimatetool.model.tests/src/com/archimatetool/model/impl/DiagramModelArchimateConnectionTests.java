@@ -113,14 +113,14 @@ public class DiagramModelArchimateConnectionTests {
     public void testAdd_Remove_ArchimateRelationshipToModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         dm.getChildren().add(source);
         dm.getChildren().add(target);
         
         connection.connect(source, target);
         
         // Passing null uses a default folder in the model
-        IFolder expectedFolder = model.getDefaultFolderForElement(connection.getArchimateRelationship());
+        IFolder expectedFolder = model.getDefaultFolderForObject(connection.getArchimateRelationship());
         connection.addArchimateConceptToModel(null);
         assertSame(expectedFolder, connection.getArchimateRelationship().eContainer());
         

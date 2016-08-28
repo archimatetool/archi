@@ -94,7 +94,7 @@ public class ArchimateModelDataSourceTests {
     @Test
     public void testGetElementByID() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createApplicationService();
-        model.getDefaultFolderForElement(element).getElements().add(element);
+        model.getDefaultFolderForObject(element).getElements().add(element);
         String id = element.getId();
         assertEquals(element, ds.getElementByID(id));
     }

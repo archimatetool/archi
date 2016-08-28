@@ -30,9 +30,8 @@ import com.archimatetool.editor.views.tree.commands.MoveFolderCommand;
 import com.archimatetool.editor.views.tree.commands.MoveObjectCommand;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.INameable;
 
 
 
@@ -159,8 +158,8 @@ public class TreeModelViewerDragDropHandler {
                 return false;
             }
             // Don't allow mixed parent models
-            if(object instanceof IArchimateModelElement) {
-                IArchimateModel m = ((IArchimateModelElement)object).getArchimateModel();
+            if(object instanceof IArchimateModelObject) {
+                IArchimateModel m = ((IArchimateModelObject)object).getArchimateModel();
                 if(model != null && m != model) {
                     return false;
                 }
@@ -231,9 +230,9 @@ public class TreeModelViewerDragDropHandler {
                     compoundCommand.add(new MoveFolderCommand(newParent, (IFolder)object));
                 }
             }
-            else if(object instanceof INameable) {
+            else if(object instanceof IArchimateModelObject) {
                 if(!newParent.getElements().contains(object)) {
-                    compoundCommand.add(new MoveObjectCommand(newParent, (INameable)object));                    
+                    compoundCommand.add(new MoveObjectCommand(newParent, (IArchimateModelObject)object));                    
                 }
             }
         }

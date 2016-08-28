@@ -22,7 +22,7 @@ package com.archimatetool.model;
  * @model abstract="true"
  * @generated
  */
-public interface IDiagramModel extends IArchimateModelElement, IDiagramModelContainer, IDocumentable, IProperties {
+public interface IDiagramModel extends IArchimateModelObject, IDiagramModelContainer, IDocumentable, IProperties {
     
     /*
      * Connection Router Types

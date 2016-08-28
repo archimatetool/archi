@@ -217,7 +217,7 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         @Override
         public void execute() {
             relationship.connect(source, target);
-            folder = target.getArchimateModel().getDefaultFolderForElement(relationship);
+            folder = target.getArchimateModel().getDefaultFolderForObject(relationship);
             folder.getElements().add(relationship);
         }
 

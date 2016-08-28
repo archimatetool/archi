@@ -15,7 +15,7 @@ import com.archimatetool.editor.ui.findreplace.AbstractFindReplaceProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.tree.commands.RenameCommandHandler;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.INameable;
@@ -236,8 +236,8 @@ public class TreeModelViewerFindReplaceProvider extends AbstractFindReplaceProvi
     private IArchimateModel getModelInScope() {
         IStructuredSelection selection = (IStructuredSelection)fTreeModelViewer.getSelection();
         Object o = selection.getFirstElement();
-        if(o instanceof IArchimateModelElement) {
-            return ((IArchimateModelElement)o).getArchimateModel();
+        if(o instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)o).getArchimateModel();
         }
         
         return null;

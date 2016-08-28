@@ -31,7 +31,7 @@ import com.archimatetool.model.util.IDAdapter;
  * @model extendedMetaData="name='model'"
  * @generated
  */
-public interface IArchimateModel extends IFolderContainer, INameable, IIdentifier, IArchimateModelElement, IProperties {
+public interface IArchimateModel extends IFolderContainer, IArchimateModelObject, IProperties {
     /**
      * Returns the value of the '<em><b>Purpose</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -164,10 +164,10 @@ public interface IArchimateModel extends IFolderContainer, INameable, IIdentifie
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model elementRequired="true"
+     * @model objectRequired="true"
      * @generated
      */
-    IFolder getDefaultFolderForElement(EObject element);
+    IFolder getDefaultFolderForObject(EObject object);
 
     /**
      * <!-- begin-user-doc -->

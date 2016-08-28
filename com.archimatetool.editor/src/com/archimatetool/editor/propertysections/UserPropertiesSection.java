@@ -91,7 +91,7 @@ import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IProperties;
@@ -195,8 +195,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
      * @return 
      */
     protected IArchimateModel getArchimateModel() {
-        if(fPropertiesElement instanceof IArchimateModelElement) {
-            return ((IArchimateModelElement)fPropertiesElement).getArchimateModel();
+        if(fPropertiesElement instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)fPropertiesElement).getArchimateModel();
         }
         if(fPropertiesElement instanceof IDiagramModelComponent) {
             return ((IDiagramModelComponent)fPropertiesElement).getDiagramModel().getArchimateModel();

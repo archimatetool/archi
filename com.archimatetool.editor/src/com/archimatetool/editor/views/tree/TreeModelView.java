@@ -77,7 +77,7 @@ import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
@@ -533,8 +533,8 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     protected IArchimateModel getActiveArchimateModel() {
         Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
-        if(selected instanceof IArchimateModelElement) {
-            return ((IArchimateModelElement)selected).getArchimateModel();
+        if(selected instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)selected).getArchimateModel();
         }
         return null;
     }

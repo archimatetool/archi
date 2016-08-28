@@ -127,7 +127,7 @@ public class ArchimateTestModel {
      */
     public IArchimateDiagramModel addNewArchimateDiagramModel() {
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         return dm;
     }
     
@@ -139,7 +139,7 @@ public class ArchimateTestModel {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
         if(element.eContainer() == null) {
-            model.getArchimateModel().getDefaultFolderForElement(element).getElements().add(element);
+            model.getArchimateModel().getDefaultFolderForObject(element).getElements().add(element);
         }
         return dmo;
     }
@@ -152,7 +152,7 @@ public class ArchimateTestModel {
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         conn.setArchimateRelationship(relationship);
         if(relationship.eContainer() == null) {
-            model.getArchimateModel().getDefaultFolderForElement(relationship).getElements().add(relationship);
+            model.getArchimateModel().getDefaultFolderForObject(relationship).getElements().add(relationship);
         }
         return conn;
     }
@@ -164,7 +164,7 @@ public class ArchimateTestModel {
      */
     public EObject createModelElementAndAddToModel(EClass eClass) {
         EObject element = IArchimateFactory.eINSTANCE.create(eClass);
-        model.getDefaultFolderForElement(element).getElements().add(element);
+        model.getDefaultFolderForObject(element).getElements().add(element);
         return element;
     }
 

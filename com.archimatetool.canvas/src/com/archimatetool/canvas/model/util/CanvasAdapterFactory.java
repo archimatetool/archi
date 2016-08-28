@@ -13,9 +13,10 @@ import org.eclipse.emf.ecore.EObject;
 import com.archimatetool.canvas.model.*;
 import com.archimatetool.help.hints.IHelpHintProvider;
 import com.archimatetool.model.IAdapter;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.ICloneable;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -148,6 +149,10 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
                 return createDiagramModelComponentAdapter();
             }
             @Override
+            public Adapter caseConnectable(IConnectable object) {
+                return createConnectableAdapter();
+            }
+            @Override
             public Adapter caseFontAttribute(IFontAttribute object) {
                 return createFontAttributeAdapter();
             }
@@ -168,8 +173,8 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
                 return createDiagramModelImageProviderAdapter();
             }
             @Override
-            public Adapter caseArchimateModelElement(IArchimateModelElement object) {
-                return createArchimateModelElementAdapter();
+            public Adapter caseArchimateModelObject(IArchimateModelObject object) {
+                return createArchimateModelObjectAdapter();
             }
             @Override
             public Adapter caseDiagramModelContainer(IDiagramModelContainer object) {
@@ -316,6 +321,20 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateModelObject <em>Model Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IArchimateModelObject
+     * @generated
+     */
+    public Adapter createArchimateModelObjectAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.canvas.model.IHintProvider <em>Hint Provider</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -372,20 +391,6 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateModelElement <em>Model Element</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IArchimateModelElement
-     * @generated
-     */
-    public Adapter createArchimateModelElementAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IIdentifier <em>Identifier</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -438,6 +443,20 @@ public class CanvasAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDiagramModelComponentAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IConnectable <em>Connectable</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IConnectable
+     * @generated
+     */
+    public Adapter createConnectableAdapter() {
         return null;
     }
 

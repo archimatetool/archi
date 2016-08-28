@@ -66,8 +66,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference archimate.ecore#//Folder/elements"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Folder/type"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateModelElement">
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateModelElement/getArchimateModel"/>
+    <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateModelObject">
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateModelObject/getArchimateModel"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateConcept"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ArchimateElement"/>
@@ -109,11 +109,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//ArchimateModel/version"/>
       <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference archimate.ecore#//ArchimateModel/metadata"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/setDefaults"/>
+      <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDefaultFolderForObject">
+        <genParameters ecoreParameter="archimate.ecore#//ArchimateModel/getDefaultFolderForObject/object"/>
+      </genOperations>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/addDerivedRelationsFolder"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/removeDerivedRelationsFolder"/>
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDefaultFolderForElement">
-        <genParameters ecoreParameter="archimate.ecore#//ArchimateModel/getDefaultFolderForElement/element"/>
-      </genOperations>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDefaultDiagramModel"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDiagramModels"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getFolder">

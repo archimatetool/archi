@@ -23,7 +23,7 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IArtifact;
@@ -238,16 +238,16 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createCloneableAdapter();
             }
             @Override
+            public Adapter caseArchimateModelObject(IArchimateModelObject object) {
+                return createArchimateModelObjectAdapter();
+            }
+            @Override
             public Adapter caseFolderContainer(IFolderContainer object) {
                 return createFolderContainerAdapter();
             }
             @Override
             public Adapter caseFolder(IFolder object) {
                 return createFolderAdapter();
-            }
-            @Override
-            public Adapter caseArchimateModelElement(IArchimateModelElement object) {
-                return createArchimateModelElementAdapter();
             }
             @Override
             public Adapter caseArchimateConcept(IArchimateConcept object) {
@@ -880,20 +880,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateModelElement <em>Model Element</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IArchimateModelElement
-     * @generated
-     */
-    public Adapter createArchimateModelElementAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IProperty <em>Property</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -946,6 +932,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createFolderAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IArchimateModelObject <em>Model Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IArchimateModelObject
+     * @generated
+     */
+    public Adapter createArchimateModelObjectAdapter() {
         return null;
     }
 

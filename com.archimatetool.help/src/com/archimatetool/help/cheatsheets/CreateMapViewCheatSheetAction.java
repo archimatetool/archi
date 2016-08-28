@@ -97,7 +97,7 @@ implements ICheatSheetAction {
             diagramModel.setName(Messages.CreateMapViewCheatSheetAction_6);
             
             // Add diagram model *first* to get id!
-            parentFolder = model.getDefaultFolderForElement(diagramModel);
+            parentFolder = model.getDefaultFolderForObject(diagramModel);
             parentFolder.getElements().add(0, diagramModel);
             
             // Add diagram model references

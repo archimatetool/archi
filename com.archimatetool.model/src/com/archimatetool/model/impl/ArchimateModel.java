@@ -29,7 +29,7 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IApplicationElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessElement;
@@ -217,6 +217,23 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     }
     
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void setDefaults() {
+        // Element has no ID so allocate one
+        if(getId() == null) {
+            setId(fIDAdapter.getNewID());
+        }
+        else {
+            fIDAdapter.registerID(getId());
+        }
+
+        addDefaultFolders();
+    }
+    
+    /**
      * Add any default folders
      */
     protected void addDefaultFolders() {
@@ -278,34 +295,34 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public IFolder getDefaultFolderForElement(EObject element) {
+    public IFolder getDefaultFolderForObject(EObject object) {
         addDefaultFolders(); // Check they haven't been deleted
         
-        if(element instanceof IStrategyElement) {
+        if(object instanceof IStrategyElement) {
             return getFolder(FolderType.STRATEGY);
         }
-        if(element instanceof IBusinessElement) {
+        if(object instanceof IBusinessElement) {
             return getFolder(FolderType.BUSINESS);
         }
-        if(element instanceof IApplicationElement) {
+        if(object instanceof IApplicationElement) {
             return getFolder(FolderType.APPLICATION);
         }
-        if(element instanceof ITechnologyElement || element instanceof IPhysicalElement) {
+        if(object instanceof ITechnologyElement || object instanceof IPhysicalElement) {
             return getFolder(FolderType.TECHNOLOGY);
         }
-        if(element instanceof IMotivationElement) {
+        if(object instanceof IMotivationElement) {
             return getFolder(FolderType.MOTIVATION);
         }
-        if(element instanceof IImplementationMigrationElement) {
+        if(object instanceof IImplementationMigrationElement) {
             return getFolder(FolderType.IMPLEMENTATION_MIGRATION);
         }
-        if(element instanceof IJunctionElement || element instanceof ILocation || element instanceof IGrouping) {
+        if(object instanceof IJunctionElement || object instanceof ILocation || object instanceof IGrouping) {
             return getFolder(FolderType.OTHER);
         }
-        if(element instanceof IArchimateRelationship) {
+        if(object instanceof IArchimateRelationship) {
             return getFolder(FolderType.RELATIONS);
         }
-        if(element instanceof IDiagramModel) {
+        if(object instanceof IDiagramModel) {
             return getFolder(FolderType.DIAGRAMS);
         }
         
@@ -580,23 +597,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public void setDefaults() {
-        // Element has no ID so allocate one
-        if(getId() == null) {
-            setId(fIDAdapter.getNewID());
-        }
-        else {
-            fIDAdapter.registerID(getId());
-        }
-
-        addDefaultFolders();
-    }
-    
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -750,6 +750,11 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      */
     @Override
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+        if (baseClass == IAdapter.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         if (baseClass == INameable.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.ARCHIMATE_MODEL__NAME: return IArchimatePackage.NAMEABLE__NAME;
@@ -762,12 +767,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 default: return -1;
             }
         }
-        if (baseClass == IAdapter.class) {
-            switch (derivedFeatureID) {
-                default: return -1;
-            }
-        }
-        if (baseClass == IArchimateModelElement.class) {
+        if (baseClass == IArchimateModelObject.class) {
             switch (derivedFeatureID) {
                 default: return -1;
             }
@@ -788,6 +788,11 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      */
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+        if (baseClass == IAdapter.class) {
+            switch (baseFeatureID) {
+                default: return -1;
+            }
+        }
         if (baseClass == INameable.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.NAMEABLE__NAME: return IArchimatePackage.ARCHIMATE_MODEL__NAME;
@@ -800,12 +805,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
                 default: return -1;
             }
         }
-        if (baseClass == IAdapter.class) {
-            switch (baseFeatureID) {
-                default: return -1;
-            }
-        }
-        if (baseClass == IArchimateModelElement.class) {
+        if (baseClass == IArchimateModelObject.class) {
             switch (baseFeatureID) {
                 default: return -1;
             }

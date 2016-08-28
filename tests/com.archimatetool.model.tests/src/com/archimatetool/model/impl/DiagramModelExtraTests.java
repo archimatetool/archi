@@ -53,7 +53,7 @@ public class DiagramModelExtraTests {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
         IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         
         // Add some parents
         IDiagramModelGroup parent1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
@@ -95,7 +95,7 @@ public class DiagramModelExtraTests {
         assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
         // Add diagram model back again
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         
         assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
         assertEquals(1, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
@@ -169,7 +169,7 @@ public class DiagramModelExtraTests {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
         IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         
         // Add some parents
         IDiagramModelGroup parent1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
@@ -213,7 +213,7 @@ public class DiagramModelExtraTests {
         assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
        
         // Add diagram model back again
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         
         assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
         assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
