@@ -9,12 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.diagram.figures.IDiagramModelArchimateObjectFigure;
+import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -23,6 +30,8 @@ import com.archimatetool.model.IArchimatePackage;
  * @author Phillip Beauvoir
  */
 public class FigureChooser {
+    
+    static ImageRegistry imageRegistry = new ImageRegistry();
     
     static List<EClass> FIGURE_CLASSES = new ArrayList<EClass>();
     static {
@@ -44,96 +53,54 @@ public class FigureChooser {
         return FIGURE_CLASSES.contains(element.eClass());
     }
     
-    public static Image[] getFigurePreviewImagesForElement(IArchimateElement element) {
-        return getFigurePreviewImagesForClass(element.eClass());
-    }
-    
     public static Image[] getFigurePreviewImagesForClass(EClass eClass) {
         Image[] images = new Image[2];
         
-        if(eClass == IArchimatePackage.eINSTANCE.getBusinessInterface()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_INTERFACE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_INTERFACE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getApplicationInterface()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_INTERFACE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_INTERFACE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getTechnologyInterface()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getApplicationComponent()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_COMPONENT1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_COMPONENT2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getDevice()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_DEVICE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_DEVICE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getNode()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_NODE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_NODE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getBusinessProcess()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_PROCESS1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_PROCESS2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getBusinessService()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_SERVICE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_SERVICE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getApplicationService()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_SERVICE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_SERVICE2);
-        }
-        else if(eClass == IArchimatePackage.eINSTANCE.getTechnologyService()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_SERVICE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_SERVICE2);
-        }
+        images[0] = getImage(eClass, 0);
+        images[1] = getImage(eClass, 1);
         
         return images;
     }
     
+    private static Image getImage(EClass eClass, int type) {
+        String key = eClass.getName() + type;
+        
+        Image image = imageRegistry.get(key);
+        
+        if(image == null) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
+            if(provider != null) {
+                IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+                dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
+                dmo.setName(provider.getDefaultName());
+                dmo.setFillColor(ColorFactory.convertColorToString(provider.getDefaultColor()));
+                dmo.setType(type);
+                
+                GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
+                editPart.setModel(dmo);
+                
+                IDiagramModelArchimateObjectFigure figure = (IDiagramModelArchimateObjectFigure)editPart.getFigure();
+                figure.setSize(148, 70);
+                figure.refreshVisuals();
+                figure.validate();
+                
+                image = DiagramUtils.createImage(figure, 1, 0);
+                imageRegistry.put(key, image);
+            }
+        }
+        
+        return image;
+    }
+    
+    public static String getDefaultFigurePreferenceKeyForClass(EClass eClass) {
+        return eClass.getName() + "Figure"; //$NON-NLS-1$
+    }
+    
     /**
-     * @param dmo
      * @return The default figure type to use for a new Diagram Element
      */
     public static int getDefaultFigureTypeForNewDiagramElement(IArchimateElement element) {
-        switch(element.eClass().getClassifierID()) {
-            case IArchimatePackage.BUSINESS_INTERFACE:
-                return Preferences.STORE.getInt(IPreferenceConstants.BUSINESS_INTERFACE_FIGURE);
-                
-            case IArchimatePackage.BUSINESS_SERVICE:
-                return Preferences.STORE.getInt(IPreferenceConstants.BUSINESS_SERVICE_FIGURE);
-
-            case IArchimatePackage.BUSINESS_PROCESS:
-                return Preferences.STORE.getInt(IPreferenceConstants.BUSINESS_PROCESS_FIGURE);
-
-            case IArchimatePackage.APPLICATION_INTERFACE:
-                return Preferences.STORE.getInt(IPreferenceConstants.APPLICATION_INTERFACE_FIGURE);
-                
-            case IArchimatePackage.APPLICATION_SERVICE:
-                return Preferences.STORE.getInt(IPreferenceConstants.APPLICATION_SERVICE_FIGURE);
-
-            case IArchimatePackage.TECHNOLOGY_INTERFACE:
-                return Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_INTERFACE_FIGURE);
-                
-            case IArchimatePackage.TECHNOLOGY_SERVICE:
-                return Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_SERVICE_FIGURE);
-
-            case IArchimatePackage.APPLICATION_COMPONENT:
-                return Preferences.STORE.getInt(IPreferenceConstants.APPLICATION_COMPONENT_FIGURE);
-                
-            case IArchimatePackage.NODE:
-                return Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_NODE_FIGURE);
-                
-            case IArchimatePackage.DEVICE:
-                return Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_DEVICE_FIGURE);
-
-            default:
-                return 0;
-        }
+        return Preferences.STORE.getInt(getDefaultFigurePreferenceKeyForClass(element.eClass()));
     }
 
 }

@@ -17,6 +17,7 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.sketch.SketchEditor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -44,21 +45,22 @@ public class ArchimateDiagramModelFactoryTests {
     
     @Test
     public void testCreateDiagramModelArchimateObject() {
-        Preferences.STORE.setValue(IPreferenceConstants.BUSINESS_PROCESS_FIGURE, 1);
-        Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + "BusinessProcess", "#ededed");
-        
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessProcess();
-        IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         
+        Preferences.STORE.setValue(FigureChooser.getDefaultFigurePreferenceKeyForClass(element.eClass()), 1);
+        Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
+        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName(), "#ededed");
+        
+        IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         assertNotNull(dmo);
         assertEquals(element, dmo.getArchimateElement());
+
         assertEquals(1, dmo.getType());
         assertEquals("#ededed", dmo.getFillColor());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.BUSINESS_PROCESS_FIGURE);
+        Preferences.STORE.setToDefault(FigureChooser.getDefaultFigurePreferenceKeyForClass(element.eClass()));
         Preferences.STORE.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + "BusinessProcess");
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName());
     }
 
     @Test

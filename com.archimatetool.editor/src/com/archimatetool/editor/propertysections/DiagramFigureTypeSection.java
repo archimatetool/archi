@@ -86,7 +86,7 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
     protected void refreshControls() {
         IArchimateElement element = fDiagramObject.getArchimateElement();
         
-        Image[] images = FigureChooser.getFigurePreviewImagesForElement(element);
+        Image[] images = FigureChooser.getFigurePreviewImagesForClass(element.eClass());
         
         figure1.setImage(images[0]);
         figure2.setImage(images[1]);

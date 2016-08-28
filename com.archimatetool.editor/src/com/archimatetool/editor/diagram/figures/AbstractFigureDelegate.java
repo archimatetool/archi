@@ -20,7 +20,7 @@ public class AbstractFigureDelegate implements IFigureDelegate {
     
     private IDiagramModelObjectFigure fOwner;
     
-    private boolean fIsEnabled;
+    private boolean fIsEnabled = true;
     
     protected AbstractFigureDelegate(IDiagramModelObjectFigure owner) {
         fOwner = owner;

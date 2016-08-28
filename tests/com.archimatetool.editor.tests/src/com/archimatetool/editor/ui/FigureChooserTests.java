@@ -9,16 +9,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Test;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -53,10 +53,12 @@ public class FigureChooserTests {
             assertEquals(0, type);
         }
         
-        Preferences.STORE.setValue(IPreferenceConstants.BUSINESS_INTERFACE_FIGURE, 1);
-        int type = FigureChooser.getDefaultFigureTypeForNewDiagramElement(IArchimateFactory.eINSTANCE.createBusinessInterface());
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessInterface();
+        
+        Preferences.STORE.setValue(FigureChooser.getDefaultFigurePreferenceKeyForClass(element.eClass()), 1);
+        int type = FigureChooser.getDefaultFigureTypeForNewDiagramElement(element);
         assertEquals(1, type);
-        Preferences.STORE.setToDefault(IPreferenceConstants.BUSINESS_INTERFACE_FIGURE);
+        Preferences.STORE.setToDefault(FigureChooser.getDefaultFigurePreferenceKeyForClass(element.eClass()));
     }
     
 }

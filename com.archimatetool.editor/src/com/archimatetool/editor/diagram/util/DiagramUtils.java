@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.util;
 
-import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.FreeformFigure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -183,11 +183,16 @@ public final class DiagramUtils {
      * @return The minimum bounds for a figure or null if there are no children
      */
     public static Rectangle getMinimumBounds(IFigure figure) {
+        // Simple Figure
+        if(!(figure instanceof FreeformFigure)) {
+            return figure.getBounds();
+        }
+        
         Rectangle minimumBounds = null;
         
         for(Object child : figure.getChildren()) {
             Rectangle bounds;
-            if(child instanceof FreeformLayer) {
+            if(child instanceof FreeformFigure) {
                 bounds = getMinimumBounds((IFigure)child);
             }
             else {

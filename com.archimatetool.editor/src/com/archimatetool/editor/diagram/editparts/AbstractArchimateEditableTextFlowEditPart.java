@@ -23,6 +23,7 @@ import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
 import com.archimatetool.editor.diagram.policies.ContainerHighlightEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
+import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 
 
 /**
@@ -35,6 +36,10 @@ public abstract class AbstractArchimateEditableTextFlowEditPart extends Abstract
     @Override
     protected void refreshFigure() {
         getFigure().refreshVisuals();
+        
+        // Set Enabled according to current Viewpoint
+        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getModel());
+        getFigure().setEnabled(enabled);
     }
     
     @Override

@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -49,9 +50,9 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         int chosenType = 0;
         Image[] images;
         
-        ImageChoice(String name, String preferenceKey, EClass eClass) {
-            this.name = name;
-            this.preferenceKey = preferenceKey;
+        ImageChoice(EClass eClass) {
+            name = ArchimateLabelProvider.INSTANCE.getDefaultName(eClass);
+            this.preferenceKey = FigureChooser.getDefaultFigurePreferenceKeyForClass(eClass);
             images = FigureChooser.getFigurePreviewImagesForClass(eClass);
             chosenType = Preferences.STORE.getInt(preferenceKey);
         }
@@ -60,7 +61,7 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
             return images[chosenType];
         }
         
-        void flip() {
+        void toggle() {
             chosenType = (chosenType == 0) ? 1 : 0;
         }
     }
@@ -98,37 +99,16 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     }
     
     private void loadFigures() {
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_7,
-                BUSINESS_PROCESS_FIGURE, IArchimatePackage.eINSTANCE.getBusinessProcess()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_1,
-                BUSINESS_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getBusinessInterface()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_0,
-                BUSINESS_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getBusinessService()));
-
-
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_2,
-                APPLICATION_COMPONENT_FIGURE, IArchimatePackage.eINSTANCE.getApplicationComponent()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_3,
-                APPLICATION_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getApplicationInterface()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_1,
-                APPLICATION_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getApplicationService()));
-
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_4,
-                TECHNOLOGY_DEVICE_FIGURE, IArchimatePackage.eINSTANCE.getDevice()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_5,
-                TECHNOLOGY_NODE_FIGURE, IArchimatePackage.eINSTANCE.getNode()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_6,
-                TECHNOLOGY_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getTechnologyInterface()));
-
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_2,
-                TECHNOLOGY_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getTechnologyService()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getBusinessProcess()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getBusinessInterface()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getBusinessService()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getApplicationComponent()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getApplicationInterface()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getApplicationService()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getDevice()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getNode()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getTechnologyInterface()));
+        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getTechnologyService()));
     }
     
     private void createTable(Composite parent) {
@@ -169,7 +149,12 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
 
             @Override
             public String getText(Object element) {
-                return ((ImageChoice)element).name;
+                ImageChoice choice = (ImageChoice)element;
+                
+                return "   " + //$NON-NLS-1$
+                        choice.name +
+                        " "  + //$NON-NLS-1$
+                        (choice.chosenType + 1);
             }
         }
         
@@ -180,7 +165,7 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
             public void selectionChanged(SelectionChangedEvent event) {
                 ImageChoice ic = (ImageChoice)((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(ic != null) {
-                    ic.flip();
+                    ic.toggle();
                     fTableViewer.update(ic, null);
                 }
             }

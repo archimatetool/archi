@@ -15,7 +15,6 @@ import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 
 import com.archimatetool.editor.diagram.util.AnimationUtil;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
@@ -100,19 +99,17 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
             alignment = ITextAlignment.TEXT_ALIGNMENT_CENTER;
         }
         ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
-        
-        // Set Enabled according to current Viewpoint
-        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getDiagramModelObject());
-        setEnabled(enabled);
-        if(getFigureDelegate() != null) {
-            getFigureDelegate().setEnabled(enabled);
-        }
     }
     
     @Override
     public void setEnabled(boolean value) {
         super.setEnabled(value);
+        
         getTextControl().setEnabled(value);
+        
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().setEnabled(value);
+        }
     }
     
     protected void setText() {
