@@ -16,9 +16,9 @@ import org.junit.Test;
 
 import com.archimatetool.canvas.editparts.CanvasLineConnectionEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProviderTests;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProviderTests;
 
-public class CanvasLineConnectionUIProviderTests extends AbstractElementUIProviderTests {
+public class CanvasLineConnectionUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasLineConnectionUIProviderTests.class);

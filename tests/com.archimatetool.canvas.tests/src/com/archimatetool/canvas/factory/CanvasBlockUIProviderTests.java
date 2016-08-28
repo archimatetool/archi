@@ -20,10 +20,10 @@ import org.junit.Test;
 
 import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProviderTests;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProviderTests;
 import com.archimatetool.model.IArchimatePackage;
 
-public class CanvasBlockUIProviderTests extends AbstractElementUIProviderTests {
+public class CanvasBlockUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasBlockUIProviderTests.class);

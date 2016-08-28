@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -27,7 +27,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class GroupUIProvider extends AbstractElementUIProvider {
+public class GroupUIProvider extends AbstractObjectUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDiagramModelGroup();

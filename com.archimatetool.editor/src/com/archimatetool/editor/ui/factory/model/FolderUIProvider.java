@@ -10,7 +10,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -20,7 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class FolderUIProvider extends AbstractElementUIProvider {
+public class FolderUIProvider extends AbstractObjectUIProvider {
     
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getFolder();

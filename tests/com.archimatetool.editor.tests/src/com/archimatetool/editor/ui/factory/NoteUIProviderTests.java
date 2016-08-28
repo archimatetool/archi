@@ -18,7 +18,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.editor.ui.factory.diagram.NoteUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class NoteUIProviderTests extends AbstractElementUIProviderTests {
+public class NoteUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(NoteUIProviderTests.class);

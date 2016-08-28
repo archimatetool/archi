@@ -22,7 +22,7 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class SketchActorUIProviderTests extends AbstractElementUIProviderTests {
+public class SketchActorUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(SketchActorUIProviderTests.class);

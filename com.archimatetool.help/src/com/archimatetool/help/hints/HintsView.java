@@ -54,15 +54,11 @@ import com.archimatetool.editor.ui.services.IComponentSelectionListener;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.help.ArchimateEditorHelpPlugin;
-import com.archimatetool.model.IApplicationElement;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IBusinessElement;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.ITechnologyElement;
 
 
 
@@ -417,29 +413,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     }
     
     private Color getTitleColor(Object object) {
-        Class<?> clazz;
-        
-        if(object instanceof IDiagramModelArchimateComponent) {
-            object = ((IDiagramModelArchimateComponent)object).getArchimateConcept();
-        }
-        
-        if(object instanceof Class<?>) {
-            clazz = (Class<?>)object;
-        }
-        else {
-            clazz = object.getClass();
-        }
-        
-        if(IBusinessElement.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_BUSINESS;
-        }
-        if(IApplicationElement.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_APPLICATION;
-        }
-        if(ITechnologyElement.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_TECHNOLOGY;
-        }
-        
         return ColorFactory.get(220, 235, 235);
     }
 

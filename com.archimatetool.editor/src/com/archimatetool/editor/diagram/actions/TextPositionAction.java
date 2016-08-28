@@ -17,8 +17,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextPositionCommand;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextPosition;
@@ -173,7 +173,7 @@ public class TextPositionAction extends SelectionAction {
         }
         
         if(model instanceof ITextPosition) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ITextPosition)model));
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ITextPosition)model));
             return provider != null && provider.shouldExposeFeature((ITextPosition)model, IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION);
         }
         

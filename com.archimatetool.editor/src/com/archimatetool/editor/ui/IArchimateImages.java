@@ -44,8 +44,54 @@ public interface IArchimateImages {
     
     String ZOOM_NORMAL = IMGPATH + "zoom_normal.gif"; //$NON-NLS-1$
     
-    
-    // ARCHIMATE IMAGES
+    // Plain
+    String ICON_ACTOR_16 = ARCHIMATE_IMGPATH + "actor-16.png"; //$NON-NLS-1$
+    String ICON_INTERFACE_REQUIRED_16 = ARCHIMATE_IMGPATH + "interface-required-16.png"; //$NON-NLS-1$
+
+    // Elements
+    String ICON_APPLICATION_COLLABORATION_16 = ARCHIMATE_IMGPATH + "application-collaboration-16.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_COMPONENT_16 = ARCHIMATE_IMGPATH + "application-component-16.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_FUNCTION_16 = ARCHIMATE_IMGPATH + "application-function-16.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_INTERACTION_16 = ARCHIMATE_IMGPATH + "application-interaction-16.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_INTERFACE_16 = ARCHIMATE_IMGPATH + "application-interface-16.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_SERVICE_16 = ARCHIMATE_IMGPATH + "application-service-16.png"; //$NON-NLS-1$
+    String ICON_ARTIFACT_16 = ARCHIMATE_IMGPATH + "artifact-16.png"; //$NON-NLS-1$
+    String ICON_ASSESSMENT_16 = ARCHIMATE_IMGPATH + "assessment-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_ACTOR_16 = ARCHIMATE_IMGPATH + "business-actor-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_COLLABORATION_16 = ARCHIMATE_IMGPATH + "business-collaboration-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_EVENT_16 = ARCHIMATE_IMGPATH + "business-event-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_FUNCTION_16 = ARCHIMATE_IMGPATH + "business-function-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_INTERACTION_16 = ARCHIMATE_IMGPATH + "business-interaction-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_INTERFACE_16 = ARCHIMATE_IMGPATH + "business-interface-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_OBJECT_16 = ARCHIMATE_IMGPATH + "business-object-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_PROCESS_16 = ARCHIMATE_IMGPATH + "business-process-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_ROLE_16 = ARCHIMATE_IMGPATH + "business-role-16.png"; //$NON-NLS-1$
+    String ICON_BUSINESS_SERVICE_16 = ARCHIMATE_IMGPATH + "business-service-16.png"; //$NON-NLS-1$
+    String ICON_COMMUNICATION_NETWORK_16 = ARCHIMATE_IMGPATH + "communication-network-16.png"; //$NON-NLS-1$
+    String ICON_CONSTRAINT_16 = ARCHIMATE_IMGPATH + "constraint-16.png"; //$NON-NLS-1$
+    String ICON_CONTRACT_16 = ARCHIMATE_IMGPATH + "contract-16.png"; //$NON-NLS-1$
+    String ICON_DATA_OBJECT_16 = ARCHIMATE_IMGPATH + "data-object-16.png"; //$NON-NLS-1$
+    String ICON_DELIVERABLE_16 = ARCHIMATE_IMGPATH + "deliverable-16.png"; //$NON-NLS-1$
+    String ICON_DEVICE_16 = ARCHIMATE_IMGPATH + "device-16.png"; //$NON-NLS-1$
+    String ICON_DRIVER_16 = ARCHIMATE_IMGPATH + "driver-16.png"; //$NON-NLS-1$
+    String ICON_GAP_16 = ARCHIMATE_IMGPATH + "gap-16.png"; //$NON-NLS-1$
+    String ICON_GOAL_16 = ARCHIMATE_IMGPATH + "goal-16.png"; //$NON-NLS-1$
+    String ICON_LOCATION_16 = ARCHIMATE_IMGPATH + "location-16.png"; //$NON-NLS-1$
+    String ICON_MEANING_16 = ARCHIMATE_IMGPATH + "meaning-16.png"; //$NON-NLS-1$
+    String ICON_NODE_16 = ARCHIMATE_IMGPATH + "node-16.png"; //$NON-NLS-1$
+    String ICON_PATH_16 = ARCHIMATE_IMGPATH + "path-16.png"; //$NON-NLS-1$
+    String ICON_PLATEAU_16 = ARCHIMATE_IMGPATH + "plateau-16.png"; //$NON-NLS-1$
+    String ICON_PRINCIPLE_16 = ARCHIMATE_IMGPATH + "principle-16.png"; //$NON-NLS-1$
+    String ICON_PRODUCT_16 = ARCHIMATE_IMGPATH + "product-16.png"; //$NON-NLS-1$
+    String ICON_REPRESENTATION_16 = ARCHIMATE_IMGPATH + "representation-16.png"; //$NON-NLS-1$
+    String ICON_REQUIREMENT_16 = ARCHIMATE_IMGPATH + "requirement-16.png"; //$NON-NLS-1$
+    String ICON_STAKEHOLDER_16 = ARCHIMATE_IMGPATH + "stakeholder-16.png"; //$NON-NLS-1$
+    String ICON_SYSTEM_SOFTWARE_16 = ARCHIMATE_IMGPATH + "system-software-16.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_FUNCTION_16 = ARCHIMATE_IMGPATH + "technology-function-16.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_INTERFACE_16 = ARCHIMATE_IMGPATH + "technology-interface-16.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_SERVICE_16 = ARCHIMATE_IMGPATH + "technology-service-16.png"; //$NON-NLS-1$
+    String ICON_VALUE_16 = ARCHIMATE_IMGPATH + "value-16.png"; //$NON-NLS-1$
+    String ICON_WORKPACKAGE_16 = ARCHIMATE_IMGPATH + "workpackage-16.png"; //$NON-NLS-1$
     
     // Relations
     String ICON_ACESS_RELATION_16 = ARCHIMATE_IMGPATH + "access-16.png"; //$NON-NLS-1$
@@ -64,90 +110,7 @@ public interface IArchimateImages {
     String ICON_AND_JUNCTION_16 = ARCHIMATE_IMGPATH + "junction-and-16.png"; //$NON-NLS-1$
     String ICON_OR_JUNCTION_16 = ARCHIMATE_IMGPATH + "junction-or-16.png"; //$NON-NLS-1$
     
-    // Plain
-    String ICON_ACTIVITY_16 = ARCHIMATE_IMGPATH + "activity-16.png"; //$NON-NLS-1$
-    String ICON_ACTOR_16 = ARCHIMATE_IMGPATH + "actor-16.png"; //$NON-NLS-1$
-    String ICON_COLLABORATION_16 = ARCHIMATE_IMGPATH + "collaboration-16.png"; //$NON-NLS-1$
-    String ICON_COMMUNICATION_NETWORK_16 = ARCHIMATE_IMGPATH + "communication-network-16.png"; //$NON-NLS-1$
-    String ICON_PATH_16 = ARCHIMATE_IMGPATH + "path-16.png"; //$NON-NLS-1$
-    String ICON_COMPONENT_16 = ARCHIMATE_IMGPATH + "component-16.png"; //$NON-NLS-1$
-    String ICON_CONTRACT_16 = ARCHIMATE_IMGPATH + "contract-16.png"; //$NON-NLS-1$
-    String ICON_DEVICE_16 = ARCHIMATE_IMGPATH + "device-16.png"; //$NON-NLS-1$
-    String ICON_EVENT_16 = ARCHIMATE_IMGPATH + "event-16.png"; //$NON-NLS-1$
-    String ICON_FUNCTION_16 = ARCHIMATE_IMGPATH + "function-16.png"; //$NON-NLS-1$
-    String ICON_INTERACTION_16 = ARCHIMATE_IMGPATH + "interaction-16.png"; //$NON-NLS-1$
-    String ICON_INTERFACE_16 = ARCHIMATE_IMGPATH + "interface-16.png"; //$NON-NLS-1$
-    String ICON_INTERFACE_REQUIRED_16 = ARCHIMATE_IMGPATH + "interface-required-16.png"; //$NON-NLS-1$
-    String ICON_INTERFACE_SYMMETRIC_16 = ARCHIMATE_IMGPATH + "interface-symmetric-16.png"; //$NON-NLS-1$
-    String ICON_LOCATION_16 = ARCHIMATE_IMGPATH + "location-16.png"; //$NON-NLS-1$
-    String ICON_MEANING_16 = ARCHIMATE_IMGPATH + "meaning-16.png"; //$NON-NLS-1$
-    String ICON_NODE_16 = ARCHIMATE_IMGPATH + "node-16.png"; //$NON-NLS-1$
-    String ICON_OBJECT_16 = ARCHIMATE_IMGPATH + "object-16.png"; //$NON-NLS-1$
-    String ICON_PROCESS_16 = ARCHIMATE_IMGPATH + "process-16.png"; //$NON-NLS-1$
-    String ICON_PRODUCT_16 = ARCHIMATE_IMGPATH + "product-16.png"; //$NON-NLS-1$
-    String ICON_REPRESENTATION_16 = ARCHIMATE_IMGPATH + "representation-16.png"; //$NON-NLS-1$
-    String ICON_ROLE_16 = ARCHIMATE_IMGPATH + "role-16.png"; //$NON-NLS-1$
-    String ICON_SERVICE_16 = ARCHIMATE_IMGPATH + "service-16.png"; //$NON-NLS-1$
-    String ICON_SYSTEM_SOFTWARE_16 = ARCHIMATE_IMGPATH + "system-software-16.png"; //$NON-NLS-1$
-    String ICON_VALUE_16 = ARCHIMATE_IMGPATH + "value-16.png"; //$NON-NLS-1$
 
-    // Business Coloured
-    String ICON_BUSINESS_ACTOR_16 = ARCHIMATE_IMGPATH + "business-actor-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_COLLABORATION_16 = ARCHIMATE_IMGPATH + "business-collaboration-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_CONTRACT_16 = ARCHIMATE_IMGPATH + "business-contract-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_EVENT_16 = ARCHIMATE_IMGPATH + "business-event-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_FUNCTION_16 = ARCHIMATE_IMGPATH + "business-function-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_INTERACTION_16 = ARCHIMATE_IMGPATH + "business-interaction-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_INTERFACE_16 = ARCHIMATE_IMGPATH + "business-interface-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_LOCATION_16 = ARCHIMATE_IMGPATH + "business-location-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_MEANING_16 = ARCHIMATE_IMGPATH + "business-meaning-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_OBJECT_16 = ARCHIMATE_IMGPATH + "business-object-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_PROCESS_16 = ARCHIMATE_IMGPATH + "business-process-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_PRODUCT_16 = ARCHIMATE_IMGPATH + "business-product-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_REPRESENTATION_16 = ARCHIMATE_IMGPATH + "business-representation-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_ROLE_16 = ARCHIMATE_IMGPATH + "business-role-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_SERVICE_16 = ARCHIMATE_IMGPATH + "business-service-16.png"; //$NON-NLS-1$
-    String ICON_BUSINESS_VALUE_16 = ARCHIMATE_IMGPATH + "business-value-16.png"; //$NON-NLS-1$
-    
-    // Application Coloured
-    String ICON_APPLICATION_COLLABORATION_16 = ARCHIMATE_IMGPATH + "application-collaboration-16.png"; //$NON-NLS-1$
-    String ICON_APPLICATION_COMPONENT_16 = ARCHIMATE_IMGPATH + "application-component-16.png"; //$NON-NLS-1$
-    String ICON_APPLICATION_FUNCTION_16 = ARCHIMATE_IMGPATH + "application-function-16.png"; //$NON-NLS-1$
-    String ICON_APPLICATION_INTERACTION_16 = ARCHIMATE_IMGPATH + "application-interaction-16.png"; //$NON-NLS-1$
-    String ICON_APPLICATION_INTERFACE_16 = ARCHIMATE_IMGPATH + "application-interface-16.png"; //$NON-NLS-1$
-    String ICON_APPLICATION_DATA_OBJECT_16 = ARCHIMATE_IMGPATH + "application-data-object-16.png"; //$NON-NLS-1$
-    String ICON_APPLICATION_SERVICE_16 = ARCHIMATE_IMGPATH + "application-service-16.png"; //$NON-NLS-1$
-    
-    // Technology Coloured
-    String ICON_TECHNOLOGY_ARTIFACT_16 = ARCHIMATE_IMGPATH + "technology-artifact-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_PATH_16 = ARCHIMATE_IMGPATH + "technology-path-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_INFRASTRUCTURE_FUNCTION_16 = ARCHIMATE_IMGPATH + "technology-function-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_COMMUNICATION_NETWORK_16 = ARCHIMATE_IMGPATH + "technology-communication-network-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_INTERFACE_16 = ARCHIMATE_IMGPATH + "technology-interface-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_SERVICE_16 = ARCHIMATE_IMGPATH + "technology-service-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_NODE_16 = ARCHIMATE_IMGPATH + "technology-node-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_SYSTEM_SOFTWARE_16 = ARCHIMATE_IMGPATH + "technology-system-software-16.png"; //$NON-NLS-1$
-    String ICON_TECHNOLOGY_DEVICE_16 = ARCHIMATE_IMGPATH + "technology-device-16.png"; //$NON-NLS-1$
-    
-    // Extensions
-    String ICON_ASSESSMENT_16 = ARCHIMATE_IMGPATH + "assessment-16.png"; //$NON-NLS-1$
-    String ICON_ASSESSMENT_FILLED_16 = ARCHIMATE_IMGPATH + "assessment-filled-16.png"; //$NON-NLS-1$
-    String ICON_CONSTRAINT_16 = ARCHIMATE_IMGPATH + "constraint-16.png"; //$NON-NLS-1$
-    String ICON_CONSTRAINT_FILLED_16 = ARCHIMATE_IMGPATH + "constraint-filled-16.png"; //$NON-NLS-1$
-    String ICON_DELIVERABLE_FILLED_16 = ARCHIMATE_IMGPATH + "deliverable-filled-16.png"; //$NON-NLS-1$
-    String ICON_GAP_16 = ARCHIMATE_IMGPATH + "gap-16.png"; //$NON-NLS-1$
-    String ICON_GAP_FILLED_16 = ARCHIMATE_IMGPATH + "gap-filled-16.png"; //$NON-NLS-1$
-    String ICON_GOAL_16 = ARCHIMATE_IMGPATH + "goal-16.png"; //$NON-NLS-1$
-    String ICON_GOAL_FILLED_16 = ARCHIMATE_IMGPATH + "goal-filled-16.png"; //$NON-NLS-1$
-    String ICON_DRIVER_16 = ARCHIMATE_IMGPATH + "driver-16.png"; //$NON-NLS-1$
-    String ICON_DRIVER_FILLED_16 = ARCHIMATE_IMGPATH + "driver-filled-16.png"; //$NON-NLS-1$
-    String ICON_PLATEAU_16 = ARCHIMATE_IMGPATH + "plateau-16.png"; //$NON-NLS-1$
-    String ICON_PRINCIPLE_16 = ARCHIMATE_IMGPATH + "principle-16.png"; //$NON-NLS-1$
-    String ICON_PRINCIPLE_FILLED_16 = ARCHIMATE_IMGPATH + "principle-filled-16.png"; //$NON-NLS-1$
-    String ICON_REQUIREMENT_16 = ARCHIMATE_IMGPATH + "requirement-16.png"; //$NON-NLS-1$
-    String ICON_REQUIREMENT_FILLED_16 = ARCHIMATE_IMGPATH + "requirement-filled-16.png"; //$NON-NLS-1$
-    String ICON_STAKEHOLDER_FILLED_16 = ARCHIMATE_IMGPATH + "stakeholder-filled-16.png"; //$NON-NLS-1$
-    String ICON_WORKPACKAGE_FILLED_16 = ARCHIMATE_IMGPATH + "workpackage-filled-16.png"; //$NON-NLS-1$
     
     // Other
     String ICON_ALIGN_TEXT_LEFT = IMGPATH + "alignleft.gif"; //$NON-NLS-1$
@@ -215,28 +178,29 @@ public interface IArchimateImages {
     String CURSOR_IMG_FORMAT_PAINTER_GREY = IMGPATH + "formatpainter-grey-cursor.gif"; //$NON-NLS-1$
     
     String CURSOR_IMG_MAGIC_CONNECTOR = IMGPATH + "magic-connector-cursor.gif"; //$NON-NLS-1$
+
     
-    // Figures
+    
+    // Alternate Figure Thumbnails
     String FIGURES_IMGPATH = IMGPATH + "figures/"; //$NON-NLS-1$
-    
-    String FIGURE_BUSINESS_INTERFACE1 = FIGURES_IMGPATH + "business_interface1.png"; //$NON-NLS-1$
-    String FIGURE_BUSINESS_INTERFACE2 = FIGURES_IMGPATH + "business_interface2.png"; //$NON-NLS-1$
     String FIGURE_APPLICATION_COMPONENT1 = FIGURES_IMGPATH + "application_component1.png"; //$NON-NLS-1$
     String FIGURE_APPLICATION_COMPONENT2 = FIGURES_IMGPATH + "application_component2.png"; //$NON-NLS-1$
     String FIGURE_APPLICATION_INTERFACE1 = FIGURES_IMGPATH + "application_interface1.png"; //$NON-NLS-1$
     String FIGURE_APPLICATION_INTERFACE2 = FIGURES_IMGPATH + "application_interface2.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_DEVICE1 = FIGURES_IMGPATH + "technology_device1.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_DEVICE2 = FIGURES_IMGPATH + "technology_device2.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_NODE1 = FIGURES_IMGPATH + "technology_node1.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_NODE2 = FIGURES_IMGPATH + "technology_node2.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_INTERFACE1 = FIGURES_IMGPATH + "technology_interface1.png"; //$NON-NLS-1$
-    String FIGURE_TECHNOLOGY_INTERFACE2 = FIGURES_IMGPATH + "technology_interface2.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_SERVICE1 = FIGURES_IMGPATH + "application_service1.png"; //$NON-NLS-1$
+    String FIGURE_APPLICATION_SERVICE2 = FIGURES_IMGPATH + "application_service2.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_INTERFACE1 = FIGURES_IMGPATH + "business_interface1.png"; //$NON-NLS-1$
+    String FIGURE_BUSINESS_INTERFACE2 = FIGURES_IMGPATH + "business_interface2.png"; //$NON-NLS-1$
     String FIGURE_BUSINESS_PROCESS1 = FIGURES_IMGPATH + "business_process1.png"; //$NON-NLS-1$
     String FIGURE_BUSINESS_PROCESS2 = FIGURES_IMGPATH + "business_process2.png"; //$NON-NLS-1$
     String FIGURE_BUSINESS_SERVICE1 = FIGURES_IMGPATH + "business_service1.png"; //$NON-NLS-1$
     String FIGURE_BUSINESS_SERVICE2 = FIGURES_IMGPATH + "business_service2.png"; //$NON-NLS-1$
-    String FIGURE_APPLICATION_SERVICE1 = FIGURES_IMGPATH + "application_service1.png"; //$NON-NLS-1$
-    String FIGURE_APPLICATION_SERVICE2 = FIGURES_IMGPATH + "application_service2.png"; //$NON-NLS-1$
+    String FIGURE_DEVICE1 = FIGURES_IMGPATH + "device1.png"; //$NON-NLS-1$
+    String FIGURE_DEVICE2 = FIGURES_IMGPATH + "device2.png"; //$NON-NLS-1$
+    String FIGURE_NODE1 = FIGURES_IMGPATH + "node1.png"; //$NON-NLS-1$
+    String FIGURE_NODE2 = FIGURES_IMGPATH + "node2.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_INTERFACE1 = FIGURES_IMGPATH + "technology_interface1.png"; //$NON-NLS-1$
+    String FIGURE_TECHNOLOGY_INTERFACE2 = FIGURES_IMGPATH + "technology_interface2.png"; //$NON-NLS-1$
     String FIGURE_TECHNOLOGY_SERVICE1 = FIGURES_IMGPATH + "technology_service1.png"; //$NON-NLS-1$
     String FIGURE_TECHNOLOGY_SERVICE2 = FIGURES_IMGPATH + "technology_service2.png"; //$NON-NLS-1$
 }

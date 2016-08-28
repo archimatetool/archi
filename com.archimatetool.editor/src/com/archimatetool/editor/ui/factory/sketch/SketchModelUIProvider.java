@@ -14,7 +14,7 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchDiagramPart;
 import com.archimatetool.editor.diagram.sketch.figures.SketchModelGraphicsIcon;
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.IGraphicsIcon;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -24,7 +24,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchModelUIProvider extends AbstractElementUIProvider {
+public class SketchModelUIProvider extends AbstractObjectUIProvider {
     
     private IGraphicsIcon graphicsIcon = new SketchModelGraphicsIcon();
 

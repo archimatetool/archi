@@ -11,8 +11,8 @@ import org.eclipse.gef.EditPartFactory;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelReference;
 
@@ -31,7 +31,7 @@ implements EditPartFactory {
         }
         
         EditPart child = null;
-        IElementUIProvider provider = null;
+        IObjectUIProvider provider = null;
 
         // Exceptions to the rule...
         if(model instanceof IDiagramModelReference) {
@@ -41,7 +41,7 @@ implements EditPartFactory {
             child = new SketchGroupEditPart();
         }
         else if(model instanceof EObject) {
-            provider = ElementUIFactory.INSTANCE.getProvider(((EObject)model).eClass());
+            provider = ObjectUIFactory.INSTANCE.getProvider(((EObject)model).eClass());
             if(provider != null) {
                 child = provider.createEditPart();
             }

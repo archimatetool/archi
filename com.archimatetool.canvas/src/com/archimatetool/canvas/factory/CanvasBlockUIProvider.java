@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.canvas.ICanvasImages;
 import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -26,7 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasBlockUIProvider extends AbstractElementUIProvider {
+public class CanvasBlockUIProvider extends AbstractObjectUIProvider {
 
     @Override
     public EClass providerFor() {

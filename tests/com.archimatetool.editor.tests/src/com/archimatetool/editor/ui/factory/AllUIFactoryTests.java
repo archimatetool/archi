@@ -17,19 +17,20 @@ public class AllUIFactoryTests {
         suite.addTest(ArchimateModelUIProviderTests.suite());
         
         suite.addTest(AllArchiMateElementUIProviderTests.suite());
-        suite.addTest(AllConnectionUIProviderTests.suite());
+        suite.addTest(AllArchimateRelationshipUIProviderTests.suite());
         
         suite.addTest(DiagramModelImageUIProviderTests.suite());
         suite.addTest(DiagramModelReferenceUIProviderTests.suite());
         suite.addTest(FolderUIProviderTests.suite());
         suite.addTest(GroupUIProviderTests.suite());
+        suite.addTest(LineConnectionUIProviderTests.suite());
         suite.addTest(NoteUIProviderTests.suite());
         
         suite.addTest(SketchActorUIProviderTests.suite());
         suite.addTest(SketchModelUIProviderTests.suite());
         suite.addTest(SketchStickyUIProviderTests.suite());
         
-        suite.addTest(ElementUIFactoryProviderTests.suite());
+        suite.addTest(ObjectUIFactoryProviderTests.suite());
 
         return suite;
     }

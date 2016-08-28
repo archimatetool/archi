@@ -19,8 +19,8 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextAlignment;
@@ -150,7 +150,7 @@ public class TextAlignmentAction extends SelectionAction {
         }
         
         if(model instanceof ITextAlignment) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ITextAlignment)model));
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ITextAlignment)model));
             return provider != null && provider.shouldExposeFeature((ITextAlignment)model, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT);
         }
         

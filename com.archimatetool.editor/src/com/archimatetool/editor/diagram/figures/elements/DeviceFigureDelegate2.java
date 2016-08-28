@@ -1,0 +1,42 @@
+/**
+ * This program and the accompanying materials
+ * are made available under the terms of the License
+ * which accompanies this distribution in the file LICENSE.txt
+ */
+package com.archimatetool.editor.diagram.figures.elements;
+
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+
+
+
+
+/**
+ * Device Figure Delegate 2
+ * 
+ * @author Phillip Beauvoir
+ */
+public class DeviceFigureDelegate2 extends NodeFigureDelegate {
+
+    public DeviceFigureDelegate2(IDiagramModelObjectFigure owner) {
+        super(owner);
+    }
+    
+    @Override
+    public Point calculateImageLocation() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - FOLD_HEIGHT * 2 - 5, bounds.y + FOLD_HEIGHT + 2);
+    }
+
+    @Override
+    public Rectangle calculateTextControlBounds() {
+        Rectangle bounds = getBounds();
+        bounds.x += 12;
+        bounds.y += 2 + FOLD_HEIGHT;
+        bounds.width = bounds.width - 42;
+        bounds.height -= 20;
+        return bounds;
+    }
+}

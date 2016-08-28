@@ -71,6 +71,13 @@ public class TreeModelViewActionFactory {
         }
 
         switch(f.getType()) {
+            case STRATEGY:
+                for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                break;
+
             case BUSINESS:
                 for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
                     IAction action = createNewElementAction(folder, eClass);
@@ -100,7 +107,16 @@ public class TreeModelViewActionFactory {
                 break;
 
             case TECHNOLOGY:
+                // Technology
                 for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                
+                list.add(null);
+                
+                // Physical
+                for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
                     IAction action = createNewElementAction(folder, eClass);
                     list.add(action);
                 }

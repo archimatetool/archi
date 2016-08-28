@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class DiagramModelImageUIProviderTests extends AbstractElementUIProviderTests {
+public class DiagramModelImageUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelImageUIProviderTests.class);

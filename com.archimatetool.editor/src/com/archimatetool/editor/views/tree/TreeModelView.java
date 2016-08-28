@@ -432,8 +432,11 @@ implements ITreeModelView, IUIRequestListener {
         
         // Create "New" Actions
         List<IAction> actions = TreeModelViewActionFactory.INSTANCE.getNewObjectActions(selected);
-        if(!actions.isEmpty()) {
-            for(IAction action : actions) {
+        for(IAction action : actions) {
+            if(action == null) {
+                newMenu.add(new Separator());
+            }
+            else {
                 newMenu.add(action);
             }
         }

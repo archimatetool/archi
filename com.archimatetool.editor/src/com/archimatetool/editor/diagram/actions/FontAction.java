@@ -19,8 +19,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.commands.FontCompoundCommand;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
@@ -120,7 +120,7 @@ public class FontAction extends SelectionAction {
         }
         
         if(model instanceof IFontAttribute) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
             return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT);
         }
         

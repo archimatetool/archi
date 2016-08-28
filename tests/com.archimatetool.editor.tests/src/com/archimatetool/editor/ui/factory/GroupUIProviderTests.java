@@ -21,7 +21,7 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class GroupUIProviderTests extends AbstractElementUIProviderTests {
+public class GroupUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(GroupUIProviderTests.class);

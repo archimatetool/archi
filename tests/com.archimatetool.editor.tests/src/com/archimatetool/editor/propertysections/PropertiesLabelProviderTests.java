@@ -20,7 +20,7 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
 import com.archimatetool.editor.diagram.editparts.connections.AssignmentConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
-import com.archimatetool.editor.diagram.editparts.technology.TechnologyArtifactEditPart;
+import com.archimatetool.editor.diagram.editparts.elements.ArtifactEditPart;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -43,7 +43,7 @@ public class PropertiesLabelProviderTests {
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {
-        // These tests indirectly reference AbstractElementUIProvider which instantiates an ImageRegistry which hits a null Display.getCurrent()
+        // These tests indirectly reference AbstractObjectUIProvider which instantiates an ImageRegistry which hits a null Display.getCurrent()
         // Calling Display.getDefault() will set Display.getCurrent() to non-null
         TestUtils.ensureDefaultDisplay();
     }
@@ -74,7 +74,7 @@ public class PropertiesLabelProviderTests {
         assertEquals(image1, image2);
         
         // Image for EditPart
-        TechnologyArtifactEditPart editPart = new TechnologyArtifactEditPart();
+        ArtifactEditPart editPart = new ArtifactEditPart();
         editPart.setModel(dmo);
         Image image3 = provider.getImage(new StructuredSelection(editPart));
         assertEquals(image1, image3);
@@ -125,7 +125,7 @@ public class PropertiesLabelProviderTests {
         assertEquals("Artifact", text);
 
         // Text for EditPart
-        TechnologyArtifactEditPart editPart = new TechnologyArtifactEditPart();
+        ArtifactEditPart editPart = new ArtifactEditPart();
         editPart.setModel(dmo);
         text = provider.getText(new StructuredSelection(editPart));
         assertEquals("Artifact", text);

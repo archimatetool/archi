@@ -15,8 +15,8 @@ import org.eclipse.draw2d.geometry.Point;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
 
@@ -48,7 +48,7 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     @Test
     public void testGetDefaultSize() {
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         Dimension defaultSize = provider.getDefaultSize();
 
         assertEquals(defaultSize, figure.getDefaultSize());

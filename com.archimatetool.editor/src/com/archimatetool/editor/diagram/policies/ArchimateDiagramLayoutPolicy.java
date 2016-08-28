@@ -12,8 +12,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateObjectCommand;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -46,7 +46,7 @@ extends DiagramLayoutPolicy {
     protected Dimension getMaximumSizeFor(Object object) {
         // Junctions should not be bigger than their default size
         if(object instanceof EClass && IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf((EClass)object)) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EClass)object);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EClass)object);
             return provider.getDefaultSize();
         }
         

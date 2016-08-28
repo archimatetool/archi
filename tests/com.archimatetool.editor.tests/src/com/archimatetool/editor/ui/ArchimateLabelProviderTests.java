@@ -40,7 +40,7 @@ public class ArchimateLabelProviderTests {
     
     @BeforeClass
     public static void runOnceBeforeAllTests() {
-        // These tests indirectly reference AbstractElementUIProvider which instantiates an ImageRegistry which hits a null Display.getCurrent()
+        // These tests indirectly reference AbstractObjectUIProvider which instantiates an ImageRegistry which hits a null Display.getCurrent()
         // Calling Display.getDefault() will set Display.getCurrent() to non-null
         TestUtils.ensureDefaultDisplay();
     }

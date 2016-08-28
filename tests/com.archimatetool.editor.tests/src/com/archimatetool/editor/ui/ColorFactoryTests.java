@@ -16,6 +16,8 @@ import org.junit.Test;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IBusinessActor;
@@ -76,14 +78,17 @@ public class ColorFactoryTests {
 
     @Test
     public void testGetInbuiltDefaultFillColor() {
-        Color color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createBusinessActor());
-        assertEquals(ColorFactory.COLOR_BUSINESS, color);
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        Color color = ColorFactory.getInbuiltDefaultFillColor(element);
+        assertEquals(ObjectUIFactory.INSTANCE.getProvider(element).getDefaultColor(), color);
         
-        color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createApplicationComponent());
-        assertEquals(ColorFactory.COLOR_APPLICATION, color);
+        element = IArchimateFactory.eINSTANCE.createApplicationComponent();
+        color = ColorFactory.getInbuiltDefaultFillColor(element);
+        assertEquals(ObjectUIFactory.INSTANCE.getProvider(element).getDefaultColor(), color);
         
-        color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createCommunicationNetwork());
-        assertEquals(ColorFactory.COLOR_TECHNOLOGY, color);
+        element = IArchimateFactory.eINSTANCE.createCommunicationNetwork();
+        color = ColorFactory.getInbuiltDefaultFillColor(element);
+        assertEquals(ObjectUIFactory.INSTANCE.getProvider(element).getDefaultColor(), color);
     }
 
     @Test

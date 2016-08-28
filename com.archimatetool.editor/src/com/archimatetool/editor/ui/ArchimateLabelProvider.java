@@ -12,8 +12,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
@@ -67,7 +67,7 @@ public class ArchimateLabelProvider {
             return ""; //$NON-NLS-1$
         }
         
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
         if(provider != null) {
             return provider.getDefaultName();
         }
@@ -88,13 +88,13 @@ public class ArchimateLabelProvider {
         
         // This first, since EClass is an EObject
         if(object instanceof EClass) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EClass)object);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EClass)object);
             if(provider != null) {
                 return provider.getImage();
             }
         }
         else if(object instanceof EObject) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EObject)object);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EObject)object);
             if(provider != null) {
                 return provider.getImage((EObject)object);
             }
@@ -112,7 +112,7 @@ public class ArchimateLabelProvider {
             return null;
         }
         
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
         if(provider != null) {
             return provider.getImageDescriptor();
         }
@@ -126,7 +126,7 @@ public class ArchimateLabelProvider {
      */
     public IGraphicsIcon getGraphicsIcon(Object object) {
         if(object instanceof EObject) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider((EObject)object);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EObject)object);
             if(provider != null) {
                 return provider.getGraphicsIcon();
             }

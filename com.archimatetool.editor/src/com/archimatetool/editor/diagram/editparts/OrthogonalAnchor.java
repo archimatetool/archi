@@ -42,8 +42,8 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
-import com.archimatetool.editor.diagram.figures.business.BusinessInterfaceFigure;
-import com.archimatetool.editor.diagram.figures.business.BusinessValueFigure;
+import com.archimatetool.editor.diagram.figures.elements.BusinessInterfaceFigure;
+import com.archimatetool.editor.diagram.figures.elements.ValueFigure;
 
 
 /**
@@ -383,7 +383,7 @@ public class OrthogonalAnchor extends ChopboxAnchor {
             // roundedRectangle case
             corner = ((RoundedRectangle)figure).getCornerDimensions();
         }
-        else if(figure instanceof BusinessValueFigure) {
+        else if(figure instanceof ValueFigure) {
             // ellipse case
             corner = figure.getSize();
         }

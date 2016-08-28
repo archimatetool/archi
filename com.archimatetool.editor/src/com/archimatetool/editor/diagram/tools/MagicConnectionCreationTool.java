@@ -41,8 +41,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -594,7 +594,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             fChild = (IDiagramModelArchimateObject)new ArchimateDiagramModelFactory(fTemplate).getNewObject();
             
             // Default size
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(fChild);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(fChild);
             Dimension defaultSize = provider.getDefaultSize();
             fChild.setBounds(location.x, location.y, defaultSize.width, defaultSize.height);
         }

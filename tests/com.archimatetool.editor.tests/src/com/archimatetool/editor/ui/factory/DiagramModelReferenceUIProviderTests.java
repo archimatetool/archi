@@ -24,7 +24,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelReference;
 
-public class DiagramModelReferenceUIProviderTests extends AbstractElementUIProviderTests {
+public class DiagramModelReferenceUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelReferenceUIProviderTests.class);

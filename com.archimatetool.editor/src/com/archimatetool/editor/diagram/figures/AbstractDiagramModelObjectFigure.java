@@ -19,8 +19,8 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateElement;
@@ -220,7 +220,7 @@ implements IDiagramModelObjectFigure {
     
     @Override
     public Dimension getDefaultSize() {
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(getDiagramModelObject());
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
         return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
     }
     

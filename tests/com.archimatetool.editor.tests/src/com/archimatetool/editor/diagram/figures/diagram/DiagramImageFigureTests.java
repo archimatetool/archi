@@ -24,8 +24,8 @@ import org.junit.Test;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
@@ -62,7 +62,7 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
     
     @Test
     public void testGetDefaultSize() throws Exception {
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         Dimension defaultSize = provider.getDefaultSize();
         
         assertEquals(defaultSize, figure.getDefaultSize());

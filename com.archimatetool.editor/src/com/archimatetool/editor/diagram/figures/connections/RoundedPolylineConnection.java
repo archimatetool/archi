@@ -38,7 +38,7 @@ import java.util.Iterator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
+import com.archimatetool.editor.diagram.figures.PolarPoint;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 

@@ -68,12 +68,12 @@ public class FigureChooser {
             images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_COMPONENT2);
         }
         else if(eClass == IArchimatePackage.eINSTANCE.getDevice()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_DEVICE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_DEVICE2);
+            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_DEVICE1);
+            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_DEVICE2);
         }
         else if(eClass == IArchimatePackage.eINSTANCE.getNode()) {
-            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_NODE1);
-            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_NODE2);
+            images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_NODE1);
+            images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_NODE2);
         }
         else if(eClass == IArchimatePackage.eINSTANCE.getBusinessProcess()) {
             images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_BUSINESS_PROCESS1);

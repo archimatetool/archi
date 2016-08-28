@@ -150,7 +150,7 @@
       </initializer>
    </extension>
    <extension
-         point="com.archimatetool.editor.elementUIProvider">
+         point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.canvas.factory.CanvasModelUIProvider"
             id="com.archimatetool.canvas.CanvasModelUIProvider">

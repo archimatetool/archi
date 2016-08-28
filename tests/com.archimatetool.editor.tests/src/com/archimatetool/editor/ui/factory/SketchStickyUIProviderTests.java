@@ -18,7 +18,7 @@ import com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchStickyUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class SketchStickyUIProviderTests extends AbstractElementUIProviderTests {
+public class SketchStickyUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(SketchStickyUIProviderTests.class);

@@ -15,12 +15,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.Logger;
-import com.archimatetool.editor.diagram.editparts.business.BusinessActorEditPart;
 import com.archimatetool.editor.diagram.editparts.connections.AccessConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
+import com.archimatetool.editor.diagram.editparts.elements.BusinessActorEditPart;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;

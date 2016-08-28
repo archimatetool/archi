@@ -11,7 +11,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
 
-import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
+import com.archimatetool.editor.diagram.figures.PolarPoint;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 

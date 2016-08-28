@@ -114,9 +114,9 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         add(group);
         
         // Sticky Notes
-        group.add(createStickyEntry(ColorFactory.COLOR_BUSINESS));
-        group.add(createStickyEntry(ColorFactory.COLOR_APPLICATION));
-        group.add(createStickyEntry(ColorFactory.COLOR_TECHNOLOGY));
+        group.add(createStickyEntry(ColorFactory.get(255, 255, 181)));
+        group.add(createStickyEntry(ColorFactory.get(181, 255, 255)));
+        group.add(createStickyEntry(ColorFactory.get(201, 231, 183)));
         group.add(createStickyEntry(ColorConstants.orange));
         group.add(createStickyEntry(ColorConstants.yellow));
         group.add(createStickyEntry(ColorConstants.lightGreen));

@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.Display;
 import com.archimatetool.editor.ArchimateEditorPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -69,7 +69,7 @@ public class CreateDiagramObjectCommand extends Command {
         
         // Default size
         if(fBounds.width == -1 && fBounds.height == -1) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(fChild);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(fChild);
             if(provider != null) {
                 Dimension defaultSize = provider.getDefaultSize();
                 fBounds.width = defaultSize.width;

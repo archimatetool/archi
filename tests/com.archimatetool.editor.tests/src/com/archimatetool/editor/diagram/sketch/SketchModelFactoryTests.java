@@ -59,10 +59,10 @@ public class SketchModelFactoryTests {
     
     @Test
     public void testGetNewObjectSticky() {
-        ICreationFactory factory = new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), ColorFactory.COLOR_APPLICATION);
+        ICreationFactory factory = new SketchModelFactory(IArchimatePackage.eINSTANCE.getSketchModelSticky(), ColorFactory.get(201, 231, 183));
         ISketchModelSticky sticky = (ISketchModelSticky)factory.getNewObject();
         assertEquals("Sticky", sticky.getName());
-        assertEquals(ColorFactory.convertColorToString(ColorFactory.COLOR_APPLICATION), sticky.getFillColor());
+        assertEquals(ColorFactory.convertColorToString(ColorFactory.get(201, 231, 183)), sticky.getFillColor());
     }
 
     @Test
