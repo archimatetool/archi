@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IEquipment extends IPhysicalElement {
+public interface IEquipment extends IPhysicalElement, IActiveStructureElement {
 } // IEquipment

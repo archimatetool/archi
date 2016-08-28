@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IGap extends IImplementationMigrationElement {
+public interface IGap extends IImplementationMigrationElement, IPassiveStructureElement {
 } // IGap

@@ -35,9 +35,11 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
@@ -218,69 +220,25 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * Add any default folders
      */
     protected void addDefaultFolders() {
-        int position = 0;
+        int index = 0;
         
-        if(getFolder(FolderType.STRATEGY) == null) {
+        createDefaultFolder(FolderType.STRATEGY, Messages.ArchimateModel_9, index++);
+        createDefaultFolder(FolderType.BUSINESS, Messages.ArchimateModel_0, index++);
+        createDefaultFolder(FolderType.APPLICATION, Messages.ArchimateModel_1, index++);
+        createDefaultFolder(FolderType.TECHNOLOGY, Messages.ArchimateModel_2, index++);
+        createDefaultFolder(FolderType.MOTIVATION, Messages.ArchimateModel_3, index++);
+        createDefaultFolder(FolderType.IMPLEMENTATION_MIGRATION, Messages.ArchimateModel_4, index++);
+        createDefaultFolder(FolderType.OTHER, Messages.ArchimateModel_5, index++);
+        createDefaultFolder(FolderType.RELATIONS, Messages.ArchimateModel_6, index++);
+        createDefaultFolder(FolderType.DIAGRAMS, Messages.ArchimateModel_7, index++);
+    }
+    
+    private void createDefaultFolder(FolderType folderType, String folderName, int index) {
+        if(getFolder(folderType) == null) {
             IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_9);
-            folder.setType(FolderType.STRATEGY);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.BUSINESS) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_0);
-            folder.setType(FolderType.BUSINESS);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.APPLICATION) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_1);
-            folder.setType(FolderType.APPLICATION);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.TECHNOLOGY) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_2);
-            folder.setType(FolderType.TECHNOLOGY);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.MOTIVATION) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_3);
-            folder.setType(FolderType.MOTIVATION);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_4);
-            folder.setType(FolderType.IMPLEMENTATION_MIGRATION);
-            getFolders().add(position++, folder);
-        }
-        
-        if(getFolder(FolderType.CONNECTORS) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_5);
-            folder.setType(FolderType.CONNECTORS);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.RELATIONS) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_6);
-            folder.setType(FolderType.RELATIONS);
-            getFolders().add(position++, folder);
-        }
-
-        if(getFolder(FolderType.DIAGRAMS) == null) {
-            IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-            folder.setName(Messages.ArchimateModel_7);
-            folder.setType(FolderType.DIAGRAMS);
-            getFolders().add(position++, folder); // Make sure this is last
+            folder.setType(folderType);
+            folder.setName(folderName);
+            getFolders().add(index, folder);
         }
     }
     
@@ -341,8 +299,8 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         if(element instanceof IImplementationMigrationElement) {
             return getFolder(FolderType.IMPLEMENTATION_MIGRATION);
         }
-        if(element instanceof IJunctionElement) {
-            return getFolder(FolderType.CONNECTORS);
+        if(element instanceof IJunctionElement || element instanceof ILocation || element instanceof IGrouping) {
+            return getFolder(FolderType.OTHER);
         }
         if(element instanceof IArchimateRelationship) {
             return getFolder(FolderType.RELATIONS);

@@ -82,7 +82,7 @@ public class ColorFactoryTests {
         color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createApplicationComponent());
         assertEquals(ColorFactory.COLOR_APPLICATION, color);
         
-        color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createNetwork());
+        color = ColorFactory.getInbuiltDefaultFillColor(IArchimateFactory.eINSTANCE.createCommunicationNetwork());
         assertEquals(ColorFactory.COLOR_TECHNOLOGY, color);
     }
 

@@ -112,9 +112,9 @@
     </folder>
   </folder>
   <folder name="Technology" id="197807fa" type="technology">
-    <element xsi:type="archimate:Network" id="1089" name="LAN"/>
-    <element xsi:type="archimate:Network" id="1101" name="LAN"/>
-    <element xsi:type="archimate:Network" id="1095" name="BIBIT"/>
+    <element xsi:type="archimate:CommunicationNetwork" id="1089" name="LAN"/>
+    <element xsi:type="archimate:CommunicationNetwork" id="1101" name="LAN"/>
+    <element xsi:type="archimate:CommunicationNetwork" id="1095" name="BIBIT"/>
     <element xsi:type="archimate:Device" id="1071" name="Admin Server"/>
     <element xsi:type="archimate:Device" id="1065" name="NAS File Server"/>
     <element xsi:type="archimate:Device" id="1053" name="Unix Server"/>
@@ -128,11 +128,11 @@
     <element xsi:type="archimate:Node" id="1004" name="Firewall"/>
     <element xsi:type="archimate:Node" id="986" name="Mainframe"/>
     <element xsi:type="archimate:Node" id="992" name="Unix Server Farm"/>
-    <element xsi:type="archimate:InfrastructureService" id="1110" name="File Service"/>
-    <element xsi:type="archimate:InfrastructureService" id="1116" name="Network Service"/>
-    <element xsi:type="archimate:InfrastructureService" id="1128" name="Database Service"/>
-    <element xsi:type="archimate:InfrastructureService" id="1455" name="Claim Files Service"/>
-    <element xsi:type="archimate:InfrastructureService" id="1462" name="Customer File Service"/>
+    <element xsi:type="archimate:TechnologyService" id="1110" name="File Service"/>
+    <element xsi:type="archimate:TechnologyService" id="1116" name="Network Service"/>
+    <element xsi:type="archimate:TechnologyService" id="1128" name="Database Service"/>
+    <element xsi:type="archimate:TechnologyService" id="1455" name="Claim Files Service"/>
+    <element xsi:type="archimate:TechnologyService" id="1462" name="Customer File Service"/>
   </folder>
   <folder name="Motivation" id="fc275161" type="motivation">
     <element xsi:type="archimate:Principle" id="f5674126" name="Client Satisfaction Goal"/>
@@ -146,7 +146,7 @@
     <element xsi:type="archimate:Principle" id="3db08b5c" name="Infrastructure Principle"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="0e121c60" type="implementation_migration"/>
-  <folder name="Connectors" id="418d6452" type="connectors"/>
+  <folder name="Other" id="418d6452" type="other"/>
   <folder name="Relations" id="408ff6d3" type="relations">
     <folder name="Business" id="10ad9578">
       <folder name="Processes" id="aedae54a">

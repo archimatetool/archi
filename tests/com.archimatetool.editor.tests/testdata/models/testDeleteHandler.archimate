@@ -22,7 +22,7 @@
     <element xsi:type="archimate:Driver" id="8ecabfc2" name="Driver"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="f710fd6b" type="implementation_migration"/>
-  <folder name="Connectors" id="64e25bc1" type="connectors"/>
+  <folder name="Other" id="64e25bc1" type="other"/>
   <folder name="Relations" id="16891263" type="relations">
     <element xsi:type="archimate:AssignmentRelationship" id="3bede7f0" source="31a27739" target="8ab84e91"/>
     <element xsi:type="archimate:InfluenceRelationship" id="bfb084f7" source="46d0abd5" target="8ecabfc2"/>

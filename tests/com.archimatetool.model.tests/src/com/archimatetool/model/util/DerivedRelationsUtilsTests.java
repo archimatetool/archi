@@ -99,7 +99,7 @@ public class DerivedRelationsUtilsTests {
         IArchimateElement device = IArchimateFactory.eINSTANCE.createDevice();
         model.getDefaultFolderForElement(device).getElements().add(device);
         
-        IArchimateElement network = IArchimateFactory.eINSTANCE.createNetwork();
+        IArchimateElement network = IArchimateFactory.eINSTANCE.createCommunicationNetwork();
         model.getDefaultFolderForElement(network).getElements().add(network);
         
         IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createServingRelationship();

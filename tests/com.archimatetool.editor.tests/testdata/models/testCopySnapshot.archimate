@@ -11,7 +11,7 @@
   <folder name="Technology" id="ae67260b" type="technology"/>
   <folder name="Motivation" id="1ec1b029" type="motivation"/>
   <folder name="Implementation &amp; Migration" id="f65c09d7" type="implementation_migration"/>
-  <folder name="Connectors" id="b31f4b3d" type="connectors"/>
+  <folder name="Other" id="b31f4b3d" type="other"/>
   <folder name="Relations" id="328b9cc9" type="relations">
     <element xsi:type="archimate:AssignmentRelationship" id="cf6fb437" source="440788c3" target="fd6f50fa"/>
     <element xsi:type="archimate:AssociationRelationship" id="e7e61f82" source="b21c42e2" target="cf6fb437"/>

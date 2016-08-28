@@ -18,7 +18,7 @@ import com.archimatetool.model.IConstraint;
  *
  * @generated
  */
-public class Constraint extends MotivationElement implements IConstraint {
+public class Constraint extends ArchimateElement implements IConstraint {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

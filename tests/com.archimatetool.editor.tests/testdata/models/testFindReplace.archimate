@@ -23,7 +23,7 @@
     <element xsi:type="archimate:Stakeholder" id="db95a2b5" name="FindMe 7"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="b9270ad8" type="implementation_migration"/>
-  <folder name="Connectors" id="b77bc390" type="connectors">
+  <folder name="Other" id="b77bc390" type="other">
     <element xsi:type="archimate:AndJunction" id="503c4cf4" name="FindMe 8"/>
   </folder>
   <folder name="Relations" id="bb382708" type="relations">

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ITriggeringRelationship extends IArchimateRelationship {
+public interface ITriggeringRelationship extends IDynamicRelationship {
 } // ITriggeringRelationship

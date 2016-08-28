@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IResource extends IStrategyElement {
+public interface IResource extends IStrategyElement, IStructureElement {
 } // IResource

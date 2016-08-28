@@ -72,7 +72,7 @@
 :lang(en) .i18n-elementtype-BusinessProcess:after {content: "Business Process"}
 :lang(en) .i18n-elementtype-BusinessRole:after {content: "Business Role"}
 :lang(en) .i18n-elementtype-BusinessService:after {content: "Business Service"}
-:lang(en) .i18n-elementtype-CommunicationPath:after {content: "Communication Path"}
+:lang(en) .i18n-elementtype-Path:after {content: "Path"}
 :lang(en) .i18n-elementtype-CompositionRelationship:after {content: "Composition"}
 :lang(en) .i18n-elementtype-Constraint:after {content: "Constraint"}
 :lang(en) .i18n-elementtype-Contract:after {content: "Contract"}
@@ -97,15 +97,15 @@
 :lang(en) .i18n-elementtype-Goal:after {content: "Goal"}
 /* :lang(en) .i18n-elementtype-ImplementationMigrationElement:after {content: "ImplementationMigrationElement"} */
 :lang(en) .i18n-elementtype-InfluenceRelationship:after {content: "Influence"}
-:lang(en) .i18n-elementtype-InfrastructureFunction:after {content: "Infrastructure Function"}
-:lang(en) .i18n-elementtype-InfrastructureInterface:after {content: "Infrastructure Interface"}
-:lang(en) .i18n-elementtype-InfrastructureService:after {content: "Infrastructure Service"}
+:lang(en) .i18n-elementtype-TechnologyFunction:after {content: "Technology Function"}
+:lang(en) .i18n-elementtype-TechnologyInterface:after {content: "Technology Interface"}
+:lang(en) .i18n-elementtype-TechnologyService:after {content: "Technology Service"}
 :lang(en) .i18n-elementtype-Junction:after {content: "Junction"}
 :lang(en) .i18n-elementtype-Location:after {content: "Location"}
 :lang(en) .i18n-elementtype-Meaning:after {content: "Meaning"}
 /* :lang(en) .i18n-elementtype-Metadata:after {content: "Metadata"} */
 /* :lang(en) .i18n-elementtype-MotivationElement:after {content: "MotivationElement"} */
-:lang(en) .i18n-elementtype-Network:after {content: "Network"}
+:lang(en) .i18n-elementtype-CommunicationNetwork:after {content: "CommunicationNetwork"}
 :lang(en) .i18n-elementtype-Node:after {content: "Node"}
 :lang(en) .i18n-elementtype-OrJunction:after {content: "Or Junction"}
 :lang(en) .i18n-elementtype-Plateau:after {content: "Plateau"}

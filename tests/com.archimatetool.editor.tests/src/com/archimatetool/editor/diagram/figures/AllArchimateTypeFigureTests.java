@@ -63,12 +63,12 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
                 { IArchimatePackage.eINSTANCE.getValue() },
                 
                 { IArchimatePackage.eINSTANCE.getArtifact() },
-                { IArchimatePackage.eINSTANCE.getCommunicationPath() },
+                { IArchimatePackage.eINSTANCE.getPath() },
                 { IArchimatePackage.eINSTANCE.getDevice() },
-                { IArchimatePackage.eINSTANCE.getInfrastructureFunction() },
-                { IArchimatePackage.eINSTANCE.getInfrastructureInterface() },
-                { IArchimatePackage.eINSTANCE.getInfrastructureService() },
-                { IArchimatePackage.eINSTANCE.getNetwork() },
+                { IArchimatePackage.eINSTANCE.getTechnologyFunction() },
+                { IArchimatePackage.eINSTANCE.getTechnologyInterface() },
+                { IArchimatePackage.eINSTANCE.getTechnologyService() },
+                { IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
                 { IArchimatePackage.eINSTANCE.getNode() },
                 { IArchimatePackage.eINSTANCE.getSystemSoftware() },
                 

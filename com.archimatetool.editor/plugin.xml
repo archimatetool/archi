@@ -870,20 +870,20 @@
             id="com.archimatetool.editor.TechnologyArtifactUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyCommunicationPathUIProvider"
-            id="com.archimatetool.editor.TechnologyCommunicationPathUIProvider">
+            class="com.archimatetool.editor.ui.factory.technology.TechnologyPathUIProvider"
+            id="com.archimatetool.editor.TechnologyPathUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyNetworkUIProvider"
+            class="com.archimatetool.editor.ui.factory.technology.TechnologyCommunicationNetworkUIProvider"
             id="com.archimatetool.editor.TechnologyNetworkUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureInterfaceUIProvider"
-            id="com.archimatetool.editor.TechnologyInfrastructureInterfaceUIProvider">
+            class="com.archimatetool.editor.ui.factory.technology.TechnologyInterfaceUIProvider"
+            id="com.archimatetool.editor.TechnologyInterfaceUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureServiceUIProvider"
-            id="com.archimatetool.editor.TechnologyInfrastructureServiceUIProvider">
+            class="com.archimatetool.editor.ui.factory.technology.TechnologyServiceUIProvider"
+            id="com.archimatetool.editor.TechnologyServiceUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider"
@@ -898,8 +898,8 @@
             id="com.archimatetool.editor.TechnologyDeviceUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureFunctionUIProvider"
-            id="com.archimatetool.editor.TechnologyInfrastructureFunctionUIProvider">
+            class="com.archimatetool.editor.ui.factory.technology.TechnologyFunctionUIProvider"
+            id="com.archimatetool.editor.TechnologyFunctionUIProvider">
       </uiProvider>
    </extension>
    <extension

@@ -122,7 +122,7 @@ public class CSVExporter implements CSVConstants {
         writeElementsInFolder(writer, fModel.getFolder(FolderType.TECHNOLOGY));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.MOTIVATION));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
-        writeElementsInFolder(writer, fModel.getFolder(FolderType.CONNECTORS));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.OTHER));
         
         writer.close();
     }

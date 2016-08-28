@@ -23,12 +23,12 @@ public class InfrastructureUsageViewpoint extends AbstractViewpoint {
 
             IArchimatePackage.eINSTANCE.getDevice(),
             IArchimatePackage.eINSTANCE.getNode(),
-            IArchimatePackage.eINSTANCE.getInfrastructureService(),
-            IArchimatePackage.eINSTANCE.getInfrastructureInterface(),
-            IArchimatePackage.eINSTANCE.getInfrastructureFunction(),
-            IArchimatePackage.eINSTANCE.getCommunicationPath(),
+            IArchimatePackage.eINSTANCE.getTechnologyService(),
+            IArchimatePackage.eINSTANCE.getTechnologyInterface(),
+            IArchimatePackage.eINSTANCE.getTechnologyFunction(),
+            IArchimatePackage.eINSTANCE.getPath(),
             IArchimatePackage.eINSTANCE.getSystemSoftware(),
-            IArchimatePackage.eINSTANCE.getNetwork(),
+            IArchimatePackage.eINSTANCE.getCommunicationNetwork(),
 
             IArchimatePackage.eINSTANCE.getAndJunction(),
             IArchimatePackage.eINSTANCE.getOrJunction(),

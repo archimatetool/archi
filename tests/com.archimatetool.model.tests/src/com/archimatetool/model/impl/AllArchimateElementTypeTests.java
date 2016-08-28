@@ -34,6 +34,13 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
     @Parameters
     public static Collection<EClass[]> eObjects() {
         return Arrays.asList(new EClass[][] {
+                
+                // Strategy
+                { IArchimatePackage.eINSTANCE.getCapability() },
+                { IArchimatePackage.eINSTANCE.getResource() },
+                { IArchimatePackage.eINSTANCE.getCourseOfAction() },
+            
+                // Business
                 { IArchimatePackage.eINSTANCE.getBusinessActor() },
                 { IArchimatePackage.eINSTANCE.getBusinessRole() },
                 { IArchimatePackage.eINSTANCE.getBusinessCollaboration() },
@@ -45,43 +52,64 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
                 { IArchimatePackage.eINSTANCE.getProduct() },
                 { IArchimatePackage.eINSTANCE.getContract() },
                 { IArchimatePackage.eINSTANCE.getBusinessService() },
-                { IArchimatePackage.eINSTANCE.getValue() },
-                { IArchimatePackage.eINSTANCE.getMeaning() },
                 { IArchimatePackage.eINSTANCE.getRepresentation() },
                 { IArchimatePackage.eINSTANCE.getBusinessObject() },
-                { IArchimatePackage.eINSTANCE.getLocation() },
                 
+                // Application
                 { IArchimatePackage.eINSTANCE.getApplicationComponent() },
                 { IArchimatePackage.eINSTANCE.getApplicationCollaboration() },
                 { IArchimatePackage.eINSTANCE.getApplicationInterface() },
                 { IArchimatePackage.eINSTANCE.getApplicationService() },
                 { IArchimatePackage.eINSTANCE.getApplicationFunction() },
                 { IArchimatePackage.eINSTANCE.getApplicationInteraction() },
+                { IArchimatePackage.eINSTANCE.getApplicationProcess() },
+                { IArchimatePackage.eINSTANCE.getApplicationEvent() },
                 { IArchimatePackage.eINSTANCE.getDataObject() },
                 
+                // Technology
                 { IArchimatePackage.eINSTANCE.getArtifact() },
-                { IArchimatePackage.eINSTANCE.getCommunicationPath() },
-                { IArchimatePackage.eINSTANCE.getNetwork() },
-                { IArchimatePackage.eINSTANCE.getInfrastructureInterface() },
-                { IArchimatePackage.eINSTANCE.getInfrastructureFunction() },
-                { IArchimatePackage.eINSTANCE.getInfrastructureService() },
+                { IArchimatePackage.eINSTANCE.getPath() },
+                { IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
+                { IArchimatePackage.eINSTANCE.getTechnologyInterface() },
+                { IArchimatePackage.eINSTANCE.getTechnologyFunction() },
+                { IArchimatePackage.eINSTANCE.getTechnologyProcess() },
+                { IArchimatePackage.eINSTANCE.getTechnologyInteraction() },
+                { IArchimatePackage.eINSTANCE.getTechnologyEvent() },
+                { IArchimatePackage.eINSTANCE.getTechnologyService() },
                 { IArchimatePackage.eINSTANCE.getNode() },
                 { IArchimatePackage.eINSTANCE.getSystemSoftware() },
+                { IArchimatePackage.eINSTANCE.getTechnologyCollaboration() },
                 { IArchimatePackage.eINSTANCE.getDevice() },
                 
+                // Physical
+                { IArchimatePackage.eINSTANCE.getEquipment() },
+                { IArchimatePackage.eINSTANCE.getFacility() },
+                { IArchimatePackage.eINSTANCE.getDistributionNetwork() },
+                { IArchimatePackage.eINSTANCE.getMaterial() },
+                
+                // Motivation
                 { IArchimatePackage.eINSTANCE.getStakeholder() },
                 { IArchimatePackage.eINSTANCE.getDriver() },
                 { IArchimatePackage.eINSTANCE.getAssessment() },
                 { IArchimatePackage.eINSTANCE.getGoal() },
+                { IArchimatePackage.eINSTANCE.getOutcome() },
                 { IArchimatePackage.eINSTANCE.getPrinciple() },
                 { IArchimatePackage.eINSTANCE.getRequirement() },
                 { IArchimatePackage.eINSTANCE.getConstraint() },
+                { IArchimatePackage.eINSTANCE.getMeaning() },
+                { IArchimatePackage.eINSTANCE.getValue() },
                 
+                // Implementation and Migration
                 { IArchimatePackage.eINSTANCE.getWorkPackage() },
                 { IArchimatePackage.eINSTANCE.getDeliverable() },
                 { IArchimatePackage.eINSTANCE.getPlateau() },
                 { IArchimatePackage.eINSTANCE.getGap() },
                 
+                // Other
+                { IArchimatePackage.eINSTANCE.getLocation() },
+                { IArchimatePackage.eINSTANCE.getGrouping() },
+
+                // Connectors
                 { IArchimatePackage.eINSTANCE.getAndJunction() },
                 { IArchimatePackage.eINSTANCE.getOrJunction() }
         });

@@ -88,7 +88,7 @@ public class ModelChecker {
         if(fModel.getFolder(FolderType.TECHNOLOGY) == null) {
             messages.add(Messages.ModelChecker_4);
         }
-        if(fModel.getFolder(FolderType.CONNECTORS) == null) {
+        if(fModel.getFolder(FolderType.OTHER) == null) {
             messages.add(Messages.ModelChecker_5);
         }
         if(fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {

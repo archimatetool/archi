@@ -125,10 +125,10 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
                 TECHNOLOGY_NODE_FIGURE, IArchimatePackage.eINSTANCE.getNode()));
         
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_6,
-                TECHNOLOGY_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getInfrastructureInterface()));
+                TECHNOLOGY_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getTechnologyInterface()));
 
         fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_2,
-                TECHNOLOGY_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getInfrastructureService()));
+                TECHNOLOGY_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getTechnologyService()));
     }
     
     private void createTable(Composite parent) {

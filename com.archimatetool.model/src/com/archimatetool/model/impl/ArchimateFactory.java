@@ -14,13 +14,16 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAccessRelationship;
+import com.archimatetool.model.IActiveStructureElement;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
 import com.archimatetool.model.IApplicationComponent;
+import com.archimatetool.model.IApplicationEvent;
 import com.archimatetool.model.IApplicationFunction;
 import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
+import com.archimatetool.model.IApplicationProcess;
 import com.archimatetool.model.IApplicationService;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
@@ -41,10 +44,12 @@ import com.archimatetool.model.IBusinessObject;
 import com.archimatetool.model.IBusinessProcess;
 import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.IBusinessService;
-import com.archimatetool.model.ICommunicationPath;
+import com.archimatetool.model.ICapability;
+import com.archimatetool.model.ICommunicationNetwork;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IConstraint;
 import com.archimatetool.model.IContract;
+import com.archimatetool.model.ICourseOfAction;
 import com.archimatetool.model.IDataObject;
 import com.archimatetool.model.IDeliverable;
 import com.archimatetool.model.IDevice;
@@ -56,22 +61,25 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IDistributionNetwork;
 import com.archimatetool.model.IDriver;
 import com.archimatetool.model.IEquipment;
+import com.archimatetool.model.IFacility;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
+import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IInfrastructureFunction;
-import com.archimatetool.model.IInfrastructureInterface;
-import com.archimatetool.model.IInfrastructureService;
 import com.archimatetool.model.ILocation;
+import com.archimatetool.model.IMaterial;
 import com.archimatetool.model.IMeaning;
 import com.archimatetool.model.IMetadata;
-import com.archimatetool.model.INetwork;
 import com.archimatetool.model.INode;
 import com.archimatetool.model.IOrJunction;
+import com.archimatetool.model.IOutcome;
+import com.archimatetool.model.IPassiveStructureElement;
+import com.archimatetool.model.IPath;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
 import com.archimatetool.model.IProduct;
@@ -87,6 +95,13 @@ import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.ISystemSoftware;
+import com.archimatetool.model.ITechnologyCollaboration;
+import com.archimatetool.model.ITechnologyEvent;
+import com.archimatetool.model.ITechnologyFunction;
+import com.archimatetool.model.ITechnologyInteraction;
+import com.archimatetool.model.ITechnologyInterface;
+import com.archimatetool.model.ITechnologyProcess;
+import com.archimatetool.model.ITechnologyService;
 import com.archimatetool.model.ITriggeringRelationship;
 import com.archimatetool.model.IValue;
 import com.archimatetool.model.IWorkPackage;
@@ -139,54 +154,69 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.PROPERTY: return createProperty();
             case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.FOLDER: return createFolder();
+            case IArchimatePackage.ACTIVE_STRUCTURE_ELEMENT: return createActiveStructureElement();
+            case IArchimatePackage.PASSIVE_STRUCTURE_ELEMENT: return createPassiveStructureElement();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
-            case IArchimatePackage.RESOURCE: return createResource();
             case IArchimatePackage.AND_JUNCTION: return createAndJunction();
-            case IArchimatePackage.OR_JUNCTION: return createOrJunction();
+            case IArchimatePackage.APPLICATION_COLLABORATION: return createApplicationCollaboration();
+            case IArchimatePackage.APPLICATION_COMPONENT: return createApplicationComponent();
+            case IArchimatePackage.APPLICATION_EVENT: return createApplicationEvent();
+            case IArchimatePackage.APPLICATION_FUNCTION: return createApplicationFunction();
+            case IArchimatePackage.APPLICATION_INTERACTION: return createApplicationInteraction();
+            case IArchimatePackage.APPLICATION_INTERFACE: return createApplicationInterface();
+            case IArchimatePackage.APPLICATION_PROCESS: return createApplicationProcess();
+            case IArchimatePackage.APPLICATION_SERVICE: return createApplicationService();
+            case IArchimatePackage.ARTIFACT: return createArtifact();
+            case IArchimatePackage.ASSESSMENT: return createAssessment();
             case IArchimatePackage.BUSINESS_ACTOR: return createBusinessActor();
             case IArchimatePackage.BUSINESS_COLLABORATION: return createBusinessCollaboration();
-            case IArchimatePackage.CONTRACT: return createContract();
             case IArchimatePackage.BUSINESS_EVENT: return createBusinessEvent();
             case IArchimatePackage.BUSINESS_FUNCTION: return createBusinessFunction();
             case IArchimatePackage.BUSINESS_INTERACTION: return createBusinessInteraction();
             case IArchimatePackage.BUSINESS_INTERFACE: return createBusinessInterface();
-            case IArchimatePackage.MEANING: return createMeaning();
             case IArchimatePackage.BUSINESS_OBJECT: return createBusinessObject();
             case IArchimatePackage.BUSINESS_PROCESS: return createBusinessProcess();
-            case IArchimatePackage.PRODUCT: return createProduct();
-            case IArchimatePackage.REPRESENTATION: return createRepresentation();
             case IArchimatePackage.BUSINESS_ROLE: return createBusinessRole();
             case IArchimatePackage.BUSINESS_SERVICE: return createBusinessService();
-            case IArchimatePackage.VALUE: return createValue();
-            case IArchimatePackage.LOCATION: return createLocation();
-            case IArchimatePackage.APPLICATION_COLLABORATION: return createApplicationCollaboration();
-            case IArchimatePackage.APPLICATION_COMPONENT: return createApplicationComponent();
-            case IArchimatePackage.APPLICATION_FUNCTION: return createApplicationFunction();
-            case IArchimatePackage.APPLICATION_INTERACTION: return createApplicationInteraction();
-            case IArchimatePackage.APPLICATION_INTERFACE: return createApplicationInterface();
-            case IArchimatePackage.DATA_OBJECT: return createDataObject();
-            case IArchimatePackage.APPLICATION_SERVICE: return createApplicationService();
-            case IArchimatePackage.ARTIFACT: return createArtifact();
-            case IArchimatePackage.COMMUNICATION_PATH: return createCommunicationPath();
-            case IArchimatePackage.NETWORK: return createNetwork();
-            case IArchimatePackage.INFRASTRUCTURE_INTERFACE: return createInfrastructureInterface();
-            case IArchimatePackage.INFRASTRUCTURE_SERVICE: return createInfrastructureService();
-            case IArchimatePackage.INFRASTRUCTURE_FUNCTION: return createInfrastructureFunction();
-            case IArchimatePackage.NODE: return createNode();
-            case IArchimatePackage.SYSTEM_SOFTWARE: return createSystemSoftware();
-            case IArchimatePackage.DEVICE: return createDevice();
-            case IArchimatePackage.EQUIPMENT: return createEquipment();
-            case IArchimatePackage.STAKEHOLDER: return createStakeholder();
-            case IArchimatePackage.DRIVER: return createDriver();
-            case IArchimatePackage.ASSESSMENT: return createAssessment();
-            case IArchimatePackage.GOAL: return createGoal();
-            case IArchimatePackage.REQUIREMENT: return createRequirement();
+            case IArchimatePackage.CAPABILITY: return createCapability();
+            case IArchimatePackage.COMMUNICATION_NETWORK: return createCommunicationNetwork();
+            case IArchimatePackage.CONTRACT: return createContract();
             case IArchimatePackage.CONSTRAINT: return createConstraint();
-            case IArchimatePackage.PRINCIPLE: return createPrinciple();
-            case IArchimatePackage.WORK_PACKAGE: return createWorkPackage();
+            case IArchimatePackage.COURSE_OF_ACTION: return createCourseOfAction();
+            case IArchimatePackage.DATA_OBJECT: return createDataObject();
             case IArchimatePackage.DELIVERABLE: return createDeliverable();
-            case IArchimatePackage.PLATEAU: return createPlateau();
+            case IArchimatePackage.DEVICE: return createDevice();
+            case IArchimatePackage.DISTRIBUTION_NETWORK: return createDistributionNetwork();
+            case IArchimatePackage.DRIVER: return createDriver();
+            case IArchimatePackage.EQUIPMENT: return createEquipment();
+            case IArchimatePackage.FACILITY: return createFacility();
             case IArchimatePackage.GAP: return createGap();
+            case IArchimatePackage.GOAL: return createGoal();
+            case IArchimatePackage.GROUPING: return createGrouping();
+            case IArchimatePackage.LOCATION: return createLocation();
+            case IArchimatePackage.MATERIAL: return createMaterial();
+            case IArchimatePackage.MEANING: return createMeaning();
+            case IArchimatePackage.NODE: return createNode();
+            case IArchimatePackage.OUTCOME: return createOutcome();
+            case IArchimatePackage.OR_JUNCTION: return createOrJunction();
+            case IArchimatePackage.PATH: return createPath();
+            case IArchimatePackage.PLATEAU: return createPlateau();
+            case IArchimatePackage.PRINCIPLE: return createPrinciple();
+            case IArchimatePackage.PRODUCT: return createProduct();
+            case IArchimatePackage.REPRESENTATION: return createRepresentation();
+            case IArchimatePackage.RESOURCE: return createResource();
+            case IArchimatePackage.REQUIREMENT: return createRequirement();
+            case IArchimatePackage.STAKEHOLDER: return createStakeholder();
+            case IArchimatePackage.SYSTEM_SOFTWARE: return createSystemSoftware();
+            case IArchimatePackage.TECHNOLOGY_COLLABORATION: return createTechnologyCollaboration();
+            case IArchimatePackage.TECHNOLOGY_EVENT: return createTechnologyEvent();
+            case IArchimatePackage.TECHNOLOGY_FUNCTION: return createTechnologyFunction();
+            case IArchimatePackage.TECHNOLOGY_INTERFACE: return createTechnologyInterface();
+            case IArchimatePackage.TECHNOLOGY_INTERACTION: return createTechnologyInteraction();
+            case IArchimatePackage.TECHNOLOGY_PROCESS: return createTechnologyProcess();
+            case IArchimatePackage.TECHNOLOGY_SERVICE: return createTechnologyService();
+            case IArchimatePackage.VALUE: return createValue();
+            case IArchimatePackage.WORK_PACKAGE: return createWorkPackage();
             case IArchimatePackage.ACCESS_RELATIONSHIP: return createAccessRelationship();
             case IArchimatePackage.AGGREGATION_RELATIONSHIP: return createAggregationRelationship();
             case IArchimatePackage.ASSIGNMENT_RELATIONSHIP: return createAssignmentRelationship();
@@ -294,6 +324,26 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IFolder createFolder() {
         Folder folder = new Folder();
         return folder;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IActiveStructureElement createActiveStructureElement() {
+        ActiveStructureElement activeStructureElement = new ActiveStructureElement();
+        return activeStructureElement;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IPassiveStructureElement createPassiveStructureElement() {
+        PassiveStructureElement passiveStructureElement = new PassiveStructureElement();
+        return passiveStructureElement;
     }
 
     /**
@@ -441,6 +491,26 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public ICapability createCapability() {
+        Capability capability = new Capability();
+        return capability;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ICommunicationNetwork createCommunicationNetwork() {
+        CommunicationNetwork communicationNetwork = new CommunicationNetwork();
+        return communicationNetwork;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IValue createValue() {
         Value value = new Value();
         return value;
@@ -461,9 +531,29 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public IMaterial createMaterial() {
+        Material material = new Material();
+        return material;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IApplicationComponent createApplicationComponent() {
         ApplicationComponent applicationComponent = new ApplicationComponent();
         return applicationComponent;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IApplicationEvent createApplicationEvent() {
+        ApplicationEvent applicationEvent = new ApplicationEvent();
+        return applicationEvent;
     }
 
     /**
@@ -501,6 +591,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public IApplicationProcess createApplicationProcess() {
+        ApplicationProcess applicationProcess = new ApplicationProcess();
+        return applicationProcess;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IDataObject createDataObject() {
         DataObject dataObject = new DataObject();
         return dataObject;
@@ -531,59 +631,19 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
-    public ICommunicationPath createCommunicationPath() {
-        CommunicationPath communicationPath = new CommunicationPath();
-        return communicationPath;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public INetwork createNetwork() {
-        Network network = new Network();
-        return network;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IInfrastructureInterface createInfrastructureInterface() {
-        InfrastructureInterface infrastructureInterface = new InfrastructureInterface();
-        return infrastructureInterface;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IInfrastructureService createInfrastructureService() {
-        InfrastructureService infrastructureService = new InfrastructureService();
-        return infrastructureService;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IInfrastructureFunction createInfrastructureFunction() {
-        InfrastructureFunction infrastructureFunction = new InfrastructureFunction();
-        return infrastructureFunction;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public INode createNode() {
         Node node = new Node();
         return node;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IOutcome createOutcome() {
+        Outcome outcome = new Outcome();
+        return outcome;
     }
 
     /**
@@ -601,6 +661,76 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public ITechnologyCollaboration createTechnologyCollaboration() {
+        TechnologyCollaboration technologyCollaboration = new TechnologyCollaboration();
+        return technologyCollaboration;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ITechnologyEvent createTechnologyEvent() {
+        TechnologyEvent technologyEvent = new TechnologyEvent();
+        return technologyEvent;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ITechnologyFunction createTechnologyFunction() {
+        TechnologyFunction technologyFunction = new TechnologyFunction();
+        return technologyFunction;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ITechnologyInterface createTechnologyInterface() {
+        TechnologyInterface technologyInterface = new TechnologyInterface();
+        return technologyInterface;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ITechnologyInteraction createTechnologyInteraction() {
+        TechnologyInteraction technologyInteraction = new TechnologyInteraction();
+        return technologyInteraction;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ITechnologyProcess createTechnologyProcess() {
+        TechnologyProcess technologyProcess = new TechnologyProcess();
+        return technologyProcess;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ITechnologyService createTechnologyService() {
+        TechnologyService technologyService = new TechnologyService();
+        return technologyService;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IDevice createDevice() {
         Device device = new Device();
         return device;
@@ -611,9 +741,29 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public IDistributionNetwork createDistributionNetwork() {
+        DistributionNetwork distributionNetwork = new DistributionNetwork();
+        return distributionNetwork;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IEquipment createEquipment() {
         Equipment equipment = new Equipment();
         return equipment;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IFacility createFacility() {
+        Facility facility = new Facility();
+        return facility;
     }
 
     /**
@@ -661,6 +811,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
      * <!-- end-user-doc -->
      * @generated
      */
+    public IGrouping createGrouping() {
+        Grouping grouping = new Grouping();
+        return grouping;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public IRequirement createRequirement() {
         Requirement requirement = new Requirement();
         return requirement;
@@ -674,6 +834,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IConstraint createConstraint() {
         Constraint constraint = new Constraint();
         return constraint;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ICourseOfAction createCourseOfAction() {
+        CourseOfAction courseOfAction = new CourseOfAction();
+        return courseOfAction;
     }
 
     /**
@@ -913,6 +1083,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IOrJunction createOrJunction() {
         OrJunction orJunction = new OrJunction();
         return orJunction;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IPath createPath() {
+        Path path = new Path();
+        return path;
     }
 
     /**

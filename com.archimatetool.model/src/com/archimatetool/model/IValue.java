@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IValue extends IBusinessElement {
+public interface IValue extends IMotivationElement {
 } // IValue

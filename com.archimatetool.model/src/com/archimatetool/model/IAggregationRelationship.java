@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IAggregationRelationship extends IArchimateRelationship {
+public interface IAggregationRelationship extends IStructuralRelationship {
 } // IAggregationRelationship

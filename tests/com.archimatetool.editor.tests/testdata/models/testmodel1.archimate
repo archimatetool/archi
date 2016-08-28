@@ -8,7 +8,7 @@
   <folder name="Technology" id="1ec9356a" type="technology"/>
   <folder name="Motivation" id="cb8c585e" type="motivation"/>
   <folder name="Implementation &amp; Migration" id="f710fd6b" type="implementation_migration"/>
-  <folder name="Connectors" id="64e25bc1" type="connectors"/>
+  <folder name="Other" id="64e25bc1" type="other"/>
   <folder name="Relations" id="16891263" type="relations">
     <element xsi:type="archimate:AssignmentRelationship" id="ffdc8ea9" source="59fa6c90" target="1efcd76f"/>
   </folder>

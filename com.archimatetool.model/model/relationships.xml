@@ -31,11 +31,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="AndJunction" relations="ft" />
@@ -84,11 +84,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -137,11 +137,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -190,11 +190,11 @@
 			<target element="Node" relations="io" />
 			<target element="Device" relations="io" />
 			<target element="SystemSoftware" relations="io" />
-			<target element="InfrastructureInterface" relations="io" />
-			<target element="Network" relations="io" />
-			<target element="CommunicationPath" relations="io" />
-			<target element="InfrastructureFunction" relations="io" />
-			<target element="InfrastructureService" relations="io" />
+			<target element="TechnologyInterface" relations="io" />
+			<target element="CommunicationNetwork" relations="io" />
+			<target element="Path" relations="io" />
+			<target element="TechnologyFunction" relations="io" />
+			<target element="TechnologyService" relations="io" />
 			<target element="Artifact" relations="io" />
 
             <target element="AndJunction" relations="ft" />
@@ -243,11 +243,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -296,11 +296,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -349,11 +349,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -402,11 +402,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -455,11 +455,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="t" />
@@ -508,11 +508,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -561,11 +561,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -611,11 +611,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -661,11 +661,11 @@
 			<target element="Node" relations="ov" />
 			<target element="Device" relations="ov" />
 			<target element="SystemSoftware" relations="ov" />
-			<target element="InfrastructureInterface" relations="ov" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="ov" />
-			<target element="InfrastructureService" relations="gov" />
+			<target element="TechnologyInterface" relations="ov" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="ov" />
+			<target element="TechnologyService" relations="gov" />
 			<target element="Artifact" relations="ao" />
 
 			<target element="Stakeholder" relations="o" />
@@ -711,11 +711,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -761,11 +761,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 		</source>
 		
@@ -798,11 +798,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -848,11 +848,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -901,11 +901,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -954,11 +954,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -1007,11 +1007,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -1060,11 +1060,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -1113,11 +1113,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
             <target element="AndJunction" relations="ft" />
@@ -1166,11 +1166,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1216,11 +1216,11 @@
 			<target element="Node" relations="cfgostv" />
 			<target element="Device" relations="cfgostv" />
 			<target element="SystemSoftware" relations="cfgostv" />
-			<target element="InfrastructureInterface" relations="cfgotv" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="iov" />
-			<target element="InfrastructureService" relations="iorv" />
+			<target element="TechnologyInterface" relations="cfgotv" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="iov" />
+			<target element="TechnologyService" relations="iorv" />
 			<target element="Artifact" relations="aiov" />
 
             <target element="AndJunction" relations="ft" />
@@ -1269,11 +1269,11 @@
 			<target element="Node" relations="cfgostv" />
 			<target element="Device" relations="cfgostv" />
 			<target element="SystemSoftware" relations="cfgiostv" />
-			<target element="InfrastructureInterface" relations="cfgotv" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="iov" />
-			<target element="InfrastructureService" relations="iorv" />
+			<target element="TechnologyInterface" relations="cfgotv" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="iov" />
+			<target element="TechnologyService" relations="iorv" />
 			<target element="Artifact" relations="aiov" />
 
             <target element="AndJunction" relations="ft" />
@@ -1322,11 +1322,11 @@
 			<target element="Node" relations="cfgostv" />
 			<target element="Device" relations="cfgostv" />
 			<target element="SystemSoftware" relations="cfgostv" />
-			<target element="InfrastructureInterface" relations="cfgotv" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="iov" />
-			<target element="InfrastructureService" relations="iorv" />
+			<target element="TechnologyInterface" relations="cfgotv" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="iov" />
+			<target element="TechnologyService" relations="iorv" />
 			<target element="Artifact" relations="aiov" />
 
             <target element="AndJunction" relations="ft" />
@@ -1346,7 +1346,7 @@
 			<target element="Gap" relations="o" />
 		</source>
 		
-		<source element="InfrastructureInterface">
+		<source element="TechnologyInterface">
 			<target element="BusinessActor" relations="aov" />
 			<target element="BusinessRole" relations="aov" />
 			<target element="BusinessCollaboration" relations="aov" />
@@ -1375,11 +1375,11 @@
 			<target element="Node" relations="fotv" />
 			<target element="Device" relations="fotv" />
 			<target element="SystemSoftware" relations="fotv" />
-			<target element="InfrastructureInterface" relations="cfgostv" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="ov" />
-			<target element="InfrastructureService" relations="iov" />
+			<target element="TechnologyInterface" relations="cfgostv" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="ov" />
+			<target element="TechnologyService" relations="iov" />
 			<target element="Artifact" relations="aov" />
 
             <target element="AndJunction" relations="ft" />
@@ -1399,7 +1399,7 @@
 			<target element="Gap" relations="o" />
 		</source>
 		
-		<source element="Network">
+		<source element="CommunicationNetwork">
 			<target element="BusinessActor" relations="o" />
 			<target element="BusinessRole" relations="o" />
 			<target element="BusinessCollaboration" relations="o" />
@@ -1428,10 +1428,10 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="cgos" />
-			<target element="CommunicationPath" relations="or" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="cgos" />
+			<target element="Path" relations="or" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1448,7 +1448,7 @@
 			<target element="Gap" relations="o" />
 		</source>
 		
-		<source element="CommunicationPath">
+		<source element="Path">
 			<target element="BusinessActor" relations="o" />
 			<target element="BusinessRole" relations="o" />
 			<target element="BusinessCollaboration" relations="o" />
@@ -1477,11 +1477,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="cgos" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="cgos" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1498,7 +1498,7 @@
 			<target element="Gap" relations="o" />
 		</source>
 		
-		<source element="InfrastructureFunction">
+		<source element="TechnologyFunction">
 			<target element="BusinessActor" relations="ov" />
 			<target element="BusinessRole" relations="ov" />
 			<target element="BusinessCollaboration" relations="ov" />
@@ -1527,11 +1527,11 @@
 			<target element="Node" relations="ov" />
 			<target element="Device" relations="ov" />
 			<target element="SystemSoftware" relations="ov" />
-			<target element="InfrastructureInterface" relations="ov" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="cfgostv" />
-			<target element="InfrastructureService" relations="orv" />
+			<target element="TechnologyInterface" relations="ov" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="cfgostv" />
+			<target element="TechnologyService" relations="orv" />
 			<target element="Artifact" relations="aov" />
 
             <target element="AndJunction" relations="ft" />
@@ -1551,7 +1551,7 @@
 			<target element="Gap" relations="o" />
 		</source>
 		
-		<source element="InfrastructureService">
+		<source element="TechnologyService">
 			<target element="BusinessActor" relations="ov" />
 			<target element="BusinessRole" relations="ov" />
 			<target element="BusinessCollaboration" relations="ov" />
@@ -1580,11 +1580,11 @@
 			<target element="Node" relations="ov" />
 			<target element="Device" relations="ov" />
 			<target element="SystemSoftware" relations="ov" />
-			<target element="InfrastructureInterface" relations="ov" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="ov" />
-			<target element="InfrastructureService" relations="cfgostv" />
+			<target element="TechnologyInterface" relations="ov" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="ov" />
+			<target element="TechnologyService" relations="cfgostv" />
 			<target element="Artifact" relations="aov" />
 
             <target element="AndJunction" relations="ft" />
@@ -1633,11 +1633,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="or" />
-			<target element="InfrastructureInterface" relations="or" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="or" />
-			<target element="InfrastructureService" relations="or" />
+			<target element="TechnologyInterface" relations="or" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="or" />
+			<target element="TechnologyService" relations="or" />
 			<target element="Artifact" relations="cgors" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1676,9 +1676,9 @@
 			<target element="Node" relations="ft" />
 			<target element="Device" relations="ft" />
 			<target element="SystemSoftware" relations="ft" />
-			<target element="InfrastructureInterface" relations="ft" />
-			<target element="InfrastructureFunction" relations="ft" />
-			<target element="InfrastructureService" relations="ft" />
+			<target element="TechnologyInterface" relations="ft" />
+			<target element="TechnologyFunction" relations="ft" />
+			<target element="TechnologyService" relations="ft" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1710,9 +1710,9 @@
             <target element="Node" relations="ft" />
             <target element="Device" relations="ft" />
             <target element="SystemSoftware" relations="ft" />
-            <target element="InfrastructureInterface" relations="ft" />
-            <target element="InfrastructureFunction" relations="ft" />
-            <target element="InfrastructureService" relations="ft" />
+            <target element="TechnologyInterface" relations="ft" />
+            <target element="TechnologyFunction" relations="ft" />
+            <target element="TechnologyService" relations="ft" />
 
             <target element="AndJunction" relations="ft" />
             <target element="OrJunction" relations="ft" />
@@ -1749,11 +1749,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="cgos" />
@@ -1798,11 +1798,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1847,11 +1847,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1896,11 +1896,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1945,11 +1945,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -1994,11 +1994,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -2043,11 +2043,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />
@@ -2092,11 +2092,11 @@
 			<target element="Node" relations="or" />
 			<target element="Device" relations="or" />
 			<target element="SystemSoftware" relations="or" />
-			<target element="InfrastructureInterface" relations="or" />
-			<target element="Network" relations="or" />
-			<target element="CommunicationPath" relations="or" />
-			<target element="InfrastructureFunction" relations="or" />
-			<target element="InfrastructureService" relations="or" />
+			<target element="TechnologyInterface" relations="or" />
+			<target element="CommunicationNetwork" relations="or" />
+			<target element="Path" relations="or" />
+			<target element="TechnologyFunction" relations="or" />
+			<target element="TechnologyService" relations="or" />
 			<target element="Artifact" relations="or" />
 			
 			<!-- Added from spec metamodel diagram -->
@@ -2145,11 +2145,11 @@
 			<target element="Node" relations="ro" />
 			<target element="Device" relations="ro" />
 			<target element="SystemSoftware" relations="ro" />
-			<target element="InfrastructureInterface" relations="ro" />
-			<target element="Network" relations="ro" />
-			<target element="CommunicationPath" relations="ro" />
-			<target element="InfrastructureFunction" relations="ro" />
-			<target element="InfrastructureService" relations="ro" />
+			<target element="TechnologyInterface" relations="ro" />
+			<target element="CommunicationNetwork" relations="ro" />
+			<target element="Path" relations="ro" />
+			<target element="TechnologyFunction" relations="ro" />
+			<target element="TechnologyService" relations="ro" />
 			<target element="Artifact" relations="ro" />
 
 			<target element="Stakeholder" relations="o" />
@@ -2194,11 +2194,11 @@
 			<target element="Node" relations="go" />
 			<target element="Device" relations="go" />
 			<target element="SystemSoftware" relations="go" />
-			<target element="InfrastructureInterface" relations="go" />
-			<target element="Network" relations="go" />
-			<target element="CommunicationPath" relations="go" />
-			<target element="InfrastructureFunction" relations="go" />
-			<target element="InfrastructureService" relations="go" />
+			<target element="TechnologyInterface" relations="go" />
+			<target element="CommunicationNetwork" relations="go" />
+			<target element="Path" relations="go" />
+			<target element="TechnologyFunction" relations="go" />
+			<target element="TechnologyService" relations="go" />
 			<target element="Artifact" relations="go" />
 			
 			<!-- Added from spec metamodel diagram -->
@@ -2247,11 +2247,11 @@
 			<target element="Node" relations="o" />
 			<target element="Device" relations="o" />
 			<target element="SystemSoftware" relations="o" />
-			<target element="InfrastructureInterface" relations="o" />
-			<target element="Network" relations="o" />
-			<target element="CommunicationPath" relations="o" />
-			<target element="InfrastructureFunction" relations="o" />
-			<target element="InfrastructureService" relations="o" />
+			<target element="TechnologyInterface" relations="o" />
+			<target element="CommunicationNetwork" relations="o" />
+			<target element="Path" relations="o" />
+			<target element="TechnologyFunction" relations="o" />
+			<target element="TechnologyService" relations="o" />
 			<target element="Artifact" relations="o" />
 
 			<target element="Stakeholder" relations="o" />

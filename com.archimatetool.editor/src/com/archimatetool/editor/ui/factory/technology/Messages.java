@@ -13,17 +13,17 @@ public class Messages extends NLS {
 
     public static String TechnologyArtifactUIProvider_0;
 
-    public static String TechnologyCommunicationPathUIProvider_0;
+    public static String TechnologyPathUIProvider_0;
 
     public static String TechnologyDeviceUIProvider_0;
 
-    public static String TechnologyInfrastructureFunctionUIProvider_0;
+    public static String TechnologyFunctionUIProvider_0;
 
-    public static String TechnologyInfrastructureInterfaceUIProvider_0;
+    public static String TechnologyInterfaceUIProvider_0;
 
-    public static String TechnologyInfrastructureServiceUIProvider_0;
+    public static String TechnologyServiceUIProvider_0;
 
-    public static String TechnologyNetworkUIProvider_0;
+    public static String TechnologyCommunicationNetworkUIProvider_0;
 
     public static String TechnologyNodeUIProvider_0;
 

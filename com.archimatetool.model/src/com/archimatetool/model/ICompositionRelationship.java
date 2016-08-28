@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ICompositionRelationship extends IArchimateRelationship {
+public interface ICompositionRelationship extends IStructuralRelationship {
 } // ICompositionRelationship

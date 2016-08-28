@@ -18,7 +18,7 @@ import com.archimatetool.model.IPlateau;
  *
  * @generated
  */
-public class Plateau extends ImplementationMigrationElement implements IPlateau {
+public class Plateau extends ArchimateElement implements IPlateau {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

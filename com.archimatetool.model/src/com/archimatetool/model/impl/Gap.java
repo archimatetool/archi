@@ -18,7 +18,7 @@ import com.archimatetool.model.IGap;
  *
  * @generated
  */
-public class Gap extends ImplementationMigrationElement implements IGap {
+public class Gap extends ArchimateElement implements IGap {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

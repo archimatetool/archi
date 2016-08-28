@@ -69,7 +69,7 @@ public class ArchimateModelTests {
         assertEquals(FolderType.TECHNOLOGY, list.get(3).getType());
         assertEquals(FolderType.MOTIVATION, list.get(4).getType());
         assertEquals(FolderType.IMPLEMENTATION_MIGRATION, list.get(5).getType());
-        assertEquals(FolderType.CONNECTORS, list.get(6).getType());
+        assertEquals(FolderType.OTHER, list.get(6).getType());
         assertEquals(FolderType.RELATIONS, list.get(7).getType());
         assertEquals(FolderType.DIAGRAMS, list.get(8).getType());
         
@@ -123,7 +123,7 @@ public class ArchimateModelTests {
         element = IArchimateFactory.eINSTANCE.createAndJunction();
         folder = model.getDefaultFolderForElement(element);
         assertNotNull(folder);
-        assertEquals(FolderType.CONNECTORS, folder.getType());
+        assertEquals(FolderType.OTHER, folder.getType());
         
         element = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         folder = model.getDefaultFolderForElement(element);
@@ -167,7 +167,7 @@ public class ArchimateModelTests {
         assertNull(model.getFolder(FolderType.BUSINESS));
         assertNull(model.getFolder(FolderType.APPLICATION));
         assertNull(model.getFolder(FolderType.TECHNOLOGY));
-        assertNull(model.getFolder(FolderType.CONNECTORS));
+        assertNull(model.getFolder(FolderType.OTHER));
         assertNull(model.getFolder(FolderType.RELATIONS));
         assertNull(model.getFolder(FolderType.DIAGRAMS));
         
@@ -177,7 +177,7 @@ public class ArchimateModelTests {
         assertEquals(FolderType.BUSINESS, model.getFolder(FolderType.BUSINESS).getType());
         assertEquals(FolderType.APPLICATION, model.getFolder(FolderType.APPLICATION).getType());
         assertEquals(FolderType.TECHNOLOGY, model.getFolder(FolderType.TECHNOLOGY).getType());
-        assertEquals(FolderType.CONNECTORS, model.getFolder(FolderType.CONNECTORS).getType());
+        assertEquals(FolderType.OTHER, model.getFolder(FolderType.OTHER).getType());
         assertEquals(FolderType.RELATIONS, model.getFolder(FolderType.RELATIONS).getType());
         assertEquals(FolderType.DIAGRAMS, model.getFolder(FolderType.DIAGRAMS).getType());
     }

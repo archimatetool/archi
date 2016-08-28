@@ -68,12 +68,12 @@ import com.archimatetool.editor.ui.factory.junctions.AndJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.junctions.OrJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.technology.AbstractTechnologyUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologyArtifactUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyCommunicationPathUIProvider;
+import com.archimatetool.editor.ui.factory.technology.TechnologyPathUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologyDeviceUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureFunctionUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureInterfaceUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureServiceUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyNetworkUIProvider;
+import com.archimatetool.editor.ui.factory.technology.TechnologyFunctionUIProvider;
+import com.archimatetool.editor.ui.factory.technology.TechnologyInterfaceUIProvider;
+import com.archimatetool.editor.ui.factory.technology.TechnologyServiceUIProvider;
+import com.archimatetool.editor.ui.factory.technology.TechnologyCommunicationNetworkUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider;
 import com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUIProvider;
 import com.archimatetool.model.IArchimatePackage;
@@ -122,14 +122,14 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
                 { new ApplicationServiceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationService() },
                 
                 { new TechnologyArtifactUIProvider(), IArchimatePackage.eINSTANCE.getArtifact() },
-                { new TechnologyCommunicationPathUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationPath() },
-                { new TechnologyNetworkUIProvider(), IArchimatePackage.eINSTANCE.getNetwork() },
-                { new TechnologyInfrastructureInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureInterface() },
-                { new TechnologyInfrastructureServiceUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureService() },
+                { new TechnologyPathUIProvider(), IArchimatePackage.eINSTANCE.getPath() },
+                { new TechnologyCommunicationNetworkUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
+                { new TechnologyInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInterface() },
+                { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
                 { new TechnologyNodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
                 { new TechnologySystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
                 { new TechnologyDeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
-                { new TechnologyInfrastructureFunctionUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureFunction() },
+                { new TechnologyFunctionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyFunction() },
                 
                 { new AndJunctionUIProvider(), IArchimatePackage.eINSTANCE.getAndJunction() },
                 { new OrJunctionUIProvider(), IArchimatePackage.eINSTANCE.getOrJunction() },

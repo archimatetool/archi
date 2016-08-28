@@ -6,15 +6,18 @@
 package com.archimatetool.model.util;
 
 import com.archimatetool.model.IAccessRelationship;
+import com.archimatetool.model.IActiveStructureElement;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
 import com.archimatetool.model.IApplicationComponent;
 import com.archimatetool.model.IApplicationElement;
+import com.archimatetool.model.IApplicationEvent;
 import com.archimatetool.model.IApplicationFunction;
 import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
+import com.archimatetool.model.IApplicationProcess;
 import com.archimatetool.model.IApplicationService;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -27,6 +30,7 @@ import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IAssessment;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
+import com.archimatetool.model.IBehaviorElement;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IBusinessActor;
@@ -40,14 +44,18 @@ import com.archimatetool.model.IBusinessObject;
 import com.archimatetool.model.IBusinessProcess;
 import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.IBusinessService;
+import com.archimatetool.model.ICapability;
 import com.archimatetool.model.ICloneable;
-import com.archimatetool.model.ICommunicationPath;
+import com.archimatetool.model.ICommunicationNetwork;
+import com.archimatetool.model.ICompositeElement;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IConstraint;
 import com.archimatetool.model.IContract;
+import com.archimatetool.model.ICourseOfAction;
 import com.archimatetool.model.IDataObject;
 import com.archimatetool.model.IDeliverable;
+import com.archimatetool.model.IDependendencyRelationship;
 import com.archimatetool.model.IDevice;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -63,33 +71,38 @@ import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IDistributionNetwork;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IDriver;
+import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
+import com.archimatetool.model.IFacility;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
+import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IInfrastructureFunction;
-import com.archimatetool.model.IInfrastructureInterface;
-import com.archimatetool.model.IInfrastructureService;
 import com.archimatetool.model.IInterfaceElement;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.IMaterial;
 import com.archimatetool.model.IMeaning;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.INetwork;
 import com.archimatetool.model.INode;
 import com.archimatetool.model.IOrJunction;
+import com.archimatetool.model.IOtherRelationship;
+import com.archimatetool.model.IOutcome;
+import com.archimatetool.model.IPassiveStructureElement;
+import com.archimatetool.model.IPath;
 import com.archimatetool.model.IPhysicalElement;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
@@ -108,8 +121,18 @@ import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.IStrategyElement;
+import com.archimatetool.model.IStructuralRelationship;
+import com.archimatetool.model.IStructureElement;
 import com.archimatetool.model.ISystemSoftware;
+import com.archimatetool.model.ITechnologyCollaboration;
 import com.archimatetool.model.ITechnologyElement;
+import com.archimatetool.model.ITechnologyEvent;
+import com.archimatetool.model.ITechnologyFunction;
+import com.archimatetool.model.ITechnologyInteraction;
+import com.archimatetool.model.ITechnologyInterface;
+import com.archimatetool.model.ITechnologyObject;
+import com.archimatetool.model.ITechnologyProcess;
+import com.archimatetool.model.ITechnologyService;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
@@ -251,6 +274,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createServiceElementAdapter();
             }
             @Override
+            public Adapter caseStrategyElement(IStrategyElement object) {
+                return createStrategyElementAdapter();
+            }
+            @Override
             public Adapter caseBusinessElement(IBusinessElement object) {
                 return createBusinessElementAdapter();
             }
@@ -261,6 +288,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseTechnologyElement(ITechnologyElement object) {
                 return createTechnologyElementAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyObject(ITechnologyObject object) {
+                return createTechnologyObjectAdapter();
             }
             @Override
             public Adapter casePhysicalElement(IPhysicalElement object) {
@@ -275,24 +306,88 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createImplementationMigrationElementAdapter();
             }
             @Override
-            public Adapter caseStrategyElement(IStrategyElement object) {
-                return createStrategyElementAdapter();
+            public Adapter caseCompositeElement(ICompositeElement object) {
+                return createCompositeElementAdapter();
+            }
+            @Override
+            public Adapter caseBehaviorElement(IBehaviorElement object) {
+                return createBehaviorElementAdapter();
+            }
+            @Override
+            public Adapter caseStructureElement(IStructureElement object) {
+                return createStructureElementAdapter();
+            }
+            @Override
+            public Adapter caseActiveStructureElement(IActiveStructureElement object) {
+                return createActiveStructureElementAdapter();
+            }
+            @Override
+            public Adapter casePassiveStructureElement(IPassiveStructureElement object) {
+                return createPassiveStructureElementAdapter();
+            }
+            @Override
+            public Adapter caseStructuralRelationship(IStructuralRelationship object) {
+                return createStructuralRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseDependendencyRelationship(IDependendencyRelationship object) {
+                return createDependendencyRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseDynamicRelationship(IDynamicRelationship object) {
+                return createDynamicRelationshipAdapter();
+            }
+            @Override
+            public Adapter caseOtherRelationship(IOtherRelationship object) {
+                return createOtherRelationshipAdapter();
             }
             @Override
             public Adapter caseArchimateModel(IArchimateModel object) {
                 return createArchimateModelAdapter();
             }
             @Override
-            public Adapter caseResource(IResource object) {
-                return createResourceAdapter();
-            }
-            @Override
             public Adapter caseAndJunction(IAndJunction object) {
                 return createAndJunctionAdapter();
             }
             @Override
-            public Adapter caseOrJunction(IOrJunction object) {
-                return createOrJunctionAdapter();
+            public Adapter caseApplicationCollaboration(IApplicationCollaboration object) {
+                return createApplicationCollaborationAdapter();
+            }
+            @Override
+            public Adapter caseApplicationComponent(IApplicationComponent object) {
+                return createApplicationComponentAdapter();
+            }
+            @Override
+            public Adapter caseApplicationEvent(IApplicationEvent object) {
+                return createApplicationEventAdapter();
+            }
+            @Override
+            public Adapter caseApplicationFunction(IApplicationFunction object) {
+                return createApplicationFunctionAdapter();
+            }
+            @Override
+            public Adapter caseApplicationInteraction(IApplicationInteraction object) {
+                return createApplicationInteractionAdapter();
+            }
+            @Override
+            public Adapter caseApplicationInterface(IApplicationInterface object) {
+                return createApplicationInterfaceAdapter();
+            }
+            @Override
+            public Adapter caseApplicationProcess(IApplicationProcess object) {
+                return createApplicationProcessAdapter();
+            }
+            @Override
+            public Adapter caseApplicationService(IApplicationService object) {
+                return createApplicationServiceAdapter();
+            }
+            @Override
+            public Adapter caseArtifact(IArtifact object) {
+                return createArtifactAdapter();
+            }
+            @Override
+            public Adapter caseAssessment(IAssessment object) {
+                return createAssessmentAdapter();
             }
             @Override
             public Adapter caseBusinessActor(IBusinessActor object) {
@@ -301,10 +396,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseBusinessCollaboration(IBusinessCollaboration object) {
                 return createBusinessCollaborationAdapter();
-            }
-            @Override
-            public Adapter caseContract(IContract object) {
-                return createContractAdapter();
             }
             @Override
             public Adapter caseBusinessEvent(IBusinessEvent object) {
@@ -323,24 +414,12 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createBusinessInterfaceAdapter();
             }
             @Override
-            public Adapter caseMeaning(IMeaning object) {
-                return createMeaningAdapter();
-            }
-            @Override
             public Adapter caseBusinessObject(IBusinessObject object) {
                 return createBusinessObjectAdapter();
             }
             @Override
             public Adapter caseBusinessProcess(IBusinessProcess object) {
                 return createBusinessProcessAdapter();
-            }
-            @Override
-            public Adapter caseProduct(IProduct object) {
-                return createProductAdapter();
-            }
-            @Override
-            public Adapter caseRepresentation(IRepresentation object) {
-                return createRepresentationAdapter();
             }
             @Override
             public Adapter caseBusinessRole(IBusinessRole object) {
@@ -351,124 +430,160 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createBusinessServiceAdapter();
             }
             @Override
-            public Adapter caseValue(IValue object) {
-                return createValueAdapter();
+            public Adapter caseCapability(ICapability object) {
+                return createCapabilityAdapter();
             }
             @Override
-            public Adapter caseLocation(ILocation object) {
-                return createLocationAdapter();
+            public Adapter caseCommunicationNetwork(ICommunicationNetwork object) {
+                return createCommunicationNetworkAdapter();
             }
             @Override
-            public Adapter caseApplicationCollaboration(IApplicationCollaboration object) {
-                return createApplicationCollaborationAdapter();
-            }
-            @Override
-            public Adapter caseApplicationComponent(IApplicationComponent object) {
-                return createApplicationComponentAdapter();
-            }
-            @Override
-            public Adapter caseApplicationFunction(IApplicationFunction object) {
-                return createApplicationFunctionAdapter();
-            }
-            @Override
-            public Adapter caseApplicationInteraction(IApplicationInteraction object) {
-                return createApplicationInteractionAdapter();
-            }
-            @Override
-            public Adapter caseApplicationInterface(IApplicationInterface object) {
-                return createApplicationInterfaceAdapter();
-            }
-            @Override
-            public Adapter caseDataObject(IDataObject object) {
-                return createDataObjectAdapter();
-            }
-            @Override
-            public Adapter caseApplicationService(IApplicationService object) {
-                return createApplicationServiceAdapter();
-            }
-            @Override
-            public Adapter caseArtifact(IArtifact object) {
-                return createArtifactAdapter();
-            }
-            @Override
-            public Adapter caseCommunicationPath(ICommunicationPath object) {
-                return createCommunicationPathAdapter();
-            }
-            @Override
-            public Adapter caseNetwork(INetwork object) {
-                return createNetworkAdapter();
-            }
-            @Override
-            public Adapter caseInfrastructureInterface(IInfrastructureInterface object) {
-                return createInfrastructureInterfaceAdapter();
-            }
-            @Override
-            public Adapter caseInfrastructureService(IInfrastructureService object) {
-                return createInfrastructureServiceAdapter();
-            }
-            @Override
-            public Adapter caseInfrastructureFunction(IInfrastructureFunction object) {
-                return createInfrastructureFunctionAdapter();
-            }
-            @Override
-            public Adapter caseNode(INode object) {
-                return createNodeAdapter();
-            }
-            @Override
-            public Adapter caseSystemSoftware(ISystemSoftware object) {
-                return createSystemSoftwareAdapter();
-            }
-            @Override
-            public Adapter caseDevice(IDevice object) {
-                return createDeviceAdapter();
-            }
-            @Override
-            public Adapter caseEquipment(IEquipment object) {
-                return createEquipmentAdapter();
-            }
-            @Override
-            public Adapter caseStakeholder(IStakeholder object) {
-                return createStakeholderAdapter();
-            }
-            @Override
-            public Adapter caseDriver(IDriver object) {
-                return createDriverAdapter();
-            }
-            @Override
-            public Adapter caseAssessment(IAssessment object) {
-                return createAssessmentAdapter();
-            }
-            @Override
-            public Adapter caseGoal(IGoal object) {
-                return createGoalAdapter();
-            }
-            @Override
-            public Adapter caseRequirement(IRequirement object) {
-                return createRequirementAdapter();
+            public Adapter caseContract(IContract object) {
+                return createContractAdapter();
             }
             @Override
             public Adapter caseConstraint(IConstraint object) {
                 return createConstraintAdapter();
             }
             @Override
-            public Adapter casePrinciple(IPrinciple object) {
-                return createPrincipleAdapter();
+            public Adapter caseCourseOfAction(ICourseOfAction object) {
+                return createCourseOfActionAdapter();
             }
             @Override
-            public Adapter caseWorkPackage(IWorkPackage object) {
-                return createWorkPackageAdapter();
+            public Adapter caseDataObject(IDataObject object) {
+                return createDataObjectAdapter();
             }
             @Override
             public Adapter caseDeliverable(IDeliverable object) {
                 return createDeliverableAdapter();
             }
             @Override
-            public Adapter casePlateau(IPlateau object) {
-                return createPlateauAdapter();
+            public Adapter caseDevice(IDevice object) {
+                return createDeviceAdapter();
+            }
+            @Override
+            public Adapter caseDistributionNetwork(IDistributionNetwork object) {
+                return createDistributionNetworkAdapter();
+            }
+            @Override
+            public Adapter caseDriver(IDriver object) {
+                return createDriverAdapter();
+            }
+            @Override
+            public Adapter caseEquipment(IEquipment object) {
+                return createEquipmentAdapter();
+            }
+            @Override
+            public Adapter caseFacility(IFacility object) {
+                return createFacilityAdapter();
             }
             @Override
             public Adapter caseGap(IGap object) {
                 return createGapAdapter();
+            }
+            @Override
+            public Adapter caseGoal(IGoal object) {
+                return createGoalAdapter();
+            }
+            @Override
+            public Adapter caseGrouping(IGrouping object) {
+                return createGroupingAdapter();
+            }
+            @Override
+            public Adapter caseLocation(ILocation object) {
+                return createLocationAdapter();
+            }
+            @Override
+            public Adapter caseMaterial(IMaterial object) {
+                return createMaterialAdapter();
+            }
+            @Override
+            public Adapter caseMeaning(IMeaning object) {
+                return createMeaningAdapter();
+            }
+            @Override
+            public Adapter caseNode(INode object) {
+                return createNodeAdapter();
+            }
+            @Override
+            public Adapter caseOutcome(IOutcome object) {
+                return createOutcomeAdapter();
+            }
+            @Override
+            public Adapter caseOrJunction(IOrJunction object) {
+                return createOrJunctionAdapter();
+            }
+            @Override
+            public Adapter casePath(IPath object) {
+                return createPathAdapter();
+            }
+            @Override
+            public Adapter casePlateau(IPlateau object) {
+                return createPlateauAdapter();
+            }
+            @Override
+            public Adapter casePrinciple(IPrinciple object) {
+                return createPrincipleAdapter();
+            }
+            @Override
+            public Adapter caseProduct(IProduct object) {
+                return createProductAdapter();
+            }
+            @Override
+            public Adapter caseRepresentation(IRepresentation object) {
+                return createRepresentationAdapter();
+            }
+            @Override
+            public Adapter caseResource(IResource object) {
+                return createResourceAdapter();
+            }
+            @Override
+            public Adapter caseRequirement(IRequirement object) {
+                return createRequirementAdapter();
+            }
+            @Override
+            public Adapter caseStakeholder(IStakeholder object) {
+                return createStakeholderAdapter();
+            }
+            @Override
+            public Adapter caseSystemSoftware(ISystemSoftware object) {
+                return createSystemSoftwareAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyCollaboration(ITechnologyCollaboration object) {
+                return createTechnologyCollaborationAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyEvent(ITechnologyEvent object) {
+                return createTechnologyEventAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyFunction(ITechnologyFunction object) {
+                return createTechnologyFunctionAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyInterface(ITechnologyInterface object) {
+                return createTechnologyInterfaceAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyInteraction(ITechnologyInteraction object) {
+                return createTechnologyInteractionAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyProcess(ITechnologyProcess object) {
+                return createTechnologyProcessAdapter();
+            }
+            @Override
+            public Adapter caseTechnologyService(ITechnologyService object) {
+                return createTechnologyServiceAdapter();
+            }
+            @Override
+            public Adapter caseValue(IValue object) {
+                return createValueAdapter();
+            }
+            @Override
+            public Adapter caseWorkPackage(IWorkPackage object) {
+                return createWorkPackageAdapter();
             }
             @Override
             public Adapter caseAccessRelationship(IAccessRelationship object) {
@@ -877,76 +992,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ICommunicationPath <em>Communication Path</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.ICommunicationPath
-     * @generated
-     */
-    public Adapter createCommunicationPathAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.INetwork <em>Network</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.INetwork
-     * @generated
-     */
-    public Adapter createNetworkAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IInfrastructureInterface <em>Infrastructure Interface</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IInfrastructureInterface
-     * @generated
-     */
-    public Adapter createInfrastructureInterfaceAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IInfrastructureService <em>Infrastructure Service</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IInfrastructureService
-     * @generated
-     */
-    public Adapter createInfrastructureServiceAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IInfrastructureFunction <em>Infrastructure Function</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IInfrastructureFunction
-     * @generated
-     */
-    public Adapter createInfrastructureFunctionAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.INode <em>Node</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -957,6 +1002,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createNodeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IOutcome <em>Outcome</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IOutcome
+     * @generated
+     */
+    public Adapter createOutcomeAdapter() {
         return null;
     }
 
@@ -975,6 +1034,118 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyCollaboration <em>Technology Collaboration</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyCollaboration
+     * @generated
+     */
+    public Adapter createTechnologyCollaborationAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyEvent <em>Technology Event</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyEvent
+     * @generated
+     */
+    public Adapter createTechnologyEventAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyFunction <em>Technology Function</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyFunction
+     * @generated
+     */
+    public Adapter createTechnologyFunctionAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyInterface <em>Technology Interface</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyInterface
+     * @generated
+     */
+    public Adapter createTechnologyInterfaceAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyInteraction <em>Technology Interaction</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyInteraction
+     * @generated
+     */
+    public Adapter createTechnologyInteractionAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyObject <em>Technology Object</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyObject
+     * @generated
+     */
+    public Adapter createTechnologyObjectAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyProcess <em>Technology Process</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyProcess
+     * @generated
+     */
+    public Adapter createTechnologyProcessAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ITechnologyService <em>Technology Service</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ITechnologyService
+     * @generated
+     */
+    public Adapter createTechnologyServiceAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDevice <em>Device</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -989,6 +1160,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDistributionNetwork <em>Distribution Network</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IDistributionNetwork
+     * @generated
+     */
+    public Adapter createDistributionNetworkAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IEquipment <em>Equipment</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -999,6 +1184,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createEquipmentAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IFacility <em>Facility</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IFacility
+     * @generated
+     */
+    public Adapter createFacilityAdapter() {
         return null;
     }
 
@@ -1073,6 +1272,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IGrouping <em>Grouping</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IGrouping
+     * @generated
+     */
+    public Adapter createGroupingAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IRequirement <em>Requirement</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -1101,6 +1314,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ICourseOfAction <em>Course Of Action</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ICourseOfAction
+     * @generated
+     */
+    public Adapter createCourseOfActionAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IPrinciple <em>Principle</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -1125,6 +1352,132 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createImplementationMigrationElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ICompositeElement <em>Composite Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ICompositeElement
+     * @generated
+     */
+    public Adapter createCompositeElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IBehaviorElement <em>Behavior Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IBehaviorElement
+     * @generated
+     */
+    public Adapter createBehaviorElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IStructureElement <em>Structure Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IStructureElement
+     * @generated
+     */
+    public Adapter createStructureElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IActiveStructureElement <em>Active Structure Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IActiveStructureElement
+     * @generated
+     */
+    public Adapter createActiveStructureElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IPassiveStructureElement <em>Passive Structure Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IPassiveStructureElement
+     * @generated
+     */
+    public Adapter createPassiveStructureElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IStructuralRelationship <em>Structural Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IStructuralRelationship
+     * @generated
+     */
+    public Adapter createStructuralRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDependendencyRelationship <em>Dependendency Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IDependendencyRelationship
+     * @generated
+     */
+    public Adapter createDependendencyRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IDynamicRelationship <em>Dynamic Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IDynamicRelationship
+     * @generated
+     */
+    public Adapter createDynamicRelationshipAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IOtherRelationship <em>Other Relationship</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IOtherRelationship
+     * @generated
+     */
+    public Adapter createOtherRelationshipAdapter() {
         return null;
     }
 
@@ -1773,6 +2126,34 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ICapability <em>Capability</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ICapability
+     * @generated
+     */
+    public Adapter createCapabilityAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.ICommunicationNetwork <em>Communication Network</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.ICommunicationNetwork
+     * @generated
+     */
+    public Adapter createCommunicationNetworkAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IValue <em>Value</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -1801,6 +2182,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IMaterial <em>Material</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IMaterial
+     * @generated
+     */
+    public Adapter createMaterialAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IApplicationComponent <em>Application Component</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -1811,6 +2206,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createApplicationComponentAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IApplicationEvent <em>Application Event</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IApplicationEvent
+     * @generated
+     */
+    public Adapter createApplicationEventAdapter() {
         return null;
     }
 
@@ -1853,6 +2262,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createApplicationInterfaceAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IApplicationProcess <em>Application Process</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IApplicationProcess
+     * @generated
+     */
+    public Adapter createApplicationProcessAdapter() {
         return null;
     }
 
@@ -2175,6 +2598,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createOrJunctionAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IPath <em>Path</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IPath
+     * @generated
+     */
+    public Adapter createPathAdapter() {
         return null;
     }
 

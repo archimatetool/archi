@@ -58,7 +58,7 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         IFolder technologyFolder = model.getFolder(FolderType.TECHNOLOGY);
         IFolder motivationFolder = model.getFolder(FolderType.MOTIVATION);
         IFolder implmigrationFolder = model.getFolder(FolderType.IMPLEMENTATION_MIGRATION);
-        IFolder connectorsFolder = model.getFolder(FolderType.CONNECTORS);
+        IFolder otherFolder = model.getFolder(FolderType.OTHER);
         IFolder relationsFolder = model.getFolder(FolderType.RELATIONS);
 
         if(ELEMENTS_BUSINESS_ACTORS.equals(type)) { 
@@ -100,13 +100,13 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
         }
         else if(ELEMENTS_INFRASTRUCTURES.equals(type)) {
             getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getArtifact());
-            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getCommunicationPath());
+            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getPath());
             getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getDevice());
             getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getNode());
-            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureFunction());
-            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureInterface());
-            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getNetwork());
-            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getInfrastructureService());
+            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getTechnologyFunction());
+            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getTechnologyInterface());
+            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getCommunicationNetwork());
+            getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getTechnologyService());
             getConcepts(technologyFolder, IArchimatePackage.eINSTANCE.getSystemSoftware());
         }
         else if(ELEMENTS_MOTIVATION.equals(type)) {
@@ -125,7 +125,7 @@ public class ElementsDataSource implements JRRewindableDataSource, IPropertiesDa
             getConcepts(implmigrationFolder, IArchimatePackage.eINSTANCE.getGap());
         }
         else if(ELEMENTS_CONNECTORS.equals(type)) {
-            getConcepts(connectorsFolder, null);
+            getConcepts(otherFolder, null);
         }
         else if(ELEMENTS_RELATIONS.equals(type)) {
             getConcepts(relationsFolder, null);

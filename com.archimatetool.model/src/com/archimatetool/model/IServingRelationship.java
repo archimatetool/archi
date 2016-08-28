@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IServingRelationship extends IArchimateRelationship {
+public interface IServingRelationship extends IDependendencyRelationship {
 } // IServingRelationship

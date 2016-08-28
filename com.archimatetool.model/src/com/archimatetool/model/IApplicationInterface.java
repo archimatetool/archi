@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IApplicationInterface extends IApplicationElement, IInterfaceElement {
+public interface IApplicationInterface extends IApplicationElement, IInterfaceElement, IActiveStructureElement {
 } // IApplicationInterface

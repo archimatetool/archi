@@ -71,6 +71,24 @@ public interface IArchimateFactory extends EFactory {
     IFolder createFolder();
 
     /**
+     * Returns a new object of class '<em>Active Structure Element</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Active Structure Element</em>'.
+     * @generated
+     */
+    IActiveStructureElement createActiveStructureElement();
+
+    /**
+     * Returns a new object of class '<em>Passive Structure Element</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Passive Structure Element</em>'.
+     * @generated
+     */
+    IPassiveStructureElement createPassiveStructureElement();
+
+    /**
      * Returns a new object of class '<em>Business Actor</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -197,6 +215,24 @@ public interface IArchimateFactory extends EFactory {
     IBusinessService createBusinessService();
 
     /**
+     * Returns a new object of class '<em>Capability</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Capability</em>'.
+     * @generated
+     */
+    ICapability createCapability();
+
+    /**
+     * Returns a new object of class '<em>Communication Network</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Communication Network</em>'.
+     * @generated
+     */
+    ICommunicationNetwork createCommunicationNetwork();
+
+    /**
      * Returns a new object of class '<em>Value</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -215,6 +251,15 @@ public interface IArchimateFactory extends EFactory {
     ILocation createLocation();
 
     /**
+     * Returns a new object of class '<em>Material</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Material</em>'.
+     * @generated
+     */
+    IMaterial createMaterial();
+
+    /**
      * Returns a new object of class '<em>Application Component</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -222,6 +267,15 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IApplicationComponent createApplicationComponent();
+
+    /**
+     * Returns a new object of class '<em>Application Event</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Application Event</em>'.
+     * @generated
+     */
+    IApplicationEvent createApplicationEvent();
 
     /**
      * Returns a new object of class '<em>Application Function</em>'.
@@ -251,6 +305,15 @@ public interface IArchimateFactory extends EFactory {
     IApplicationInterface createApplicationInterface();
 
     /**
+     * Returns a new object of class '<em>Application Process</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Application Process</em>'.
+     * @generated
+     */
+    IApplicationProcess createApplicationProcess();
+
+    /**
      * Returns a new object of class '<em>Data Object</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -278,51 +341,6 @@ public interface IArchimateFactory extends EFactory {
     IArtifact createArtifact();
 
     /**
-     * Returns a new object of class '<em>Communication Path</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Communication Path</em>'.
-     * @generated
-     */
-    ICommunicationPath createCommunicationPath();
-
-    /**
-     * Returns a new object of class '<em>Network</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Network</em>'.
-     * @generated
-     */
-    INetwork createNetwork();
-
-    /**
-     * Returns a new object of class '<em>Infrastructure Interface</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Infrastructure Interface</em>'.
-     * @generated
-     */
-    IInfrastructureInterface createInfrastructureInterface();
-
-    /**
-     * Returns a new object of class '<em>Infrastructure Service</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Infrastructure Service</em>'.
-     * @generated
-     */
-    IInfrastructureService createInfrastructureService();
-
-    /**
-     * Returns a new object of class '<em>Infrastructure Function</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Infrastructure Function</em>'.
-     * @generated
-     */
-    IInfrastructureFunction createInfrastructureFunction();
-
-    /**
      * Returns a new object of class '<em>Node</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -330,6 +348,15 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     INode createNode();
+
+    /**
+     * Returns a new object of class '<em>Outcome</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Outcome</em>'.
+     * @generated
+     */
+    IOutcome createOutcome();
 
     /**
      * Returns a new object of class '<em>System Software</em>'.
@@ -341,6 +368,69 @@ public interface IArchimateFactory extends EFactory {
     ISystemSoftware createSystemSoftware();
 
     /**
+     * Returns a new object of class '<em>Technology Collaboration</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Collaboration</em>'.
+     * @generated
+     */
+    ITechnologyCollaboration createTechnologyCollaboration();
+
+    /**
+     * Returns a new object of class '<em>Technology Event</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Event</em>'.
+     * @generated
+     */
+    ITechnologyEvent createTechnologyEvent();
+
+    /**
+     * Returns a new object of class '<em>Technology Function</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Function</em>'.
+     * @generated
+     */
+    ITechnologyFunction createTechnologyFunction();
+
+    /**
+     * Returns a new object of class '<em>Technology Interface</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Interface</em>'.
+     * @generated
+     */
+    ITechnologyInterface createTechnologyInterface();
+
+    /**
+     * Returns a new object of class '<em>Technology Interaction</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Interaction</em>'.
+     * @generated
+     */
+    ITechnologyInteraction createTechnologyInteraction();
+
+    /**
+     * Returns a new object of class '<em>Technology Process</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Process</em>'.
+     * @generated
+     */
+    ITechnologyProcess createTechnologyProcess();
+
+    /**
+     * Returns a new object of class '<em>Technology Service</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Technology Service</em>'.
+     * @generated
+     */
+    ITechnologyService createTechnologyService();
+
+    /**
      * Returns a new object of class '<em>Device</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -350,6 +440,15 @@ public interface IArchimateFactory extends EFactory {
     IDevice createDevice();
 
     /**
+     * Returns a new object of class '<em>Distribution Network</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Distribution Network</em>'.
+     * @generated
+     */
+    IDistributionNetwork createDistributionNetwork();
+
+    /**
      * Returns a new object of class '<em>Equipment</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -357,6 +456,15 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IEquipment createEquipment();
+
+    /**
+     * Returns a new object of class '<em>Facility</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Facility</em>'.
+     * @generated
+     */
+    IFacility createFacility();
 
     /**
      * Returns a new object of class '<em>Stakeholder</em>'.
@@ -395,6 +503,15 @@ public interface IArchimateFactory extends EFactory {
     IGoal createGoal();
 
     /**
+     * Returns a new object of class '<em>Grouping</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Grouping</em>'.
+     * @generated
+     */
+    IGrouping createGrouping();
+
+    /**
      * Returns a new object of class '<em>Requirement</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -411,6 +528,15 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IConstraint createConstraint();
+
+    /**
+     * Returns a new object of class '<em>Course Of Action</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Course Of Action</em>'.
+     * @generated
+     */
+    ICourseOfAction createCourseOfAction();
 
     /**
      * Returns a new object of class '<em>Principle</em>'.
@@ -610,6 +736,15 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IOrJunction createOrJunction();
+
+    /**
+     * Returns a new object of class '<em>Path</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Path</em>'.
+     * @generated
+     */
+    IPath createPath();
 
     /**
      * Returns a new object of class '<em>Access Relationship</em>'.

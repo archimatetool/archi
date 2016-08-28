@@ -5,6 +5,7 @@
  */
 package com.archimatetool.model.impl;
 
+import com.archimatetool.model.IActiveStructureElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -12,6 +13,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBusinessInterface;
 import com.archimatetool.model.IInterfaceElement;
+import com.archimatetool.model.IStructureElement;
 
 
 /**
@@ -158,6 +160,16 @@ public class BusinessInterface extends ArchimateElement implements IBusinessInte
                 default: return -1;
             }
         }
+        if (baseClass == IStructureElement.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
+        if (baseClass == IActiveStructureElement.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -171,6 +183,16 @@ public class BusinessInterface extends ArchimateElement implements IBusinessInte
         if (baseClass == IInterfaceElement.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.INTERFACE_ELEMENT__INTERFACE_TYPE: return IArchimatePackage.BUSINESS_INTERFACE__INTERFACE_TYPE;
+                default: return -1;
+            }
+        }
+        if (baseClass == IStructureElement.class) {
+            switch (baseFeatureID) {
+                default: return -1;
+            }
+        }
+        if (baseClass == IActiveStructureElement.class) {
+            switch (baseFeatureID) {
                 default: return -1;
             }
         }

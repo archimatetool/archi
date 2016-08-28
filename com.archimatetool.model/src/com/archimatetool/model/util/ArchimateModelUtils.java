@@ -143,6 +143,8 @@ public class ArchimateModelUtils {
     public static EClass[] getStrategyClasses() {
         return new EClass[] {
                 IArchimatePackage.eINSTANCE.getResource(),
+                IArchimatePackage.eINSTANCE.getCapability(),
+                IArchimatePackage.eINSTANCE.getCourseOfAction()
         };
     }
 
@@ -162,11 +164,8 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getProduct(),
                 IArchimatePackage.eINSTANCE.getContract(),
                 IArchimatePackage.eINSTANCE.getBusinessService(),
-                IArchimatePackage.eINSTANCE.getValue(),
-                IArchimatePackage.eINSTANCE.getMeaning(),
                 IArchimatePackage.eINSTANCE.getRepresentation(),
                 IArchimatePackage.eINSTANCE.getBusinessObject(),
-                IArchimatePackage.eINSTANCE.getLocation()
         };
     }
     
@@ -181,6 +180,8 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getApplicationService(),
                 IArchimatePackage.eINSTANCE.getApplicationFunction(),
                 IArchimatePackage.eINSTANCE.getApplicationInteraction(),
+                IArchimatePackage.eINSTANCE.getApplicationProcess(),
+                IArchimatePackage.eINSTANCE.getApplicationEvent(),
                 IArchimatePackage.eINSTANCE.getDataObject()
         };
     }
@@ -191,13 +192,17 @@ public class ArchimateModelUtils {
     public static EClass[] getTechnologyClasses() {
         return new EClass[] {
                 IArchimatePackage.eINSTANCE.getArtifact(),
-                IArchimatePackage.eINSTANCE.getCommunicationPath(),
-                IArchimatePackage.eINSTANCE.getNetwork(),
-                IArchimatePackage.eINSTANCE.getInfrastructureInterface(),
-                IArchimatePackage.eINSTANCE.getInfrastructureFunction(),
-                IArchimatePackage.eINSTANCE.getInfrastructureService(),
+                IArchimatePackage.eINSTANCE.getPath(),
+                IArchimatePackage.eINSTANCE.getCommunicationNetwork(),
+                IArchimatePackage.eINSTANCE.getTechnologyInterface(),
+                IArchimatePackage.eINSTANCE.getTechnologyFunction(),
+                IArchimatePackage.eINSTANCE.getTechnologyProcess(),
+                IArchimatePackage.eINSTANCE.getTechnologyInteraction(),
+                IArchimatePackage.eINSTANCE.getTechnologyEvent(),
+                IArchimatePackage.eINSTANCE.getTechnologyService(),
                 IArchimatePackage.eINSTANCE.getNode(),
                 IArchimatePackage.eINSTANCE.getSystemSoftware(),
+                IArchimatePackage.eINSTANCE.getTechnologyCollaboration(),
                 IArchimatePackage.eINSTANCE.getDevice()
         };
     }
@@ -208,6 +213,9 @@ public class ArchimateModelUtils {
     public static EClass[] getPhysicalClasses() {
         return new EClass[] {
                 IArchimatePackage.eINSTANCE.getEquipment(),
+                IArchimatePackage.eINSTANCE.getFacility(),
+                IArchimatePackage.eINSTANCE.getDistributionNetwork(),
+                IArchimatePackage.eINSTANCE.getMaterial()
         };
     }
 
@@ -220,9 +228,12 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getDriver(),
                 IArchimatePackage.eINSTANCE.getAssessment(),
                 IArchimatePackage.eINSTANCE.getGoal(),
+                IArchimatePackage.eINSTANCE.getOutcome(),
                 IArchimatePackage.eINSTANCE.getPrinciple(),
                 IArchimatePackage.eINSTANCE.getRequirement(),
-                IArchimatePackage.eINSTANCE.getConstraint()
+                IArchimatePackage.eINSTANCE.getConstraint(),
+                IArchimatePackage.eINSTANCE.getMeaning(),
+                IArchimatePackage.eINSTANCE.getValue()
         };
     }
     
@@ -238,6 +249,26 @@ public class ArchimateModelUtils {
         };
     }
 
+    /**
+     * @return A list of all EClass types in the "Other" category in preferred order
+     */
+    public static EClass[] getOtherClasses() {
+        return new EClass[] {
+                IArchimatePackage.eINSTANCE.getLocation(),
+                IArchimatePackage.eINSTANCE.getGrouping()
+        };
+    }
+
+    /**
+     * @return A list of all EClass types for Connectors in preferred order
+     */
+    public static EClass[] getConnectorClasses() {
+        return new EClass[] {
+                IArchimatePackage.eINSTANCE.getAndJunction(),
+                IArchimatePackage.eINSTANCE.getOrJunction()
+        };
+    }
+    
     /**
      * @return A list of EClass types for Relationships in preferred order
      */
@@ -258,25 +289,20 @@ public class ArchimateModelUtils {
     }
 
     /**
-     * @return A list of all EClass types for Connectors in preferred order
-     */
-    public static EClass[] getConnectorClasses() {
-        return new EClass[] {
-                IArchimatePackage.eINSTANCE.getAndJunction(),
-                IArchimatePackage.eINSTANCE.getOrJunction()
-        };
-    }
-    
-    /**
      * @return A list of all Archimate Element EClass types (excluding connector classes)
      */
     public static EClass[] getAllArchimateClasses() {
         ArrayList<EClass> list = new ArrayList<EClass>();
+        
+        list.addAll(Arrays.asList(getStrategyClasses()));
         list.addAll(Arrays.asList(getBusinessClasses()));
         list.addAll(Arrays.asList(getApplicationClasses()));
         list.addAll(Arrays.asList(getTechnologyClasses()));
+        list.addAll(Arrays.asList(getPhysicalClasses()));
         list.addAll(Arrays.asList(getMotivationClasses()));
         list.addAll(Arrays.asList(getImplementationMigrationClasses()));
+        list.addAll(Arrays.asList(getOtherClasses()));
+        
         return list.toArray(new EClass[list.size()]);
     }
 }

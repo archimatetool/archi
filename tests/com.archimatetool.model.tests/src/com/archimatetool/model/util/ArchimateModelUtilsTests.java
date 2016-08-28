@@ -131,7 +131,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetStrategyClasses() {
         EClass[] classes = ArchimateModelUtils.getStrategyClasses();
-        assertEquals(1, classes.length);
+        assertEquals(3, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getStrategyElement().isSuperTypeOf(eClass));
@@ -141,7 +141,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetBusinessClasses() {
         EClass[] classes = ArchimateModelUtils.getBusinessClasses();
-        assertEquals(16, classes.length);
+        assertEquals(13, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getBusinessElement().isSuperTypeOf(eClass));
@@ -151,7 +151,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetApplicationClasses() {
         EClass[] classes = ArchimateModelUtils.getApplicationClasses();
-        assertEquals(7, classes.length);
+        assertEquals(9, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getApplicationElement().isSuperTypeOf(eClass));
@@ -161,7 +161,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetTechnologyClasses() {
         EClass[] classes = ArchimateModelUtils.getTechnologyClasses();
-        assertEquals(9, classes.length);
+        assertEquals(13, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getTechnologyElement().isSuperTypeOf(eClass));
@@ -171,7 +171,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetPhysicalClasses() {
         EClass[] classes = ArchimateModelUtils.getPhysicalClasses();
-        assertEquals(1, classes.length);
+        assertEquals(4, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getPhysicalElement().isSuperTypeOf(eClass));
@@ -181,7 +181,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetMotivationClasses() {
         EClass[] classes = ArchimateModelUtils.getMotivationClasses();
-        assertEquals(7, classes.length);
+        assertEquals(10, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getMotivationElement().isSuperTypeOf(eClass));
@@ -198,6 +198,16 @@ public class ArchimateModelUtilsTests {
         }
     }
     
+    @Test
+    public void testGetOtherClasses() {
+        EClass[] classes = ArchimateModelUtils.getOtherClasses();
+        assertEquals(2, classes.length);
+
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));
+        }
+    }
+
     @Test
     public void testGetRelationsClasses() {
         EClass[] classes = ArchimateModelUtils.getRelationsClasses();
@@ -221,7 +231,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetAllArchimateClasses() {
         EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
-        assertEquals(43, classes.length);
+        assertEquals(58, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));

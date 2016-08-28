@@ -18,7 +18,7 @@ import com.archimatetool.model.IGoal;
  *
  * @generated
  */
-public class Goal extends MotivationElement implements IGoal {
+public class Goal extends ArchimateElement implements IGoal {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

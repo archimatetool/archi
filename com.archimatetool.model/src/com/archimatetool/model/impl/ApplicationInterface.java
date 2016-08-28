@@ -5,6 +5,7 @@
  */
 package com.archimatetool.model.impl;
 
+import com.archimatetool.model.IActiveStructureElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
@@ -13,6 +14,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import com.archimatetool.model.IApplicationInterface;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IInterfaceElement;
+import com.archimatetool.model.IStructureElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -158,6 +160,16 @@ public class ApplicationInterface extends ArchimateElement implements IApplicati
                 default: return -1;
             }
         }
+        if (baseClass == IStructureElement.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
+        if (baseClass == IActiveStructureElement.class) {
+            switch (derivedFeatureID) {
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -171,6 +183,16 @@ public class ApplicationInterface extends ArchimateElement implements IApplicati
         if (baseClass == IInterfaceElement.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.INTERFACE_ELEMENT__INTERFACE_TYPE: return IArchimatePackage.APPLICATION_INTERFACE__INTERFACE_TYPE;
+                default: return -1;
+            }
+        }
+        if (baseClass == IStructureElement.class) {
+            switch (baseFeatureID) {
+                default: return -1;
+            }
+        }
+        if (baseClass == IActiveStructureElement.class) {
+            switch (baseFeatureID) {
                 default: return -1;
             }
         }

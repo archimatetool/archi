@@ -6,15 +6,18 @@
 package com.archimatetool.model.util;
 
 import com.archimatetool.model.IAccessRelationship;
+import com.archimatetool.model.IActiveStructureElement;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
 import com.archimatetool.model.IApplicationComponent;
 import com.archimatetool.model.IApplicationElement;
+import com.archimatetool.model.IApplicationEvent;
 import com.archimatetool.model.IApplicationFunction;
 import com.archimatetool.model.IApplicationInteraction;
 import com.archimatetool.model.IApplicationInterface;
+import com.archimatetool.model.IApplicationProcess;
 import com.archimatetool.model.IApplicationService;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -27,6 +30,7 @@ import com.archimatetool.model.IArtifact;
 import com.archimatetool.model.IAssessment;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IAssociationRelationship;
+import com.archimatetool.model.IBehaviorElement;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IBusinessActor;
@@ -40,14 +44,18 @@ import com.archimatetool.model.IBusinessObject;
 import com.archimatetool.model.IBusinessProcess;
 import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.IBusinessService;
+import com.archimatetool.model.ICapability;
 import com.archimatetool.model.ICloneable;
-import com.archimatetool.model.ICommunicationPath;
+import com.archimatetool.model.ICommunicationNetwork;
+import com.archimatetool.model.ICompositeElement;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IConstraint;
 import com.archimatetool.model.IContract;
+import com.archimatetool.model.ICourseOfAction;
 import com.archimatetool.model.IDataObject;
 import com.archimatetool.model.IDeliverable;
+import com.archimatetool.model.IDependendencyRelationship;
 import com.archimatetool.model.IDevice;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -63,33 +71,38 @@ import com.archimatetool.model.IDiagramModelImageProvider;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.IDistributionNetwork;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IDriver;
+import com.archimatetool.model.IDynamicRelationship;
 import com.archimatetool.model.IEquipment;
+import com.archimatetool.model.IFacility;
 import com.archimatetool.model.IFlowRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IFolderContainer;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
+import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IInfrastructureFunction;
-import com.archimatetool.model.IInfrastructureInterface;
-import com.archimatetool.model.IInfrastructureService;
 import com.archimatetool.model.IInterfaceElement;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.IMaterial;
 import com.archimatetool.model.IMeaning;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.INetwork;
 import com.archimatetool.model.INode;
 import com.archimatetool.model.IOrJunction;
+import com.archimatetool.model.IOtherRelationship;
+import com.archimatetool.model.IOutcome;
+import com.archimatetool.model.IPassiveStructureElement;
+import com.archimatetool.model.IPath;
 import com.archimatetool.model.IPhysicalElement;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
@@ -108,8 +121,18 @@ import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ISpecializationRelationship;
 import com.archimatetool.model.IStakeholder;
 import com.archimatetool.model.IStrategyElement;
+import com.archimatetool.model.IStructuralRelationship;
+import com.archimatetool.model.IStructureElement;
 import com.archimatetool.model.ISystemSoftware;
+import com.archimatetool.model.ITechnologyCollaboration;
 import com.archimatetool.model.ITechnologyElement;
+import com.archimatetool.model.ITechnologyEvent;
+import com.archimatetool.model.ITechnologyFunction;
+import com.archimatetool.model.ITechnologyInteraction;
+import com.archimatetool.model.ITechnologyInterface;
+import com.archimatetool.model.ITechnologyObject;
+import com.archimatetool.model.ITechnologyProcess;
+import com.archimatetool.model.ITechnologyService;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextContent;
 import com.archimatetool.model.ITextPosition;
@@ -344,6 +367,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.STRATEGY_ELEMENT: {
+                IStrategyElement strategyElement = (IStrategyElement)theEObject;
+                T result = caseStrategyElement(strategyElement);
+                if (result == null) result = caseArchimateElement(strategyElement);
+                if (result == null) result = caseArchimateConcept(strategyElement);
+                if (result == null) result = caseArchimateModelElement(strategyElement);
+                if (result == null) result = caseIdentifier(strategyElement);
+                if (result == null) result = caseCloneable(strategyElement);
+                if (result == null) result = caseNameable(strategyElement);
+                if (result == null) result = caseDocumentable(strategyElement);
+                if (result == null) result = caseProperties(strategyElement);
+                if (result == null) result = caseAdapter(strategyElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.BUSINESS_ELEMENT: {
                 IBusinessElement businessElement = (IBusinessElement)theEObject;
                 T result = caseBusinessElement(businessElement);
@@ -386,6 +424,24 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(technologyElement);
                 if (result == null) result = caseProperties(technologyElement);
                 if (result == null) result = caseAdapter(technologyElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_OBJECT: {
+                ITechnologyObject technologyObject = (ITechnologyObject)theEObject;
+                T result = caseTechnologyObject(technologyObject);
+                if (result == null) result = caseTechnologyElement(technologyObject);
+                if (result == null) result = casePassiveStructureElement(technologyObject);
+                if (result == null) result = caseStructureElement(technologyObject);
+                if (result == null) result = caseArchimateElement(technologyObject);
+                if (result == null) result = caseArchimateConcept(technologyObject);
+                if (result == null) result = caseArchimateModelElement(technologyObject);
+                if (result == null) result = caseIdentifier(technologyObject);
+                if (result == null) result = caseCloneable(technologyObject);
+                if (result == null) result = caseNameable(technologyObject);
+                if (result == null) result = caseDocumentable(technologyObject);
+                if (result == null) result = caseProperties(technologyObject);
+                if (result == null) result = caseAdapter(technologyObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -434,18 +490,140 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.STRATEGY_ELEMENT: {
-                IStrategyElement strategyElement = (IStrategyElement)theEObject;
-                T result = caseStrategyElement(strategyElement);
-                if (result == null) result = caseArchimateElement(strategyElement);
-                if (result == null) result = caseArchimateConcept(strategyElement);
-                if (result == null) result = caseArchimateModelElement(strategyElement);
-                if (result == null) result = caseIdentifier(strategyElement);
-                if (result == null) result = caseCloneable(strategyElement);
-                if (result == null) result = caseNameable(strategyElement);
-                if (result == null) result = caseDocumentable(strategyElement);
-                if (result == null) result = caseProperties(strategyElement);
-                if (result == null) result = caseAdapter(strategyElement);
+            case IArchimatePackage.COMPOSITE_ELEMENT: {
+                ICompositeElement compositeElement = (ICompositeElement)theEObject;
+                T result = caseCompositeElement(compositeElement);
+                if (result == null) result = caseArchimateElement(compositeElement);
+                if (result == null) result = caseArchimateConcept(compositeElement);
+                if (result == null) result = caseArchimateModelElement(compositeElement);
+                if (result == null) result = caseIdentifier(compositeElement);
+                if (result == null) result = caseCloneable(compositeElement);
+                if (result == null) result = caseNameable(compositeElement);
+                if (result == null) result = caseDocumentable(compositeElement);
+                if (result == null) result = caseProperties(compositeElement);
+                if (result == null) result = caseAdapter(compositeElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BEHAVIOR_ELEMENT: {
+                IBehaviorElement behaviorElement = (IBehaviorElement)theEObject;
+                T result = caseBehaviorElement(behaviorElement);
+                if (result == null) result = caseArchimateElement(behaviorElement);
+                if (result == null) result = caseArchimateConcept(behaviorElement);
+                if (result == null) result = caseArchimateModelElement(behaviorElement);
+                if (result == null) result = caseIdentifier(behaviorElement);
+                if (result == null) result = caseCloneable(behaviorElement);
+                if (result == null) result = caseNameable(behaviorElement);
+                if (result == null) result = caseDocumentable(behaviorElement);
+                if (result == null) result = caseProperties(behaviorElement);
+                if (result == null) result = caseAdapter(behaviorElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.STRUCTURE_ELEMENT: {
+                IStructureElement structureElement = (IStructureElement)theEObject;
+                T result = caseStructureElement(structureElement);
+                if (result == null) result = caseArchimateElement(structureElement);
+                if (result == null) result = caseArchimateConcept(structureElement);
+                if (result == null) result = caseArchimateModelElement(structureElement);
+                if (result == null) result = caseIdentifier(structureElement);
+                if (result == null) result = caseCloneable(structureElement);
+                if (result == null) result = caseNameable(structureElement);
+                if (result == null) result = caseDocumentable(structureElement);
+                if (result == null) result = caseProperties(structureElement);
+                if (result == null) result = caseAdapter(structureElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.ACTIVE_STRUCTURE_ELEMENT: {
+                IActiveStructureElement activeStructureElement = (IActiveStructureElement)theEObject;
+                T result = caseActiveStructureElement(activeStructureElement);
+                if (result == null) result = caseStructureElement(activeStructureElement);
+                if (result == null) result = caseArchimateElement(activeStructureElement);
+                if (result == null) result = caseArchimateConcept(activeStructureElement);
+                if (result == null) result = caseArchimateModelElement(activeStructureElement);
+                if (result == null) result = caseIdentifier(activeStructureElement);
+                if (result == null) result = caseCloneable(activeStructureElement);
+                if (result == null) result = caseNameable(activeStructureElement);
+                if (result == null) result = caseDocumentable(activeStructureElement);
+                if (result == null) result = caseProperties(activeStructureElement);
+                if (result == null) result = caseAdapter(activeStructureElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.PASSIVE_STRUCTURE_ELEMENT: {
+                IPassiveStructureElement passiveStructureElement = (IPassiveStructureElement)theEObject;
+                T result = casePassiveStructureElement(passiveStructureElement);
+                if (result == null) result = caseStructureElement(passiveStructureElement);
+                if (result == null) result = caseArchimateElement(passiveStructureElement);
+                if (result == null) result = caseArchimateConcept(passiveStructureElement);
+                if (result == null) result = caseArchimateModelElement(passiveStructureElement);
+                if (result == null) result = caseIdentifier(passiveStructureElement);
+                if (result == null) result = caseCloneable(passiveStructureElement);
+                if (result == null) result = caseNameable(passiveStructureElement);
+                if (result == null) result = caseDocumentable(passiveStructureElement);
+                if (result == null) result = caseProperties(passiveStructureElement);
+                if (result == null) result = caseAdapter(passiveStructureElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.STRUCTURAL_RELATIONSHIP: {
+                IStructuralRelationship structuralRelationship = (IStructuralRelationship)theEObject;
+                T result = caseStructuralRelationship(structuralRelationship);
+                if (result == null) result = caseArchimateRelationship(structuralRelationship);
+                if (result == null) result = caseArchimateConcept(structuralRelationship);
+                if (result == null) result = caseArchimateModelElement(structuralRelationship);
+                if (result == null) result = caseIdentifier(structuralRelationship);
+                if (result == null) result = caseCloneable(structuralRelationship);
+                if (result == null) result = caseNameable(structuralRelationship);
+                if (result == null) result = caseDocumentable(structuralRelationship);
+                if (result == null) result = caseProperties(structuralRelationship);
+                if (result == null) result = caseAdapter(structuralRelationship);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DEPENDENDENCY_RELATIONSHIP: {
+                IDependendencyRelationship dependendencyRelationship = (IDependendencyRelationship)theEObject;
+                T result = caseDependendencyRelationship(dependendencyRelationship);
+                if (result == null) result = caseArchimateRelationship(dependendencyRelationship);
+                if (result == null) result = caseArchimateConcept(dependendencyRelationship);
+                if (result == null) result = caseArchimateModelElement(dependendencyRelationship);
+                if (result == null) result = caseIdentifier(dependendencyRelationship);
+                if (result == null) result = caseCloneable(dependendencyRelationship);
+                if (result == null) result = caseNameable(dependendencyRelationship);
+                if (result == null) result = caseDocumentable(dependendencyRelationship);
+                if (result == null) result = caseProperties(dependendencyRelationship);
+                if (result == null) result = caseAdapter(dependendencyRelationship);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DYNAMIC_RELATIONSHIP: {
+                IDynamicRelationship dynamicRelationship = (IDynamicRelationship)theEObject;
+                T result = caseDynamicRelationship(dynamicRelationship);
+                if (result == null) result = caseArchimateRelationship(dynamicRelationship);
+                if (result == null) result = caseArchimateConcept(dynamicRelationship);
+                if (result == null) result = caseArchimateModelElement(dynamicRelationship);
+                if (result == null) result = caseIdentifier(dynamicRelationship);
+                if (result == null) result = caseCloneable(dynamicRelationship);
+                if (result == null) result = caseNameable(dynamicRelationship);
+                if (result == null) result = caseDocumentable(dynamicRelationship);
+                if (result == null) result = caseProperties(dynamicRelationship);
+                if (result == null) result = caseAdapter(dynamicRelationship);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.OTHER_RELATIONSHIP: {
+                IOtherRelationship otherRelationship = (IOtherRelationship)theEObject;
+                T result = caseOtherRelationship(otherRelationship);
+                if (result == null) result = caseArchimateRelationship(otherRelationship);
+                if (result == null) result = caseArchimateConcept(otherRelationship);
+                if (result == null) result = caseArchimateModelElement(otherRelationship);
+                if (result == null) result = caseIdentifier(otherRelationship);
+                if (result == null) result = caseCloneable(otherRelationship);
+                if (result == null) result = caseNameable(otherRelationship);
+                if (result == null) result = caseDocumentable(otherRelationship);
+                if (result == null) result = caseProperties(otherRelationship);
+                if (result == null) result = caseAdapter(otherRelationship);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -458,22 +636,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseArchimateModelElement(archimateModel);
                 if (result == null) result = caseProperties(archimateModel);
                 if (result == null) result = caseAdapter(archimateModel);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.RESOURCE: {
-                IResource resource = (IResource)theEObject;
-                T result = caseResource(resource);
-                if (result == null) result = caseStrategyElement(resource);
-                if (result == null) result = caseArchimateElement(resource);
-                if (result == null) result = caseArchimateConcept(resource);
-                if (result == null) result = caseArchimateModelElement(resource);
-                if (result == null) result = caseIdentifier(resource);
-                if (result == null) result = caseCloneable(resource);
-                if (result == null) result = caseNameable(resource);
-                if (result == null) result = caseDocumentable(resource);
-                if (result == null) result = caseProperties(resource);
-                if (result == null) result = caseAdapter(resource);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -493,284 +655,12 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.OR_JUNCTION: {
-                IOrJunction orJunction = (IOrJunction)theEObject;
-                T result = caseOrJunction(orJunction);
-                if (result == null) result = caseJunctionElement(orJunction);
-                if (result == null) result = caseArchimateElement(orJunction);
-                if (result == null) result = caseArchimateConcept(orJunction);
-                if (result == null) result = caseArchimateModelElement(orJunction);
-                if (result == null) result = caseIdentifier(orJunction);
-                if (result == null) result = caseCloneable(orJunction);
-                if (result == null) result = caseNameable(orJunction);
-                if (result == null) result = caseDocumentable(orJunction);
-                if (result == null) result = caseProperties(orJunction);
-                if (result == null) result = caseAdapter(orJunction);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_ACTOR: {
-                IBusinessActor businessActor = (IBusinessActor)theEObject;
-                T result = caseBusinessActor(businessActor);
-                if (result == null) result = caseBusinessElement(businessActor);
-                if (result == null) result = caseArchimateElement(businessActor);
-                if (result == null) result = caseArchimateConcept(businessActor);
-                if (result == null) result = caseArchimateModelElement(businessActor);
-                if (result == null) result = caseIdentifier(businessActor);
-                if (result == null) result = caseCloneable(businessActor);
-                if (result == null) result = caseNameable(businessActor);
-                if (result == null) result = caseDocumentable(businessActor);
-                if (result == null) result = caseProperties(businessActor);
-                if (result == null) result = caseAdapter(businessActor);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_COLLABORATION: {
-                IBusinessCollaboration businessCollaboration = (IBusinessCollaboration)theEObject;
-                T result = caseBusinessCollaboration(businessCollaboration);
-                if (result == null) result = caseBusinessElement(businessCollaboration);
-                if (result == null) result = caseArchimateElement(businessCollaboration);
-                if (result == null) result = caseArchimateConcept(businessCollaboration);
-                if (result == null) result = caseArchimateModelElement(businessCollaboration);
-                if (result == null) result = caseIdentifier(businessCollaboration);
-                if (result == null) result = caseCloneable(businessCollaboration);
-                if (result == null) result = caseNameable(businessCollaboration);
-                if (result == null) result = caseDocumentable(businessCollaboration);
-                if (result == null) result = caseProperties(businessCollaboration);
-                if (result == null) result = caseAdapter(businessCollaboration);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.CONTRACT: {
-                IContract contract = (IContract)theEObject;
-                T result = caseContract(contract);
-                if (result == null) result = caseBusinessElement(contract);
-                if (result == null) result = caseArchimateElement(contract);
-                if (result == null) result = caseArchimateConcept(contract);
-                if (result == null) result = caseArchimateModelElement(contract);
-                if (result == null) result = caseIdentifier(contract);
-                if (result == null) result = caseCloneable(contract);
-                if (result == null) result = caseNameable(contract);
-                if (result == null) result = caseDocumentable(contract);
-                if (result == null) result = caseProperties(contract);
-                if (result == null) result = caseAdapter(contract);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_EVENT: {
-                IBusinessEvent businessEvent = (IBusinessEvent)theEObject;
-                T result = caseBusinessEvent(businessEvent);
-                if (result == null) result = caseBusinessElement(businessEvent);
-                if (result == null) result = caseArchimateElement(businessEvent);
-                if (result == null) result = caseArchimateConcept(businessEvent);
-                if (result == null) result = caseArchimateModelElement(businessEvent);
-                if (result == null) result = caseIdentifier(businessEvent);
-                if (result == null) result = caseCloneable(businessEvent);
-                if (result == null) result = caseNameable(businessEvent);
-                if (result == null) result = caseDocumentable(businessEvent);
-                if (result == null) result = caseProperties(businessEvent);
-                if (result == null) result = caseAdapter(businessEvent);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_FUNCTION: {
-                IBusinessFunction businessFunction = (IBusinessFunction)theEObject;
-                T result = caseBusinessFunction(businessFunction);
-                if (result == null) result = caseBusinessElement(businessFunction);
-                if (result == null) result = caseArchimateElement(businessFunction);
-                if (result == null) result = caseArchimateConcept(businessFunction);
-                if (result == null) result = caseArchimateModelElement(businessFunction);
-                if (result == null) result = caseIdentifier(businessFunction);
-                if (result == null) result = caseCloneable(businessFunction);
-                if (result == null) result = caseNameable(businessFunction);
-                if (result == null) result = caseDocumentable(businessFunction);
-                if (result == null) result = caseProperties(businessFunction);
-                if (result == null) result = caseAdapter(businessFunction);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_INTERACTION: {
-                IBusinessInteraction businessInteraction = (IBusinessInteraction)theEObject;
-                T result = caseBusinessInteraction(businessInteraction);
-                if (result == null) result = caseBusinessElement(businessInteraction);
-                if (result == null) result = caseArchimateElement(businessInteraction);
-                if (result == null) result = caseArchimateConcept(businessInteraction);
-                if (result == null) result = caseArchimateModelElement(businessInteraction);
-                if (result == null) result = caseIdentifier(businessInteraction);
-                if (result == null) result = caseCloneable(businessInteraction);
-                if (result == null) result = caseNameable(businessInteraction);
-                if (result == null) result = caseDocumentable(businessInteraction);
-                if (result == null) result = caseProperties(businessInteraction);
-                if (result == null) result = caseAdapter(businessInteraction);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_INTERFACE: {
-                IBusinessInterface businessInterface = (IBusinessInterface)theEObject;
-                T result = caseBusinessInterface(businessInterface);
-                if (result == null) result = caseBusinessElement(businessInterface);
-                if (result == null) result = caseInterfaceElement(businessInterface);
-                if (result == null) result = caseArchimateElement(businessInterface);
-                if (result == null) result = caseArchimateConcept(businessInterface);
-                if (result == null) result = caseArchimateModelElement(businessInterface);
-                if (result == null) result = caseIdentifier(businessInterface);
-                if (result == null) result = caseCloneable(businessInterface);
-                if (result == null) result = caseNameable(businessInterface);
-                if (result == null) result = caseDocumentable(businessInterface);
-                if (result == null) result = caseProperties(businessInterface);
-                if (result == null) result = caseAdapter(businessInterface);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.MEANING: {
-                IMeaning meaning = (IMeaning)theEObject;
-                T result = caseMeaning(meaning);
-                if (result == null) result = caseBusinessElement(meaning);
-                if (result == null) result = caseArchimateElement(meaning);
-                if (result == null) result = caseArchimateConcept(meaning);
-                if (result == null) result = caseArchimateModelElement(meaning);
-                if (result == null) result = caseIdentifier(meaning);
-                if (result == null) result = caseCloneable(meaning);
-                if (result == null) result = caseNameable(meaning);
-                if (result == null) result = caseDocumentable(meaning);
-                if (result == null) result = caseProperties(meaning);
-                if (result == null) result = caseAdapter(meaning);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_OBJECT: {
-                IBusinessObject businessObject = (IBusinessObject)theEObject;
-                T result = caseBusinessObject(businessObject);
-                if (result == null) result = caseBusinessElement(businessObject);
-                if (result == null) result = caseArchimateElement(businessObject);
-                if (result == null) result = caseArchimateConcept(businessObject);
-                if (result == null) result = caseArchimateModelElement(businessObject);
-                if (result == null) result = caseIdentifier(businessObject);
-                if (result == null) result = caseCloneable(businessObject);
-                if (result == null) result = caseNameable(businessObject);
-                if (result == null) result = caseDocumentable(businessObject);
-                if (result == null) result = caseProperties(businessObject);
-                if (result == null) result = caseAdapter(businessObject);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_PROCESS: {
-                IBusinessProcess businessProcess = (IBusinessProcess)theEObject;
-                T result = caseBusinessProcess(businessProcess);
-                if (result == null) result = caseBusinessElement(businessProcess);
-                if (result == null) result = caseArchimateElement(businessProcess);
-                if (result == null) result = caseArchimateConcept(businessProcess);
-                if (result == null) result = caseArchimateModelElement(businessProcess);
-                if (result == null) result = caseIdentifier(businessProcess);
-                if (result == null) result = caseCloneable(businessProcess);
-                if (result == null) result = caseNameable(businessProcess);
-                if (result == null) result = caseDocumentable(businessProcess);
-                if (result == null) result = caseProperties(businessProcess);
-                if (result == null) result = caseAdapter(businessProcess);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.PRODUCT: {
-                IProduct product = (IProduct)theEObject;
-                T result = caseProduct(product);
-                if (result == null) result = caseBusinessElement(product);
-                if (result == null) result = caseArchimateElement(product);
-                if (result == null) result = caseArchimateConcept(product);
-                if (result == null) result = caseArchimateModelElement(product);
-                if (result == null) result = caseIdentifier(product);
-                if (result == null) result = caseCloneable(product);
-                if (result == null) result = caseNameable(product);
-                if (result == null) result = caseDocumentable(product);
-                if (result == null) result = caseProperties(product);
-                if (result == null) result = caseAdapter(product);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.REPRESENTATION: {
-                IRepresentation representation = (IRepresentation)theEObject;
-                T result = caseRepresentation(representation);
-                if (result == null) result = caseBusinessElement(representation);
-                if (result == null) result = caseArchimateElement(representation);
-                if (result == null) result = caseArchimateConcept(representation);
-                if (result == null) result = caseArchimateModelElement(representation);
-                if (result == null) result = caseIdentifier(representation);
-                if (result == null) result = caseCloneable(representation);
-                if (result == null) result = caseNameable(representation);
-                if (result == null) result = caseDocumentable(representation);
-                if (result == null) result = caseProperties(representation);
-                if (result == null) result = caseAdapter(representation);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_ROLE: {
-                IBusinessRole businessRole = (IBusinessRole)theEObject;
-                T result = caseBusinessRole(businessRole);
-                if (result == null) result = caseBusinessElement(businessRole);
-                if (result == null) result = caseArchimateElement(businessRole);
-                if (result == null) result = caseArchimateConcept(businessRole);
-                if (result == null) result = caseArchimateModelElement(businessRole);
-                if (result == null) result = caseIdentifier(businessRole);
-                if (result == null) result = caseCloneable(businessRole);
-                if (result == null) result = caseNameable(businessRole);
-                if (result == null) result = caseDocumentable(businessRole);
-                if (result == null) result = caseProperties(businessRole);
-                if (result == null) result = caseAdapter(businessRole);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.BUSINESS_SERVICE: {
-                IBusinessService businessService = (IBusinessService)theEObject;
-                T result = caseBusinessService(businessService);
-                if (result == null) result = caseBusinessElement(businessService);
-                if (result == null) result = caseServiceElement(businessService);
-                if (result == null) result = caseArchimateElement(businessService);
-                if (result == null) result = caseArchimateConcept(businessService);
-                if (result == null) result = caseArchimateModelElement(businessService);
-                if (result == null) result = caseIdentifier(businessService);
-                if (result == null) result = caseCloneable(businessService);
-                if (result == null) result = caseNameable(businessService);
-                if (result == null) result = caseDocumentable(businessService);
-                if (result == null) result = caseProperties(businessService);
-                if (result == null) result = caseAdapter(businessService);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.VALUE: {
-                IValue value = (IValue)theEObject;
-                T result = caseValue(value);
-                if (result == null) result = caseBusinessElement(value);
-                if (result == null) result = caseArchimateElement(value);
-                if (result == null) result = caseArchimateConcept(value);
-                if (result == null) result = caseArchimateModelElement(value);
-                if (result == null) result = caseIdentifier(value);
-                if (result == null) result = caseCloneable(value);
-                if (result == null) result = caseNameable(value);
-                if (result == null) result = caseDocumentable(value);
-                if (result == null) result = caseProperties(value);
-                if (result == null) result = caseAdapter(value);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.LOCATION: {
-                ILocation location = (ILocation)theEObject;
-                T result = caseLocation(location);
-                if (result == null) result = caseBusinessElement(location);
-                if (result == null) result = caseArchimateElement(location);
-                if (result == null) result = caseArchimateConcept(location);
-                if (result == null) result = caseArchimateModelElement(location);
-                if (result == null) result = caseIdentifier(location);
-                if (result == null) result = caseCloneable(location);
-                if (result == null) result = caseNameable(location);
-                if (result == null) result = caseDocumentable(location);
-                if (result == null) result = caseProperties(location);
-                if (result == null) result = caseAdapter(location);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case IArchimatePackage.APPLICATION_COLLABORATION: {
                 IApplicationCollaboration applicationCollaboration = (IApplicationCollaboration)theEObject;
                 T result = caseApplicationCollaboration(applicationCollaboration);
                 if (result == null) result = caseApplicationElement(applicationCollaboration);
+                if (result == null) result = caseActiveStructureElement(applicationCollaboration);
+                if (result == null) result = caseStructureElement(applicationCollaboration);
                 if (result == null) result = caseArchimateElement(applicationCollaboration);
                 if (result == null) result = caseArchimateConcept(applicationCollaboration);
                 if (result == null) result = caseArchimateModelElement(applicationCollaboration);
@@ -787,6 +677,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IApplicationComponent applicationComponent = (IApplicationComponent)theEObject;
                 T result = caseApplicationComponent(applicationComponent);
                 if (result == null) result = caseApplicationElement(applicationComponent);
+                if (result == null) result = caseActiveStructureElement(applicationComponent);
+                if (result == null) result = caseStructureElement(applicationComponent);
                 if (result == null) result = caseArchimateElement(applicationComponent);
                 if (result == null) result = caseArchimateConcept(applicationComponent);
                 if (result == null) result = caseArchimateModelElement(applicationComponent);
@@ -799,10 +691,28 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.APPLICATION_EVENT: {
+                IApplicationEvent applicationEvent = (IApplicationEvent)theEObject;
+                T result = caseApplicationEvent(applicationEvent);
+                if (result == null) result = caseApplicationElement(applicationEvent);
+                if (result == null) result = caseBehaviorElement(applicationEvent);
+                if (result == null) result = caseArchimateElement(applicationEvent);
+                if (result == null) result = caseArchimateConcept(applicationEvent);
+                if (result == null) result = caseArchimateModelElement(applicationEvent);
+                if (result == null) result = caseIdentifier(applicationEvent);
+                if (result == null) result = caseCloneable(applicationEvent);
+                if (result == null) result = caseNameable(applicationEvent);
+                if (result == null) result = caseDocumentable(applicationEvent);
+                if (result == null) result = caseProperties(applicationEvent);
+                if (result == null) result = caseAdapter(applicationEvent);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.APPLICATION_FUNCTION: {
                 IApplicationFunction applicationFunction = (IApplicationFunction)theEObject;
                 T result = caseApplicationFunction(applicationFunction);
                 if (result == null) result = caseApplicationElement(applicationFunction);
+                if (result == null) result = caseBehaviorElement(applicationFunction);
                 if (result == null) result = caseArchimateElement(applicationFunction);
                 if (result == null) result = caseArchimateConcept(applicationFunction);
                 if (result == null) result = caseArchimateModelElement(applicationFunction);
@@ -819,6 +729,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IApplicationInteraction applicationInteraction = (IApplicationInteraction)theEObject;
                 T result = caseApplicationInteraction(applicationInteraction);
                 if (result == null) result = caseApplicationElement(applicationInteraction);
+                if (result == null) result = caseBehaviorElement(applicationInteraction);
                 if (result == null) result = caseArchimateElement(applicationInteraction);
                 if (result == null) result = caseArchimateConcept(applicationInteraction);
                 if (result == null) result = caseArchimateModelElement(applicationInteraction);
@@ -836,6 +747,8 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseApplicationInterface(applicationInterface);
                 if (result == null) result = caseApplicationElement(applicationInterface);
                 if (result == null) result = caseInterfaceElement(applicationInterface);
+                if (result == null) result = caseActiveStructureElement(applicationInterface);
+                if (result == null) result = caseStructureElement(applicationInterface);
                 if (result == null) result = caseArchimateElement(applicationInterface);
                 if (result == null) result = caseArchimateConcept(applicationInterface);
                 if (result == null) result = caseArchimateModelElement(applicationInterface);
@@ -848,19 +761,20 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.DATA_OBJECT: {
-                IDataObject dataObject = (IDataObject)theEObject;
-                T result = caseDataObject(dataObject);
-                if (result == null) result = caseApplicationElement(dataObject);
-                if (result == null) result = caseArchimateElement(dataObject);
-                if (result == null) result = caseArchimateConcept(dataObject);
-                if (result == null) result = caseArchimateModelElement(dataObject);
-                if (result == null) result = caseIdentifier(dataObject);
-                if (result == null) result = caseCloneable(dataObject);
-                if (result == null) result = caseNameable(dataObject);
-                if (result == null) result = caseDocumentable(dataObject);
-                if (result == null) result = caseProperties(dataObject);
-                if (result == null) result = caseAdapter(dataObject);
+            case IArchimatePackage.APPLICATION_PROCESS: {
+                IApplicationProcess applicationProcess = (IApplicationProcess)theEObject;
+                T result = caseApplicationProcess(applicationProcess);
+                if (result == null) result = caseApplicationElement(applicationProcess);
+                if (result == null) result = caseBehaviorElement(applicationProcess);
+                if (result == null) result = caseArchimateElement(applicationProcess);
+                if (result == null) result = caseArchimateConcept(applicationProcess);
+                if (result == null) result = caseArchimateModelElement(applicationProcess);
+                if (result == null) result = caseIdentifier(applicationProcess);
+                if (result == null) result = caseCloneable(applicationProcess);
+                if (result == null) result = caseNameable(applicationProcess);
+                if (result == null) result = caseDocumentable(applicationProcess);
+                if (result == null) result = caseProperties(applicationProcess);
+                if (result == null) result = caseAdapter(applicationProcess);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -869,6 +783,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 T result = caseApplicationService(applicationService);
                 if (result == null) result = caseApplicationElement(applicationService);
                 if (result == null) result = caseServiceElement(applicationService);
+                if (result == null) result = caseBehaviorElement(applicationService);
                 if (result == null) result = caseArchimateElement(applicationService);
                 if (result == null) result = caseArchimateConcept(applicationService);
                 if (result == null) result = caseArchimateModelElement(applicationService);
@@ -884,7 +799,10 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ARTIFACT: {
                 IArtifact artifact = (IArtifact)theEObject;
                 T result = caseArtifact(artifact);
+                if (result == null) result = caseTechnologyObject(artifact);
                 if (result == null) result = caseTechnologyElement(artifact);
+                if (result == null) result = casePassiveStructureElement(artifact);
+                if (result == null) result = caseStructureElement(artifact);
                 if (result == null) result = caseArchimateElement(artifact);
                 if (result == null) result = caseArchimateConcept(artifact);
                 if (result == null) result = caseArchimateModelElement(artifact);
@@ -894,184 +812,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDocumentable(artifact);
                 if (result == null) result = caseProperties(artifact);
                 if (result == null) result = caseAdapter(artifact);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.COMMUNICATION_PATH: {
-                ICommunicationPath communicationPath = (ICommunicationPath)theEObject;
-                T result = caseCommunicationPath(communicationPath);
-                if (result == null) result = caseTechnologyElement(communicationPath);
-                if (result == null) result = caseArchimateElement(communicationPath);
-                if (result == null) result = caseArchimateConcept(communicationPath);
-                if (result == null) result = caseArchimateModelElement(communicationPath);
-                if (result == null) result = caseIdentifier(communicationPath);
-                if (result == null) result = caseCloneable(communicationPath);
-                if (result == null) result = caseNameable(communicationPath);
-                if (result == null) result = caseDocumentable(communicationPath);
-                if (result == null) result = caseProperties(communicationPath);
-                if (result == null) result = caseAdapter(communicationPath);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.NETWORK: {
-                INetwork network = (INetwork)theEObject;
-                T result = caseNetwork(network);
-                if (result == null) result = caseTechnologyElement(network);
-                if (result == null) result = caseArchimateElement(network);
-                if (result == null) result = caseArchimateConcept(network);
-                if (result == null) result = caseArchimateModelElement(network);
-                if (result == null) result = caseIdentifier(network);
-                if (result == null) result = caseCloneable(network);
-                if (result == null) result = caseNameable(network);
-                if (result == null) result = caseDocumentable(network);
-                if (result == null) result = caseProperties(network);
-                if (result == null) result = caseAdapter(network);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.INFRASTRUCTURE_INTERFACE: {
-                IInfrastructureInterface infrastructureInterface = (IInfrastructureInterface)theEObject;
-                T result = caseInfrastructureInterface(infrastructureInterface);
-                if (result == null) result = caseTechnologyElement(infrastructureInterface);
-                if (result == null) result = caseInterfaceElement(infrastructureInterface);
-                if (result == null) result = caseArchimateElement(infrastructureInterface);
-                if (result == null) result = caseArchimateConcept(infrastructureInterface);
-                if (result == null) result = caseArchimateModelElement(infrastructureInterface);
-                if (result == null) result = caseIdentifier(infrastructureInterface);
-                if (result == null) result = caseCloneable(infrastructureInterface);
-                if (result == null) result = caseNameable(infrastructureInterface);
-                if (result == null) result = caseDocumentable(infrastructureInterface);
-                if (result == null) result = caseProperties(infrastructureInterface);
-                if (result == null) result = caseAdapter(infrastructureInterface);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.INFRASTRUCTURE_SERVICE: {
-                IInfrastructureService infrastructureService = (IInfrastructureService)theEObject;
-                T result = caseInfrastructureService(infrastructureService);
-                if (result == null) result = caseTechnologyElement(infrastructureService);
-                if (result == null) result = caseServiceElement(infrastructureService);
-                if (result == null) result = caseArchimateElement(infrastructureService);
-                if (result == null) result = caseArchimateConcept(infrastructureService);
-                if (result == null) result = caseArchimateModelElement(infrastructureService);
-                if (result == null) result = caseIdentifier(infrastructureService);
-                if (result == null) result = caseCloneable(infrastructureService);
-                if (result == null) result = caseNameable(infrastructureService);
-                if (result == null) result = caseDocumentable(infrastructureService);
-                if (result == null) result = caseProperties(infrastructureService);
-                if (result == null) result = caseAdapter(infrastructureService);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.INFRASTRUCTURE_FUNCTION: {
-                IInfrastructureFunction infrastructureFunction = (IInfrastructureFunction)theEObject;
-                T result = caseInfrastructureFunction(infrastructureFunction);
-                if (result == null) result = caseTechnologyElement(infrastructureFunction);
-                if (result == null) result = caseArchimateElement(infrastructureFunction);
-                if (result == null) result = caseArchimateConcept(infrastructureFunction);
-                if (result == null) result = caseArchimateModelElement(infrastructureFunction);
-                if (result == null) result = caseIdentifier(infrastructureFunction);
-                if (result == null) result = caseCloneable(infrastructureFunction);
-                if (result == null) result = caseNameable(infrastructureFunction);
-                if (result == null) result = caseDocumentable(infrastructureFunction);
-                if (result == null) result = caseProperties(infrastructureFunction);
-                if (result == null) result = caseAdapter(infrastructureFunction);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.NODE: {
-                INode node = (INode)theEObject;
-                T result = caseNode(node);
-                if (result == null) result = caseTechnologyElement(node);
-                if (result == null) result = caseArchimateElement(node);
-                if (result == null) result = caseArchimateConcept(node);
-                if (result == null) result = caseArchimateModelElement(node);
-                if (result == null) result = caseIdentifier(node);
-                if (result == null) result = caseCloneable(node);
-                if (result == null) result = caseNameable(node);
-                if (result == null) result = caseDocumentable(node);
-                if (result == null) result = caseProperties(node);
-                if (result == null) result = caseAdapter(node);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.SYSTEM_SOFTWARE: {
-                ISystemSoftware systemSoftware = (ISystemSoftware)theEObject;
-                T result = caseSystemSoftware(systemSoftware);
-                if (result == null) result = caseTechnologyElement(systemSoftware);
-                if (result == null) result = caseArchimateElement(systemSoftware);
-                if (result == null) result = caseArchimateConcept(systemSoftware);
-                if (result == null) result = caseArchimateModelElement(systemSoftware);
-                if (result == null) result = caseIdentifier(systemSoftware);
-                if (result == null) result = caseCloneable(systemSoftware);
-                if (result == null) result = caseNameable(systemSoftware);
-                if (result == null) result = caseDocumentable(systemSoftware);
-                if (result == null) result = caseProperties(systemSoftware);
-                if (result == null) result = caseAdapter(systemSoftware);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.DEVICE: {
-                IDevice device = (IDevice)theEObject;
-                T result = caseDevice(device);
-                if (result == null) result = caseTechnologyElement(device);
-                if (result == null) result = caseArchimateElement(device);
-                if (result == null) result = caseArchimateConcept(device);
-                if (result == null) result = caseArchimateModelElement(device);
-                if (result == null) result = caseIdentifier(device);
-                if (result == null) result = caseCloneable(device);
-                if (result == null) result = caseNameable(device);
-                if (result == null) result = caseDocumentable(device);
-                if (result == null) result = caseProperties(device);
-                if (result == null) result = caseAdapter(device);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.EQUIPMENT: {
-                IEquipment equipment = (IEquipment)theEObject;
-                T result = caseEquipment(equipment);
-                if (result == null) result = casePhysicalElement(equipment);
-                if (result == null) result = caseArchimateElement(equipment);
-                if (result == null) result = caseArchimateConcept(equipment);
-                if (result == null) result = caseArchimateModelElement(equipment);
-                if (result == null) result = caseIdentifier(equipment);
-                if (result == null) result = caseCloneable(equipment);
-                if (result == null) result = caseNameable(equipment);
-                if (result == null) result = caseDocumentable(equipment);
-                if (result == null) result = caseProperties(equipment);
-                if (result == null) result = caseAdapter(equipment);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.STAKEHOLDER: {
-                IStakeholder stakeholder = (IStakeholder)theEObject;
-                T result = caseStakeholder(stakeholder);
-                if (result == null) result = caseMotivationElement(stakeholder);
-                if (result == null) result = caseArchimateElement(stakeholder);
-                if (result == null) result = caseArchimateConcept(stakeholder);
-                if (result == null) result = caseArchimateModelElement(stakeholder);
-                if (result == null) result = caseIdentifier(stakeholder);
-                if (result == null) result = caseCloneable(stakeholder);
-                if (result == null) result = caseNameable(stakeholder);
-                if (result == null) result = caseDocumentable(stakeholder);
-                if (result == null) result = caseProperties(stakeholder);
-                if (result == null) result = caseAdapter(stakeholder);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.DRIVER: {
-                IDriver driver = (IDriver)theEObject;
-                T result = caseDriver(driver);
-                if (result == null) result = caseMotivationElement(driver);
-                if (result == null) result = caseArchimateElement(driver);
-                if (result == null) result = caseArchimateConcept(driver);
-                if (result == null) result = caseArchimateModelElement(driver);
-                if (result == null) result = caseIdentifier(driver);
-                if (result == null) result = caseCloneable(driver);
-                if (result == null) result = caseNameable(driver);
-                if (result == null) result = caseDocumentable(driver);
-                if (result == null) result = caseProperties(driver);
-                if (result == null) result = caseAdapter(driver);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1091,35 +831,233 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.GOAL: {
-                IGoal goal = (IGoal)theEObject;
-                T result = caseGoal(goal);
-                if (result == null) result = caseMotivationElement(goal);
-                if (result == null) result = caseArchimateElement(goal);
-                if (result == null) result = caseArchimateConcept(goal);
-                if (result == null) result = caseArchimateModelElement(goal);
-                if (result == null) result = caseIdentifier(goal);
-                if (result == null) result = caseCloneable(goal);
-                if (result == null) result = caseNameable(goal);
-                if (result == null) result = caseDocumentable(goal);
-                if (result == null) result = caseProperties(goal);
-                if (result == null) result = caseAdapter(goal);
+            case IArchimatePackage.BUSINESS_ACTOR: {
+                IBusinessActor businessActor = (IBusinessActor)theEObject;
+                T result = caseBusinessActor(businessActor);
+                if (result == null) result = caseBusinessElement(businessActor);
+                if (result == null) result = caseActiveStructureElement(businessActor);
+                if (result == null) result = caseStructureElement(businessActor);
+                if (result == null) result = caseArchimateElement(businessActor);
+                if (result == null) result = caseArchimateConcept(businessActor);
+                if (result == null) result = caseArchimateModelElement(businessActor);
+                if (result == null) result = caseIdentifier(businessActor);
+                if (result == null) result = caseCloneable(businessActor);
+                if (result == null) result = caseNameable(businessActor);
+                if (result == null) result = caseDocumentable(businessActor);
+                if (result == null) result = caseProperties(businessActor);
+                if (result == null) result = caseAdapter(businessActor);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.REQUIREMENT: {
-                IRequirement requirement = (IRequirement)theEObject;
-                T result = caseRequirement(requirement);
-                if (result == null) result = caseMotivationElement(requirement);
-                if (result == null) result = caseArchimateElement(requirement);
-                if (result == null) result = caseArchimateConcept(requirement);
-                if (result == null) result = caseArchimateModelElement(requirement);
-                if (result == null) result = caseIdentifier(requirement);
-                if (result == null) result = caseCloneable(requirement);
-                if (result == null) result = caseNameable(requirement);
-                if (result == null) result = caseDocumentable(requirement);
-                if (result == null) result = caseProperties(requirement);
-                if (result == null) result = caseAdapter(requirement);
+            case IArchimatePackage.BUSINESS_COLLABORATION: {
+                IBusinessCollaboration businessCollaboration = (IBusinessCollaboration)theEObject;
+                T result = caseBusinessCollaboration(businessCollaboration);
+                if (result == null) result = caseBusinessElement(businessCollaboration);
+                if (result == null) result = caseActiveStructureElement(businessCollaboration);
+                if (result == null) result = caseStructureElement(businessCollaboration);
+                if (result == null) result = caseArchimateElement(businessCollaboration);
+                if (result == null) result = caseArchimateConcept(businessCollaboration);
+                if (result == null) result = caseArchimateModelElement(businessCollaboration);
+                if (result == null) result = caseIdentifier(businessCollaboration);
+                if (result == null) result = caseCloneable(businessCollaboration);
+                if (result == null) result = caseNameable(businessCollaboration);
+                if (result == null) result = caseDocumentable(businessCollaboration);
+                if (result == null) result = caseProperties(businessCollaboration);
+                if (result == null) result = caseAdapter(businessCollaboration);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_EVENT: {
+                IBusinessEvent businessEvent = (IBusinessEvent)theEObject;
+                T result = caseBusinessEvent(businessEvent);
+                if (result == null) result = caseBusinessElement(businessEvent);
+                if (result == null) result = caseBehaviorElement(businessEvent);
+                if (result == null) result = caseArchimateElement(businessEvent);
+                if (result == null) result = caseArchimateConcept(businessEvent);
+                if (result == null) result = caseArchimateModelElement(businessEvent);
+                if (result == null) result = caseIdentifier(businessEvent);
+                if (result == null) result = caseCloneable(businessEvent);
+                if (result == null) result = caseNameable(businessEvent);
+                if (result == null) result = caseDocumentable(businessEvent);
+                if (result == null) result = caseProperties(businessEvent);
+                if (result == null) result = caseAdapter(businessEvent);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_FUNCTION: {
+                IBusinessFunction businessFunction = (IBusinessFunction)theEObject;
+                T result = caseBusinessFunction(businessFunction);
+                if (result == null) result = caseBusinessElement(businessFunction);
+                if (result == null) result = caseBehaviorElement(businessFunction);
+                if (result == null) result = caseArchimateElement(businessFunction);
+                if (result == null) result = caseArchimateConcept(businessFunction);
+                if (result == null) result = caseArchimateModelElement(businessFunction);
+                if (result == null) result = caseIdentifier(businessFunction);
+                if (result == null) result = caseCloneable(businessFunction);
+                if (result == null) result = caseNameable(businessFunction);
+                if (result == null) result = caseDocumentable(businessFunction);
+                if (result == null) result = caseProperties(businessFunction);
+                if (result == null) result = caseAdapter(businessFunction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_INTERACTION: {
+                IBusinessInteraction businessInteraction = (IBusinessInteraction)theEObject;
+                T result = caseBusinessInteraction(businessInteraction);
+                if (result == null) result = caseBusinessElement(businessInteraction);
+                if (result == null) result = caseBehaviorElement(businessInteraction);
+                if (result == null) result = caseArchimateElement(businessInteraction);
+                if (result == null) result = caseArchimateConcept(businessInteraction);
+                if (result == null) result = caseArchimateModelElement(businessInteraction);
+                if (result == null) result = caseIdentifier(businessInteraction);
+                if (result == null) result = caseCloneable(businessInteraction);
+                if (result == null) result = caseNameable(businessInteraction);
+                if (result == null) result = caseDocumentable(businessInteraction);
+                if (result == null) result = caseProperties(businessInteraction);
+                if (result == null) result = caseAdapter(businessInteraction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_INTERFACE: {
+                IBusinessInterface businessInterface = (IBusinessInterface)theEObject;
+                T result = caseBusinessInterface(businessInterface);
+                if (result == null) result = caseBusinessElement(businessInterface);
+                if (result == null) result = caseInterfaceElement(businessInterface);
+                if (result == null) result = caseActiveStructureElement(businessInterface);
+                if (result == null) result = caseStructureElement(businessInterface);
+                if (result == null) result = caseArchimateElement(businessInterface);
+                if (result == null) result = caseArchimateConcept(businessInterface);
+                if (result == null) result = caseArchimateModelElement(businessInterface);
+                if (result == null) result = caseIdentifier(businessInterface);
+                if (result == null) result = caseCloneable(businessInterface);
+                if (result == null) result = caseNameable(businessInterface);
+                if (result == null) result = caseDocumentable(businessInterface);
+                if (result == null) result = caseProperties(businessInterface);
+                if (result == null) result = caseAdapter(businessInterface);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_OBJECT: {
+                IBusinessObject businessObject = (IBusinessObject)theEObject;
+                T result = caseBusinessObject(businessObject);
+                if (result == null) result = caseBusinessElement(businessObject);
+                if (result == null) result = casePassiveStructureElement(businessObject);
+                if (result == null) result = caseStructureElement(businessObject);
+                if (result == null) result = caseArchimateElement(businessObject);
+                if (result == null) result = caseArchimateConcept(businessObject);
+                if (result == null) result = caseArchimateModelElement(businessObject);
+                if (result == null) result = caseIdentifier(businessObject);
+                if (result == null) result = caseCloneable(businessObject);
+                if (result == null) result = caseNameable(businessObject);
+                if (result == null) result = caseDocumentable(businessObject);
+                if (result == null) result = caseProperties(businessObject);
+                if (result == null) result = caseAdapter(businessObject);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_PROCESS: {
+                IBusinessProcess businessProcess = (IBusinessProcess)theEObject;
+                T result = caseBusinessProcess(businessProcess);
+                if (result == null) result = caseBusinessElement(businessProcess);
+                if (result == null) result = caseBehaviorElement(businessProcess);
+                if (result == null) result = caseArchimateElement(businessProcess);
+                if (result == null) result = caseArchimateConcept(businessProcess);
+                if (result == null) result = caseArchimateModelElement(businessProcess);
+                if (result == null) result = caseIdentifier(businessProcess);
+                if (result == null) result = caseCloneable(businessProcess);
+                if (result == null) result = caseNameable(businessProcess);
+                if (result == null) result = caseDocumentable(businessProcess);
+                if (result == null) result = caseProperties(businessProcess);
+                if (result == null) result = caseAdapter(businessProcess);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_ROLE: {
+                IBusinessRole businessRole = (IBusinessRole)theEObject;
+                T result = caseBusinessRole(businessRole);
+                if (result == null) result = caseBusinessElement(businessRole);
+                if (result == null) result = caseActiveStructureElement(businessRole);
+                if (result == null) result = caseStructureElement(businessRole);
+                if (result == null) result = caseArchimateElement(businessRole);
+                if (result == null) result = caseArchimateConcept(businessRole);
+                if (result == null) result = caseArchimateModelElement(businessRole);
+                if (result == null) result = caseIdentifier(businessRole);
+                if (result == null) result = caseCloneable(businessRole);
+                if (result == null) result = caseNameable(businessRole);
+                if (result == null) result = caseDocumentable(businessRole);
+                if (result == null) result = caseProperties(businessRole);
+                if (result == null) result = caseAdapter(businessRole);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.BUSINESS_SERVICE: {
+                IBusinessService businessService = (IBusinessService)theEObject;
+                T result = caseBusinessService(businessService);
+                if (result == null) result = caseBusinessElement(businessService);
+                if (result == null) result = caseServiceElement(businessService);
+                if (result == null) result = caseBehaviorElement(businessService);
+                if (result == null) result = caseArchimateElement(businessService);
+                if (result == null) result = caseArchimateConcept(businessService);
+                if (result == null) result = caseArchimateModelElement(businessService);
+                if (result == null) result = caseIdentifier(businessService);
+                if (result == null) result = caseCloneable(businessService);
+                if (result == null) result = caseNameable(businessService);
+                if (result == null) result = caseDocumentable(businessService);
+                if (result == null) result = caseProperties(businessService);
+                if (result == null) result = caseAdapter(businessService);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.CAPABILITY: {
+                ICapability capability = (ICapability)theEObject;
+                T result = caseCapability(capability);
+                if (result == null) result = caseStrategyElement(capability);
+                if (result == null) result = caseBehaviorElement(capability);
+                if (result == null) result = caseArchimateElement(capability);
+                if (result == null) result = caseArchimateConcept(capability);
+                if (result == null) result = caseArchimateModelElement(capability);
+                if (result == null) result = caseIdentifier(capability);
+                if (result == null) result = caseCloneable(capability);
+                if (result == null) result = caseNameable(capability);
+                if (result == null) result = caseDocumentable(capability);
+                if (result == null) result = caseProperties(capability);
+                if (result == null) result = caseAdapter(capability);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.COMMUNICATION_NETWORK: {
+                ICommunicationNetwork communicationNetwork = (ICommunicationNetwork)theEObject;
+                T result = caseCommunicationNetwork(communicationNetwork);
+                if (result == null) result = caseTechnologyElement(communicationNetwork);
+                if (result == null) result = caseActiveStructureElement(communicationNetwork);
+                if (result == null) result = caseStructureElement(communicationNetwork);
+                if (result == null) result = caseArchimateElement(communicationNetwork);
+                if (result == null) result = caseArchimateConcept(communicationNetwork);
+                if (result == null) result = caseArchimateModelElement(communicationNetwork);
+                if (result == null) result = caseIdentifier(communicationNetwork);
+                if (result == null) result = caseCloneable(communicationNetwork);
+                if (result == null) result = caseNameable(communicationNetwork);
+                if (result == null) result = caseDocumentable(communicationNetwork);
+                if (result == null) result = caseProperties(communicationNetwork);
+                if (result == null) result = caseAdapter(communicationNetwork);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.CONTRACT: {
+                IContract contract = (IContract)theEObject;
+                T result = caseContract(contract);
+                if (result == null) result = caseBusinessElement(contract);
+                if (result == null) result = casePassiveStructureElement(contract);
+                if (result == null) result = caseStructureElement(contract);
+                if (result == null) result = caseArchimateElement(contract);
+                if (result == null) result = caseArchimateConcept(contract);
+                if (result == null) result = caseArchimateModelElement(contract);
+                if (result == null) result = caseIdentifier(contract);
+                if (result == null) result = caseCloneable(contract);
+                if (result == null) result = caseNameable(contract);
+                if (result == null) result = caseDocumentable(contract);
+                if (result == null) result = caseProperties(contract);
+                if (result == null) result = caseAdapter(contract);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1139,6 +1077,330 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.COURSE_OF_ACTION: {
+                ICourseOfAction courseOfAction = (ICourseOfAction)theEObject;
+                T result = caseCourseOfAction(courseOfAction);
+                if (result == null) result = caseStrategyElement(courseOfAction);
+                if (result == null) result = caseBehaviorElement(courseOfAction);
+                if (result == null) result = caseArchimateElement(courseOfAction);
+                if (result == null) result = caseArchimateConcept(courseOfAction);
+                if (result == null) result = caseArchimateModelElement(courseOfAction);
+                if (result == null) result = caseIdentifier(courseOfAction);
+                if (result == null) result = caseCloneable(courseOfAction);
+                if (result == null) result = caseNameable(courseOfAction);
+                if (result == null) result = caseDocumentable(courseOfAction);
+                if (result == null) result = caseProperties(courseOfAction);
+                if (result == null) result = caseAdapter(courseOfAction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DATA_OBJECT: {
+                IDataObject dataObject = (IDataObject)theEObject;
+                T result = caseDataObject(dataObject);
+                if (result == null) result = caseApplicationElement(dataObject);
+                if (result == null) result = casePassiveStructureElement(dataObject);
+                if (result == null) result = caseStructureElement(dataObject);
+                if (result == null) result = caseArchimateElement(dataObject);
+                if (result == null) result = caseArchimateConcept(dataObject);
+                if (result == null) result = caseArchimateModelElement(dataObject);
+                if (result == null) result = caseIdentifier(dataObject);
+                if (result == null) result = caseCloneable(dataObject);
+                if (result == null) result = caseNameable(dataObject);
+                if (result == null) result = caseDocumentable(dataObject);
+                if (result == null) result = caseProperties(dataObject);
+                if (result == null) result = caseAdapter(dataObject);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DELIVERABLE: {
+                IDeliverable deliverable = (IDeliverable)theEObject;
+                T result = caseDeliverable(deliverable);
+                if (result == null) result = caseImplementationMigrationElement(deliverable);
+                if (result == null) result = casePassiveStructureElement(deliverable);
+                if (result == null) result = caseStructureElement(deliverable);
+                if (result == null) result = caseArchimateElement(deliverable);
+                if (result == null) result = caseArchimateConcept(deliverable);
+                if (result == null) result = caseArchimateModelElement(deliverable);
+                if (result == null) result = caseIdentifier(deliverable);
+                if (result == null) result = caseCloneable(deliverable);
+                if (result == null) result = caseNameable(deliverable);
+                if (result == null) result = caseDocumentable(deliverable);
+                if (result == null) result = caseProperties(deliverable);
+                if (result == null) result = caseAdapter(deliverable);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DEVICE: {
+                IDevice device = (IDevice)theEObject;
+                T result = caseDevice(device);
+                if (result == null) result = caseTechnologyElement(device);
+                if (result == null) result = caseActiveStructureElement(device);
+                if (result == null) result = caseStructureElement(device);
+                if (result == null) result = caseArchimateElement(device);
+                if (result == null) result = caseArchimateConcept(device);
+                if (result == null) result = caseArchimateModelElement(device);
+                if (result == null) result = caseIdentifier(device);
+                if (result == null) result = caseCloneable(device);
+                if (result == null) result = caseNameable(device);
+                if (result == null) result = caseDocumentable(device);
+                if (result == null) result = caseProperties(device);
+                if (result == null) result = caseAdapter(device);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DISTRIBUTION_NETWORK: {
+                IDistributionNetwork distributionNetwork = (IDistributionNetwork)theEObject;
+                T result = caseDistributionNetwork(distributionNetwork);
+                if (result == null) result = casePhysicalElement(distributionNetwork);
+                if (result == null) result = caseActiveStructureElement(distributionNetwork);
+                if (result == null) result = caseStructureElement(distributionNetwork);
+                if (result == null) result = caseArchimateElement(distributionNetwork);
+                if (result == null) result = caseArchimateConcept(distributionNetwork);
+                if (result == null) result = caseArchimateModelElement(distributionNetwork);
+                if (result == null) result = caseIdentifier(distributionNetwork);
+                if (result == null) result = caseCloneable(distributionNetwork);
+                if (result == null) result = caseNameable(distributionNetwork);
+                if (result == null) result = caseDocumentable(distributionNetwork);
+                if (result == null) result = caseProperties(distributionNetwork);
+                if (result == null) result = caseAdapter(distributionNetwork);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.DRIVER: {
+                IDriver driver = (IDriver)theEObject;
+                T result = caseDriver(driver);
+                if (result == null) result = caseMotivationElement(driver);
+                if (result == null) result = caseArchimateElement(driver);
+                if (result == null) result = caseArchimateConcept(driver);
+                if (result == null) result = caseArchimateModelElement(driver);
+                if (result == null) result = caseIdentifier(driver);
+                if (result == null) result = caseCloneable(driver);
+                if (result == null) result = caseNameable(driver);
+                if (result == null) result = caseDocumentable(driver);
+                if (result == null) result = caseProperties(driver);
+                if (result == null) result = caseAdapter(driver);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.EQUIPMENT: {
+                IEquipment equipment = (IEquipment)theEObject;
+                T result = caseEquipment(equipment);
+                if (result == null) result = casePhysicalElement(equipment);
+                if (result == null) result = caseActiveStructureElement(equipment);
+                if (result == null) result = caseStructureElement(equipment);
+                if (result == null) result = caseArchimateElement(equipment);
+                if (result == null) result = caseArchimateConcept(equipment);
+                if (result == null) result = caseArchimateModelElement(equipment);
+                if (result == null) result = caseIdentifier(equipment);
+                if (result == null) result = caseCloneable(equipment);
+                if (result == null) result = caseNameable(equipment);
+                if (result == null) result = caseDocumentable(equipment);
+                if (result == null) result = caseProperties(equipment);
+                if (result == null) result = caseAdapter(equipment);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.FACILITY: {
+                IFacility facility = (IFacility)theEObject;
+                T result = caseFacility(facility);
+                if (result == null) result = casePhysicalElement(facility);
+                if (result == null) result = caseActiveStructureElement(facility);
+                if (result == null) result = caseStructureElement(facility);
+                if (result == null) result = caseArchimateElement(facility);
+                if (result == null) result = caseArchimateConcept(facility);
+                if (result == null) result = caseArchimateModelElement(facility);
+                if (result == null) result = caseIdentifier(facility);
+                if (result == null) result = caseCloneable(facility);
+                if (result == null) result = caseNameable(facility);
+                if (result == null) result = caseDocumentable(facility);
+                if (result == null) result = caseProperties(facility);
+                if (result == null) result = caseAdapter(facility);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.GAP: {
+                IGap gap = (IGap)theEObject;
+                T result = caseGap(gap);
+                if (result == null) result = caseImplementationMigrationElement(gap);
+                if (result == null) result = casePassiveStructureElement(gap);
+                if (result == null) result = caseStructureElement(gap);
+                if (result == null) result = caseArchimateElement(gap);
+                if (result == null) result = caseArchimateConcept(gap);
+                if (result == null) result = caseArchimateModelElement(gap);
+                if (result == null) result = caseIdentifier(gap);
+                if (result == null) result = caseCloneable(gap);
+                if (result == null) result = caseNameable(gap);
+                if (result == null) result = caseDocumentable(gap);
+                if (result == null) result = caseProperties(gap);
+                if (result == null) result = caseAdapter(gap);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.GOAL: {
+                IGoal goal = (IGoal)theEObject;
+                T result = caseGoal(goal);
+                if (result == null) result = caseMotivationElement(goal);
+                if (result == null) result = caseArchimateElement(goal);
+                if (result == null) result = caseArchimateConcept(goal);
+                if (result == null) result = caseArchimateModelElement(goal);
+                if (result == null) result = caseIdentifier(goal);
+                if (result == null) result = caseCloneable(goal);
+                if (result == null) result = caseNameable(goal);
+                if (result == null) result = caseDocumentable(goal);
+                if (result == null) result = caseProperties(goal);
+                if (result == null) result = caseAdapter(goal);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.GROUPING: {
+                IGrouping grouping = (IGrouping)theEObject;
+                T result = caseGrouping(grouping);
+                if (result == null) result = caseCompositeElement(grouping);
+                if (result == null) result = caseArchimateElement(grouping);
+                if (result == null) result = caseArchimateConcept(grouping);
+                if (result == null) result = caseArchimateModelElement(grouping);
+                if (result == null) result = caseIdentifier(grouping);
+                if (result == null) result = caseCloneable(grouping);
+                if (result == null) result = caseNameable(grouping);
+                if (result == null) result = caseDocumentable(grouping);
+                if (result == null) result = caseProperties(grouping);
+                if (result == null) result = caseAdapter(grouping);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.LOCATION: {
+                ILocation location = (ILocation)theEObject;
+                T result = caseLocation(location);
+                if (result == null) result = caseCompositeElement(location);
+                if (result == null) result = caseArchimateElement(location);
+                if (result == null) result = caseArchimateConcept(location);
+                if (result == null) result = caseArchimateModelElement(location);
+                if (result == null) result = caseIdentifier(location);
+                if (result == null) result = caseCloneable(location);
+                if (result == null) result = caseNameable(location);
+                if (result == null) result = caseDocumentable(location);
+                if (result == null) result = caseProperties(location);
+                if (result == null) result = caseAdapter(location);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.MATERIAL: {
+                IMaterial material = (IMaterial)theEObject;
+                T result = caseMaterial(material);
+                if (result == null) result = casePhysicalElement(material);
+                if (result == null) result = casePassiveStructureElement(material);
+                if (result == null) result = caseStructureElement(material);
+                if (result == null) result = caseArchimateElement(material);
+                if (result == null) result = caseArchimateConcept(material);
+                if (result == null) result = caseArchimateModelElement(material);
+                if (result == null) result = caseIdentifier(material);
+                if (result == null) result = caseCloneable(material);
+                if (result == null) result = caseNameable(material);
+                if (result == null) result = caseDocumentable(material);
+                if (result == null) result = caseProperties(material);
+                if (result == null) result = caseAdapter(material);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.MEANING: {
+                IMeaning meaning = (IMeaning)theEObject;
+                T result = caseMeaning(meaning);
+                if (result == null) result = caseMotivationElement(meaning);
+                if (result == null) result = caseArchimateElement(meaning);
+                if (result == null) result = caseArchimateConcept(meaning);
+                if (result == null) result = caseArchimateModelElement(meaning);
+                if (result == null) result = caseIdentifier(meaning);
+                if (result == null) result = caseCloneable(meaning);
+                if (result == null) result = caseNameable(meaning);
+                if (result == null) result = caseDocumentable(meaning);
+                if (result == null) result = caseProperties(meaning);
+                if (result == null) result = caseAdapter(meaning);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.NODE: {
+                INode node = (INode)theEObject;
+                T result = caseNode(node);
+                if (result == null) result = caseTechnologyElement(node);
+                if (result == null) result = caseActiveStructureElement(node);
+                if (result == null) result = caseStructureElement(node);
+                if (result == null) result = caseArchimateElement(node);
+                if (result == null) result = caseArchimateConcept(node);
+                if (result == null) result = caseArchimateModelElement(node);
+                if (result == null) result = caseIdentifier(node);
+                if (result == null) result = caseCloneable(node);
+                if (result == null) result = caseNameable(node);
+                if (result == null) result = caseDocumentable(node);
+                if (result == null) result = caseProperties(node);
+                if (result == null) result = caseAdapter(node);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.OUTCOME: {
+                IOutcome outcome = (IOutcome)theEObject;
+                T result = caseOutcome(outcome);
+                if (result == null) result = caseMotivationElement(outcome);
+                if (result == null) result = caseArchimateElement(outcome);
+                if (result == null) result = caseArchimateConcept(outcome);
+                if (result == null) result = caseArchimateModelElement(outcome);
+                if (result == null) result = caseIdentifier(outcome);
+                if (result == null) result = caseCloneable(outcome);
+                if (result == null) result = caseNameable(outcome);
+                if (result == null) result = caseDocumentable(outcome);
+                if (result == null) result = caseProperties(outcome);
+                if (result == null) result = caseAdapter(outcome);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.OR_JUNCTION: {
+                IOrJunction orJunction = (IOrJunction)theEObject;
+                T result = caseOrJunction(orJunction);
+                if (result == null) result = caseJunctionElement(orJunction);
+                if (result == null) result = caseArchimateElement(orJunction);
+                if (result == null) result = caseArchimateConcept(orJunction);
+                if (result == null) result = caseArchimateModelElement(orJunction);
+                if (result == null) result = caseIdentifier(orJunction);
+                if (result == null) result = caseCloneable(orJunction);
+                if (result == null) result = caseNameable(orJunction);
+                if (result == null) result = caseDocumentable(orJunction);
+                if (result == null) result = caseProperties(orJunction);
+                if (result == null) result = caseAdapter(orJunction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.PATH: {
+                IPath path = (IPath)theEObject;
+                T result = casePath(path);
+                if (result == null) result = caseTechnologyElement(path);
+                if (result == null) result = caseArchimateElement(path);
+                if (result == null) result = caseArchimateConcept(path);
+                if (result == null) result = caseArchimateModelElement(path);
+                if (result == null) result = caseIdentifier(path);
+                if (result == null) result = caseCloneable(path);
+                if (result == null) result = caseNameable(path);
+                if (result == null) result = caseDocumentable(path);
+                if (result == null) result = caseProperties(path);
+                if (result == null) result = caseAdapter(path);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.PLATEAU: {
+                IPlateau plateau = (IPlateau)theEObject;
+                T result = casePlateau(plateau);
+                if (result == null) result = caseImplementationMigrationElement(plateau);
+                if (result == null) result = caseCompositeElement(plateau);
+                if (result == null) result = caseArchimateElement(plateau);
+                if (result == null) result = caseArchimateConcept(plateau);
+                if (result == null) result = caseArchimateModelElement(plateau);
+                if (result == null) result = caseIdentifier(plateau);
+                if (result == null) result = caseCloneable(plateau);
+                if (result == null) result = caseNameable(plateau);
+                if (result == null) result = caseDocumentable(plateau);
+                if (result == null) result = caseProperties(plateau);
+                if (result == null) result = caseAdapter(plateau);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.PRINCIPLE: {
                 IPrinciple principle = (IPrinciple)theEObject;
                 T result = casePrinciple(principle);
@@ -1155,10 +1417,254 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case IArchimatePackage.PRODUCT: {
+                IProduct product = (IProduct)theEObject;
+                T result = caseProduct(product);
+                if (result == null) result = caseBusinessElement(product);
+                if (result == null) result = caseCompositeElement(product);
+                if (result == null) result = caseArchimateElement(product);
+                if (result == null) result = caseArchimateConcept(product);
+                if (result == null) result = caseArchimateModelElement(product);
+                if (result == null) result = caseIdentifier(product);
+                if (result == null) result = caseCloneable(product);
+                if (result == null) result = caseNameable(product);
+                if (result == null) result = caseDocumentable(product);
+                if (result == null) result = caseProperties(product);
+                if (result == null) result = caseAdapter(product);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.REPRESENTATION: {
+                IRepresentation representation = (IRepresentation)theEObject;
+                T result = caseRepresentation(representation);
+                if (result == null) result = caseBusinessElement(representation);
+                if (result == null) result = casePassiveStructureElement(representation);
+                if (result == null) result = caseStructureElement(representation);
+                if (result == null) result = caseArchimateElement(representation);
+                if (result == null) result = caseArchimateConcept(representation);
+                if (result == null) result = caseArchimateModelElement(representation);
+                if (result == null) result = caseIdentifier(representation);
+                if (result == null) result = caseCloneable(representation);
+                if (result == null) result = caseNameable(representation);
+                if (result == null) result = caseDocumentable(representation);
+                if (result == null) result = caseProperties(representation);
+                if (result == null) result = caseAdapter(representation);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.RESOURCE: {
+                IResource resource = (IResource)theEObject;
+                T result = caseResource(resource);
+                if (result == null) result = caseStrategyElement(resource);
+                if (result == null) result = caseStructureElement(resource);
+                if (result == null) result = caseArchimateElement(resource);
+                if (result == null) result = caseArchimateConcept(resource);
+                if (result == null) result = caseArchimateModelElement(resource);
+                if (result == null) result = caseIdentifier(resource);
+                if (result == null) result = caseCloneable(resource);
+                if (result == null) result = caseNameable(resource);
+                if (result == null) result = caseDocumentable(resource);
+                if (result == null) result = caseProperties(resource);
+                if (result == null) result = caseAdapter(resource);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.REQUIREMENT: {
+                IRequirement requirement = (IRequirement)theEObject;
+                T result = caseRequirement(requirement);
+                if (result == null) result = caseMotivationElement(requirement);
+                if (result == null) result = caseArchimateElement(requirement);
+                if (result == null) result = caseArchimateConcept(requirement);
+                if (result == null) result = caseArchimateModelElement(requirement);
+                if (result == null) result = caseIdentifier(requirement);
+                if (result == null) result = caseCloneable(requirement);
+                if (result == null) result = caseNameable(requirement);
+                if (result == null) result = caseDocumentable(requirement);
+                if (result == null) result = caseProperties(requirement);
+                if (result == null) result = caseAdapter(requirement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.STAKEHOLDER: {
+                IStakeholder stakeholder = (IStakeholder)theEObject;
+                T result = caseStakeholder(stakeholder);
+                if (result == null) result = caseMotivationElement(stakeholder);
+                if (result == null) result = caseActiveStructureElement(stakeholder);
+                if (result == null) result = caseStructureElement(stakeholder);
+                if (result == null) result = caseArchimateElement(stakeholder);
+                if (result == null) result = caseArchimateConcept(stakeholder);
+                if (result == null) result = caseArchimateModelElement(stakeholder);
+                if (result == null) result = caseIdentifier(stakeholder);
+                if (result == null) result = caseCloneable(stakeholder);
+                if (result == null) result = caseNameable(stakeholder);
+                if (result == null) result = caseDocumentable(stakeholder);
+                if (result == null) result = caseProperties(stakeholder);
+                if (result == null) result = caseAdapter(stakeholder);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.SYSTEM_SOFTWARE: {
+                ISystemSoftware systemSoftware = (ISystemSoftware)theEObject;
+                T result = caseSystemSoftware(systemSoftware);
+                if (result == null) result = caseTechnologyElement(systemSoftware);
+                if (result == null) result = caseActiveStructureElement(systemSoftware);
+                if (result == null) result = caseStructureElement(systemSoftware);
+                if (result == null) result = caseArchimateElement(systemSoftware);
+                if (result == null) result = caseArchimateConcept(systemSoftware);
+                if (result == null) result = caseArchimateModelElement(systemSoftware);
+                if (result == null) result = caseIdentifier(systemSoftware);
+                if (result == null) result = caseCloneable(systemSoftware);
+                if (result == null) result = caseNameable(systemSoftware);
+                if (result == null) result = caseDocumentable(systemSoftware);
+                if (result == null) result = caseProperties(systemSoftware);
+                if (result == null) result = caseAdapter(systemSoftware);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_COLLABORATION: {
+                ITechnologyCollaboration technologyCollaboration = (ITechnologyCollaboration)theEObject;
+                T result = caseTechnologyCollaboration(technologyCollaboration);
+                if (result == null) result = caseTechnologyElement(technologyCollaboration);
+                if (result == null) result = caseActiveStructureElement(technologyCollaboration);
+                if (result == null) result = caseStructureElement(technologyCollaboration);
+                if (result == null) result = caseArchimateElement(technologyCollaboration);
+                if (result == null) result = caseArchimateConcept(technologyCollaboration);
+                if (result == null) result = caseArchimateModelElement(technologyCollaboration);
+                if (result == null) result = caseIdentifier(technologyCollaboration);
+                if (result == null) result = caseCloneable(technologyCollaboration);
+                if (result == null) result = caseNameable(technologyCollaboration);
+                if (result == null) result = caseDocumentable(technologyCollaboration);
+                if (result == null) result = caseProperties(technologyCollaboration);
+                if (result == null) result = caseAdapter(technologyCollaboration);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_EVENT: {
+                ITechnologyEvent technologyEvent = (ITechnologyEvent)theEObject;
+                T result = caseTechnologyEvent(technologyEvent);
+                if (result == null) result = caseTechnologyElement(technologyEvent);
+                if (result == null) result = caseBehaviorElement(technologyEvent);
+                if (result == null) result = caseArchimateElement(technologyEvent);
+                if (result == null) result = caseArchimateConcept(technologyEvent);
+                if (result == null) result = caseArchimateModelElement(technologyEvent);
+                if (result == null) result = caseIdentifier(technologyEvent);
+                if (result == null) result = caseCloneable(technologyEvent);
+                if (result == null) result = caseNameable(technologyEvent);
+                if (result == null) result = caseDocumentable(technologyEvent);
+                if (result == null) result = caseProperties(technologyEvent);
+                if (result == null) result = caseAdapter(technologyEvent);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_FUNCTION: {
+                ITechnologyFunction technologyFunction = (ITechnologyFunction)theEObject;
+                T result = caseTechnologyFunction(technologyFunction);
+                if (result == null) result = caseTechnologyElement(technologyFunction);
+                if (result == null) result = caseBehaviorElement(technologyFunction);
+                if (result == null) result = caseArchimateElement(technologyFunction);
+                if (result == null) result = caseArchimateConcept(technologyFunction);
+                if (result == null) result = caseArchimateModelElement(technologyFunction);
+                if (result == null) result = caseIdentifier(technologyFunction);
+                if (result == null) result = caseCloneable(technologyFunction);
+                if (result == null) result = caseNameable(technologyFunction);
+                if (result == null) result = caseDocumentable(technologyFunction);
+                if (result == null) result = caseProperties(technologyFunction);
+                if (result == null) result = caseAdapter(technologyFunction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_INTERFACE: {
+                ITechnologyInterface technologyInterface = (ITechnologyInterface)theEObject;
+                T result = caseTechnologyInterface(technologyInterface);
+                if (result == null) result = caseTechnologyElement(technologyInterface);
+                if (result == null) result = caseInterfaceElement(technologyInterface);
+                if (result == null) result = caseActiveStructureElement(technologyInterface);
+                if (result == null) result = caseStructureElement(technologyInterface);
+                if (result == null) result = caseArchimateElement(technologyInterface);
+                if (result == null) result = caseArchimateConcept(technologyInterface);
+                if (result == null) result = caseArchimateModelElement(technologyInterface);
+                if (result == null) result = caseIdentifier(technologyInterface);
+                if (result == null) result = caseCloneable(technologyInterface);
+                if (result == null) result = caseNameable(technologyInterface);
+                if (result == null) result = caseDocumentable(technologyInterface);
+                if (result == null) result = caseProperties(technologyInterface);
+                if (result == null) result = caseAdapter(technologyInterface);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_INTERACTION: {
+                ITechnologyInteraction technologyInteraction = (ITechnologyInteraction)theEObject;
+                T result = caseTechnologyInteraction(technologyInteraction);
+                if (result == null) result = caseTechnologyElement(technologyInteraction);
+                if (result == null) result = caseBehaviorElement(technologyInteraction);
+                if (result == null) result = caseArchimateElement(technologyInteraction);
+                if (result == null) result = caseArchimateConcept(technologyInteraction);
+                if (result == null) result = caseArchimateModelElement(technologyInteraction);
+                if (result == null) result = caseIdentifier(technologyInteraction);
+                if (result == null) result = caseCloneable(technologyInteraction);
+                if (result == null) result = caseNameable(technologyInteraction);
+                if (result == null) result = caseDocumentable(technologyInteraction);
+                if (result == null) result = caseProperties(technologyInteraction);
+                if (result == null) result = caseAdapter(technologyInteraction);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_PROCESS: {
+                ITechnologyProcess technologyProcess = (ITechnologyProcess)theEObject;
+                T result = caseTechnologyProcess(technologyProcess);
+                if (result == null) result = caseTechnologyElement(technologyProcess);
+                if (result == null) result = caseBehaviorElement(technologyProcess);
+                if (result == null) result = caseArchimateElement(technologyProcess);
+                if (result == null) result = caseArchimateConcept(technologyProcess);
+                if (result == null) result = caseArchimateModelElement(technologyProcess);
+                if (result == null) result = caseIdentifier(technologyProcess);
+                if (result == null) result = caseCloneable(technologyProcess);
+                if (result == null) result = caseNameable(technologyProcess);
+                if (result == null) result = caseDocumentable(technologyProcess);
+                if (result == null) result = caseProperties(technologyProcess);
+                if (result == null) result = caseAdapter(technologyProcess);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.TECHNOLOGY_SERVICE: {
+                ITechnologyService technologyService = (ITechnologyService)theEObject;
+                T result = caseTechnologyService(technologyService);
+                if (result == null) result = caseTechnologyElement(technologyService);
+                if (result == null) result = caseServiceElement(technologyService);
+                if (result == null) result = caseBehaviorElement(technologyService);
+                if (result == null) result = caseArchimateElement(technologyService);
+                if (result == null) result = caseArchimateConcept(technologyService);
+                if (result == null) result = caseArchimateModelElement(technologyService);
+                if (result == null) result = caseIdentifier(technologyService);
+                if (result == null) result = caseCloneable(technologyService);
+                if (result == null) result = caseNameable(technologyService);
+                if (result == null) result = caseDocumentable(technologyService);
+                if (result == null) result = caseProperties(technologyService);
+                if (result == null) result = caseAdapter(technologyService);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.VALUE: {
+                IValue value = (IValue)theEObject;
+                T result = caseValue(value);
+                if (result == null) result = caseMotivationElement(value);
+                if (result == null) result = caseArchimateElement(value);
+                if (result == null) result = caseArchimateConcept(value);
+                if (result == null) result = caseArchimateModelElement(value);
+                if (result == null) result = caseIdentifier(value);
+                if (result == null) result = caseCloneable(value);
+                if (result == null) result = caseNameable(value);
+                if (result == null) result = caseDocumentable(value);
+                if (result == null) result = caseProperties(value);
+                if (result == null) result = caseAdapter(value);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case IArchimatePackage.WORK_PACKAGE: {
                 IWorkPackage workPackage = (IWorkPackage)theEObject;
                 T result = caseWorkPackage(workPackage);
                 if (result == null) result = caseImplementationMigrationElement(workPackage);
+                if (result == null) result = caseBehaviorElement(workPackage);
                 if (result == null) result = caseArchimateElement(workPackage);
                 if (result == null) result = caseArchimateConcept(workPackage);
                 if (result == null) result = caseArchimateModelElement(workPackage);
@@ -1171,57 +1677,10 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.DELIVERABLE: {
-                IDeliverable deliverable = (IDeliverable)theEObject;
-                T result = caseDeliverable(deliverable);
-                if (result == null) result = caseImplementationMigrationElement(deliverable);
-                if (result == null) result = caseArchimateElement(deliverable);
-                if (result == null) result = caseArchimateConcept(deliverable);
-                if (result == null) result = caseArchimateModelElement(deliverable);
-                if (result == null) result = caseIdentifier(deliverable);
-                if (result == null) result = caseCloneable(deliverable);
-                if (result == null) result = caseNameable(deliverable);
-                if (result == null) result = caseDocumentable(deliverable);
-                if (result == null) result = caseProperties(deliverable);
-                if (result == null) result = caseAdapter(deliverable);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.PLATEAU: {
-                IPlateau plateau = (IPlateau)theEObject;
-                T result = casePlateau(plateau);
-                if (result == null) result = caseImplementationMigrationElement(plateau);
-                if (result == null) result = caseArchimateElement(plateau);
-                if (result == null) result = caseArchimateConcept(plateau);
-                if (result == null) result = caseArchimateModelElement(plateau);
-                if (result == null) result = caseIdentifier(plateau);
-                if (result == null) result = caseCloneable(plateau);
-                if (result == null) result = caseNameable(plateau);
-                if (result == null) result = caseDocumentable(plateau);
-                if (result == null) result = caseProperties(plateau);
-                if (result == null) result = caseAdapter(plateau);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.GAP: {
-                IGap gap = (IGap)theEObject;
-                T result = caseGap(gap);
-                if (result == null) result = caseImplementationMigrationElement(gap);
-                if (result == null) result = caseArchimateElement(gap);
-                if (result == null) result = caseArchimateConcept(gap);
-                if (result == null) result = caseArchimateModelElement(gap);
-                if (result == null) result = caseIdentifier(gap);
-                if (result == null) result = caseCloneable(gap);
-                if (result == null) result = caseNameable(gap);
-                if (result == null) result = caseDocumentable(gap);
-                if (result == null) result = caseProperties(gap);
-                if (result == null) result = caseAdapter(gap);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case IArchimatePackage.ACCESS_RELATIONSHIP: {
                 IAccessRelationship accessRelationship = (IAccessRelationship)theEObject;
                 T result = caseAccessRelationship(accessRelationship);
+                if (result == null) result = caseDependendencyRelationship(accessRelationship);
                 if (result == null) result = caseArchimateRelationship(accessRelationship);
                 if (result == null) result = caseArchimateConcept(accessRelationship);
                 if (result == null) result = caseArchimateModelElement(accessRelationship);
@@ -1237,6 +1696,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.AGGREGATION_RELATIONSHIP: {
                 IAggregationRelationship aggregationRelationship = (IAggregationRelationship)theEObject;
                 T result = caseAggregationRelationship(aggregationRelationship);
+                if (result == null) result = caseStructuralRelationship(aggregationRelationship);
                 if (result == null) result = caseArchimateRelationship(aggregationRelationship);
                 if (result == null) result = caseArchimateConcept(aggregationRelationship);
                 if (result == null) result = caseArchimateModelElement(aggregationRelationship);
@@ -1252,6 +1712,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ASSIGNMENT_RELATIONSHIP: {
                 IAssignmentRelationship assignmentRelationship = (IAssignmentRelationship)theEObject;
                 T result = caseAssignmentRelationship(assignmentRelationship);
+                if (result == null) result = caseStructuralRelationship(assignmentRelationship);
                 if (result == null) result = caseArchimateRelationship(assignmentRelationship);
                 if (result == null) result = caseArchimateConcept(assignmentRelationship);
                 if (result == null) result = caseArchimateModelElement(assignmentRelationship);
@@ -1267,6 +1728,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ASSOCIATION_RELATIONSHIP: {
                 IAssociationRelationship associationRelationship = (IAssociationRelationship)theEObject;
                 T result = caseAssociationRelationship(associationRelationship);
+                if (result == null) result = caseOtherRelationship(associationRelationship);
                 if (result == null) result = caseArchimateRelationship(associationRelationship);
                 if (result == null) result = caseArchimateConcept(associationRelationship);
                 if (result == null) result = caseArchimateModelElement(associationRelationship);
@@ -1282,6 +1744,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.COMPOSITION_RELATIONSHIP: {
                 ICompositionRelationship compositionRelationship = (ICompositionRelationship)theEObject;
                 T result = caseCompositionRelationship(compositionRelationship);
+                if (result == null) result = caseStructuralRelationship(compositionRelationship);
                 if (result == null) result = caseArchimateRelationship(compositionRelationship);
                 if (result == null) result = caseArchimateConcept(compositionRelationship);
                 if (result == null) result = caseArchimateModelElement(compositionRelationship);
@@ -1297,6 +1760,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.FLOW_RELATIONSHIP: {
                 IFlowRelationship flowRelationship = (IFlowRelationship)theEObject;
                 T result = caseFlowRelationship(flowRelationship);
+                if (result == null) result = caseDynamicRelationship(flowRelationship);
                 if (result == null) result = caseArchimateRelationship(flowRelationship);
                 if (result == null) result = caseArchimateConcept(flowRelationship);
                 if (result == null) result = caseArchimateModelElement(flowRelationship);
@@ -1312,6 +1776,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.INFLUENCE_RELATIONSHIP: {
                 IInfluenceRelationship influenceRelationship = (IInfluenceRelationship)theEObject;
                 T result = caseInfluenceRelationship(influenceRelationship);
+                if (result == null) result = caseDependendencyRelationship(influenceRelationship);
                 if (result == null) result = caseArchimateRelationship(influenceRelationship);
                 if (result == null) result = caseArchimateConcept(influenceRelationship);
                 if (result == null) result = caseArchimateModelElement(influenceRelationship);
@@ -1327,6 +1792,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.REALIZATION_RELATIONSHIP: {
                 IRealizationRelationship realizationRelationship = (IRealizationRelationship)theEObject;
                 T result = caseRealizationRelationship(realizationRelationship);
+                if (result == null) result = caseStructuralRelationship(realizationRelationship);
                 if (result == null) result = caseArchimateRelationship(realizationRelationship);
                 if (result == null) result = caseArchimateConcept(realizationRelationship);
                 if (result == null) result = caseArchimateModelElement(realizationRelationship);
@@ -1342,6 +1808,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.SERVING_RELATIONSHIP: {
                 IServingRelationship servingRelationship = (IServingRelationship)theEObject;
                 T result = caseServingRelationship(servingRelationship);
+                if (result == null) result = caseDependendencyRelationship(servingRelationship);
                 if (result == null) result = caseArchimateRelationship(servingRelationship);
                 if (result == null) result = caseArchimateConcept(servingRelationship);
                 if (result == null) result = caseArchimateModelElement(servingRelationship);
@@ -1357,6 +1824,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.SPECIALIZATION_RELATIONSHIP: {
                 ISpecializationRelationship specializationRelationship = (ISpecializationRelationship)theEObject;
                 T result = caseSpecializationRelationship(specializationRelationship);
+                if (result == null) result = caseOtherRelationship(specializationRelationship);
                 if (result == null) result = caseArchimateRelationship(specializationRelationship);
                 if (result == null) result = caseArchimateConcept(specializationRelationship);
                 if (result == null) result = caseArchimateModelElement(specializationRelationship);
@@ -1372,6 +1840,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.TRIGGERING_RELATIONSHIP: {
                 ITriggeringRelationship triggeringRelationship = (ITriggeringRelationship)theEObject;
                 T result = caseTriggeringRelationship(triggeringRelationship);
+                if (result == null) result = caseDynamicRelationship(triggeringRelationship);
                 if (result == null) result = caseArchimateRelationship(triggeringRelationship);
                 if (result == null) result = caseArchimateConcept(triggeringRelationship);
                 if (result == null) result = caseArchimateModelElement(triggeringRelationship);
@@ -1964,81 +2433,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Communication Path</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Communication Path</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseCommunicationPath(ICommunicationPath object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Network</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Network</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseNetwork(INetwork object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Infrastructure Interface</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Infrastructure Interface</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseInfrastructureInterface(IInfrastructureInterface object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Infrastructure Service</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Infrastructure Service</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseInfrastructureService(IInfrastructureService object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Infrastructure Function</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Infrastructure Function</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseInfrastructureFunction(IInfrastructureFunction object) {
-        return null;
-    }
-
-    /**
      * Returns the result of interpreting the object as an instance of '<em>Node</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2050,6 +2444,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseNode(INode object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Outcome</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Outcome</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseOutcome(IOutcome object) {
         return null;
     }
 
@@ -2069,6 +2478,126 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Collaboration</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Collaboration</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyCollaboration(ITechnologyCollaboration object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Event</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Event</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyEvent(ITechnologyEvent object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Function</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Function</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyFunction(ITechnologyFunction object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Interface</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Interface</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyInterface(ITechnologyInterface object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Interaction</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Interaction</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyInteraction(ITechnologyInteraction object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyObject(ITechnologyObject object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Process</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Process</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyProcess(ITechnologyProcess object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Technology Service</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Technology Service</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseTechnologyService(ITechnologyService object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Device</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2084,6 +2613,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Distribution Network</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Distribution Network</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDistributionNetwork(IDistributionNetwork object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Equipment</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2095,6 +2639,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseEquipment(IEquipment object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Facility</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Facility</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseFacility(IFacility object) {
         return null;
     }
 
@@ -2174,6 +2733,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Grouping</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Grouping</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseGrouping(IGrouping object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Requirement</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2204,6 +2778,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Course Of Action</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Course Of Action</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCourseOfAction(ICourseOfAction object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Principle</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2230,6 +2819,141 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseImplementationMigrationElement(IImplementationMigrationElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Composite Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Composite Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCompositeElement(ICompositeElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Behavior Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Behavior Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseBehaviorElement(IBehaviorElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Structure Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Structure Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseStructureElement(IStructureElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Active Structure Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Active Structure Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseActiveStructureElement(IActiveStructureElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Passive Structure Element</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Passive Structure Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePassiveStructureElement(IPassiveStructureElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Structural Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Structural Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseStructuralRelationship(IStructuralRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Dependendency Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Dependendency Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDependendencyRelationship(IDependendencyRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Dynamic Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Dynamic Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDynamicRelationship(IDynamicRelationship object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Other Relationship</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Other Relationship</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseOtherRelationship(IOtherRelationship object) {
         return null;
     }
 
@@ -2924,6 +3648,36 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Capability</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Capability</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCapability(ICapability object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Communication Network</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Communication Network</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCommunicationNetwork(ICommunicationNetwork object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Value</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2954,6 +3708,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Material</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Material</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMaterial(IMaterial object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Application Component</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -2965,6 +3734,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseApplicationComponent(IApplicationComponent object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Application Event</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Application Event</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseApplicationEvent(IApplicationEvent object) {
         return null;
     }
 
@@ -3010,6 +3794,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseApplicationInterface(IApplicationInterface object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Application Process</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Application Process</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseApplicationProcess(IApplicationProcess object) {
         return null;
     }
 
@@ -3355,6 +4154,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseOrJunction(IOrJunction object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Path</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Path</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePath(IPath object) {
         return null;
     }
 

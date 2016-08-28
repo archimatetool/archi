@@ -18,7 +18,7 @@ import com.archimatetool.model.IWorkPackage;
  *
  * @generated
  */
-public class WorkPackage extends ImplementationMigrationElement implements IWorkPackage {
+public class WorkPackage extends ArchimateElement implements IWorkPackage {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -33,11 +33,11 @@ public class FigureChooser {
         
         FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getBusinessInterface());
         FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getApplicationInterface());
-        FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getInfrastructureInterface());
+        FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getTechnologyInterface());
         
         FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getBusinessService());
         FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getApplicationService());
-        FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getInfrastructureService());
+        FIGURE_CLASSES.add(IArchimatePackage.eINSTANCE.getTechnologyService());
     };
     
     public static boolean hasAlternateFigure(IArchimateElement element) {
@@ -59,7 +59,7 @@ public class FigureChooser {
             images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_INTERFACE1);
             images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_INTERFACE2);
         }
-        else if(eClass == IArchimatePackage.eINSTANCE.getInfrastructureInterface()) {
+        else if(eClass == IArchimatePackage.eINSTANCE.getTechnologyInterface()) {
             images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE1);
             images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_INTERFACE2);
         }
@@ -87,7 +87,7 @@ public class FigureChooser {
             images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_SERVICE1);
             images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_APPLICATION_SERVICE2);
         }
-        else if(eClass == IArchimatePackage.eINSTANCE.getInfrastructureService()) {
+        else if(eClass == IArchimatePackage.eINSTANCE.getTechnologyService()) {
             images[0] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_SERVICE1);
             images[1] = IArchimateImages.ImageFactory.getImage(IArchimateImages.FIGURE_TECHNOLOGY_SERVICE2);
         }
@@ -116,10 +116,10 @@ public class FigureChooser {
             case IArchimatePackage.APPLICATION_SERVICE:
                 return Preferences.STORE.getInt(IPreferenceConstants.APPLICATION_SERVICE_FIGURE);
 
-            case IArchimatePackage.INFRASTRUCTURE_INTERFACE:
+            case IArchimatePackage.TECHNOLOGY_INTERFACE:
                 return Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_INTERFACE_FIGURE);
                 
-            case IArchimatePackage.INFRASTRUCTURE_SERVICE:
+            case IArchimatePackage.TECHNOLOGY_SERVICE:
                 return Preferences.STORE.getInt(IPreferenceConstants.TECHNOLOGY_SERVICE_FIGURE);
 
             case IArchimatePackage.APPLICATION_COMPONENT:

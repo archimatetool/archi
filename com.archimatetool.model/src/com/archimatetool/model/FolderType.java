@@ -27,6 +27,16 @@ public enum FolderType implements Enumerator {
     USER(0, "user", "user"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
+     * The '<em><b>Strategy</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #STRATEGY_VALUE
+     * @generated
+     * @ordered
+     */
+    STRATEGY(1, "strategy", "strategy"), //$NON-NLS-1$ //$NON-NLS-2$
+
+    /**
      * The '<em><b>Business</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -34,7 +44,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    BUSINESS(1, "business", "business"), //$NON-NLS-1$ //$NON-NLS-2$
+    BUSINESS(2, "business", "business"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Application</b></em>' literal object.
@@ -44,7 +54,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    APPLICATION(2, "application", "application"), //$NON-NLS-1$ //$NON-NLS-2$
+    APPLICATION(3, "application", "application"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Technology</b></em>' literal object.
@@ -54,17 +64,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    TECHNOLOGY(3, "technology", "technology"), //$NON-NLS-1$ //$NON-NLS-2$
-
-    /**
-     * The '<em><b>Connectors</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #CONNECTORS_VALUE
-     * @generated
-     * @ordered
-     */
-    CONNECTORS(4, "connectors", "connectors"), //$NON-NLS-1$ //$NON-NLS-2$
+    TECHNOLOGY(4, "technology", "technology"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Relations</b></em>' literal object.
@@ -77,6 +77,16 @@ public enum FolderType implements Enumerator {
     RELATIONS(5, "relations", "relations"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
+     * The '<em><b>Other</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #OTHER_VALUE
+     * @generated
+     * @ordered
+     */
+    OTHER(5, "other", "other"), //$NON-NLS-1$ //$NON-NLS-2$
+
+    /**
      * The '<em><b>Diagrams</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -87,16 +97,6 @@ public enum FolderType implements Enumerator {
     DIAGRAMS(6, "diagrams", "diagrams"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
-     * The '<em><b>Derived</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #DERIVED_VALUE
-     * @generated
-     * @ordered
-     */
-    DERIVED(7, "derived", "derived"), //$NON-NLS-1$ //$NON-NLS-2$
-
-    /**
      * The '<em><b>Motivation</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -104,7 +104,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    MOTIVATION(8, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
+    MOTIVATION(7, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Implementation migration</b></em>' literal object.
@@ -114,17 +114,17 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    IMPLEMENTATION_MIGRATION(9, "implementation_migration", "implementation_migration"), //$NON-NLS-1$ //$NON-NLS-2$
+    IMPLEMENTATION_MIGRATION(8, "implementation_migration", "implementation_migration"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
-     * The '<em><b>Strategy</b></em>' literal object.
+     * The '<em><b>Derived</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #STRATEGY_VALUE
+     * @see #DERIVED_VALUE
      * @generated
      * @ordered
      */
-    STRATEGY(10, "strategy", "strategy"); //$NON-NLS-1$ //$NON-NLS-2$
+    DERIVED(9, "derived", "derived"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>User</b></em>' literal value.
@@ -142,6 +142,21 @@ public enum FolderType implements Enumerator {
     public static final int USER_VALUE = 0;
 
     /**
+     * The '<em><b>Strategy</b></em>' literal value.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Strategy</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @see #STRATEGY
+     * @model name="strategy"
+     * @generated
+     * @ordered
+     */
+    public static final int STRATEGY_VALUE = 1;
+
+    /**
      * The '<em><b>Business</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <p>
@@ -154,7 +169,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int BUSINESS_VALUE = 1;
+    public static final int BUSINESS_VALUE = 2;
 
     /**
      * The '<em><b>Application</b></em>' literal value.
@@ -169,7 +184,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int APPLICATION_VALUE = 2;
+    public static final int APPLICATION_VALUE = 3;
 
     /**
      * The '<em><b>Technology</b></em>' literal value.
@@ -184,22 +199,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int TECHNOLOGY_VALUE = 3;
-
-    /**
-     * The '<em><b>Connectors</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Connectors</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @see #CONNECTORS
-     * @model name="connectors"
-     * @generated
-     * @ordered
-     */
-    public static final int CONNECTORS_VALUE = 4;
+    public static final int TECHNOLOGY_VALUE = 4;
 
     /**
      * The '<em><b>Relations</b></em>' literal value.
@@ -217,6 +217,21 @@ public enum FolderType implements Enumerator {
     public static final int RELATIONS_VALUE = 5;
 
     /**
+     * The '<em><b>Other</b></em>' literal value.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Other</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @see #OTHER
+     * @model name="other"
+     * @generated
+     * @ordered
+     */
+    public static final int OTHER_VALUE = 5;
+
+    /**
      * The '<em><b>Diagrams</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <p>
@@ -232,21 +247,6 @@ public enum FolderType implements Enumerator {
     public static final int DIAGRAMS_VALUE = 6;
 
     /**
-     * The '<em><b>Derived</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Derived</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @see #DERIVED
-     * @model name="derived"
-     * @generated
-     * @ordered
-     */
-    public static final int DERIVED_VALUE = 7;
-
-    /**
      * The '<em><b>Motivation</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <p>
@@ -259,7 +259,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int MOTIVATION_VALUE = 8;
+    public static final int MOTIVATION_VALUE = 7;
 
     /**
      * The '<em><b>Implementation migration</b></em>' literal value.
@@ -274,22 +274,22 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int IMPLEMENTATION_MIGRATION_VALUE = 9;
+    public static final int IMPLEMENTATION_MIGRATION_VALUE = 8;
 
     /**
-     * The '<em><b>Strategy</b></em>' literal value.
+     * The '<em><b>Derived</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of '<em><b>Strategy</b></em>' literal object isn't clear,
+     * If the meaning of '<em><b>Derived</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @see #STRATEGY
-     * @model name="strategy"
+     * @see #DERIVED
+     * @model name="derived"
      * @generated
      * @ordered
      */
-    public static final int STRATEGY_VALUE = 10;
+    public static final int DERIVED_VALUE = 9;
 
     /**
      * An array of all the '<em><b>Folder Type</b></em>' enumerators.
@@ -300,16 +300,16 @@ public enum FolderType implements Enumerator {
     private static final FolderType[] VALUES_ARRAY =
         new FolderType[] {
             USER,
+            STRATEGY,
             BUSINESS,
             APPLICATION,
             TECHNOLOGY,
-            CONNECTORS,
             RELATIONS,
+            OTHER,
             DIAGRAMS,
-            DERIVED,
             MOTIVATION,
             IMPLEMENTATION_MIGRATION,
-            STRATEGY,
+            DERIVED,
         };
 
     /**
@@ -367,16 +367,15 @@ public enum FolderType implements Enumerator {
     public static FolderType get(int value) {
         switch (value) {
             case USER_VALUE: return USER;
+            case STRATEGY_VALUE: return STRATEGY;
             case BUSINESS_VALUE: return BUSINESS;
             case APPLICATION_VALUE: return APPLICATION;
             case TECHNOLOGY_VALUE: return TECHNOLOGY;
-            case CONNECTORS_VALUE: return CONNECTORS;
             case RELATIONS_VALUE: return RELATIONS;
             case DIAGRAMS_VALUE: return DIAGRAMS;
-            case DERIVED_VALUE: return DERIVED;
             case MOTIVATION_VALUE: return MOTIVATION;
             case IMPLEMENTATION_MIGRATION_VALUE: return IMPLEMENTATION_MIGRATION;
-            case STRATEGY_VALUE: return STRATEGY;
+            case DERIVED_VALUE: return DERIVED;
         }
         return null;
     }

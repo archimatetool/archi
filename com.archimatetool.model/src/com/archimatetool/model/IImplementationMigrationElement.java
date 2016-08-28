@@ -13,7 +13,7 @@ package com.archimatetool.model;
  *
  *
  * @see com.archimatetool.model.IArchimatePackage#getImplementationMigrationElement()
- * @model abstract="true"
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface IImplementationMigrationElement extends IArchimateElement {

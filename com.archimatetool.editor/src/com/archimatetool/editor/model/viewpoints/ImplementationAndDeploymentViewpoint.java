@@ -24,10 +24,10 @@ public class ImplementationAndDeploymentViewpoint extends AbstractViewpoint {
             
             IArchimatePackage.eINSTANCE.getDevice(),
             IArchimatePackage.eINSTANCE.getNode(),
-            IArchimatePackage.eINSTANCE.getInfrastructureService(),
-            IArchimatePackage.eINSTANCE.getCommunicationPath(),
+            IArchimatePackage.eINSTANCE.getTechnologyService(),
+            IArchimatePackage.eINSTANCE.getPath(),
             IArchimatePackage.eINSTANCE.getSystemSoftware(),
-            IArchimatePackage.eINSTANCE.getNetwork(),
+            IArchimatePackage.eINSTANCE.getCommunicationNetwork(),
             IArchimatePackage.eINSTANCE.getArtifact(),
             
             IArchimatePackage.eINSTANCE.getAndJunction(),
