@@ -47,6 +47,7 @@ import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -313,12 +314,14 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 Menu subMenu = new Menu(item);
                 item.setMenu(subMenu);
                 
-                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getBusinessClasses(), relationshipType);
-                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getApplicationClasses(), relationshipType);
-                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getTechnologyClasses(), relationshipType);
-                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getMotivationClasses(), relationshipType);
-                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getImplementationMigrationClasses(), relationshipType);
-                addConnectionActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getConnectorClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_7, sourceDiagramModelObject, ArchimateModelUtils.getStrategyClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_0, sourceDiagramModelObject, ArchimateModelUtils.getBusinessClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_1, sourceDiagramModelObject, ArchimateModelUtils.getApplicationClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_2, sourceDiagramModelObject, ArchimateModelUtils.getTechnologyClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_3, sourceDiagramModelObject, ArchimateModelUtils.getMotivationClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_4, sourceDiagramModelObject, ArchimateModelUtils.getImplementationMigrationClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelObject, ArchimateModelUtils.getOtherClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_5, sourceDiagramModelObject, ArchimateModelUtils.getConnectorClasses(), relationshipType);
                 
                 // Remove the very last separator if there is one
                 int itemCount = subMenu.getItemCount() - 1;
@@ -333,9 +336,18 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
     }
     
-    private void addConnectionActions(Menu menu, IDiagramModelArchimateObject sourceDiagramModelObject, EClass[] list, EClass relationshipType) {
+    private void addConnectionActions(Menu menu, String menuText, IDiagramModelArchimateObject sourceDiagramModelObject, EClass[] list, EClass relationshipType) {
+        MenuItem subMenuItem = null;
+        
+        // The list for Association Relationship is too big, so needs to be broken into sub-menus
+        if(relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship()) {
+            subMenuItem = new MenuItem(menu, SWT.CASCADE);
+            subMenuItem.setText(menuText);
+            menu = new Menu(menu);
+            subMenuItem.setMenu(menu);
+        }
+        
         boolean added = false;
-        IArchimateElement sourceElement = sourceDiagramModelObject.getArchimateElement();
         
         for(EClass type : list) {
             // Check if allowed by Viewpoint
@@ -343,83 +355,42 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 continue;
             }
 
-            if(ArchimateModelUtils.isValidRelationship(sourceElement.eClass(), type, relationshipType)) {
+            if(ArchimateModelUtils.isValidRelationship(sourceDiagramModelObject.getArchimateElement().eClass(), type, relationshipType)) {
                 added = true;
                 addElementAction(menu, type);
             }
         }
         
-        if(added) {
+        if(subMenuItem != null) {
+            if(menu.getItemCount() == 0) {
+                subMenuItem.dispose(); // Nothing there
+            }
+        }
+        else if(added) {
             new MenuItem(menu, SWT.SEPARATOR);
         }
     }
-
+    
     /**
      * Add Element to Connection Actions
      */
     private void addElementActions(Menu menu, IDiagramModelArchimateObject sourceDiagramModelObject) {
-        MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(Messages.MagicConnectionCreationTool_0);
-        Menu subMenu = new Menu(item);
-        item.setMenu(subMenu);
-        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getBusinessClasses());
-
-        if(subMenu.getItemCount() == 0) {
-            item.dispose(); // Nothing there
-        }
-
-        item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(Messages.MagicConnectionCreationTool_1);
-        subMenu = new Menu(item);
-        item.setMenu(subMenu);
-        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getApplicationClasses());
-
-        if(subMenu.getItemCount() == 0) {
-            item.dispose(); // Nothing there
-        }
-
-        item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(Messages.MagicConnectionCreationTool_2);
-        subMenu = new Menu(item);
-        item.setMenu(subMenu);
-        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getTechnologyClasses());
-
-        if(subMenu.getItemCount() == 0) {
-            item.dispose(); // Nothing there
-        }
-
-        item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(Messages.MagicConnectionCreationTool_3);
-        subMenu = new Menu(item);
-        item.setMenu(subMenu);
-        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getMotivationClasses());
-
-        if(subMenu.getItemCount() == 0) {
-            item.dispose(); // Nothing there
-        }
-
-        item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(Messages.MagicConnectionCreationTool_4);
-        subMenu = new Menu(item);
-        item.setMenu(subMenu);
-        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getImplementationMigrationClasses());
-
-        if(subMenu.getItemCount() == 0) {
-            item.dispose(); // Nothing there
-        }
-
-        item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(Messages.MagicConnectionCreationTool_5);
-        subMenu = new Menu(item);
-        item.setMenu(subMenu);
-        addElementActions(subMenu, sourceDiagramModelObject, ArchimateModelUtils.getConnectorClasses());
-
-        if(subMenu.getItemCount() == 0) {
-            item.dispose(); // Nothing there
-        }
+        addElementActions(menu, Messages.MagicConnectionCreationTool_7, sourceDiagramModelObject,  ArchimateModelUtils.getStrategyClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_0, sourceDiagramModelObject,  ArchimateModelUtils.getBusinessClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_1, sourceDiagramModelObject,  ArchimateModelUtils.getApplicationClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_2, sourceDiagramModelObject,  ArchimateModelUtils.getTechnologyClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_3, sourceDiagramModelObject,  ArchimateModelUtils.getMotivationClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_4, sourceDiagramModelObject,  ArchimateModelUtils.getImplementationMigrationClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelObject,  ArchimateModelUtils.getOtherClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_5, sourceDiagramModelObject,  ArchimateModelUtils.getConnectorClasses());
     }
     
-    private void addElementActions(Menu menu, IDiagramModelArchimateObject sourceDiagramModelObject, EClass[] list) {
+    private void addElementActions(Menu menu, String menuText, IDiagramModelArchimateObject sourceDiagramModelObject, EClass[] list) {
+        MenuItem item = new MenuItem(menu, SWT.CASCADE);
+        item.setText(menuText);
+        Menu subMenu = new Menu(item);
+        item.setMenu(subMenu);
+
         IArchimateElement sourceElement = sourceDiagramModelObject.getArchimateElement();
         
         for(EClass type : list) {
@@ -428,17 +399,21 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 continue;
             }
             
-            MenuItem item = addElementAction(menu, type);
-            Menu subMenu = new Menu(item);
-            item.setMenu(subMenu);
+            MenuItem subItem = addElementAction(subMenu, type);
+            Menu childSubMenu = new Menu(subItem);
+            subItem.setMenu(childSubMenu);
             for(EClass typeRel : ArchimateModelUtils.getRelationsClasses()) {
                 if(ArchimateModelUtils.isValidRelationship(sourceElement.eClass(), type, typeRel)) {
-                    addConnectionAction(subMenu, typeRel, false);
+                    addConnectionAction(childSubMenu, typeRel, false);
                 }
             }
-            if(subMenu.getItemCount() == 0) {
-                item.dispose(); // Nothing there
+            if(childSubMenu.getItemCount() == 0) {
+                subItem.dispose(); // Nothing there
             }
+        }
+        
+        if(subMenu.getItemCount() == 0) {
+            item.dispose(); // Nothing there
         }
     }
 
