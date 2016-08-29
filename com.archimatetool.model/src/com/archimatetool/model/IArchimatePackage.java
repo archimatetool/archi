@@ -165,7 +165,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderContainer()
      * @generated
      */
-    int FOLDER_CONTAINER = 10;
+    int FOLDER_CONTAINER = 9;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.ArchimateModel <em>Model</em>}' class.
@@ -185,7 +185,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolder()
      * @generated
      */
-    int FOLDER = 11;
+    int FOLDER = 10;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Property <em>Property</em>}' class.
@@ -341,7 +341,25 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateModelObject()
      * @generated
      */
-    int ARCHIMATE_MODEL_OBJECT = 9;
+    int ARCHIMATE_MODEL_OBJECT = 11;
+
+    /**
+     * The feature id for the '<em><b>Folders</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FOLDER_CONTAINER__FOLDERS = 0;
+
+    /**
+     * The number of structural features of the '<em>Folder Container</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FOLDER_CONTAINER_FEATURE_COUNT = 1;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -369,24 +387,6 @@ public interface IArchimatePackage extends EPackage {
      * @ordered
      */
     int ARCHIMATE_MODEL_OBJECT_FEATURE_COUNT = ADAPTER_FEATURE_COUNT + 2;
-
-    /**
-     * The feature id for the '<em><b>Folders</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FOLDER_CONTAINER__FOLDERS = 0;
-
-    /**
-     * The number of structural features of the '<em>Folder Container</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FOLDER_CONTAINER_FEATURE_COUNT = 1;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -658,7 +658,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getOrJunction()
      * @generated
      */
-    int OR_JUNCTION = 77;
+    int OR_JUNCTION = 78;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.AccessRelationship <em>Access Relationship</em>}' class.
@@ -668,7 +668,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getAccessRelationship()
      * @generated
      */
-    int ACCESS_RELATIONSHIP = 96;
+    int ACCESS_RELATIONSHIP = 97;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.AggregationRelationship <em>Aggregation Relationship</em>}' class.
@@ -678,7 +678,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getAggregationRelationship()
      * @generated
      */
-    int AGGREGATION_RELATIONSHIP = 97;
+    int AGGREGATION_RELATIONSHIP = 98;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.AssignmentRelationship <em>Assignment Relationship</em>}' class.
@@ -688,7 +688,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getAssignmentRelationship()
      * @generated
      */
-    int ASSIGNMENT_RELATIONSHIP = 98;
+    int ASSIGNMENT_RELATIONSHIP = 99;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.AssociationRelationship <em>Association Relationship</em>}' class.
@@ -698,7 +698,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getAssociationRelationship()
      * @generated
      */
-    int ASSOCIATION_RELATIONSHIP = 99;
+    int ASSOCIATION_RELATIONSHIP = 100;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.CompositionRelationship <em>Composition Relationship</em>}' class.
@@ -708,7 +708,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getCompositionRelationship()
      * @generated
      */
-    int COMPOSITION_RELATIONSHIP = 100;
+    int COMPOSITION_RELATIONSHIP = 101;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.FlowRelationship <em>Flow Relationship</em>}' class.
@@ -718,7 +718,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFlowRelationship()
      * @generated
      */
-    int FLOW_RELATIONSHIP = 101;
+    int FLOW_RELATIONSHIP = 102;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TriggeringRelationship <em>Triggering Relationship</em>}' class.
@@ -728,7 +728,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTriggeringRelationship()
      * @generated
      */
-    int TRIGGERING_RELATIONSHIP = 106;
+    int TRIGGERING_RELATIONSHIP = 107;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.InfluenceRelationship <em>Influence Relationship</em>}' class.
@@ -738,7 +738,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getInfluenceRelationship()
      * @generated
      */
-    int INFLUENCE_RELATIONSHIP = 102;
+    int INFLUENCE_RELATIONSHIP = 103;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.BusinessActor <em>Business Actor</em>}' class.
@@ -818,7 +818,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getMeaning()
      * @generated
      */
-    int MEANING = 74;
+    int MEANING = 75;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.BusinessObject <em>Business Object</em>}' class.
@@ -848,7 +848,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getProduct()
      * @generated
      */
-    int PRODUCT = 81;
+    int PRODUCT = 82;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Representation <em>Representation</em>}' class.
@@ -858,7 +858,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getRepresentation()
      * @generated
      */
-    int REPRESENTATION = 82;
+    int REPRESENTATION = 83;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.BusinessRole <em>Business Role</em>}' class.
@@ -888,7 +888,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getValue()
      * @generated
      */
-    int VALUE = 94;
+    int VALUE = 95;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Location <em>Location</em>}' class.
@@ -898,7 +898,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLocation()
      * @generated
      */
-    int LOCATION = 72;
+    int LOCATION = 73;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.ApplicationCollaboration <em>Application Collaboration</em>}' class.
@@ -988,7 +988,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getNode()
      * @generated
      */
-    int NODE = 75;
+    int NODE = 76;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.SystemSoftware <em>System Software</em>}' class.
@@ -998,7 +998,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSystemSoftware()
      * @generated
      */
-    int SYSTEM_SOFTWARE = 86;
+    int SYSTEM_SOFTWARE = 87;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Device <em>Device</em>}' class.
@@ -1028,7 +1028,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getStakeholder()
      * @generated
      */
-    int STAKEHOLDER = 85;
+    int STAKEHOLDER = 86;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Driver <em>Driver</em>}' class.
@@ -1068,7 +1068,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getRequirement()
      * @generated
      */
-    int REQUIREMENT = 84;
+    int REQUIREMENT = 85;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Constraint <em>Constraint</em>}' class.
@@ -1088,7 +1088,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getPrinciple()
      * @generated
      */
-    int PRINCIPLE = 80;
+    int PRINCIPLE = 81;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IImplementationMigrationElement <em>Implementation Migration Element</em>}' class.
@@ -1118,7 +1118,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getWorkPackage()
      * @generated
      */
-    int WORK_PACKAGE = 95;
+    int WORK_PACKAGE = 96;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Deliverable <em>Deliverable</em>}' class.
@@ -1138,7 +1138,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getPlateau()
      * @generated
      */
-    int PLATEAU = 79;
+    int PLATEAU = 80;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Gap <em>Gap</em>}' class.
@@ -1645,7 +1645,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getResource()
      * @generated
      */
-    int RESOURCE = 83;
+    int RESOURCE = 84;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Capability <em>Capability</em>}' class.
@@ -1685,7 +1685,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getOutcome()
      * @generated
      */
-    int OUTCOME = 76;
+    int OUTCOME = 77;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.Equipment <em>Equipment</em>}' class.
@@ -1735,7 +1735,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getPath()
      * @generated
      */
-    int PATH = 78;
+    int PATH = 79;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TechnologyCollaboration <em>Technology Collaboration</em>}' class.
@@ -1745,7 +1745,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyCollaboration()
      * @generated
      */
-    int TECHNOLOGY_COLLABORATION = 87;
+    int TECHNOLOGY_COLLABORATION = 88;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TechnologyEvent <em>Technology Event</em>}' class.
@@ -1755,7 +1755,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyEvent()
      * @generated
      */
-    int TECHNOLOGY_EVENT = 88;
+    int TECHNOLOGY_EVENT = 89;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TechnologyFunction <em>Technology Function</em>}' class.
@@ -1765,7 +1765,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyFunction()
      * @generated
      */
-    int TECHNOLOGY_FUNCTION = 89;
+    int TECHNOLOGY_FUNCTION = 90;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TechnologyInterface <em>Technology Interface</em>}' class.
@@ -1775,7 +1775,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyInterface()
      * @generated
      */
-    int TECHNOLOGY_INTERFACE = 90;
+    int TECHNOLOGY_INTERFACE = 91;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.TechnologyInteraction <em>Technology Interaction</em>}' class.
@@ -1785,7 +1785,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyInteraction()
      * @generated
      */
-    int TECHNOLOGY_INTERACTION = 91;
+    int TECHNOLOGY_INTERACTION = 92;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.ITechnologyObject <em>Technology Object</em>}' class.
@@ -4194,6 +4194,61 @@ public interface IArchimatePackage extends EPackage {
     int GROUPING_FEATURE_COUNT = COMPOSITE_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link com.archimatetool.model.impl.ImplementationEvent <em>Implementation Event</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.archimatetool.model.impl.ImplementationEvent
+     * @see com.archimatetool.model.impl.ArchimatePackage#getImplementationEvent()
+     * @generated
+     */
+    int IMPLEMENTATION_EVENT = 72;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_EVENT__NAME = IMPLEMENTATION_MIGRATION_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_EVENT__ID = IMPLEMENTATION_MIGRATION_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Documentation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_EVENT__DOCUMENTATION = IMPLEMENTATION_MIGRATION_ELEMENT__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_EVENT__PROPERTIES = IMPLEMENTATION_MIGRATION_ELEMENT__PROPERTIES;
+
+    /**
+     * The number of structural features of the '<em>Implementation Event</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTATION_EVENT_FEATURE_COUNT = IMPLEMENTATION_MIGRATION_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4246,7 +4301,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getMaterial()
      * @generated
      */
-    int MATERIAL = 73;
+    int MATERIAL = 74;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -5120,7 +5175,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyProcess()
      * @generated
      */
-    int TECHNOLOGY_PROCESS = 92;
+    int TECHNOLOGY_PROCESS = 93;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -5175,7 +5230,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTechnologyService()
      * @generated
      */
-    int TECHNOLOGY_SERVICE = 93;
+    int TECHNOLOGY_SERVICE = 94;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -5770,7 +5825,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getRealizationRelationship()
      * @generated
      */
-    int REALIZATION_RELATIONSHIP = 103;
+    int REALIZATION_RELATIONSHIP = 104;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -5843,7 +5898,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getServingRelationship()
      * @generated
      */
-    int SERVING_RELATIONSHIP = 104;
+    int SERVING_RELATIONSHIP = 105;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -5916,7 +5971,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSpecializationRelationship()
      * @generated
      */
-    int SPECIALIZATION_RELATIONSHIP = 105;
+    int SPECIALIZATION_RELATIONSHIP = 106;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -6052,7 +6107,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModel()
      * @generated
      */
-    int DIAGRAM_MODEL = 110;
+    int DIAGRAM_MODEL = 111;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelComponent <em>Diagram Model Component</em>}' class.
@@ -6062,7 +6117,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelComponent()
      * @generated
      */
-    int DIAGRAM_MODEL_COMPONENT = 107;
+    int DIAGRAM_MODEL_COMPONENT = 108;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6099,7 +6154,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getConnectable()
      * @generated
      */
-    int CONNECTABLE = 108;
+    int CONNECTABLE = 109;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6154,7 +6209,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelObject()
      * @generated
      */
-    int DIAGRAM_MODEL_OBJECT = 112;
+    int DIAGRAM_MODEL_OBJECT = 113;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelArchimateObject <em>Diagram Model Archimate Object</em>}' class.
@@ -6164,7 +6219,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateObject()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 128;
+    int DIAGRAM_MODEL_ARCHIMATE_OBJECT = 129;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.IDiagramModelContainer <em>Diagram Model Container</em>}' class.
@@ -6174,7 +6229,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelContainer()
      * @generated
      */
-    int DIAGRAM_MODEL_CONTAINER = 109;
+    int DIAGRAM_MODEL_CONTAINER = 110;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6283,7 +6338,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getArchimateDiagramModel()
      * @generated
      */
-    int ARCHIMATE_DIAGRAM_MODEL = 126;
+    int ARCHIMATE_DIAGRAM_MODEL = 127;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6401,7 +6456,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelReference()
      * @generated
      */
-    int DIAGRAM_MODEL_REFERENCE = 111;
+    int DIAGRAM_MODEL_REFERENCE = 112;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6528,7 +6583,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelGroup()
      * @generated
      */
-    int DIAGRAM_MODEL_GROUP = 113;
+    int DIAGRAM_MODEL_GROUP = 114;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6673,7 +6728,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelNote()
      * @generated
      */
-    int DIAGRAM_MODEL_NOTE = 114;
+    int DIAGRAM_MODEL_NOTE = 115;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6809,7 +6864,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelImage()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE = 115;
+    int DIAGRAM_MODEL_IMAGE = 116;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -6945,7 +7000,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_CONNECTION = 116;
+    int DIAGRAM_MODEL_CONNECTION = 117;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7108,7 +7163,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateConnection()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 129;
+    int DIAGRAM_MODEL_ARCHIMATE_CONNECTION = 130;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.DiagramModelBendpoint <em>Diagram Model Bendpoint</em>}' class.
@@ -7118,7 +7173,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelBendpoint()
      * @generated
      */
-    int DIAGRAM_MODEL_BENDPOINT = 117;
+    int DIAGRAM_MODEL_BENDPOINT = 118;
 
     /**
      * The feature id for the '<em><b>Start X</b></em>' attribute.
@@ -7173,7 +7228,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLineObject()
      * @generated
      */
-    int LINE_OBJECT = 118;
+    int LINE_OBJECT = 119;
 
     /**
      * The feature id for the '<em><b>Line Width</b></em>' attribute.
@@ -7210,7 +7265,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFontAttribute()
      * @generated
      */
-    int FONT_ATTRIBUTE = 119;
+    int FONT_ATTRIBUTE = 120;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
@@ -7247,7 +7302,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTextPosition()
      * @generated
      */
-    int TEXT_POSITION = 120;
+    int TEXT_POSITION = 121;
 
     /**
      * The feature id for the '<em><b>Text Position</b></em>' attribute.
@@ -7275,7 +7330,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getTextAlignment()
      * @generated
      */
-    int TEXT_ALIGNMENT = 121;
+    int TEXT_ALIGNMENT = 122;
 
     /**
      * The feature id for the '<em><b>Text Alignment</b></em>' attribute.
@@ -7303,7 +7358,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBorderObject()
      * @generated
      */
-    int BORDER_OBJECT = 122;
+    int BORDER_OBJECT = 123;
 
     /**
      * The feature id for the '<em><b>Border Color</b></em>' attribute.
@@ -7331,7 +7386,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelImageProvider()
      * @generated
      */
-    int DIAGRAM_MODEL_IMAGE_PROVIDER = 123;
+    int DIAGRAM_MODEL_IMAGE_PROVIDER = 124;
 
     /**
      * The feature id for the '<em><b>Image Path</b></em>' attribute.
@@ -7359,7 +7414,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getBounds()
      * @generated
      */
-    int BOUNDS = 124;
+    int BOUNDS = 125;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -7414,7 +7469,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getLockable()
      * @generated
      */
-    int LOCKABLE = 125;
+    int LOCKABLE = 126;
 
     /**
      * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -7514,7 +7569,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getDiagramModelArchimateComponent()
      * @generated
      */
-    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 127;
+    int DIAGRAM_MODEL_ARCHIMATE_COMPONENT = 128;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -7866,7 +7921,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModel()
      * @generated
      */
-    int SKETCH_MODEL = 130;
+    int SKETCH_MODEL = 131;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -7948,7 +8003,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelSticky()
      * @generated
      */
-    int SKETCH_MODEL_STICKY = 131;
+    int SKETCH_MODEL_STICKY = 132;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -8093,7 +8148,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getSketchModelActor()
      * @generated
      */
-    int SKETCH_MODEL_ACTOR = 132;
+    int SKETCH_MODEL_ACTOR = 133;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -8229,7 +8284,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFolderType()
      * @generated
      */
-    int FOLDER_TYPE = 133;
+    int FOLDER_TYPE = 134;
 
     /**
      * The meta object id for the '<em>File</em>' data type.
@@ -8239,7 +8294,7 @@ public interface IArchimatePackage extends EPackage {
      * @see com.archimatetool.model.impl.ArchimatePackage#getFile()
      * @generated
      */
-    int FILE = 134;
+    int FILE = 135;
 
 
     /**
@@ -9298,6 +9353,16 @@ public interface IArchimatePackage extends EPackage {
      * @generated
      */
     EClass getGrouping();
+
+    /**
+     * Returns the meta object for class '{@link com.archimatetool.model.IImplementationEvent <em>Implementation Event</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Implementation Event</em>'.
+     * @see com.archimatetool.model.IImplementationEvent
+     * @generated
+     */
+    EClass getImplementationEvent();
 
     /**
      * Returns the meta object for class '{@link com.archimatetool.model.IRequirement <em>Requirement</em>}'.
@@ -11225,6 +11290,16 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass GROUPING = eINSTANCE.getGrouping();
+
+        /**
+         * The meta object literal for the '{@link com.archimatetool.model.impl.ImplementationEvent <em>Implementation Event</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see com.archimatetool.model.impl.ImplementationEvent
+         * @see com.archimatetool.model.impl.ArchimatePackage#getImplementationEvent()
+         * @generated
+         */
+        EClass IMPLEMENTATION_EVENT = eINSTANCE.getImplementationEvent();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.Requirement <em>Requirement</em>}' class.

@@ -157,15 +157,15 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getBusinessRole(),
                 IArchimatePackage.eINSTANCE.getBusinessCollaboration(),
                 IArchimatePackage.eINSTANCE.getBusinessInterface(),
-                IArchimatePackage.eINSTANCE.getBusinessFunction(),
                 IArchimatePackage.eINSTANCE.getBusinessProcess(),
-                IArchimatePackage.eINSTANCE.getBusinessEvent(),
+                IArchimatePackage.eINSTANCE.getBusinessFunction(),
                 IArchimatePackage.eINSTANCE.getBusinessInteraction(),
-                IArchimatePackage.eINSTANCE.getProduct(),
-                IArchimatePackage.eINSTANCE.getContract(),
+                IArchimatePackage.eINSTANCE.getBusinessEvent(),
                 IArchimatePackage.eINSTANCE.getBusinessService(),
-                IArchimatePackage.eINSTANCE.getRepresentation(),
                 IArchimatePackage.eINSTANCE.getBusinessObject(),
+                IArchimatePackage.eINSTANCE.getContract(),
+                IArchimatePackage.eINSTANCE.getRepresentation(),
+                IArchimatePackage.eINSTANCE.getProduct()
         };
     }
     
@@ -244,6 +244,7 @@ public class ArchimateModelUtils {
         return new EClass[] {
                 IArchimatePackage.eINSTANCE.getWorkPackage(),
                 IArchimatePackage.eINSTANCE.getDeliverable(),
+                IArchimatePackage.eINSTANCE.getImplementationEvent(),
                 IArchimatePackage.eINSTANCE.getPlateau(),
                 IArchimatePackage.eINSTANCE.getGap()
         };

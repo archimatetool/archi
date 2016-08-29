@@ -87,6 +87,7 @@ import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IInterfaceElement;
@@ -425,6 +426,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass groupingEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass implementationEventEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1641,6 +1649,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      */
     public EClass getGrouping() {
         return groupingEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getImplementationEvent() {
+        return implementationEventEClass;
     }
 
     /**
@@ -2930,14 +2947,14 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         cloneableEClass = createEClass(CLONEABLE);
 
-        archimateModelObjectEClass = createEClass(ARCHIMATE_MODEL_OBJECT);
-
         folderContainerEClass = createEClass(FOLDER_CONTAINER);
         createEReference(folderContainerEClass, FOLDER_CONTAINER__FOLDERS);
 
         folderEClass = createEClass(FOLDER);
         createEReference(folderEClass, FOLDER__ELEMENTS);
         createEAttribute(folderEClass, FOLDER__TYPE);
+
+        archimateModelObjectEClass = createEClass(ARCHIMATE_MODEL_OBJECT);
 
         archimateConceptEClass = createEClass(ARCHIMATE_CONCEPT);
 
@@ -3065,6 +3082,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         goalEClass = createEClass(GOAL);
 
         groupingEClass = createEClass(GROUPING);
+
+        implementationEventEClass = createEClass(IMPLEMENTATION_EVENT);
 
         locationEClass = createEClass(LOCATION);
 
@@ -3260,13 +3279,13 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        archimateModelObjectEClass.getESuperTypes().add(this.getAdapter());
-        archimateModelObjectEClass.getESuperTypes().add(this.getNameable());
-        archimateModelObjectEClass.getESuperTypes().add(this.getIdentifier());
         folderEClass.getESuperTypes().add(this.getArchimateModelObject());
         folderEClass.getESuperTypes().add(this.getFolderContainer());
         folderEClass.getESuperTypes().add(this.getDocumentable());
         folderEClass.getESuperTypes().add(this.getProperties());
+        archimateModelObjectEClass.getESuperTypes().add(this.getAdapter());
+        archimateModelObjectEClass.getESuperTypes().add(this.getNameable());
+        archimateModelObjectEClass.getESuperTypes().add(this.getIdentifier());
         archimateConceptEClass.getESuperTypes().add(this.getArchimateModelObject());
         archimateConceptEClass.getESuperTypes().add(this.getCloneable());
         archimateConceptEClass.getESuperTypes().add(this.getDocumentable());
@@ -3366,6 +3385,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         gapEClass.getESuperTypes().add(this.getPassiveStructureElement());
         goalEClass.getESuperTypes().add(this.getMotivationElement());
         groupingEClass.getESuperTypes().add(this.getCompositeElement());
+        implementationEventEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         locationEClass.getESuperTypes().add(this.getCompositeElement());
         materialEClass.getESuperTypes().add(this.getPhysicalElement());
         materialEClass.getESuperTypes().add(this.getPassiveStructureElement());
@@ -3501,16 +3521,16 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         addEOperation(cloneableEClass, ecorePackage.getEObject(), "getCopy", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        initEClass(archimateModelObjectEClass, IArchimateModelObject.class, "ArchimateModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-
-        addEOperation(archimateModelObjectEClass, this.getArchimateModel(), "getArchimateModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
         initEClass(folderContainerEClass, IFolderContainer.class, "FolderContainer", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getFolderContainer_Folders(), this.getFolder(), null, "folders", null, 0, -1, IFolderContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(folderEClass, IFolder.class, "Folder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEReference(getFolder_Elements(), ecorePackage.getEObject(), null, "elements", null, 0, -1, IFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
         initEAttribute(getFolder_Type(), this.getFolderType(), "type", null, 0, 1, IFolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+
+        initEClass(archimateModelObjectEClass, IArchimateModelObject.class, "ArchimateModelObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        addEOperation(archimateModelObjectEClass, this.getArchimateModel(), "getArchimateModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         initEClass(archimateConceptEClass, IArchimateConcept.class, "ArchimateConcept", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
@@ -3662,6 +3682,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(goalEClass, IGoal.class, "Goal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(groupingEClass, IGrouping.class, "Grouping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+
+        initEClass(implementationEventEClass, IImplementationEvent.class, "ImplementationEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(locationEClass, ILocation.class, "Location", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

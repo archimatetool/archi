@@ -218,6 +218,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Gap" eSuperTypes="#//ImplementationMigrationElement #//PassiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//CompositeElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementationEvent" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//CompositeElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Material" eSuperTypes="#//PhysicalElement #//PassiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Meaning" eSuperTypes="#//MotivationElement"/>

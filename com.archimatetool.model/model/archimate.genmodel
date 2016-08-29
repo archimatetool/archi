@@ -156,6 +156,7 @@
     <genClasses ecoreClass="archimate.ecore#//Gap"/>
     <genClasses ecoreClass="archimate.ecore#//Goal"/>
     <genClasses ecoreClass="archimate.ecore#//Grouping"/>
+    <genClasses ecoreClass="archimate.ecore#//ImplementationEvent"/>
     <genClasses ecoreClass="archimate.ecore#//Location"/>
     <genClasses ecoreClass="archimate.ecore#//Material"/>
     <genClasses ecoreClass="archimate.ecore#//Meaning"/>

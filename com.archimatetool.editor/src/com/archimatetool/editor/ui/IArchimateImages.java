@@ -79,6 +79,7 @@ public interface IArchimateImages {
     String ICON_LOCATION_16 = ARCHIMATE_IMGPATH + "location-16.png"; //$NON-NLS-1$
     String ICON_MEANING_16 = ARCHIMATE_IMGPATH + "meaning-16.png"; //$NON-NLS-1$
     String ICON_NODE_16 = ARCHIMATE_IMGPATH + "node-16.png"; //$NON-NLS-1$
+    String ICON_OUTCOME_16 = ARCHIMATE_IMGPATH + "outcome-16.png"; //$NON-NLS-1$
     String ICON_PATH_16 = ARCHIMATE_IMGPATH + "path-16.png"; //$NON-NLS-1$
     String ICON_PLATEAU_16 = ARCHIMATE_IMGPATH + "plateau-16.png"; //$NON-NLS-1$
     String ICON_PRINCIPLE_16 = ARCHIMATE_IMGPATH + "principle-16.png"; //$NON-NLS-1$

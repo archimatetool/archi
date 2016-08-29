@@ -512,6 +512,15 @@ public interface IArchimateFactory extends EFactory {
     IGrouping createGrouping();
 
     /**
+     * Returns a new object of class '<em>Implementation Event</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Implementation Event</em>'.
+     * @generated
+     */
+    IImplementationEvent createImplementationEvent();
+
+    /**
      * Returns a new object of class '<em>Requirement</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

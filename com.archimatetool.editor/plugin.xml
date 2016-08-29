@@ -766,6 +766,7 @@
       </config>
    </extension>
    <extension
+         name="ArchiMate Elements"
          point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider"
@@ -797,7 +798,7 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ArtifactUIProvider"
-            id="com.archimatetool.editor.TechnologyArtifactUIProvider">
+            id="com.archimatetool.editor.ArtifactUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.AssessmentUIProvider"
@@ -805,7 +806,7 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.BusinessActorUIProvider"
-            id="com.archimatetool.editor.uiProvider.businessActor">
+            id="com.archimatetool.editor.BusinessActorUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.BusinessCollaborationUIProvider"
@@ -845,7 +846,7 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.CommunicationNetworkUIProvider"
-            id="com.archimatetool.editor.TechnologyNetworkUIProvider">
+            id="com.archimatetool.editor.CommunicationNetworkUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ConstraintUIProvider"
@@ -853,11 +854,11 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ContractUIProvider"
-            id="com.archimatetool.editor.BusinessContractUIProvider">
+            id="com.archimatetool.editor.ContractUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.DataObjectUIProvider"
-            id="com.archimatetool.editor.ApplicationDataObjectUIProvider">
+            id="com.archimatetool.editor.DataObjectUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.DeliverableUIProvider"
@@ -865,7 +866,7 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.DeviceUIProvider"
-            id="com.archimatetool.editor.TechnologyDeviceUIProvider">
+            id="com.archimatetool.editor.DeviceUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.DriverUIProvider"
@@ -881,23 +882,27 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.LocationUIProvider"
-            id="com.archimatetool.editor.BusinessLocationUIProvider">
+            id="com.archimatetool.editor.LocationUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.MeaningUIProvider"
-            id="com.archimatetool.editor.BusinessMeaningUIProvider">
+            id="com.archimatetool.editor.MeaningUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.NodeUIProvider"
-            id="com.archimatetool.editor.TechnologyNodeUIProvider">
+            id="com.archimatetool.editor.NodeUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.OrJunctionUIProvider"
             id="com.archimatetool.editor.OrJunctionUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.OutcomeUIProvider"
+            id="com.archimatetool.editor.OutcomeUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.PathUIProvider"
-            id="com.archimatetool.editor.TechnologyPathUIProvider">
+            id="com.archimatetool.editor.PathUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.PlateauUIProvider"
@@ -909,11 +914,11 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ProductUIProvider"
-            id="com.archimatetool.editor.BusinessProductUIProvider">
+            id="com.archimatetool.editor.ProductUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.RepresentationUIProvider"
-            id="com.archimatetool.editor.BusinessRepresentationUIProvider">
+            id="com.archimatetool.editor.RepresentationUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.RequirementUIProvider"
@@ -925,7 +930,7 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider"
-            id="com.archimatetool.editor.TechnologySystemSoftwareUIProvider">
+            id="com.archimatetool.editor.SystemSoftwareUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider"
@@ -941,7 +946,7 @@
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ValueUIProvider"
-            id="com.archimatetool.editor.BusinessValueUIProvider">
+            id="com.archimatetool.editor.ValueUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider"
@@ -949,6 +954,7 @@
       </uiProvider>
    </extension>
    <extension
+         name="ArchiMate Relationships"
          point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIProvider"
@@ -996,6 +1002,7 @@
       </uiProvider>
    </extension>
    <extension
+         name="Other"
          point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.model.ArchimateModelUIProvider"
@@ -1031,6 +1038,7 @@
       </uiProvider>
    </extension>
    <extension
+         name="Sketch"
          point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.sketch.SketchModelUIProvider"

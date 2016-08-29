@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
@@ -24,7 +24,7 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
      * @return Decoration to use on Target Node
      */
     public static RotatableDecoration createFigureTargetDecoration() {
-        return new PolygonDecoration();
+        return new PolylineDecoration();
     }
 
     public InfluenceConnectionFigure(IDiagramModelArchimateConnection connection) {

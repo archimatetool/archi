@@ -85,6 +85,7 @@ import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IInterfaceElement;
@@ -255,15 +256,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.ARCHIMATE_MODEL_OBJECT: {
-                IArchimateModelObject archimateModelObject = (IArchimateModelObject)theEObject;
-                T result = caseArchimateModelObject(archimateModelObject);
-                if (result == null) result = caseAdapter(archimateModelObject);
-                if (result == null) result = caseNameable(archimateModelObject);
-                if (result == null) result = caseIdentifier(archimateModelObject);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
             case IArchimatePackage.FOLDER_CONTAINER: {
                 IFolderContainer folderContainer = (IFolderContainer)theEObject;
                 T result = caseFolderContainer(folderContainer);
@@ -280,6 +272,15 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseAdapter(folder);
                 if (result == null) result = caseNameable(folder);
                 if (result == null) result = caseIdentifier(folder);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.ARCHIMATE_MODEL_OBJECT: {
+                IArchimateModelObject archimateModelObject = (IArchimateModelObject)theEObject;
+                T result = caseArchimateModelObject(archimateModelObject);
+                if (result == null) result = caseAdapter(archimateModelObject);
+                if (result == null) result = caseNameable(archimateModelObject);
+                if (result == null) result = caseIdentifier(archimateModelObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1267,6 +1268,22 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseAdapter(grouping);
                 if (result == null) result = caseNameable(grouping);
                 if (result == null) result = caseIdentifier(grouping);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case IArchimatePackage.IMPLEMENTATION_EVENT: {
+                IImplementationEvent implementationEvent = (IImplementationEvent)theEObject;
+                T result = caseImplementationEvent(implementationEvent);
+                if (result == null) result = caseImplementationMigrationElement(implementationEvent);
+                if (result == null) result = caseArchimateElement(implementationEvent);
+                if (result == null) result = caseArchimateConcept(implementationEvent);
+                if (result == null) result = caseArchimateModelObject(implementationEvent);
+                if (result == null) result = caseCloneable(implementationEvent);
+                if (result == null) result = caseDocumentable(implementationEvent);
+                if (result == null) result = caseProperties(implementationEvent);
+                if (result == null) result = caseAdapter(implementationEvent);
+                if (result == null) result = caseNameable(implementationEvent);
+                if (result == null) result = caseIdentifier(implementationEvent);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -2746,6 +2763,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseGrouping(IGrouping object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Implementation Event</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Implementation Event</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseImplementationEvent(IImplementationEvent object) {
         return null;
     }
 

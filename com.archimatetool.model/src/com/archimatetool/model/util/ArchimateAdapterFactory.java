@@ -85,6 +85,7 @@ import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IInterfaceElement;
@@ -238,16 +239,16 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createCloneableAdapter();
             }
             @Override
-            public Adapter caseArchimateModelObject(IArchimateModelObject object) {
-                return createArchimateModelObjectAdapter();
-            }
-            @Override
             public Adapter caseFolderContainer(IFolderContainer object) {
                 return createFolderContainerAdapter();
             }
             @Override
             public Adapter caseFolder(IFolder object) {
                 return createFolderAdapter();
+            }
+            @Override
+            public Adapter caseArchimateModelObject(IArchimateModelObject object) {
+                return createArchimateModelObjectAdapter();
             }
             @Override
             public Adapter caseArchimateConcept(IArchimateConcept object) {
@@ -488,6 +489,10 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseGrouping(IGrouping object) {
                 return createGroupingAdapter();
+            }
+            @Override
+            public Adapter caseImplementationEvent(IImplementationEvent object) {
+                return createImplementationEventAdapter();
             }
             @Override
             public Adapter caseLocation(ILocation object) {
@@ -1282,6 +1287,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createGroupingAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IImplementationEvent <em>Implementation Event</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IImplementationEvent
+     * @generated
+     */
+    public Adapter createImplementationEventAdapter() {
         return null;
     }
 

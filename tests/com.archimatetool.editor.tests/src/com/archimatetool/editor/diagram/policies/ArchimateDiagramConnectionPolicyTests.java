@@ -29,6 +29,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.tests.TestUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -46,32 +47,32 @@ public class ArchimateDiagramConnectionPolicyTests {
     private IDiagramModelArchimateObject targetDiagramObject;
     
     // Setup source policy
-    private void setupSourcePolicy() {
+    private void setupSourcePolicy(IArchimateElement sourceElement) {
         sourcePolicy = new ArchimateDiagramConnectionPolicy();
         
         EditPart sourceEditPart = mock(EditPart.class);
         sourcePolicy.setHost(sourceEditPart);
         
         sourceDiagramObject = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        sourceDiagramObject.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
+        sourceDiagramObject.setArchimateElement(sourceElement);
         when(sourceEditPart.getModel()).thenReturn(sourceDiagramObject);
     }
         
     // Setup target policy
-    private void setupTargetPolicy() {
+    private void setupTargetPolicy(IArchimateElement targetElement) {
         targetPolicy = new ArchimateDiagramConnectionPolicy();
         
         EditPart targetEditPart = mock(EditPart.class);
         targetPolicy.setHost(targetEditPart);
         
         targetDiagramObject = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        targetDiagramObject.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessRole());
+        targetDiagramObject.setArchimateElement(targetElement);
         when(targetEditPart.getModel()).thenReturn(targetDiagramObject);
     }
     
     @Test
     public void testGetConnectionCreateCommand_CreatesLineConnectionCommand() throws Exception {
-        setupSourcePolicy();
+        setupSourcePolicy(IArchimateFactory.eINSTANCE.createBusinessActor());
         
         CreateConnectionRequest request = new CreateConnectionRequest();
         request.setFactory(new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelConnection()));
@@ -85,7 +86,7 @@ public class ArchimateDiagramConnectionPolicyTests {
     
     @Test
     public void testGetConnectionCreateCommand_CreatesArchimateConnectionCommand() throws Exception {
-        setupSourcePolicy();
+        setupSourcePolicy(IArchimateFactory.eINSTANCE.createBusinessActor());
         
         CreateConnectionRequest request = new CreateConnectionRequest();
         request.setFactory(new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getAssignmentRelationship()));
@@ -99,7 +100,7 @@ public class ArchimateDiagramConnectionPolicyTests {
     
     @Test
     public void testGetConnectionCreateCommand_CreatesNullCommand() {
-        setupSourcePolicy();
+        setupSourcePolicy(IArchimateFactory.eINSTANCE.createAndJunction());
         
         CreateConnectionRequest request = new CreateConnectionRequest();
         
@@ -114,8 +115,8 @@ public class ArchimateDiagramConnectionPolicyTests {
     
     @Test
     public void testGetConnectionCompleteCommand() throws Exception {
-        setupSourcePolicy();
-        setupTargetPolicy();
+        setupSourcePolicy(IArchimateFactory.eINSTANCE.createBusinessActor());
+        setupTargetPolicy(IArchimateFactory.eINSTANCE.createBusinessRole());
         
         CreateConnectionRequest request = new CreateConnectionRequest();
         request.setFactory(new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getAssignmentRelationship()));
@@ -143,11 +144,15 @@ public class ArchimateDiagramConnectionPolicyTests {
     
     @Test
     public void testIsValidConnectionSource() {
-        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        dmo.setArchimateElement(element);
+        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
         
-        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, IArchimatePackage.eINSTANCE.getAssociationRelationship()));
+        for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
+            assertTrue(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, eClass));
+        }
+        
+        // Bogus one
+        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createAndJunction());
         assertFalse(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, IArchimatePackage.eINSTANCE.getInfluenceRelationship()));
         
         // OK if relationshipType is null (magic connector)

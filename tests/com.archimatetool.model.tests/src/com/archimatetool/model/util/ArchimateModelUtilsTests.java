@@ -191,7 +191,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetImplementationMigrationClasses() {
         EClass[] classes = ArchimateModelUtils.getImplementationMigrationClasses();
-        assertEquals(4, classes.length);
+        assertEquals(5, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getImplementationMigrationElement().isSuperTypeOf(eClass));
@@ -231,7 +231,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetAllArchimateClasses() {
         EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
-        assertEquals(58, classes.length);
+        assertEquals(59, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));

@@ -51,6 +51,6 @@ public class AssessmentUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Color getDefaultColor() {
-        return ColorFactory.get(255, 204, 255);
+        return ColorFactory.get(204, 204, 255);
     }
 }

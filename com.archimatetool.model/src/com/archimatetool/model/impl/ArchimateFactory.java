@@ -70,6 +70,7 @@ import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGap;
 import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
+import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IMaterial;
@@ -193,6 +194,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.GAP: return createGap();
             case IArchimatePackage.GOAL: return createGoal();
             case IArchimatePackage.GROUPING: return createGrouping();
+            case IArchimatePackage.IMPLEMENTATION_EVENT: return createImplementationEvent();
             case IArchimatePackage.LOCATION: return createLocation();
             case IArchimatePackage.MATERIAL: return createMaterial();
             case IArchimatePackage.MEANING: return createMeaning();
@@ -814,6 +816,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IGrouping createGrouping() {
         Grouping grouping = new Grouping();
         return grouping;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IImplementationEvent createImplementationEvent() {
+        ImplementationEvent implementationEvent = new ImplementationEvent();
+        return implementationEvent;
     }
 
     /**

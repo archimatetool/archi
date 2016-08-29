@@ -70,6 +70,8 @@ public class Messages extends NLS {
 
     public static String OrJunctionUIProvider_0;
 
+    public static String OutcomeUIProvider_0;
+
     public static String PathUIProvider_0;
 
     public static String PlateauUIProvider_0;

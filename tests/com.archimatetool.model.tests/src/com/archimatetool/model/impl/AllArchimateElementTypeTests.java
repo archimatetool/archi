@@ -102,6 +102,7 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
                 // Implementation and Migration
                 { IArchimatePackage.eINSTANCE.getWorkPackage() },
                 { IArchimatePackage.eINSTANCE.getDeliverable() },
+                { IArchimatePackage.eINSTANCE.getImplementationEvent() },
                 { IArchimatePackage.eINSTANCE.getPlateau() },
                 { IArchimatePackage.eINSTANCE.getGap() },
                 
