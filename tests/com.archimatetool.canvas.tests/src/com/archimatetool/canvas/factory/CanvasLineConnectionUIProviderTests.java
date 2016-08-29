@@ -7,7 +7,6 @@ package com.archimatetool.canvas.factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.EditPart;
@@ -16,9 +15,11 @@ import org.junit.Test;
 
 import com.archimatetool.canvas.editparts.CanvasLineConnectionEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractObjectUIProviderTests;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
 
-public class CanvasLineConnectionUIProviderTests extends AbstractObjectUIProviderTests {
+import junit.framework.JUnit4TestAdapter;
+
+public class CanvasLineConnectionUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasLineConnectionUIProviderTests.class);
@@ -39,12 +40,12 @@ public class CanvasLineConnectionUIProviderTests extends AbstractObjectUIProvide
     @Override
     @Test
     public void testGetDefaultColor() {
-        assertEquals(ColorConstants.black, provider.getDefaultColor());
+        assertEquals(ColorConstants.black, getProvider().getDefaultColor());
     }
     
     @Override
     public void testGetDefaultLineColor() {
-        assertEquals(ColorConstants.black, provider.getDefaultLineColor());
+        assertEquals(ColorConstants.black, getProvider().getDefaultLineColor());
     }
 
 

@@ -8,16 +8,16 @@ package com.archimatetool.editor.ui.factory.relationships;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 
 
 
 /**
- * Abstract Relation UI Provider
+ * Abstract ArchiMate Relation UI Provider
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractRelationshipUIProvider extends AbstractObjectUIProvider {
+public abstract class AbstractArchimateRelationshipUIProvider extends AbstractGraphicalObjectUIProvider {
     
     @Override
     public Color getDefaultColor() {

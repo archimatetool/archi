@@ -21,7 +21,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class AggregationRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class AggregationRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getAggregationRelationship();

@@ -15,6 +15,7 @@ import com.archimatetool.editor.diagram.figures.diagram.ArchimateDiagramModelGra
 import com.archimatetool.editor.ui.IArchimateImages;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -24,7 +25,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider {
+public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider implements IDiagramModelUIProvider {
     
     private IGraphicsIcon graphicsIcon = new ArchimateDiagramModelGraphicsIcon();
 

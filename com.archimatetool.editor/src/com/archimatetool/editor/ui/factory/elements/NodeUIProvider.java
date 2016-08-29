@@ -53,4 +53,9 @@ public class NodeUIProvider extends AbstractArchimateElementUIProvider {
     public Color getDefaultColor() {
         return ColorFactory.get(201, 231, 183);
     }
+
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

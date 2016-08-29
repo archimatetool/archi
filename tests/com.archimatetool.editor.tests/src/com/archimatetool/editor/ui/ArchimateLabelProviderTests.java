@@ -87,16 +87,16 @@ public class ArchimateLabelProviderTests {
     }
     
     @Test
-    public void testGetGraphicsIcon() {
+    public void testGetGraphicsIconForDiagramModel() {
         // Null object
-        assertNull(ArchimateLabelProvider.INSTANCE.getGraphicsIcon(null));
+        assertNull(ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(null));
         
         // Models
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        assertNotNull(ArchimateLabelProvider.INSTANCE.getGraphicsIcon(dm));
+        assertNotNull(ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm));
         
         ISketchModel sm = IArchimateFactory.eINSTANCE.createSketchModel();
-        assertNotNull(ArchimateLabelProvider.INSTANCE.getGraphicsIcon(sm));
+        assertNotNull(ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(sm));
     }
 
     @Test

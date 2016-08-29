@@ -54,4 +54,8 @@ public class BusinessProcessUIProvider extends AbstractArchimateElementUIProvide
         return ColorFactory.get(255, 255, 181);
     }
 
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

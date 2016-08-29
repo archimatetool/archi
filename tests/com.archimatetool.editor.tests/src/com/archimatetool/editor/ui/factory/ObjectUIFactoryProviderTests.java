@@ -113,4 +113,13 @@ public class ObjectUIFactoryProviderTests {
         
         assertEquals(provider, factory.getProvider(eObject));
     }
+    
+    @Test
+    public void testGetProviders() {
+        for(IObjectUIProvider provider : factory.getProviders()) {
+            assertNotNull(provider);
+            assertNotNull(provider.providerFor());
+        }
+    }
+
 }

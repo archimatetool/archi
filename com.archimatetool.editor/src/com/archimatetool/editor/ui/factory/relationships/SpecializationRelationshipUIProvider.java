@@ -21,7 +21,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class SpecializationRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class SpecializationRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getSpecializationRelationship();

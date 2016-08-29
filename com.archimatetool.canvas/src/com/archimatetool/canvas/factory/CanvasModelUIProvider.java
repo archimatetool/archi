@@ -16,6 +16,7 @@ import com.archimatetool.canvas.figures.CanvasModelGraphicsIcon;
 import com.archimatetool.canvas.model.ICanvasPackage;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 
 
 
@@ -24,7 +25,7 @@ import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasModelUIProvider extends AbstractObjectUIProvider {
+public class CanvasModelUIProvider extends AbstractObjectUIProvider implements IDiagramModelUIProvider {
     
     private IGraphicsIcon graphicsIcon = new CanvasModelGraphicsIcon();
 

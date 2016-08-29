@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.canvas.ICanvasImages;
 import com.archimatetool.canvas.editparts.CanvasStickyEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -26,7 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasStickyUIProvider extends AbstractObjectUIProvider {
+public class CanvasStickyUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public EClass providerFor() {

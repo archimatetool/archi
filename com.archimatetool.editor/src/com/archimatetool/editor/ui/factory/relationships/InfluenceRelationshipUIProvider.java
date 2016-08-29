@@ -21,7 +21,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class InfluenceRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class InfluenceRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getInfluenceRelationship();

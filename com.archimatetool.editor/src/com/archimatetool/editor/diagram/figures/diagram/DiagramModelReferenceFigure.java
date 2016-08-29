@@ -49,7 +49,7 @@ extends AbstractTextFlowFigure {
         // Draw the icon depending on the diagramModelObject
         IDiagramModel dm = ((IDiagramModelReference)getDiagramModelObject()).getReferencedModel();
 
-        IGraphicsIcon graphicsIcon = ArchimateLabelProvider.INSTANCE.getGraphicsIcon(dm);
+        IGraphicsIcon graphicsIcon = ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm);
         if(graphicsIcon != null) {
             graphicsIcon.drawIcon(graphics, getIconOrigin());
         }

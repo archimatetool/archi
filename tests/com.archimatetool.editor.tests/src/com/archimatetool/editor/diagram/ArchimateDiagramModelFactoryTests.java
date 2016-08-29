@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,7 +16,6 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.sketch.SketchEditor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -29,6 +27,8 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -47,7 +47,7 @@ public class ArchimateDiagramModelFactoryTests {
     public void testCreateDiagramModelArchimateObject() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessProcess();
         
-        Preferences.STORE.setValue(FigureChooser.getDefaultFigurePreferenceKeyForClass(element.eClass()), 1);
+        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName(), 1);
         Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
         Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName(), "#ededed");
         
@@ -58,7 +58,7 @@ public class ArchimateDiagramModelFactoryTests {
         assertEquals(1, dmo.getType());
         assertEquals("#ededed", dmo.getFillColor());
         
-        Preferences.STORE.setToDefault(FigureChooser.getDefaultFigurePreferenceKeyForClass(element.eClass()));
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName());
         Preferences.STORE.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
         Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName());
     }

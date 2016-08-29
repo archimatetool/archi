@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -27,7 +27,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchActorUIProvider extends AbstractObjectUIProvider {
+public class SketchActorUIProvider extends AbstractGraphicalObjectUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getSketchModelActor();

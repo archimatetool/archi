@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -17,10 +16,12 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractLabelContainerFigureTests;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelGroup;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -50,7 +51,7 @@ public class GroupFigureTests extends AbstractLabelContainerFigureTests {
     
     @Test
     public void testGetDefaultSize() {
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         assertEquals(provider.getDefaultSize(), figure.getDefaultSize());
     }
 

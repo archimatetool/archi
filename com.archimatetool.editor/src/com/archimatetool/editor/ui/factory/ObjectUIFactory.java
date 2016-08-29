@@ -5,7 +5,9 @@
  */
 package com.archimatetool.editor.ui.factory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -77,5 +79,9 @@ public class ObjectUIFactory {
         }
         
         return getProvider(eClass);
+    }
+    
+    public List<IObjectUIProvider> getProviders() {
+        return new ArrayList<>(map.values());
     }
 }

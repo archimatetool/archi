@@ -9,8 +9,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -36,7 +36,7 @@ public class AddDiagramModelReferenceCommand extends Command {
         fReference = IArchimateFactory.eINSTANCE.createDiagramModelReference();
         fReference.setReferencedModel(diagramModel);
         
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(fReference);
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fReference);
         Dimension defaultSize = provider.getDefaultSize();
         fReference.setBounds(x, y, defaultSize.width, defaultSize.height);
         

@@ -38,7 +38,7 @@ import com.archimatetool.tests.TestUtils;
 import junit.framework.JUnit4TestAdapter;
 
 @RunWith(Parameterized.class)
-public class AllArchimateRelationshipUIProviderTests extends AbstractObjectUIProviderTests {
+public class AllArchimateRelationshipUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AllArchimateRelationshipUIProviderTests.class);
@@ -80,17 +80,17 @@ public class AllArchimateRelationshipUIProviderTests extends AbstractObjectUIPro
     @Override
     @Test
     public void testGetDefaultColor() {
-        assertEquals(ColorConstants.black, provider.getDefaultColor());
+        assertEquals(ColorConstants.black, getProvider().getDefaultColor());
     }
     
     @Override
     public void testGetDefaultLineColor() {
-        assertEquals(ColorConstants.black, provider.getDefaultLineColor());
+        assertEquals(ColorConstants.black, getProvider().getDefaultLineColor());
     }
 
     @Override
     @Test
     public void testGetDefaultSize() {
-        assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
+        assertEquals(new Dimension(-1, -1), getProvider().getDefaultSize());
     }
 }

@@ -8,9 +8,10 @@ package com.archimatetool.editor.diagram;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.IEditorPart;
 
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.FigureChooser;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
@@ -38,7 +39,8 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
     public static IDiagramModelArchimateObject createDiagramModelArchimateObject(IArchimateElement element) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
-        dmo.setType(FigureChooser.getDefaultFigureTypeForNewDiagramElement(element));
+        // Figure Type
+        dmo.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName()));
         
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);

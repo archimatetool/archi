@@ -68,6 +68,8 @@ public interface IPreferenceConstants {
     
     String DEFAULT_ELEMENT_LINE_COLOR = "defaultElementLineColor"; //$NON-NLS-1$
     String DEFAULT_CONNECTION_LINE_COLOR = "defaultConnectionLineColor"; //$NON-NLS-1$
+    
+    String DEFAULT_FIGURE_PREFIX = "defaultFigure";  //$NON-NLS-1$
 
     String USE_ORTHOGONAL_ANCHOR = "orthogonalAnchor"; //$NON-NLS-1$
     String USE_LINE_CURVES = "lineCurves"; //$NON-NLS-1$

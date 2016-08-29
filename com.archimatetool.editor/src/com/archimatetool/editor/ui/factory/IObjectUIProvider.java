@@ -5,20 +5,16 @@
  */
 package com.archimatetool.editor.ui.factory;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-
-import com.archimatetool.editor.ui.IGraphicsIcon;
 
 
 /**
- * Interface for Object UI Provider
+ * Interface for Core Object UI Provider
  * 
  * @author Phillip Beauvoir
  */
@@ -57,26 +53,6 @@ public interface IObjectUIProvider {
      */
     ImageDescriptor getImageDescriptor();
     
-    /**
-     * @return A Graphics Icon
-     */
-    IGraphicsIcon getGraphicsIcon();
-
-    /**
-     * @return The default colour to use for this object (usually a fill color)
-     */
-    Color getDefaultColor();
-
-    /**
-     * @return The default line colour to use for this object
-     */
-    Color getDefaultLineColor();
-    
-    /**
-     * @return The default size width and height for this object
-     */
-    Dimension getDefaultSize();
-
     /**
      * @param instance The instance of the object in question
      * @param feature The feature in question

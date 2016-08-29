@@ -17,7 +17,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceE
 import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelReference;
@@ -29,7 +29,7 @@ import com.archimatetool.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceUIProvider extends AbstractObjectUIProvider {
+public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDiagramModelReference();

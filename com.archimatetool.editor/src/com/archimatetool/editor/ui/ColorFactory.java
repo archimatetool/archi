@@ -14,8 +14,9 @@ import org.eclipse.swt.graphics.RGB;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -130,8 +131,9 @@ public class ColorFactory {
         
         if(eClass != null) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
-            if(provider != null) {
-                return provider.getDefaultColor() == null ? ColorConstants.white : provider.getDefaultColor();
+            if(provider instanceof IGraphicalObjectUIProvider) {
+                return ((IGraphicalObjectUIProvider)provider).getDefaultColor() == null ?
+                        ColorConstants.white : ((IGraphicalObjectUIProvider)provider).getDefaultColor();
             }
         }
         
@@ -184,8 +186,9 @@ public class ColorFactory {
         
         if(eClass != null) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
-            if(provider != null) {
-                return provider.getDefaultLineColor() == null ? ColorConstants.black : provider.getDefaultLineColor();
+            if(provider instanceof IGraphicalObjectUIProvider) {
+                return ((IGraphicalObjectUIProvider)provider).getDefaultLineColor() == null ?
+                        ColorConstants.black : ((IGraphicalObjectUIProvider)provider).getDefaultLineColor();
             }
         }
         

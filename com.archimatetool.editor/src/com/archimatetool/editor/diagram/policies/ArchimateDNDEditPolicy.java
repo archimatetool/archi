@@ -26,8 +26,8 @@ import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -88,7 +88,7 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
             
             // Default size
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dmo);
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
             Dimension defaultSize = provider.getDefaultSize();
             dmo.setBounds(x, y, defaultSize.width, defaultSize.height);
             

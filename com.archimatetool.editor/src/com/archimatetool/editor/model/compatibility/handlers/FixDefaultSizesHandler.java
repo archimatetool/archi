@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
 import com.archimatetool.editor.model.compatibility.ICompatibilityHandler;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IBounds;
@@ -131,7 +131,7 @@ public class FixDefaultSizesHandler implements ICompatibilityHandler {
             }
         }
         
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dmo);
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
         return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
     }
 }

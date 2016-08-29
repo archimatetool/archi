@@ -15,8 +15,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -181,7 +181,7 @@ public class GenerateViewCommand extends Command {
     }
     
     private Dimension getDefaultSizeOfElement(IArchimateElement element) {
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(element);
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(element);
         if(provider != null) {
             return provider.getDefaultSize();
         }

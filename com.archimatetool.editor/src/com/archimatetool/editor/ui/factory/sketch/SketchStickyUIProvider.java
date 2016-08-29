@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart;
 import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -23,7 +23,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchStickyUIProvider extends AbstractObjectUIProvider {
+public class SketchStickyUIProvider extends AbstractGraphicalObjectUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getSketchModelSticky();

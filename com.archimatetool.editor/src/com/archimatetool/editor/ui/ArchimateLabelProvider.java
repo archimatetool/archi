@@ -12,11 +12,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.INameable;
 
@@ -122,14 +124,12 @@ public class ArchimateLabelProvider {
     
     /**
      * @param element
-     * @return A IGraphicsIcon for an object
+     * @return A IGraphicsIcon for a Diagram Model
      */
-    public IGraphicsIcon getGraphicsIcon(Object object) {
-        if(object instanceof EObject) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EObject)object);
-            if(provider != null) {
-                return provider.getGraphicsIcon();
-            }
+    public IGraphicsIcon getGraphicsIconForDiagramModel(IDiagramModel dm) {
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dm);
+        if(provider instanceof IDiagramModelUIProvider) {
+            return ((IDiagramModelUIProvider)provider).getGraphicsIcon();
         }
         
         return null;

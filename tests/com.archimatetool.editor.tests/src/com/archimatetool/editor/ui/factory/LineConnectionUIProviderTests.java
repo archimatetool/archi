@@ -20,7 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
 
 import junit.framework.JUnit4TestAdapter;
 
-public class LineConnectionUIProviderTests extends AbstractObjectUIProviderTests {
+public class LineConnectionUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(LineConnectionUIProviderTests.class);
@@ -41,17 +41,17 @@ public class LineConnectionUIProviderTests extends AbstractObjectUIProviderTests
     @Override
     @Test
     public void testGetDefaultColor() {
-        assertEquals(ColorConstants.black, provider.getDefaultColor());
+        assertEquals(ColorConstants.black, getProvider().getDefaultColor());
     }
     
     @Override
     public void testGetDefaultLineColor() {
-        assertEquals(ColorConstants.black, provider.getDefaultLineColor());
+        assertEquals(ColorConstants.black, getProvider().getDefaultLineColor());
     }
 
     @Override
     @Test
     public void testGetDefaultSize() {
-        assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
+        assertEquals(new Dimension(-1, -1), getProvider().getDefaultSize());
     }
 }

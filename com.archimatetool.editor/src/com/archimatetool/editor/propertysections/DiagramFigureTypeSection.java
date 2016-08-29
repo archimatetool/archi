@@ -24,7 +24,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.ui.FigureChooser;
+import com.archimatetool.editor.ui.FigureImagePreviewFactory;
+import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -46,8 +48,11 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            return object instanceof IDiagramModelArchimateObject &&
-                    FigureChooser.hasAlternateFigure(((IDiagramModelArchimateObject)object).getArchimateElement());
+            if(object instanceof IDiagramModelArchimateObject) {
+                IArchimateElementUIProvider provider = (IArchimateElementUIProvider)ObjectUIFactory.INSTANCE.getProvider((IDiagramModelArchimateObject)object);
+                return provider.hasAlternateFigure();
+            }
+            return false;
         }
 
         @Override
@@ -86,10 +91,11 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
     protected void refreshControls() {
         IArchimateElement element = fDiagramObject.getArchimateElement();
         
-        Image[] images = FigureChooser.getFigurePreviewImagesForClass(element.eClass());
+        Image image1 = FigureImagePreviewFactory.getFigurePreviewImageForClass(element.eClass());
+        Image image2 = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(element.eClass());
         
-        figure1.setImage(images[0]);
-        figure2.setImage(images[1]);
+        figure1.setImage(image1);
+        figure2.setImage(image2);
         
         int type = fDiagramObject.getType();
         figure1.setSelected(type == 0);

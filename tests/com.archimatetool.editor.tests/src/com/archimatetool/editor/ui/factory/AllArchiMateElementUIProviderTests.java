@@ -78,7 +78,7 @@ import com.archimatetool.tests.TestUtils;
 import junit.framework.JUnit4TestAdapter;
 
 @RunWith(Parameterized.class)
-public class AllArchiMateElementUIProviderTests extends AbstractObjectUIProviderTests {
+public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AllArchiMateElementUIProviderTests.class);
@@ -147,7 +147,6 @@ public class AllArchiMateElementUIProviderTests extends AbstractObjectUIProvider
         this.expectedClass = expectedClass;
     }
     
-    
     @Override
     public void testCreateEditPart() {
         EditPart editPart = provider.createEditPart();
@@ -158,7 +157,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractObjectUIProvider
     @Test
     public void testGetDefaultColor() {
         Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
-        assertNotNull(provider.getDefaultColor());
+        assertNotNull(getProvider().getDefaultColor());
     }
 
     @Override
@@ -167,18 +166,18 @@ public class AllArchiMateElementUIProviderTests extends AbstractObjectUIProvider
         Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
 
         if(provider instanceof AndJunctionUIProvider || provider instanceof OrJunctionUIProvider) {
-            assertEquals(new Dimension(15, 15), provider.getDefaultSize());
+            assertEquals(new Dimension(15, 15), getProvider().getDefaultSize());
         }
         else {
             // New value via preferences
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 90);
-            assertEquals(new Dimension(150, 90), provider.getDefaultSize());
+            assertEquals(new Dimension(150, 90), getProvider().getDefaultSize());
 
             // Default value in preferences
             Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
             Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
-            assertEquals(new Dimension(120, 55), provider.getDefaultSize());
+            assertEquals(new Dimension(120, 55), getProvider().getDefaultSize());
         }
     }
 

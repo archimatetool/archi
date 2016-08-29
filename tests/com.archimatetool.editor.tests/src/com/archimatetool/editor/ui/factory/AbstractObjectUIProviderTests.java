@@ -8,19 +8,15 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Test;
 
-import com.archimatetool.editor.ui.ColorFactory;
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -47,23 +43,11 @@ public abstract class AbstractObjectUIProviderTests {
     }
     
     @Test
-    public void testGetDefaultColor() {
-        Color color = provider.getDefaultColor();
-        assertEquals(ColorConstants.white, color);
-    }
-
-    @Test
     public void testGetDefaultName() {
         String name = provider.getDefaultName();
         assertNotNull(name);
     }
     
-    @Test
-    public void testGetDefaultLineColor() {
-        Color color = provider.getDefaultLineColor();
-        assertEquals(ColorFactory.get(92, 92, 92), color);
-    }
-
     @Test
     public void testGetImage() {
         Image image = provider.getImage();
@@ -82,12 +66,7 @@ public abstract class AbstractObjectUIProviderTests {
         Image image = provider.getImage(instance);
         assertNotNull(image);
     }
-    
-    @Test
-    public void testGetDefaultSize() {
-        assertEquals(new Dimension(-1, -1), provider.getDefaultSize());
-    }
-    
+
     @Test
     public void testShouldExposeFeature() {
         EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);

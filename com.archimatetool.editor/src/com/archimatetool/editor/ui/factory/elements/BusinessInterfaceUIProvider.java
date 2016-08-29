@@ -69,4 +69,9 @@ public class BusinessInterfaceUIProvider extends AbstractArchimateElementUIProvi
     public Color getDefaultColor() {
         return ColorFactory.get(255, 255, 181);
     }
+
+    @Override
+    public boolean hasAlternateFigure() {
+        return true;
+    }
 }

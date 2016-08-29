@@ -6,9 +6,10 @@
 package com.archimatetool.editor.preferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -28,9 +29,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.FigureChooser;
-import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.editor.ui.FigureImagePreviewFactory;
+import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 
 
 /**
@@ -48,12 +50,13 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         String name;
         String preferenceKey;
         int chosenType = 0;
-        Image[] images;
+        Image[] images = new Image[2];
         
-        ImageChoice(EClass eClass) {
-            name = ArchimateLabelProvider.INSTANCE.getDefaultName(eClass);
-            this.preferenceKey = FigureChooser.getDefaultFigurePreferenceKeyForClass(eClass);
-            images = FigureChooser.getFigurePreviewImagesForClass(eClass);
+        ImageChoice(IObjectUIProvider provider) {
+            name = provider.getDefaultName();
+            this.preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
+            images[0] = FigureImagePreviewFactory.getFigurePreviewImageForClass(provider.providerFor());
+            images[1] = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(provider.providerFor());
             chosenType = Preferences.STORE.getInt(preferenceKey);
         }
         
@@ -99,16 +102,19 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     }
     
     private void loadFigures() {
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getBusinessProcess()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getBusinessInterface()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getBusinessService()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getApplicationComponent()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getApplicationInterface()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getApplicationService()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getDevice()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getNode()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getTechnologyInterface()));
-        fChoices.add(new ImageChoice(IArchimatePackage.eINSTANCE.getTechnologyService()));
+        // Find Providers that have alternate figures
+        for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
+            if(provider instanceof IArchimateElementUIProvider && ((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
+                fChoices.add(new ImageChoice(provider));
+            }
+        }
+        
+        // Sort them by name
+        Collections.sort(fChoices, new Comparator<ImageChoice>() {
+            public int compare(ImageChoice o1, ImageChoice o2) {
+                return o1.name.compareTo(o2.name);
+            }
+        });
     }
     
     private void createTable(Composite parent) {

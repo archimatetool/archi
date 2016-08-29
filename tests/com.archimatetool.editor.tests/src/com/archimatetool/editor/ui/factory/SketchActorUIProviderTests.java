@@ -8,7 +8,6 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -22,7 +21,9 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class SketchActorUIProviderTests extends AbstractObjectUIProviderTests {
+import junit.framework.JUnit4TestAdapter;
+
+public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(SketchActorUIProviderTests.class);
@@ -43,12 +44,12 @@ public class SketchActorUIProviderTests extends AbstractObjectUIProviderTests {
     @Override
     @Test
     public void testGetDefaultSize() {
-        assertEquals(new Dimension(75, 100), provider.getDefaultSize());
+        assertEquals(new Dimension(75, 100), getProvider().getDefaultSize());
     }
 
     @Override
     public void testGetDefaultColor() {
-        Color color = provider.getDefaultColor();
+        Color color = getProvider().getDefaultColor();
         assertEquals(ColorConstants.black, color);
     }
     

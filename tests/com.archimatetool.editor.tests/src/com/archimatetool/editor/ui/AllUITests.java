@@ -18,7 +18,7 @@ public class AllUITests {
         // ui
         suite.addTest(ArchimateLabelProviderTests.suite());
         suite.addTest(ColorFactoryTests.suite());
-        suite.addTest(FigureChooserTests.suite());
+        suite.addTest(FigureImagePreviewFactoryTests.suite());
         
         // factory
         suite.addTest(AllUIFactoryTests.suite());
