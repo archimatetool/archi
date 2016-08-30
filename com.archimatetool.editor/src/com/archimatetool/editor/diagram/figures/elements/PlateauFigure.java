@@ -27,8 +27,7 @@ extends AbstractArchimateFigure {
     public PlateauFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
         
-        DeviceFigureDelegate2 figureDelegate = new DeviceFigureDelegate2(this);
-        setFigureDelegate(figureDelegate);
+        setFigureDelegate(new BoxFigureDelegate(this));
     }
     
     

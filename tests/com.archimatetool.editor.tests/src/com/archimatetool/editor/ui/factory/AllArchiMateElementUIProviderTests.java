@@ -17,7 +17,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -26,7 +25,6 @@ import org.junit.runners.Parameterized.Parameters;
 import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.factory.elements.AbstractArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
@@ -148,24 +146,26 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     }
     
     @Override
+    protected IArchimateElementUIProvider getProvider() {
+        return (IArchimateElementUIProvider)provider;
+    }
+    
+    @Override
     public void testCreateEditPart() {
-        EditPart editPart = provider.createEditPart();
+        EditPart editPart = getProvider().createEditPart();
         assertTrue(editPart instanceof AbstractArchimateEditPart);
     }
 
     @Override
     @Test
     public void testGetDefaultColor() {
-        Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
         assertNotNull(getProvider().getDefaultColor());
     }
 
     @Override
     @Test
     public void testGetDefaultSize() {
-        Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
-
-        if(provider instanceof AndJunctionUIProvider || provider instanceof OrJunctionUIProvider) {
+        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
             assertEquals(new Dimension(15, 15), getProvider().getDefaultSize());
         }
         else {
@@ -183,9 +183,9 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
 
     @Override
     public void testShouldExposeFeature() {
-        if(provider instanceof AndJunctionUIProvider || provider instanceof OrJunctionUIProvider) {
+        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
             EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-            assertFalse(provider.shouldExposeFeature(instance, null));
+            assertFalse(getProvider().shouldExposeFeature(instance, null));
         }
         else {
             super.testShouldExposeFeature();

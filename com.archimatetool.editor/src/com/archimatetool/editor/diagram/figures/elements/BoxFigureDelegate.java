@@ -7,10 +7,8 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
@@ -19,21 +17,17 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 
 
-
-
 /**
- * Node Figure Delegate
+ * Box Figure Delegate
  * 
  * @author Phillip Beauvoir
  */
-public class NodeFigureDelegate extends AbstractFigureDelegate {
+public class BoxFigureDelegate extends AbstractFigureDelegate {
 
     protected static final int FOLD_HEIGHT = 14;
     protected static final int SHADOW_OFFSET = 2;
     
-    private Image fImage;
-
-    public NodeFigureDelegate(IDiagramModelObjectFigure owner) {
+    public BoxFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
     }
     
@@ -93,35 +87,17 @@ public class NodeFigureDelegate extends AbstractFigureDelegate {
         graphics.drawLine(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT, bounds.x + bounds.width - 1, bounds.y);
         graphics.drawLine(bounds.x + bounds.width - FOLD_HEIGHT - 1, bounds.y + FOLD_HEIGHT, bounds.x + - FOLD_HEIGHT + bounds.width - 1, bounds.y + bounds.height - shadow_offset - 1);
         
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-        
         graphics.popState();
     }
     
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
-        bounds.x += 20;
+        bounds.x += 12;
         bounds.y += 2 + FOLD_HEIGHT;
-        bounds.width = bounds.width - 40;
+        bounds.width = bounds.width - 42;
         bounds.height -= 20;
         return bounds;
-    }
-    
-    public void setImage(Image image) {
-        fImage = image;
-    }
-    
-    public Image getImage() {
-        return fImage;
-    }
-
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20 - 1, bounds.y + 5);
     }
 
 }

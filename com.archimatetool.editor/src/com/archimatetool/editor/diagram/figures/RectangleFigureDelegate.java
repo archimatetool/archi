@@ -9,7 +9,6 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -25,8 +24,6 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
     protected static final int SHADOW_OFFSET = 2;
     protected static final int TEXT_INDENT = 20;
-    
-    private Image fImage;
     
     public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
@@ -68,22 +65,9 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds);
         
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-        
         graphics.popState();
     }
     
-    public void setImage(Image image) {
-        fImage = image;
-    }
-    
-    public Image getImage() {
-        return fImage;
-    }
-
     protected Point calculateImageLocation() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);

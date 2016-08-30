@@ -27,14 +27,14 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class BusinessProcessFigure
 extends AbstractArchimateFigure {
     
-    protected RoundedRectangleFigureDelegate fFigureDelegate1;
-    protected BusinessProcessFigureDelegate fFigureDelegate2;
+    protected IFigureDelegate fFigureDelegate1;
+    protected IFigureDelegate fFigureDelegate2;
 
     public BusinessProcessFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
         
         fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
-        fFigureDelegate2 = new BusinessProcessFigureDelegate(this);
+        fFigureDelegate2 = new ProcessFigureDelegate(this);
     }
 
     @Override

@@ -26,13 +26,13 @@ public class NodeFigure
 extends AbstractArchimateFigure {
     
     protected IFigureDelegate fFigureDelegate1;
-    protected RectangleFigureDelegate fFigureDelegate2;
+    protected IFigureDelegate fFigureDelegate2;
     
     public NodeFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
         
-        fFigureDelegate1 = new NodeFigureDelegate(this);
-        fFigureDelegate2 = new RectangleFigureDelegate(this);
+        fFigureDelegate1 = new RectangleFigureDelegate(this);
+        fFigureDelegate2 = new BoxFigureDelegate(this);
     }
     
     @Override
@@ -40,7 +40,7 @@ extends AbstractArchimateFigure {
         super.drawFigure(graphics);
         
         int type = getDiagramModelObject().getType();
-        if(type == 1) {
+        if(type == 0) {
             drawIcon(graphics);
         }
     }

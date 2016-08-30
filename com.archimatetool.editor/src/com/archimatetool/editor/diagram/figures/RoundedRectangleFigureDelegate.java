@@ -66,11 +66,6 @@ implements IRoundedRectangleFigure {
         graphics.setForegroundColor(getLineColor());
         graphics.drawRoundRectangle(bounds, fArc.width, fArc.height);
 
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-        
         graphics.popState();
     }
     
