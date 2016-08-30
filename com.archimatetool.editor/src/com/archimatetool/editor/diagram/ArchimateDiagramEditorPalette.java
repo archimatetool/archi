@@ -43,20 +43,27 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private PaletteContainer fRelationsGroup;
     
-    private PaletteContainer fBusinessGroup, fApplicationGroup, fTechnologyGroup, fMotivationGroup, fImplementationMigrationGroup;
+    private PaletteContainer fStrategyGroup;
+    private PaletteContainer fBusinessGroup;
+    private PaletteContainer fApplicationGroup;
+    private PaletteContainer fTechnologyGroup;
+    private PaletteContainer fPhysicalGroup;
+    private PaletteContainer fMotivationGroup;
+    private PaletteContainer fImplementationMigrationGroup;
+    private PaletteContainer fOtherGroup;
 
     public ArchimateDiagramEditorPalette() {
         add(createControlsGroup());
         add(new PaletteSeparator("")); //$NON-NLS-1$
         
-        fRelationsGroup = createRelationsGroup();
+        fRelationsGroup = createArchimateRelationsGroup();
         add(fRelationsGroup);
         add(new PaletteSeparator("")); //$NON-NLS-1$
 
         add(createExtrasGroup());
         add(new PaletteSeparator("")); //$NON-NLS-1$
         
-        createArchimateGroup();
+        createArchimateElementGroups();
     }
 
     /**
@@ -68,29 +75,41 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             fViewpoint = viewpoint;
             
             remove(fRelationsGroup);
-            fRelationsGroup = createRelationsGroup();
+            fRelationsGroup = createArchimateRelationsGroup();
             add(1, fRelationsGroup);
             
+            remove(fStrategyGroup);
             remove(fBusinessGroup);
             remove(fApplicationGroup);
             remove(fTechnologyGroup);
+            remove(fPhysicalGroup);
             remove(fMotivationGroup);
             remove(fImplementationMigrationGroup);
-            createArchimateGroup();
+            remove(fOtherGroup);
+            
+            createArchimateElementGroups();
         }
     }
     
     /**
-     * Create the Archimate groups
+     * Create the Archimate Element groups
      */
-    private void createArchimateGroup() {
-        fBusinessGroup = createBusinessLayerGroup();
-        fApplicationGroup = createApplicationLayerGroup();
-        fTechnologyGroup = createTechnologyLayerGroup();
-        fMotivationGroup = createMotivationGroup();
-        fImplementationMigrationGroup = createImplementationMigrationGroup();
+    private void createArchimateElementGroups() {
+        fStrategyGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_16, ArchimateModelUtils.getStrategyClasses());
+        fBusinessGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_8, ArchimateModelUtils.getBusinessClasses());
+        fApplicationGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_9, ArchimateModelUtils.getApplicationClasses());
+        fTechnologyGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_10, ArchimateModelUtils.getTechnologyClasses());
+        fPhysicalGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_18, ArchimateModelUtils.getPhysicalClasses());
+        fMotivationGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_11, ArchimateModelUtils.getMotivationClasses());
+        fImplementationMigrationGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_12, ArchimateModelUtils.getImplementationMigrationClasses());
+        fOtherGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_17, ArchimateModelUtils.getOtherClasses());
+        
+        if(!fStrategyGroup.getChildren().isEmpty()) {
+            add(fStrategyGroup);
+        }
         
         if(!fBusinessGroup.getChildren().isEmpty()) {
+            add(new PaletteSeparator("")); //$NON-NLS-1$
             add(fBusinessGroup);
         }
         
@@ -104,6 +123,11 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             add(fTechnologyGroup);
         }
         
+        if(!fPhysicalGroup.getChildren().isEmpty()) {
+            add(new PaletteSeparator("")); //$NON-NLS-1$
+            add(fPhysicalGroup);
+        }
+        
         if(!fMotivationGroup.getChildren().isEmpty()) {
             add(new PaletteSeparator("")); //$NON-NLS-1$
             add(fMotivationGroup);
@@ -113,6 +137,27 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
             add(new PaletteSeparator("")); //$NON-NLS-1$
             add(fImplementationMigrationGroup);
         }
+        
+        if(!fOtherGroup.getChildren().isEmpty()) {
+            add(new PaletteSeparator("")); //$NON-NLS-1$
+            add(fOtherGroup);
+        }
+    }
+    
+    /**
+     * Strategy Types
+     */
+    private PaletteContainer createArchimateElementGroup(String title, EClass[] types) {
+        PaletteContainer group = new PaletteGroup(title);
+        
+        for(EClass eClass : types) {
+            if(isAllowedType(eClass)) {
+                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+                group.add(entry);
+            }
+        }
+        
+        return group;
     }
     
     /**
@@ -174,96 +219,9 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     }
 
     /**
-     * Business Palette
+     * Relations Types
      */
-    private PaletteContainer createBusinessLayerGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_8);
-        
-        for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        return group;
-    }
-
-    /**
-     * Application Palette
-     */
-    private PaletteContainer createApplicationLayerGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_9);
-        
-        for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        return group;
-    }
-
-    /**
-     * Technology Palette
-     */
-    private PaletteContainer createTechnologyLayerGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_10);
-        
-        for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        return group;
-    }
-
-    /**
-     * Motivation Palette
-     */
-    private PaletteContainer createMotivationGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_11);
-        
-        for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        return group;
-    }
-
-    /**
-     * Implementation & Migration Palette
-     */
-    private PaletteContainer createImplementationMigrationGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_12);
-        
-        for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        return group;
-    }
-
-    /**
-     * Relations Palette
-     */
-    private PaletteContainer createRelationsGroup() {
+    private PaletteContainer createArchimateRelationsGroup() {
         PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_13);
         
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(

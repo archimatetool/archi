@@ -85,6 +85,12 @@ public class Messages extends NLS {
 
     public static String ArchimateDiagramEditorPalette_15;
 
+    public static String ArchimateDiagramEditorPalette_16;
+
+    public static String ArchimateDiagramEditorPalette_17;
+
+    public static String ArchimateDiagramEditorPalette_18;
+
     public static String ArchimateDiagramEditorPalette_2;
 
     public static String ArchimateDiagramEditorPalette_3;

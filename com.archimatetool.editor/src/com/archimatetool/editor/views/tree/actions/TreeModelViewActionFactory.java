@@ -123,6 +123,12 @@ public class TreeModelViewActionFactory {
                 break;
 
             case OTHER:
+                // Grouping and Location
+                for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                // Connectors
                 for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
                     IAction action = createNewElementAction(folder, eClass);
                     list.add(action);
