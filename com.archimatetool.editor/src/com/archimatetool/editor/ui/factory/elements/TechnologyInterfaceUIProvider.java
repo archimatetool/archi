@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.elements.TechnologyInterfaceEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IInterfaceElement;
 import com.archimatetool.model.ITechnologyInterface;
@@ -44,12 +44,12 @@ public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIPro
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_INTERFACE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_INTERFACE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE_16);
     }
     
     @Override
@@ -58,7 +58,7 @@ public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIPro
         if(instance instanceof ITechnologyInterface) {
             int type = ((ITechnologyInterface)instance).getInterfaceType();
             if(type == IInterfaceElement.REQUIRED) {
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_INTERFACE_REQUIRED_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED_16);
             }
         }
         

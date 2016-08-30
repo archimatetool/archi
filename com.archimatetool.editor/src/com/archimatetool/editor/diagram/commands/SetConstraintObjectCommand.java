@@ -9,7 +9,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModel;
@@ -37,7 +37,7 @@ public class SetConstraintObjectCommand extends Command implements IAnimatableCo
         fObject = object;
         fOldPos = object.getBounds();
         fNewPos = bounds;
-        setLabel(NLS.bind(Messages.SetConstraintObjectCommand_0, ArchimateLabelProvider.INSTANCE.getLabel(object)));
+        setLabel(NLS.bind(Messages.SetConstraintObjectCommand_0, ArchiLabelProvider.INSTANCE.getLabel(object)));
     }
     
     @Override

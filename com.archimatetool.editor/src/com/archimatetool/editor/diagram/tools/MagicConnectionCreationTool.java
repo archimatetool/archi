@@ -39,8 +39,8 @@ import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
@@ -64,7 +64,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     
     private static Cursor cursor = new Cursor(
             null,
-            IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(),
+            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.CURSOR_IMG_MAGIC_CONNECTOR).getImageData(),
             0,
             0);
 
@@ -419,8 +419,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
 
     private MenuItem addElementAction(Menu menu, final EClass type) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(ArchimateLabelProvider.INSTANCE.getDefaultName(type));
-        item.setImage(ArchimateLabelProvider.INSTANCE.getImage(type));
+        item.setText(ArchiLabelProvider.INSTANCE.getDefaultName(type));
+        item.setImage(ArchiLabelProvider.INSTANCE.getImage(type));
         
         // Add arm listener to notify Hints View and also set element if elements first
         item.addArmListener(new ArmListener() {
@@ -465,8 +465,8 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
      */
     private MenuItem addConnectionAction(Menu menu, final EClass relationshipType, final boolean reverseDirection) {
         final MenuItem item = new MenuItem(menu, SWT.CASCADE);
-        item.setText(ArchimateLabelProvider.INSTANCE.getRelationshipPhrase(relationshipType, reverseDirection));
-        item.setImage(ArchimateLabelProvider.INSTANCE.getImage(relationshipType));
+        item.setText(ArchiLabelProvider.INSTANCE.getRelationshipPhrase(relationshipType, reverseDirection));
+        item.setImage(ArchiLabelProvider.INSTANCE.getImage(relationshipType));
         
         // Add arm listener to notify Hints View
         item.addArmListener(new ArmListener() {

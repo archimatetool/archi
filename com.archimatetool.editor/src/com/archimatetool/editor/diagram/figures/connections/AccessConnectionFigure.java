@@ -11,7 +11,7 @@ import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
@@ -92,7 +92,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         // Show access type in tooltip
         
         IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
+        String type = ArchiLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:

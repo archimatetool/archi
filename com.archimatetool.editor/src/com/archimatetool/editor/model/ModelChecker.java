@@ -14,7 +14,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.Logger;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
@@ -113,7 +113,7 @@ public class ModelChecker {
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             if(eObject instanceof IIdentifier && !StringUtils.isSet(((IIdentifier)eObject).getId())) {
-                String message = Messages.ModelChecker_10 + " " + ArchimateLabelProvider.INSTANCE.getLabel(eObject); //$NON-NLS-1$
+                String message = Messages.ModelChecker_10 + " " + ArchiLabelProvider.INSTANCE.getLabel(eObject); //$NON-NLS-1$
                 messages.add(message);
             }
         }

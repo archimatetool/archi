@@ -37,7 +37,7 @@ import com.archimatetool.editor.WorkbenchCleaner;
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.editor.model.IModelImporter;
 import com.archimatetool.editor.model.ISelectedModelImporter;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.HeapStatusWidget.HeapStatusWidgetToolBarContributionItem;
 import com.archimatetool.editor.ui.dialog.RelationshipsMatrixDialog;
 import com.archimatetool.editor.ui.services.ViewManager;
@@ -54,7 +54,7 @@ import com.archimatetool.editor.views.tree.ITreeModelView;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorActionBarAdvisor
+public class ArchiActionBarAdvisor
 extends ActionBarAdvisor {
     
     private IWorkbenchAction fActionNewArchimateModel;
@@ -107,7 +107,7 @@ extends ActionBarAdvisor {
      * Constructor
      * @param configurer
      */
-    public ArchimateEditorActionBarAdvisor(IActionBarConfigurer configurer) {
+    public ArchiActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
     }
     
@@ -123,11 +123,11 @@ extends ActionBarAdvisor {
         register(fActionNewArchimateModel);
         
         // Open Diagram
-        fActionOpenDiagram = ArchimateEditorActionFactory.OPEN_DIAGRAM.create(window);
+        fActionOpenDiagram = ArchiActionFactory.OPEN_DIAGRAM.create(window);
         register(fActionOpenDiagram);
         
         // Close Model
-        fActionCloseModel = ArchimateEditorActionFactory.CLOSE_MODEL.create(window);
+        fActionCloseModel = ArchiActionFactory.CLOSE_MODEL.create(window);
         register(fActionCloseModel);
         
         // Close Editor
@@ -141,11 +141,11 @@ extends ActionBarAdvisor {
         register(fActionCloseAllEditors);
         
         // Save
-        fActionSave = ArchimateEditorActionFactory.SAVE_MODEL.create(window);
+        fActionSave = ArchiActionFactory.SAVE_MODEL.create(window);
         register(fActionSave);
         
         // Save As
-        fActionSaveAs = ArchimateEditorActionFactory.SAVE_AS.create(window);
+        fActionSaveAs = ArchiActionFactory.SAVE_AS.create(window);
         register(fActionSaveAs);
         
         // Properties
@@ -177,15 +177,15 @@ extends ActionBarAdvisor {
         register(fActionPaste);
         
         // Delete
-        fActionDelete = ArchimateEditorActionFactory.DELETE.create(window);
+        fActionDelete = ArchiActionFactory.DELETE.create(window);
         register(fActionDelete);
         
         // Rename
-        fActionRename = ArchimateEditorActionFactory.RENAME.create(window);
+        fActionRename = ArchiActionFactory.RENAME.create(window);
         register(fActionRename);
         
         // Duplicate
-        fActionDuplicate = ArchimateEditorActionFactory.DUPLICATE.create(window);
+        fActionDuplicate = ArchiActionFactory.DUPLICATE.create(window);
         register(fActionDuplicate);
 
         // Select All
@@ -222,11 +222,11 @@ extends ActionBarAdvisor {
         register(fShowModelsView);
         
         fShowPropertiesView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_3, ViewManager.PROPERTIES_VIEW,
-                "com.archimatetool.editor.action.showPropertiesView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON)); //$NON-NLS-1$
+                "com.archimatetool.editor.action.showPropertiesView", IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON)); //$NON-NLS-1$
         register(fShowPropertiesView);
         
         fShowOutlineView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_4, ViewManager.OUTLINE_VIEW,
-                "com.archimatetool.editor.action.showOutlineView", IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON)); //$NON-NLS-1$
+                "com.archimatetool.editor.action.showOutlineView", IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_OUTLINE_VIEW_ICON)); //$NON-NLS-1$
         register(fShowOutlineView);
         
         fShowNavigatorView = new ToggleViewAction(Messages.ArchimateEditorActionBarAdvisor_5, INavigatorView.ID,
@@ -271,7 +271,7 @@ extends ActionBarAdvisor {
         fInstallPlugin = new InstallPluginAction();
         
         // Generate View For Element
-        fActionGenerateView = ArchimateEditorActionFactory.GENERATE_VIEW.create(window);
+        fActionGenerateView = ArchiActionFactory.GENERATE_VIEW.create(window);
         register(fActionGenerateView);
      }
     

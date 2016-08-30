@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.ErrorType;
 import com.archimatetool.hammer.validation.issues.IIssue;
@@ -45,18 +45,18 @@ public class InvalidRelationsChecker extends AbstractChecker {
         for(IArchimateRelationship relation : archimateRelations) {
             boolean valid = ArchimateModelUtils.isValidRelationship(relation.getSource(), relation.getTarget(), relation.eClass());
             if(!valid) {
-                String className = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
+                String className = ArchiLabelProvider.INSTANCE.getDefaultName(relation.eClass());
                 
                 String description = NLS.bind(fDescription, new Object[] {
                         className,
-                        ArchimateLabelProvider.INSTANCE.getLabel(relation.getSource()),
-                        ArchimateLabelProvider.INSTANCE.getLabel(relation.getTarget())
+                        ArchiLabelProvider.INSTANCE.getLabel(relation.getSource()),
+                        ArchiLabelProvider.INSTANCE.getLabel(relation.getTarget())
                 });
                 
                 String explanation = NLS.bind(fExplanation, new Object[] {
                         className,
-                        ArchimateLabelProvider.INSTANCE.getDefaultName(relation.getSource().eClass()),
-                        ArchimateLabelProvider.INSTANCE.getDefaultName(relation.getTarget().eClass())
+                        ArchiLabelProvider.INSTANCE.getDefaultName(relation.getSource().eClass()),
+                        ArchiLabelProvider.INSTANCE.getDefaultName(relation.getTarget().eClass())
                 });
                 
                 IIssue issue = new ErrorType(fName, description, explanation, relation);

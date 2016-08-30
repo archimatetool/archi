@@ -36,7 +36,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import com.archimatetool.editor.preferences.ColoursFontsPreferencePage;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IFontAttribute;
 
 
@@ -97,7 +97,7 @@ public class FontChooser extends EventManager {
         
         fMenuButton = new Button(fComposite, SWT.FLAT);
         fMenuButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-        fMenuButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.MENU_ARROW));
+        fMenuButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.MENU_ARROW));
 
         fMenuButton.addSelectionListener(new SelectionAdapter() {
             @Override

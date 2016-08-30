@@ -14,9 +14,9 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
@@ -47,7 +47,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM_16);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
     public Image getImage(EObject instance) {
         if(instance instanceof IDiagramModelReference) {
             IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
-            return ArchimateLabelProvider.INSTANCE.getImage(dm);
+            return ArchiLabelProvider.INSTANCE.getImage(dm);
         }
         
         return getImage();
@@ -67,7 +67,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
     
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM_16);
     }
 
     @Override

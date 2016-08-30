@@ -11,7 +11,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 
 
 
@@ -31,7 +31,7 @@ public class ExtendedWizardDialog extends WizardDialog {
 
     @Override
     protected IDialogSettings getDialogBoundsSettings() {
-        IDialogSettings settings = ArchimateEditorPlugin.INSTANCE.getDialogSettings();
+        IDialogSettings settings = ArchiPlugin.INSTANCE.getDialogSettings();
         IDialogSettings section = settings.getSection(fId);
         if(section == null) {
             section = settings.addNewSection(fId);

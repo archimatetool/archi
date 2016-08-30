@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.jdom,
  com.archimatetool.widgets
 Bundle-ClassPath: com.archimatetool.templates.jar
-Bundle-Activator: com.archimatetool.templates.ArchimateEditorTemplatesPlugin
+Bundle-Activator: com.archimatetool.templates.ArchiTemplatesPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.templates.dialog,
  com.archimatetool.templates.model,

@@ -18,21 +18,21 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorTemplatesPlugin extends AbstractUIPlugin {
+public class ArchiTemplatesPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.templates"; //$NON-NLS-1$
 
     /**
      * The shared instance
      */
-    public static ArchimateEditorTemplatesPlugin INSTANCE;
+    public static ArchiTemplatesPlugin INSTANCE;
     
     /**
      * The File location of this plugin folder
      */
     private static File fPluginFolder;
 
-    public ArchimateEditorTemplatesPlugin() {
+    public ArchiTemplatesPlugin() {
         INSTANCE = this;
     }
 

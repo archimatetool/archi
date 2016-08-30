@@ -35,7 +35,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.model.IArchimateConcept;
@@ -184,17 +184,17 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         @Override
         public String getText(Object element) {
             IArchimateRelationship relationship = (IArchimateRelationship)element;
-            String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
-            name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
+            String name = ArchiLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
+            name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource());
             name += " - "; //$NON-NLS-1$
-            name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
+            name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget());
             name += ")"; //$NON-NLS-1$
             return name;
         }
         
         @Override
         public Image getImage(Object element) {
-            return ArchimateLabelProvider.INSTANCE.getImage(element);
+            return ArchiLabelProvider.INSTANCE.getImage(element);
         }
 
         @Override

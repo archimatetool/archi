@@ -39,8 +39,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -114,7 +114,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
                 names = new String[validRelations.size()];
                 names[0] = Messages.NewNestedRelationsDialog_0;
                 for(int i = 1; i < validRelations.size(); i++) {
-                    names[i] = ArchimateLabelProvider.INSTANCE.getDefaultName(validRelations.get(i));
+                    names[i] = ArchiLabelProvider.INSTANCE.getDefaultName(validRelations.get(i));
                 }
             }
             return names;
@@ -135,7 +135,7 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
 
     public NewNestedRelationsDialog(IDiagramModelArchimateObject parentObject, List<IDiagramModelArchimateObject> childObjects) {
         super(Display.getCurrent().getActiveShell(), "NewNestedRelationsDialog"); //$NON-NLS-1$
-        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
         fParentElement = parentObject.getArchimateElement();
@@ -275,9 +275,9 @@ public class NewNestedRelationsDialog extends ExtendedTitleAreaDialog implements
         class RelationsTableViewerLabelCellProvider extends LabelProvider implements ITableLabelProvider {
             public Image getColumnImage(Object element, int columnIndex) {
                 if(columnIndex == 0) {
-                    return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getChildObject());
+                    return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getChildObject());
                 }
-                return ArchimateLabelProvider.INSTANCE.getImage(((Mapping)element).getSelectedType());
+                return ArchiLabelProvider.INSTANCE.getImage(((Mapping)element).getSelectedType());
             }
 
             @Override

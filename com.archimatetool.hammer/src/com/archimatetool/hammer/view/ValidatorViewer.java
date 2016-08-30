@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeColumn;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.IIssueCategory;
 
@@ -183,7 +183,7 @@ public class ValidatorViewer extends TreeViewer {
                         return issue.getDescription();
 
                     case 2:
-                        return ArchimateLabelProvider.INSTANCE.getLabel(issue.getObject());
+                        return ArchiLabelProvider.INSTANCE.getLabel(issue.getObject());
 
                     default:
                         break;

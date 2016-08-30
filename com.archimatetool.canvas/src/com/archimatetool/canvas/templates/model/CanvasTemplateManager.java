@@ -16,7 +16,7 @@ import org.jdom2.JDOMException;
 
 import com.archimatetool.canvas.CanvasEditorPlugin;
 import com.archimatetool.canvas.ICanvasImages;
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.jdom.JDOMUtils;
 import com.archimatetool.templates.model.ITemplate;
@@ -36,7 +36,7 @@ import com.archimatetool.templates.model.TemplateManager;
 public class CanvasTemplateManager extends TemplateManager {
     
     public static final String CANVAS_TEMPLATE_FILE_EXTENSION = ".archicanvas"; //$NON-NLS-1$
-    private File fUserTemplatesFile = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "canvasses.xml"); //$NON-NLS-1$
+    private File fUserTemplatesFile = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "canvasses.xml"); //$NON-NLS-1$
 
     @Override
     protected ITemplateGroup loadInbuiltTemplates() {

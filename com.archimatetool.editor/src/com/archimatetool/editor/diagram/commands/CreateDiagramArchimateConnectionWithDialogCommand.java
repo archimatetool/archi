@@ -11,7 +11,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
@@ -81,7 +81,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
                 boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
                         Messages.CreateArchimateConnectionWithDialogCommand_0,
                         NLS.bind(Messages.CreateArchimateConnectionWithDialogCommand_1,
-                                ArchimateLabelProvider.INSTANCE.getLabel(source), ArchimateLabelProvider.INSTANCE.getLabel(target)));
+                                ArchiLabelProvider.INSTANCE.getLabel(source), ArchiLabelProvider.INSTANCE.getLabel(target)));
                 
                 // Yes...
                 if(answer) {

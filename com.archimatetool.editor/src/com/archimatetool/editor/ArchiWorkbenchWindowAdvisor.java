@@ -10,7 +10,7 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.archimatetool.editor.actions.ArchimateEditorActionBarAdvisor;
+import com.archimatetool.editor.actions.ArchiActionBarAdvisor;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 
@@ -21,14 +21,14 @@ import com.archimatetool.editor.preferences.Preferences;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorWorkbenchWindowAdvisor
+public class ArchiWorkbenchWindowAdvisor
 extends WorkbenchWindowAdvisor {
     
     /**
      * Constructor
      * @param configurer
      */
-    public ArchimateEditorWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
+    public ArchiWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         super(configurer);
         
         // Status Line
@@ -38,13 +38,13 @@ extends WorkbenchWindowAdvisor {
 
     @Override
     public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer) {
-        return new ArchimateEditorActionBarAdvisor(configurer);
+        return new ArchiActionBarAdvisor(configurer);
     }
     
     @Override
     public void postWindowOpen() {
         // Application specific launcher actions
-        IPlatformLauncher launcher = ArchimateEditorPlugin.INSTANCE.getPlatformLauncher();
+        IPlatformLauncher launcher = ArchiPlugin.INSTANCE.getPlatformLauncher();
         if(launcher != null) {
             launcher.postWindowOpen(getWindowConfigurer().getWindow());
         }

@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.sketch.editparts.SketchDiagramPart;
 import com.archimatetool.editor.diagram.sketch.figures.SketchModelGraphicsIcon;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
@@ -45,12 +45,12 @@ public class SketchModelUIProvider extends AbstractObjectUIProvider implements I
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_SKETCH_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_SKETCH_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SKETCH_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SKETCH_16);
     }
     
     @Override

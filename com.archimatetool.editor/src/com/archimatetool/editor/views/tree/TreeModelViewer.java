@@ -34,7 +34,7 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -96,8 +96,8 @@ public class TreeModelViewer extends TreeViewer {
                     return 0;
                 }
                 
-                String name1 = ArchimateLabelProvider.INSTANCE.getLabel(e1);
-                String name2 = ArchimateLabelProvider.INSTANCE.getLabel(e2);
+                String name1 = ArchiLabelProvider.INSTANCE.getLabel(e1);
+                String name2 = ArchiLabelProvider.INSTANCE.getLabel(e2);
                 
                 if(name1 == null) {
                     name1 = "";//$NON-NLS-1$
@@ -278,7 +278,7 @@ public class TreeModelViewer extends TreeViewer {
         
         @Override
         public String getText(Object element) {
-            String name = ArchimateLabelProvider.INSTANCE.getLabel(element);
+            String name = ArchiLabelProvider.INSTANCE.getLabel(element);
             
             // If a dirty model show asterisk
             if(element instanceof IArchimateModel) {
@@ -291,9 +291,9 @@ public class TreeModelViewer extends TreeViewer {
             if(element instanceof IArchimateRelationship) {
                 IArchimateRelationship relationship = (IArchimateRelationship)element;
                 name += " ("; //$NON-NLS-1$
-                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
+                name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource());
                 name += " - "; //$NON-NLS-1$
-                name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
+                name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget());
                 name += ")"; //$NON-NLS-1$
             }
             
@@ -302,7 +302,7 @@ public class TreeModelViewer extends TreeViewer {
         
         @Override
         public Image getImage(Object element) {
-            return ArchimateLabelProvider.INSTANCE.getImage(element);
+            return ArchiLabelProvider.INSTANCE.getImage(element);
         }
         
         @Override

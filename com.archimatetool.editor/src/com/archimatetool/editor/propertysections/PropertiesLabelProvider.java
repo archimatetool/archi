@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
 
@@ -35,7 +35,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
         
-        return ArchimateLabelProvider.INSTANCE.getImage(object);
+        return ArchiLabelProvider.INSTANCE.getImage(object);
     }
 
     public String getText(Object object) {
@@ -49,7 +49,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
             object = ((IAdaptable)object).getAdapter(object.getClass());
         }
 
-        object = ArchimateLabelProvider.INSTANCE.getWrappedElement(object);
+        object = ArchiLabelProvider.INSTANCE.getWrappedElement(object);
         
         // An Archimate Concept is a special text
         if(object instanceof IArchimateConcept) {
@@ -57,7 +57,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
         }
 
         // Check the main label provider
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(object);
+        String text = ArchiLabelProvider.INSTANCE.getLabel(object);
         if(StringUtils.isSet(text)) {
             return StringUtils.escapeAmpersandsInText(text);
         }
@@ -68,7 +68,7 @@ public class PropertiesLabelProvider implements ILabelProvider {
     String getArchimateConceptText(IArchimateConcept archimateConcept) {
         String name = StringUtils.escapeAmpersandsInText(archimateConcept.getName());
         
-        String typeName = ArchimateLabelProvider.INSTANCE.getDefaultName(archimateConcept.eClass());
+        String typeName = ArchiLabelProvider.INSTANCE.getDefaultName(archimateConcept.eClass());
         
         if(StringUtils.isSet(name)) {
             return name + " (" + typeName + ")"; //$NON-NLS-1$ //$NON-NLS-2$

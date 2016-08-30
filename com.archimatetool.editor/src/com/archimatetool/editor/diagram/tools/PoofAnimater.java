@@ -12,7 +12,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 
 
 /**
@@ -86,11 +86,11 @@ class PoofAnimater {
     }
     
     private void loadImages() {
-        image[0] = IArchimateImages.ImageFactory.getImage("img/poof1.png"); //$NON-NLS-1$
-        image[1] = IArchimateImages.ImageFactory.getImage("img/poof2.png"); //$NON-NLS-1$
-        image[2] = IArchimateImages.ImageFactory.getImage("img/poof3.png"); //$NON-NLS-1$
-        image[3] = IArchimateImages.ImageFactory.getImage("img/poof4.png"); //$NON-NLS-1$
-        image[4] = IArchimateImages.ImageFactory.getImage("img/poof5.png"); //$NON-NLS-1$
+        image[0] = IArchiImages.ImageFactory.getImage("img/poof1.png"); //$NON-NLS-1$
+        image[1] = IArchiImages.ImageFactory.getImage("img/poof2.png"); //$NON-NLS-1$
+        image[2] = IArchiImages.ImageFactory.getImage("img/poof3.png"); //$NON-NLS-1$
+        image[3] = IArchiImages.ImageFactory.getImage("img/poof4.png"); //$NON-NLS-1$
+        image[4] = IArchiImages.ImageFactory.getImage("img/poof5.png"); //$NON-NLS-1$
         width = image[0].getImageData().width;
         height = image[0].getImageData().height;
     }

@@ -12,7 +12,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 
-import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
+import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
@@ -59,7 +59,7 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(SelectElementInTreeAction.ID));
  
         // Generate View For Element
-        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(ArchimateEditorActionFactory.GENERATE_VIEW.getId()));
+        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(ArchiActionFactory.GENERATE_VIEW.getId()));
 
         // Viewpoints
         menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_VIEWPOINTS));

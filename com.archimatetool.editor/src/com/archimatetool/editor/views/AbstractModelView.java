@@ -29,9 +29,9 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -93,8 +93,8 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
             public void selectionChanged(SelectionChangedEvent event) {
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(selected != null) {
-                    Image image = ArchimateLabelProvider.INSTANCE.getImage(selected);
-                    String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
+                    Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
+                    String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
                     getViewSite().getActionBars().getStatusLineManager().setMessage(image, text);
                 }
                 else {
@@ -126,7 +126,7 @@ implements IContextProvider, PropertyChangeListener, ITabbedPropertySheetPageCon
     
     @Override
     public String getContributorId() {
-        return ArchimateEditorPlugin.PLUGIN_ID;
+        return ArchiPlugin.PLUGIN_ID;
     }
     
     @Override

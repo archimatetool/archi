@@ -32,10 +32,10 @@ import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
-public class ArchimateLabelProviderTests {
+public class ArchiLabelProviderTests {
 
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(ArchimateLabelProviderTests.class);
+        return new JUnit4TestAdapter(ArchiLabelProviderTests.class);
     }
     
     @BeforeClass
@@ -48,82 +48,82 @@ public class ArchimateLabelProviderTests {
     @Test
     public void testGetLabel() {
         // Null object
-        assertEquals("", ArchimateLabelProvider.INSTANCE.getLabel(null));
+        assertEquals("", ArchiLabelProvider.INSTANCE.getLabel(null));
         
         // Any object
-        assertEquals("", ArchimateLabelProvider.INSTANCE.getLabel(""));
+        assertEquals("", ArchiLabelProvider.INSTANCE.getLabel(""));
         
         // Nameable
         INameable nameable = IArchimateFactory.eINSTANCE.createBusinessActor();
         nameable.setName("Hello");
-        assertEquals("Hello", ArchimateLabelProvider.INSTANCE.getLabel(nameable));
+        assertEquals("Hello", ArchiLabelProvider.INSTANCE.getLabel(nameable));
         
         // View
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        assertEquals("View", ArchimateLabelProvider.INSTANCE.getLabel(dm));
+        assertEquals("View", ArchiLabelProvider.INSTANCE.getLabel(dm));
         
         // Sketch
         ISketchModel sm = IArchimateFactory.eINSTANCE.createSketchModel();
-        assertEquals("Sketch", ArchimateLabelProvider.INSTANCE.getLabel(sm));
+        assertEquals("Sketch", ArchiLabelProvider.INSTANCE.getLabel(sm));
         
         // Image
         IDiagramModelImage di = IArchimateFactory.eINSTANCE.createDiagramModelImage();
-        assertEquals("Image", ArchimateLabelProvider.INSTANCE.getLabel(di));
+        assertEquals("Image", ArchiLabelProvider.INSTANCE.getLabel(di));
     }
     
     @Test
     public void testGetImage() {
         // Null object
-        assertNull(ArchimateLabelProvider.INSTANCE.getImage(null));
+        assertNull(ArchiLabelProvider.INSTANCE.getImage(null));
         
         // Object
         IBusinessActor actor = IArchimateFactory.eINSTANCE.createBusinessActor();
-        Image image1 = ArchimateLabelProvider.INSTANCE.getImage(actor);
+        Image image1 = ArchiLabelProvider.INSTANCE.getImage(actor);
         assertNotNull(image1);
         
         // Same image for object's class
-        Image image2 = ArchimateLabelProvider.INSTANCE.getImage(actor.eClass());
+        Image image2 = ArchiLabelProvider.INSTANCE.getImage(actor.eClass());
         assertSame(image1, image2);
     }
     
     @Test
     public void testGetGraphicsIconForDiagramModel() {
         // Null object
-        assertNull(ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(null));
+        assertNull(ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(null));
         
         // Models
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        assertNotNull(ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm));
+        assertNotNull(ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm));
         
         ISketchModel sm = IArchimateFactory.eINSTANCE.createSketchModel();
-        assertNotNull(ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(sm));
+        assertNotNull(ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(sm));
     }
 
     @Test
     public void testGetImageDescriptor() {
         // Null object
-        assertNull(ArchimateLabelProvider.INSTANCE.getImageDescriptor(null));
+        assertNull(ArchiLabelProvider.INSTANCE.getImageDescriptor(null));
         
         // EClass
         EClass eClass = IArchimatePackage.eINSTANCE.getBusinessActor();
-        ImageDescriptor id = ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass);
+        ImageDescriptor id = ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass);
         assertNotNull(id);
     }
     
     @Test
     public void testGetDefaultName() {
         // Null object
-        assertEquals("", ArchimateLabelProvider.INSTANCE.getDefaultName(null));
+        assertEquals("", ArchiLabelProvider.INSTANCE.getDefaultName(null));
         
         // EClass
         EClass eClass = IArchimatePackage.eINSTANCE.getBusinessActor();
-        assertEquals("Business Actor", ArchimateLabelProvider.INSTANCE.getDefaultName(eClass));
+        assertEquals("Business Actor", ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
     }
     
     @Test
     public void testGetRelationshipSentence() {
         // Null object
-        assertEquals("", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(null));
+        assertEquals("", ArchiLabelProvider.INSTANCE.getRelationshipSentence(null));
         
         IBusinessActor actor = IArchimateFactory.eINSTANCE.createBusinessActor();
         actor.setName("Fred");
@@ -133,20 +133,20 @@ public class ArchimateLabelProviderTests {
         IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relation.setSource(actor);
         relation.setTarget(role);
-        assertEquals("Fred is assigned to Nobody", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation));
+        assertEquals("Fred is assigned to Nobody", ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation));
         
         relation.setSource(role);
         relation.setTarget(actor);
-        assertEquals("Nobody is assigned to Fred", ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation));
+        assertEquals("Nobody is assigned to Fred", ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation));
     }
     
     @Test
     public void testGetRelationshipPhrase() {
         // Null object
-        assertEquals("", ArchimateLabelProvider.INSTANCE.getRelationshipPhrase(null, true));
+        assertEquals("", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(null, true));
         
         EClass eClass = IArchimatePackage.eINSTANCE.getAssignmentRelationship();
-        assertEquals("Assigned from", ArchimateLabelProvider.INSTANCE.getRelationshipPhrase(eClass, true));
-        assertEquals("Assigned to", ArchimateLabelProvider.INSTANCE.getRelationshipPhrase(eClass, false));
+        assertEquals("Assigned from", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(eClass, true));
+        assertEquals("Assigned to", ArchiLabelProvider.INSTANCE.getRelationshipPhrase(eClass, false));
     }
 }

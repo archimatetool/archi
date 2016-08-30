@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Font;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
@@ -189,12 +189,12 @@ implements IDiagramModelObjectFigure {
             setToolTip(toolTipFigure);
         }
 
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
+        String text = ArchiLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
         toolTipFigure.setText(text);
         
         if(fDiagramModelObject instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
-            String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
+            String type = ArchiLabelProvider.INSTANCE.getDefaultName(element.eClass());
             if(!StringUtils.isSet(text)) { // Name was blank
                 toolTipFigure.setText(type);
             }

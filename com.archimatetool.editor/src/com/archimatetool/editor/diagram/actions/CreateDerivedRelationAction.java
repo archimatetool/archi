@@ -44,8 +44,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -73,7 +73,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         setText(TEXT);
         setId(ID);
         setSelectionProvider(part.getAdapter(GraphicalViewer.class));
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED_16));
     }
 
     @Override
@@ -223,7 +223,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         protected void configureShell(Shell shell) {
             super.configureShell(shell);
             shell.setText(Messages.CreateDerivedRelationAction_6);
-            shell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DERIVED_16));
+            shell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DERIVED_16));
         }
         
         @Override
@@ -316,7 +316,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         
         @Override
         protected IDialogSettings getDialogBoundsSettings() {
-            IDialogSettings settings = ArchimateEditorPlugin.INSTANCE.getDialogSettings();
+            IDialogSettings settings = ArchiPlugin.INSTANCE.getDialogSettings();
             IDialogSettings section = settings.getSection(DIALOG_SETTINGS_SECTION);
             if(section == null) {
                 section = settings.addNewSection(DIALOG_SETTINGS_SECTION);

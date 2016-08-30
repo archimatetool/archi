@@ -20,21 +20,21 @@ import com.archimatetool.reports.html.HTMLReportExporter;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorReportsPlugin extends AbstractUIPlugin {
+public class ArchiReportsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.reports"; //$NON-NLS-1$
 
     /**
      * The shared instance
      */
-    public static ArchimateEditorReportsPlugin INSTANCE;
+    public static ArchiReportsPlugin INSTANCE;
 
     /**
      * The File location of this plugin folder
      */
     private static File fPluginFolder;
 
-    public ArchimateEditorReportsPlugin() {
+    public ArchiReportsPlugin() {
         INSTANCE = this;
     }
     

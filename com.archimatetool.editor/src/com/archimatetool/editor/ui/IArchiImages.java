@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.ui;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 
 
 /**
@@ -13,9 +13,9 @@ import com.archimatetool.editor.ArchimateEditorPlugin;
  * 
  * @author Phillip Beauvoir
  */
-public interface IArchimateImages {
+public interface IArchiImages {
     
-    ImageFactory ImageFactory = new ImageFactory(ArchimateEditorPlugin.INSTANCE);
+    ImageFactory ImageFactory = new ImageFactory(ArchiPlugin.INSTANCE);
 
     String IMGPATH = "img/"; //$NON-NLS-1$
     

@@ -8,7 +8,7 @@ package com.archimatetool.editor.views.properties;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IViewPart;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 
 
 /**
@@ -20,5 +20,5 @@ public interface ICustomPropertiesView extends IViewPart {
     String ID = "com.archimatetool.editor.propertiesView"; //$NON-NLS-1$
     String HELP_ID = "com.archimatetool.help.propertiesViewHelp"; //$NON-NLS-1$
     String NAME = Messages.ICustomPropertiesView_0;
-    ImageDescriptor IMAGE_DESCRIPTOR = IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON);
+    ImageDescriptor IMAGE_DESCRIPTOR = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_PROPERTIES_VIEW_ICON);
 }

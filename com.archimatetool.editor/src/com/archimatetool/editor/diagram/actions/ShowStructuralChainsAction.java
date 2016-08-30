@@ -10,7 +10,7 @@ import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 
 
 
@@ -28,7 +28,7 @@ public class ShowStructuralChainsAction extends WorkbenchPartAction {
         super(part);
         setId(ID);
         setText(DEFAULT_TEXT);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DERIVED_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED_16));
     }
     
     @Override

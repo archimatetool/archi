@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.elements.BusinessFunctionEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -41,12 +41,12 @@ public class BusinessFunctionUIProvider extends AbstractArchimateElementUIProvid
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchimateImages.ICON_BUSINESS_FUNCTION_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_FUNCTION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_BUSINESS_FUNCTION_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_FUNCTION_16);
     }
     
     @Override

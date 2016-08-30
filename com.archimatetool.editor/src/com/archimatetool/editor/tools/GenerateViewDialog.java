@@ -30,11 +30,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateElement;
 
@@ -66,7 +66,7 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
     public GenerateViewDialog(Shell parentShell, List<IArchimateElement> selectedElements) {
         super(parentShell, DIALOG_ID);
         
-        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
         fSelectedElements = selectedElements;
@@ -87,7 +87,7 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         
         String message = ""; //$NON-NLS-1$
         for(Iterator<IArchimateElement> iter = fSelectedElements.iterator(); iter.hasNext();) {
-            message += ArchimateLabelProvider.INSTANCE.getLabel(iter.next());
+            message += ArchiLabelProvider.INSTANCE.getLabel(iter.next());
             if(iter.hasNext()) {
                 message += ", "; //$NON-NLS-1$
             }
@@ -158,7 +158,7 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         
         fNameText = new Text(client, SWT.BORDER);
         fNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fNameText.setText(Messages.GenerateViewDialog_6 + " " + ArchimateLabelProvider.INSTANCE.getLabel(fSelectedElements.get(0))); //$NON-NLS-1$
+        fNameText.setText(Messages.GenerateViewDialog_6 + " " + ArchiLabelProvider.INSTANCE.getLabel(fSelectedElements.get(0))); //$NON-NLS-1$
         
         Group groupOptions = new Group(client, SWT.NONE);
         groupOptions.setText(Messages.GenerateViewDialog_4);
@@ -205,14 +205,14 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
     }
     
     void savePreferences() {
-        IPreferenceStore store = ArchimateEditorPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
         store.setValue(PREFS_ALLCONNECTIONS, fAddAllConnections);
         store.setValue(PREFS_LASTVIEWPOINT, fSelectedViewpoint.getIndex());
     }
 
     void loadPreferences() {
-        IPreferenceStore store = ArchimateEditorPlugin.INSTANCE.getPreferenceStore();
+        IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
         fAddAllConnectionsButton.setSelection(store.getBoolean(PREFS_ALLCONNECTIONS));
         

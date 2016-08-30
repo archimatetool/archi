@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.elements.OrJunctionEditPart;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -45,12 +45,12 @@ public class OrJunctionUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_OR_JUNCTION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_OR_JUNCTION_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_OR_JUNCTION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_OR_JUNCTION_16);
     }
     
     @Override

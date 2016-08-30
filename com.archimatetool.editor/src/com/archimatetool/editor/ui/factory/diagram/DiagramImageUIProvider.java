@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -50,12 +50,12 @@ public class DiagramImageUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_LANDSCAPE_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LANDSCAPE_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE_16);
     }
 
     @Override

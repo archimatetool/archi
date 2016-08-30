@@ -10,7 +10,7 @@ import org.eclipse.ui.IEditorPart;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -92,14 +92,14 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Archimate Diagram Object created from Archimate Element Template
         else if(object instanceof IArchimateElement) {
             IArchimateElement element = (IArchimateElement)object;
-            element.setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
+            element.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             return createDiagramModelArchimateObject(element);
         }
         
         // Group
         else if(object instanceof IDiagramModelGroup) {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
-            group.setName(ArchimateLabelProvider.INSTANCE.getDefaultName(fTemplate));
+            group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
         }
         

@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.editparts.CanvasLineConnectionEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider;
 
 
@@ -41,11 +41,11 @@ public class CanvasLineConnectionUIProvider extends LineConnectionUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_CONNECTION_ARROW_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CONNECTION_ARROW_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_ARROW_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW_16);
     }
 }

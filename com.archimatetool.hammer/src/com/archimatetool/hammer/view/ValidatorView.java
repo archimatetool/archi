@@ -48,11 +48,11 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -352,8 +352,8 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
     
     private void updateStatusBar() {
         if(fModel != null) {
-            getViewSite().getActionBars().getStatusLineManager().setMessage(ArchimateLabelProvider.INSTANCE.getImage(fModel),
-                    ArchimateLabelProvider.INSTANCE.getLabel(fModel));
+            getViewSite().getActionBars().getStatusLineManager().setMessage(ArchiLabelProvider.INSTANCE.getImage(fModel),
+                    ArchiLabelProvider.INSTANCE.getLabel(fModel));
         }
         else {
             getViewSite().getActionBars().getStatusLineManager().setMessage(null, ""); //$NON-NLS-1$
@@ -399,7 +399,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
 
     @Override
     public String getContributorId() {
-        return ArchimateEditorPlugin.PLUGIN_ID;
+        return ArchiPlugin.PLUGIN_ID;
     }
 
     // =================================================================================

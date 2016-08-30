@@ -7,7 +7,7 @@ package com.archimatetool.editor.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IFolder;
 
@@ -27,7 +27,7 @@ public class DeleteArchimateElementCommand extends Command {
     public DeleteArchimateElementCommand(IArchimateElement element) {
         fFolder = (IFolder)element.eContainer();
         fArchimateElement = element;
-        setLabel(Messages.DeleteElementCommand_0 + " " + ArchimateLabelProvider.INSTANCE.getLabel(fArchimateElement)); //$NON-NLS-1$
+        setLabel(Messages.DeleteElementCommand_0 + " " + ArchiLabelProvider.INSTANCE.getLabel(fArchimateElement)); //$NON-NLS-1$
     }
     
     @Override

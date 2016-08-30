@@ -22,4 +22,4 @@ Export-Package: com.archimatetool.widgets,
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
-Bundle-Activator: com.archimatetool.widgets.ArchimateWidgetsPlugin
+Bundle-Activator: com.archimatetool.widgets.ArchiWidgetsPlugin

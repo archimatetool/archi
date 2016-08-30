@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.elements.BusinessInterfaceEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBusinessInterface;
 import com.archimatetool.model.IInterfaceElement;
@@ -44,12 +44,12 @@ public class BusinessInterfaceUIProvider extends AbstractArchimateElementUIProvi
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchimateImages.ICON_BUSINESS_INTERFACE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_BUSINESS_INTERFACE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE_16);
     }
     
     @Override
@@ -58,7 +58,7 @@ public class BusinessInterfaceUIProvider extends AbstractArchimateElementUIProvi
         if(instance instanceof IBusinessInterface) {
             int type = ((IBusinessInterface)instance).getInterfaceType();
             if(type == IInterfaceElement.REQUIRED) {
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_INTERFACE_REQUIRED_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED_16);
             }
         }
         

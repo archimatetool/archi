@@ -12,17 +12,17 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateWidgetsPlugin extends AbstractUIPlugin {
+public class ArchiWidgetsPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.widgets"; //$NON-NLS-1$
 
     /**
      * The shared instance
      */
-    public static ArchimateWidgetsPlugin INSTANCE;
+    public static ArchiWidgetsPlugin INSTANCE;
     
 
-    public ArchimateWidgetsPlugin() {
+    public ArchiWidgetsPlugin() {
         INSTANCE = this;
     }
 }

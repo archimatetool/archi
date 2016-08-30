@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 
@@ -95,7 +95,7 @@ public class TemplatesTreeViewer extends TreeViewer {
         @Override
         public Image getImage(Object element) {
             if(element instanceof ITemplateGroup) {
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_FOLDER);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_FOLDER);
             }
             if(element instanceof ITemplate) {
                 return ((ITemplate)element).getImage();

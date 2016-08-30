@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -33,11 +33,11 @@ public class ArchimateModelUIProvider extends AbstractObjectUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MODELS_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MODELS_16);
     }
 }

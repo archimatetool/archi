@@ -13,7 +13,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IGraphicsIcon;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelObject;
@@ -49,7 +49,7 @@ extends AbstractTextFlowFigure {
         // Draw the icon depending on the diagramModelObject
         IDiagramModel dm = ((IDiagramModelReference)getDiagramModelObject()).getReferencedModel();
 
-        IGraphicsIcon graphicsIcon = ArchimateLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm);
+        IGraphicsIcon graphicsIcon = ArchiLabelProvider.INSTANCE.getGraphicsIconForDiagramModel(dm);
         if(graphicsIcon != null) {
             graphicsIcon.drawIcon(graphics, getIconOrigin());
         }

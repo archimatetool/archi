@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.RGB;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 
@@ -50,14 +50,14 @@ implements IArchimateElementUIProvider {
     protected ImageDescriptor getImageDescriptorWithUserFillColor(String imageName) {
         // Not a preference
         if(!Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_FILL_COLORS_IN_GUI)) {
-            return IArchimateImages.ImageFactory.getImageDescriptor(imageName);
+            return IArchiImages.ImageFactory.getImageDescriptor(imageName);
         }
         
         ImageDescriptor newImageDescriptor = fImageRegistry.getDescriptor(imageName);
         
         // Create new ImageDescriptor
         if(newImageDescriptor == null) {
-            ImageDescriptor originalImageDescriptor = IArchimateImages.ImageFactory.getImageDescriptor(imageName);
+            ImageDescriptor originalImageDescriptor = IArchiImages.ImageFactory.getImageDescriptor(imageName);
             
             Color color = ColorFactory.getUserDefaultFillColor(providerFor());
 
@@ -93,7 +93,7 @@ implements IArchimateElementUIProvider {
     protected Image getImageWithUserFillColor(String imageName) {
         // Not a preference
         if(!Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_FILL_COLORS_IN_GUI)) {
-            return IArchimateImages.ImageFactory.getImage(imageName);
+            return IArchiImages.ImageFactory.getImage(imageName);
         }
         
         Image image = fImageRegistry.get(imageName);
@@ -105,7 +105,7 @@ implements IArchimateElementUIProvider {
             
             // If image is still null then we didn't make a new one and so need the default image
             if(image == null) {
-                return IArchimateImages.ImageFactory.getImage(imageName);
+                return IArchiImages.ImageFactory.getImage(imageName);
             }
         }
 

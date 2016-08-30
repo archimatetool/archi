@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.elements.TechnologyServiceEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -41,12 +41,12 @@ public class TechnologyServiceUIProvider extends AbstractArchimateElementUIProvi
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_SERVICE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_SERVICE_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchimateImages.ICON_TECHNOLOGY_SERVICE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_SERVICE_16);
     }
     
     @Override

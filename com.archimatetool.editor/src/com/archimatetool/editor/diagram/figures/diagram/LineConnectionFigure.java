@@ -14,7 +14,7 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -159,7 +159,7 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
             return null;
         }
         
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(getModelConnection());
+        String text = ArchiLabelProvider.INSTANCE.getLabel(getModelConnection());
         tooltip.setText(text);
         tooltip.setType(Messages.LineConnectionFigure_0);
         

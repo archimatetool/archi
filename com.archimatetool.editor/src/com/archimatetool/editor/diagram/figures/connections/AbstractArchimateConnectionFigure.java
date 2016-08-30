@@ -9,7 +9,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 
@@ -55,13 +55,13 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
         
         IArchimateRelationship relation = getModelConnection().getArchimateRelationship();
         
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(relation);
+        String text = ArchiLabelProvider.INSTANCE.getLabel(relation);
         toolTipFigure.setText(text);
 
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
+        String type = ArchiLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         toolTipFigure.setType(Messages.AbstractArchimateConnectionFigure_0 + " " + type); //$NON-NLS-1$
 
-        String rubric = ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation);
+        String rubric = ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation);
         toolTipFigure.setRubric(rubric);
 
         return toolTipFigure;

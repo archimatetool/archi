@@ -22,7 +22,7 @@ import org.eclipse.ui.actions.RetargetAction;
  * 
  * @author Phillip Beauvoir
  */
-public final class ArchimateEditorActionFactory {
+public final class ArchiActionFactory {
     
     /**
      * Standard Delete Action with icon and key binding

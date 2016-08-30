@@ -23,7 +23,7 @@ import com.archimatetool.editor.preferences.Preferences;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ArchimateEditorPlugin extends AbstractUIPlugin {
+public class ArchiPlugin extends AbstractUIPlugin {
 
     /**
      * ID of the plug-in
@@ -38,12 +38,12 @@ public class ArchimateEditorPlugin extends AbstractUIPlugin {
     /**
      * The shared instance
      */
-    public static ArchimateEditorPlugin INSTANCE;
+    public static ArchiPlugin INSTANCE;
 
     /**
      * The constructor.
      */
-    public ArchimateEditorPlugin() {
+    public ArchiPlugin() {
         INSTANCE = this;
     }
 

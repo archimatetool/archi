@@ -13,7 +13,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
@@ -79,39 +79,39 @@ public class ViewpointsManager {
      * @return an ImageDesciptor for a Viewpoint
      */
     public ImageDescriptor getImageDescriptor(IViewpoint viewPoint) {
-        String[] bus_appNames = { IArchimateImages.ICON_VIEWPOINT_BUSINESS_16,
-                IArchimateImages.ICON_VIEWPOINT_APPLICATION_16 };
+        String[] bus_appNames = { IArchiImages.ICON_VIEWPOINT_BUSINESS_16,
+                IArchiImages.ICON_VIEWPOINT_APPLICATION_16 };
         
-        String[] app_techNames = { IArchimateImages.ICON_VIEWPOINT_APPLICATION_16,
-                IArchimateImages.ICON_VIEWPOINT_TECHNOLOGY_16 };
+        String[] app_techNames = { IArchiImages.ICON_VIEWPOINT_APPLICATION_16,
+                IArchiImages.ICON_VIEWPOINT_TECHNOLOGY_16 };
         
         switch(viewPoint.getIndex()) {
             case IViewpoint.BUSINESS_FUNCTION_VIEWPOINT:
             case IViewpoint.BUSINESS_PROCESS_VIEWPOINT:
             case IViewpoint.ORGANISATION_VIEWPOINT:
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINT_BUSINESS_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_BUSINESS_16);
 
             case IViewpoint.APPLICATION_BEHAVIOUR_VIEWPOINT:
             case IViewpoint.APPLICATION_COOPERATION_VIEWPOINT:
             case IViewpoint.APPLICATION_STRUCTURE_VIEWPOINT:
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINT_APPLICATION_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_APPLICATION_16);
                 
             case IViewpoint.INFRASTRUCTURE_VIEWPOINT:
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINT_TECHNOLOGY_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_TECHNOLOGY_16);
 
             case IViewpoint.ACTOR_COOPERATION_VIEWPOINT:
             case IViewpoint.APPLICATION_USAGE_VIEWPOINT:
             case IViewpoint.BUSINESS_PROCESS_COOPERATION_VIEWPOINT:
             case IViewpoint.BUSINESS_PRODUCT_VIEWPOINT:
             case IViewpoint.SERVICE_REALISATION_VIEWPOINT:
-                return IArchimateImages.ImageFactory.getCompositeImageDescriptor(bus_appNames);
+                return IArchiImages.ImageFactory.getCompositeImageDescriptor(bus_appNames);
                 
             case IViewpoint.IMPLEMENTATION_DEPLOYMENT_VIEWPOINT:
             case IViewpoint.INFRASTRUCTURE_USAGE_VIEWPOINT:
-                return IArchimateImages.ImageFactory.getCompositeImageDescriptor(app_techNames);
+                return IArchiImages.ImageFactory.getCompositeImageDescriptor(app_techNames);
                 
             default:
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_VIEWPOINTS_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINTS_16);
         }
     }
     

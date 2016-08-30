@@ -23,8 +23,8 @@ import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -195,8 +195,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_2,
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NOTE_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE_16),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE_16));
         group.add(noteEntry);
         
         // Group
@@ -204,8 +204,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_4,
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_GROUP_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP_16),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP_16));
         group.add(groupEntry);
         
         // Note Connection
@@ -228,8 +228,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_14,
                 Messages.ArchimateDiagramEditorPalette_15,
                 new MagicConnectionModelFactory(),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MAGIC_CONNECTION_16),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MAGIC_CONNECTION_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION_16),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION_16));
         
         magicConnectionEntry.setToolClass(MagicConnectionCreationTool.class);
         magicConnectionEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
@@ -267,15 +267,15 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String description) {
         return new CombinedTemplateCreationEntry(
-                ArchimateLabelProvider.INSTANCE.getDefaultName(eClass),
+                ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
-                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
-        return createConnectionCreationToolEntry(eClass, ArchimateLabelProvider.INSTANCE.getDefaultName(eClass), description);
+        return createConnectionCreationToolEntry(eClass, ArchiLabelProvider.INSTANCE.getDefaultName(eClass), description);
     }
     
     private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String name, String description) {
@@ -283,8 +283,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 name,
                 description,
                 new ArchimateDiagramModelFactory(eClass),
-                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
+                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
         
         // Ensure Tool gets deselected
         entry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);

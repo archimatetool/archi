@@ -31,7 +31,7 @@ import com.archimatetool.editor.diagram.figures.connections.RealizationConnectio
 import com.archimatetool.editor.diagram.figures.connections.ServingConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.SpecializationConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IArchimateConcept;
@@ -73,7 +73,7 @@ implements ILabelProvider, ISelfStyleProvider {
         if(element instanceof IArchimateRelationship) {
             return null;
         }
-        return ArchimateLabelProvider.INSTANCE.getImage(element);
+        return ArchiLabelProvider.INSTANCE.getImage(element);
     }
 
     @Override
@@ -127,11 +127,11 @@ implements ILabelProvider, ISelfStyleProvider {
     public IFigure getTooltip(Object entity) {
         if(entity instanceof IArchimateConcept) {
             ToolTipFigure l = new ToolTipFigure();
-            String type = ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)entity).eClass());
-            l.setText(ArchimateLabelProvider.INSTANCE.getLabel(entity));
+            String type = ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)entity).eClass());
+            l.setText(ArchiLabelProvider.INSTANCE.getLabel(entity));
             l.setType(Messages.ZestViewerLabelProvider_0 + " " + type); //$NON-NLS-1$
             if(entity instanceof IArchimateRelationship) {
-                l.setRubric(ArchimateLabelProvider.INSTANCE.getRelationshipSentence((IArchimateRelationship)entity));
+                l.setRubric(ArchiLabelProvider.INSTANCE.getRelationshipSentence((IArchimateRelationship)entity));
             }
             return l;
         }

@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -61,7 +61,7 @@ public class ExportJasperReportsWizardPage2 extends WizardPage {
         super("ExportJasperReportsWizardPage2"); //$NON-NLS-1$
         setTitle(Messages.ExportJasperReportsWizardPage2_2);
         setDescription(Messages.ExportJasperReportsWizardPage2_3);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     
         discoverReports();
     }

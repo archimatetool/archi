@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigure;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
@@ -38,7 +38,7 @@ public class ResetAspectRatioAction extends SelectionAction {
         setText(TEXT);
         setId(ID);
         setToolTipText(Messages.ResetAspectRatioAction_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASPECT_RATIO));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ASPECT_RATIO));
     }
 
     @Override

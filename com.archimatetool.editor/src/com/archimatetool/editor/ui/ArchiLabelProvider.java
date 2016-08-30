@@ -25,13 +25,13 @@ import com.archimatetool.model.INameable;
 
 
 /**
- * Main Label Provider for Archimate Editor
+ * Main Label Provider for Archi
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateLabelProvider {
+public class ArchiLabelProvider {
     
-    public static ArchimateLabelProvider INSTANCE = new ArchimateLabelProvider();
+    public static ArchiLabelProvider INSTANCE = new ArchiLabelProvider();
 
     /**
      * @return A name for an object.<br>
@@ -162,8 +162,8 @@ public class ArchimateLabelProvider {
     public String getRelationshipSentence(IArchimateRelationship relation) {
         if(relation != null) {
             if(relation.getSource() != null && relation.getTarget() != null) {
-                String nameSource = ArchimateLabelProvider.INSTANCE.getLabel(relation.getSource());
-                String nameTarget = ArchimateLabelProvider.INSTANCE.getLabel(relation.getTarget());
+                String nameSource = ArchiLabelProvider.INSTANCE.getLabel(relation.getSource());
+                String nameTarget = ArchiLabelProvider.INSTANCE.getLabel(relation.getTarget());
                 
                 switch(relation.eClass().getClassifierID()) {
                     case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:

@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.elements.PlateauEditPart;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -41,12 +41,12 @@ public class PlateauUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_PLATEAU_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_PLATEAU_16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PLATEAU_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PLATEAU_16);
     }
 
     @Override

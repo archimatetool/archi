@@ -12,7 +12,7 @@ import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.WarningType;
@@ -90,18 +90,18 @@ public class ViewpointChecker extends AbstractChecker {
 
     IIssue createIssue(Object object, String viewName, String viewpointName) {
         String description =  NLS.bind(fDescription, new Object[] {
-                ArchimateLabelProvider.INSTANCE.getLabel(object),
+                ArchiLabelProvider.INSTANCE.getLabel(object),
                 viewName,
                 viewpointName
         });
         
         String type, concept;
         if(object instanceof IDiagramModelArchimateObject) {
-            concept = ArchimateLabelProvider.INSTANCE.getDefaultName(((IDiagramModelArchimateObject)object).getArchimateElement().eClass());
+            concept = ArchiLabelProvider.INSTANCE.getDefaultName(((IDiagramModelArchimateObject)object).getArchimateElement().eClass());
             type = Messages.ViewpointChecker_4;
         }
         else {
-            concept = ArchimateLabelProvider.INSTANCE.getDefaultName(((IDiagramModelArchimateConnection)object).getArchimateRelationship().eClass());
+            concept = ArchiLabelProvider.INSTANCE.getDefaultName(((IDiagramModelArchimateConnection)object).getArchimateRelationship().eClass());
             type = Messages.ViewpointChecker_5;
         }
         

@@ -8,7 +8,7 @@ package com.archimatetool.editor.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 
 
 
@@ -22,9 +22,9 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = ArchimateEditorPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
-		store.setDefault(USER_DATA_FOLDER, ArchimateEditorPlugin.INSTANCE.getWorkspaceFolder().getPath());
+		store.setDefault(USER_DATA_FOLDER, ArchiPlugin.INSTANCE.getWorkspaceFolder().getPath());
 		
 		store.setDefault(MRU_MAX, 6);
         

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextAlignment;
@@ -104,15 +104,15 @@ public class TextAlignmentSection extends AbstractArchimatePropertySection {
         }
         
         // Left Button
-        fAlignmentButtons[0].setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ALIGN_TEXT_LEFT));
+        fAlignmentButtons[0].setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ALIGN_TEXT_LEFT));
         fAlignmentButtons[0].setData(ITextAlignment.TEXT_ALIGNMENT_LEFT);
 
         // Center Button
-        fAlignmentButtons[1].setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ALIGN_TEXT_CENTER));
+        fAlignmentButtons[1].setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ALIGN_TEXT_CENTER));
         fAlignmentButtons[1].setData(ITextAlignment.TEXT_ALIGNMENT_CENTER);
 
         // Right Button
-        fAlignmentButtons[2].setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ALIGN_TEXT_RIGHT));
+        fAlignmentButtons[2].setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ALIGN_TEXT_RIGHT));
         fAlignmentButtons[2].setData(ITextAlignment.TEXT_ALIGNMENT_RIGHT);
         
         // Help

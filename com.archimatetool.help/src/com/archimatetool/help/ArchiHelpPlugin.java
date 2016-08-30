@@ -15,7 +15,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ArchimateEditorHelpPlugin extends AbstractUIPlugin {
+public class ArchiHelpPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.archimatetool.help"; //$NON-NLS-1$
@@ -23,7 +23,7 @@ public class ArchimateEditorHelpPlugin extends AbstractUIPlugin {
     /**
      * The shared instance
      */
-    public static ArchimateEditorHelpPlugin INSTANCE;
+    public static ArchiHelpPlugin INSTANCE;
 
     /**
      * The File location of this plugin folder
@@ -33,7 +33,7 @@ public class ArchimateEditorHelpPlugin extends AbstractUIPlugin {
     /**
      * The constructor.
      */
-    public ArchimateEditorHelpPlugin() {
+    public ArchiHelpPlugin() {
         INSTANCE = this;
     }
 	

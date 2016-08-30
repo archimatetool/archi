@@ -20,7 +20,7 @@ import org.eclipse.swt.SWT;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.ISketchModelSticky;
 
@@ -148,7 +148,7 @@ public class StickyFigure extends AbstractContainerFigure {
             return null;
         }
         
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
+        String text = ArchiLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
         tooltip.setText(text);
         tooltip.setType(Messages.StickyFigure_0);
        

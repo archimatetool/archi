@@ -24,13 +24,13 @@ import com.archimatetool.editor.perspectives.MainPerspective;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateEditorWorkbenchAdvisor
+public class ArchiWorkbenchAdvisor
 extends WorkbenchAdvisor
 {
 	/**
 	 * Constructor
 	 */
-	public ArchimateEditorWorkbenchAdvisor() {
+	public ArchiWorkbenchAdvisor() {
 	}
 	
     @Override
@@ -52,7 +52,7 @@ extends WorkbenchAdvisor
     
     @Override
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
-        return new ArchimateEditorWorkbenchWindowAdvisor(configurer);
+        return new ArchiWorkbenchWindowAdvisor(configurer);
     }
 
 	@Override

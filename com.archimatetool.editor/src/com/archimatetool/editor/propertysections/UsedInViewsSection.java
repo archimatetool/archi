@@ -26,7 +26,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
@@ -104,7 +104,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             
             @Override
             public Image getImage(Object element) {
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM_16);
             }
         });
         

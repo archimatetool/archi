@@ -16,9 +16,9 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -48,7 +48,7 @@ public class CreateDiagramObjectCommand extends Command {
     
     @Override
     public String getLabel() {
-        return NLS.bind(Messages.CreateDiagramObjectCommand_0, ArchimateLabelProvider.INSTANCE.getLabel(fChild));
+        return NLS.bind(Messages.CreateDiagramObjectCommand_0, ArchiLabelProvider.INSTANCE.getLabel(fChild));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CreateDiagramObjectCommand extends Command {
      * Edit name of new object if set in Preferences
      */
     protected void editNameOfNewObject() {
-        if(ArchimateEditorPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
+        if(ArchiPlugin.INSTANCE.getPreferenceStore().getBoolean(IPreferenceConstants.EDIT_NAME_ON_NEW_OBJECT)) {
             EditPartViewer viewer = fParentEditPart.getViewer();
             if(viewer != null) {
                 EditPart editPart = (EditPart)viewer.getEditPartRegistry().get(fChild);

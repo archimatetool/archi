@@ -34,7 +34,7 @@ import com.archimatetool.editor.diagram.AbstractPaletteRoot;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -102,8 +102,8 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 Messages.CanvasEditorPalette_3,
                 null,
                 new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelImage()),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LANDSCAPE_16),
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LANDSCAPE_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE_16),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LANDSCAPE_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -111,7 +111,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.LINE_SOLID,
                 Messages.CanvasEditorPalette_4,
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_PLAIN_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -119,7 +119,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET,
                 Messages.CanvasEditorPalette_5,
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_ARROW_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -127,7 +127,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 Messages.CanvasEditorPalette_6,
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DASHED_ARROW_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW_16));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -135,7 +135,7 @@ public class CanvasEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
                 Messages.CanvasEditorPalette_7,
                 null,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_CONNECTION_DOTTED_ARROW_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW_16));
         group.add(entry);
 
         

@@ -7,7 +7,7 @@ package com.archimatetool.jasperreports.data;
 
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -37,13 +37,13 @@ public class FieldDataFactory {
         if("name".equals(fieldName) && dataElement instanceof INameable) { //$NON-NLS-1$
             String name = ((INameable)dataElement).getName();
             if(name == null || "".equals(name)) { //$NON-NLS-1$
-                name = ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+                name = ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
             }
             return name;
         }
         
         if("type".equals(fieldName) && dataElement instanceof EObject) { //$NON-NLS-1$
-            return ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+            return ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
         }
         
         if("documentation".equals(fieldName) && dataElement instanceof IDocumentable) { //$NON-NLS-1$

@@ -12,17 +12,17 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateZestPlugin extends AbstractUIPlugin {
+public class ArchiZestPlugin extends AbstractUIPlugin {
     
     public static final String PLUGIN_ID = "com.archimatetool.zest"; //$NON-NLS-1$
 
     /**
      * The shared instance
      */
-    public static ArchimateZestPlugin INSTANCE;
+    public static ArchiZestPlugin INSTANCE;
     
 
-    public ArchimateZestPlugin() {
+    public ArchiZestPlugin() {
         INSTANCE = this;
     }
 }
