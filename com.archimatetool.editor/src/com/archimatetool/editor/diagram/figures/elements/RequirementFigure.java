@@ -11,7 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -27,11 +26,16 @@ public class RequirementFigure extends AbstractMotivationFigure {
     public RequirementFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
         
-        fAltFigureDelegate = new RectangleFigureDelegate(this);
+        fAltFigureDelegate = new ParallelogramFigureDelegate(this, false);
     }
 
     @Override
     protected void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            return;
+        }
+
         super.drawFigure(graphics);
         drawIcon(graphics);
     }

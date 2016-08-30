@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -20,12 +21,21 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class ConstraintFigure extends AbstractMotivationFigure {
     
+    protected IFigureDelegate fAltFigureDelegate;
+    
     public ConstraintFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
+        
+        fAltFigureDelegate = new ParallelogramFigureDelegate(this, true);
     }
 
     @Override
     protected void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            return;
+        }
+        
         super.drawFigure(graphics);
         drawIcon(graphics);
     }
@@ -55,5 +65,17 @@ public class ConstraintFigure extends AbstractMotivationFigure {
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
+    }
+    
+    @Override
+    public void refreshVisuals() {
+        super.refreshVisuals();
+        repaint(); // repaint when figure changes
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        int type = getDiagramModelObject().getType();
+        return type == 0 ? null : fAltFigureDelegate;
     }
 }

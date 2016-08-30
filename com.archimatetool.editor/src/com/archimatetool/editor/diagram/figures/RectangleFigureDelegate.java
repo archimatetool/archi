@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -66,11 +65,6 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         graphics.drawRectangle(bounds);
         
         graphics.popState();
-    }
-    
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
     }
     
     @Override
