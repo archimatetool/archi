@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -13,8 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -28,8 +25,6 @@ public class ServiceFigureDelegate
 extends AbstractFigureDelegate
 implements IRoundedRectangleFigure {
 
-    protected static final int SHADOW_OFFSET = 2;
-    
     public ServiceFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
     }
@@ -40,32 +35,19 @@ implements IRoundedRectangleFigure {
         
         Rectangle bounds = getBounds();
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        
         Dimension arc = getArc();
         
-        if(isEnabled()) {
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                graphics.fillRoundRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height  - SHADOW_OFFSET),
-                        arc.width, arc.height);
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
         
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-        
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset),
+        graphics.fillRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height),
                 arc.width, arc.height);
         
         // Outline
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1),
+        graphics.drawRoundRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1),
                 arc.width, arc.height);
         
         graphics.popState();

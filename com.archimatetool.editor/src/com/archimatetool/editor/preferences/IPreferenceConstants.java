@@ -77,7 +77,7 @@ public interface IPreferenceConstants {
     
     String ANIMATE_VISUALISER_NODES = "animateVisualiserNodes"; //$NON-NLS-1$
     
-    String SHOW_SHADOWS = "showShadows"; //$NON-NLS-1$
+    String SHOW_GRADIENT = "showGradient"; //$NON-NLS-1$
     
     String ARCHIMATE_FIGURE_WORD_WRAP_STYLE = "archimateFigureWordWrapStyle"; //$NON-NLS-1$
     

@@ -17,8 +17,6 @@ import org.eclipse.swt.SWT;
 import com.archimatetool.editor.diagram.figures.AbstractLabelContainerFigure;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -32,7 +30,6 @@ public class GroupFigure
 extends AbstractLabelContainerFigure {
     
     protected static final int TOPBAR_HEIGHT = 18;
-    protected static final int SHADOW_OFFSET = 2;
     
     /**
      * Connection Anchor adjusts for Group shape
@@ -114,25 +111,6 @@ extends AbstractLabelContainerFigure {
         
         graphics.setAntialias(SWT.ON);
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-        
-        // Shadow fill
-        if(drawShadows) {
-            int[] points1 = new int[] {
-                    bounds.x + shadow_offset, bounds.y + shadow_offset,
-                    bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset,
-                    bounds.x + shadow_offset + (bounds.width / 2), bounds.y + shadow_offset + TOPBAR_HEIGHT,
-                    bounds.x + bounds.width, bounds.y + shadow_offset + TOPBAR_HEIGHT,
-                    bounds.x + bounds.width, bounds.y + bounds.height,
-                    bounds.x + shadow_offset, bounds.y + bounds.height
-            };
-            graphics.setAlpha(100);
-            graphics.setBackgroundColor(ColorConstants.black);
-            graphics.fillPolygon(points1);
-            graphics.setAlpha(255);    
-        }
-        
         // Fill
         int[] points2 = new int[] {
                 bounds.x, bounds.y,
@@ -146,9 +124,9 @@ extends AbstractLabelContainerFigure {
        
         int[] points3 = new int[] {
                 bounds.x, bounds.y + TOPBAR_HEIGHT,
-                bounds.x + bounds.width - shadow_offset - 1, bounds.y + TOPBAR_HEIGHT,
-                bounds.x + bounds.width - shadow_offset - 1, bounds.y + bounds.height - shadow_offset - 1,
-                bounds.x, bounds.y + bounds.height - shadow_offset - 1
+                bounds.x + bounds.width - 1, bounds.y + TOPBAR_HEIGHT,
+                bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
+                bounds.x, bounds.y + bounds.height - 1
         };
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPolygon(points3);

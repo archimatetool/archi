@@ -5,15 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 
 /**
@@ -23,7 +20,6 @@ import com.archimatetool.editor.preferences.Preferences;
  */
 public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
 
-    protected static final int SHADOW_OFFSET = 2;
     protected static final int FLANGE = 16;
     protected static final int TEXT_INDENT = 20;
     
@@ -40,30 +36,16 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
 
         Rectangle bounds = getBounds();
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 1;
+        bounds.width--;
+        bounds.height--;
 
-        bounds.width -= shadow_offset;
-        bounds.height -= shadow_offset;
-        
         PointList points = new PointList();
         points.addPoint(bounds.x + FLANGE, bounds.y);
         points.addPoint(bounds.x + bounds.width, bounds.y);
         points.addPoint(bounds.x + bounds.width - FLANGE, bounds.y + bounds.height);
         points.addPoint(bounds.x, bounds.y + bounds.height);
         
-        if(isEnabled()) {
-            // Shadow
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                points.translate(SHADOW_OFFSET, SHADOW_OFFSET);
-                graphics.fillPolygon(points);
-                points.translate(-SHADOW_OFFSET, -SHADOW_OFFSET);
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
 
@@ -72,8 +54,6 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         graphics.fillPolygon(points);
         
         // Outline
-        bounds.width--;
-        bounds.height--;
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
         

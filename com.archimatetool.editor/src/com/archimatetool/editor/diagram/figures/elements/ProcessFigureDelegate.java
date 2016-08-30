@@ -5,15 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -33,23 +30,12 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        
-        if(isEnabled()) {
-            // Shadow
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                graphics.fillPolygon(getPointList(true));
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
         
         graphics.setBackgroundColor(getFillColor());
-        PointList points = getPointList(false);
+        PointList points = getPointList();
         graphics.fillPolygon(points);
         
         // Line
@@ -61,19 +47,13 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         graphics.popState();
     }
     
-    private PointList getPointList(boolean shadow) {
-        int shadow_offset = 2;
-        
+    private PointList getPointList() {
         Rectangle bounds = getBounds();
-        bounds.width -= shadow_offset;
-        bounds.height -= shadow_offset;
+        
+        bounds.width -= 1;
+        bounds.height -= 1;
 
         PointList points = new PointList();
-        
-        if(shadow) {
-            bounds.y += shadow_offset;
-            bounds.x += shadow_offset;
-        }
         
         points.addPoint(bounds.x, bounds.y + (bounds.height / 5));
         points.addPoint(bounds.x + (int)(bounds.width * 0.7), points.getPoint(0).y);

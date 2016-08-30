@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -13,8 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -26,7 +23,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public abstract class AbstractMotivationFigure
 extends AbstractArchimateFigure {
     
-    protected static final int SHADOW_OFFSET = 3;
     protected static final int FLANGE = 10;
     protected static final int TEXT_INDENT = 20;
     
@@ -45,15 +41,12 @@ extends AbstractArchimateFigure {
         
         Rectangle bounds = getBounds();
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 1;
-
         PointList points = new PointList();
  
         int x = bounds.x;
         int y = bounds.y;
-        int width = bounds.width - shadow_offset;
-        int height = bounds.height - shadow_offset;
+        int width = bounds.width - 1;
+        int height = bounds.height - 1;
         
         points.addPoint(x + FLANGE, y);
         points.addPoint(x + width - FLANGE, y);
@@ -64,18 +57,7 @@ extends AbstractArchimateFigure {
         points.addPoint(x, y + height - FLANGE);
         points.addPoint(x, y + FLANGE);
         
-        if(isEnabled()) {
-            // Shadow
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                points.translate(SHADOW_OFFSET, SHADOW_OFFSET);
-                graphics.fillPolygon(points);
-                points.translate(-SHADOW_OFFSET, -SHADOW_OFFSET);
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
         
@@ -97,11 +79,8 @@ extends AbstractArchimateFigure {
     
     @Override
     public Rectangle calculateTextControlBounds() {
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-        
         Rectangle bounds = getBounds().getCopy();
-        bounds.x += TEXT_INDENT - shadow_offset;
+        bounds.x += TEXT_INDENT;
         bounds.y += 5;
         bounds.width = bounds.width - (TEXT_INDENT * 2);
         bounds.height -= 10;

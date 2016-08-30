@@ -5,14 +5,11 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -25,8 +22,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class RepresentationFigure extends AbstractArchimateFigure {
 
-    protected static final int SHADOW_OFFSET = 3;
-    
     public RepresentationFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
     }
@@ -40,49 +35,22 @@ public class RepresentationFigure extends AbstractArchimateFigure {
         int offset = 6;
         int curve_y = bounds.y + bounds.height - offset;
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        
-        if(isEnabled()) {
-            // Shadow fill
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                
-                Path path = new Path(null);
-                path.moveTo(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET);
-                path.lineTo(bounds.x + SHADOW_OFFSET, curve_y);
-    
-                path.quadTo(bounds.x + SHADOW_OFFSET + (bounds.width / 4), bounds.y + bounds.height + offset - 2,
-                        bounds.x + bounds.width / 2 + SHADOW_OFFSET, curve_y);
-    
-                path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
-                        bounds.x + bounds.width, curve_y);
-    
-                path.lineTo(bounds.x + bounds.width, bounds.y + SHADOW_OFFSET);
-                graphics.fillPath(path);
-                path.dispose();
-                
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
-        
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 1;
         
         // Main Fill
         Path path = new Path(null);
         path.moveTo(bounds.x, bounds.y);
-        path.lineTo(bounds.x, curve_y - shadow_offset);
+        path.lineTo(bounds.x, curve_y - 1);
         
-        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset - shadow_offset,
-                bounds.x + bounds.width / 2 + shadow_offset, curve_y - shadow_offset);
+        path.quadTo(bounds.x + (bounds.width / 4), bounds.y + bounds.height + offset - 1,
+                bounds.x + bounds.width / 2 + 1, curve_y - 1);
         
         path.quadTo(bounds.x + bounds.width - (bounds.width / 4), curve_y - offset - 2,
-                bounds.x + bounds.width - shadow_offset, curve_y - shadow_offset);
+                bounds.x + bounds.width - 1, curve_y - 1);
         
-        path.lineTo(bounds.x + bounds.width - shadow_offset, bounds.y);
+        path.lineTo(bounds.x + bounds.width - 1, bounds.y);
         
         graphics.setBackgroundColor(getFillColor());
         graphics.fillPath(path);

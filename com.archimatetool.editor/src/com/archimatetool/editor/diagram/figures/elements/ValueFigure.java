@@ -5,13 +5,10 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -25,8 +22,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class ValueFigure
 extends AbstractArchimateFigure {
 
-    protected static final int SHADOW_OFFSET = 2;
-    
     public ValueFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
     }
@@ -37,28 +32,16 @@ extends AbstractArchimateFigure {
         
         Rectangle bounds = getBounds().getCopy();
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        
-        if(isEnabled()) {
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                graphics.fillOval(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height  - SHADOW_OFFSET);
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
         
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-        
         graphics.setBackgroundColor(getFillColor());
-        graphics.fillOval(bounds.x, bounds.y, bounds.width - shadow_offset, bounds.height - shadow_offset);
+        graphics.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
         
         // Outline
         graphics.setForegroundColor(getLineColor());
-        graphics.drawOval(bounds.x, bounds.y, bounds.width - shadow_offset - 1, bounds.height - shadow_offset - 1);
+        graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
         
         graphics.popState();
     }

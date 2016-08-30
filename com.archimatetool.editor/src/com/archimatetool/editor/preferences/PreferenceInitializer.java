@@ -82,8 +82,8 @@ implements IPreferenceConstants {
         
         store.setDefault(ANIMATE_VISUALISER_NODES, true);
         
-        // Show shadows
-        store.setDefault(SHOW_SHADOWS, false);
+        // Show gradient
+        store.setDefault(SHOW_GRADIENT, false);
         
         // Archimate Figure Word Wrap type
         store.setDefault(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, 1);

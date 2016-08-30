@@ -26,7 +26,7 @@ import com.archimatetool.editor.diagram.sketch.ISketchEditor;
  */
 public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
-    private Button fShowShadowsButton;
+    private Button fShowGradientButton;
     
     private Spinner fDefaultArchimateFigureWidthSpinner, fDefaultArchimateFigureHeightSpinner;
     
@@ -52,11 +52,11 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
         figuresGroup.setLayout(new GridLayout());
         figuresGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        // Shadows
-        fShowShadowsButton = new Button(figuresGroup, SWT.CHECK);
-        fShowShadowsButton.setText(Messages.DiagramFiguresPreferencePage_9);
+        // Gradient
+        fShowGradientButton = new Button(figuresGroup, SWT.CHECK);
+        fShowGradientButton.setText(Messages.DiagramFiguresPreferencePage_9);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        fShowShadowsButton.setLayoutData(gd);
+        fShowGradientButton.setLayoutData(gd);
         
         // Default sizes
         Label label = new Label(figuresGroup, SWT.NULL);
@@ -114,7 +114,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     
     
     private void setValues() {
-        fShowShadowsButton.setSelection(getPreferenceStore().getBoolean(SHOW_SHADOWS));
+        fShowGradientButton.setSelection(getPreferenceStore().getBoolean(SHOW_GRADIENT));
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
@@ -131,7 +131,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     }
 
     public boolean performOk() {
-        getPreferenceStore().setValue(SHOW_SHADOWS, fShowShadowsButton.getSelection());
+        getPreferenceStore().setValue(SHOW_GRADIENT, fShowGradientButton.getSelection());
         
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, fDefaultArchimateFigureHeightSpinner.getSelection());
@@ -148,7 +148,7 @@ public class DiagramAppearancePreferenceTab implements IPreferenceConstants {
     }
     
     protected void performDefaults() {
-        fShowShadowsButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SHADOWS));
+        fShowGradientButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_GRADIENT));
         
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
