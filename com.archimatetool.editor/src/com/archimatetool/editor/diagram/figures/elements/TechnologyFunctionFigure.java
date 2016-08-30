@@ -15,8 +15,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyFunctionFigure
-extends BusinessFunctionFigure {
+public class TechnologyFunctionFigure extends AbstractFunctionFigure {
 
     public TechnologyFunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

@@ -8,8 +8,12 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -33,7 +37,7 @@ public class ArtifactFigure extends AbstractArchimateFigure {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle bounds = getBounds();
+        Rectangle bounds = getBounds().getCopy();
         
         if(!isEnabled()) {
             setDisabledState(graphics);
@@ -47,9 +51,21 @@ public class ArtifactFigure extends AbstractArchimateFigure {
         points1.addPoint(bounds.x + bounds.width - 1, bounds.y + FOLD_HEIGHT);
         points1.addPoint(bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
         points1.addPoint(bounds.x, bounds.y + bounds.height - 1);
-        graphics.setBackgroundColor(getFillColor());
-        graphics.fillPolygon(points1);
 
+        graphics.setBackgroundColor(getFillColor());
+
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
+        graphics.fillPolygon(points1);
+        
+        if(gradient != null) {
+            gradient.dispose();
+        }
+        
         // Fold
         PointList points2 = new PointList();
         points2.addPoint(bounds.x + bounds.width - FOLD_HEIGHT, bounds.y);

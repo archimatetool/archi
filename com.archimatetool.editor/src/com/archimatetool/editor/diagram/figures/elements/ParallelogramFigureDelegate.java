@@ -8,9 +8,13 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 
 
 /**
@@ -51,8 +55,19 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
 
         // Fill
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillPolygon(points);
         
+        if(gradient != null) {
+            gradient.dispose();
+        }
+
         // Outline
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);

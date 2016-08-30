@@ -8,14 +8,12 @@ package com.archimatetool.editor.diagram.figures.elements;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
-
-
 /**
  * Technology Interface Figure
  * 
  * @author Phillip Beauvoir
  */
-public class TechnologyInterfaceFigure extends BusinessInterfaceFigure {
+public class TechnologyInterfaceFigure extends AbstractInterfaceFigure {
 
     public TechnologyInterfaceFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

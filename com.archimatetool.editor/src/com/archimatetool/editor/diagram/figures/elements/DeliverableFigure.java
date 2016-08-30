@@ -10,8 +10,12 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -56,8 +60,19 @@ extends AbstractArchimateFigure {
         path.lineTo(bounds.x + bounds.width - 1, bounds.y);
         
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillPath(path);
         
+        if(gradient != null) {
+            gradient.dispose();
+        }
+
         // Outline
         graphics.setForegroundColor(getLineColor());
         path.lineTo(bounds.x, bounds.y);

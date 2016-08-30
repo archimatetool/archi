@@ -7,9 +7,13 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -24,7 +28,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class ProductFigure
 extends AbstractArchimateFigure {
     
-    protected static final int flangeFactor = 14;
+    protected static final int FLANGE = 14;
 
     public ProductFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
@@ -46,16 +50,26 @@ extends AbstractArchimateFigure {
                 // Top bit
                 int middle = bounds.width / 2;
                 graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-                graphics.fillRectangle(bounds.x, bounds.y, middle + 1, flangeFactor);
+                graphics.fillRectangle(bounds.x, bounds.y, middle + 1, FLANGE);
                 graphics.setBackgroundColor(getFillColor());
-                graphics.fillRectangle(bounds.x + middle, bounds.y, middle, flangeFactor);
+                graphics.fillRectangle(bounds.x + middle, bounds.y, middle, FLANGE);
                 
+                Pattern gradient = null;
+                if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+                    gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+                    graphics.setBackgroundPattern(gradient);
+                }
+
                 // Main Fill
-                graphics.fillRectangle(bounds.x, bounds.y + flangeFactor - 1, bounds.width, bounds.height - flangeFactor + 1);
+                graphics.fillRectangle(bounds.x, bounds.y + FLANGE - 1, bounds.width, bounds.height - FLANGE + 1);
+                
+                if(gradient != null) {
+                    gradient.dispose();
+                }
                 
                 // Outline
-                graphics.drawLine(bounds.x, bounds.y + flangeFactor - 1, bounds.x + middle, bounds.y + flangeFactor - 1);
-                graphics.drawLine(bounds.x + middle, bounds.y + flangeFactor - 1, bounds.x + middle, bounds.y);
+                graphics.drawLine(bounds.x, bounds.y + FLANGE - 1, bounds.x + middle, bounds.y + FLANGE - 1);
+                graphics.drawLine(bounds.x + middle, bounds.y + FLANGE - 1, bounds.x + middle, bounds.y);
                         
                 bounds.width--;
                 bounds.height--;
@@ -67,7 +81,7 @@ extends AbstractArchimateFigure {
             @Override
             public Rectangle calculateTextControlBounds() {
                 Rectangle bounds = super.calculateTextControlBounds();
-                bounds.y += flangeFactor - 4;
+                bounds.y += FLANGE - 4;
                 bounds.height -= 10;
                 return bounds;
             }

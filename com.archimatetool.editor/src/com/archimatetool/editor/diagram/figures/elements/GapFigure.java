@@ -23,8 +23,6 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class GapFigure
 extends DeliverableFigure {
     
-    protected int SHADOW_OFFSET = 3;
-
     public GapFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);
     }

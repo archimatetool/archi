@@ -7,6 +7,10 @@ package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
+
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -35,7 +39,18 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
 
         // Fill
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillRectangle(bounds);
+        
+        if(gradient != null) {
+            gradient.dispose();
+        }
         
         // Outline
         bounds.width--;

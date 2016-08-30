@@ -3,6 +3,7 @@ package com.archimatetool.export.svg;
 import java.awt.Graphics2D;
 
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
 
@@ -36,5 +37,8 @@ public class ExtendedGraphicsToGraphics2DAdaptor extends GraphicsToGraphics2DAda
     }
 
        
-    
+    @Override
+    public void setBackgroundPattern(Pattern pattern) {
+        // Just ignore, no exception thrown
+    }
 }

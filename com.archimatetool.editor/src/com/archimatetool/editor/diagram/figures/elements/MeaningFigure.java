@@ -7,8 +7,12 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -40,10 +44,21 @@ extends AbstractArchimateFigure {
         
         // Main fill
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+
         graphics.fillOval(bounds.x, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2);
         graphics.fillOval(bounds.x + bounds.width/3 - 1, bounds.y, bounds.width/3 * 2, bounds.height/3 * 2);
         graphics.fillOval(bounds.x, bounds.y + bounds.height/3, bounds.width/5 * 3, bounds.height/3 * 2);
         graphics.fillOval(bounds.x + bounds.width/3, bounds.y + bounds.height/4, bounds.width/5 * 3, bounds.height/3 * 2);
+        
+        if(gradient != null) {
+            gradient.dispose();
+        }
         
         // Outline
         graphics.setForegroundColor(getLineColor());
@@ -64,4 +79,5 @@ extends AbstractArchimateFigure {
         bounds.height -= 10;
         return bounds;
     }
+    
 }

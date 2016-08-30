@@ -30,8 +30,7 @@ extends AbstractArchimateFigure {
         super(diagramModelObject);
         
         // Use a Rectangle Figure Delegate to Draw
-        RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this);
-        setFigureDelegate(figureDelegate);
+        setFigureDelegate(new RectangleFigureDelegate(this));
     }
     
     @Override

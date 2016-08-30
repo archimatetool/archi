@@ -13,8 +13,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ApplicationInterfaceFigure
-extends BusinessInterfaceFigure {
+public class ApplicationInterfaceFigure extends AbstractInterfaceFigure {
     
     public ApplicationInterfaceFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

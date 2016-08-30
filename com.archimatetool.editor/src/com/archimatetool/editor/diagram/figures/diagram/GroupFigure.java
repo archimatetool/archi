@@ -13,10 +13,14 @@ import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractLabelContainerFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -107,6 +111,8 @@ extends AbstractLabelContainerFigure {
 
     @Override
     protected void drawFigure(Graphics graphics) {
+        graphics.pushState();
+        
         Rectangle bounds = getBounds().getCopy();
         
         graphics.setAntialias(SWT.ON);
@@ -128,13 +134,27 @@ extends AbstractLabelContainerFigure {
                 bounds.x + bounds.width - 1, bounds.y + bounds.height - 1,
                 bounds.x, bounds.y + bounds.height - 1
         };
+        
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillPolygon(points3);
         
+        if(gradient != null) {
+            gradient.dispose();
+        }
+
         // Line
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points2);
         graphics.drawPolygon(points3);
+        
+        graphics.popState();
     }
     
     @Override

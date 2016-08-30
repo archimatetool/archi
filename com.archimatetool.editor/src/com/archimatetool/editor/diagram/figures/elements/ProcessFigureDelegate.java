@@ -8,9 +8,13 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 
 
 
@@ -35,9 +39,20 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
         }
         
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, getBounds(), getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         PointList points = getPointList();
         graphics.fillPolygon(points);
         
+        if(gradient != null) {
+            gradient.dispose();
+        }
+
         // Line
         graphics.setForegroundColor(getLineColor());
         for(int i = 0; i < points.size() - 1; i++) {

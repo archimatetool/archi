@@ -15,11 +15,14 @@ import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.ISketchModelSticky;
@@ -114,20 +117,29 @@ public class StickyFigure extends AbstractContainerFigure {
 
     @Override
     protected void drawFigure(Graphics graphics) {
-        graphics.setAntialias(SWT.ON);
+        graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
-        graphics.setAlpha(100);
-        graphics.setBackgroundColor(ColorConstants.black);
-        graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height));
 
-        graphics.setAlpha(255);
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillRectangle(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height));
         
+        if(gradient != null) {
+            gradient.dispose();
+        }
+
         // Outline
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
+        
+        graphics.popState();
     }
 
     @Override

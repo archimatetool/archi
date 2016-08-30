@@ -13,8 +13,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class ApplicationCollaborationFigure
-extends BusinessCollaborationFigure {
+public class ApplicationCollaborationFigure extends AbstractCollaborationFigure {
     
     public ApplicationCollaborationFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

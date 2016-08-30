@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
@@ -16,10 +15,12 @@ import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
+import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelNote;
 
@@ -29,11 +30,8 @@ import com.archimatetool.model.IDiagramModelNote;
  * 
  * @author Phillip Beauvoir
  */
-public class NoteFigure extends AbstractDiagramModelObjectFigure 
-implements ITargetFeedbackFigure {
+public class NoteFigure extends AbstractDiagramModelObjectFigure {
     
-    protected boolean SHOW_TARGET_FEEDBACK = false;
-
     private TextFlow fTextFlow;
     
     public NoteFigure(IDiagramModelNote diagramModelNote) {
@@ -95,7 +93,7 @@ implements ITargetFeedbackFigure {
 
     @Override
     protected void paintFigure(Graphics graphics) {
-        graphics.setAntialias(SWT.ON);
+        graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
         
@@ -117,50 +115,24 @@ implements ITargetFeedbackFigure {
         }
         
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillPolygon(points);
         
+        if(gradient != null) {
+            gradient.dispose();
+        }
+
         if(getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE) {
             graphics.setForegroundColor(getLineColor());
             graphics.drawPolygon(points);
         }
         
-        if(SHOW_TARGET_FEEDBACK) {
-            drawTargetFeedback(graphics);
-        }
-    }
-
-    /**
-     * Draw hover-over highlighting
-     * @param graphics
-     */
-    protected void drawTargetFeedback(Graphics graphics) {
-        graphics.pushState();
-        
-        if(!isEnabled()) {
-            setDisabledState(graphics);
-        }
-
-        Rectangle bounds = getBounds().getCopy();
-        bounds.shrink(1, 1);
-        graphics.setForegroundColor(ColorConstants.blue);
-        graphics.setLineWidth(2);
-        graphics.drawRectangle(bounds);
-        
         graphics.popState();
     }
-    
-    public void eraseTargetFeedback() {
-        if(SHOW_TARGET_FEEDBACK) {
-            SHOW_TARGET_FEEDBACK = false;
-            repaint();
-        }
-    }
-
-    public void showTargetFeedback() {
-        if(!SHOW_TARGET_FEEDBACK) {
-            SHOW_TARGET_FEEDBACK = true;
-            repaint();
-        }
-    }
-
 }
