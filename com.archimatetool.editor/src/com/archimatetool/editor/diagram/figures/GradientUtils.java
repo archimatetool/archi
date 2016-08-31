@@ -25,7 +25,7 @@ public class GradientUtils {
      * Gradient Direction
      */
     public static enum Direction {
-        LEFT, RIGHT, TOP, BOTTOM
+        TOP, LEFT, RIGHT, BOTTOM
     }
 
     /**
@@ -59,17 +59,27 @@ public class GradientUtils {
     public static Pattern createScaledPattern(Graphics graphics, Rectangle r, Color color) {
         Direction direction = Direction.TOP;
         Color endColor = ColorConstants.white;
+        
+        // Gradienting all the way to pure white is too much, this extends the gradient area to cover that
+        float deltaFactor = 0.15f;
 
         switch(direction) {
-            case LEFT:
-                return createScaledPattern(graphics, Display.getDefault(), r.x, r.y, r.getRight().x, r.y, color, endColor);
-            case RIGHT:
-                return createScaledPattern(graphics, Display.getDefault(), r.getRight().x, r.y, r.x, r.y, color, endColor);
-            default:
             case TOP:
-                return createScaledPattern(graphics, Display.getDefault(), r.x, r.y, r.x, r.getBottomRight().y, color, endColor);
+            default:
+                int delta = (int) (r.height * deltaFactor); 
+                return createScaledPattern(graphics, Display.getDefault(), r.x, r.y, r.x, r.getBottom().y + delta, color, endColor);
+            
+            case LEFT:
+                delta = (int) (r.width * deltaFactor); 
+                return createScaledPattern(graphics, Display.getDefault(), r.x, r.y, r.getRight().x + delta, r.y, color, endColor);
+            
+            case RIGHT:
+                delta = (int) (r.width * deltaFactor); 
+                return createScaledPattern(graphics, Display.getDefault(), r.getRight().x, r.y, r.x - delta, r.y, color, endColor);
+            
             case BOTTOM:
-                return createScaledPattern(graphics, Display.getDefault(), r.x, r.getBottomRight().y, r.x, r.y, color, endColor);
+                delta = (int) (r.height * deltaFactor); 
+                return createScaledPattern(graphics, Display.getDefault(), r.x, r.getBottom().y, r.x, r.y - delta, color, endColor);
         }
     }
 
