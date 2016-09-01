@@ -5,15 +5,16 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -26,8 +27,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class ValueFigure
 extends AbstractArchimateFigure {
 
-    public ValueFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public ValueFigure() {
     }
     
     @Override
@@ -44,7 +44,7 @@ extends AbstractArchimateFigure {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
             graphics.setBackgroundPattern(gradient);
         }
 
@@ -70,4 +70,10 @@ extends AbstractArchimateFigure {
         bounds.height -= 15;
         return bounds;
     }
+    
+    @Override
+    public ConnectionAnchor getDefaultConnectionAnchor() {
+        return new EllipseAnchor(this);
+    }
+
 }

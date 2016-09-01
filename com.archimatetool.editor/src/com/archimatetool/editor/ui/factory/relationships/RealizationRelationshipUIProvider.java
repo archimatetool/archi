@@ -10,7 +10,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.RealizationConnectionEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
+import com.archimatetool.editor.diagram.figures.connections.RealizationConnectionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -29,7 +30,7 @@ public class RealizationRelationshipUIProvider extends AbstractArchimateRelation
     
     @Override
     public EditPart createEditPart() {
-        return new RealizationConnectionEditPart();
+        return new ArchimateRelationshipEditPart(RealizationConnectionFigure.class);
     }
 
     @Override

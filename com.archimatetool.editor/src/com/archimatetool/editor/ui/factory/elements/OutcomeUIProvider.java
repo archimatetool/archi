@@ -11,7 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.elements.OutcomeEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
+import com.archimatetool.editor.diagram.figures.elements.OutcomeFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -31,7 +32,7 @@ public class OutcomeUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public EditPart createEditPart() {
-        return new OutcomeEditPart();
+        return new ArchimateElementEditPart(OutcomeFigure.class);
     }
 
     @Override

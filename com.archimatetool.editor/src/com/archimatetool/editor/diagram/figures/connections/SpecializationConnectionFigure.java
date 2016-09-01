@@ -10,8 +10,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-
 
 
 /**
@@ -39,13 +37,11 @@ public class SpecializationConnectionFigure extends AbstractArchimateConnectionF
         return decoration;
     }
 
-    public SpecializationConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    public SpecializationConnectionFigure() {
     }
-	
+    
     @Override
     protected void setFigureProperties() {
         setTargetDecoration(createFigureTargetDecoration());
     }
-    
 }

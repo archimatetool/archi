@@ -10,8 +10,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.model.IDiagramModelArchimateObject;
-
 
 
 
@@ -23,8 +21,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class GapFigure
 extends DeliverableFigure {
     
-    public GapFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public GapFigure() {
     }
     
     @Override

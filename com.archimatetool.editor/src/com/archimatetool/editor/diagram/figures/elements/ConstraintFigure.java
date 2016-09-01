@@ -11,7 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -23,9 +22,7 @@ public class ConstraintFigure extends AbstractMotivationFigure {
     
     protected IFigureDelegate fAltFigureDelegate;
     
-    public ConstraintFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public ConstraintFigure() {
         fAltFigureDelegate = new ParallelogramFigureDelegate(this, true);
     }
 

@@ -11,8 +11,6 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-
 
 
 /**
@@ -39,9 +37,8 @@ public class RealizationConnectionFigure extends AbstractArchimateConnectionFigu
         
         return decoration;
     }
-	
-    public RealizationConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    
+    public RealizationConnectionFigure() {
     }
 	
     @Override
@@ -51,6 +48,4 @@ public class RealizationConnectionFigure extends AbstractArchimateConnectionFigu
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
         setLineDash(new float[] { 4 });
     }
-    
-
 }

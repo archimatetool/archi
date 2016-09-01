@@ -8,9 +8,10 @@ package com.archimatetool.editor.propertysections;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import junit.framework.JUnit4TestAdapter;
+import static org.junit.Assert.assertSame;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Image;
 import org.junit.Before;
@@ -18,9 +19,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
-import com.archimatetool.editor.diagram.editparts.connections.AssignmentConnectionEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
-import com.archimatetool.editor.diagram.editparts.elements.ArtifactEditPart;
+import com.archimatetool.editor.diagram.figures.connections.AssignmentConnectionFigure;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -29,6 +31,8 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -71,13 +75,13 @@ public class PropertiesLabelProviderTests {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
         Image image2 = provider.getImage(new StructuredSelection(dmo));
-        assertEquals(image1, image2);
+        assertSame(image1, image2);
         
         // Image for EditPart
-        ArtifactEditPart editPart = new ArtifactEditPart();
+        EditPart editPart = new ArchimateElementEditPart();
         editPart.setModel(dmo);
         Image image3 = provider.getImage(new StructuredSelection(editPart));
-        assertEquals(image1, image3);
+        assertSame(image1, image3);
     }    
 
     @Test
@@ -92,13 +96,13 @@ public class PropertiesLabelProviderTests {
         IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
         connection.setArchimateRelationship(relation);
         Image image2 = provider.getImage(new StructuredSelection(connection));
-        assertEquals(image1, image2);
+        assertSame(image1, image2);
         
         // Image for EditPart
-        AssignmentConnectionEditPart editPart = new AssignmentConnectionEditPart();
+        EditPart editPart = new ArchimateRelationshipEditPart(AssignmentConnectionFigure.class);
         editPart.setModel(connection);
         Image image3 = provider.getImage(new StructuredSelection(editPart));
-        assertEquals(image1, image3);
+        assertSame(image1, image3);
     }    
 
     @Test
@@ -125,7 +129,7 @@ public class PropertiesLabelProviderTests {
         assertEquals("Artifact", text);
 
         // Text for EditPart
-        ArtifactEditPart editPart = new ArtifactEditPart();
+        EditPart editPart = new ArchimateElementEditPart();
         editPart.setModel(dmo);
         text = provider.getText(new StructuredSelection(editPart));
         assertEquals("Artifact", text);
@@ -145,7 +149,7 @@ public class PropertiesLabelProviderTests {
         assertEquals("Assignment relation", text);
 
         // Text for EditPart
-        AssignmentConnectionEditPart editPart = new AssignmentConnectionEditPart();
+        EditPart editPart = new ArchimateRelationshipEditPart(AssignmentConnectionFigure.class);
         editPart.setModel(connection);
         text = provider.getText(new StructuredSelection(editPart));
         assertEquals("Assignment relation", text);

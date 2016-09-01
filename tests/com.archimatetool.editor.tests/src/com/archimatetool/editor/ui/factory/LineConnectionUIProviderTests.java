@@ -15,7 +15,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider;
+import com.archimatetool.editor.ui.factory.diagram.DiagramConnectionUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 import junit.framework.JUnit4TestAdapter;
@@ -28,7 +28,7 @@ public class LineConnectionUIProviderTests extends AbstractGraphicalObjectUIProv
     
     @Before
     public void runOnceBeforeAllTests() {
-        provider = new LineConnectionUIProvider();
+        provider = new DiagramConnectionUIProvider();
         expectedClass = IArchimatePackage.eINSTANCE.getDiagramModelConnection();
     }
     

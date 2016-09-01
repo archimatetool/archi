@@ -19,7 +19,6 @@ import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
 import com.archimatetool.editor.diagram.editparts.SnapEditPartAdapter;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigure;
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigure.GroupFigureConnectionAnchor;
 import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
@@ -70,11 +69,6 @@ public class GroupEditPart extends AbstractConnectedEditPart {
     protected IFigure createFigure() {
         GroupFigure figure = new GroupFigure(getModel());
         return figure;
-    }
-    
-    @Override
-    public IDiagramModelObjectFigure getFigure() {
-        return (IDiagramModelObjectFigure)super.getFigure();
     }
     
     @Override

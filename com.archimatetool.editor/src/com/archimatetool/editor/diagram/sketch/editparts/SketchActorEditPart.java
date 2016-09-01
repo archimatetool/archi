@@ -14,7 +14,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 
 import com.archimatetool.editor.diagram.directedit.LabelDirectEditManager;
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartDirectEditTitlePolicy;
 import com.archimatetool.editor.diagram.sketch.figures.SketchActorFigure;
@@ -54,11 +53,6 @@ public class SketchActorEditPart extends AbstractConnectedEditPart {
         getFigure().refreshVisuals();
     }
     
-    @Override
-    public IDiagramModelObjectFigure getFigure() {
-        return (IDiagramModelObjectFigure)super.getFigure();
-    }
-
     @Override
     public void performRequest(Request request) {
         // REQ_DIRECT_EDIT is Single-click when already selected or a Rename command

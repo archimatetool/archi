@@ -11,7 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.elements.GapEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
+import com.archimatetool.editor.diagram.figures.elements.GapFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -31,7 +32,7 @@ public class GapUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public EditPart createEditPart() {
-        return new GapEditPart();
+        return new ArchimateElementEditPart(GapFigure.class);
     }
 
     @Override

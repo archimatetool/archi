@@ -50,13 +50,13 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     
     protected boolean SHOW_TARGET_FEEDBACK = false;
     
-	public AbstractDiagramConnectionFigure(IDiagramModelConnection connection) {
+	public void setModelConnection(IDiagramModelConnection connection) {
 	    fDiagramModelConnection = connection;
-
+	    
 	    setFigureProperties();
 	    
-		// Have to add this if we want Animation to work!
-		AnimationUtil.addConnectionForRoutingAnimation(this);
+	    // Have to add this if we want Animation to work!
+	    AnimationUtil.addConnectionForRoutingAnimation(this);
 	}
 	
 	public IDiagramModelConnection getModelConnection() {

@@ -131,4 +131,8 @@ public abstract class AbstractDiagramModelObjectFigureTests {
         assertFalse(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 
+    @Test
+    public void testGetDefaultConnectionAnchor() {
+        assertNotNull(abstractFigure.getDefaultConnectionAnchor());
+    }
 }

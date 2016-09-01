@@ -34,7 +34,10 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
     
     protected int TEXT_PADDING = 10;
     
-    public AbstractTextFlowFigure(IDiagramModelObject diagramModelObject) {
+    protected AbstractTextFlowFigure() {
+    }
+    
+    protected AbstractTextFlowFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
     

@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.editparts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -23,7 +22,6 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -35,6 +33,13 @@ public abstract class AbstractConnectedEditPart
 extends AbstractBaseEditPart
 implements NodeEditPart {
     
+    protected AbstractConnectedEditPart() {
+    }
+    
+    protected AbstractConnectedEditPart(Class<?> figureClass) {
+        super(figureClass);
+    }
+
     private Adapter adapter = new AdapterImpl() {
         @Override
         public void notifyChanged(Notification msg) {
@@ -107,11 +112,6 @@ implements NodeEditPart {
     }
     
     @Override
-    public IDiagramModelObject getModel() {
-        return (IDiagramModelObject)super.getModel();
-    }
-
-    @Override
     protected List<IDiagramModelConnection> getModelSourceConnections() {
         return getFilteredModelSourceConnections();
     }
@@ -122,31 +122,42 @@ implements NodeEditPart {
     }
     
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), connection, true);
     	}
+    	
     	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     		return new OrthogonalAnchor(getFigure(), connection, false);
     	}
+    	
     	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, true);
     	}
+    	
     	return getDefaultConnectionAnchor();
     }
 
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-    	if(Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
+    	if(canUseOrthogonalAnchor() && Preferences.STORE.getBoolean(IPreferenceConstants.USE_ORTHOGONAL_ANCHOR)) {
     	    return new OrthogonalAnchor(getFigure(), request, false);
     	}
+    	
     	return getDefaultConnectionAnchor();
+    }
+    
+    /**
+     * @return Whether this Edit Part and Figure can use the Orthogonal Anchor
+     */
+    protected boolean canUseOrthogonalAnchor() {
+        return true;
     }
     
     /**
@@ -154,7 +165,7 @@ implements NodeEditPart {
      *         Default is a Chopbox connection anchor
      */
     protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new ChopboxAnchor(getFigure());
+        return getFigure().getDefaultConnectionAnchor();
     }
     
     /**

@@ -5,18 +5,14 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-
-
 /**
  * Association Connection Figure
  * 
  * @author Phillip Beauvoir
  */
 public class AssociationConnectionFigure extends AbstractArchimateConnectionFigure {
-	
-    public AssociationConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    
+    public AssociationConnectionFigure() {
     }
 	
     @Override

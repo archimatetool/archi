@@ -13,10 +13,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -30,8 +29,7 @@ extends AbstractArchimateFigure {
     protected static final int FLANGE = 10;
     protected static final int TEXT_INDENT = 20;
     
-    public AbstractMotivationFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    protected AbstractMotivationFigure() {
     }
     
     @Override
@@ -70,7 +68,7 @@ extends AbstractArchimateFigure {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
             graphics.setBackgroundPattern(gradient);
         }
         

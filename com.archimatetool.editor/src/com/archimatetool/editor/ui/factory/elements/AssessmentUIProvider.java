@@ -11,7 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.elements.AssessmentEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
+import com.archimatetool.editor.diagram.figures.elements.AssessmentFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -31,7 +32,7 @@ public class AssessmentUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public EditPart createEditPart() {
-        return new AssessmentEditPart();
+        return new ArchimateElementEditPart(AssessmentFigure.class);
     }
 
     @Override

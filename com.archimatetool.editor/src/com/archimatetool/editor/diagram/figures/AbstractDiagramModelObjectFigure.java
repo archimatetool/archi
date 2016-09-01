@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -47,11 +49,20 @@ implements IDiagramModelObjectFigure {
     // Delegate to do drawing
     private IFigureDelegate fFigureDelegate;
     
-    public AbstractDiagramModelObjectFigure(IDiagramModelObject diagramModelObject){
+    protected AbstractDiagramModelObjectFigure() {
+    }
+    
+    protected AbstractDiagramModelObjectFigure(IDiagramModelObject diagramModelObject){
+        setDiagramModelObject(diagramModelObject);
+    }
+
+    @Override
+    public void setDiagramModelObject(IDiagramModelObject diagramModelObject) {
         fDiagramModelObject = diagramModelObject;
         setUI();
     }
     
+    @Override
     public IDiagramModelObject getDiagramModelObject() {
         return fDiagramModelObject;
     }
@@ -224,6 +235,11 @@ implements IDiagramModelObjectFigure {
         return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
     }
     
+    @Override
+    public ConnectionAnchor getDefaultConnectionAnchor() {
+        return new ChopboxAnchor(this);
+    }
+
     public void dispose() {
     }
 }

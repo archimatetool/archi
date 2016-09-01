@@ -8,8 +8,6 @@ package com.archimatetool.editor.diagram.figures.elements;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.swt.SWT;
 
-import com.archimatetool.model.IDiagramModelArchimateObject;
-
 
 
 /**
@@ -19,8 +17,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class OrJunctionFigure extends AndJunctionFigure {
     
-    public OrJunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public OrJunctionFigure() {
     }
     
     @Override

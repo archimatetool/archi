@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Path;
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -28,9 +27,7 @@ extends AbstractArchimateFigure {
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
     
-    public NodeFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public NodeFigure() {
         fFigureDelegate1 = new RectangleFigureDelegate(this);
         fFigureDelegate2 = new BoxFigureDelegate(this);
     }

@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateConnectionWithDialogCommand;
 import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
-import com.archimatetool.editor.diagram.editparts.IArchimateEditPart;
+import com.archimatetool.editor.diagram.editparts.IArchimateElementEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
@@ -135,7 +135,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     protected void setTargetEditPart(EditPart editpart) {
         // Set this to null if it's not an Archimate target editpart so we can handle it as if we clicked on the canvas
         // This also disables unwanted connection target feedback
-        if(!(editpart instanceof IArchimateEditPart)) {
+        if(!(editpart instanceof IArchimateElementEditPart)) {
             editpart = null;
         }
         super.setTargetEditPart(editpart);

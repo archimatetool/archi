@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -24,9 +23,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class LocationFigure
 extends AbstractArchimateFigure {
     
-    public LocationFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public LocationFigure() {
         // Use a Rectangle Figure Delegate to Draw
         setFigureDelegate(new RectangleFigureDelegate(this));
     }

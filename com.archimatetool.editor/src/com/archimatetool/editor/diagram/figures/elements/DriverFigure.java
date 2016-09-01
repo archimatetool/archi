@@ -11,8 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.model.IDiagramModelArchimateObject;
-
 
 /**
  * Figure for a Driver
@@ -21,8 +19,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class DriverFigure extends AbstractMotivationFigure {
     
-    public DriverFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public DriverFigure() {
     }
 
     @Override

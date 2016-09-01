@@ -10,8 +10,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.model.IDiagramModelArchimateObject;
-
 
 /**
  * Figure for an Assessment
@@ -20,8 +18,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class AssessmentFigure extends AbstractMotivationFigure {
     
-    public AssessmentFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public AssessmentFigure() {
     }
 
     @Override

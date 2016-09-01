@@ -13,8 +13,8 @@ import org.eclipse.gef.EditPart;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.canvas.editparts.CanvasLineConnectionEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
+import com.archimatetool.editor.diagram.editparts.DiagramConnectionEditPart;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProviderTests;
 
 import junit.framework.JUnit4TestAdapter;
@@ -27,14 +27,14 @@ public class CanvasLineConnectionUIProviderTests extends AbstractGraphicalObject
     
     @Before
     public void runOnceBeforeAllTests() {
-        provider = new CanvasLineConnectionUIProvider();
+        provider = new CanvasConnectionUIProvider();
         expectedClass = ICanvasPackage.eINSTANCE.getCanvasModelConnection();
     }
     
     @Override
     public void testCreateEditPart() {
         EditPart editPart = provider.createEditPart();
-        assertTrue(editPart instanceof CanvasLineConnectionEditPart);
+        assertTrue(editPart instanceof DiagramConnectionEditPart);
     }
     
     @Override

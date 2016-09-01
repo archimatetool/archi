@@ -22,10 +22,6 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
  */
 public abstract class AbstractArchimateConnectionFigure
 extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
-
-    public AbstractArchimateConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
-    }
     
     @Override
     public IDiagramModelArchimateConnection getModelConnection() {

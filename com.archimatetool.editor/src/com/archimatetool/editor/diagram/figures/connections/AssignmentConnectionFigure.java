@@ -13,7 +13,6 @@ import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
 
 import com.archimatetool.editor.diagram.figures.PolarPoint;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -73,11 +72,10 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
     public static RotatableDecoration createFigureSourceDecoration() {
         return new BallEndpoint();
     }
-
-    public AssignmentConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    
+    public AssignmentConnectionFigure() {
     }
-	
+
     @Override
     protected void setFigureProperties() {
         setSourceDecoration(createFigureSourceDecoration());

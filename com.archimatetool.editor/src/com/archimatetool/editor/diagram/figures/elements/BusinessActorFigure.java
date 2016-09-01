@@ -12,7 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -23,9 +22,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class BusinessActorFigure
 extends AbstractArchimateFigure {
     
-    public BusinessActorFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public BusinessActorFigure() {
         // Use a Rectangle Figure Delegate to Draw
         RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this);
         setFigureDelegate(figureDelegate);

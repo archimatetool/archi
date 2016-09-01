@@ -13,12 +13,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -33,9 +32,7 @@ extends AbstractArchimateFigure {
 
     protected IFigureDelegate fFigureDelegate;
     
-    public DeviceFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public DeviceFigure() {
         fFigureDelegate = new BoxFigureDelegate(this);
     }
     
@@ -82,7 +79,7 @@ extends AbstractArchimateFigure {
 
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
             graphics.setBackgroundPattern(gradient);
         }
         

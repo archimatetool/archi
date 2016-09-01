@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider;
+import com.archimatetool.editor.ui.factory.diagram.DiagramConnectionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.BusinessActorUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIProvider;
 import com.archimatetool.editor.ui.factory.relationships.AssociationRelationshipUIProvider;
@@ -83,7 +83,7 @@ public class ObjectUIFactoryProviderTests {
 
     @Test
     public void testGetProvider_EObject_LineConnection() {
-        IObjectUIProvider provider = new LineConnectionUIProvider();
+        IObjectUIProvider provider = new DiagramConnectionUIProvider();
         factory.registerProvider(provider);
         
         EObject eObject = IArchimateFactory.eINSTANCE.createDiagramModelConnection();

@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -26,9 +25,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class SystemSoftwareFigure
 extends AbstractArchimateFigure {
 
-    public SystemSoftwareFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public SystemSoftwareFigure() {
         // Use a Rectangle Figure Delegate to Draw
         setFigureDelegate(new RectangleFigureDelegate(this));
     }

@@ -1,15 +1,15 @@
 package com.archimatetool.editor.diagram.editparts;
 
 import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.editparts.ZoomManager;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 
@@ -35,14 +35,10 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 
 	private static final int BOTTOM = 32;
 
-	private GraphicalEditPart fEditPart;
-	
-	
-	public RoundedRectangleAnchor(GraphicalEditPart editPart) {
-	    super(editPart.getFigure());
-        fEditPart = editPart;
+	public RoundedRectangleAnchor(IFigure figure) {
+        super(figure);
     }
-
+	
 	/**
 	 * Calculates the position with ChopboxAnchor#getLocation() and if the
 	 * anchor is not at the rounded corners, the result is returned. If the
@@ -58,17 +54,19 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 	    Dimension corner = new Dimension(0, 0);
 	    
 		if(getOwner() instanceof IRoundedRectangleFigure) {
-            corner = ((IRoundedRectangleFigure) getOwner()).getArc().scale(getZoom());
+            corner = ((IRoundedRectangleFigure) getOwner()).getArc();
         }
 		else if (getOwner() instanceof RoundedRectangle) {
-			corner = ((RoundedRectangle) getOwner()).getCornerDimensions().scale(getZoom());
+			corner = ((RoundedRectangle) getOwner()).getCornerDimensions();
 		}
 		else if(getOwner() instanceof AbstractDiagramModelObjectFigure) {
 		    IFigureDelegate figureDelegate = ((AbstractDiagramModelObjectFigure)getOwner()).getFigureDelegate();
 		    if(figureDelegate instanceof IRoundedRectangleFigure) {
-		        corner = ((IRoundedRectangleFigure) figureDelegate).getArc().scale(getZoom());
+		        corner = ((IRoundedRectangleFigure) figureDelegate).getArc();
 		    }
 		}
+		
+		corner = corner.scale(FigureUtils.getFigureScale(getOwner()));
 		
 		final Point location = super.getLocation(ref);
 		final Rectangle r = Rectangle.SINGLETON;
@@ -192,15 +190,4 @@ public class RoundedRectangleAnchor extends ChopboxAnchor {
 		return new Point[] { r.getCenter().translate(p1),
 				r.getCenter().translate(p2) };
 	}
-	
-    /**
-	 * Get zoom value
-     * 
-     * @return zoom value
-     */
-    protected double getZoom() {
-        ZoomManager zm = (ZoomManager)fEditPart.getViewer().getProperty(ZoomManager.class.toString());
-        return (zm != null) ? zm.getZoom() : 1; 
-    }
-
 }

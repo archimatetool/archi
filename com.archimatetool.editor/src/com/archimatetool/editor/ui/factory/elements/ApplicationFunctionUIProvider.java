@@ -11,7 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.elements.ApplicationFunctionEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateElementEditPart;
+import com.archimatetool.editor.diagram.figures.elements.FunctionFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -31,7 +32,7 @@ public class ApplicationFunctionUIProvider extends AbstractArchimateElementUIPro
     
     @Override
     public EditPart createEditPart() {
-        return new ApplicationFunctionEditPart();
+        return new ArchimateElementEditPart(FunctionFigure.class);
     }
 
     @Override

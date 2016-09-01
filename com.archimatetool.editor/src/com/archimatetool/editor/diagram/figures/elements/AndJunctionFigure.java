@@ -6,6 +6,8 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -14,7 +16,6 @@ import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -25,8 +26,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  */
 public class AndJunctionFigure extends AbstractDiagramModelObjectFigure {
     
-    public AndJunctionFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public AndJunctionFigure() {
     }
 
     @Override
@@ -73,5 +73,10 @@ public class AndJunctionFigure extends AbstractDiagramModelObjectFigure {
 
     @Override
     protected void setUI() {
+    }
+    
+    @Override
+    public ConnectionAnchor getDefaultConnectionAnchor() {
+        return new EllipseAnchor(this);
     }
 }

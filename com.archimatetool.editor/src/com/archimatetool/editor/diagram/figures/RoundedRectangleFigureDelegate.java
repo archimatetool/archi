@@ -46,7 +46,7 @@ implements IRoundedRectangleFigure {
         
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
             graphics.setBackgroundPattern(gradient);
         }
 

@@ -13,8 +13,11 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public class AbstractArchimateFigure
+public abstract class AbstractArchimateFigure
 extends AbstractTextFlowFigure implements IDiagramModelArchimateObjectFigure {
+    
+    protected AbstractArchimateFigure() {
+    }
     
     public AbstractArchimateFigure(IDiagramModelArchimateObject diagramModelObject) {
         super(diagramModelObject);

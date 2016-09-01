@@ -31,7 +31,10 @@ implements IContainerFigure {
     
     private IFigure fMainFigure;
     
-    public AbstractContainerFigure(IDiagramModelObject diagramModelObject) {
+    protected AbstractContainerFigure() {
+    }
+    
+    protected AbstractContainerFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
 

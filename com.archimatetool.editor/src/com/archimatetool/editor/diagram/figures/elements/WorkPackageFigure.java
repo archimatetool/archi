@@ -5,11 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
 
+import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -22,12 +23,15 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class WorkPackageFigure
 extends AbstractArchimateFigure {
 
-    public WorkPackageFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public WorkPackageFigure() {
         // Use a Rounded Rectangle Figure Delegate to Draw
         RoundedRectangleFigureDelegate figureDelegate = new RoundedRectangleFigureDelegate(this);
         figureDelegate.setArc(new Dimension(10, 10));
         setFigureDelegate(figureDelegate);
+    }
+    
+    @Override
+    public ConnectionAnchor getDefaultConnectionAnchor() {
+        return new RoundedRectangleAnchor(this);
     }
 }

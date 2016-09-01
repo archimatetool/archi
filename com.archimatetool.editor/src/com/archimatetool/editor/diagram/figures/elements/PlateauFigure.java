@@ -11,7 +11,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -24,9 +23,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class PlateauFigure
 extends AbstractArchimateFigure {
     
-    public PlateauFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public PlateauFigure() {
         setFigureDelegate(new BoxFigureDelegate(this));
     }
     

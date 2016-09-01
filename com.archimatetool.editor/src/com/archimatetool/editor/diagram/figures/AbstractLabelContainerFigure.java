@@ -25,7 +25,7 @@ public abstract class AbstractLabelContainerFigure extends AbstractContainerFigu
     
     private Label fLabel;
 
-    public AbstractLabelContainerFigure(IDiagramModelObject diagramModelObject) {
+    protected AbstractLabelContainerFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
     

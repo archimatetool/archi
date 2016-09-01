@@ -13,7 +13,6 @@ import org.eclipse.swt.SWT;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -40,10 +39,9 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     private RotatableDecoration fDecoratorSource = createFigureSourceDecoration();
     private RotatableDecoration fDecoratorTarget = createFigureTargetDecoration();
     
-    public AccessConnectionFigure(IDiagramModelArchimateConnection connection) {
-	    super(connection);
-	}
-	
+    public AccessConnectionFigure() {
+    }
+    
     @Override
     protected void setFigureProperties() {
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show

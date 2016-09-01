@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 
 import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
+import com.archimatetool.model.IDiagramModelConnection;
 
 
 /**
@@ -18,6 +19,17 @@ import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
  * @author Phillip Beauvoir
  */
 public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFigure {
+
+    /**
+     * Set the Model Connection
+     * @param connection
+     */
+    void setModelConnection(IDiagramModelConnection connection);
+    
+    /**
+     * @return the Model Connection
+     */
+    IDiagramModelConnection getModelConnection();
 
     /**
      * Refresh the visuals for the model

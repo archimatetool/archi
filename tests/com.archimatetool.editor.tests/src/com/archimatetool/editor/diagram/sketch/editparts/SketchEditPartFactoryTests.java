@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.sketch.editparts;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
@@ -16,8 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.Logger;
+import com.archimatetool.editor.diagram.editparts.DiagramConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
-import com.archimatetool.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
@@ -26,6 +25,8 @@ import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 public class SketchEditPartFactoryTests {
@@ -103,7 +104,7 @@ public class SketchEditPartFactoryTests {
         IDiagramModelConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
         
         EditPart editPart = editPartFactory.createEditPart(null, conn);
-        assertTrue(editPart instanceof LineConnectionEditPart);
+        assertTrue(editPart instanceof DiagramConnectionEditPart);
         assertEquals(conn, editPart.getModel());
     }
 }

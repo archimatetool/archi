@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditPart;
+import com.archimatetool.editor.diagram.editparts.AbstractArchimateElementEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
@@ -153,7 +153,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Override
     public void testCreateEditPart() {
         EditPart editPart = getProvider().createEditPart();
-        assertTrue(editPart instanceof AbstractArchimateEditPart);
+        assertTrue(editPart instanceof AbstractArchimateElementEditPart);
     }
 
     @Override

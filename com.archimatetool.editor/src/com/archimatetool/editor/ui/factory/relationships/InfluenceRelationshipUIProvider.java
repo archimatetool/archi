@@ -10,7 +10,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.InfluenceConnectionEditPart;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
+import com.archimatetool.editor.diagram.figures.connections.InfluenceConnectionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -29,7 +30,7 @@ public class InfluenceRelationshipUIProvider extends AbstractArchimateRelationsh
     
     @Override
     public EditPart createEditPart() {
-        return new InfluenceConnectionEditPart();
+        return new ArchimateRelationshipEditPart(InfluenceConnectionFigure.class);
     }
 
     @Override

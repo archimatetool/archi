@@ -10,12 +10,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -30,9 +29,7 @@ extends AbstractArchimateFigure {
     
     protected static final int FLANGE = 14;
 
-    public ProductFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
-        
+    public ProductFigure() {
         // Use a Rectangle Figure Delegate to Draw
         RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
             @Override
@@ -56,7 +53,7 @@ extends AbstractArchimateFigure {
                 
                 Pattern gradient = null;
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-                    gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+                    gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
                     graphics.setBackgroundPattern(gradient);
                 }
 

@@ -5,7 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 /**
  * Connection Figure for an Archimate type connection
@@ -14,4 +14,6 @@ package com.archimatetool.editor.diagram.figures.connections;
  */
 public interface IArchimateConnectionFigure extends IDiagramConnectionFigure {
 
+    IDiagramModelArchimateConnection getModelConnection();
+    
 }

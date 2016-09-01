@@ -168,7 +168,7 @@
             id="com.archimatetool.canvas.CanvasImageUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.canvas.factory.CanvasLineConnectionUIProvider"
+            class="com.archimatetool.canvas.factory.CanvasConnectionUIProvider"
             id="com.archimatetool.canvas.CanvasLineConnectionUIProvider">
       </uiProvider>
    </extension>

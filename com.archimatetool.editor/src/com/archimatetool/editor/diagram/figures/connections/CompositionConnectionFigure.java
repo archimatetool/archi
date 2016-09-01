@@ -9,8 +9,6 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-
 
 
 /**
@@ -36,11 +34,10 @@ public class CompositionConnectionFigure extends AbstractArchimateConnectionFigu
             }
         };
     }
-
-    public CompositionConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    
+    public CompositionConnectionFigure() {
     }
-	
+
     @Override
     protected void setFigureProperties() {
         setSourceDecoration(createFigureSourceDecoration());

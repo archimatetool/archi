@@ -34,10 +34,6 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     private PolylineDecoration fArrowheadTargetLine;
     private PolygonDecoration fArrowheadTargetHollow;
 
-    public LineConnectionFigure(IDiagramModelConnection connection) {
-        super(connection);
-    }
-
     @Override
     protected void setFigureProperties() {
     }

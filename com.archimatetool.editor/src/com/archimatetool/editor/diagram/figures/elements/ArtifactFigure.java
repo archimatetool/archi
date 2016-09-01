@@ -11,11 +11,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
-import com.archimatetool.editor.diagram.figures.GradientUtils;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -29,8 +28,7 @@ public class ArtifactFigure extends AbstractArchimateFigure {
 
     protected static final int FOLD_HEIGHT = 18;
 
-    public ArtifactFigure(IDiagramModelArchimateObject diagramModelObject) {
-        super(diagramModelObject);
+    public ArtifactFigure() {
     }
 
     @Override
@@ -56,7 +54,7 @@ public class ArtifactFigure extends AbstractArchimateFigure {
 
         Pattern gradient = null;
         if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
-            gradient = GradientUtils.createScaledPattern(graphics, bounds, getFillColor());
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
             graphics.setBackgroundPattern(gradient);
         }
         

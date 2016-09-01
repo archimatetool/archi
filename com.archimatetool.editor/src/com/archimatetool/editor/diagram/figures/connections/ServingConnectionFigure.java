@@ -8,8 +8,6 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-
 
 
 /**
@@ -25,15 +23,12 @@ public class ServingConnectionFigure extends AbstractArchimateConnectionFigure {
     public static RotatableDecoration createFigureTargetDecoration() {
         return new PolylineDecoration();
     }
-
-    public ServingConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    
+    public ServingConnectionFigure() {
     }
-	
+
     @Override
     protected void setFigureProperties() {
         setTargetDecoration(createFigureTargetDecoration()); // arrow at target endpoint 
     }
-    
-
 }

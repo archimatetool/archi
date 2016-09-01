@@ -15,7 +15,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.elements.OrJunctionEditPart;
+import com.archimatetool.editor.diagram.editparts.LeafEditPart;
+import com.archimatetool.editor.diagram.figures.elements.OrJunctionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -35,7 +36,7 @@ public class OrJunctionUIProvider extends AbstractArchimateElementUIProvider {
     
     @Override
     public EditPart createEditPart() {
-        return new OrJunctionEditPart();
+        return new LeafEditPart(OrJunctionFigure.class);
     }
 
     @Override

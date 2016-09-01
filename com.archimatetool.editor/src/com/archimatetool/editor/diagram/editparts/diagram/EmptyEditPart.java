@@ -12,7 +12,6 @@ import org.eclipse.gef.EditPolicy;
 import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
 import com.archimatetool.editor.diagram.figures.diagram.EmptyFigure;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
-import com.archimatetool.model.IDiagramModelObject;
 
 
 /**
@@ -25,7 +24,7 @@ extends AbstractBaseEditPart {
     
     @Override
     protected IFigure createFigure() {
-        return new EmptyFigure((IDiagramModelObject)getModel());
+        return new EmptyFigure(getModel());
     }
 
     @Override

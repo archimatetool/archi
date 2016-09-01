@@ -1033,7 +1033,7 @@
             id="com.archimatetool.editor.DiagramImageUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider"
+            class="com.archimatetool.editor.ui.factory.diagram.DiagramConnectionUIProvider"
             id="com.archimatetool.editor.LineConnectionUIProvider">
       </uiProvider>
    </extension>
