@@ -7,10 +7,9 @@ package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-
-import junit.framework.JUnit4TestAdapter;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.junit.Assume;
@@ -21,8 +20,10 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 @RunWith(Parameterized.class)
 public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTests {
@@ -33,19 +34,13 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
     
     @Parameters
     public static Collection<EClass[]> eObjects() {
-        return Arrays.asList(new EClass[][] {
-                { IArchimatePackage.eINSTANCE.getSpecializationRelationship() },
-                { IArchimatePackage.eINSTANCE.getCompositionRelationship() },
-                { IArchimatePackage.eINSTANCE.getAggregationRelationship() },
-                { IArchimatePackage.eINSTANCE.getAssignmentRelationship() },
-                { IArchimatePackage.eINSTANCE.getRealizationRelationship() },
-                { IArchimatePackage.eINSTANCE.getTriggeringRelationship() },
-                { IArchimatePackage.eINSTANCE.getFlowRelationship() },
-                { IArchimatePackage.eINSTANCE.getServingRelationship() },
-                { IArchimatePackage.eINSTANCE.getAccessRelationship() },
-                { IArchimatePackage.eINSTANCE.getAssociationRelationship() },
-                { IArchimatePackage.eINSTANCE.getInfluenceRelationship() }
-        });
+        List<EClass[]> list = new ArrayList<EClass[]>();
+        
+        for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
+            list.add(new EClass[] { eClass });
+        }
+        
+        return list;
     }
     
     private EClass eClass;
