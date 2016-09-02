@@ -53,8 +53,8 @@ extends AbstractArchimateFigure {
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
-        Rectangle rect = new Rectangle(pt.x, pt.y, 15, 8);
-        graphics.drawRoundRectangle(rect, 7, 7);
+        Rectangle rect = new Rectangle(pt.x, pt.y, 16, 9);
+        graphics.drawRoundRectangle(rect, 8, 8);
     }
     
     /**
@@ -62,7 +62,7 @@ extends AbstractArchimateFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 9);
+        return new Point(bounds.x + bounds.width - 21, bounds.y + 5);
     }
 
     @Override

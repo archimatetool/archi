@@ -28,9 +28,11 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationFunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationInteractionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationInterfaceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationProcessUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationServiceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ArtifactUIProvider;
 import com.archimatetool.editor.ui.factory.elements.AssessmentUIProvider;
@@ -44,15 +46,18 @@ import com.archimatetool.editor.ui.factory.elements.BusinessObjectUIProvider;
 import com.archimatetool.editor.ui.factory.elements.BusinessProcessUIProvider;
 import com.archimatetool.editor.ui.factory.elements.BusinessRoleUIProvider;
 import com.archimatetool.editor.ui.factory.elements.BusinessServiceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.CapabilityUIProvider;
 import com.archimatetool.editor.ui.factory.elements.CommunicationNetworkUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ConstraintUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ContractUIProvider;
+import com.archimatetool.editor.ui.factory.elements.CourseOfActionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DataObjectUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DeliverableUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DeviceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DriverUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GapUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GoalUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider;
 import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;
 import com.archimatetool.editor.ui.factory.elements.NodeUIProvider;
@@ -66,8 +71,10 @@ import com.archimatetool.editor.ui.factory.elements.RequirementUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ResourceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.StakeholderUIProvider;
 import com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyEventUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyProcessUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ValueUIProvider;
 import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
@@ -95,9 +102,11 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new AndJunctionUIProvider(), IArchimatePackage.eINSTANCE.getAndJunction() },
                 { new ApplicationCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getApplicationCollaboration() },
                 { new ApplicationComponentUIProvider(), IArchimatePackage.eINSTANCE.getApplicationComponent() },
+                { new ApplicationEventUIProvider(), IArchimatePackage.eINSTANCE.getApplicationEvent() },
                 { new ApplicationFunctionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationFunction() },
                 { new ApplicationInteractionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInteraction() },
                 { new ApplicationInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInterface() },
+                { new ApplicationProcessUIProvider(), IArchimatePackage.eINSTANCE.getApplicationProcess() },
                 { new ApplicationServiceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationService() },
                 { new ArtifactUIProvider(), IArchimatePackage.eINSTANCE.getArtifact() },
                 { new AssessmentUIProvider(), IArchimatePackage.eINSTANCE.getAssessment() },
@@ -112,14 +121,17 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new BusinessRoleUIProvider(), IArchimatePackage.eINSTANCE.getBusinessRole() },
                 { new BusinessServiceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessService() },
                 { new CommunicationNetworkUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
+                { new CapabilityUIProvider(), IArchimatePackage.eINSTANCE.getCapability() },
                 { new ConstraintUIProvider(), IArchimatePackage.eINSTANCE.getConstraint() },
                 { new ContractUIProvider(), IArchimatePackage.eINSTANCE.getContract() },
+                { new CourseOfActionUIProvider(), IArchimatePackage.eINSTANCE.getCourseOfAction() },
                 { new DataObjectUIProvider(), IArchimatePackage.eINSTANCE.getDataObject() },
                 { new DeliverableUIProvider(), IArchimatePackage.eINSTANCE.getDeliverable() },
                 { new DeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
                 { new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver() },
                 { new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap() },
                 { new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal() },
+                { new ImplementationEventUIProvider(), IArchimatePackage.eINSTANCE.getImplementationEvent() },
                 { new LocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation() },
                 { new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
                 { new NodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
@@ -133,8 +145,10 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement() },
                 { new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder() },
                 { new SystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
+                { new TechnologyEventUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyEvent() },
                 { new TechnologyFunctionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyFunction() },
                 { new TechnologyInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInterface() },
+                { new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess() },
                 { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
                 { new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
                 { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() },

@@ -790,6 +790,10 @@
             id="com.archimatetool.editor.ApplicationComponentUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider"
+            id="com.archimatetool.editor.ApplicationEventUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ApplicationFunctionUIProvider"
             id="com.archimatetool.editor.ApplicationFunctionUIProvider">
       </uiProvider>
@@ -800,6 +804,10 @@
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ApplicationInterfaceUIProvider"
             id="com.archimatetool.editor.ApplicationInterfaceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationProcessUIProvider"
+            id="com.archimatetool.editor.ApplicationProcessUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ApplicationServiceUIProvider"
@@ -854,6 +862,10 @@
             id="com.archimatetool.editor.BusinessServiceUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.CapabilityUIProvider"
+            id="com.archimatetool.editor.CapabilityUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.CommunicationNetworkUIProvider"
             id="com.archimatetool.editor.CommunicationNetworkUIProvider">
       </uiProvider>
@@ -864,6 +876,10 @@
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ContractUIProvider"
             id="com.archimatetool.editor.ContractUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.CourseOfActionUIProvider"
+            id="com.archimatetool.editor.CourseOfActionUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.DataObjectUIProvider"
@@ -888,6 +904,10 @@
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.GoalUIProvider"
             id="com.archimatetool.editor.GoalUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider"
+            id="com.archimatetool.editor.ImplementationEventUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.LocationUIProvider"
@@ -946,12 +966,20 @@
             id="com.archimatetool.editor.SystemSoftwareUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyEventUIProvider"
+            id="com.archimatetool.editor.TechnologyEventUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider"
             id="com.archimatetool.editor.TechnologyFunctionUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider"
             id="com.archimatetool.editor.TechnologyInterfaceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyProcessUIProvider"
+            id="com.archimatetool.editor.TechnologyProcessUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider"

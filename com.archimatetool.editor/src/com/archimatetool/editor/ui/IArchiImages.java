@@ -51,9 +51,11 @@ public interface IArchiImages {
     // Elements
     String ICON_APPLICATION_COLLABORATION = ARCHIMATE_IMGPATH + "application-collaboration.png"; //$NON-NLS-1$
     String ICON_APPLICATION_COMPONENT = ARCHIMATE_IMGPATH + "application-component.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_EVENT = ARCHIMATE_IMGPATH + "application-event.png"; //$NON-NLS-1$
     String ICON_APPLICATION_FUNCTION = ARCHIMATE_IMGPATH + "application-function.png"; //$NON-NLS-1$
     String ICON_APPLICATION_INTERACTION = ARCHIMATE_IMGPATH + "application-interaction.png"; //$NON-NLS-1$
     String ICON_APPLICATION_INTERFACE = ARCHIMATE_IMGPATH + "application-interface.png"; //$NON-NLS-1$
+    String ICON_APPLICATION_PROCESS = ARCHIMATE_IMGPATH + "application-process.png"; //$NON-NLS-1$
     String ICON_APPLICATION_SERVICE = ARCHIMATE_IMGPATH + "application-service.png"; //$NON-NLS-1$
     String ICON_ARTIFACT = ARCHIMATE_IMGPATH + "artifact.png"; //$NON-NLS-1$
     String ICON_ASSESSMENT = ARCHIMATE_IMGPATH + "assessment.png"; //$NON-NLS-1$
@@ -68,14 +70,17 @@ public interface IArchiImages {
     String ICON_BUSINESS_ROLE = ARCHIMATE_IMGPATH + "business-role.png"; //$NON-NLS-1$
     String ICON_BUSINESS_SERVICE = ARCHIMATE_IMGPATH + "business-service.png"; //$NON-NLS-1$
     String ICON_COMMUNICATION_NETWORK = ARCHIMATE_IMGPATH + "communication-network.png"; //$NON-NLS-1$
+    String ICON_CAPABILITY = ARCHIMATE_IMGPATH + "capability.png"; //$NON-NLS-1$
     String ICON_CONSTRAINT = ARCHIMATE_IMGPATH + "constraint.png"; //$NON-NLS-1$
     String ICON_CONTRACT = ARCHIMATE_IMGPATH + "contract.png"; //$NON-NLS-1$
+    String ICON_COURSE_OF_ACTION = ARCHIMATE_IMGPATH + "course-of-action.png"; //$NON-NLS-1$
     String ICON_DATA_OBJECT = ARCHIMATE_IMGPATH + "data-object.png"; //$NON-NLS-1$
     String ICON_DELIVERABLE = ARCHIMATE_IMGPATH + "deliverable.png"; //$NON-NLS-1$
     String ICON_DEVICE = ARCHIMATE_IMGPATH + "device.png"; //$NON-NLS-1$
     String ICON_DRIVER = ARCHIMATE_IMGPATH + "driver.png"; //$NON-NLS-1$
     String ICON_GAP = ARCHIMATE_IMGPATH + "gap.png"; //$NON-NLS-1$
     String ICON_GOAL = ARCHIMATE_IMGPATH + "goal.png"; //$NON-NLS-1$
+    String ICON_IMPLEMENTATION_EVENT = ARCHIMATE_IMGPATH + "implementation-event.png"; //$NON-NLS-1$
     String ICON_LOCATION = ARCHIMATE_IMGPATH + "location.png"; //$NON-NLS-1$
     String ICON_MEANING = ARCHIMATE_IMGPATH + "meaning.png"; //$NON-NLS-1$
     String ICON_NODE = ARCHIMATE_IMGPATH + "node.png"; //$NON-NLS-1$
@@ -89,8 +94,10 @@ public interface IArchiImages {
     String ICON_REQUIREMENT = ARCHIMATE_IMGPATH + "requirement.png"; //$NON-NLS-1$
     String ICON_STAKEHOLDER = ARCHIMATE_IMGPATH + "stakeholder.png"; //$NON-NLS-1$
     String ICON_SYSTEM_SOFTWARE = ARCHIMATE_IMGPATH + "system-software.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_EVENT = ARCHIMATE_IMGPATH + "technology-event.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_FUNCTION = ARCHIMATE_IMGPATH + "technology-function.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_INTERFACE = ARCHIMATE_IMGPATH + "technology-interface.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_PROCESS = ARCHIMATE_IMGPATH + "technology-process.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_SERVICE = ARCHIMATE_IMGPATH + "technology-service.png"; //$NON-NLS-1$
     String ICON_VALUE = ARCHIMATE_IMGPATH + "value.png"; //$NON-NLS-1$
     String ICON_WORKPACKAGE = ARCHIMATE_IMGPATH + "workpackage.png"; //$NON-NLS-1$

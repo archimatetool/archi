@@ -12,11 +12,15 @@ public class Messages extends NLS {
 
     public static String ApplicationComponentUIProvider_0;
 
+    public static String ApplicationEventUIProvider_0;
+
     public static String ApplicationFunctionUIProvider_0;
 
     public static String ApplicationInteractionUIProvider_0;
 
     public static String ApplicationInterfaceUIProvider_0;
+
+    public static String ApplicationProcessUIProvider_0;
 
     public static String ApplicationServiceUIProvider_0;
 
@@ -44,11 +48,15 @@ public class Messages extends NLS {
 
     public static String BusinessServiceUIProvider_0;
 
+    public static String CapabilityUIProvider_0;
+
     public static String CommunicationNetworkUIProvider_0;
 
     public static String ConstraintUIProvider_0;
 
     public static String ContractUIProvider_0;
+
+    public static String CourseOfActionUIProvider_0;
 
     public static String DataObjectUIProvider_0;
 
@@ -61,6 +69,8 @@ public class Messages extends NLS {
     public static String GapUIProvider_0;
 
     public static String GoalUIProvider_0;
+
+    public static String ImplementationEventUIProvider_0;
 
     public static String LocationUIProvider_0;
 
@@ -90,9 +100,13 @@ public class Messages extends NLS {
 
     public static String SystemSoftwareUIProvider_0;
 
+    public static String TechnologyEventUIProvider_0;
+
     public static String TechnologyFunctionUIProvider_0;
 
     public static String TechnologyInterfaceUIProvider_0;
+
+    public static String TechnologyProcessUIProvider_0;
 
     public static String TechnologyServiceUIProvider_0;
 

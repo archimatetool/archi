@@ -64,7 +64,7 @@ extends AbstractArchimateFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 16, bounds.y + 5);
+        return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
     }
 
 }

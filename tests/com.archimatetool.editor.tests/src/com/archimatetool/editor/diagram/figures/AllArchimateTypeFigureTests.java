@@ -7,10 +7,9 @@ package com.archimatetool.editor.diagram.figures;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-
-import junit.framework.JUnit4TestAdapter;
+import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -22,9 +21,11 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
+
+import junit.framework.JUnit4TestAdapter;
 
 @SuppressWarnings("nls")
 @RunWith(Parameterized.class)
@@ -36,54 +37,13 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
     
     @Parameters
     public static Collection<EClass[]> eObjects() {
-        return Arrays.asList(new EClass[][] {
-                { IArchimatePackage.eINSTANCE.getApplicationCollaboration() },
-                { IArchimatePackage.eINSTANCE.getApplicationComponent() },
-                { IArchimatePackage.eINSTANCE.getDataObject() },
-                { IArchimatePackage.eINSTANCE.getApplicationFunction() },
-                { IArchimatePackage.eINSTANCE.getApplicationInteraction() },
-                { IArchimatePackage.eINSTANCE.getApplicationInterface() },
-                { IArchimatePackage.eINSTANCE.getApplicationService() },
-                
-                { IArchimatePackage.eINSTANCE.getBusinessActor() },
-                { IArchimatePackage.eINSTANCE.getBusinessCollaboration() },
-                { IArchimatePackage.eINSTANCE.getContract() },
-                { IArchimatePackage.eINSTANCE.getBusinessEvent() },
-                { IArchimatePackage.eINSTANCE.getBusinessFunction() },
-                { IArchimatePackage.eINSTANCE.getBusinessInteraction() },
-                { IArchimatePackage.eINSTANCE.getBusinessInterface() },
-                { IArchimatePackage.eINSTANCE.getLocation() },
-                { IArchimatePackage.eINSTANCE.getMeaning() },
-                { IArchimatePackage.eINSTANCE.getBusinessObject() },
-                { IArchimatePackage.eINSTANCE.getBusinessProcess() },
-                { IArchimatePackage.eINSTANCE.getProduct() },
-                { IArchimatePackage.eINSTANCE.getRepresentation() },
-                { IArchimatePackage.eINSTANCE.getBusinessRole() },
-                { IArchimatePackage.eINSTANCE.getBusinessService() },
-                { IArchimatePackage.eINSTANCE.getValue() },
-                
-                { IArchimatePackage.eINSTANCE.getArtifact() },
-                { IArchimatePackage.eINSTANCE.getPath() },
-                { IArchimatePackage.eINSTANCE.getDevice() },
-                { IArchimatePackage.eINSTANCE.getTechnologyFunction() },
-                { IArchimatePackage.eINSTANCE.getTechnologyInterface() },
-                { IArchimatePackage.eINSTANCE.getTechnologyService() },
-                { IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
-                { IArchimatePackage.eINSTANCE.getNode() },
-                { IArchimatePackage.eINSTANCE.getSystemSoftware() },
-                
-                { IArchimatePackage.eINSTANCE.getAssessment() },
-                { IArchimatePackage.eINSTANCE.getConstraint() },
-                { IArchimatePackage.eINSTANCE.getDeliverable() },
-                { IArchimatePackage.eINSTANCE.getDriver() },
-                { IArchimatePackage.eINSTANCE.getGap() },
-                { IArchimatePackage.eINSTANCE.getGoal() },
-                { IArchimatePackage.eINSTANCE.getPlateau() },
-                { IArchimatePackage.eINSTANCE.getPrinciple() },
-                { IArchimatePackage.eINSTANCE.getRequirement() },
-                { IArchimatePackage.eINSTANCE.getStakeholder() },
-                { IArchimatePackage.eINSTANCE.getWorkPackage() }
-        });
+        List<EClass[]> list = new ArrayList<EClass[]>();
+        
+        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
+            list.add(new EClass[] { eClass });
+        }
+
+        return list;
     }
     
     private EClass eClass;

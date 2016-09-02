@@ -5,13 +5,17 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.editor.diagram.figures.IFigureDelegate;
+import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 
@@ -24,12 +28,21 @@ import com.archimatetool.editor.preferences.Preferences;
  * @author Phillip Beauvoir
  */
 public class EventFigure extends AbstractArchimateFigure {
+    
+    protected IFigureDelegate fMainFigureDelegate;
 
     public EventFigure() {
+        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
     @Override
     public void drawFigure(Graphics graphics) {
+        if(getFigureDelegate() != null) {
+            getFigureDelegate().drawFigure(graphics);
+            drawIcon(graphics);
+            return;
+        }
+
         graphics.pushState();
         
         Rectangle bounds = getBounds().getCopy();
@@ -85,5 +98,57 @@ public class EventFigure extends AbstractArchimateFigure {
         bounds.width = bounds.width - 40;
         bounds.height -= 10;
         return bounds;
+    }
+    
+    /**
+     * Draw the icon
+     */
+    protected void drawIcon(Graphics graphics) {
+        graphics.setLineWidth(1);
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        
+        Point pt = getIconOrigin();
+        
+        Path path = new Path(null);
+        
+        // arc
+        path.moveTo(pt.x, pt.y);
+        path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        path.moveTo(pt.x, pt.y);
+        path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
+
+        // lines
+        path.moveTo(pt.x, pt.y);
+        path.lineTo(pt.x + 12, pt.y);
+        
+        path.moveTo(pt.x, pt.y + 9);
+        path.lineTo(pt.x + 12, pt.y + 9);
+        
+        graphics.drawPath(path);
+        path.dispose();
+    }
+    
+    /**
+     * @return The icon start position
+     */
+    protected Point getIconOrigin() {
+        Rectangle bounds = getBounds();
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 5);
+    }
+
+    @Override
+    public void refreshVisuals() {
+        super.refreshVisuals();
+        repaint(); // repaint when figure changes
+    }
+    
+    @Override
+    public IFigureDelegate getFigureDelegate() {
+        int type = getDiagramModelObject().getType();
+        return type == 0 ? fMainFigureDelegate : null;
     }
 }

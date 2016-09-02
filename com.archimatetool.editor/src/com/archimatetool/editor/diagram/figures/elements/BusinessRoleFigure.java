@@ -45,17 +45,17 @@ extends AbstractArchimateFigure {
         
         Path path = new Path(null);
         
-        path.addArc(pt.x, pt.y, 8, 7, 90, 180);
+        path.addArc(pt.x, pt.y, 5, 8, 90, 180);
         
-        path.lineTo(pt.x + 11, pt.y + 7);
+        path.lineTo(pt.x + 12, pt.y + 8);
         
-        path.moveTo(pt.x + 3.5f, pt.y);
-        path.lineTo(pt.x + 11, pt.y);
+        path.moveTo(pt.x + 2f, pt.y);
+        path.lineTo(pt.x + 12, pt.y);
         
         graphics.drawPath(path);
         path.dispose();
         
-        graphics.drawOval(pt.x + 8, pt.y, 7, 7);
+        graphics.drawOval(pt.x + 10, pt.y, 5, 8);
     }
     
     /**
@@ -63,6 +63,6 @@ extends AbstractArchimateFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 20, bounds.y + 6);
+        return new Point(bounds.getRight().x - 19, bounds.y + 5);
     }
 }
