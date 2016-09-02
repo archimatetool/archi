@@ -24,6 +24,6 @@ public class OKType extends AbstractIssueType {
     
     @Override
     public Image getImage() {
-        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_OK_16);
+        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_OK);
     }
 }

@@ -46,11 +46,11 @@ public class SketchStickyUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_STICKY_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_STICKY);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_STICKY_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_STICKY);
     }
 }

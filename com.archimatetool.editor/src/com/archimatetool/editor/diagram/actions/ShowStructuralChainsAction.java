@@ -28,7 +28,7 @@ public class ShowStructuralChainsAction extends WorkbenchPartAction {
         super(part);
         setId(ID);
         setText(DEFAULT_TEXT);
-        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED));
     }
     
     @Override

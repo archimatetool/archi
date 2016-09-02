@@ -158,7 +158,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IHammerImages.ImageFactory.getImageDescriptor(IHammerImages.ICON_APP_16);
+                return IHammerImages.ImageFactory.getImageDescriptor(IHammerImages.ICON_APP);
             }
         };
         fActionValidate.setEnabled(false);
@@ -176,7 +176,7 @@ implements IValidatorView, ISelectionListener, IContextProvider, ITabbedProperty
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin("com.archimatetool.help", "img/hint-16.png"); //$NON-NLS-1$ //$NON-NLS-2$
+                return AbstractUIPlugin.imageDescriptorFromPlugin("com.archimatetool.help", "img/hint.png"); //$NON-NLS-1$ //$NON-NLS-2$
             }
         };
         fActionExplain.setEnabled(false);

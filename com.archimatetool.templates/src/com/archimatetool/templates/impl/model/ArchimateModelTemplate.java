@@ -30,7 +30,7 @@ public class ArchimateModelTemplate extends AbstractTemplate {
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS);
     }
 
     @Override

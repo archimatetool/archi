@@ -40,11 +40,11 @@ public class AggregationRelationshipUIProvider extends AbstractArchimateRelation
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_AGGREGATION_RELATION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_AGGREGATION_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_AGGREGATION_RELATION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_AGGREGATION_RELATION);
     }
 }

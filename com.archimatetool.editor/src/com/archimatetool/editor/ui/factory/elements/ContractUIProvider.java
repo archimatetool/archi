@@ -42,12 +42,12 @@ public class ContractUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_CONTRACT_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_CONTRACT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_CONTRACT_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_CONTRACT);
     }
     
     @Override

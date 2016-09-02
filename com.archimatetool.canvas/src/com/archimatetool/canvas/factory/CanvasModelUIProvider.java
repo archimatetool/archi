@@ -46,12 +46,12 @@ public class CanvasModelUIProvider extends AbstractObjectUIProvider implements I
 
     @Override
     public Image getImage() {
-        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_MODEL_16);
+        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_MODEL);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_MODEL_16);
+        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_MODEL);
     }
     
     @Override

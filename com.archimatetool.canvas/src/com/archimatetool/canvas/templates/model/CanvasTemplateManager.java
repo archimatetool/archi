@@ -84,7 +84,7 @@ public class CanvasTemplateManager extends TemplateManager {
     
     @Override
     public Image getMainImage() {
-        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_MODEL_16);
+        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_MODEL);
     }
     
     @Override

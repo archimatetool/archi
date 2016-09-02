@@ -50,12 +50,12 @@ public class CanvasStickyUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Image getImage() {
-        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_STICKY_16);
+        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_STICKY);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_STICKY_16);
+        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_STICKY);
     }
     
     @Override

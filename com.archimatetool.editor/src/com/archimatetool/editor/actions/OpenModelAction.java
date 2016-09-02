@@ -68,7 +68,7 @@ implements IWorkbenchAction
     
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_OPEN_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_OPEN);
     }
     
     /**

@@ -42,12 +42,12 @@ public class GoalUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_GOAL_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_GOAL);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_GOAL_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_GOAL);
     }
 
     @Override

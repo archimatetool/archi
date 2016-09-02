@@ -42,12 +42,12 @@ public class BusinessCollaborationUIProvider extends AbstractArchimateElementUIP
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_COLLABORATION_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_COLLABORATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_COLLABORATION_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_COLLABORATION);
     }
     
     @Override

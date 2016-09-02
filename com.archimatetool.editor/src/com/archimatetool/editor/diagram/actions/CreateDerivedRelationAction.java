@@ -73,7 +73,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         setText(TEXT);
         setId(ID);
         setSelectionProvider(part.getAdapter(GraphicalViewer.class));
-        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED));
     }
 
     @Override
@@ -223,7 +223,7 @@ public class CreateDerivedRelationAction extends SelectionAction {
         protected void configureShell(Shell shell) {
             super.configureShell(shell);
             shell.setText(Messages.CreateDerivedRelationAction_6);
-            shell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DERIVED_16));
+            shell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DERIVED));
         }
         
         @Override

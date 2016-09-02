@@ -46,11 +46,11 @@ public class NoteUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_NOTE_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_NOTE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE);
     }
 }

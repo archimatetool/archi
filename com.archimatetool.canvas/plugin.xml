@@ -7,7 +7,7 @@
             class="com.archimatetool.canvas.CanvasEditor"
             contributorClass="com.archimatetool.canvas.CanvasEditorActionBarContributor"
             default="false"
-            icon="img/canvas-16.png"
+            icon="img/canvas.png"
             id="com.archimatetool.canvas.canvasEditor"
             name="%editorCanvas">
       </editor>

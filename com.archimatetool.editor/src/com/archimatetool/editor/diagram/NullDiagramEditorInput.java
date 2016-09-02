@@ -42,7 +42,7 @@ implements IEditorInput {
     }
 
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);
     }
 
     public String getName() {

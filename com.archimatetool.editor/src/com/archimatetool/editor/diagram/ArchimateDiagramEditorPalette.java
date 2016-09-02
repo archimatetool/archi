@@ -195,8 +195,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_2,
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE_16),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NOTE));
         group.add(noteEntry);
         
         // Group
@@ -204,8 +204,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_4,
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP_16),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP));
         group.add(groupEntry);
         
         // Note Connection
@@ -228,8 +228,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 Messages.ArchimateDiagramEditorPalette_14,
                 Messages.ArchimateDiagramEditorPalette_15,
                 new MagicConnectionModelFactory(),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION_16),
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION),
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION));
         
         magicConnectionEntry.setToolClass(MagicConnectionCreationTool.class);
         magicConnectionEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);

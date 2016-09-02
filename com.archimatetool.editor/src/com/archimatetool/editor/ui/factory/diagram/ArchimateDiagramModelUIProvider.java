@@ -45,12 +45,12 @@ public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider im
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);
     }
     
     @Override

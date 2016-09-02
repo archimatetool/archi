@@ -135,7 +135,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.LINE_SOLID,
                 Messages.SketchEditorPalette_8,
                 null,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -143,7 +143,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET,
                 Messages.SketchEditorPalette_9,
                 null,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_ARROW));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -151,7 +151,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DASHED,
                 Messages.SketchEditorPalette_10,
                 null,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DASHED_ARROW));
         group.add(entry);
         
         entry = createConnectionCreationToolEntry(
@@ -159,7 +159,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
                 IDiagramModelConnection.ARROW_FILL_TARGET | IDiagramModelConnection.LINE_DOTTED,
                 Messages.SketchEditorPalette_11,
                 null,
-                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW_16));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_DOTTED_ARROW));
         group.add(entry);
 
         return group;

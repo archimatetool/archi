@@ -45,12 +45,12 @@ public class BusinessInterfaceUIProvider extends AbstractArchimateElementUIProvi
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE);
     }
     
     @Override
@@ -59,7 +59,7 @@ public class BusinessInterfaceUIProvider extends AbstractArchimateElementUIProvi
         if(instance instanceof IBusinessInterface) {
             int type = ((IBusinessInterface)instance).getInterfaceType();
             if(type == IInterfaceElement.REQUIRED) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED);
             }
         }
         

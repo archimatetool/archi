@@ -105,7 +105,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         else {
             super.paintFigure(graphics);
-            Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE_16);
+            Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE);
             graphics.drawImage(image, bounds.x + (bounds.width / 2) - 7, bounds.y + (bounds.height / 2) - 7);
         }
         

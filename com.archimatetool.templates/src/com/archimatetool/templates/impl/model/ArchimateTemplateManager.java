@@ -88,7 +88,7 @@ public class ArchimateTemplateManager extends TemplateManager {
     
     @Override
     public Image getMainImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS);
     }
     
     @Override

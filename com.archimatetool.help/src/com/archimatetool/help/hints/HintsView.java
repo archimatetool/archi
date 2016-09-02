@@ -89,7 +89,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         PinAction() {
             super(Messages.HintsView_0, IAction.AS_CHECK_BOX);
             setToolTipText(Messages.HintsView_1);
-            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN_16));
+            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
         }
     }
     

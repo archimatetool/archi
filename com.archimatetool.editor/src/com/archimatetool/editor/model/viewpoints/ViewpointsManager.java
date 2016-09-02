@@ -79,25 +79,25 @@ public class ViewpointsManager {
      * @return an ImageDesciptor for a Viewpoint
      */
     public ImageDescriptor getImageDescriptor(IViewpoint viewPoint) {
-        String[] bus_appNames = { IArchiImages.ICON_VIEWPOINT_BUSINESS_16,
-                IArchiImages.ICON_VIEWPOINT_APPLICATION_16 };
+        String[] bus_appNames = { IArchiImages.ICON_VIEWPOINT_BUSINESS,
+                IArchiImages.ICON_VIEWPOINT_APPLICATION };
         
-        String[] app_techNames = { IArchiImages.ICON_VIEWPOINT_APPLICATION_16,
-                IArchiImages.ICON_VIEWPOINT_TECHNOLOGY_16 };
+        String[] app_techNames = { IArchiImages.ICON_VIEWPOINT_APPLICATION,
+                IArchiImages.ICON_VIEWPOINT_TECHNOLOGY };
         
         switch(viewPoint.getIndex()) {
             case IViewpoint.BUSINESS_FUNCTION_VIEWPOINT:
             case IViewpoint.BUSINESS_PROCESS_VIEWPOINT:
             case IViewpoint.ORGANISATION_VIEWPOINT:
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_BUSINESS_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_BUSINESS);
 
             case IViewpoint.APPLICATION_BEHAVIOUR_VIEWPOINT:
             case IViewpoint.APPLICATION_COOPERATION_VIEWPOINT:
             case IViewpoint.APPLICATION_STRUCTURE_VIEWPOINT:
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_APPLICATION_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_APPLICATION);
                 
             case IViewpoint.INFRASTRUCTURE_VIEWPOINT:
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_TECHNOLOGY_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINT_TECHNOLOGY);
 
             case IViewpoint.ACTOR_COOPERATION_VIEWPOINT:
             case IViewpoint.APPLICATION_USAGE_VIEWPOINT:
@@ -111,7 +111,7 @@ public class ViewpointsManager {
                 return IArchiImages.ImageFactory.getCompositeImageDescriptor(app_techNames);
                 
             default:
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINTS_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_VIEWPOINTS);
         }
     }
     

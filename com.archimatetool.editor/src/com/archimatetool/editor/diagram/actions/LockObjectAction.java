@@ -32,7 +32,7 @@ public class LockObjectAction extends SelectionAction {
         setText(Messages.LockObjectAction_0);
         setId(ID);
         setToolTipText(Messages.LockObjectAction_1);
-        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK));
     }
 
     @Override
@@ -61,8 +61,8 @@ public class LockObjectAction extends SelectionAction {
     private void updateText() {
         boolean lock = isToLock();
         setText(lock ? Messages.LockObjectAction_0 : Messages.LockObjectAction_2);
-        setImageDescriptor(lock ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK_16) :
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_UNLOCK_16));
+        setImageDescriptor(lock ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK) :
+            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_UNLOCK));
     }
 
     @Override

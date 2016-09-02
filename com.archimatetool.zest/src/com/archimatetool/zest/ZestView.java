@@ -402,7 +402,7 @@ implements IZestView, ISelectionListener {
         fActionPinContent = new Action(Messages.ZestView_4, IAction.AS_CHECK_BOX) {
             {
                 setToolTipText(Messages.ZestView_1);
-                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN_16));
+                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
             }
         };
         

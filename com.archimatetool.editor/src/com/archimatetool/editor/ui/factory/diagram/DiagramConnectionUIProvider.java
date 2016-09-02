@@ -43,12 +43,12 @@ public class DiagramConnectionUIProvider extends AbstractGraphicalObjectUIProvid
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CONNECTION_PLAIN_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_CONNECTION_PLAIN);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_CONNECTION_PLAIN);
     }
     
     @Override

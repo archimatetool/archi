@@ -42,12 +42,12 @@ public class ApplicationCollaborationUIProvider extends AbstractArchimateElement
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_COLLABORATION_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_COLLABORATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_COLLABORATION_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_COLLABORATION);
     }
     
     @Override

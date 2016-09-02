@@ -40,11 +40,11 @@ public class RealizationRelationshipUIProvider extends AbstractArchimateRelation
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_REALIZATION_RELATION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_REALIZATION_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_REALIZATION_RELATION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_REALIZATION_RELATION);
     }
 }

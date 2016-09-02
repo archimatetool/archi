@@ -42,12 +42,12 @@ public class MeaningUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_MEANING_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_MEANING);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_MEANING_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_MEANING);
     }
     
     @Override

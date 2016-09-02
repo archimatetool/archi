@@ -180,7 +180,7 @@ public class TreeModelViewActionFactory {
             }
         };
 
-        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM_16));
+        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM));
         return action;
     }
     
@@ -203,7 +203,7 @@ public class TreeModelViewActionFactory {
             }
         };
 
-        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SKETCH_16));
+        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SKETCH));
         return action;
     }
 }

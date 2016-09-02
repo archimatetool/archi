@@ -27,7 +27,7 @@ implements IWorkbenchAction
 {
     
     public NewArchimateModelAction() {
-        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NEW_FILE_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NEW_FILE));
         setText(Messages.NewArchimateModelAction_0);
         setToolTipText(Messages.NewArchimateModelAction_1);
         setId("com.archimatetool.editor.action.newModel"); //$NON-NLS-1$

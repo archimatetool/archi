@@ -167,14 +167,14 @@ implements INavigatorView, ISelectionListener {
         fActionPinContent = new Action(Messages.NavigatorView_0, IAction.AS_CHECK_BOX) {
             {
                 setToolTipText(Messages.NavigatorView_1);
-                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN_16));
+                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
             }
         };
         
         fActionNavDown = new Action(Messages.NavigatorView_2, IAction.AS_RADIO_BUTTON) {
             {
                 setToolTipText(Messages.NavigatorView_3);
-                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NAVIGATOR_DOWNWARD_16));
+                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NAVIGATOR_DOWNWARD));
                 setChecked(true);
             }
             
@@ -188,7 +188,7 @@ implements INavigatorView, ISelectionListener {
         fActionNavUp = new Action(Messages.NavigatorView_4, IAction.AS_RADIO_BUTTON) {
             {
                 setToolTipText(Messages.NavigatorView_5);
-                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NAVIGATOR_UPWARD_16));
+                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NAVIGATOR_UPWARD));
             }
             
             @Override

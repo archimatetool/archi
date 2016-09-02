@@ -42,12 +42,12 @@ public class ApplicationInteractionUIProvider extends AbstractArchimateElementUI
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERACTION_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERACTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERACTION_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERACTION);
     }
     
     @Override

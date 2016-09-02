@@ -42,12 +42,12 @@ public class ResourceUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_RESOURCE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_RESOURCE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_RESOURCE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_RESOURCE);
     }
     
     @Override

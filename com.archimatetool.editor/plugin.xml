@@ -114,7 +114,7 @@
             class="com.archimatetool.editor.diagram.ArchimateDiagramEditor"
             contributorClass="com.archimatetool.editor.diagram.ArchimateDiagramEditorActionBarContributor"
             default="false"
-            icon="img/diagram-16.png"
+            icon="img/diagram.png"
             id="com.archimatetool.editor.diagramEditor"
             name="%editorDiagram">
       </editor>
@@ -122,7 +122,7 @@
             class="com.archimatetool.editor.diagram.sketch.SketchEditor"
             contributorClass="com.archimatetool.editor.diagram.sketch.SketchEditorActionBarContributor"
             default="false"
-            icon="img/sketch-16.png"
+            icon="img/sketch.png"
             id="com.archimatetool.editor.sketchEditor"
             name="%editorSketch">
       </editor>
@@ -145,7 +145,7 @@
       </view>
       <view
             class="com.archimatetool.editor.views.navigator.NavigatorView"
-            icon="img/navigator-16.png"
+            icon="img/navigator.png"
             id="com.archimatetool.editor.navigatorView"
             name="%viewNavigator"
             restorable="true">

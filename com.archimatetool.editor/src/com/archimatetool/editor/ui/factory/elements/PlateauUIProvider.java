@@ -42,12 +42,12 @@ public class PlateauUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_PLATEAU_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_PLATEAU);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PLATEAU_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PLATEAU);
     }
 
     @Override

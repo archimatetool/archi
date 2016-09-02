@@ -22,7 +22,7 @@
             locationURI="menu:window?after=show_view_append">
          <command
                commandId="com.archimatetool.help.command.showHintsView"
-               icon="img/hint-16.png"
+               icon="img/hint.png"
                id="com.archimatetool.help.menuitem.showHintsView"
                label="%command.label"
                style="push">
@@ -33,7 +33,7 @@
             locationURI="toolbar:toolbar_views?after=end">
          <command
                commandId="com.archimatetool.help.command.showHintsView"
-               icon="img/hint-16.png"
+               icon="img/hint.png"
                id="com.archimatetool.help.toolbaritem.showHintsView"
                label="%command.label.0"
                style="push">
@@ -54,7 +54,7 @@
          point="org.eclipse.ui.views">
       <view
             class="com.archimatetool.help.hints.HintsView"
-            icon="img/hint-16.png"
+            icon="img/hint.png"
             id="com.archimatetool.help.hintsView"
             name="%viewHints"
             restorable="true">

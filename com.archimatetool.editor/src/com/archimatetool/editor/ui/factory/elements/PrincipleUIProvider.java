@@ -42,12 +42,12 @@ public class PrincipleUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_PRINCIPLE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_PRINCIPLE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_PRINCIPLE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_PRINCIPLE);
     }
 
     @Override

@@ -90,7 +90,7 @@ public class FloatingPalette {
         checkSafeBounds(fParentShell);
         fShell.setBounds(fPaletteState.bounds);
         
-        fShell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APP_16));
+        fShell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APP));
         fShell.setText(Messages.FloatingPalette_0);
         
         // Disposed by system

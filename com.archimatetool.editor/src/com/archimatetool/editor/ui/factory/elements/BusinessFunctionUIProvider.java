@@ -42,12 +42,12 @@ public class BusinessFunctionUIProvider extends AbstractArchimateElementUIProvid
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_FUNCTION_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_FUNCTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_FUNCTION_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_FUNCTION);
     }
     
     @Override

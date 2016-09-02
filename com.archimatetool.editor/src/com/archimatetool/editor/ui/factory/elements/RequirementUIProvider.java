@@ -42,12 +42,12 @@ public class RequirementUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_REQUIREMENT_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_REQUIREMENT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_REQUIREMENT_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_REQUIREMENT);
     }
 
     @Override

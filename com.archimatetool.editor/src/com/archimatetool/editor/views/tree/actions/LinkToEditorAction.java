@@ -23,7 +23,7 @@ public class LinkToEditorAction extends Action {
     
     public LinkToEditorAction() {
         super(Messages.LinkToEditorAction_0, IAction.AS_CHECK_BOX);
-        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LINKED_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LINKED));
         setChecked(Preferences.doLinkView());
     }
     

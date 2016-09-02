@@ -46,12 +46,12 @@ public class AndJunctionUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_AND_JUNCTION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_AND_JUNCTION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_AND_JUNCTION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_AND_JUNCTION);
     }
     
     @Override

@@ -45,12 +45,12 @@ public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIPro
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
     }
     
     @Override
@@ -59,7 +59,7 @@ public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIPro
         if(instance instanceof ITechnologyInterface) {
             int type = ((ITechnologyInterface)instance).getInterfaceType();
             if(type == IInterfaceElement.REQUIRED) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED);
             }
         }
         

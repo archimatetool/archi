@@ -42,12 +42,12 @@ public class BusinessRoleUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_ROLE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_BUSINESS_ROLE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_ROLE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_ROLE);
     }
     
     @Override

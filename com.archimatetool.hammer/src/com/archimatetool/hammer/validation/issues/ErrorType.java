@@ -27,6 +27,6 @@ public class ErrorType extends AbstractIssueType {
 
     @Override
     public Image getImage() {
-        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ERROR_16);
+        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ERROR);
     }
 }

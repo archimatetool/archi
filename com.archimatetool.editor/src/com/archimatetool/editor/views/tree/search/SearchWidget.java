@@ -161,7 +161,7 @@ public class SearchWidget extends Composite {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FILTER_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FILTER);
             }
         };
         toolBarmanager.add(dropDownAction);

@@ -42,12 +42,12 @@ public class TechnologyServiceUIProvider extends AbstractArchimateElementUIProvi
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_SERVICE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_SERVICE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_SERVICE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_SERVICE);
     }
     
     @Override

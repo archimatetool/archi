@@ -40,13 +40,13 @@ extends AbstractDiagramEditorActionBarContributor {
         
         // Show Structural Chains
         RetargetAction retargetAction = new LabelRetargetAction(ShowStructuralChainsAction.ID, ShowStructuralChainsAction.DEFAULT_TEXT);
-        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED_16));
+        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED));
         addRetargetAction(retargetAction);
         
         // Create Derived Relation
         retargetAction = new RetargetAction(CreateDerivedRelationAction.ID, CreateDerivedRelationAction.TEXT);
-        retargetAction.setImageDescriptor(new DecorationOverlayIcon(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DERIVED_SM_16),
-                        IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NEW_OVERLAY_16), IDecoration.TOP_LEFT));
+        retargetAction.setImageDescriptor(new DecorationOverlayIcon(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DERIVED_SM),
+                        IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NEW_OVERLAY), IDecoration.TOP_LEFT));
         addRetargetAction(retargetAction);
         
         // Delete From Model

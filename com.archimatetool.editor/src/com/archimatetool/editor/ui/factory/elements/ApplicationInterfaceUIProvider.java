@@ -45,12 +45,12 @@ public class ApplicationInterfaceUIProvider extends AbstractArchimateElementUIPr
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERFACE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERFACE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERFACE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_INTERFACE);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ApplicationInterfaceUIProvider extends AbstractArchimateElementUIPr
         if(instance instanceof IApplicationInterface) {
             int type = ((IApplicationInterface)instance).getInterfaceType();
             if(type == IInterfaceElement.REQUIRED) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED);
             }
         }
         

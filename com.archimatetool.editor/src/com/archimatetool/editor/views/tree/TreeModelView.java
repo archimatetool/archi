@@ -317,7 +317,7 @@ implements ITreeModelView, IUIRequestListener {
             };
         };
         fActionToggleSearchField.setToolTipText(Messages.TreeModelView_0);
-        fActionToggleSearchField.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SEARCH_16));
+        fActionToggleSearchField.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SEARCH));
         
         fActionCollapseSelected = new Action(Messages.TreeModelView_3) {
             @Override
@@ -332,7 +332,7 @@ implements ITreeModelView, IUIRequestListener {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COLLAPSEALL_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COLLAPSEALL);
             }
         };
         
@@ -349,7 +349,7 @@ implements ITreeModelView, IUIRequestListener {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_EXPANDALL_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_EXPANDALL);
             }
         };
     }

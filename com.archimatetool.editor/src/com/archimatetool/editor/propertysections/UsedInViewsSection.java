@@ -104,7 +104,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             
             @Override
             public Image getImage(Object element) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
             }
         });
         

@@ -42,12 +42,12 @@ public class ApplicationComponentUIProvider extends AbstractArchimateElementUIPr
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_COMPONENT_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_APPLICATION_COMPONENT);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_COMPONENT_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_APPLICATION_COMPONENT);
     }
     
     @Override

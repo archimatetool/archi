@@ -111,7 +111,7 @@ public class HeapStatusWidget extends Composite {
         button = new Canvas(this, SWT.NONE);
         button.setToolTipText("Run Garbage Collector"); //$NON-NLS-1$
         
-		ImageDescriptor imageDesc = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TRASH_16);
+		ImageDescriptor imageDesc = IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TRASH);
 		Display display = getDisplay();
 		gcImage = imageDesc.createImage();
 		if (gcImage != null) {

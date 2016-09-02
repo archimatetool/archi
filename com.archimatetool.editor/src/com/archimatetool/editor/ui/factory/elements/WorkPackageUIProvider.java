@@ -42,12 +42,12 @@ public class WorkPackageUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_WORKPACKAGE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_WORKPACKAGE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_WORKPACKAGE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_WORKPACKAGE);
     }
 
     @Override

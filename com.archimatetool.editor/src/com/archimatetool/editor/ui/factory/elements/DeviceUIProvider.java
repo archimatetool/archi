@@ -42,12 +42,12 @@ public class DeviceUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public Image getImage() {
-        return getImageWithUserFillColor(IArchiImages.ICON_DEVICE_16);
+        return getImageWithUserFillColor(IArchiImages.ICON_DEVICE);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_DEVICE_16);
+        return getImageDescriptorWithUserFillColor(IArchiImages.ICON_DEVICE);
     }
     
     @Override

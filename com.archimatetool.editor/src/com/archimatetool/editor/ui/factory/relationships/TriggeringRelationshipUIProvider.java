@@ -40,11 +40,11 @@ public class TriggeringRelationshipUIProvider extends AbstractArchimateRelations
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TRIGGERING_RELATION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TRIGGERING_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TRIGGERING_RELATION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TRIGGERING_RELATION);
     }
 }

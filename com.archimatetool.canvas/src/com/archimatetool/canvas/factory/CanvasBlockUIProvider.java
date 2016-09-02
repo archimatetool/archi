@@ -50,12 +50,12 @@ public class CanvasBlockUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public Image getImage() {
-        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_BLOCK_16);
+        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_BLOCK);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK_16);
+        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK);
     }
     
     @Override

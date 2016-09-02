@@ -50,12 +50,12 @@ public class GroupUIProvider extends AbstractGraphicalObjectUIProvider {
     
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_GROUP_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_GROUP);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_GROUP);
     }
 
     @Override
