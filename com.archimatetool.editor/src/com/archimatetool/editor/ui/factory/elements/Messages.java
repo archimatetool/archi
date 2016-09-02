@@ -84,6 +84,8 @@ public class Messages extends NLS {
 
     public static String RequirementUIProvider_0;
 
+    public static String ResourceUIProvider_0;
+
     public static String StakeholderUIProvider_0;
 
     public static String SystemSoftwareUIProvider_0;

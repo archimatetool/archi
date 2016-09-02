@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.archimatetool.editor.diagram.editparts.AbstractArchimateElementEditPart;
+import com.archimatetool.editor.diagram.editparts.IArchimateElementEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
@@ -63,6 +63,7 @@ import com.archimatetool.editor.ui.factory.elements.PrincipleUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ProductUIProvider;
 import com.archimatetool.editor.ui.factory.elements.RepresentationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.RequirementUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ResourceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.StakeholderUIProvider;
 import com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider;
@@ -128,6 +129,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new PrincipleUIProvider(), IArchimatePackage.eINSTANCE.getPrinciple() },
                 { new ProductUIProvider(), IArchimatePackage.eINSTANCE.getProduct() },
                 { new RepresentationUIProvider(), IArchimatePackage.eINSTANCE.getRepresentation() },
+                { new ResourceUIProvider(), IArchimatePackage.eINSTANCE.getResource() },
                 { new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement() },
                 { new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder() },
                 { new SystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
@@ -153,7 +155,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Override
     public void testCreateEditPart() {
         EditPart editPart = getProvider().createEditPart();
-        assertTrue(editPart instanceof AbstractArchimateElementEditPart);
+        assertTrue(editPart instanceof IArchimateElementEditPart);
     }
 
     @Override

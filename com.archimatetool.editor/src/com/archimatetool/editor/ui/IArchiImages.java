@@ -85,6 +85,7 @@ public interface IArchiImages {
     String ICON_PRINCIPLE_16 = ARCHIMATE_IMGPATH + "principle-16.png"; //$NON-NLS-1$
     String ICON_PRODUCT_16 = ARCHIMATE_IMGPATH + "product-16.png"; //$NON-NLS-1$
     String ICON_REPRESENTATION_16 = ARCHIMATE_IMGPATH + "representation-16.png"; //$NON-NLS-1$
+    String ICON_RESOURCE_16 = ARCHIMATE_IMGPATH + "resource-16.png"; //$NON-NLS-1$
     String ICON_REQUIREMENT_16 = ARCHIMATE_IMGPATH + "requirement-16.png"; //$NON-NLS-1$
     String ICON_STAKEHOLDER_16 = ARCHIMATE_IMGPATH + "stakeholder-16.png"; //$NON-NLS-1$
     String ICON_SYSTEM_SOFTWARE_16 = ARCHIMATE_IMGPATH + "system-software-16.png"; //$NON-NLS-1$

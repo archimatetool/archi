@@ -925,6 +925,10 @@
             id="com.archimatetool.editor.RequirementUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ResourceUIProvider"
+            id="com.archimatetool.editor.ResourceUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.StakeholderUIProvider"
             id="com.archimatetool.editor.StakeholderUIProvider">
       </uiProvider>
