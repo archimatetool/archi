@@ -78,10 +78,12 @@ extends ActionBarContributor {
         // Zoom in and out
         addRetargetAction(new ZoomInRetargetAction());
         addRetargetAction(new ZoomOutRetargetAction());
-        RetargetAction rt = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
-        rt.setActionDefinitionId(ZoomNormalAction.ID);
-        rt.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_NORMAL));
-        addRetargetAction(rt);
+        
+        // Zoom normal
+        RetargetAction retargetAction = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
+        retargetAction.setActionDefinitionId(ZoomNormalAction.ID);
+        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_NORMAL));
+        addRetargetAction(retargetAction);
         
         // Alignment Actions
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
@@ -108,7 +110,8 @@ extends ActionBarContributor {
         //        "Ruler", IAction.AS_CHECK_BOX));
         
         // Default Size
-        RetargetAction retargetAction = new RetargetAction(DefaultEditPartSizeAction.ID, DefaultEditPartSizeAction.TEXT);
+        retargetAction = new RetargetAction(DefaultEditPartSizeAction.ID, DefaultEditPartSizeAction.TEXT);
+        retargetAction.setActionDefinitionId(DefaultEditPartSizeAction.ID);
         retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DEFAULT_SIZE));
         addRetargetAction(retargetAction);
         

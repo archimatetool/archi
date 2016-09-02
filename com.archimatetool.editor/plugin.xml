@@ -557,6 +557,11 @@
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+G">
       </key>
+      <key
+            commandId="com.archimatetool.action.defaultSize"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+/">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -616,7 +621,11 @@
       </command>
       <command
             id="com.archimatetool.action.generateView"
-            name="Generate View">
+            name="%command.name.12">
+      </command>
+      <command
+            id="com.archimatetool.action.defaultSize"
+            name="%command.name.13">
       </command>
    </extension>
    <extension
