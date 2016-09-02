@@ -447,16 +447,22 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
      * Add Connection Actions going in both directions
      */
     private void addConnectionActions(Menu menu, IArchimateElement sourceElement, IArchimateElement targetElement) {
+        EClass[] forwardConnections = ArchimateModelUtils.getValidRelationships(sourceElement, targetElement);
+        EClass[] reverseConnections = ArchimateModelUtils.getValidRelationships(targetElement, sourceElement);
+        
         // Add forward direction connections
-        for(EClass type : ArchimateModelUtils.getValidRelationships(sourceElement, targetElement)) {
+        for(EClass type : forwardConnections) {
             addConnectionAction(menu, type, false);
         }
         
-        new MenuItem(menu, SWT.SEPARATOR);
-        
         // Add reverse direction connections
-        for(EClass type : ArchimateModelUtils.getValidRelationships(targetElement, sourceElement)) {
+        for(EClass type : reverseConnections) {
             addConnectionAction(menu, type, true);
+        }
+        
+        // Add a separator only if we have both sets of items on the menu
+        if(forwardConnections.length > 0 && reverseConnections.length > 0) {
+            new MenuItem(menu, SWT.SEPARATOR, forwardConnections.length);
         }
     }
     
