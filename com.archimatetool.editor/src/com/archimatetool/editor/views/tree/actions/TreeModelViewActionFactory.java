@@ -128,6 +128,9 @@ public class TreeModelViewActionFactory {
                     IAction action = createNewElementAction(folder, eClass);
                     list.add(action);
                 }
+                
+                list.add(null);
+                
                 // Connectors
                 for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
                     IAction action = createNewElementAction(folder, eClass);

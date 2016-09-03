@@ -51,9 +51,9 @@ public class ArchimateModelUtilsTests {
         
         // The order of these is set in ArchimateModelUtils.getRelationsClasses()
         assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), classes[0]);
-        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes[1]);
-        assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes[2]);
-        assertEquals(IArchimatePackage.eINSTANCE.getServingRelationship(), classes[3]);
+        assertEquals(IArchimatePackage.eINSTANCE.getServingRelationship(), classes[1]);
+        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes[2]);
+        assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes[3]);
         assertEquals(IArchimatePackage.eINSTANCE.getAssociationRelationship(), classes[4]);
         
         // How much more can we test this...?

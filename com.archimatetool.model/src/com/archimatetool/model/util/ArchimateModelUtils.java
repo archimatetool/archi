@@ -177,11 +177,11 @@ public class ArchimateModelUtils {
                 IArchimatePackage.eINSTANCE.getApplicationComponent(),
                 IArchimatePackage.eINSTANCE.getApplicationCollaboration(),
                 IArchimatePackage.eINSTANCE.getApplicationInterface(),
-                IArchimatePackage.eINSTANCE.getApplicationService(),
                 IArchimatePackage.eINSTANCE.getApplicationFunction(),
                 IArchimatePackage.eINSTANCE.getApplicationInteraction(),
                 IArchimatePackage.eINSTANCE.getApplicationProcess(),
                 IArchimatePackage.eINSTANCE.getApplicationEvent(),
+                IArchimatePackage.eINSTANCE.getApplicationService(),
                 IArchimatePackage.eINSTANCE.getDataObject()
         };
     }
@@ -191,19 +191,19 @@ public class ArchimateModelUtils {
      */
     public static EClass[] getTechnologyClasses() {
         return new EClass[] {
-                IArchimatePackage.eINSTANCE.getArtifact(),
+                IArchimatePackage.eINSTANCE.getNode(),
+                IArchimatePackage.eINSTANCE.getDevice(),
+                IArchimatePackage.eINSTANCE.getSystemSoftware(),
+                IArchimatePackage.eINSTANCE.getTechnologyCollaboration(),
+                IArchimatePackage.eINSTANCE.getTechnologyInterface(),
                 IArchimatePackage.eINSTANCE.getPath(),
                 IArchimatePackage.eINSTANCE.getCommunicationNetwork(),
-                IArchimatePackage.eINSTANCE.getTechnologyInterface(),
                 IArchimatePackage.eINSTANCE.getTechnologyFunction(),
                 IArchimatePackage.eINSTANCE.getTechnologyProcess(),
                 IArchimatePackage.eINSTANCE.getTechnologyInteraction(),
                 IArchimatePackage.eINSTANCE.getTechnologyEvent(),
                 IArchimatePackage.eINSTANCE.getTechnologyService(),
-                IArchimatePackage.eINSTANCE.getNode(),
-                IArchimatePackage.eINSTANCE.getSystemSoftware(),
-                IArchimatePackage.eINSTANCE.getTechnologyCollaboration(),
-                IArchimatePackage.eINSTANCE.getDevice()
+                IArchimatePackage.eINSTANCE.getArtifact()
         };
     }
 
@@ -275,17 +275,17 @@ public class ArchimateModelUtils {
      */
     public static EClass[] getRelationsClasses() {
         return new EClass[] {
-                IArchimatePackage.eINSTANCE.getSpecializationRelationship(),
                 IArchimatePackage.eINSTANCE.getCompositionRelationship(),
                 IArchimatePackage.eINSTANCE.getAggregationRelationship(),
                 IArchimatePackage.eINSTANCE.getAssignmentRelationship(),
                 IArchimatePackage.eINSTANCE.getRealizationRelationship(),
-                IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
-                IArchimatePackage.eINSTANCE.getFlowRelationship(),
                 IArchimatePackage.eINSTANCE.getServingRelationship(),
                 IArchimatePackage.eINSTANCE.getAccessRelationship(),
-                IArchimatePackage.eINSTANCE.getAssociationRelationship(),
                 IArchimatePackage.eINSTANCE.getInfluenceRelationship(),
+                IArchimatePackage.eINSTANCE.getTriggeringRelationship(),
+                IArchimatePackage.eINSTANCE.getFlowRelationship(),
+                IArchimatePackage.eINSTANCE.getSpecializationRelationship(),
+                IArchimatePackage.eINSTANCE.getAssociationRelationship(),
         };
     }
 
