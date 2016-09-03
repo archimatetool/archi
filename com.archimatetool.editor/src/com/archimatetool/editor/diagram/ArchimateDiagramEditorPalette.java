@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.diagram;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -41,29 +44,11 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     
     private IViewpoint fViewpoint;
     
-    private PaletteContainer fRelationsGroup;
+    List<PaletteEntry> fEntries = new ArrayList<PaletteEntry>();
     
-    private PaletteContainer fStrategyGroup;
-    private PaletteContainer fBusinessGroup;
-    private PaletteContainer fApplicationGroup;
-    private PaletteContainer fTechnologyGroup;
-    private PaletteContainer fPhysicalGroup;
-    private PaletteContainer fMotivationGroup;
-    private PaletteContainer fImplementationMigrationGroup;
-    private PaletteContainer fOtherGroup;
-
     public ArchimateDiagramEditorPalette() {
-        add(createControlsGroup());
-        add(new PaletteSeparator("")); //$NON-NLS-1$
-        
-        fRelationsGroup = createArchimateRelationsGroup();
-        add(fRelationsGroup);
-        add(new PaletteSeparator("")); //$NON-NLS-1$
-
-        add(createExtrasGroup());
-        add(new PaletteSeparator("")); //$NON-NLS-1$
-        
-        createArchimateElementGroups();
+        createControlsGroup();
+        createExtrasGroup();
     }
 
     /**
@@ -71,99 +56,28 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
      * @param viewpoint
      */
     public void setViewpoint(IViewpoint viewpoint) {
-        if(fViewpoint != viewpoint) {
-            fViewpoint = viewpoint;
-            
-            remove(fRelationsGroup);
-            fRelationsGroup = createArchimateRelationsGroup();
-            add(1, fRelationsGroup);
-            
-            remove(fStrategyGroup);
-            remove(fBusinessGroup);
-            remove(fApplicationGroup);
-            remove(fTechnologyGroup);
-            remove(fPhysicalGroup);
-            remove(fMotivationGroup);
-            remove(fImplementationMigrationGroup);
-            remove(fOtherGroup);
-            
-            createArchimateElementGroups();
-        }
-    }
-    
-    /**
-     * Create the Archimate Element groups
-     */
-    private void createArchimateElementGroups() {
-        fStrategyGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_16, ArchimateModelUtils.getStrategyClasses());
-        fBusinessGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_8, ArchimateModelUtils.getBusinessClasses());
-        fApplicationGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_9, ArchimateModelUtils.getApplicationClasses());
-        fTechnologyGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_10, ArchimateModelUtils.getTechnologyClasses());
-        fPhysicalGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_18, ArchimateModelUtils.getPhysicalClasses());
-        fMotivationGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_11, ArchimateModelUtils.getMotivationClasses());
-        fImplementationMigrationGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_12, ArchimateModelUtils.getImplementationMigrationClasses());
-        fOtherGroup = createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_17, ArchimateModelUtils.getOtherClasses());
-        
-        if(!fStrategyGroup.getChildren().isEmpty()) {
-            add(fStrategyGroup);
+        if(fViewpoint == viewpoint) {
+            return;
         }
         
-        if(!fBusinessGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fBusinessGroup);
-        }
+        fViewpoint = viewpoint;
         
-        if(!fApplicationGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fApplicationGroup);
-        }
-        
-        if(!fTechnologyGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fTechnologyGroup);
-        }
-        
-        if(!fPhysicalGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fPhysicalGroup);
-        }
-        
-        if(!fMotivationGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fMotivationGroup);
+        // Remove 'em all
+        for(PaletteEntry entry : fEntries) {
+            remove(entry);
         }
 
-        if(!fImplementationMigrationGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fImplementationMigrationGroup);
-        }
+        // Re-Create Archimate Relations Group
+        createArchimateRelationsGroup();
         
-        if(!fOtherGroup.getChildren().isEmpty()) {
-            add(new PaletteSeparator("")); //$NON-NLS-1$
-            add(fOtherGroup);
-        }
-    }
-    
-    /**
-     * Strategy Types
-     */
-    private PaletteContainer createArchimateElementGroup(String title, EClass[] types) {
-        PaletteContainer group = new PaletteGroup(title);
-        
-        for(EClass eClass : types) {
-            if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
-                group.add(entry);
-            }
-        }
-        
-        return group;
+        // Re-Create Archimate Groups
+        createArchimateElementGroups();
     }
     
     /**
      * Create a Group of Controls
      */
-    private PaletteContainer createControlsGroup() {
+    private void createControlsGroup() {
         PaletteContainer group = new PaletteToolbar(Messages.ArchimateDiagramEditorPalette_0);
         
         // The selection tool
@@ -181,17 +95,20 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         formatPainterEntry = new FormatPainterToolEntry();
         group.add(formatPainterEntry);
         
-        return group;
+        add(group);
+        
+        // Relations group will be inserted before this
+        add(new PaletteSeparator("relations")); //$NON-NLS-1$
     }
 
     /**
      * Create a Group of Controls
      */
-    private PaletteContainer createExtrasGroup() {
+    private void createExtrasGroup() {
         PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_1);
         
         // Note
-        PaletteEntry noteEntry = new CombinedTemplateCreationEntry(
+        ToolEntry noteEntry = new CombinedTemplateCreationEntry(
                 Messages.ArchimateDiagramEditorPalette_2,
                 Messages.ArchimateDiagramEditorPalette_3,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelNote()),
@@ -200,7 +117,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         group.add(noteEntry);
         
         // Group
-        PaletteEntry groupEntry = new CombinedTemplateCreationEntry(
+        ToolEntry groupEntry = new CombinedTemplateCreationEntry(
                 Messages.ArchimateDiagramEditorPalette_4,
                 Messages.ArchimateDiagramEditorPalette_5,
                 new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getDiagramModelGroup()),
@@ -209,48 +126,91 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         group.add(groupEntry);
         
         // Note Connection
-        ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(
+        ToolEntry entry = createConnectionCreationToolEntry(
                 IArchimatePackage.eINSTANCE.getDiagramModelConnection(),
-                Messages.ArchimateDiagramEditorPalette_6,
                 Messages.ArchimateDiagramEditorPalette_7);
         group.add(entry);
         
-        return group;
+        add(group);
+        
+        add(new PaletteSeparator("extras")); //$NON-NLS-1$
     }
 
     /**
      * Relations Types
      */
-    private PaletteContainer createArchimateRelationsGroup() {
-        PaletteContainer group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_13);
+    private void createArchimateRelationsGroup() {
+        PaletteGroup group = new PaletteGroup(Messages.ArchimateDiagramEditorPalette_13);
+        add(1, group);
+        fEntries.add(group);
         
+        // Magic Connector
         ConnectionCreationToolEntry magicConnectionEntry = new ConnectionCreationToolEntry(
                 Messages.ArchimateDiagramEditorPalette_14,
                 Messages.ArchimateDiagramEditorPalette_15,
                 new MagicConnectionModelFactory(),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION),
                 IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MAGIC_CONNECTION));
-        
+
         magicConnectionEntry.setToolClass(MagicConnectionCreationTool.class);
         magicConnectionEntry.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, true);
         group.add(magicConnectionEntry);
-        
+
+        // Relations
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
             if(isAllowedType(eClass)) {
-                ConnectionCreationToolEntry entry = createConnectionCreationToolEntry(eClass, null);
+                ToolEntry entry = createConnectionCreationToolEntry(eClass, null);
                 group.add(entry);
             }
         }
-        
+
         // Junctions
         for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
             if(isAllowedType(eClass)) {
-                PaletteEntry entry = createCombinedTemplateCreationEntry(eClass, null);
+                ToolEntry entry = createElementCreationToolEntry(eClass, null);
+                group.add(entry);
+            }
+        }
+    }
+    
+    /**
+     * Create the Archimate Element groups
+     */
+    private void createArchimateElementGroups() {
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_16, ArchimateModelUtils.getStrategyClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_8, ArchimateModelUtils.getBusinessClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_9, ArchimateModelUtils.getApplicationClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_10, ArchimateModelUtils.getTechnologyClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_18, ArchimateModelUtils.getPhysicalClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_11, ArchimateModelUtils.getMotivationClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_12, ArchimateModelUtils.getImplementationMigrationClasses());
+        createArchimateElementGroup(Messages.ArchimateDiagramEditorPalette_17, ArchimateModelUtils.getOtherClasses());
+    }
+    
+    /**
+     * ArchiMate Types Group
+     */
+    private void createArchimateElementGroup(String title, EClass[] types) {
+        PaletteContainer group = null;
+        
+        for(EClass eClass : types) {
+            if(isAllowedType(eClass)) {
+                if(group == null) {
+                    group = new PaletteGroup(title);
+                    add(group);
+                    fEntries.add(group);
+                }
+                
+                ToolEntry entry = createElementCreationToolEntry(eClass, null);
                 group.add(entry);
             }
         }
         
-        return group;
+        if(group != null) {
+            PaletteSeparator sep = new PaletteSeparator();
+            add(sep);
+            fEntries.add(sep);
+        }
     }
     
     private boolean isAllowedType(EClass eClass) {
@@ -265,22 +225,20 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     // Convenience methods
     // --------------------------------------------------------------------------------------------
     
-    private CombinedTemplateCreationEntry createCombinedTemplateCreationEntry(EClass eClass, String description) {
-        return new CombinedTemplateCreationEntry(
+    private ToolEntry createElementCreationToolEntry(EClass eClass, String description) {
+        ToolEntry entry = new CombinedTemplateCreationEntry(
                 ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+        
+        return entry;
     }
     
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
-        return createConnectionCreationToolEntry(eClass, ArchiLabelProvider.INSTANCE.getDefaultName(eClass), description);
-    }
-    
-    private ConnectionCreationToolEntry createConnectionCreationToolEntry(EClass eClass, String name, String description) {
-        ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(
-                name,
+    private ToolEntry createConnectionCreationToolEntry(EClass eClass, String description) {
+        ToolEntry entry = new ConnectionCreationToolEntry(
+                ArchiLabelProvider.INSTANCE.getDefaultName(eClass),
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
