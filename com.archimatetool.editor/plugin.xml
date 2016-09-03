@@ -966,12 +966,20 @@
             id="com.archimatetool.editor.SystemSoftwareUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyCollaborationUIProvider"
+            id="com.archimatetool.editor.TechnologyCollaborationUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyEventUIProvider"
             id="com.archimatetool.editor.TechnologyEventUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider"
             id="com.archimatetool.editor.TechnologyFunctionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyInteractionUIProvider"
+            id="com.archimatetool.editor.TechnologyInteractionUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider"

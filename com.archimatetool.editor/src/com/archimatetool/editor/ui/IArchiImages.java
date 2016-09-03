@@ -94,8 +94,10 @@ public interface IArchiImages {
     String ICON_REQUIREMENT = ARCHIMATE_IMGPATH + "requirement.png"; //$NON-NLS-1$
     String ICON_STAKEHOLDER = ARCHIMATE_IMGPATH + "stakeholder.png"; //$NON-NLS-1$
     String ICON_SYSTEM_SOFTWARE = ARCHIMATE_IMGPATH + "system-software.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_COLLABORATION = ARCHIMATE_IMGPATH + "technology-collaboration.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_EVENT = ARCHIMATE_IMGPATH + "technology-event.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_FUNCTION = ARCHIMATE_IMGPATH + "technology-function.png"; //$NON-NLS-1$
+    String ICON_TECHNOLOGY_INTERACTION = ARCHIMATE_IMGPATH + "technology-interaction.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_INTERFACE = ARCHIMATE_IMGPATH + "technology-interface.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_PROCESS = ARCHIMATE_IMGPATH + "technology-process.png"; //$NON-NLS-1$
     String ICON_TECHNOLOGY_SERVICE = ARCHIMATE_IMGPATH + "technology-service.png"; //$NON-NLS-1$

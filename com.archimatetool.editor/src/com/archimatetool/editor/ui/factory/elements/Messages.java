@@ -100,9 +100,13 @@ public class Messages extends NLS {
 
     public static String SystemSoftwareUIProvider_0;
 
+    public static String TechnologyCollaborationUIProvider_0;
+
     public static String TechnologyEventUIProvider_0;
 
     public static String TechnologyFunctionUIProvider_0;
+
+    public static String TechnologyInteractionUIProvider_0;
 
     public static String TechnologyInterfaceUIProvider_0;
 

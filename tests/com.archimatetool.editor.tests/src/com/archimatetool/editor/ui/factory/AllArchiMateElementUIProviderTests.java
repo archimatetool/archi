@@ -71,8 +71,10 @@ import com.archimatetool.editor.ui.factory.elements.RequirementUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ResourceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.StakeholderUIProvider;
 import com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyEventUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyInteractionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyProcessUIProvider;
 import com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider;
@@ -145,9 +147,11 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement() },
                 { new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder() },
                 { new SystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
+                { new TechnologyCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyCollaboration() },
                 { new TechnologyEventUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyEvent() },
                 { new TechnologyFunctionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyFunction() },
                 { new TechnologyInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInterface() },
+                { new TechnologyInteractionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInteraction() },
                 { new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess() },
                 { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
                 { new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
