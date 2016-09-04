@@ -8,7 +8,7 @@ package com.archimatetool.editor.diagram.figures.diagram;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.graphics.Color;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -19,10 +19,10 @@ import com.archimatetool.model.IDiagramModelObject;
  * @author Phillip Beauvoir
  */
 public class EmptyFigure
-extends AbstractTextFlowFigure {
+extends AbstractTextControlContainerFigure {
     
     public EmptyFigure(IDiagramModelObject diagramModelObject) {
-        super(diagramModelObject);
+        super(diagramModelObject, TEXT_FLOW_CONTROL);
         
         // Use a Rectangle Figure Delegate to Draw
         setFigureDelegate(new RectangleFigureDelegate(this));

@@ -11,7 +11,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 
 
@@ -20,10 +20,10 @@ import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class CourseOfActionFigure
-extends AbstractArchimateFigure {
+public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
     
     public CourseOfActionFigure() {
+        super(TEXT_FLOW_CONTROL);
         // Use a Rounded Rectangle Figure Delegate to Draw
         setFigureDelegate(new RoundedRectangleFigureDelegate(this));
     }

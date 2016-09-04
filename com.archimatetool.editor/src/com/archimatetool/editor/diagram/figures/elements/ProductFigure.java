@@ -9,7 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -24,12 +24,13 @@ import com.archimatetool.editor.ui.ColorFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class ProductFigure
-extends AbstractArchimateFigure {
+public class ProductFigure extends AbstractTextControlContainerFigure {
     
     protected static final int FLANGE = 14;
 
     public ProductFigure() {
+        super(TEXT_FLOW_CONTROL);
+        
         // Use a Rectangle Figure Delegate to Draw
         RectangleFigureDelegate figureDelegate = new RectangleFigureDelegate(this) {
             @Override

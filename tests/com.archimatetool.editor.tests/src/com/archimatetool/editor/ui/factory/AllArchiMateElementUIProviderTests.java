@@ -57,6 +57,7 @@ import com.archimatetool.editor.ui.factory.elements.DeviceUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DriverUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GapUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GoalUIProvider;
+import com.archimatetool.editor.ui.factory.elements.GroupingUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider;
 import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;
@@ -133,6 +134,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver() },
                 { new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap() },
                 { new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal() },
+                { new GroupingUIProvider(), IArchimatePackage.eINSTANCE.getGrouping() },
                 { new ImplementationEventUIProvider(), IArchimatePackage.eINSTANCE.getImplementationEvent() },
                 { new LocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation() },
                 { new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
@@ -185,9 +187,16 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Override
     @Test
     public void testGetDefaultSize() {
+        // Junctions
         if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
             assertEquals(new Dimension(15, 15), getProvider().getDefaultSize());
         }
+        
+        // Grouping
+        else if(getProvider() instanceof GroupingUIProvider) {
+            assertEquals(new Dimension(400, 140), getProvider().getDefaultSize());
+        }
+        
         else {
             // New value via preferences
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
@@ -203,6 +212,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
 
     @Override
     public void testShouldExposeFeature() {
+        // Junctions
         if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
             EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
             assertFalse(getProvider().shouldExposeFeature(instance, null));

@@ -62,7 +62,7 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
 
     @Override
     @Test
-    public void testDidClickTestControl() {
+    public void testDidClickTextControl() {
         assertTrue(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 }

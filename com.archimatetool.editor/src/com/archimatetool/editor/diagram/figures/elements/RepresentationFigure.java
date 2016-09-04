@@ -10,7 +10,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -23,9 +23,10 @@ import com.archimatetool.editor.preferences.Preferences;
  * 
  * @author Phillip Beauvoir
  */
-public class RepresentationFigure extends AbstractArchimateFigure {
+public class RepresentationFigure extends AbstractTextControlContainerFigure {
 
     public RepresentationFigure() {
+        super(TEXT_FLOW_CONTROL);
     }
     
     @Override

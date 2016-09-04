@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.figures.elements;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
@@ -51,14 +50,6 @@ public class AndJunctionFigureTests extends AbstractDiagramModelObjectFigureTest
     public void testGetDefaultSize() {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
         assertEquals(provider.getDefaultSize(), abstractFigure.getDefaultSize());
-    }
-
-    @Override
-    @Test
-    public void testSetFillColor() {
-        Color expected = new Color(null, 0, 0, 0);
-        assertEquals(expected, abstractFigure.getFillColor());
-        expected.dispose();
     }
 
 }

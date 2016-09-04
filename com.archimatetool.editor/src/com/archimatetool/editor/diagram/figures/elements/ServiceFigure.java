@@ -12,9 +12,10 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -24,13 +25,13 @@ import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class ServiceFigure
-extends AbstractArchimateFigure {
+public class ServiceFigure extends AbstractTextControlContainerFigure {
     
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
 
     public ServiceFigure() {
+        super(TEXT_FLOW_CONTROL);
         fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
         fFigureDelegate2 = new ServiceFigureDelegate(this);
     }
@@ -80,5 +81,10 @@ extends AbstractArchimateFigure {
     @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new RoundedRectangleAnchor(this);
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

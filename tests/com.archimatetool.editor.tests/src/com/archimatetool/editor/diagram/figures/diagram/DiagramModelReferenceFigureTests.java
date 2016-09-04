@@ -7,14 +7,15 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import junit.framework.JUnit4TestAdapter;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigureTests;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigureTests;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelReference;
 
 
 
-public class DiagramModelReferenceFigureTests extends AbstractTextFlowFigureTests {
+@SuppressWarnings("nls")
+public class DiagramModelReferenceFigureTests extends AbstractTextControlContainerFigureTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelReferenceFigureTests.class);
@@ -30,6 +31,7 @@ public class DiagramModelReferenceFigureTests extends AbstractTextFlowFigureTest
         dm = (IArchimateDiagramModel)model.getDefaultDiagramModel();
         dmRef.setReferencedModel(dm);
         dmRef.setBounds(IArchimateFactory.eINSTANCE.createBounds());
+        dmRef.setName("Hello World"); // Need to do this for text control tests
         dm.getChildren().add(dmRef);
         
         // Layout

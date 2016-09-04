@@ -14,10 +14,11 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.EllipseFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IInterfaceElement;
 
 
@@ -26,11 +27,12 @@ import com.archimatetool.model.IInterfaceElement;
  * 
  * @author Phillip Beauvoir
  */
-public class InterfaceFigure extends AbstractArchimateFigure {
+public class InterfaceFigure extends AbstractTextControlContainerFigure {
     
     protected IFigureDelegate fRectangleDelegate, fEllipseDelegate;
     
     public InterfaceFigure() {
+        super(TEXT_FLOW_CONTROL);
         fRectangleDelegate = new RectangleFigureDelegate(this);
         fEllipseDelegate = new EllipseFigureDelegate(this);
     }
@@ -102,4 +104,8 @@ public class InterfaceFigure extends AbstractArchimateFigure {
         return type == 0 ? new ChopboxAnchor(this) : new EllipseAnchor(this);
     }
 
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
 }

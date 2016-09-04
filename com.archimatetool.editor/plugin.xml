@@ -906,6 +906,10 @@
             id="com.archimatetool.editor.GoalUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.GroupingUIProvider"
+            id="com.archimatetool.editor.GroupingUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider"
             id="com.archimatetool.editor.ImplementationEventUIProvider">
       </uiProvider>

@@ -10,7 +10,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+
 
 
 
@@ -20,10 +21,10 @@ import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
  * 
  * @author Phillip Beauvoir
  */
-public class PlateauFigure
-extends AbstractArchimateFigure {
+public class PlateauFigure extends AbstractTextControlContainerFigure {
     
     public PlateauFigure() {
+        super(TEXT_FLOW_CONTROL);
         setFigureDelegate(new BoxFigureDelegate(this));
     }
     

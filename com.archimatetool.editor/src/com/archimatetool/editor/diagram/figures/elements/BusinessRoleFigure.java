@@ -11,7 +11,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 
 
@@ -20,10 +20,10 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class BusinessRoleFigure
-extends AbstractArchimateFigure {
+public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     
     public BusinessRoleFigure() {
+        super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
         setFigureDelegate(new RectangleFigureDelegate(this));
     }

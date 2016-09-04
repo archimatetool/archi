@@ -5,14 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
@@ -59,11 +57,6 @@ public class AndJunctionFigure extends AbstractDiagramModelObjectFigure {
 
     @Override
     public void dispose() {
-    }
-
-    @Override
-    public Color getFillColor() {
-        return ColorConstants.black;
     }
 
     @Override

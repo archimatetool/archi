@@ -12,12 +12,13 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -25,14 +26,14 @@ import com.archimatetool.editor.ui.ColorFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class DeviceFigure
-extends AbstractArchimateFigure {
+public class DeviceFigure extends AbstractTextControlContainerFigure {
     
     protected static final int INDENT = 15;
 
     protected IFigureDelegate fFigureDelegate;
     
     public DeviceFigure() {
+        super(TEXT_FLOW_CONTROL);
         fFigureDelegate = new BoxFigureDelegate(this);
     }
     
@@ -148,4 +149,10 @@ extends AbstractArchimateFigure {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fFigureDelegate : null;
     }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
+
 }

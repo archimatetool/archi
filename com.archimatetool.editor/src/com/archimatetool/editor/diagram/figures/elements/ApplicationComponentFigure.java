@@ -13,13 +13,14 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -27,8 +28,7 @@ import com.archimatetool.editor.ui.ColorFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class ApplicationComponentFigure
-extends AbstractArchimateFigure {
+public class ApplicationComponentFigure extends AbstractTextControlContainerFigure {
     
     protected static final int INDENT = 10;
     protected static final int TEXT_INDENT = 25;
@@ -36,6 +36,7 @@ extends AbstractArchimateFigure {
     protected IFigureDelegate fMainFigureDelegate;
     
     public ApplicationComponentFigure() {
+        super(TEXT_FLOW_CONTROL);
         fMainFigureDelegate = new RectangleFigureDelegate(this);
     }
     
@@ -168,5 +169,10 @@ extends AbstractArchimateFigure {
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fMainFigureDelegate : null;
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

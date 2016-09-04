@@ -12,7 +12,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -23,13 +23,13 @@ import com.archimatetool.editor.preferences.Preferences;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractMotivationFigure
-extends AbstractArchimateFigure {
+public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure {
     
     protected static final int FLANGE = 10;
     protected static final int TEXT_INDENT = 20;
     
     protected AbstractMotivationFigure() {
+        super(TEXT_FLOW_CONTROL);
     }
     
     @Override

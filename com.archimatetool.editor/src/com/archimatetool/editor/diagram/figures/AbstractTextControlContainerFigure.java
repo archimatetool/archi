@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
@@ -24,21 +25,25 @@ import com.archimatetool.model.ITextAlignment;
 
 
 /**
- * Abstract Figure with Text Flow Control
+ * Abstract Container Figure with Text Control
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
+public abstract class AbstractTextControlContainerFigure extends AbstractContainerFigure {
     
-    private TextFlow fTextFlow;
+    private IFigure fTextControl;
+    private int fTextControlType = TEXT_FLOW_CONTROL;
     
-    protected int TEXT_PADDING = 10;
+    public static final int TEXT_FLOW_CONTROL = 0;
+    public static final int LABEL_CONTROL = 1;
     
-    protected AbstractTextFlowFigure() {
+    protected AbstractTextControlContainerFigure(int textControlType) {
+        fTextControlType = textControlType;
     }
     
-    protected AbstractTextFlowFigure(IDiagramModelObject diagramModelObject) {
-        super(diagramModelObject);
+    protected AbstractTextControlContainerFigure(IDiagramModelObject diagramModelObject, int textControlType) {
+        fTextControlType = textControlType;
+        setDiagramModelObject(diagramModelObject);
     }
     
     @Override
@@ -54,17 +59,8 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
                 }
             }
         };
-
-        FlowPage page = new FlowPage();
-        BlockFlow block = new BlockFlow();
-        fTextFlow = new TextFlow();
         
-        int wordWrapStyle = Preferences.STORE.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
-        fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, wordWrapStyle));
-        
-        block.add(fTextFlow);
-        page.add(block);
-        add(page, textLocator);
+        fTextControl = createTextControl(textLocator);
         
         Locator mainLocator = new Locator() {
             public void relocate(IFigure target) {
@@ -96,12 +92,14 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
         // Line Color
         setLineColor();
         
-        // Alignment default is CENTER
-        int alignment = getDiagramModelObject().getTextAlignment();
-        if(alignment == ITextAlignment.TEXT_ALIGNMENT_NONE) {
-            alignment = ITextAlignment.TEXT_ALIGNMENT_CENTER;
+        // Alignment (default is CENTER)
+        if(getTextControl() instanceof TextFlow) {
+            int alignment = getDiagramModelObject().getTextAlignment();
+            if(alignment == ITextAlignment.TEXT_ALIGNMENT_NONE) {
+                alignment = ITextAlignment.TEXT_ALIGNMENT_CENTER;
+            }
+            ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
         }
-        ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
     }
     
     @Override
@@ -117,11 +115,26 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
     
     protected void setText() {
         String text = StringUtils.safeString(getDiagramModelObject().getName());
-        getTextControl().setText(StringUtils.safeString(text));
+        
+        if(getTextControl() instanceof TextFlow) {
+            ((TextFlow)getTextControl()).setText(text);
+        }
+        else if(getTextControl() instanceof Label) {
+            ((Label)getTextControl()).setText(text);
+        }
     }
     
-    public TextFlow getTextControl() {
-        return fTextFlow;
+    public String getText() {
+        if(getTextControl() instanceof TextFlow) {
+            return ((TextFlow)getTextControl()).getText();
+        }
+        else {
+            return ((Label)getTextControl()).getText();
+        }
+    }
+    
+    public IFigure getTextControl() {
+        return fTextControl;
     }
 
     /**
@@ -134,4 +147,37 @@ public abstract class AbstractTextFlowFigure extends AbstractContainerFigure {
         }
         return null;
     }
+    
+    protected IFigure createTextControl(Locator textLocator) {
+        if(fTextControlType == TEXT_FLOW_CONTROL) {
+            return createTextFlowControl(textLocator);
+        }
+        else {
+            return createLabelControl(textLocator);
+        }
+    }
+    
+    protected TextFlow createTextFlowControl(Locator textLocator) {
+        TextFlow textFlow = new TextFlow();
+        
+        int wordWrapStyle = Preferences.STORE.getInt(IPreferenceConstants.ARCHIMATE_FIGURE_WORD_WRAP_STYLE);
+        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow, wordWrapStyle));
+        
+        BlockFlow block = new BlockFlow();
+        block.add(textFlow);
+
+        FlowPage page = new FlowPage();
+        page.add(block);
+        
+        add(page, textLocator);
+        
+        return textFlow;
+    }
+
+    protected Label createLabelControl(Locator textLocator) {
+        Label label = new Label(""); //$NON-NLS-1$
+        add(label, textLocator);
+        return label;
+    }
+
 }

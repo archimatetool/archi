@@ -5,11 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import static org.junit.Assert.assertEquals;
-
-import org.eclipse.swt.graphics.Color;
-import org.junit.Test;
-
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -35,14 +30,6 @@ public class OrJunctionFigureTests extends AndJunctionFigureTests {
         editor.layoutPendingUpdates();
         
         return (OrJunctionFigure)editor.findFigure(dmo);
-    }
-    
-    @Override
-    @Test
-    public void testSetFillColor() {
-        Color expected = new Color(null, 0, 0, 0);
-        assertEquals(expected, abstractFigure.getFillColor());
-        expected.dispose();
     }
 
 }

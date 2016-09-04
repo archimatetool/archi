@@ -127,7 +127,7 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     }
     
     @Test
-    public void testDidClickTestControl() {
+    public void testDidClickTextControl() {
         assertFalse(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 

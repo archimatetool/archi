@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -25,10 +25,10 @@ import com.archimatetool.editor.preferences.Preferences;
  * 
  * @author Phillip Beauvoir
  */
-public class DeliverableFigure
-extends AbstractArchimateFigure {
+public class DeliverableFigure extends AbstractTextControlContainerFigure {
     
     public DeliverableFigure() {
+        super(TEXT_FLOW_CONTROL);
     }
     
     @Override

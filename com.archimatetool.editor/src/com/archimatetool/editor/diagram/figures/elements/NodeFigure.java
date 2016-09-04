@@ -11,9 +11,10 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 /**
@@ -21,13 +22,13 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class NodeFigure
-extends AbstractArchimateFigure {
+public class NodeFigure extends AbstractTextControlContainerFigure {
     
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
     
     public NodeFigure() {
+        super(TEXT_FLOW_CONTROL);
         fFigureDelegate1 = new RectangleFigureDelegate(this);
         fFigureDelegate2 = new BoxFigureDelegate(this);
     }
@@ -94,4 +95,10 @@ extends AbstractArchimateFigure {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fFigureDelegate1 : fFigureDelegate2;
     }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
+
 }

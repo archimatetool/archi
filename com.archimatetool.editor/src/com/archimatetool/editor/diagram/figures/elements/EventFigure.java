@@ -12,12 +12,13 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -27,11 +28,12 @@ import com.archimatetool.editor.preferences.Preferences;
  * 
  * @author Phillip Beauvoir
  */
-public class EventFigure extends AbstractArchimateFigure {
+public class EventFigure extends AbstractTextControlContainerFigure {
     
     protected IFigureDelegate fMainFigureDelegate;
 
     public EventFigure() {
+        super(TEXT_FLOW_CONTROL);
         fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
     }
     
@@ -151,4 +153,10 @@ public class EventFigure extends AbstractArchimateFigure {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fMainFigureDelegate : null;
     }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
+    }
+
 }

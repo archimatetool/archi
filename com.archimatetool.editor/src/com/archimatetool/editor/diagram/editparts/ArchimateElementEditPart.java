@@ -26,7 +26,7 @@ import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 
 
 /**
- * Archimate Element Edit Part with editable text flow control
+ * Archimate Element Edit Part
  * 
  * @author Phillip Beauvoir
  */

@@ -10,7 +10,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import com.archimatetool.editor.diagram.figures.AbstractTextFlowFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -25,11 +25,10 @@ import com.archimatetool.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceFigure
-extends AbstractTextFlowFigure {
+public class DiagramModelReferenceFigure extends AbstractTextControlContainerFigure {
     
     public DiagramModelReferenceFigure(IDiagramModelObject diagramModelObject) {
-        super(diagramModelObject);
+        super(diagramModelObject, TEXT_FLOW_CONTROL);
         
         // Use a Rectangle Figure Delegate to Draw
         setFigureDelegate(new RectangleFigureDelegate(this));

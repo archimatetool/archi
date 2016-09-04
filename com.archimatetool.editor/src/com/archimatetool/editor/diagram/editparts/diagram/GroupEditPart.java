@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.editparts.diagram;
 
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -20,7 +19,6 @@ import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
 import com.archimatetool.editor.diagram.editparts.SnapEditPartAdapter;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigure;
-import com.archimatetool.editor.diagram.figures.diagram.GroupFigure.GroupFigureConnectionAnchor;
 import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramLayoutPolicy;
@@ -108,11 +106,6 @@ public class GroupEditPart extends AbstractConnectedEditPart {
     
     protected DirectEditManager createDirectEditManager() {
         return new LabelDirectEditManager(this, getFigure().getTextControl());
-    }
-
-    @Override
-    protected ConnectionAnchor getDefaultConnectionAnchor() {
-        return new GroupFigureConnectionAnchor(getFigure());
     }
 
     @SuppressWarnings("rawtypes")

@@ -10,7 +10,7 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Pattern;
 
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
@@ -24,11 +24,12 @@ import com.archimatetool.editor.ui.ColorFactory;
  * 
  * @author Phillip Beauvoir
  */
-public class ArtifactFigure extends AbstractArchimateFigure {
+public class ArtifactFigure extends AbstractTextControlContainerFigure {
 
     protected static final int FOLD_HEIGHT = 18;
 
     public ArtifactFigure() {
+        super(TEXT_FLOW_CONTROL);
     }
 
     @Override

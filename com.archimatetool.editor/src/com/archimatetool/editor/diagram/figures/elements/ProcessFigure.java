@@ -14,9 +14,10 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import com.archimatetool.editor.diagram.editparts.RoundedRectangleAnchor;
-import com.archimatetool.editor.diagram.figures.AbstractArchimateFigure;
+import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
 
@@ -26,13 +27,13 @@ import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
  * 
  * @author Phillip Beauvoir
  */
-public class ProcessFigure
-extends AbstractArchimateFigure {
+public class ProcessFigure extends AbstractTextControlContainerFigure {
     
     protected IFigureDelegate fFigureDelegate1;
     protected IFigureDelegate fFigureDelegate2;
 
     public ProcessFigure() {
+        super(TEXT_FLOW_CONTROL);
         fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
         fFigureDelegate2 = new ProcessFigureDelegate(this);
     }
@@ -105,5 +106,10 @@ extends AbstractArchimateFigure {
     public ConnectionAnchor getDefaultConnectionAnchor() {
         int type = getDiagramModelObject().getType();
         return type == 0 ? new RoundedRectangleAnchor(this) : new ChopboxAnchor(this);
+    }
+    
+    @Override
+    public IDiagramModelArchimateObject getDiagramModelObject() {
+        return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
 }

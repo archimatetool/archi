@@ -29,10 +29,10 @@ import junit.framework.JUnit4TestAdapter;
 
 @SuppressWarnings("nls")
 @RunWith(Parameterized.class)
-public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
+public class AllArchimateTextControlContainerFigureTests extends AbstractTextControlContainerFigureTests {
     
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AllArchimateTypeFigureTests.class);
+        return new JUnit4TestAdapter(AllArchimateTextControlContainerFigureTests.class);
     }
     
     @Parameters
@@ -42,13 +42,13 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
             list.add(new EClass[] { eClass });
         }
-
+        
         return list;
     }
     
     private EClass eClass;
     
-    public AllArchimateTypeFigureTests(EClass eClass) {
+    public AllArchimateTextControlContainerFigureTests(EClass eClass) {
         this.eClass = eClass;
     }
 
@@ -67,7 +67,7 @@ public class AllArchimateTypeFigureTests extends AbstractTextFlowFigureTests {
     
     @Override
     @Test
-    public void testDidClickTestControl() {
+    public void testDidClickTextControl() {
         Rectangle bounds = abstractFigure.getTextControl().getBounds().getCopy();
         abstractFigure.getTextControl().translateToAbsolute(bounds);
         assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 3, bounds.y + 3)));

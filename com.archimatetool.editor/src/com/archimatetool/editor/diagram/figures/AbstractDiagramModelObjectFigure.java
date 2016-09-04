@@ -199,10 +199,12 @@ implements IDiagramModelObjectFigure {
             toolTipFigure = new ToolTipFigure();
             setToolTip(toolTipFigure);
         }
-
+        
+        // Set text to object's default text
         String text = ArchiLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
         toolTipFigure.setText(text);
         
+        // If an ArchiMate type, set text to element type if blank
         if(fDiagramModelObject instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
             String type = ArchiLabelProvider.INSTANCE.getDefaultName(element.eClass());
