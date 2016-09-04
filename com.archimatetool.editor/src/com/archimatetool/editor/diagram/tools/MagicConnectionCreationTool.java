@@ -47,7 +47,6 @@ import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -323,12 +322,6 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelObject, ArchimateModelUtils.getOtherClasses(), relationshipType);
                 addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_5, sourceDiagramModelObject, ArchimateModelUtils.getConnectorClasses(), relationshipType);
                 
-                // Remove the very last separator if there is one
-                int itemCount = subMenu.getItemCount() - 1;
-                if(itemCount > 0 && (subMenu.getItem(itemCount).getStyle() & SWT.SEPARATOR) != 0) {
-                    subMenu.getItem(itemCount).dispose();
-                }
-                
                 if(subMenu.getItemCount() == 0) {
                     item.dispose(); // Nothing there
                 }
@@ -337,17 +330,10 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
     }
     
     private void addConnectionActions(Menu menu, String menuText, IDiagramModelArchimateObject sourceDiagramModelObject, EClass[] list, EClass relationshipType) {
-        MenuItem subMenuItem = null;
-        
-        // The list for Association Relationship is too big, so needs to be broken into sub-menus
-        if(relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship()) {
-            subMenuItem = new MenuItem(menu, SWT.CASCADE);
-            subMenuItem.setText(menuText);
-            menu = new Menu(menu);
-            subMenuItem.setMenu(menu);
-        }
-        
-        boolean added = false;
+        MenuItem item = new MenuItem(menu, SWT.CASCADE);
+        item.setText(menuText);
+        Menu subMenu = new Menu(item);
+        item.setMenu(subMenu);
         
         for(EClass type : list) {
             // Check if allowed by Viewpoint
@@ -356,18 +342,12 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
             }
 
             if(ArchimateModelUtils.isValidRelationship(sourceDiagramModelObject.getArchimateElement().eClass(), type, relationshipType)) {
-                added = true;
-                addElementAction(menu, type);
+                addElementAction(subMenu, type);
             }
         }
         
-        if(subMenuItem != null) {
-            if(menu.getItemCount() == 0) {
-                subMenuItem.dispose(); // Nothing there
-            }
-        }
-        else if(added) {
-            new MenuItem(menu, SWT.SEPARATOR);
+        if(subMenu.getItemCount() == 0) {
+            item.dispose(); // Nothing there
         }
     }
     
