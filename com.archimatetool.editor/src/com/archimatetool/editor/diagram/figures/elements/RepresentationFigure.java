@@ -24,6 +24,8 @@ import com.archimatetool.editor.preferences.Preferences;
  * @author Phillip Beauvoir
  */
 public class RepresentationFigure extends AbstractTextControlContainerFigure {
+    
+    protected static final int TOP_MARGIN = 12;
 
     public RepresentationFigure() {
         super(TEXT_FLOW_CONTROL);
@@ -75,6 +77,9 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
+        // Line
+        graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.x + bounds.width, bounds.y + TOP_MARGIN);
+        
         graphics.popState();
     }
 
@@ -82,8 +87,8 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
         bounds.x += 20;
-        bounds.y += 5;
-        bounds.width = bounds.width - 40;
+        bounds.y += TOP_MARGIN + 1;
+        bounds.width -= 40;
         bounds.height -= 10;
         return bounds;
     }

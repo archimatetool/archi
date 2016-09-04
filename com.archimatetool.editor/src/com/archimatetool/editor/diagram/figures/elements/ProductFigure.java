@@ -14,7 +14,6 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ColorFactory;
 
 
 
@@ -26,7 +25,7 @@ import com.archimatetool.editor.ui.ColorFactory;
  */
 public class ProductFigure extends AbstractTextControlContainerFigure {
     
-    protected static final int FLANGE = 14;
+    protected static final int TOP_MARGIN = 12;
 
     public ProductFigure() {
         super(TEXT_FLOW_CONTROL);
@@ -43,15 +42,6 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                     setDisabledState(graphics);
                 }
                 
-                graphics.setForegroundColor(getLineColor());
-
-                // Top bit
-                int middle = bounds.width / 2;
-                graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-                graphics.fillRectangle(bounds.x, bounds.y, middle + 1, FLANGE);
-                graphics.setBackgroundColor(getFillColor());
-                graphics.fillRectangle(bounds.x + middle, bounds.y, middle, FLANGE);
-                
                 Pattern gradient = null;
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
                     gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
@@ -59,15 +49,17 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 }
 
                 // Main Fill
-                graphics.fillRectangle(bounds.x, bounds.y + FLANGE - 1, bounds.width, bounds.height - FLANGE + 1);
+                graphics.fillRectangle(bounds);
                 
                 if(gradient != null) {
                     gradient.dispose();
                 }
                 
                 // Outline
-                graphics.drawLine(bounds.x, bounds.y + FLANGE - 1, bounds.x + middle, bounds.y + FLANGE - 1);
-                graphics.drawLine(bounds.x + middle, bounds.y + FLANGE - 1, bounds.x + middle, bounds.y);
+                graphics.setForegroundColor(getLineColor());
+
+                graphics.drawLine(bounds.x, bounds.y + TOP_MARGIN, bounds.getCenter().x, bounds.y + TOP_MARGIN);
+                graphics.drawLine(bounds.getCenter().x, bounds.y + TOP_MARGIN, bounds.getCenter().x, bounds.y);
                         
                 bounds.width--;
                 bounds.height--;
@@ -79,7 +71,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
             @Override
             public Rectangle calculateTextControlBounds() {
                 Rectangle bounds = super.calculateTextControlBounds();
-                bounds.y += FLANGE - 4;
+                bounds.y += TOP_MARGIN - 4;
                 bounds.height -= 10;
                 return bounds;
             }
