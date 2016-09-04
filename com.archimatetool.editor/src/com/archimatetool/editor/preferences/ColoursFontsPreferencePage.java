@@ -204,12 +204,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             public Object[] getElements(Object inputElement) {
                 if(inputElement instanceof String) {
                     return new Object[] {
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_32, ArchimateModelUtils.getStrategyClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_7, ArchimateModelUtils.getBusinessClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_8, ArchimateModelUtils.getApplicationClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_9, ArchimateModelUtils.getTechnologyClasses()),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_33, ArchimateModelUtils.getPhysicalClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_10, ArchimateModelUtils.getMotivationClasses()),
                             new TreeGrouping(Messages.ColoursFontsPreferencePage_11, ArchimateModelUtils.getImplementationMigrationClasses()),
-                            new TreeGrouping(Messages.ColoursFontsPreferencePage_17,
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_17, ArchimateModelUtils.getOtherClasses() ),
+                            new TreeGrouping(Messages.ColoursFontsPreferencePage_34,
                                     new Object[] { IArchimatePackage.eINSTANCE.getDiagramModelNote(),
                                                    IArchimatePackage.eINSTANCE.getDiagramModelGroup() } ),
                             DEFAULT_ELEMENT_LINE_COLOR,
@@ -564,27 +567,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fColorsCache.clear();
         
-        for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
-            Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-            fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
-        }
-        
-        for(EClass eClass : ArchimateModelUtils.getApplicationClasses()) {
-            Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-            fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
-        }
-       
-        for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
-            Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-            fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
-        }
-
-        for(EClass eClass : ArchimateModelUtils.getMotivationClasses()) {
-            Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
-            fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
-        }
-        
-        for(EClass eClass : ArchimateModelUtils.getImplementationMigrationClasses()) {
+        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
             Color color = useInbuiltDefaults ? ColorFactory.getInbuiltDefaultFillColor(eClass) : ColorFactory.getDefaultFillColor(eClass);
             fColorsCache.put(eClass, new Color(color.getDevice(), color.getRGB()));
         }

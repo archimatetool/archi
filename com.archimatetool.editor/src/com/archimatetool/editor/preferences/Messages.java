@@ -63,6 +63,12 @@ public class Messages extends NLS {
 
     public static String ColoursFontsPreferencePage_31;
 
+    public static String ColoursFontsPreferencePage_32;
+
+    public static String ColoursFontsPreferencePage_33;
+
+    public static String ColoursFontsPreferencePage_34;
+
     public static String ColoursFontsPreferencePage_4;
 
     public static String ColoursFontsPreferencePage_5;
