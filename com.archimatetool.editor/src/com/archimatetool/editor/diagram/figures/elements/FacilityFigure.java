@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -37,6 +38,26 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
     protected void drawIcon(Graphics graphics) {
         graphics.pushState();
         
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        graphics.setLineWidthFloat(1.2f);
+        Point pt = getIconOrigin();
+        
+        graphics.drawPolygon(new int[] {
+                pt.x , pt.y,
+                pt.x + 15, pt.y,
+                
+                pt.x + 15, pt.y - 6,
+                pt.x + 11, pt.y - 3,
+                
+                pt.x + 11, pt.y - 6,
+                pt.x + 7, pt.y - 3,
+                
+                pt.x + 7, pt.y - 6,
+                pt.x + 3, pt.y - 3,
+                
+                pt.x + 3, pt.y - 12,
+                pt.x, pt.y - 12
+        });
         
         graphics.popState();
     }
@@ -46,6 +67,6 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 33, bounds.y + 27);
+        return new Point(bounds.getRight().x - 34, bounds.y + 29);
     }
 }

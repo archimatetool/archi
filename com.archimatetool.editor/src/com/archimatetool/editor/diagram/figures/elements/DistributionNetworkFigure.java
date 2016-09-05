@@ -5,9 +5,11 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
@@ -40,6 +42,35 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
     protected void drawIcon(Graphics graphics) {
         graphics.pushState();
         
+        graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
+        graphics.setLineWidthFloat(1.5f);
+        
+        Point pt = getIconOrigin();
+        
+        Path path = new Path(null);
+        
+        path.moveTo(pt.x + 1, pt.y - 2);
+        path.lineTo(pt.x + 14, pt.y - 2);
+        
+        path.moveTo(pt.x + 1, pt.y + 2);
+        path.lineTo(pt.x + 14, pt.y + 2);
+
+        graphics.drawPath(path);
+        path.dispose();
+        
+        path = new Path(null);
+        
+        path.moveTo(pt.x + 4, pt.y - 5);
+        path.lineTo(pt.x - 1, pt.y);
+        path.lineTo(pt.x + 4, pt.y + 5);
+        
+        path.moveTo(pt.x + 11, pt.y - 5);
+        path.lineTo(pt.x + 16, pt.y);
+        path.lineTo(pt.x + 11, pt.y + 5);
+ 
+        graphics.drawPath(path);
+        path.dispose();
+
         graphics.popState();
     }
     

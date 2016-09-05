@@ -42,33 +42,34 @@ public class PathFigure extends AbstractTextControlContainerFigure {
     protected void drawIcon(Graphics graphics) {
         graphics.pushState();
         
-        graphics.setLineWidthFloat(1.4f);
+        graphics.setLineWidthFloat(1.5f);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
         
         Path path = new Path(null);
         
-        path.moveTo(pt.x + 3, pt.y);
-        path.lineTo(pt.x + 6, pt.y);
+        path.moveTo(pt.x + 2.5f, pt.y);
+        path.lineTo(pt.x + 4.5f, pt.y);
         
-        path.moveTo(pt.x + 9, pt.y);
-        path.lineTo(pt.x + 12, pt.y);
+        path.moveTo(pt.x + 6.5f, pt.y);
+        path.lineTo(pt.x + 8.5f, pt.y);
+        
+        path.moveTo(pt.x + 10.5f, pt.y);
+        path.lineTo(pt.x + 12.5f, pt.y);
         
         graphics.drawPath(path);
         path.dispose();
         
-        graphics.setLineWidthFloat(1.6f);
-        
         path = new Path(null);
         
-        path.moveTo(pt.x + 5, pt.y - 5);
-        path.lineTo(pt.x, pt.y);
-        path.lineTo(pt.x + 5, pt.y + 5);
+        path.moveTo(pt.x + 4, pt.y - 5);
+        path.lineTo(pt.x - 1, pt.y);
+        path.lineTo(pt.x + 4, pt.y + 5);
         
-        path.moveTo(pt.x + 10, pt.y - 5);
-        path.lineTo(pt.x + 15, pt.y);
-        path.lineTo(pt.x + 10, pt.y + 5);
+        path.moveTo(pt.x + 11, pt.y - 5);
+        path.lineTo(pt.x + 16, pt.y);
+        path.lineTo(pt.x + 11, pt.y + 5);
  
         graphics.drawPath(path);
         path.dispose();
