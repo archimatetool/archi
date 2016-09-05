@@ -31,12 +31,16 @@ public class AssessmentFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
         graphics.drawOval(pt.x, pt.y, 8, 8);
         graphics.drawLine(pt.x + 2, pt.y + 7, pt.x - 3, pt.y + 12);
+        
+        graphics.popState();
     }
     
     /**

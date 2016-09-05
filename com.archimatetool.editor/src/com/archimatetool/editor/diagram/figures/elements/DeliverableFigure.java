@@ -6,9 +6,7 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
@@ -77,23 +75,9 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         graphics.drawPath(path);
         path.dispose();
         
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-        
         graphics.popState();
     }
     
-    protected Image getImage() {
-        return null;
-    }
-    
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 22, bounds.y + 5);
-    }
-
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();

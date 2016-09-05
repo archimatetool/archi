@@ -115,6 +115,8 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -128,6 +130,8 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
                 pt.x + 9, pt.y + 8,
                 pt.x + 12, pt.y + 12
         });
+        
+        graphics.popState();
     }
     
     /**

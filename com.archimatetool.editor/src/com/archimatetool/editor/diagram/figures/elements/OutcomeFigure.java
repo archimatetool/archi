@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Path;
 
 
 /**
- * Figure for a Goal
+ * Figure for an Outcome
  * 
  * @author Phillip Beauvoir
  */
@@ -32,6 +32,8 @@ public class OutcomeFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         graphics.setBackgroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
@@ -66,6 +68,8 @@ public class OutcomeFigure extends AbstractMotivationFigure {
         path.dispose();
 
         graphics.fillOval(pt.x + 5, pt.y + 5, 4, 4);
+        
+        graphics.popState();
     }
     
     /**

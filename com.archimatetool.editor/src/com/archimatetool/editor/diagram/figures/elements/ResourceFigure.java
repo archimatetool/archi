@@ -38,6 +38,8 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -73,6 +75,8 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
 //        graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
 //        pt.translate(3, 0);
 //        graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
+        
+        graphics.popState();
     }
     
     /**

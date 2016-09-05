@@ -40,6 +40,8 @@ public class PathFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidthFloat(1.4f);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -70,6 +72,8 @@ public class PathFigure extends AbstractTextControlContainerFigure {
  
         graphics.drawPath(path);
         path.dispose();
+        
+        graphics.popState();
     }
     
     /**

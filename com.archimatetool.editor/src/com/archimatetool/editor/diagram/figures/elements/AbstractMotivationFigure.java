@@ -6,10 +6,8 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -82,11 +80,6 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         graphics.setForegroundColor(getLineColor());
         graphics.drawPolygon(points);
         
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-        
         graphics.popState();
     }
     
@@ -99,14 +92,4 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         bounds.height -= 10;
         return bounds;
     }
-
-    protected Image getImage() {
-        return null;
-    }
-    
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - TEXT_INDENT - 2, bounds.y + 5);
-    }
-
 }

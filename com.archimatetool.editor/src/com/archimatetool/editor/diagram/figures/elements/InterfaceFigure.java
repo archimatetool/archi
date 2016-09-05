@@ -51,6 +51,8 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -70,6 +72,8 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
         
         // line
         graphics.drawLine(pt.x, pt.y + 5, pt.x - 7, pt.y + 5);
+        
+        graphics.popState();
     }
     
     /**

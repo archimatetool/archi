@@ -42,6 +42,8 @@ public class RequirementFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -53,6 +55,8 @@ public class RequirementFigure extends AbstractMotivationFigure {
                 pt.x + 8, pt.y + 9,
                 pt.x - 4, pt.y + 9,
         });
+        
+        graphics.popState();
     }
     
     /**

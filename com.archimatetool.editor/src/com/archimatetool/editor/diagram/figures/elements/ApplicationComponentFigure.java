@@ -120,6 +120,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -149,6 +151,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
 
         graphics.drawPath(path);
         path.dispose();
+        
+        graphics.popState();
     }
     
     /**

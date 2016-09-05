@@ -47,6 +47,8 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -74,6 +76,8 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
 
         graphics.drawPath(path);
         path.dispose();
+        
+        graphics.popState();
     }
     
     /**

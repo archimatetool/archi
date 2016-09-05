@@ -52,6 +52,8 @@ public class ProcessFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -80,6 +82,8 @@ public class ProcessFigure extends AbstractTextControlContainerFigure {
         points.addPoint(pt);
         
         graphics.drawPolygon(points);
+        
+        graphics.popState();
     }
     
     /**

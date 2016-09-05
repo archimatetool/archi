@@ -39,6 +39,8 @@ public class PlateauFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(2);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -51,6 +53,8 @@ public class PlateauFigure extends AbstractTextControlContainerFigure {
         
         pt.translate(2, -3);
         graphics.drawLine(pt.x, pt.y, pt.x + 12, pt.y);
+        
+        graphics.popState();
     }
     
     /**

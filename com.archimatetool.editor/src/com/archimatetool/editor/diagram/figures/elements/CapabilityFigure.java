@@ -37,6 +37,8 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -50,6 +52,8 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
         graphics.drawRectangle(pt.x, pt.y + 8, 4, 4);
         graphics.drawRectangle(pt.x + 4, pt.y + 8, 4, 4);
         graphics.drawRectangle(pt.x + 8, pt.y + 8, 4, 4);
+        
+        graphics.popState();
     }
     
     /**

@@ -38,6 +38,8 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         graphics.setBackgroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
@@ -72,6 +74,8 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
 
         // centre blob
         graphics.fillOval(pt.x + 5, pt.y + 5, 4, 4);
+        
+        graphics.popState();
     }
     
     /**

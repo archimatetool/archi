@@ -34,6 +34,8 @@ extends DeliverableFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -46,6 +48,8 @@ extends DeliverableFigure {
         
         pt.translate(0, 3);
         graphics.drawLine(pt.x, pt.y, pt.x + 17, pt.y);
+        
+        graphics.popState();
     }
     
     /**

@@ -42,6 +42,8 @@ public class ConstraintFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -55,6 +57,8 @@ public class ConstraintFigure extends AbstractMotivationFigure {
         });
         
         graphics.drawLine(pt.x + 4, pt.y, pt.x, pt.y + 9);
+        
+        graphics.popState();
     }
     
     /**

@@ -40,6 +40,8 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidthFloat(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -66,6 +68,8 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         
         graphics.drawPath(path);
         path.dispose();
+        
+        graphics.popState();
     }
     
     /**

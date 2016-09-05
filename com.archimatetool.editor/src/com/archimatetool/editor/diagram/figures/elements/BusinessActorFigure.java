@@ -37,6 +37,8 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -57,6 +59,8 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure {
         // arms
         pt.translate(-4, -3);
         graphics.drawLine(pt.x, pt.y, pt.x + 8, pt.y);
+        
+        graphics.popState();
     }
     
     /**

@@ -37,6 +37,8 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -47,6 +49,8 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure {
         graphics.drawOval(circle);
         circle.translate(4, 0);
         graphics.drawOval(circle);
+        
+        graphics.popState();
     }
     
     /**

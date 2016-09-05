@@ -32,6 +32,8 @@ public class StakeholderFigure extends AbstractMotivationFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -50,6 +52,8 @@ public class StakeholderFigure extends AbstractMotivationFigure {
         path.dispose();
         
         graphics.drawOval(pt.x + 8, pt.y, 7, 7);
+        
+        graphics.popState();
     }
     
     /**

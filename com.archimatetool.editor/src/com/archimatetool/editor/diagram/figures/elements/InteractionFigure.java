@@ -42,6 +42,8 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
@@ -59,6 +61,8 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
         path.lineTo(pt.x + 3, pt.y + 12.5f);
         graphics.drawPath(path);
         path.dispose();
+        
+        graphics.popState();
     }
     
     /**

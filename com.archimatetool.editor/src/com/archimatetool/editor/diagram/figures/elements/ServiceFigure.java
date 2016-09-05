@@ -50,12 +50,16 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
      * Draw the icon
      */
     protected void drawIcon(Graphics graphics) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         
         Point pt = getIconOrigin();
         Rectangle rect = new Rectangle(pt.x, pt.y, 16, 9);
         graphics.drawRoundRectangle(rect, 8, 8);
+        
+        graphics.popState();
     }
     
     /**
