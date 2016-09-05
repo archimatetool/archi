@@ -46,6 +46,16 @@ public class RealizationConnectionFigure extends AbstractArchimateConnectionFigu
         setTargetDecoration(createFigureTargetDecoration());
         
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(new float[] { 4 });
+        setLineDash(getLineDashes(1));
     }
+    
+    @Override
+    public void handleZoomChanged(double newZoomValue) {
+        setLineDash(getLineDashes(newZoomValue));
+    }
+    
+    private float[] getLineDashes(double zoomLevel) {
+        return new float[] { (float)(2 * zoomLevel) }; 
+    }
+
 }

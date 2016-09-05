@@ -32,6 +32,15 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
     protected void setFigureProperties() {
         setTargetDecoration(createFigureTargetDecoration()); 
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(new float[] { 6, 3 });
+        setLineDash(getLineDashes(1.0));
+    }
+    
+    @Override
+    public void handleZoomChanged(double newZoomValue) {
+        setLineDash(getLineDashes(newZoomValue));
+    }
+    
+    private float[] getLineDashes(double zoomLevel) {
+        return new float[] { (float)(6 * zoomLevel), (float)(3 * zoomLevel) }; 
     }
 }

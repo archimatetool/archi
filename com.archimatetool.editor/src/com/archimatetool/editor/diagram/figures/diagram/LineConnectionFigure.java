@@ -33,7 +33,7 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     private PolygonDecoration fArrowheadTargetFilled;
     private PolylineDecoration fArrowheadTargetLine;
     private PolygonDecoration fArrowheadTargetHollow;
-
+    
     @Override
     protected void setFigureProperties() {
     }
@@ -41,21 +41,10 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     @Override
     public void refreshVisuals() {
         super.refreshVisuals();
+        
+        setLineStyleFromZoomLevel(1);
 
         int connectionType = getModelConnection().getType();
-        
-        // Line Style
-        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
-            setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 4 });
-        }
-        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
-            setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 1, 4 });
-        }
-        else {
-            setLineStyle(Graphics.LINE_SOLID);
-        }
         
         // Source Arrow head
         if((connectionType & IDiagramModelConnection.ARROW_FILL_SOURCE) != 0) {
@@ -84,6 +73,28 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
         else {
             setTargetDecoration(null);
         }
+    }
+    
+    protected void setLineStyleFromZoomLevel(double zoomLevel) {
+        int connectionType = getModelConnection().getType();
+        
+        // Line Style
+        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
+            setLineStyle(SWT.LINE_CUSTOM);
+            setLineDash(new float[] { (float)(4 * zoomLevel) });
+        }
+        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
+            setLineStyle(SWT.LINE_CUSTOM);
+            setLineDash(new float[] { (float)(1 * zoomLevel), (float)(4 * zoomLevel) });
+        }
+        else {
+            setLineStyle(Graphics.LINE_SOLID);
+        }
+    }
+    
+    @Override
+    public void handleZoomChanged(double newZoomValue) {
+        setLineStyleFromZoomLevel(newZoomValue);
     }
     
     protected PolygonDecoration getArrowheadSourceFilled() {

@@ -45,7 +45,16 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     @Override
     protected void setFigureProperties() {
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(new float[] { 1.5f, 3 });
+        setLineDash(getLineDashes(1.0));
+    }
+    
+    @Override
+    public void handleZoomChanged(double newZoomValue) {
+        setLineDash(getLineDashes(newZoomValue));
+    }
+    
+    private float[] getLineDashes(double zoomLevel) {
+        return new float[] { (float)(2 * zoomLevel) }; 
     }
     
     @Override

@@ -16,6 +16,8 @@ import org.eclipse.draw2d.PolygonDecoration;
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.editparts.ZoomListener;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
@@ -49,6 +51,40 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fLineColor;
     
     protected boolean SHOW_TARGET_FEEDBACK = false;
+    
+    private ZoomListener zoomListener = new ZoomListener() {
+        public void zoomChanged(double newZoomValue) {
+            handleZoomChanged(newZoomValue);
+        }
+    };
+    
+    protected ZoomManager zoomManager;
+    
+    /**
+     * Set the Zoom Manager
+     * @param manager
+     */
+    public void setZoomManager(ZoomManager manager) {
+        if(zoomManager != manager) {
+            if(zoomManager != null) {
+                zoomManager.removeZoomListener(zoomListener);
+            }
+            
+            zoomManager = manager;
+            
+            if(zoomManager != null) {
+                zoomManager.addZoomListener(zoomListener);
+                handleZoomChanged(zoomManager.getZoom());
+            }
+        }
+    }
+
+    /**
+     * Zoom Factor changed - deal with it :-)
+     * @param newZoomValue
+     */
+    protected void handleZoomChanged(double newZoomValue) {
+    }
     
 	public void setModelConnection(IDiagramModelConnection connection) {
 	    fDiagramModelConnection = connection;
