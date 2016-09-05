@@ -894,8 +894,20 @@
             id="com.archimatetool.editor.DeviceUIProvider">
       </uiProvider>
       <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.DistributionNetworkUIProvider"
+            id="com.archimatetool.editor.DistributionNetworkUIProvider">
+      </uiProvider>
+      <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.DriverUIProvider"
             id="com.archimatetool.editor.DriverUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.EquipmentUIProvider"
+            id="com.archimatetool.editor.EquipmentUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.FacilityUIProvider"
+            id="com.archimatetool.editor.FacilityUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.GapUIProvider"
@@ -916,6 +928,10 @@
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.LocationUIProvider"
             id="com.archimatetool.editor.LocationUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.MaterialUIProvider"
+            id="com.archimatetool.editor.MaterialUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.MeaningUIProvider"

@@ -54,12 +54,16 @@ import com.archimatetool.editor.ui.factory.elements.CourseOfActionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DataObjectUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DeliverableUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DeviceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.DistributionNetworkUIProvider;
 import com.archimatetool.editor.ui.factory.elements.DriverUIProvider;
+import com.archimatetool.editor.ui.factory.elements.EquipmentUIProvider;
+import com.archimatetool.editor.ui.factory.elements.FacilityUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GapUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GoalUIProvider;
 import com.archimatetool.editor.ui.factory.elements.GroupingUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider;
 import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
+import com.archimatetool.editor.ui.factory.elements.MaterialUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;
 import com.archimatetool.editor.ui.factory.elements.NodeUIProvider;
 import com.archimatetool.editor.ui.factory.elements.OrJunctionUIProvider;
@@ -131,12 +135,16 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new DataObjectUIProvider(), IArchimatePackage.eINSTANCE.getDataObject() },
                 { new DeliverableUIProvider(), IArchimatePackage.eINSTANCE.getDeliverable() },
                 { new DeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
+                { new DistributionNetworkUIProvider(), IArchimatePackage.eINSTANCE.getDistributionNetwork() },
                 { new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver() },
+                { new EquipmentUIProvider(), IArchimatePackage.eINSTANCE.getEquipment() },
+                { new FacilityUIProvider(), IArchimatePackage.eINSTANCE.getFacility() },
                 { new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap() },
                 { new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal() },
                 { new GroupingUIProvider(), IArchimatePackage.eINSTANCE.getGrouping() },
                 { new ImplementationEventUIProvider(), IArchimatePackage.eINSTANCE.getImplementationEvent() },
                 { new LocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation() },
+                { new MaterialUIProvider(), IArchimatePackage.eINSTANCE.getMaterial() },
                 { new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
                 { new NodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
                 { new OrJunctionUIProvider(), IArchimatePackage.eINSTANCE.getOrJunction() },
@@ -157,7 +165,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess() },
                 { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
                 { new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
-                { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() },
+                { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() }
                 
         });
     }

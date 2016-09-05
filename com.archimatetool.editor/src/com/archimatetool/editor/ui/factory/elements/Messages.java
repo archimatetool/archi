@@ -64,7 +64,13 @@ public class Messages extends NLS {
 
     public static String DeviceUIProvider_0;
 
+    public static String DistributionNetworkUIProvider_0;
+
     public static String DriverUIProvider_0;
+
+    public static String EquipmentUIProvider_0;
+
+    public static String FacilityUIProvider_0;
 
     public static String GapUIProvider_0;
 
@@ -75,6 +81,8 @@ public class Messages extends NLS {
     public static String ImplementationEventUIProvider_0;
 
     public static String LocationUIProvider_0;
+
+    public static String MaterialUIProvider_0;
 
     public static String MeaningUIProvider_0;
 

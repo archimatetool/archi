@@ -77,12 +77,16 @@ public interface IArchiImages {
     String ICON_DATA_OBJECT = ARCHIMATE_IMGPATH + "data-object.png"; //$NON-NLS-1$
     String ICON_DELIVERABLE = ARCHIMATE_IMGPATH + "deliverable.png"; //$NON-NLS-1$
     String ICON_DEVICE = ARCHIMATE_IMGPATH + "device.png"; //$NON-NLS-1$
+    String ICON_DISTRIBUTION_NETWORK = ARCHIMATE_IMGPATH + "distribution-network.png"; //$NON-NLS-1$
     String ICON_DRIVER = ARCHIMATE_IMGPATH + "driver.png"; //$NON-NLS-1$
+    String ICON_EQUIPMENT = ARCHIMATE_IMGPATH + "equipment.png"; //$NON-NLS-1$
+    String ICON_FACILITY = ARCHIMATE_IMGPATH + "facility.png"; //$NON-NLS-1$
     String ICON_GAP = ARCHIMATE_IMGPATH + "gap.png"; //$NON-NLS-1$
     String ICON_GOAL = ARCHIMATE_IMGPATH + "goal.png"; //$NON-NLS-1$
     String ICON_GROUPING = ARCHIMATE_IMGPATH + "grouping.png"; //$NON-NLS-1$
     String ICON_IMPLEMENTATION_EVENT = ARCHIMATE_IMGPATH + "implementation-event.png"; //$NON-NLS-1$
     String ICON_LOCATION = ARCHIMATE_IMGPATH + "location.png"; //$NON-NLS-1$
+    String ICON_MATERIAL = ARCHIMATE_IMGPATH + "material.png"; //$NON-NLS-1$
     String ICON_MEANING = ARCHIMATE_IMGPATH + "meaning.png"; //$NON-NLS-1$
     String ICON_NODE = ARCHIMATE_IMGPATH + "node.png"; //$NON-NLS-1$
     String ICON_OUTCOME = ARCHIMATE_IMGPATH + "outcome.png"; //$NON-NLS-1$
