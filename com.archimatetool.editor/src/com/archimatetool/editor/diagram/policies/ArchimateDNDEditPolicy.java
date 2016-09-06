@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.policies;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -26,8 +25,6 @@ import com.archimatetool.editor.diagram.dnd.DiagramDropRequest;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
-import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -87,10 +84,8 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             // Add Diagram object
             IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
             
-            // Default size
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
-            Dimension defaultSize = provider.getDefaultSize();
-            dmo.setBounds(x, y, defaultSize.width, defaultSize.height);
+            // Set location
+            dmo.getBounds().setLocation(x, y);
             
             // Store it
             diagramComponentsThatWereAdded.add(dmo);

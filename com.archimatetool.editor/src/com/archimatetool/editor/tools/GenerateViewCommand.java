@@ -8,15 +8,12 @@ package com.archimatetool.editor.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -147,9 +144,8 @@ public class GenerateViewCommand extends Command {
         IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         dm.getChildren().add(dmo);
         
-        // Size
-        Dimension defaultSize = getDefaultSizeOfElement(element);
-        dmo.setBounds(x, y, defaultSize.width, defaultSize.height);
+        // Location
+        dmo.getBounds().setLocation(x, y);
     }
     
     private void getElementsToAdd() {
@@ -180,11 +176,4 @@ public class GenerateViewCommand extends Command {
         }
     }
     
-    private Dimension getDefaultSizeOfElement(IArchimateElement element) {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(element);
-        if(provider != null) {
-            return provider.getDefaultSize();
-        }
-        return new Dimension(120, 55);
-    }
 }

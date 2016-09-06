@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.ui.IEditorPart;
 
@@ -12,6 +13,8 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
@@ -42,6 +45,11 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Figure Type
         dmo.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName()));
         
+        // Add new bounds with a default size
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
+        Dimension defaultSize = provider.getDefaultSize();
+        dmo.setBounds(0, 0, defaultSize.width, defaultSize.height);
+
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);
  
