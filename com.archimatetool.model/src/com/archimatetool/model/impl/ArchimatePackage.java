@@ -116,7 +116,6 @@ import com.archimatetool.model.IRealizationRelationship;
 import com.archimatetool.model.IRepresentation;
 import com.archimatetool.model.IRequirement;
 import com.archimatetool.model.IResource;
-import com.archimatetool.model.IServiceElement;
 import com.archimatetool.model.IServingRelationship;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
@@ -1056,13 +1055,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass interfaceElementEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass serviceElementEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -2826,15 +2818,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getServiceElement() {
-        return serviceElementEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getBusinessElement() {
         return businessElementEClass;
     }
@@ -2968,8 +2951,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         interfaceElementEClass = createEClass(INTERFACE_ELEMENT);
         createEAttribute(interfaceElementEClass, INTERFACE_ELEMENT__INTERFACE_TYPE);
-
-        serviceElementEClass = createEClass(SERVICE_ELEMENT);
 
         strategyElementEClass = createEClass(STRATEGY_ELEMENT);
 
@@ -3294,7 +3275,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         archimateRelationshipEClass.getESuperTypes().add(this.getArchimateConcept());
         junctionElementEClass.getESuperTypes().add(this.getArchimateElement());
         interfaceElementEClass.getESuperTypes().add(this.getArchimateElement());
-        serviceElementEClass.getESuperTypes().add(this.getArchimateElement());
         strategyElementEClass.getESuperTypes().add(this.getArchimateElement());
         businessElementEClass.getESuperTypes().add(this.getArchimateElement());
         applicationElementEClass.getESuperTypes().add(this.getArchimateElement());
@@ -3333,7 +3313,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         applicationProcessEClass.getESuperTypes().add(this.getApplicationElement());
         applicationProcessEClass.getESuperTypes().add(this.getBehaviorElement());
         applicationServiceEClass.getESuperTypes().add(this.getApplicationElement());
-        applicationServiceEClass.getESuperTypes().add(this.getServiceElement());
         applicationServiceEClass.getESuperTypes().add(this.getBehaviorElement());
         artifactEClass.getESuperTypes().add(this.getTechnologyObject());
         assessmentEClass.getESuperTypes().add(this.getMotivationElement());
@@ -3357,7 +3336,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         businessRoleEClass.getESuperTypes().add(this.getBusinessElement());
         businessRoleEClass.getESuperTypes().add(this.getActiveStructureElement());
         businessServiceEClass.getESuperTypes().add(this.getBusinessElement());
-        businessServiceEClass.getESuperTypes().add(this.getServiceElement());
         businessServiceEClass.getESuperTypes().add(this.getBehaviorElement());
         capabilityEClass.getESuperTypes().add(this.getStrategyElement());
         capabilityEClass.getESuperTypes().add(this.getBehaviorElement());
@@ -3423,7 +3401,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         technologyProcessEClass.getESuperTypes().add(this.getTechnologyElement());
         technologyProcessEClass.getESuperTypes().add(this.getBehaviorElement());
         technologyServiceEClass.getESuperTypes().add(this.getTechnologyElement());
-        technologyServiceEClass.getESuperTypes().add(this.getServiceElement());
         technologyServiceEClass.getESuperTypes().add(this.getBehaviorElement());
         valueEClass.getESuperTypes().add(this.getMotivationElement());
         workPackageEClass.getESuperTypes().add(this.getImplementationMigrationElement());
@@ -3552,8 +3529,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(interfaceElementEClass, IInterfaceElement.class, "InterfaceElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
         initEAttribute(getInterfaceElement_InterfaceType(), ecorePackage.getEInt(), "interfaceType", "0", 0, 1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-
-        initEClass(serviceElementEClass, IServiceElement.class, "ServiceElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(strategyElementEClass, IStrategyElement.class, "StrategyElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

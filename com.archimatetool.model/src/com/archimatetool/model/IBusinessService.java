@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IBusinessService extends IBusinessElement, IServiceElement, IBehaviorElement {
+public interface IBusinessService extends IBusinessElement, IBehaviorElement {
 } // IBusinessService
