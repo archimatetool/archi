@@ -319,21 +319,29 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         // Can connect Association relationship from element->relation or relation->element
         if((source instanceof IDiagramModelArchimateConnection && target instanceof IDiagramModelArchimateObject) || 
                 (source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection)) {
+            
             if(relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship()) {
                 return true;
             }
+            
         }
         
         // Source is element and target is relationship
         if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection) {
             if(relationshipType == IArchimatePackage.eINSTANCE.getAggregationRelationship() ||
                     relationshipType == IArchimatePackage.eINSTANCE.getCompositionRelationship()) {
+                
                 IArchimateElement sourceElement = ((IDiagramModelArchimateObject)source).getArchimateElement();
+                
                 // Can connect Aggregation or Composition from Plateau to any kind of relationship
                 if(sourceElement.eClass() == IArchimatePackage.eINSTANCE.getPlateau()) {
                     return true;
                 }
-                // TODO: A3 Can connect Aggregation or Composition from Grouping to any kind of relationship
+                
+                // Can connect Aggregation or Composition from Grouping to any kind of relationship
+                if(sourceElement.eClass() == IArchimatePackage.eINSTANCE.getGrouping()) {
+                    return true;
+                }
             }
         }
         
