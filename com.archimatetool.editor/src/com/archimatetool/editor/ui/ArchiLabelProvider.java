@@ -69,7 +69,7 @@ public class ArchiLabelProvider {
             return ""; //$NON-NLS-1$
         }
         
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
         if(provider != null) {
             return provider.getDefaultName();
         }
@@ -90,7 +90,7 @@ public class ArchiLabelProvider {
         
         // This first, since EClass is an EObject
         if(object instanceof EClass) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EClass)object);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass((EClass)object);
             if(provider != null) {
                 return provider.getImage();
             }
@@ -98,7 +98,7 @@ public class ArchiLabelProvider {
         else if(object instanceof EObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((EObject)object);
             if(provider != null) {
-                return provider.getImage((EObject)object);
+                return provider.getImage();
             }
         }
         
@@ -114,7 +114,7 @@ public class ArchiLabelProvider {
             return null;
         }
         
-        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
         if(provider != null) {
             return provider.getImageDescriptor();
         }

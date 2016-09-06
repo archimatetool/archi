@@ -8,7 +8,6 @@ package com.archimatetool.editor.ui.factory.diagram;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -64,12 +63,12 @@ public class GroupUIProvider extends AbstractGraphicalObjectUIProvider {
     }
     
     @Override
-    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+    public boolean shouldExposeFeature(EAttribute feature) {
         if(feature == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT) {
             return false;
         }
 
-        return super.shouldExposeFeature(instance, feature);
+        return true;
     }
 
 }

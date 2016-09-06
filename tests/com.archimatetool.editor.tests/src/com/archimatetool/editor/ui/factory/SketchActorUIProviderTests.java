@@ -37,7 +37,7 @@ public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProvide
     
     @Override
     public void testCreateEditPart() {
-        EditPart editPart = provider.createEditPart();
+        EditPart editPart = getProvider().createEditPart();
         assertTrue(editPart instanceof SketchActorEditPart);
     }
     
@@ -56,9 +56,12 @@ public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProvide
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+        
+        EObject instance = createInstanceForExpectedClass();
+        getProvider().setInstance(instance);
+        
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
     }
 
 }

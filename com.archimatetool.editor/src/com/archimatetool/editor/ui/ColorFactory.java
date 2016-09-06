@@ -130,7 +130,7 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider instanceof IGraphicalObjectUIProvider) {
                 return ((IGraphicalObjectUIProvider)provider).getDefaultColor() == null ?
                         ColorConstants.white : ((IGraphicalObjectUIProvider)provider).getDefaultColor();
@@ -185,7 +185,7 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eClass);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
             if(provider instanceof IGraphicalObjectUIProvider) {
                 return ((IGraphicalObjectUIProvider)provider).getDefaultLineColor() == null ?
                         ColorConstants.black : ((IGraphicalObjectUIProvider)provider).getDefaultLineColor();

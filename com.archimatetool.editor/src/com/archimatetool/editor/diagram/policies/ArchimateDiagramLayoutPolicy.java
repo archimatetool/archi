@@ -46,7 +46,7 @@ extends DiagramLayoutPolicy {
     protected Dimension getMaximumSizeFor(Object object) {
         // Junctions should not be bigger than their default size
         if(object instanceof EClass && IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf((EClass)object)) {
-            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider((EClass)object);
+            IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass((EClass)object);
             return provider.getDefaultSize();
         }
         

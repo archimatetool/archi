@@ -7,17 +7,17 @@ package com.archimatetool.editor.ui.factory.diagram;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
-import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelReference;
@@ -47,6 +47,18 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
 
     @Override
     public Image getImage() {
+        // Get this from the real Provider
+        if(instance instanceof IDiagramModelReference) {
+            IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
+            
+            if(dm != null) {
+                IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dm);
+                if(provider != null) {
+                    return provider.getImage();
+                }
+            }
+        }
+        
         return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
     }
 
@@ -55,16 +67,6 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
         return new Dimension(120, 55);
     }
 
-    @Override
-    public Image getImage(EObject instance) {
-        if(instance instanceof IDiagramModelReference) {
-            IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
-            return ArchiLabelProvider.INSTANCE.getImage(dm);
-        }
-        
-        return getImage();
-    }
-    
     @Override
     public ImageDescriptor getImageDescriptor() {
         return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);

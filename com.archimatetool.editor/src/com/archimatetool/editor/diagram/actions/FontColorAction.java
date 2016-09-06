@@ -116,7 +116,7 @@ public class FontColorAction extends SelectionAction {
         
         if(model instanceof IFontAttribute) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
-            return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR);
         }
         
         return false;

@@ -23,6 +23,12 @@ public interface IObjectUIProvider {
     String EXTENSIONPOINT_ID = "com.archimatetool.editor.objectUIProvider"; //$NON-NLS-1$
     
     /**
+     * Set the instance
+     * @param instance
+     */
+    void setInstance(EObject instance);
+    
+    /**
      * @return The EClass for which this is an Element UI Provider
      */
     EClass providerFor();
@@ -43,20 +49,13 @@ public interface IObjectUIProvider {
     Image getImage();
     
     /**
-     * @param instance The instance
-     * @return The iconic image to use for a particular instance of this object
-     */
-    Image getImage(EObject instance);
-
-    /**
      * @return The iconic image descriptor to use for this object
      */
     ImageDescriptor getImageDescriptor();
     
     /**
-     * @param instance The instance of the object in question
      * @param feature The feature in question
      * @return True if this object should expose a feature in the UI
      */
-    boolean shouldExposeFeature(EObject instance, EAttribute feature);
+    boolean shouldExposeFeature(EAttribute feature);
 }

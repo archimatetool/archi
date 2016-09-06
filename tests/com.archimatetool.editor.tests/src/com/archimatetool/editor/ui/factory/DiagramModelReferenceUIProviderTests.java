@@ -58,13 +58,15 @@ public class DiagramModelReferenceUIProviderTests extends AbstractGraphicalObjec
 
     @Override
     public void testGetImageInstance() {
-        IDiagramModelReference instance = (IDiagramModelReference)IArchimateFactory.eINSTANCE.create(expectedClass);
-        instance.setReferencedModel(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
-        Image image = provider.getImage(instance);
+        IDiagramModelReference ref = (IDiagramModelReference)IArchimateFactory.eINSTANCE.create(expectedClass);
+        ref.setReferencedModel(IArchimateFactory.eINSTANCE.createArchimateDiagramModel());
+        provider.setInstance(ref);
+        
+        Image image = provider.getImage();
         assertNotNull(image);
         
-        instance.setReferencedModel(IArchimateFactory.eINSTANCE.createSketchModel());
-        image = provider.getImage(instance);
+        ref.setReferencedModel(IArchimateFactory.eINSTANCE.createSketchModel());
+        image = provider.getImage();
         assertNotNull(image);
     }
 }

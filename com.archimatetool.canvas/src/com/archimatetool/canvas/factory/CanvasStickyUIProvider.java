@@ -8,7 +8,6 @@ package com.archimatetool.canvas.factory;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -59,11 +58,11 @@ public class CanvasStickyUIProvider extends AbstractGraphicalObjectUIProvider {
     }
     
     @Override
-    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+    public boolean shouldExposeFeature(EAttribute feature) {
         if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
             return false;
         }
         
-        return super.shouldExposeFeature(instance, feature);
+        return true;
     }
 }

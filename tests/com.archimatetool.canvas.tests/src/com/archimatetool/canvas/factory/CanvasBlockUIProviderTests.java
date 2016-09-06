@@ -56,8 +56,10 @@ public class CanvasBlockUIProviderTests extends AbstractGraphicalObjectUIProvide
     
     @Override
     public void testShouldExposeFeature() {
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
-        assertTrue(provider.shouldExposeFeature(instance, null));
+        EObject instance = createInstanceForExpectedClass();
+        provider.setInstance(instance);
+        
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+        assertTrue(provider.shouldExposeFeature(null));
     }
 }

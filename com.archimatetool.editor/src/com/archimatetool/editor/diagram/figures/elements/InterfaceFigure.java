@@ -10,7 +10,6 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -86,12 +85,6 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fRectangleDelegate : fEllipseDelegate;
-    }
-    
-    @Override
-    public Dimension getDefaultSize() {
-        int type = getDiagramModelObject().getType();
-        return type == 0 ? super.getDefaultSize() : new Dimension(60, 60);
     }
     
     @Override

@@ -41,7 +41,7 @@ implements EditPartFactory {
             child = new SketchGroupEditPart();
         }
         else if(model instanceof EObject) {
-            provider = ObjectUIFactory.INSTANCE.getProvider(((EObject)model).eClass());
+            provider = ObjectUIFactory.INSTANCE.getProviderForClass(((EObject)model).eClass());
             if(provider != null) {
                 child = provider.createEditPart();
             }

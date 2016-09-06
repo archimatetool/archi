@@ -9,7 +9,6 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -65,7 +64,7 @@ public class OrJunctionUIProvider extends AbstractArchimateElementUIProvider {
     }
     
     @Override
-    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+    public boolean shouldExposeFeature(EAttribute feature) {
         return false; // Junctions don't expose UI features
     }
 }

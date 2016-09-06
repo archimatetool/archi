@@ -42,6 +42,7 @@ public class ObjectUIFactory {
     
     private void registerProviders() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
+        
         for(IConfigurationElement configurationElement : registry.getConfigurationElementsFor(IObjectUIProvider.EXTENSIONPOINT_ID)) {
             try {
                 String id = configurationElement.getAttribute("id"); //$NON-NLS-1$
@@ -63,7 +64,7 @@ public class ObjectUIFactory {
         }
     }
     
-    public IObjectUIProvider getProvider(EClass eClass) {
+    public IObjectUIProvider getProviderForClass(EClass eClass) {
         return eClass == null ? null : map.get(eClass);
     }
     
@@ -78,7 +79,13 @@ public class ObjectUIFactory {
             eClass = eObject.eClass();
         }
         
-        return getProvider(eClass);
+        IObjectUIProvider provider = getProviderForClass(eClass);
+        
+        if(provider != null) {
+            provider.setInstance(eObject);
+        }
+        
+        return provider;
     }
     
     public List<IObjectUIProvider> getProviders() {

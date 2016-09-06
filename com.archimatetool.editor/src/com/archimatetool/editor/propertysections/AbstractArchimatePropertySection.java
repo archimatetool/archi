@@ -86,7 +86,12 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
          */
         public boolean shouldExposeFeature(EObject eObject, EAttribute feature) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eObject);
-            return provider == null ? true : provider.shouldExposeFeature(eObject, feature);
+            
+            if(provider != null) {
+                return provider.shouldExposeFeature(feature);
+            }
+            
+            return true;
         }
         
         protected abstract boolean isRequiredType(Object object);

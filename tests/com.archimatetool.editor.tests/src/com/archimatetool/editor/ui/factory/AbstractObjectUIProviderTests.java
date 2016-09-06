@@ -62,14 +62,22 @@ public abstract class AbstractObjectUIProviderTests {
 
     @Test
     public void testGetImageInstance() {
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        Image image = provider.getImage(instance);
+        EObject instance = createInstanceForExpectedClass();
+        provider.setInstance(instance);
+        
+        Image image = provider.getImage();
         assertNotNull(image);
     }
 
     @Test
     public void testShouldExposeFeature() {
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertTrue(provider.shouldExposeFeature(instance, null));
+        EObject instance = createInstanceForExpectedClass();
+        provider.setInstance(instance);
+        assertTrue(provider.shouldExposeFeature(null));
+    }
+    
+    
+    protected EObject createInstanceForExpectedClass() {
+        return expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
     }
 }

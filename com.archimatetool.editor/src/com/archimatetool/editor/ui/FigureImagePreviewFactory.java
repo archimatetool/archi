@@ -35,7 +35,7 @@ public class FigureImagePreviewFactory {
      * @return A preview image of the graphical Figure used by eClass
      */
     public static Image getFigurePreviewImageForClass(EClass eClass) {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(eClass);
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
         
         if(provider instanceof IArchimateElementUIProvider ) {
             return getPreviewImage((IArchimateElementUIProvider)provider, 0);
@@ -50,7 +50,7 @@ public class FigureImagePreviewFactory {
      *         If there is no alternate graphical Figure return null
      */
     public static Image getAlternateFigurePreviewImageForClass(EClass eClass) {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(eClass);
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
         
         if(provider instanceof IArchimateElementUIProvider && ((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
             return getPreviewImage((IArchimateElementUIProvider)provider, 1);
@@ -70,14 +70,16 @@ public class FigureImagePreviewFactory {
             IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
             dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
             dmo.setName(provider.getDefaultName());
-            dmo.setFillColor(ColorFactory.convertColorToString(provider.getDefaultColor()));
+            ColorFactory.setDefaultColors(dmo);
             dmo.setType(type);
+
+            provider.setInstance(dmo);
 
             GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
             editPart.setModel(dmo);
-
+            
             IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
-            figure.setSize(148, 70);
+            figure.setSize(provider.getDefaultSize());
             figure.refreshVisuals();
             figure.validate();
 

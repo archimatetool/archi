@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Color;
@@ -32,6 +33,13 @@ implements IArchimateElementUIProvider {
     
     private static ImageRegistry fImageRegistry = new ImageRegistry();
     
+    protected AbstractArchimateElementUIProvider() {
+    }
+    
+    protected AbstractArchimateElementUIProvider(EObject instance) {
+        super(instance);
+    }
+
     @Override
     public Dimension getDefaultSize() {
         int width = Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);

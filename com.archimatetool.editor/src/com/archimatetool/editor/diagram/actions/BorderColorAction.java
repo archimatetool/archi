@@ -116,7 +116,7 @@ public class BorderColorAction extends SelectionAction {
         
         if(model instanceof IBorderObject) {
             IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IBorderObject)model));
-            return provider != null && provider.shouldExposeFeature((IBorderObject)model, IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR);
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR);
         }
         
         return false;

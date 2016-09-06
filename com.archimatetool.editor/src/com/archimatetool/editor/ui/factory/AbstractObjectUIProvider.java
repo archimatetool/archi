@@ -21,6 +21,23 @@ import org.eclipse.swt.graphics.Image;
  */
 public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
     
+    /**
+     * The instance of object for this provider.
+     * If this is null then we are concerned with the class.
+     */
+    protected EObject instance;
+    
+    protected AbstractObjectUIProvider() {
+    }
+    
+    protected AbstractObjectUIProvider(EObject instance) {
+        this.instance = instance;
+    }
+    
+    public void setInstance(EObject instance) {
+        this.instance = instance;
+    }
+    
     @Override
     public String getDefaultName() {
         return ""; //$NON-NLS-1$
@@ -37,17 +54,12 @@ public abstract class AbstractObjectUIProvider implements IObjectUIProvider {
     }
     
     @Override
-    public Image getImage(EObject instance) {
-        return getImage();
-    }
-    
-    @Override
     public ImageDescriptor getImageDescriptor() {
         return null;
     }
     
     @Override
-    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+    public boolean shouldExposeFeature(EAttribute feature) {
         return true;
     }
 }

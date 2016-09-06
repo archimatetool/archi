@@ -55,11 +55,11 @@ public class ObjectUIFactoryProviderTests {
         EClass eClass = mock(EClass.class);
         when(provider.providerFor()).thenReturn(eClass);
         
-        assertNull(factory.getProvider(eClass));
+        assertNull(factory.getProviderForClass(eClass));
         assertEquals(0, factory.map.size());
         
         factory.registerProvider(provider);
-        assertNotNull(factory.getProvider(eClass));
+        assertNotNull(factory.getProviderForClass(eClass));
         assertEquals(1, factory.map.size());
     }
 

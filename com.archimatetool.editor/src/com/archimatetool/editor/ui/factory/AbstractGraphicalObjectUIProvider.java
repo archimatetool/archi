@@ -7,6 +7,7 @@ package com.archimatetool.editor.ui.factory;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.ui.ColorFactory;
@@ -19,6 +20,13 @@ import com.archimatetool.editor.ui.ColorFactory;
 public abstract class AbstractGraphicalObjectUIProvider extends AbstractObjectUIProvider
 implements IGraphicalObjectUIProvider {
     
+    protected AbstractGraphicalObjectUIProvider() {
+    }
+
+    protected AbstractGraphicalObjectUIProvider(EObject instance) {
+        super(instance);
+    }
+
     @Override
     public Color getDefaultColor() {
         return ColorConstants.white;

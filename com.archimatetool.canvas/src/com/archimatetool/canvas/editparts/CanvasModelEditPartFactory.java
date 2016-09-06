@@ -37,7 +37,7 @@ implements EditPartFactory {
             child = new CanvasDiagramModelReferenceEditPart();
         }
         else if(model instanceof EObject) {
-            provider = ObjectUIFactory.INSTANCE.getProvider(((EObject)model).eClass());
+            provider = ObjectUIFactory.INSTANCE.getProviderForClass(((EObject)model).eClass());
             if(provider != null) {
                 child = provider.createEditPart();
             }
