@@ -5,15 +5,11 @@
  */
 package com.archimatetool.model.impl;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.junit.Assume;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -21,7 +17,6 @@ import org.junit.runners.Parameterized.Parameters;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IInterfaceElement;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 import junit.framework.JUnit4TestAdapter;
@@ -56,16 +51,5 @@ public class AllArchimateElementTypeTests extends ArchimateElementTests {
     @Override
     protected IArchimateElement getArchimateConcept() {
         return (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
-    }
-
-    @Test
-    public void testGetInterfaceType() {
-        // Only IInterfaceElement types
-        Assume.assumeTrue(concept instanceof IInterfaceElement);
-
-        IInterfaceElement interfaceElement = (IInterfaceElement)concept;
-        assertEquals(IInterfaceElement.PROVIDED, interfaceElement.getInterfaceType());
-        interfaceElement.setInterfaceType(IInterfaceElement.REQUIRED);
-        assertEquals(IInterfaceElement.REQUIRED, interfaceElement.getInterfaceType());
     }
 }

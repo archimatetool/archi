@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -17,8 +16,6 @@ import com.archimatetool.editor.diagram.figures.elements.InterfaceFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IBusinessInterface;
-import com.archimatetool.model.IInterfaceElement;
 
 
 
@@ -51,19 +48,6 @@ public class BusinessInterfaceUIProvider extends AbstractArchimateElementUIProvi
     @Override
     public ImageDescriptor getImageDescriptor() {
         return getImageDescriptorWithUserFillColor(IArchiImages.ICON_BUSINESS_INTERFACE);
-    }
-    
-    @Override
-    public Image getImage(EObject instance) {
-        // Interface Element Types
-        if(instance instanceof IBusinessInterface) {
-            int type = ((IBusinessInterface)instance).getInterfaceType();
-            if(type == IInterfaceElement.REQUIRED) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED);
-            }
-        }
-        
-        return getImage();
     }
     
     @Override

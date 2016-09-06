@@ -82,10 +82,6 @@
       <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/disconnect"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//JunctionElement"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//InterfaceElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//InterfaceElement/interfaceType"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//ServiceElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//StrategyElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//BusinessElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ApplicationElement"/>

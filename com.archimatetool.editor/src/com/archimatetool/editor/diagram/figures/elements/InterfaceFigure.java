@@ -19,7 +19,6 @@ import com.archimatetool.editor.diagram.figures.EllipseFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IInterfaceElement;
 
 
 /**
@@ -60,15 +59,8 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
 
         Rectangle rect = new Rectangle(pt.x, pt.y, 10, 10);
         
-        IInterfaceElement element = (IInterfaceElement)getDiagramModelObject().getArchimateElement();
-        if(element.getInterfaceType() == IInterfaceElement.PROVIDED) {
-            // circle
-            graphics.drawOval(rect);
-        }
-        else {
-            // arc
-            graphics.drawArc(rect, 90, 180);
-        }
+        // circle
+        graphics.drawOval(rect);
         
         // line
         graphics.drawLine(pt.x, pt.y + 5, pt.x - 7, pt.y + 5);

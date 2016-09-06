@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -17,8 +16,6 @@ import com.archimatetool.editor.diagram.figures.elements.InterfaceFigure;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IInterfaceElement;
-import com.archimatetool.model.ITechnologyInterface;
 
 
 
@@ -53,19 +50,6 @@ public class TechnologyInterfaceUIProvider extends AbstractArchimateElementUIPro
         return getImageDescriptorWithUserFillColor(IArchiImages.ICON_TECHNOLOGY_INTERFACE);
     }
     
-    @Override
-    public Image getImage(EObject instance) {
-        // Interface Element Types
-        if(instance instanceof ITechnologyInterface) {
-            int type = ((ITechnologyInterface)instance).getInterfaceType();
-            if(type == IInterfaceElement.REQUIRED) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INTERFACE_REQUIRED);
-            }
-        }
-        
-        return getImage();
-    }
-
     @Override
     public Color getDefaultColor() {
         return ColorFactory.get(201, 231, 183);

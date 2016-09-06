@@ -221,12 +221,6 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.InterfaceElementSection"
-               filter="com.archimatetool.editor.propertysections.InterfaceElementSection$Filter"
-               id="interfaceElementSection"
-               tab="main.tab">
-         </propertySection>
-         <propertySection
                class="com.archimatetool.editor.propertysections.DiagramModelSection"
                filter="com.archimatetool.editor.propertysections.DiagramModelSection$Filter"
                id="diagramModelSection"

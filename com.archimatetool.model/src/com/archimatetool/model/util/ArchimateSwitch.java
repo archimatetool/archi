@@ -88,7 +88,6 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IInterfaceElement;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
@@ -336,21 +335,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseAdapter(junctionElement);
                 if (result == null) result = caseNameable(junctionElement);
                 if (result == null) result = caseIdentifier(junctionElement);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.INTERFACE_ELEMENT: {
-                IInterfaceElement interfaceElement = (IInterfaceElement)theEObject;
-                T result = caseInterfaceElement(interfaceElement);
-                if (result == null) result = caseArchimateElement(interfaceElement);
-                if (result == null) result = caseArchimateConcept(interfaceElement);
-                if (result == null) result = caseArchimateModelObject(interfaceElement);
-                if (result == null) result = caseCloneable(interfaceElement);
-                if (result == null) result = caseDocumentable(interfaceElement);
-                if (result == null) result = caseProperties(interfaceElement);
-                if (result == null) result = caseAdapter(interfaceElement);
-                if (result == null) result = caseNameable(interfaceElement);
-                if (result == null) result = caseIdentifier(interfaceElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -733,7 +717,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IApplicationInterface applicationInterface = (IApplicationInterface)theEObject;
                 T result = caseApplicationInterface(applicationInterface);
                 if (result == null) result = caseApplicationElement(applicationInterface);
-                if (result == null) result = caseInterfaceElement(applicationInterface);
                 if (result == null) result = caseActiveStructureElement(applicationInterface);
                 if (result == null) result = caseStructureElement(applicationInterface);
                 if (result == null) result = caseArchimateElement(applicationInterface);
@@ -908,7 +891,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IBusinessInterface businessInterface = (IBusinessInterface)theEObject;
                 T result = caseBusinessInterface(businessInterface);
                 if (result == null) result = caseBusinessElement(businessInterface);
-                if (result == null) result = caseInterfaceElement(businessInterface);
                 if (result == null) result = caseActiveStructureElement(businessInterface);
                 if (result == null) result = caseStructureElement(businessInterface);
                 if (result == null) result = caseArchimateElement(businessInterface);
@@ -1578,7 +1560,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 ITechnologyInterface technologyInterface = (ITechnologyInterface)theEObject;
                 T result = caseTechnologyInterface(technologyInterface);
                 if (result == null) result = caseTechnologyElement(technologyInterface);
-                if (result == null) result = caseInterfaceElement(technologyInterface);
                 if (result == null) result = caseActiveStructureElement(technologyInterface);
                 if (result == null) result = caseStructureElement(technologyInterface);
                 if (result == null) result = caseArchimateElement(technologyInterface);
@@ -4049,21 +4030,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseJunctionElement(IJunctionElement object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Interface Element</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Interface Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseInterfaceElement(IInterfaceElement object) {
         return null;
     }
 

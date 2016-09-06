@@ -46,7 +46,6 @@ public interface IArchiImages {
     
     // Plain
     String ICON_ACTOR = ARCHIMATE_IMGPATH + "actor.png"; //$NON-NLS-1$
-    String ICON_INTERFACE_REQUIRED = ARCHIMATE_IMGPATH + "interface-required.png"; //$NON-NLS-1$
 
     // Elements
     String ICON_APPLICATION_COLLABORATION = ARCHIMATE_IMGPATH + "application-collaboration.png"; //$NON-NLS-1$

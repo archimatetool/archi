@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ITechnologyInterface extends ITechnologyElement, IInterfaceElement, IActiveStructureElement {
+public interface ITechnologyInterface extends ITechnologyElement, IActiveStructureElement {
 } // ITechnologyInterface

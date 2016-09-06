@@ -88,7 +88,6 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IInterfaceElement;
 import com.archimatetool.model.IJunctionElement;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
@@ -264,10 +263,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseJunctionElement(IJunctionElement object) {
                 return createJunctionElementAdapter();
-            }
-            @Override
-            public Adapter caseInterfaceElement(IInterfaceElement object) {
-                return createInterfaceElementAdapter();
             }
             @Override
             public Adapter caseStrategyElement(IStrategyElement object) {
@@ -2500,20 +2495,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createJunctionElementAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IInterfaceElement <em>Interface Element</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IInterfaceElement
-     * @generated
-     */
-    public Adapter createInterfaceElementAdapter() {
         return null;
     }
 
