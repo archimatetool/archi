@@ -16,6 +16,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceE
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -64,7 +65,7 @@ public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIPr
 
     @Override
     public Dimension getDefaultSize() {
-        return new Dimension(120, 55);
+        return IGraphicalObjectUIProvider.DefaultRectangularSize;
     }
 
     @Override

@@ -37,8 +37,8 @@ public class AddDiagramModelReferenceCommand extends Command {
         fReference.setReferencedModel(diagramModel);
         
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fReference);
-        Dimension defaultSize = provider.getDefaultSize();
-        fReference.setBounds(x, y, defaultSize.width, defaultSize.height);
+        Dimension size = provider.getUserDefaultSize();
+        fReference.setBounds(x, y, size.width, size.height);
         
         ColorFactory.setDefaultColors(fReference);
     }

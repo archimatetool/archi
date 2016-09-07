@@ -17,9 +17,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-
 
 public abstract class AbstractContainerFigureTests extends AbstractDiagramModelObjectFigureTests {
     
@@ -53,12 +50,6 @@ public abstract class AbstractContainerFigureTests extends AbstractDiagramModelO
     @Test
     public void testUseLocalCoordinates() {
         assertTrue(containerFigure.useLocalCoordinates());
-    }
-
-    @Test
-    public void testGetDefaultSize() {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(containerFigure.getDiagramModelObject());
-        assertEquals(provider.getDefaultSize(), containerFigure.getDefaultSize());
     }
 
     @Test

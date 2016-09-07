@@ -60,4 +60,9 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     public Dimension getDefaultSize() {
         return new Dimension(400, 140);
     }
+    
+    @Override
+    public Dimension getUserDefaultSize() {
+        return getDefaultSize();
+    }
 }

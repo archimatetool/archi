@@ -5,17 +5,13 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
-import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
 
@@ -47,14 +43,6 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         return figure;
     }
     
-    @Test
-    public void testGetDefaultSize() {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
-        Dimension defaultSize = provider.getDefaultSize();
-
-        assertEquals(defaultSize, figure.getDefaultSize());
-    }
-
     @Test
     public void testGetTextControl() {
         assertNotNull(figure.getTextControl());

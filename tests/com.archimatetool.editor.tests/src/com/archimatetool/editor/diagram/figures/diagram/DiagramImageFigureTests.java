@@ -60,18 +60,24 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         return figure;
     }
     
+    @Override
     @Test
-    public void testGetDefaultSize() throws Exception {
+    public void testGetDefaultSize() {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         Dimension defaultSize = provider.getDefaultSize();
         
         assertEquals(defaultSize, figure.getDefaultSize());
         
         // Add image
-        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
-        addImage(file);
-        Image image = getPrivateImageField();
-        assertEquals(new Dimension(image), figure.getDefaultSize());
+        try {
+            File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
+            addImage(file);
+            Image image = getPrivateImageField();
+            assertEquals(new Dimension(image), figure.getDefaultSize());
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
         
         // Reset
         dmImage.setImagePath(null);

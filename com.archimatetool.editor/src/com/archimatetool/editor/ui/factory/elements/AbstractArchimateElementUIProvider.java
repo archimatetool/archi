@@ -39,9 +39,14 @@ implements IArchimateElementUIProvider {
     protected AbstractArchimateElementUIProvider(EObject instance) {
         super(instance);
     }
-
+    
     @Override
     public Dimension getDefaultSize() {
+        return DefaultRectangularSize;
+    }
+
+    @Override
+    public Dimension getUserDefaultSize() {
         int width = Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
         int height = Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
         return new Dimension(width, height);

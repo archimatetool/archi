@@ -234,7 +234,7 @@ implements IDiagramModelObjectFigure {
     @Override
     public Dimension getDefaultSize() {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
-        return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
+        return provider != null ? provider.getUserDefaultSize() : IGraphicalObjectUIProvider.DefaultRectangularSize;
     }
     
     @Override

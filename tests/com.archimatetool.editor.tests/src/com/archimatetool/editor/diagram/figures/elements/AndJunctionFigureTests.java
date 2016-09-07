@@ -5,14 +5,11 @@
  */
 package com.archimatetool.editor.diagram.figures.elements;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
-import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -45,11 +42,4 @@ public class AndJunctionFigureTests extends AbstractDiagramModelObjectFigureTest
     public void testGetTextControl() {
         assertNull(abstractFigure.getTextControl());
     }
-
-    @Test
-    public void testGetDefaultSize() {
-        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
-        assertEquals(provider.getDefaultSize(), abstractFigure.getDefaultSize());
-    }
-
 }

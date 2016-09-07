@@ -44,4 +44,11 @@ public abstract class AbstractGraphicalObjectUIProviderTests extends AbstractObj
     public void testGetDefaultSize() {
         assertEquals(new Dimension(-1, -1), getProvider().getDefaultSize());
     }
+    
+    @Test
+    public void testGetUserDefaultSize() {
+        // User size defaults to default size
+        assertEquals(getProvider().getDefaultSize(), getProvider().getUserDefaultSize());
+    }
+
 }

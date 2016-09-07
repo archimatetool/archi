@@ -45,10 +45,10 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         // Figure Type
         dmo.setType(Preferences.STORE.getInt(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName()));
         
-        // Add new bounds with a default size
+        // Add new bounds with a default user size
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
-        Dimension defaultSize = provider.getDefaultSize();
-        dmo.setBounds(0, 0, defaultSize.width, defaultSize.height);
+        Dimension size = provider.getUserDefaultSize();
+        dmo.setBounds(0, 0, size.width, size.height);
 
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);

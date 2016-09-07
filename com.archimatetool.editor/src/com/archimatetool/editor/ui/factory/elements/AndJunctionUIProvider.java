@@ -57,6 +57,11 @@ public class AndJunctionUIProvider extends AbstractArchimateElementUIProvider {
     public Dimension getDefaultSize() {
         return new Dimension(15, 15);
     }
+    
+    @Override
+    public Dimension getUserDefaultSize() {
+        return getDefaultSize();
+    }
 
     @Override
     public Color getDefaultColor() {

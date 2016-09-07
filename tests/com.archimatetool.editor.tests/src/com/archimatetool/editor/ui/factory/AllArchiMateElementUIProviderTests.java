@@ -206,15 +206,33 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
         }
         
         else {
+            assertEquals(IGraphicalObjectUIProvider.DefaultRectangularSize, getProvider().getDefaultSize());
+        }
+    }
+    
+    @Override
+    @Test
+    public void testGetUserDefaultSize() {
+        // Junctions
+        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+            assertEquals(new Dimension(15, 15), getProvider().getUserDefaultSize());
+        }
+        
+        // Grouping
+        else if(getProvider() instanceof GroupingUIProvider) {
+            assertEquals(new Dimension(400, 140), getProvider().getUserDefaultSize());
+        }
+        
+        else {
             // New value via preferences
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 90);
-            assertEquals(new Dimension(150, 90), getProvider().getDefaultSize());
+            assertEquals(new Dimension(150, 90), getProvider().getUserDefaultSize());
 
             // Default value in preferences
             Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
             Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
-            assertEquals(new Dimension(120, 55), getProvider().getDefaultSize());
+            assertEquals(IGraphicalObjectUIProvider.DefaultRectangularSize, getProvider().getUserDefaultSize());
         }
     }
 

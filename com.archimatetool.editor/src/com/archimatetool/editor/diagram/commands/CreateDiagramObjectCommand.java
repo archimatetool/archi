@@ -71,9 +71,9 @@ public class CreateDiagramObjectCommand extends Command {
         if(fBounds.width == -1 && fBounds.height == -1) {
             IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(fChild);
             if(provider != null) {
-                Dimension defaultSize = provider.getDefaultSize();
-                fBounds.width = defaultSize.width;
-                fBounds.height = defaultSize.height;
+                Dimension size = provider.getUserDefaultSize();
+                fBounds.width = size.width;
+                fBounds.height = size.height;
             }
         }
         

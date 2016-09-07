@@ -42,4 +42,8 @@ implements IGraphicalObjectUIProvider {
         return new Dimension(-1, -1);
     }
     
+    @Override
+    public Dimension getUserDefaultSize() {
+        return getDefaultSize();
+    }
 }
