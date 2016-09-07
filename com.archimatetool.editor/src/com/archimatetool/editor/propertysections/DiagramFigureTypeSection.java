@@ -97,6 +97,8 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         figure1.setImage(image1);
         figure2.setImage(image2);
         
+        figure1.getParent().layout();
+
         int type = fDiagramObject.getType();
         figure1.setSelected(type == 0);
         figure2.setSelected(type == 1);
@@ -120,6 +122,12 @@ public class DiagramFigureTypeSection extends AbstractArchimatePropertySection {
         }
         
         refreshControls();
+    }
+    
+    @Override
+    public boolean shouldUseExtraSpace() {
+        // Need this so different image heights draw correctly
+        return true;
     }
     
     private class ImageFigure extends Composite {
