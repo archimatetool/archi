@@ -22,7 +22,6 @@
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/diagrams"/>
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/motivation"/>
       <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/implementation_migration"/>
-      <genEnumLiterals ecoreEnumLiteral="archimate.ecore#//FolderType/derived"/>
     </genEnums>
     <genDataTypes ecoreDataType="archimate.ecore#//File"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//Adapter">
@@ -108,8 +107,6 @@
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDefaultFolderForObject">
         <genParameters ecoreParameter="archimate.ecore#//ArchimateModel/getDefaultFolderForObject/object"/>
       </genOperations>
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/addDerivedRelationsFolder"/>
-      <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/removeDerivedRelationsFolder"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDefaultDiagramModel"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getDiagramModels"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateModel/getFolder">
@@ -273,6 +270,14 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Bounds/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Bounds/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Bounds/height"/>
+      <genOperations ecoreOperation="archimate.ecore#//Bounds/setLocation">
+        <genParameters ecoreParameter="archimate.ecore#//Bounds/setLocation/x"/>
+        <genParameters ecoreParameter="archimate.ecore#//Bounds/setLocation/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="archimate.ecore#//Bounds/setSize">
+        <genParameters ecoreParameter="archimate.ecore#//Bounds/setSize/width"/>
+        <genParameters ecoreParameter="archimate.ecore#//Bounds/setSize/height"/>
+      </genOperations>
       <genOperations ecoreOperation="archimate.ecore#//Bounds/getCopy"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//Lockable">

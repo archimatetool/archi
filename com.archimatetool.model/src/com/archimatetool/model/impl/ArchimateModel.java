@@ -261,37 +261,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
     
     /**
      * <!-- begin-user-doc -->
-     * This folder is optional so we add it as needed
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public IFolder addDerivedRelationsFolder() {
-        addDefaultFolders(); // Check they haven't been deleted
-        
-        IFolder folder = IArchimateFactory.eINSTANCE.createFolder();
-        folder.setName(Messages.ArchimateModel_8);
-        folder.setType(FolderType.DERIVED);
-        int index = getFolders().indexOf(getFolder(FolderType.RELATIONS)) + 1;
-        getFolders().add(index, folder);
-        
-        return folder;
-    }
-    
-    /**
-     * <!-- begin-user-doc -->
-     * This folder is optional so we add it as needed
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public void removeDerivedRelationsFolder() {
-        IFolder folder = getFolder(FolderType.DERIVED);
-        if(folder != null) {
-            getFolders().remove(folder);
-        }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated NOT
      */

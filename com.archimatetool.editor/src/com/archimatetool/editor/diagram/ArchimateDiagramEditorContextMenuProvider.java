@@ -13,10 +13,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
-import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.SelectElementInTreeAction;
-import com.archimatetool.editor.diagram.actions.ShowStructuralChainsAction;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 
@@ -30,7 +28,6 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
 
     public static final String ID = "ArchimateDiagramEditorContextMenuProvider"; //$NON-NLS-1$
     
-    public static final String GROUP_DERIVED = "group_derived"; //$NON-NLS-1$
     public static final String GROUP_VIEWPOINTS = "group_viewpoints"; //$NON-NLS-1$
     
     /**
@@ -68,12 +65,5 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
             viewPointMenu.add(actionRegistry.getAction(viewPoint.getClass().toString()));
         }
-        
-        // Derived Relations
-        menu.appendToGroup(GROUP_VIEWPOINTS, new Separator(GROUP_DERIVED));
-        IMenuManager derivedRelationsMenu = new MenuManager(Messages.ArchimateDiagramEditorContextMenuProvider_1);
-        menu.appendToGroup(GROUP_DERIVED, derivedRelationsMenu);
-        derivedRelationsMenu.add(actionRegistry.getAction(ShowStructuralChainsAction.ID));
-        derivedRelationsMenu.add(actionRegistry.getAction(CreateDerivedRelationAction.ID));
     }
 }

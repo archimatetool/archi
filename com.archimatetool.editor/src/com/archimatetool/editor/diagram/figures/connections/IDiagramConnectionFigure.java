@@ -46,10 +46,4 @@ public interface IDiagramConnectionFigure extends Connection, ITargetFeedbackFig
      * @return
      */
     Label getConnectionLabel();
-    
-    /**
-     * Highlight the connection
-     * @param set if true highlight
-     */
-    void highlight(boolean set);
 }

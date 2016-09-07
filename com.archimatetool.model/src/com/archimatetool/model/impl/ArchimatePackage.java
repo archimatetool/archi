@@ -3539,10 +3539,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         op = addEOperation(archimateModelEClass, this.getFolder(), "getDefaultFolderForObject", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
         addEParameter(op, ecorePackage.getEObject(), "object", 1, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-        addEOperation(archimateModelEClass, this.getFolder(), "addDerivedRelationsFolder", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
-        addEOperation(archimateModelEClass, null, "removeDerivedRelationsFolder", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
-
         addEOperation(archimateModelEClass, this.getDiagramModel(), "getDefaultDiagramModel", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
         addEOperation(archimateModelEClass, this.getDiagramModel(), "getDiagramModels", 0, -1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
@@ -3839,7 +3835,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         addEEnumLiteral(folderTypeEEnum, FolderType.DIAGRAMS);
         addEEnumLiteral(folderTypeEEnum, FolderType.MOTIVATION);
         addEEnumLiteral(folderTypeEEnum, FolderType.IMPLEMENTATION_MIGRATION);
-        addEEnumLiteral(folderTypeEEnum, FolderType.DERIVED);
 
         // Initialize data types
         initEDataType(fileEDataType, File.class, "File", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$

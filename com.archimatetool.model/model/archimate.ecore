@@ -74,7 +74,6 @@
     <eLiterals name="diagrams" value="6"/>
     <eLiterals name="motivation" value="7" literal="motivation"/>
     <eLiterals name="implementation_migration" value="8" literal="implementation_migration"/>
-    <eLiterals name="derived" value="9" literal="derived"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FolderContainer" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"
@@ -157,8 +156,6 @@
     <eOperations name="getDefaultFolderForObject" eType="#//Folder">
       <eParameters name="object" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     </eOperations>
-    <eOperations name="addDerivedRelationsFolder" eType="#//Folder"/>
-    <eOperations name="removeDerivedRelationsFolder"/>
     <eOperations name="getDefaultDiagramModel" eType="#//DiagramModel"/>
     <eOperations name="getDiagramModels" upperBound="-1" eType="#//DiagramModel"/>
     <eOperations name="getFolder" eType="#//Folder">

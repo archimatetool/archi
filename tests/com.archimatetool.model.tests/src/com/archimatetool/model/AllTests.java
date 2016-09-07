@@ -30,7 +30,6 @@ import com.archimatetool.model.impl.SketchModelStickyTests;
 import com.archimatetool.model.impl.SketchModelTests;
 import com.archimatetool.model.util.ArchimateModelUtilsTests;
 import com.archimatetool.model.util.ArchimateResourceFactoryTests;
-import com.archimatetool.model.util.DerivedRelationsUtilsTests;
 import com.archimatetool.model.util.IDAdapterTests;
 import com.archimatetool.model.util.RelationshipsMatrixTests;
 
@@ -70,7 +69,6 @@ public class AllTests {
         // util
         suite.addTest(ArchimateModelUtilsTests.suite());
         suite.addTest(ArchimateResourceFactoryTests.suite());
-        suite.addTest(DerivedRelationsUtilsTests.suite());
         suite.addTest(IDAdapterTests.suite());
         suite.addTest(RelationshipsMatrixTests.suite());
 

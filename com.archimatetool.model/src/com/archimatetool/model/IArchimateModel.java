@@ -148,22 +148,6 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    IFolder addDerivedRelationsFolder();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void removeDerivedRelationsFolder();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
      * @model objectRequired="true"
      * @generated
      */

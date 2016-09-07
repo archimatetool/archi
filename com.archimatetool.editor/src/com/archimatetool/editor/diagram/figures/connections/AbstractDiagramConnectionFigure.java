@@ -223,12 +223,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         setLineWidth(fDiagramModelConnection.getLineWidth());
     }
     
-    /**
-     * Highlight this connection
-     */
-    public void highlight(boolean set) {
-    }
-    
     @Override
     public IFigure getToolTip() {
         if(super.getToolTip() == null && Preferences.doShowViewTooltips()) {

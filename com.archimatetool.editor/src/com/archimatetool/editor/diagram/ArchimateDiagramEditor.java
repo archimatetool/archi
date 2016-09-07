@@ -23,11 +23,9 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.FindReplaceAction;
 import com.archimatetool.editor.diagram.actions.GenerateViewAction;
-import com.archimatetool.editor.diagram.actions.ShowStructuralChainsAction;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
@@ -212,15 +210,6 @@ implements IArchimateDiagramEditor {
         ActionRegistry registry = getActionRegistry();
         IAction action;
 
-        // Show Structural Chains
-        action = new ShowStructuralChainsAction(this);
-        registry.registerAction(action);
-        
-        // Create Derived Relation
-        action = new CreateDerivedRelationAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        
         // Delete from Model
         action = new DeleteFromModelAction(this);
         registry.registerAction(action);

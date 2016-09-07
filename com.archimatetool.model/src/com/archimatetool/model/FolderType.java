@@ -114,17 +114,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    IMPLEMENTATION_MIGRATION(8, "implementation_migration", "implementation_migration"), //$NON-NLS-1$ //$NON-NLS-2$
-
-    /**
-     * The '<em><b>Derived</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #DERIVED_VALUE
-     * @generated
-     * @ordered
-     */
-    DERIVED(9, "derived", "derived"); //$NON-NLS-1$ //$NON-NLS-2$
+    IMPLEMENTATION_MIGRATION(8, "implementation_migration", "implementation_migration"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>User</b></em>' literal value.
@@ -277,21 +267,6 @@ public enum FolderType implements Enumerator {
     public static final int IMPLEMENTATION_MIGRATION_VALUE = 8;
 
     /**
-     * The '<em><b>Derived</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Derived</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @see #DERIVED
-     * @model name="derived"
-     * @generated
-     * @ordered
-     */
-    public static final int DERIVED_VALUE = 9;
-
-    /**
      * An array of all the '<em><b>Folder Type</b></em>' enumerators.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -309,7 +284,6 @@ public enum FolderType implements Enumerator {
             DIAGRAMS,
             MOTIVATION,
             IMPLEMENTATION_MIGRATION,
-            DERIVED,
         };
 
     /**
@@ -375,7 +349,6 @@ public enum FolderType implements Enumerator {
             case DIAGRAMS_VALUE: return DIAGRAMS;
             case MOTIVATION_VALUE: return MOTIVATION;
             case IMPLEMENTATION_MIGRATION_VALUE: return IMPLEMENTATION_MIGRATION;
-            case DERIVED_VALUE: return DERIVED;
         }
         return null;
     }

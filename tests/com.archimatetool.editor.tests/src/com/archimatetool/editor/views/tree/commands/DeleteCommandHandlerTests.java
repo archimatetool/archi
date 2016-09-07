@@ -91,7 +91,7 @@ public class DeleteCommandHandlerTests {
         for(FolderType type : FolderType.values()) {
             folder.setType(type);
             
-            if(type == FolderType.DERIVED || type == FolderType.USER) { // Can delete these
+            if(type == FolderType.USER) { // Can delete these
                 assertTrue(DeleteCommandHandler.canDelete(folder));
             }
             else {

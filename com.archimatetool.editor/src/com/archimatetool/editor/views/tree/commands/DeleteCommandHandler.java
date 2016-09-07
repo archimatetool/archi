@@ -87,7 +87,7 @@ public class DeleteCommandHandler {
         // Certain Folders
         if(element instanceof IFolder) {
             IFolder folder = (IFolder)element;
-            if(folder.getType().equals(FolderType.DERIVED) || folder.getType().equals(FolderType.USER)) {
+            if(folder.getType().equals(FolderType.USER)) {
                 return true;
             }
         }

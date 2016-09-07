@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -80,21 +79,7 @@ public class ArchimateModelTests {
     }
     
     @Test
-    public void testAdd_Remove_DerivedRelationsFolder() {
-        IFolder folder = model.addDerivedRelationsFolder();
-        assertTrue(folder.getType() == FolderType.DERIVED);
-        assertEquals(10, model.getFolders().size());
-        assertEquals(8, model.getFolders().indexOf(folder));
-        
-        model.removeDerivedRelationsFolder();
-        assertEquals(9, model.getFolders().size());
-        assertFalse(model.getFolders().contains(folder));
-    }
-    
-    @Test
     public void testGetDefaultFolderForObject() {
-        model.addDerivedRelationsFolder();
-        
         EObject element = IArchimateFactory.eINSTANCE.createResource();
         IFolder folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);

@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
@@ -26,19 +25,6 @@ extends AbstractDiagramConnectionFigure {
     @Override
     public IDiagramModelArchimateConnection getModelConnection() {
         return (IDiagramModelArchimateConnection)super.getModelConnection();
-    }
-
-    @Override
-    public void highlight(boolean set) {
-        if(set) {
-            setForegroundColor(ColorConstants.red);
-            fLineColor = ColorConstants.red;
-            setLineWidth(2);
-        }
-        else {
-            setLineColor();
-            setLineWidth();
-        }
     }
 
     @Override

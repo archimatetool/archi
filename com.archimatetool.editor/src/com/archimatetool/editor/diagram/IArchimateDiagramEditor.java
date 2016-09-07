@@ -18,8 +18,6 @@ public interface IArchimateDiagramEditor extends IDiagramModelEditor {
     String HELP_ID = "com.archimatetool.help.diagramEditorHelp"; //$NON-NLS-1$
     String PALETTE_HELP_ID = "com.archimatetool.help.diagramEditorPaletteHelp"; //$NON-NLS-1$
     
-    String PROPERTY_SHOW_STRUCTURAL_CHAIN = "_prop_showStructuralChain"; //$NON-NLS-1$
-    
     /**
      * Select the graphical objects wrapping the Archimate concepts
      * @param archimateConcepts

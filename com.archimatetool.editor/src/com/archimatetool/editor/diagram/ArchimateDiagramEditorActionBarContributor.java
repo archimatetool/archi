@@ -9,18 +9,12 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.DecorationOverlayIcon;
-import org.eclipse.jface.viewers.IDecoration;
-import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
-import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
-import com.archimatetool.editor.diagram.actions.ShowStructuralChainsAction;
 import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.editor.ui.IArchiImages;
 
 
 
@@ -38,19 +32,8 @@ extends AbstractDiagramEditorActionBarContributor {
     protected void buildActions() {
         super.buildActions();
         
-        // Show Structural Chains
-        RetargetAction retargetAction = new LabelRetargetAction(ShowStructuralChainsAction.ID, ShowStructuralChainsAction.DEFAULT_TEXT);
-        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DERIVED));
-        addRetargetAction(retargetAction);
-        
-        // Create Derived Relation
-        retargetAction = new RetargetAction(CreateDerivedRelationAction.ID, CreateDerivedRelationAction.TEXT);
-        retargetAction.setImageDescriptor(new DecorationOverlayIcon(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DERIVED_SM),
-                        IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NEW_OVERLAY), IDecoration.TOP_LEFT));
-        addRetargetAction(retargetAction);
-        
         // Delete From Model
-        retargetAction = new RetargetAction(DeleteFromModelAction.ID, DeleteFromModelAction.TEXT);
+        RetargetAction retargetAction = new RetargetAction(DeleteFromModelAction.ID, DeleteFromModelAction.TEXT);
         addRetargetAction(retargetAction);
         
         // Viewpoints
@@ -91,14 +74,6 @@ extends AbstractDiagramEditorActionBarContributor {
             viewPointMenu.add(getAction(viewPoint.getClass().toString()));
         }
 
-        viewMenu.add(new Separator());
-        
-        // Derived Relations
-        IMenuManager derivedRelationsMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_1);
-        viewMenu.add(derivedRelationsMenu);
-        derivedRelationsMenu.add(getAction(ShowStructuralChainsAction.ID));
-        derivedRelationsMenu.add(getAction(CreateDerivedRelationAction.ID));
-        
         return viewMenu;
     }
 }
