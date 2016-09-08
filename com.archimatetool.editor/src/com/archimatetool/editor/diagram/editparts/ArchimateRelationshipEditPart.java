@@ -27,7 +27,7 @@ import com.archimatetool.model.IDiagramModelConnection;
  * @author Phillip Beauvoir
  */
 public class ArchimateRelationshipEditPart extends DiagramConnectionEditPart 
-implements IArchimateRelationshipEditPart, NodeEditPart {
+implements NodeEditPart {
     
     public ArchimateRelationshipEditPart(Class<?> figureClass) {
         super(figureClass);

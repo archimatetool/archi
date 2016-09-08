@@ -20,9 +20,7 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class AbstractArchimateElementEditPart
-extends AbstractConnectedEditPart
-implements IArchimateElementEditPart {
+public abstract class AbstractArchimateElementEditPart extends AbstractConnectedEditPart {
     
     protected AbstractArchimateElementEditPart() {
     }

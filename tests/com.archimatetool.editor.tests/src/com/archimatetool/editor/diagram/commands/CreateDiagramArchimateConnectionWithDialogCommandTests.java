@@ -86,7 +86,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommandTests {
         IConnectable oldsource = cmd.fSource;
         IConnectable oldtarget = cmd.fTarget;
         
-        cmd.swapSourceAndTargetElements();
+        cmd.swapSourceAndTargetConcepts();
         
         assertSame(oldsource, cmd.fTarget);
         assertSame(oldtarget, cmd.fSource);

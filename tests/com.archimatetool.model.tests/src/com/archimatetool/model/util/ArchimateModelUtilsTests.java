@@ -5,22 +5,20 @@
  */
 package com.archimatetool.model.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
+import static org.junit.Assert.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -39,7 +37,26 @@ public class ArchimateModelUtilsTests {
      * NOTE - Tests for ArchimateModelUtils.isValidRelationshipStart() and ArchimateModelUtils.isValidRelationship() are in RelationshipsMatrixTests
      */
     
-    
+    @Test
+    public void testHasDirectRelationship() {
+        IArchimateConcept sourceConcept = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateConcept someTarget = IArchimateFactory.eINSTANCE.createBusinessRole();
+
+        IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        
+        assertFalse(ArchimateModelUtils.hasDirectRelationship(sourceConcept, relationship));
+        assertFalse(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
+        
+        relationship.connect(sourceConcept, someTarget);
+        
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(sourceConcept, relationship));
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
+        
+        relationship.connect(someTarget, sourceConcept);
+        
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(sourceConcept, relationship));
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
+    }
     
     @Test
     public void testGetValidRelationships() {

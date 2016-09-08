@@ -25,6 +25,7 @@ import com.archimatetool.editor.diagram.commands.CreateDiagramConnectionCommand;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
@@ -208,4 +209,32 @@ public class ArchimateDiagramConnectionPolicyTests {
         assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(IArchimateFactory.eINSTANCE.createDiagramModelGroup(), dmao2, relationshipType));
         assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(IArchimateFactory.eINSTANCE.createDiagramModelNote(), dmao2, relationshipType));
     }
+    
+    @Test
+    public void testIsValidConnection_ArchimateDiagramModelConnection_To_Another() {
+        EClass relationshipType = IArchimatePackage.eINSTANCE.getAssociationRelationship(); 
+        
+        IDiagramModelArchimateObject dmao1 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
+        dmao1.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
+        
+        IDiagramModelArchimateConnection conn1 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        conn1.setArchimateRelationship(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        
+        IDiagramModelArchimateConnection conn2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
+        conn2.setArchimateRelationship(IArchimateFactory.eINSTANCE.createAssociationRelationship());
+        
+        // OK from object to connection
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmao1, conn1, relationshipType));
+
+        // OK from connection to object
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(conn1, dmao1, relationshipType));
+
+        // OK if relationshipType is null (magic connector)
+        assertTrue(ArchimateDiagramConnectionPolicy.isValidConnection(dmao1, conn1, null));
+        
+        // Not OK from Conn -> Conn
+        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(conn1, conn2, relationshipType));
+        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnection(conn2, conn1, relationshipType));
+    }
+
 }

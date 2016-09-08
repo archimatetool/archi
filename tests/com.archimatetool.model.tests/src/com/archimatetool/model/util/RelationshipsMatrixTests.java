@@ -45,28 +45,39 @@ public class RelationshipsMatrixTests {
     }
 
     @Test
-    public void testIsValidRelationshipStart() {
+    public void testIsValidRelationshipStart_Element() {
         IArchimateElement sourceElement = IArchimateFactory.eINSTANCE.createAndJunction();
         IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createFlowRelationship();
         
-        assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
-        assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
+        assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
         
         relationship = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
-        assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
+        assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
         
         relationship = IArchimateFactory.eINSTANCE.createServingRelationship();
-        assertFalse(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
+        assertFalse(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
 
         sourceElement = IArchimateFactory.eINSTANCE.createSystemSoftware();
         relationship = IArchimateFactory.eINSTANCE.createFlowRelationship();
-        assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
+        assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
+        
         relationship = IArchimateFactory.eINSTANCE.createAccessRelationship();
-        assertTrue(matrix.isValidRelationshipStart(sourceElement, relationship.eClass()));
+        assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
     }
 
     @Test
-    public void testIsValidRelationship() {
+    public void testIsValidRelationshipStart_Relationship() {
+        for(EClass eClassSource : ArchimateModelUtils.getRelationsClasses()) {
+            assertTrue(matrix.isValidRelationshipStart(eClassSource, IArchimatePackage.eINSTANCE.getAssociationRelationship()));
+        }
+        
+        for(EClass eClassSource : ArchimateModelUtils.getRelationsClasses()) {
+            assertFalse(matrix.isValidRelationshipStart(eClassSource, IArchimatePackage.eINSTANCE.getTriggeringRelationship()));
+        }
+    }
+
+    @Test
+    public void testIsValidRelationship_ElementToElement() {
         EClass sourceClass = IArchimatePackage.eINSTANCE.getAndJunction();
         EClass targetClass = IArchimatePackage.eINSTANCE.getAndJunction();
         EClass relationship = IArchimatePackage.eINSTANCE.getFlowRelationship();
@@ -96,4 +107,20 @@ public class RelationshipsMatrixTests {
     }
     
     
+    @Test
+    public void testIsValidRelationship_RelationshipToAnother() {
+        EClass relationshipType = IArchimatePackage.eINSTANCE.getAssociationRelationship(); 
+        
+        EClass objectClass = IArchimatePackage.eINSTANCE.getBusinessActor();
+        EClass relationClass = IArchimatePackage.eINSTANCE.getCompositionRelationship();
+        
+        // OK from object to relation
+        assertTrue(matrix.isValidRelationship(objectClass, relationClass, relationshipType));
+
+        // OK from relation to object
+        assertTrue(matrix.isValidRelationship(relationClass, objectClass, relationshipType));
+
+        // Not OK from relation -> relation
+        assertFalse(matrix.isValidRelationship(relationClass, relationClass, relationshipType));
+    }
 } 

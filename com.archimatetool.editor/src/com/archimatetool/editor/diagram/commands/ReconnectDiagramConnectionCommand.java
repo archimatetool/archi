@@ -108,7 +108,7 @@ extends Command {
             if(fBendpointCommand == null) {
                 fBendpointCommand = createBendPointsCommand();
             }
-            if(fBendpointCommand != null) { // TODO: A3 Could be null command if connection
+            if(fBendpointCommand != null) {
                 fBendpointCommand.execute();
             }
         }
@@ -130,7 +130,7 @@ extends Command {
      * Adding a circular connection requires some bendpoints
      */
     protected Command createBendPointsCommand() {
-        // // TODO: A3 Only works for IDiagramModelObject as source and target objects not for connections
+        // Only works for IDiagramModelObject as source and target objects not for connections
         if(!(fConnection.getSource() instanceof IDiagramModelObject) && !(fConnection.getTarget() instanceof IDiagramModelObject)) {
             return null;
         }

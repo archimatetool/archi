@@ -8,7 +8,6 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.archimatetool.editor.diagram.editparts.IArchimateElementEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
@@ -183,7 +181,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Override
     public void testCreateEditPart() {
         EditPart editPart = getProvider().createEditPart();
-        assertTrue(editPart instanceof IArchimateElementEditPart);
+        assertNotNull(editPart);
     }
 
     @Override

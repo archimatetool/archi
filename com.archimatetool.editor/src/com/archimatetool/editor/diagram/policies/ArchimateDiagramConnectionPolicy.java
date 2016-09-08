@@ -25,14 +25,12 @@ import com.archimatetool.editor.diagram.commands.ReconnectDiagramConnectionComma
 import com.archimatetool.editor.diagram.figures.ITargetFeedbackFigure;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.model.IArchimateConcept;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
@@ -254,17 +252,12 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return true;
         }
         
-        // Archimate Element source
-        if(source instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject dmo = (IDiagramModelArchimateObject)source;
-            return ArchimateModelUtils.isValidRelationshipStart(dmo.getArchimateConcept(), relationshipType);
+        // Archimate Concept source
+        if(source instanceof IDiagramModelArchimateComponent) {
+            IDiagramModelArchimateComponent dmc = (IDiagramModelArchimateComponent)source;
+            return ArchimateModelUtils.isValidRelationshipStart(dmc.getArchimateConcept(), relationshipType);
         }
         
-        // Archimate Relationship source
-        if(source instanceof IDiagramModelArchimateConnection) {
-            return relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship();
-        }
-
         return false;
     }
     
@@ -278,7 +271,6 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
         /*
          * Diagram Connection from/to notes/groups/diagram refs.
          * Allowed between notes, visual groups, diagram refs and ArchiMate components
-         * 
          */
         if(relationshipType == IArchimatePackage.eINSTANCE.getDiagramModelConnection()) {
             // Not circular
@@ -301,48 +293,19 @@ public class ArchimateDiagramConnectionPolicy extends GraphicalNodeEditPolicy {
             return false;
         }
 
-        // Connection from Archimate object to Archimate object 
-        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateObject) {
+        // Connection from Archimate concept to Archimate concept (but not from relation to relation)
+        if((source instanceof IDiagramModelArchimateComponent && target instanceof IDiagramModelArchimateComponent) && 
+              !(source instanceof IDiagramModelArchimateConnection && target instanceof IDiagramModelArchimateConnection)) {
             
             // Special case if relationshipType == null. Means that the Magic connector is being used
             if(relationshipType == null) {
                 return true;
             }
             
-            IArchimateElement sourceElement = ((IDiagramModelArchimateObject)source).getArchimateElement();
-            IArchimateElement targetElement = ((IDiagramModelArchimateObject)target).getArchimateElement();
-            return ArchimateModelUtils.isValidRelationship(sourceElement, targetElement, relationshipType);
-        }
-        
-        // TODO: A3 From/To Connections - put this in the relationship matrix?
-        
-        // Can connect Association relationship from element->relation or relation->element
-        if((source instanceof IDiagramModelArchimateConnection && target instanceof IDiagramModelArchimateObject) || 
-                (source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection)) {
+            IArchimateConcept sourceConcept = ((IDiagramModelArchimateComponent)source).getArchimateConcept();
+            IArchimateConcept targetConcept = ((IDiagramModelArchimateComponent)target).getArchimateConcept();
             
-            if(relationshipType == IArchimatePackage.eINSTANCE.getAssociationRelationship()) {
-                return true;
-            }
-            
-        }
-        
-        // Source is element and target is relationship
-        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection) {
-            if(relationshipType == IArchimatePackage.eINSTANCE.getAggregationRelationship() ||
-                    relationshipType == IArchimatePackage.eINSTANCE.getCompositionRelationship()) {
-                
-                IArchimateElement sourceElement = ((IDiagramModelArchimateObject)source).getArchimateElement();
-                
-                // Can connect Aggregation or Composition from Plateau to any kind of relationship
-                if(sourceElement.eClass() == IArchimatePackage.eINSTANCE.getPlateau()) {
-                    return true;
-                }
-                
-                // Can connect Aggregation or Composition from Grouping to any kind of relationship
-                if(sourceElement.eClass() == IArchimatePackage.eINSTANCE.getGrouping()) {
-                    return true;
-                }
-            }
+            return ArchimateModelUtils.isValidRelationship(sourceConcept, targetConcept, relationshipType);
         }
         
         return false;

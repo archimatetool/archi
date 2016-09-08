@@ -69,7 +69,6 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
     boolean checkToReuseExistingRelationship() {
         EClass classType = (EClass)fRequest.getNewObjectType();
         
-        // TODO: A3 check connection-connection rules?
         if(fSource instanceof IDiagramModelArchimateComponent && fTarget instanceof IDiagramModelArchimateComponent) {
             IDiagramModelArchimateComponent source = (IDiagramModelArchimateComponent)fSource;
             IDiagramModelArchimateComponent target = (IDiagramModelArchimateComponent)fTarget;
@@ -99,7 +98,7 @@ public class CreateDiagramArchimateConnectionWithDialogCommand extends CreateDia
     /**
      * Swap Source and Target Elements - used by Magic Connector
      */
-    public void swapSourceAndTargetElements() {
+    public void swapSourceAndTargetConcepts() {
         IConnectable tmp = fSource;
         fSource = fTarget;
         fTarget = tmp;

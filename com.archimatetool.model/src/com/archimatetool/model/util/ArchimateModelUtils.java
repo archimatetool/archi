@@ -35,7 +35,7 @@ public class ArchimateModelUtils {
      * @return True if relationshipType is a valid source relationship for sourceComponent
      */
     public static final boolean isValidRelationshipStart(IArchimateConcept sourceConcept, EClass relationshipType) {
-        return RelationshipsMatrix.INSTANCE.isValidRelationshipStart(sourceConcept, relationshipType);
+        return RelationshipsMatrix.INSTANCE.isValidRelationshipStart(sourceConcept.eClass(), relationshipType);
     }
     
     /**
@@ -46,6 +46,10 @@ public class ArchimateModelUtils {
      * @return True if relationshipType is an allowed relationship type between sourceComponent and targetComponent
      */
     public static final boolean isValidRelationship(IArchimateConcept sourceConcept, IArchimateConcept targetConcept, EClass relationshipType) {
+        if(hasDirectRelationship(sourceConcept, targetConcept)) {
+            return false;
+        }
+        
         return isValidRelationship(sourceConcept.eClass(), targetConcept.eClass(), relationshipType);
     }
 
@@ -86,6 +90,29 @@ public class ArchimateModelUtils {
         }
         
         return list.toArray(new EClass[list.size()]);
+    }
+    
+    /**
+     * @param concept1
+     * @param concept2
+     * @return True if concept1 is a relationship and concept2 already has it as a relationship
+     *         OR 
+     *         True if concept2 is a relationship and concept1 already has it as a relationship
+     */
+    public static boolean hasDirectRelationship(IArchimateConcept concept1, IArchimateConcept concept2) {
+        if(concept1 instanceof IArchimateRelationship) {
+            if(getAllRelationshipsForConcept(concept2).contains(concept1)) {
+                return true;
+            }
+        }
+        
+        if(concept2 instanceof IArchimateRelationship) {
+            if(getAllRelationshipsForConcept(concept1).contains(concept2)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**
