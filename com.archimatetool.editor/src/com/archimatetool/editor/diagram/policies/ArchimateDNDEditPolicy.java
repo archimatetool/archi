@@ -33,6 +33,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelElement;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -45,7 +46,10 @@ import com.archimatetool.model.util.ArchimateModelUtils;
  * @author Phillip Beauvoir
  */
 public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
-
+    private final static int defaultXOffset = 150;
+    private final static int defaultYOffset = 100;
+    private final static int defaultMaxOriginOffset = 400;
+	
     protected List<IArchimateElement> fElementsToAdd;
     protected List<IRelationship> fRelationsToAdd;
     protected List<IDiagramModel> fDiagramRefsToAdd;
@@ -77,6 +81,9 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         // Compound Command - it has to be Non-Notifying or it's way too slow (tested with Bill's UoB model!)
         CompoundCommand result = new NonNotifyingCompoundCommand(Messages.ArchimateDNDEditPolicy_0);
 
+        // Check if the elements might be better placed vertically
+        boolean placeVertically = shouldPlaceVertically(x,y);
+        
         // Add the Commands adding the Elements first
         for(IArchimateElement element : fElementsToAdd) {
             // Add Diagram object
@@ -94,21 +101,21 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             result.add(new AddDiagramObjectCommand(getTargetContainer(), dmo));
 
             // Increase x,y
-            x += 150;
-            if(x > origin + 400) {
+            x += defaultXOffset;
+            if (x > origin + defaultMaxOriginOffset || placeVertically) {
                 x = origin;
-                y += 100;
+                y += defaultYOffset;
             }
         }
 
         // Then any Diagram Model Ref Commands
-        for(IDiagramModel diagramModel : fDiagramRefsToAdd) {
+        for (IDiagramModel diagramModel : fDiagramRefsToAdd) {
             result.add(new AddDiagramModelReferenceCommand(getTargetContainer(), diagramModel, x, y));
-            
-            x += 150;
-            if(x > origin + 400) {
+
+            x += defaultXOffset;
+            if (x > origin + defaultMaxOriginOffset || placeVertically) {
                 x = origin;
-                y += 100;
+                y += defaultYOffset;
             }
         }
 
@@ -180,6 +187,41 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
         }
 
         return result; // return the full compound command
+    }
+    
+    /**
+     * If we are dropping elements we may want them to be automatically placed
+     * vertically Vertical placement will happen iff the elements do not fit
+     * horizontally, but do fit vertically
+     * 
+     * @param x The parent container drop x origin
+     * @param y The parent container drop y origin
+     * @return true if the elements only fit if placed vertically, false
+     *         otherwise
+     */
+    private boolean shouldPlaceVertically(int x, int y) {
+        // Set default behavior to be legacy
+        boolean canFitHorizontally = true;
+        boolean canFitVertically = false;
+
+        if (getTargetContainer() instanceof IDiagramModelObject) {
+            final IDiagramModelObject parent = (IDiagramModelObject) getTargetContainer();
+
+            // Estimate if we can fit horizontally
+            final int estimatedDefaultElemWidth = 120;
+            final int itemsToPlace = fElementsToAdd.size() + fDiagramRefsToAdd.size();
+            final int totalWidthNeeded = itemsToPlace * estimatedDefaultElemWidth
+                    + itemsToPlace * (defaultXOffset - estimatedDefaultElemWidth);
+            canFitHorizontally = x + totalWidthNeeded < parent.getBounds().getWidth() ? true : false;
+
+            // Estimate if we can fit vertically
+            final int estimatedDefaultElemHeight = 55;
+            final int totalHeightNeeded = itemsToPlace * estimatedDefaultElemHeight
+                    + itemsToPlace * (defaultYOffset - estimatedDefaultElemHeight);
+            canFitVertically = y + totalHeightNeeded < parent.getBounds().getHeight() ? true : false;
+        }
+
+        return !canFitHorizontally && canFitVertically;
     }
     
     /**
