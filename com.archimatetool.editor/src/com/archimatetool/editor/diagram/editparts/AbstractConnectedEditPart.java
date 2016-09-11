@@ -196,7 +196,7 @@ implements NodeEditPart {
      * @return A list of filtered connections
      */
     private List<IDiagramModelConnection> getFilteredConnections(List<IDiagramModelConnection> originalList) {
-        IConnectionEditPartFilter[] filters = getEditPartFilterProvider().getEditPartFilters(IConnectionEditPartFilter.class);
+        IConnectionEditPartFilter[] filters = getRootEditPartFilterProvider().getEditPartFilters(IConnectionEditPartFilter.class);
         if(filters != null) {
             List<IDiagramModelConnection> filteredList = new ArrayList<IDiagramModelConnection>();
             

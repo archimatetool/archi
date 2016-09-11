@@ -5,13 +5,9 @@
  */
 package com.archimatetool.editor.model;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +21,6 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 import junit.framework.JUnit4TestAdapter;
@@ -106,55 +101,6 @@ public class DiagramModelUtilsNestedRelationsTests {
     
     // =================================================================================================
     
-
-    @Test
-    public void testFindNestedComponentsForRelationship() {
-        // Find them
-        List<IDiagramModelArchimateObject[]> list = DiagramModelUtils.findNestedComponentsForRelationship(dm, relationship1);
-        assertEquals(2, list.size());
-        
-        IDiagramModelArchimateObject[] pair1 = list.get(0);
-        assertEquals(dmo1, pair1[0]);
-        assertEquals(dmo2, pair1[1]);
-        
-        IDiagramModelArchimateObject[] pair2 = list.get(1);
-        assertEquals(dmo3, pair2[0]);
-        assertEquals(dmo4, pair2[1]);
-        
-        // Swap parent/child for no nesting
-        relationship1.setSource(element2);
-        relationship1.setTarget(element1);
-        list = DiagramModelUtils.findNestedComponentsForRelationship(dm, relationship1);
-        assertEquals(0, list.size());
-        
-        // And a non-nested type relationship
-        list = DiagramModelUtils.findNestedComponentsForRelationship(dm, relationship2);
-        assertEquals(0, list.size());
-    }
-    
-    @Test
-    public void testIsNestedRelationship() {
-        assertTrue(DiagramModelUtils.isNestedRelationship(dmo1, dmo2));
-        assertTrue(DiagramModelUtils.isNestedRelationship(dmo3, dmo4));
-        
-        // Swap parent/child for no nesting
-        assertFalse(DiagramModelUtils.isNestedRelationship(dmo2, dmo1));
-        
-        // Use a non-nested type relationship
-        assertFalse(DiagramModelUtils.isNestedRelationship(dmo4, dmo5));
-    }
-    
-    @Test
-    public void testHasNestedConnectionTypeRelationship() {
-        assertTrue(DiagramModelUtils.hasNestedConnectionTypeRelationship(element1, element2));
-        
-        // Swap parent/child for no nesting
-        assertFalse(DiagramModelUtils.hasNestedConnectionTypeRelationship(element2, element1));
-        
-        // Use a non-nested type relationship
-        assertFalse(DiagramModelUtils.hasNestedConnectionTypeRelationship(element2, element3));
-    }
-    
     @Test
     public void testIsNestedConnectionTypeRelationship() {
         IArchimateRelationship rel = IArchimateFactory.eINSTANCE.createCompositionRelationship();
@@ -163,25 +109,8 @@ public class DiagramModelUtilsNestedRelationsTests {
         rel = IArchimateFactory.eINSTANCE.createAggregationRelationship();
         assertTrue(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
         
-        // Not junctions
-        rel.setSource(IArchimateFactory.eINSTANCE.createAndJunction());
-        rel.setTarget(IArchimateFactory.eINSTANCE.createAndJunction());
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
-        
         rel = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         assertFalse(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
-    }
-    
-    @Test
-    public void testIsNestedConnectionTypeConcept() {
-        // All these types are OK
-        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            assertTrue(DiagramModelUtils.isNestedConnectionTypeConcept((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass)));
-        }
-        
-        // Except for Junctions
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createOrJunction()));
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createAndJunction()));
     }
     
     @Test
@@ -193,7 +122,7 @@ public class DiagramModelUtilsNestedRelationsTests {
         
         // swap
         connection.connect(dmo2, dmo1);
-        assertFalse(DiagramModelUtils.shouldBeHiddenConnection(connection));
+        assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
         // Set prefs to say no
         Preferences.STORE.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, false);

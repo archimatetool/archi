@@ -360,14 +360,6 @@ public class DiagramModelUtilsTests {
     // =================================================================================================
 
     @Test
-    public void isNestedConnectionTypeConcept() {
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createOrJunction()));
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeConcept(IArchimateFactory.eINSTANCE.createAndJunction()));
-    }    
-    
-    // =================================================================================================
-
-    @Test
     public void getAncestorContainer() {
         IDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         IDiagramModelGroup group1 = IArchimateFactory.eINSTANCE.createDiagramModelGroup();

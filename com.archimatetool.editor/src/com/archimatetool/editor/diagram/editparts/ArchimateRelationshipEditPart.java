@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -111,14 +112,6 @@ implements NodeEditPart {
         return getFilteredModelTargetConnections();
     }
 
-    public List<IDiagramModelConnection> getFilteredModelSourceConnections() {
-        return getModel().getSourceConnections();
-    }
-    
-    public List<IDiagramModelConnection> getFilteredModelTargetConnections() {
-        return getModel().getTargetConnections();
-    }
-    
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
         return new LineConnectionAnchor(getFigure());
     }
@@ -140,4 +133,55 @@ implements NodeEditPart {
         }
         return new LineConnectionAnchor(getFigure());
     }
+
+    
+    // =================================== Filtering ====================================================
+    
+    public List<IDiagramModelConnection> getFilteredModelSourceConnections() {
+        return getFilteredConnections(getModel().getSourceConnections());
+    }
+    
+    public List<IDiagramModelConnection> getFilteredModelTargetConnections() {
+        return getFilteredConnections(getModel().getTargetConnections());
+    }
+    
+    /**
+     * See if any connections are filtered out
+     * @param originalList
+     * @return A list of filtered connections
+     */
+    private List<IDiagramModelConnection> getFilteredConnections(List<IDiagramModelConnection> originalList) {
+        IConnectionEditPartFilter[] filters = getRootEditPartFilterProvider().getEditPartFilters(IConnectionEditPartFilter.class);
+        if(filters != null) {
+            List<IDiagramModelConnection> filteredList = new ArrayList<IDiagramModelConnection>();
+            
+            for(IDiagramModelConnection connection : originalList) {
+                boolean add = true;
+                
+                for(IConnectionEditPartFilter filter : filters) {
+                    add = filter.isConnectionVisible(this, connection);
+                    
+                    if(!add) { // no point in trying the next filter
+                        break;
+                    }
+                }
+                
+                if(add) {
+                    filteredList.add(connection);
+                }
+            }
+            
+            return filteredList;
+        }
+        
+        return originalList;
+    }
+
+    protected IEditPartFilterProvider getRootEditPartFilterProvider() {
+        if(getRoot() != null && getRoot().getContents() instanceof IEditPartFilterProvider) {
+            return (IEditPartFilterProvider)getRoot().getContents();
+        }
+        return null;
+    }
+    
 }

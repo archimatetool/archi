@@ -26,7 +26,6 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.IJunctionElement;
 
 
 
@@ -52,15 +51,6 @@ public class DiagramModelUtils {
                     models.add(dmc.getDiagramModel());
                 }
             }
-            
-            // Not found, so maybe it's expressed as a nested parent/child relationship
-            if(models.isEmpty() && archimateConcept instanceof IArchimateRelationship && ConnectionPreferences.useNestedConnections()) {
-                for(IDiagramModel diagramModel : archimateConcept.getArchimateModel().getDiagramModels()) {
-                    if(!findNestedComponentsForRelationship(diagramModel, (IArchimateRelationship)archimateConcept).isEmpty() && !models.contains(diagramModel)) {
-                        models.add(diagramModel);
-                    }
-                }
-            }
         }
         
         return models;
@@ -76,18 +66,7 @@ public class DiagramModelUtils {
             return false;
         }
         
-        boolean found = !findDiagramModelComponentsForArchimateConcept(archimateConcept).isEmpty();
-        
-        // Not found, so maybe it's expressed as a nested parent/child relationship
-        if(!found && archimateConcept instanceof IArchimateRelationship && ConnectionPreferences.useNestedConnections()) {
-            for(IDiagramModel diagramModel : archimateConcept.getArchimateModel().getDiagramModels()) {
-                if(!findNestedComponentsForRelationship(diagramModel, (IArchimateRelationship)archimateConcept).isEmpty()) {
-                    return true;
-                }
-            }
-        }
-        
-        return found;
+        return !findDiagramModelComponentsForArchimateConcept(archimateConcept).isEmpty();
     }
 
     // ============================= Fast methods of finding components using reference list ==============================
@@ -330,94 +309,18 @@ public class DiagramModelUtils {
     
     // ========================================= NESTED CONNECTIONS FUNCTIONS ==========================================
     
-    // These depend on the user's preferences in ConnectionPreferences
-
-    /**
-     * Find matching pairs of source/target IDiagramModelArchimateObject types that are nested in a Diagram Model
-     * @param diagramModel The diagram model to search
-     * @param relation The relation to search for
-     * @return A list of IDiagramModelArchimateObject types paired as IDiagramModelArchimateObject[] arrays
-     *         in the form of { sourceDiagramModelArchimateObject , targetDiagramModelArchimateObject }
-     */
-    public static List<IDiagramModelArchimateObject[]> findNestedComponentsForRelationship(IDiagramModel diagramModel, IArchimateRelationship relation) {
-        IArchimateConcept src = relation.getSource();
-        IArchimateConcept tgt = relation.getTarget();
-        
-        List<IDiagramModelArchimateObject[]> list = new ArrayList<IDiagramModelArchimateObject[]>();
-        
-        // TODO: A3 Allow connections
-        if(!(src instanceof IArchimateElement && tgt instanceof IArchimateElement)) {
-            return list;
-        }
-        
-        // Find all diagram objects that are source of this relationship
-        List<IDiagramModelArchimateObject> srcList = findDiagramModelObjectsForElementByReference(diagramModel, (IArchimateElement)src);
-        
-        // Find all diagram objects that are target of this relationship
-        List<IDiagramModelArchimateObject> tgtList = findDiagramModelObjectsForElementByReference(diagramModel, (IArchimateElement)tgt);
-        
-        // If diagram object 1 is the parent of diagram object 2 AND it's deemed to be a valid relationship, add them to the list
-        for(IDiagramModelArchimateObject dmo1 : srcList) {
-            for(IDiagramModelArchimateObject dmo2 : tgtList) {
-                if(isNestedRelationship(dmo1, dmo2)) {
-                    list.add(new IDiagramModelArchimateObject[] {dmo1, dmo2});
-                }
-            }
-        }
-        
-        return list;
-    }
     
-    /**
-     * @param parent The parent IDiagramModelArchimateObject
-     * @param child The child IDiagramModelArchimateObject
-     * @return True if there is any nested relationship type between parent and child
-     */
-    public static boolean isNestedRelationship(IDiagramModelArchimateObject parent, IDiagramModelArchimateObject child) {
-        if(parent.getChildren().contains(child)) {
-            return hasNestedConnectionTypeRelationship(parent.getArchimateElement(), child.getArchimateElement());
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Check if there is any nested type relationship between parent (source) and child (target)
-     */
-    public static boolean hasNestedConnectionTypeRelationship(IArchimateElement parent, IArchimateElement child) {
-        for(IArchimateRelationship relation : parent.getSourceRelationships()) {
-            if(relation.getTarget() == child && isNestedConnectionTypeRelationship(relation)) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
     /**
      * @param relation The relationship to check
      * @return true if relation is of a type that can be represented by a nested container 
      */
     public static boolean isNestedConnectionTypeRelationship(IArchimateRelationship relation) {
-        // Some element types are not allowed
-        if(!isNestedConnectionTypeConcept(relation.getSource()) || !isNestedConnectionTypeConcept(relation.getTarget())) {
-            return false;
-        }
-        
         for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
             if(relation.eClass() == eClass) {
                 return true;
             }
         }
         return false;
-    }
-    
-    /**
-     * @param concept The concept to check
-     * @return true if concept can be used to calculate a nested type connection as one end of the relation
-     */
-    public static boolean isNestedConnectionTypeConcept(IArchimateConcept concept) {
-        return !(concept instanceof IJunctionElement);
     }
     
     /**
@@ -429,20 +332,18 @@ public class DiagramModelUtils {
             return false;
         }
 
-        // TODO: A3 Do this for connections that are connected from a connection to parent? O1---C1---O2
-        
-        // Only if source and target elements are ArchiMate elements
-        if(connection.getSource() instanceof IDiagramModelArchimateObject && connection.getTarget() instanceof IDiagramModelArchimateObject) {
-            IDiagramModelArchimateObject source = (IDiagramModelArchimateObject)connection.getSource();
-            IDiagramModelArchimateObject target = (IDiagramModelArchimateObject)connection.getTarget();
+        // Only if the connection's source and target are both ArchiMate concepts
+        if(!(connection.getSource() instanceof IDiagramModelArchimateComponent) && !(connection.getTarget() instanceof IDiagramModelArchimateComponent)) {
+            return false;
+        }
             
-            // Some types are excluded
-            if(!isNestedConnectionTypeConcept(source.getArchimateElement()) || !isNestedConnectionTypeConcept(target.getArchimateElement())) {
-                return false;
-            }
-            
-            // If The Source Element contains the Target Element
-            if(source.getChildren().contains(target)) {
+        IDiagramModelArchimateComponent source = (IDiagramModelArchimateComponent)connection.getSource();
+        IDiagramModelArchimateComponent target = (IDiagramModelArchimateComponent)connection.getTarget();
+
+        // If the connection's source element contains the target
+        if(source instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)source;
+            if(parent.getChildren().contains(target)) {
                 // And it's a relationship type we have chosen to hide
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
                     if(connection.getArchimateRelationship().eClass() == eClass) {
@@ -451,7 +352,54 @@ public class DiagramModelUtils {
                 }
             }
         }
-        
+
+        // If the connection's target element contains the source
+        // TODO: Not sure if this directionality should be allowed
+        if(target instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)target;
+            if(parent.getChildren().contains(source)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // If connection's source is an element and target is a connection
+        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)source;
+            IConnectable connectionSource = ((IDiagramModelArchimateConnection)target).getSource();
+            IConnectable connectionTarget = ((IDiagramModelArchimateConnection)target).getTarget();
+
+            if(parent.getChildren().contains(connectionSource) && parent.getChildren().contains(connectionTarget)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // If connection's target is an element and source is a connection
+        // TODO: Not sure if this directionality should be allowed
+        if(target instanceof IDiagramModelArchimateObject && source instanceof IDiagramModelArchimateConnection) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)target;
+            IConnectable connectionSource = ((IDiagramModelArchimateConnection)source).getSource();
+            IConnectable connectionTarget = ((IDiagramModelArchimateConnection)source).getTarget();
+
+            if(parent.getChildren().contains(connectionSource) && parent.getChildren().contains(connectionTarget)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
     
