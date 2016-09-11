@@ -74,19 +74,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     private IPropertyChangeListener prefsListener = new IPropertyChangeListener() {
         @Override
         public void propertyChange(org.eclipse.jface.util.PropertyChangeEvent event) {
-            String property = event.getProperty();
-            if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(property)) {
-                refreshVisuals();
-            }
-            else if(property.equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
-                refreshVisuals();
-            }
-            else if(IPreferenceConstants.USE_LINE_CURVES.equals(property)) {
-                getFigure().repaint();
-            }
-            else if(IPreferenceConstants.USE_LINE_JUMPS.equals(property)) {
-                getFigure().repaint();
-            }
+            applicationPreferencesChanged(event);
         }
     };
     
@@ -187,6 +175,27 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     protected void removeECoreAdapter() {
         if(getECoreAdapter() != null) {
             getModel().eAdapters().remove(getECoreAdapter());
+        }
+    }
+    
+    /**
+     * Application User Preferences were changed
+     * @param event
+     */
+    protected void applicationPreferencesChanged(org.eclipse.jface.util.PropertyChangeEvent event) {
+        String property = event.getProperty();
+        
+        if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(property)) {
+            refreshVisuals();
+        }
+        else if(property.equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
+            refreshVisuals();
+        }
+        else if(IPreferenceConstants.USE_LINE_CURVES.equals(property)) {
+            getFigure().repaint();
+        }
+        else if(IPreferenceConstants.USE_LINE_JUMPS.equals(property)) {
+            getFigure().repaint();
         }
     }
     

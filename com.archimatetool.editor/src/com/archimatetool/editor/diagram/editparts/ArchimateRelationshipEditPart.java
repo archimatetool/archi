@@ -15,8 +15,10 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -57,6 +59,19 @@ implements NodeEditPart {
         super.eCoreChanged(msg);
     }
     
+    @Override
+    protected void applicationPreferencesChanged(PropertyChangeEvent event) {
+        // Hidden connections
+        if(IPreferenceConstants.HIDDEN_RELATIONS_TYPES.equals(event.getProperty()) ||
+                IPreferenceConstants.USE_NESTED_CONNECTIONS.equals(event.getProperty())) {
+            refreshSourceConnections();
+            refreshTargetConnections();
+        }
+        else {
+            super.applicationPreferencesChanged(event);
+        }
+    }
+
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
     ///----------------------------------------------------------------------------------------
@@ -151,6 +166,12 @@ implements NodeEditPart {
      * @return A list of filtered connections
      */
     private List<IDiagramModelConnection> getFilteredConnections(List<IDiagramModelConnection> originalList) {
+        IEditPartFilterProvider filterProvider = getRootEditPartFilterProvider();
+        
+        if(filterProvider == null) {
+            return originalList;
+        }
+        
         IConnectionEditPartFilter[] filters = getRootEditPartFilterProvider().getEditPartFilters(IConnectionEditPartFilter.class);
         if(filters != null) {
             List<IDiagramModelConnection> filteredList = new ArrayList<IDiagramModelConnection>();
