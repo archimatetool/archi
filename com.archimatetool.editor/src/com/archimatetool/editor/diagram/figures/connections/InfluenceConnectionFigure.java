@@ -9,6 +9,8 @@ import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.model.IInfluenceRelationship;
+
 
 
 /**
@@ -33,6 +35,12 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
         setTargetDecoration(createFigureTargetDecoration()); 
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
         setLineDash(getLineDashes(1.0));
+    }
+    
+    @Override
+    protected void setConnectionText() {
+        IInfluenceRelationship rel = (IInfluenceRelationship)getModelConnection().getArchimateRelationship();
+        getConnectionLabel().setText(getModelConnection().getName() + " " + rel.getStrength()); //$NON-NLS-1$
     }
     
     @Override

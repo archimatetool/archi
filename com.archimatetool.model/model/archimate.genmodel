@@ -182,7 +182,9 @@
     <genClasses ecoreClass="archimate.ecore#//AssociationRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//CompositionRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//FlowRelationship"/>
-    <genClasses ecoreClass="archimate.ecore#//InfluenceRelationship"/>
+    <genClasses ecoreClass="archimate.ecore#//InfluenceRelationship">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//InfluenceRelationship/strength"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//RealizationRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//ServingRelationship"/>
     <genClasses ecoreClass="archimate.ecore#//SpecializationRelationship"/>

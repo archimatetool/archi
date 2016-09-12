@@ -242,7 +242,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="AssociationRelationship" eSuperTypes="#//OtherRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompositionRelationship" eSuperTypes="#//StructuralRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="FlowRelationship" eSuperTypes="#//DynamicRelationship"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//DependendencyRelationship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationship" eSuperTypes="#//DependendencyRelationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RealizationRelationship" eSuperTypes="#//StructuralRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="ServingRelationship" eSuperTypes="#//DependendencyRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="SpecializationRelationship" eSuperTypes="#//OtherRelationship"/>

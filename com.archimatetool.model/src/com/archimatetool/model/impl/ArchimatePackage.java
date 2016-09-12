@@ -2756,6 +2756,15 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getInfluenceRelationship_Strength() {
+        return (EAttribute)influenceRelationshipEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getRealizationRelationship() {
         return realizationRelationshipEClass;
     }
@@ -3099,6 +3108,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         flowRelationshipEClass = createEClass(FLOW_RELATIONSHIP);
 
         influenceRelationshipEClass = createEClass(INFLUENCE_RELATIONSHIP);
+        createEAttribute(influenceRelationshipEClass, INFLUENCE_RELATIONSHIP__STRENGTH);
 
         realizationRelationshipEClass = createEClass(REALIZATION_RELATIONSHIP);
 
@@ -3682,6 +3692,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(flowRelationshipEClass, IFlowRelationship.class, "FlowRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(influenceRelationshipEClass, IInfluenceRelationship.class, "InfluenceRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEAttribute(getInfluenceRelationship_Strength(), ecorePackage.getEString(), "strength", "", 0, 1, IInfluenceRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
 
         initEClass(realizationRelationshipEClass, IRealizationRelationship.class, "RealizationRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

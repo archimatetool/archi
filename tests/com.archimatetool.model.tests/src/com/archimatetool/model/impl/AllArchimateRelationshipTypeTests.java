@@ -21,10 +21,12 @@ import org.junit.runners.Parameterized.Parameters;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 import junit.framework.JUnit4TestAdapter;
 
+@SuppressWarnings("nls")
 @RunWith(Parameterized.class)
 public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTests {
     
@@ -55,7 +57,7 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
     }
 
     @Test
-    public void testGetInterfaceType() {
+    public void testGetInterface_Type() {
         // Only IAccessRelationship type
         Assume.assumeTrue(relationship instanceof IAccessRelationship);
 
@@ -64,4 +66,16 @@ public class AllArchimateRelationshipTypeTests extends ArchimateRelationshipTest
         aRelationship.setAccessType(IAccessRelationship.READ_ACCESS);
         assertEquals(IAccessRelationship.READ_ACCESS, aRelationship.getAccessType());
     }
+    
+    @Test
+    public void testGetInfluence_Strength() {
+        // Only Influence type
+        Assume.assumeTrue(relationship instanceof IInfluenceRelationship);
+
+        IInfluenceRelationship aRelationship = (IInfluenceRelationship)relationship;
+        assertEquals("", aRelationship.getStrength());
+        aRelationship.setStrength("++");
+        assertEquals("++", aRelationship.getStrength());
+    }
+
 }

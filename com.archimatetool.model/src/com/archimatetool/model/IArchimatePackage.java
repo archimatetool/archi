@@ -5663,13 +5663,22 @@ public interface IArchimatePackage extends EPackage {
     int INFLUENCE_RELATIONSHIP__TARGET = DEPENDENDENCY_RELATIONSHIP__TARGET;
 
     /**
+     * The feature id for the '<em><b>Strength</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INFLUENCE_RELATIONSHIP__STRENGTH = DEPENDENDENCY_RELATIONSHIP_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the '<em>Influence Relationship</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = DEPENDENDENCY_RELATIONSHIP_FEATURE_COUNT + 0;
+    int INFLUENCE_RELATIONSHIP_FEATURE_COUNT = DEPENDENDENCY_RELATIONSHIP_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link com.archimatetool.model.impl.RealizationRelationship <em>Realization Relationship</em>}' class.
@@ -8648,6 +8657,17 @@ public interface IArchimatePackage extends EPackage {
     EClass getInfluenceRelationship();
 
     /**
+     * Returns the meta object for the attribute '{@link com.archimatetool.model.IInfluenceRelationship#getStrength <em>Strength</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Strength</em>'.
+     * @see com.archimatetool.model.IInfluenceRelationship#getStrength()
+     * @see #getInfluenceRelationship()
+     * @generated
+     */
+    EAttribute getInfluenceRelationship_Strength();
+
+    /**
      * Returns the meta object for class '{@link com.archimatetool.model.IRealizationRelationship <em>Realization Relationship</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -10555,6 +10575,14 @@ public interface IArchimatePackage extends EPackage {
          * @generated
          */
         EClass INFLUENCE_RELATIONSHIP = eINSTANCE.getInfluenceRelationship();
+
+        /**
+         * The meta object literal for the '<em><b>Strength</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute INFLUENCE_RELATIONSHIP__STRENGTH = eINSTANCE.getInfluenceRelationship_Strength();
 
         /**
          * The meta object literal for the '{@link com.archimatetool.model.impl.RealizationRelationship <em>Realization Relationship</em>}' class.
