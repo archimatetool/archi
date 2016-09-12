@@ -8,6 +8,7 @@ package com.archimatetool.editor.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
 
 import junit.framework.JUnit4TestAdapter;
@@ -103,14 +105,11 @@ public class DiagramModelUtilsNestedRelationsTests {
     
     @Test
     public void testIsNestedConnectionTypeRelationship() {
-        IArchimateRelationship rel = IArchimateFactory.eINSTANCE.createCompositionRelationship();
-        assertTrue(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
-        
-        rel = IArchimateFactory.eINSTANCE.createAggregationRelationship();
-        assertTrue(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
-        
-        rel = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        assertFalse(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
+        // Should be all relations
+        for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
+            IArchimateRelationship rel = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(eClass);
+            assertTrue(DiagramModelUtils.isNestedConnectionTypeRelationship(rel));
+        }
     }
     
     @Test
@@ -135,8 +134,9 @@ public class DiagramModelUtilsNestedRelationsTests {
         
         assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
         
+        // Another one to be sure - association
         connection.setArchimateRelationship(relationship2);
         connection.connect(dmo4, dmo5);
-        assertFalse(DiagramModelUtils.shouldBeHiddenConnection(connection));
+        assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
     }
 }
