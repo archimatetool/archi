@@ -62,6 +62,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
 
 
@@ -126,6 +129,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -190,6 +196,9 @@
         <target concept="TechnologyService" relations="fot" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -254,6 +263,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -318,6 +330,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -382,6 +397,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -446,6 +464,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -510,6 +531,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -574,6 +598,9 @@
         <target concept="TechnologyService" relations="fortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -638,6 +665,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -702,6 +732,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -766,6 +799,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -830,6 +866,9 @@
         <target concept="TechnologyService" relations="fot" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -894,6 +933,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -958,6 +1000,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1022,6 +1067,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1086,6 +1134,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1150,6 +1201,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1214,6 +1268,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1278,6 +1335,9 @@
         <target concept="TechnologyService" relations="fotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1342,6 +1402,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1406,6 +1469,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1470,6 +1536,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1534,6 +1603,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1598,6 +1670,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1662,6 +1737,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1726,6 +1804,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1790,6 +1871,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1854,6 +1938,9 @@
         <target concept="TechnologyService" relations="or" />
         <target concept="Value" relations="or" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1918,6 +2005,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -1982,6 +2072,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2046,6 +2139,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2110,6 +2206,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2174,6 +2273,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2238,6 +2340,9 @@
         <target concept="TechnologyService" relations="acfginorstv" />
         <target concept="Value" relations="acfginorstv" />
         <target concept="WorkPackage" relations="acfginorstv" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2302,6 +2407,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="fot" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2366,6 +2474,9 @@
         <target concept="TechnologyService" relations="cfgiortv" />
         <target concept="Value" relations="cgno" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2430,6 +2541,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2494,6 +2608,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2558,6 +2675,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2622,6 +2742,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2686,6 +2809,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2750,6 +2876,9 @@
         <target concept="TechnologyService" relations="cgor" />
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2814,6 +2943,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -2878,6 +3010,9 @@
         <target concept="TechnologyService" relations="cfgotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
 
@@ -2941,6 +3076,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
 
 
@@ -3005,6 +3143,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3069,6 +3210,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3133,6 +3277,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3197,6 +3344,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3261,6 +3411,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3325,6 +3478,9 @@
         <target concept="TechnologyService" relations="fiortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3389,6 +3545,9 @@
         <target concept="TechnologyService" relations="fot" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3453,6 +3612,9 @@
         <target concept="TechnologyService" relations="fortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3517,6 +3679,9 @@
         <target concept="TechnologyService" relations="fortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3581,6 +3746,9 @@
         <target concept="TechnologyService" relations="fiotv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3645,6 +3813,9 @@
         <target concept="TechnologyService" relations="fortv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3709,6 +3880,9 @@
         <target concept="TechnologyService" relations="cfgostv" />
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3773,6 +3947,9 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="cgnos" />
         <target concept="WorkPackage" relations="o" />
+
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
     </source>
     
     
@@ -3839,135 +4016,135 @@
         <target concept="WorkPackage" relations="cfgost" />
     </source>
 
-    <!-- TODO: These need to be finalised -->
+    <!-- Junctions -->
 
     <source concept="AndJunction">
-        <target concept="AndJunction" relations="ifort" />
-        <target concept="ApplicationCollaboration" relations="ifort" />
-        <target concept="ApplicationComponent" relations="ifort" />
-        <target concept="ApplicationEvent" relations="ifort" />
-        <target concept="ApplicationFunction" relations="ifort" />
-        <target concept="ApplicationInteraction" relations="ifort" />
-        <target concept="ApplicationInterface" relations="ifort" />
-        <target concept="ApplicationProcess" relations="ifort" />
-        <target concept="ApplicationService" relations="ifort" />
-        <target concept="Artifact" relations="ifort" />
-        <target concept="Assessment" relations="ifort" />
-        <target concept="BusinessActor" relations="ifort" />
-        <target concept="BusinessCollaboration" relations="ifort" />
-        <target concept="BusinessEvent" relations="ifort" />
-        <target concept="BusinessFunction" relations="ifort" />
-        <target concept="BusinessInteraction" relations="ifort" />
-        <target concept="BusinessInterface" relations="ifort" />
-        <target concept="BusinessObject" relations="ifort" />
-        <target concept="BusinessProcess" relations="ifort" />
-        <target concept="BusinessRole" relations="ifort" />
-        <target concept="BusinessService" relations="ifort" />
-        <target concept="Capability" relations="ifort" />
-        <target concept="CommunicationNetwork" relations="ifort" />
-        <target concept="Constraint" relations="ifort" />
-        <target concept="Contract" relations="ifort" />
-        <target concept="CourseOfAction" relations="ifort" />
-        <target concept="DataObject" relations="ifort" />
-        <target concept="Deliverable" relations="ifort" />
-        <target concept="Device" relations="ifort" />
-        <target concept="DistributionNetwork" relations="ifort" />
-        <target concept="Driver" relations="ifort" />
-        <target concept="Equipment" relations="ifort" />
-        <target concept="Facility" relations="ifort" />
-        <target concept="Gap" relations="ifort" />
-        <target concept="Goal" relations="ifort" />
-        <target concept="Grouping" relations="ifort" />
-        <target concept="ImplementationEvent" relations="ifort" />
-        <target concept="Location" relations="ifort" />
-        <target concept="Material" relations="ifort" />
-        <target concept="Meaning" relations="ifort" />
-        <target concept="Node" relations="ifort" />
-        <target concept="OrJunction" relations="ifort" />
-        <target concept="Outcome" relations="ifort" />
-        <target concept="Path" relations="ifort" />
-        <target concept="Plateau" relations="ifort" />
-        <target concept="Principle" relations="ifort" />
-        <target concept="Product" relations="ifort" />
-        <target concept="Representation" relations="ifort" />
-        <target concept="Requirement" relations="ifort" />
-        <target concept="Resource" relations="ifort" />
-        <target concept="Stakeholder" relations="ifort" />
-        <target concept="SystemSoftware" relations="ifort" />
-        <target concept="TechnologyCollaboration" relations="ifort" />
-        <target concept="TechnologyEvent" relations="ifort" />
-        <target concept="TechnologyFunction" relations="ifort" />
-        <target concept="TechnologyInteraction" relations="ifort" />
-        <target concept="TechnologyInterface" relations="ifort" />
-        <target concept="TechnologyProcess" relations="ifort" />
-        <target concept="TechnologyService" relations="ifort" />
-        <target concept="Value" relations="ifort" />
-        <target concept="WorkPackage" relations="ifort" />
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="ApplicationCollaboration" relations="fiort" />
+        <target concept="ApplicationComponent" relations="fiort" />
+        <target concept="ApplicationEvent" relations="fiort" />
+        <target concept="ApplicationFunction" relations="fiort" />
+        <target concept="ApplicationInteraction" relations="fiort" />
+        <target concept="ApplicationInterface" relations="fiort" />
+        <target concept="ApplicationProcess" relations="fiort" />
+        <target concept="ApplicationService" relations="fiort" />
+        <target concept="Artifact" relations="fiort" />
+        <target concept="Assessment" relations="fiort" />
+        <target concept="BusinessActor" relations="fiort" />
+        <target concept="BusinessCollaboration" relations="fiort" />
+        <target concept="BusinessEvent" relations="fiort" />
+        <target concept="BusinessFunction" relations="fiort" />
+        <target concept="BusinessInteraction" relations="fiort" />
+        <target concept="BusinessInterface" relations="fiort" />
+        <target concept="BusinessObject" relations="fiort" />
+        <target concept="BusinessProcess" relations="fiort" />
+        <target concept="BusinessRole" relations="fiort" />
+        <target concept="BusinessService" relations="fiort" />
+        <target concept="Capability" relations="fiort" />
+        <target concept="CommunicationNetwork" relations="fiort" />
+        <target concept="Constraint" relations="fiort" />
+        <target concept="Contract" relations="fiort" />
+        <target concept="CourseOfAction" relations="fiort" />
+        <target concept="DataObject" relations="fiort" />
+        <target concept="Deliverable" relations="fiort" />
+        <target concept="Device" relations="fiort" />
+        <target concept="DistributionNetwork" relations="fiort" />
+        <target concept="Driver" relations="fiort" />
+        <target concept="Equipment" relations="fiort" />
+        <target concept="Facility" relations="fiort" />
+        <target concept="Gap" relations="fiort" />
+        <target concept="Goal" relations="fiort" />
+        <target concept="Grouping" relations="fiort" />
+        <target concept="ImplementationEvent" relations="fiort" />
+        <target concept="Location" relations="fiort" />
+        <target concept="Material" relations="fiort" />
+        <target concept="Meaning" relations="fiort" />
+        <target concept="Node" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
+        <target concept="Outcome" relations="fiort" />
+        <target concept="Path" relations="fiort" />
+        <target concept="Plateau" relations="fiort" />
+        <target concept="Principle" relations="fiort" />
+        <target concept="Product" relations="fiort" />
+        <target concept="Representation" relations="fiort" />
+        <target concept="Requirement" relations="fiort" />
+        <target concept="Resource" relations="fiort" />
+        <target concept="Stakeholder" relations="fiort" />
+        <target concept="SystemSoftware" relations="fiort" />
+        <target concept="TechnologyCollaboration" relations="fiort" />
+        <target concept="TechnologyEvent" relations="fiort" />
+        <target concept="TechnologyFunction" relations="fiort" />
+        <target concept="TechnologyInteraction" relations="fiort" />
+        <target concept="TechnologyInterface" relations="fiort" />
+        <target concept="TechnologyProcess" relations="fiort" />
+        <target concept="TechnologyService" relations="fiort" />
+        <target concept="Value" relations="fiort" />
+        <target concept="WorkPackage" relations="fiort" />
     </source>
 
 
     <source concept="OrJunction">
-        <target concept="AndJunction" relations="ifort" />
-        <target concept="ApplicationCollaboration" relations="ifort" />
-        <target concept="ApplicationComponent" relations="ifort" />
-        <target concept="ApplicationEvent" relations="ifort" />
-        <target concept="ApplicationFunction" relations="ifort" />
-        <target concept="ApplicationInteraction" relations="ifort" />
-        <target concept="ApplicationInterface" relations="ifort" />
-        <target concept="ApplicationProcess" relations="ifort" />
-        <target concept="ApplicationService" relations="ifort" />
-        <target concept="Artifact" relations="ifort" />
-        <target concept="Assessment" relations="ifort" />
-        <target concept="BusinessActor" relations="ifort" />
-        <target concept="BusinessCollaboration" relations="ifort" />
-        <target concept="BusinessEvent" relations="ifort" />
-        <target concept="BusinessFunction" relations="ifort" />
-        <target concept="BusinessInteraction" relations="ifort" />
-        <target concept="BusinessInterface" relations="ifort" />
-        <target concept="BusinessObject" relations="ifort" />
-        <target concept="BusinessProcess" relations="ifort" />
-        <target concept="BusinessRole" relations="ifort" />
-        <target concept="BusinessService" relations="ifort" />
-        <target concept="Capability" relations="ifort" />
-        <target concept="CommunicationNetwork" relations="ifort" />
-        <target concept="Constraint" relations="ifort" />
-        <target concept="Contract" relations="ifort" />
-        <target concept="CourseOfAction" relations="ifort" />
-        <target concept="DataObject" relations="ifort" />
-        <target concept="Deliverable" relations="ifort" />
-        <target concept="Device" relations="ifort" />
-        <target concept="DistributionNetwork" relations="ifort" />
-        <target concept="Driver" relations="ifort" />
-        <target concept="Equipment" relations="ifort" />
-        <target concept="Facility" relations="ifort" />
-        <target concept="Gap" relations="ifort" />
-        <target concept="Goal" relations="ifort" />
-        <target concept="Grouping" relations="ifort" />
-        <target concept="ImplementationEvent" relations="ifort" />
-        <target concept="Location" relations="ifort" />
-        <target concept="Material" relations="ifort" />
-        <target concept="Meaning" relations="ifort" />
-        <target concept="Node" relations="ifort" />
-        <target concept="OrJunction" relations="ifort" />
-        <target concept="Outcome" relations="ifort" />
-        <target concept="Path" relations="ifort" />
-        <target concept="Plateau" relations="ifort" />
-        <target concept="Principle" relations="ifort" />
-        <target concept="Product" relations="ifort" />
-        <target concept="Representation" relations="ifort" />
-        <target concept="Requirement" relations="ifort" />
-        <target concept="Resource" relations="ifort" />
-        <target concept="Stakeholder" relations="ifort" />
-        <target concept="SystemSoftware" relations="ifort" />
-        <target concept="TechnologyCollaboration" relations="ifort" />
-        <target concept="TechnologyEvent" relations="ifort" />
-        <target concept="TechnologyFunction" relations="ifort" />
-        <target concept="TechnologyInteraction" relations="ifort" />
-        <target concept="TechnologyInterface" relations="ifort" />
-        <target concept="TechnologyProcess" relations="ifort" />
-        <target concept="TechnologyService" relations="ifort" />
-        <target concept="Value" relations="ifort" />
-        <target concept="WorkPackage" relations="ifort" />
+        <target concept="AndJunction" relations="fiort" />
+        <target concept="ApplicationCollaboration" relations="fiort" />
+        <target concept="ApplicationComponent" relations="fiort" />
+        <target concept="ApplicationEvent" relations="fiort" />
+        <target concept="ApplicationFunction" relations="fiort" />
+        <target concept="ApplicationInteraction" relations="fiort" />
+        <target concept="ApplicationInterface" relations="fiort" />
+        <target concept="ApplicationProcess" relations="fiort" />
+        <target concept="ApplicationService" relations="fiort" />
+        <target concept="Artifact" relations="fiort" />
+        <target concept="Assessment" relations="fiort" />
+        <target concept="BusinessActor" relations="fiort" />
+        <target concept="BusinessCollaboration" relations="fiort" />
+        <target concept="BusinessEvent" relations="fiort" />
+        <target concept="BusinessFunction" relations="fiort" />
+        <target concept="BusinessInteraction" relations="fiort" />
+        <target concept="BusinessInterface" relations="fiort" />
+        <target concept="BusinessObject" relations="fiort" />
+        <target concept="BusinessProcess" relations="fiort" />
+        <target concept="BusinessRole" relations="fiort" />
+        <target concept="BusinessService" relations="fiort" />
+        <target concept="Capability" relations="fiort" />
+        <target concept="CommunicationNetwork" relations="fiort" />
+        <target concept="Constraint" relations="fiort" />
+        <target concept="Contract" relations="fiort" />
+        <target concept="CourseOfAction" relations="fiort" />
+        <target concept="DataObject" relations="fiort" />
+        <target concept="Deliverable" relations="fiort" />
+        <target concept="Device" relations="fiort" />
+        <target concept="DistributionNetwork" relations="fiort" />
+        <target concept="Driver" relations="fiort" />
+        <target concept="Equipment" relations="fiort" />
+        <target concept="Facility" relations="fiort" />
+        <target concept="Gap" relations="fiort" />
+        <target concept="Goal" relations="fiort" />
+        <target concept="Grouping" relations="fiort" />
+        <target concept="ImplementationEvent" relations="fiort" />
+        <target concept="Location" relations="fiort" />
+        <target concept="Material" relations="fiort" />
+        <target concept="Meaning" relations="fiort" />
+        <target concept="Node" relations="fiort" />
+        <target concept="OrJunction" relations="fiort" />
+        <target concept="Outcome" relations="fiort" />
+        <target concept="Path" relations="fiort" />
+        <target concept="Plateau" relations="fiort" />
+        <target concept="Principle" relations="fiort" />
+        <target concept="Product" relations="fiort" />
+        <target concept="Representation" relations="fiort" />
+        <target concept="Requirement" relations="fiort" />
+        <target concept="Resource" relations="fiort" />
+        <target concept="Stakeholder" relations="fiort" />
+        <target concept="SystemSoftware" relations="fiort" />
+        <target concept="TechnologyCollaboration" relations="fiort" />
+        <target concept="TechnologyEvent" relations="fiort" />
+        <target concept="TechnologyFunction" relations="fiort" />
+        <target concept="TechnologyInteraction" relations="fiort" />
+        <target concept="TechnologyInterface" relations="fiort" />
+        <target concept="TechnologyProcess" relations="fiort" />
+        <target concept="TechnologyService" relations="fiort" />
+        <target concept="Value" relations="fiort" />
+        <target concept="WorkPackage" relations="fiort" />
     </source>
 
 

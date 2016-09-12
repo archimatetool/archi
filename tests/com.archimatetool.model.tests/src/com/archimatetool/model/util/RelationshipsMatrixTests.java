@@ -72,7 +72,7 @@ public class RelationshipsMatrixTests {
         }
         
         for(EClass eClassSource : ArchimateModelUtils.getRelationsClasses()) {
-            assertFalse(matrix.isValidRelationshipStart(eClassSource, IArchimatePackage.eINSTANCE.getTriggeringRelationship()));
+            assertFalse(matrix.isValidRelationshipStart(eClassSource, IArchimatePackage.eINSTANCE.getInfluenceRelationship()));
         }
     }
 
@@ -99,7 +99,7 @@ public class RelationshipsMatrixTests {
         
         sourceClass = IArchimatePackage.eINSTANCE.getValue();
         targetClass = IArchimatePackage.eINSTANCE.getOrJunction();
-        relationship = IArchimatePackage.eINSTANCE.getFlowRelationship();
+        relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         relationship = IArchimatePackage.eINSTANCE.getAccessRelationship();
