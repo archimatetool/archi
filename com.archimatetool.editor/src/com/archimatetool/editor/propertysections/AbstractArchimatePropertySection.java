@@ -115,7 +115,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
         layout.marginTop = V_SPACING;
         layout.marginHeight = 0;
         layout.marginLeft = 3;
-        layout.marginBottom = shouldUseExtraSpace() ? 5 : 0; 
+        layout.marginBottom = 2; 
         layout.verticalSpacing = V_SPACING;
         parent.setLayout(layout);
         
