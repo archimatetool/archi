@@ -75,6 +75,6 @@ public class SketchActorEditPart extends AbstractConnectedEditPart {
     }
     
     protected DirectEditManager createDirectEditManager() {
-        return new LabelDirectEditManager(this, getFigure().getTextControl());
+        return new LabelDirectEditManager(this, getFigure().getTextControl(), getModel().getName());
     }
 }

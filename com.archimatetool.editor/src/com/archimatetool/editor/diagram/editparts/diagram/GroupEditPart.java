@@ -105,7 +105,7 @@ public class GroupEditPart extends AbstractConnectedEditPart {
     }
     
     protected DirectEditManager createDirectEditManager() {
-        return new LabelDirectEditManager(this, getFigure().getTextControl());
+        return new LabelDirectEditManager(this, getFigure().getTextControl(), getModel().getName());
     }
 
     @SuppressWarnings("rawtypes")

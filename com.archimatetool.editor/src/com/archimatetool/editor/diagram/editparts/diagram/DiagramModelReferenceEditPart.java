@@ -102,6 +102,6 @@ public class DiagramModelReferenceEditPart extends AbstractConnectedEditPart {
     }
 
     protected DirectEditManager createDirectEditManager() {
-        return new LabelDirectEditManager(this, getFigure().getTextControl());
+        return new LabelDirectEditManager(this, getFigure().getTextControl(), getModel().getName());
     }
 }

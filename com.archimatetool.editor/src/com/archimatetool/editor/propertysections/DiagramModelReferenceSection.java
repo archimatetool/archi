@@ -103,4 +103,10 @@ public class DiagramModelReferenceSection extends AbstractArchimatePropertySecti
     protected EObject getEObject() {
         return fDiagramModel;
     }
+    
+    @Override
+    public boolean shouldUseExtraSpace() {
+        return true;
+    }
+    
 }

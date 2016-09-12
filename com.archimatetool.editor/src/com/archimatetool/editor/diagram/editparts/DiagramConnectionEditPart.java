@@ -277,7 +277,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
     }
     
     protected DirectEditManager createDirectEditManager() {
-        return new LabelDirectEditManager(this, getFigure().getConnectionLabel());
+        return new LabelDirectEditManager(this, getFigure().getConnectionLabel(), getModel().getName());
     }
     
     @Override
