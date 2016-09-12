@@ -61,8 +61,8 @@ implements IPreferenceConstants {
         store.setDefault(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER, true);
         store.setDefault(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER, true);
         
-        store.setDefault(NEW_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7);
-        store.setDefault(HIDDEN_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7);
+        store.setDefault(NEW_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 1);
+        store.setDefault(HIDDEN_RELATIONS_TYPES, 1 << 10 | 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 4 | 1 << 3 | 1 << 2 | 1 << 1 | 1 << 0);
         
         store.setDefault(VIEWPOINTS_FILTER_MODEL_TREE, true);
         store.setDefault(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, false);
