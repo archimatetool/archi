@@ -11,8 +11,10 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramConnectionPolicy;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 /**
@@ -74,12 +76,28 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
     }
     
     @Override
+    protected void refreshFigure() {
+        getFigure().refreshVisuals();
+        
+        // Set Enabled according to current Viewpoint
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+            getFigure().setEnabled(ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModel()));
+        }
+        else {
+            getFigure().setEnabled(true);
+        }
+    }
+    
+    @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
         // Hidden connections
         if(IPreferenceConstants.HIDDEN_RELATIONS_TYPES.equals(event.getProperty()) ||
                 IPreferenceConstants.USE_NESTED_CONNECTIONS.equals(event.getProperty())) {
             refreshSourceConnections();
             refreshTargetConnections();
+        }
+        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
+            refreshFigure();
         }
         else {
             super.applicationPreferencesChanged(event);

@@ -11,12 +11,12 @@ import java.util.List;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 /**
@@ -31,10 +31,11 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 	final static int DIR_OUT = 3;
     
     private int fDepth = 0;
-    private IViewpoint fViewpoint = new TotalViewpoint();
+    private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
+        assert(vp != null);
         fViewpoint = vp;
     }
     
@@ -114,26 +115,24 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         List<IArchimateRelationship> list = ArchimateModelUtils.getAllRelationshipsForConcept(element);
         
         for(IArchimateRelationship relationship : list) {
-        	if(fViewpoint.isAllowedType(relationship.eClass())) {
-	            IArchimateConcept other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
-	            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
-	            
-	            if(!mainList.contains(relationship) && fViewpoint.isAllowedType(other.eClass())) {
-	            	if(direction == fDirection || fDirection == DIR_BOTH) {
-	            		mainList.add(relationship);
-	            	}
-	            }
-	            
-	            if(fViewpoint.isAllowedType(other.eClass()) && other instanceof IArchimateElement) {
-	            	if(direction == fDirection || fDirection == DIR_BOTH) {
-	            		getRelations(mainList, checkList, (IArchimateElement)other, count);
-	            	}
-	            }
-	            /*
-	            if(fViewpoint.isAllowedType(((IArchimateElement)target).eClass())) {
+            IArchimateConcept other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
+            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
+
+            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass())) {
+                if(direction == fDirection || fDirection == DIR_BOTH) {
+                    mainList.add(relationship);
+                }
+            }
+
+            if(fViewpoint.isAllowedConcept(other.eClass()) && other instanceof IArchimateElement) {
+                if(direction == fDirection || fDirection == DIR_BOTH) {
+                    getRelations(mainList, checkList, (IArchimateElement)other, count);
+                }
+            }
+            /*
+	            if(fViewpoint.isAllowedConcept(((IArchimateElement)target).eClass())) {
 	            	getRelations(mainList, checkList, target, count);	
 	            } */
-        	}
         }
     }
     

@@ -31,12 +31,12 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 /**
  * Generate View Dialog
@@ -114,11 +114,11 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         fComboViewer.getCombo().setVisibleItemCount(12);
         fComboViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
-        for(IViewpoint viewpoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+        for(IViewpoint viewpoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             boolean allowed = true;
             
             for(IArchimateElement element : fSelectedElements) {
-                if(!viewpoint.isAllowedType(element.eClass())) {
+                if(!viewpoint.isAllowedConcept(element.eClass())) {
                     allowed = false;
                     break;
                 }
@@ -208,7 +208,7 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
         store.setValue(PREFS_ALLCONNECTIONS, fAddAllConnections);
-        store.setValue(PREFS_LASTVIEWPOINT, fSelectedViewpoint.getIndex());
+        store.setValue(PREFS_LASTVIEWPOINT, fSelectedViewpoint.getID());
     }
 
     void loadPreferences() {
@@ -216,11 +216,11 @@ public class GenerateViewDialog extends ExtendedTitleAreaDialog {
         
         fAddAllConnectionsButton.setSelection(store.getBoolean(PREFS_ALLCONNECTIONS));
         
-        int index = store.getInt(PREFS_LASTVIEWPOINT);
-        IViewpoint lastViewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
+        String id = store.getString(PREFS_LASTVIEWPOINT);
+        IViewpoint lastViewpoint = ViewpointManager.INSTANCE.getViewpoint(id);
         
         if(!fValidViewPoints.contains(lastViewpoint)) {
-            lastViewpoint = ViewpointsManager.INSTANCE.getViewpoint(0);
+            lastViewpoint = ViewpointManager.NONE_VIEWPOINT;
         }
         
         fComboViewer.setSelection(new StructuredSelection(lastViewpoint));

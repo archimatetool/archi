@@ -25,11 +25,11 @@ import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.IViewpoint;
 
 
 
@@ -158,18 +158,14 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
 
         // Relations
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {
-            if(isAllowedType(eClass)) {
-                ToolEntry entry = createConnectionCreationToolEntry(eClass, null);
-                group.add(entry);
-            }
+            ToolEntry entry = createConnectionCreationToolEntry(eClass, null);
+            group.add(entry);
         }
 
         // Junctions
         for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
-            if(isAllowedType(eClass)) {
-                ToolEntry entry = createElementCreationToolEntry(eClass, null);
-                group.add(entry);
-            }
+            ToolEntry entry = createElementCreationToolEntry(eClass, null);
+            group.add(entry);
         }
     }
     
@@ -194,7 +190,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         PaletteContainer group = null;
         
         for(EClass eClass : types) {
-            if(isAllowedType(eClass)) {
+            if(isAllowedElement(eClass)) {
                 if(group == null) {
                     group = new PaletteGroup(title);
                     add(group);
@@ -213,8 +209,8 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
         }
     }
     
-    private boolean isAllowedType(EClass eClass) {
-        return fViewpoint == null || fViewpoint != null && fViewpoint.isAllowedType(eClass);
+    private boolean isAllowedElement(EClass eClass) {
+        return fViewpoint == null || fViewpoint != null && fViewpoint.isAllowedConcept(eClass);
     }
     
     public void dispose() {

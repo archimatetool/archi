@@ -54,7 +54,7 @@ public interface IPreferenceConstants {
     String HIDDEN_RELATIONS_TYPES = "hiddenRelationsTypes"; //$NON-NLS-1$
     
     String VIEWPOINTS_FILTER_MODEL_TREE = "viewpointsFilterModelTree"; //$NON-NLS-1$
-    String VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS = "viewpointsHideDiagramElements"; //$NON-NLS-1$
+    String VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS = "viewpointsGhostDiagramElements"; //$NON-NLS-1$
     String VIEWPOINTS_HIDE_PALETTE_ELEMENTS = "viewpointsHidePaletteElements"; //$NON-NLS-1$
     String VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS = "viewpointsHideMagicConnectorElements"; //$NON-NLS-1$
 

@@ -31,8 +31,6 @@ import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetLi
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
@@ -40,6 +38,8 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -73,10 +73,6 @@ implements IArchimateDiagramEditor {
                 getPaletteRoot().setViewpoint(null);
             }
         }
-        // Hide Diagram Elements on Viewpoint
-        else if(IPreferenceConstants.VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS == event.getProperty()) {
-            getGraphicalViewer().setContents(getModel()); // refresh the model contents
-        }
         else {
             super.applicationPreferencesChanged(event);
         }
@@ -95,7 +91,7 @@ implements IArchimateDiagramEditor {
      */
     protected void setPaletteViewpoint() {
         if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
-            getPaletteRoot().setViewpoint(ViewpointsManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
+            getPaletteRoot().setViewpoint(ViewpointManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
         }
     }
     
@@ -201,7 +197,7 @@ implements IArchimateDiagramEditor {
         getSelectionActions().add(action.getId());
         
         // Viewpoints
-        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+        for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             action = new ViewpointAction(this, viewPoint);
             registry.registerAction(action);
         }

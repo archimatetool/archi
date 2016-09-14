@@ -6,7 +6,6 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
@@ -15,7 +14,10 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 
+import junit.framework.JUnit4TestAdapter;
 
+
+@SuppressWarnings("nls")
 public class ArchimateDiagramModelTests extends DiagramModelTests {
     
     public static junit.framework.Test suite() {
@@ -33,9 +35,9 @@ public class ArchimateDiagramModelTests extends DiagramModelTests {
     
     @Test
     public void testGetViewpoint() {
-        assertEquals(0, adm.getViewpoint());
-        adm.setViewpoint(1);
-        assertEquals(1, adm.getViewpoint());
+        assertEquals("", adm.getViewpoint());
+        adm.setViewpoint("vp_id");
+        assertEquals("vp_id", adm.getViewpoint());
     }
 
     @Test

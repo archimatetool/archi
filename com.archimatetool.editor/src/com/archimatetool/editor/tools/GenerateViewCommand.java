@@ -13,7 +13,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -24,6 +23,7 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.viewpoints.IViewpoint;
 
 
 
@@ -89,7 +89,7 @@ public class GenerateViewCommand extends Command {
         // New Diagram
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         dm.setName(fViewName);
-        dm.setViewpoint(fViewpoint.getIndex());
+        dm.setViewpoint(fViewpoint.getID());
         
         fParentFolder = fSelectedElements.get(0).getArchimateModel().getDefaultFolderForObject(dm);
         fParentFolder.getElements().add(dm);
@@ -161,7 +161,7 @@ public class GenerateViewCommand extends Command {
             // Add connecting target elements
             for(IArchimateRelationship relation : element.getSourceRelationships()) {
                 IArchimateConcept target = relation.getTarget();
-                if(fViewpoint.isAllowedType(target.eClass()) && !fAddedElements.contains(target) && target instanceof IArchimateElement) {
+                if(fViewpoint.isAllowedConcept(target.eClass()) && !fAddedElements.contains(target) && target instanceof IArchimateElement) {
                     fAddedElements.add((IArchimateElement)target);
                 }
             }
@@ -169,7 +169,7 @@ public class GenerateViewCommand extends Command {
             // Add connecting source elements
             for(IArchimateRelationship relation : element.getTargetRelationships()) {
                 IArchimateConcept source = relation.getSource();
-                if(fViewpoint.isAllowedType(source.eClass()) && !fAddedElements.contains(source)  && source instanceof IArchimateElement) {
+                if(fViewpoint.isAllowedConcept(source.eClass()) && !fAddedElements.contains(source)  && source instanceof IArchimateElement) {
                     fAddedElements.add((IArchimateElement)source);
                 }
             }

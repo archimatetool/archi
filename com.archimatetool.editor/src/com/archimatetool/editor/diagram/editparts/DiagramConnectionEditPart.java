@@ -186,15 +186,19 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         String property = event.getProperty();
         
         if(IPreferenceConstants.DEFAULT_VIEW_FONT.equals(property)) {
-            refreshVisuals();
+            getFigure().refreshVisuals();
         }
         else if(property.equals(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR)) {
-            refreshVisuals();
+            getFigure().refreshVisuals();
         }
         else if(IPreferenceConstants.USE_LINE_CURVES.equals(property)) {
             getFigure().repaint();
         }
         else if(IPreferenceConstants.USE_LINE_JUMPS.equals(property)) {
+            getFigure().repaint();
+        }
+        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
+            getFigure().refreshVisuals();
             getFigure().repaint();
         }
     }

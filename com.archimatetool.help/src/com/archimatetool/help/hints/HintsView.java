@@ -46,7 +46,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
@@ -281,10 +280,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
         }
 
-        // Convert Archimate Diagram Model object to Viewpoint object
+        // TODO: A3 Convert Archimate Diagram Model object to Viewpoint object
         if(object instanceof IArchimateDiagramModel) {
-            int index = ((IArchimateDiagramModel)object).getViewpoint();
-            object = ViewpointsManager.INSTANCE.getViewpoint(index);
+            
         }
         
         Hint hint = getHintFromObject(object);

@@ -168,10 +168,6 @@ public interface IArchiImages {
     String ICON_STICKY = IMGPATH + "sticky.png"; //$NON-NLS-1$
     String ICON_TRASH = IMGPATH + "trash.gif"; //$NON-NLS-1$
     String ICON_UNLOCK = IMGPATH + "unlock.png"; //$NON-NLS-1$
-    String ICON_VIEWPOINTS = IMGPATH + "viewpoints.png"; //$NON-NLS-1$
-    String ICON_VIEWPOINT_BUSINESS = IMGPATH + "vp-business.png"; //$NON-NLS-1$
-    String ICON_VIEWPOINT_APPLICATION = IMGPATH + "vp-application.png"; //$NON-NLS-1$
-    String ICON_VIEWPOINT_TECHNOLOGY = IMGPATH + "vp-technology.png"; //$NON-NLS-1$
     
     String ICON_CONNECTION_PLAIN = IMGPATH + "connection-plain.png"; //$NON-NLS-1$
     String ICON_CONNECTION_ARROW = IMGPATH + "connection-arrow.png"; //$NON-NLS-1$

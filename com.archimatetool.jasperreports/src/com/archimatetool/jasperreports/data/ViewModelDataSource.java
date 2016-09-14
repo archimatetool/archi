@@ -6,17 +6,15 @@
 package com.archimatetool.jasperreports.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -34,14 +32,6 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     private IDiagramModel fCurrentView;
     private int currentIndex = -1;
     
-    // Viewpoint names
-    static Map<Integer, String> viewpointsMap = new HashMap<Integer, String>();
-    static {
-        for(IViewpoint vp : ViewpointsManager.INSTANCE.getAllViewpoints()) {
-            viewpointsMap.put(vp.getIndex(), vp.getName());
-        }
-    }
-    
     public ViewModelDataSource(IArchimateModel model) {
         // Sort a *copy* of the List
         fViews = new ArrayList<IDiagramModel>(model.getDiagramModels());
@@ -50,9 +40,18 @@ public class ViewModelDataSource implements JRRewindableDataSource, IPropertiesD
     
     public String getViewpointName() {
         if(fCurrentView instanceof IArchimateDiagramModel) {
-            int index = ((IArchimateDiagramModel)fCurrentView).getViewpoint();
-            return NLS.bind(Messages.ViewModelDataSource_0, viewpointsMap.get(index));
+            String id = ((IArchimateDiagramModel)fCurrentView).getViewpoint();
+            
+            IViewpoint vp = ViewpointManager.INSTANCE.getViewpoint(id);
+            
+            if(vp == ViewpointManager.NONE_VIEWPOINT) {
+                return Messages.ViewModelDataSource_1;
+            }
+            
+            String name = vp.getName();
+            return name == null ? "" : NLS.bind(Messages.ViewModelDataSource_0, name); //$NON-NLS-1$
         }
+        
         return null;
     }
     

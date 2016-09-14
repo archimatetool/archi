@@ -33,8 +33,6 @@ import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateConnectio
 import com.archimatetool.editor.diagram.editparts.AbstractBaseEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -48,6 +46,8 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -505,9 +505,9 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         }
         
         IArchimateDiagramModel dm = (IArchimateDiagramModel)diagramComponent.getDiagramModel();
-        int index = dm.getViewpoint();
-        IViewpoint viewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
-        return viewpoint == null ? true : viewpoint.isAllowedType(type);
+        String id = dm.getViewpoint();
+        IViewpoint viewpoint = ViewpointManager.INSTANCE.getViewpoint(id);
+        return viewpoint == null ? true : viewpoint.isAllowedConcept(type);
     }
     
     @Override

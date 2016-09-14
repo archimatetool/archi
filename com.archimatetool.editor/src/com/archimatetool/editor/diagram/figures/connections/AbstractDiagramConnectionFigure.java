@@ -23,7 +23,6 @@ import org.eclipse.swt.graphics.Font;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
@@ -119,17 +118,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         setConnectionText();
         
         setLineWidth();
-        
-        // Set Enabled according to current Viewpoint
-        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getModelConnection());
-        setEnabled(enabled);
-        if(getSourceDecoration() != null) {
-            getSourceDecoration().setEnabled(enabled);
-        }
-        if(getTargetDecoration() != null) {
-            getTargetDecoration().setEnabled(enabled);
-        }
-        getConnectionLabel().setEnabled(enabled);
     }
 
     /**

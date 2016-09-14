@@ -13,8 +13,8 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -37,10 +37,8 @@ extends AbstractDiagramEditorActionBarContributor {
         addRetargetAction(retargetAction);
         
         // Viewpoints
-        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
-            retargetAction = new RetargetAction(viewPoint.getClass().toString(), viewPoint.getName(), IAction.AS_RADIO_BUTTON);
-            // Looks better as a checkbox
-            //retargetAction.setImageDescriptor(ViewpointsManager.INSTANCE.getImageDescriptor(viewPoint));
+        for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
+            retargetAction = new RetargetAction(viewPoint.toString(), viewPoint.getName(), IAction.AS_RADIO_BUTTON);
             addRetargetAction(retargetAction);
         }
     }
@@ -70,8 +68,8 @@ extends AbstractDiagramEditorActionBarContributor {
         // Viewpoints
         IMenuManager viewPointMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_0);
         viewMenu.add(viewPointMenu);
-        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
-            viewPointMenu.add(getAction(viewPoint.getClass().toString()));
+        for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
+            viewPointMenu.add(getAction(viewPoint.toString()));
         }
 
         return viewMenu;

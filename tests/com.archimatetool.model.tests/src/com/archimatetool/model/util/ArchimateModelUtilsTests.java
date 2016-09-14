@@ -34,7 +34,7 @@ public class ArchimateModelUtilsTests {
     }
     
     /*
-     * NOTE - Tests for ArchimateModelUtils.isValidRelationshipStart() and ArchimateModelUtils.isValidRelationship() are in RelationshipsMatrixTests
+     * NOTE - Tests for ArchimateModelUtils.isValidRelationshipStart() and ArchimateModelUtils.isValidRelationship() are in ViewpointTests
      */
     
     @Test

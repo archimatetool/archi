@@ -45,11 +45,5 @@ implements INonResizableEditPart {
             showPropertiesView();
         }
     }
-    
-    @Override
-    protected void refreshFigure() {
-        // Refresh the figure if necessary
-        getFigure().refreshVisuals();
-    }
 
 }

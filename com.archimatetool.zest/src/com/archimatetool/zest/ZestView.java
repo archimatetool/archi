@@ -44,8 +44,6 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -57,6 +55,8 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -253,19 +253,19 @@ implements IZestView, ISelectionListener {
         menuManager.add(viewpointMenuManager);
         
         // Get viewpoint from prefs
-        int viewpointIndex = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_VIEWPOINT);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getViewpoint(viewpointIndex));
+        String viewpointID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
         
         // Viewpoint actions
         fViewpointActions = new ArrayList<IAction>();
         
-        for(IViewpoint vp : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+        for(IViewpoint vp : ViewpointManager.INSTANCE.getAllViewpoints()) {
             IAction action = createViewpointMenuAction(vp);
             fViewpointActions.add(action);
             viewpointMenuManager.add(action);
             
             // Set checked
-            if(viewpointIndex == vp.getIndex()) {
+            if(vp.getID().equals(viewpointID)) {
                 action.setChecked(true);
             }
         }
@@ -326,7 +326,7 @@ implements IZestView, ISelectionListener {
             	// Set viewpoint filter
                 ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(vp);
             	// Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, Integer.toString(vp.getIndex()));
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
 
                 // update viewer
             	fGraphViewer.setInput(fGraphViewer.getInput());
@@ -337,7 +337,7 @@ implements IZestView, ISelectionListener {
             }
         };
         
-        act.setId(Integer.toString(vp.getIndex()));
+        act.setId(vp.getID());
         
         return act;
     }

@@ -43,7 +43,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewpointsFilterModelTreeButton;
     private Button fViewpointsHidePaletteElementsButton;
     private Button fViewpointsGhostDiagramElementsButton;
-    private Button fViewpointsHideDiagramElementsButton;
     private Button fViewpointsHideMagicConnectorElementsButton;
     
     private Button fEditNameOnNewObjectButton;
@@ -169,15 +168,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd.horizontalSpan = 2;
         fViewpointsHideMagicConnectorElementsButton.setLayoutData(gd);
 
-        fViewpointsGhostDiagramElementsButton = new Button(viewpointsGroup, SWT.RADIO);
+        fViewpointsGhostDiagramElementsButton = new Button(viewpointsGroup, SWT.CHECK);
         fViewpointsGhostDiagramElementsButton.setText(Messages.DiagramPreferencePage_17);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsGhostDiagramElementsButton.setLayoutData(gd);
-        
-        fViewpointsHideDiagramElementsButton = new Button(viewpointsGroup, SWT.RADIO);
-        fViewpointsHideDiagramElementsButton.setText(Messages.DiagramPreferencePage_18);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        fViewpointsHideDiagramElementsButton.setLayoutData(gd);
         
         setValues();
     }
@@ -212,8 +206,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
         fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
         
-        fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
-        fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
+        fViewpointsGhostDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
     }
@@ -236,7 +229,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_FILTER_MODEL_TREE, fViewpointsFilterModelTreeButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
-        getPreferenceStore().setValue(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, fViewpointsHideDiagramElementsButton.getSelection());
+        getPreferenceStore().setValue(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS, fViewpointsGhostDiagramElementsButton.getSelection());
         
         getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
         
@@ -281,8 +274,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
         fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
         
-        fViewpointsGhostDiagramElementsButton.setSelection(!getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
-        fViewpointsHideDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS));
+        fViewpointsGhostDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
     }

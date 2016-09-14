@@ -8,9 +8,12 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -25,6 +28,31 @@ extends AbstractDiagramConnectionFigure {
     @Override
     public IDiagramModelArchimateConnection getModelConnection() {
         return (IDiagramModelArchimateConnection)super.getModelConnection();
+    }
+    
+    @Override
+    public void refreshVisuals() {
+        super.refreshVisuals();
+        
+        // Set Enabled according to current Viewpoint
+        boolean enabled = true;
+
+        // Set Enabled according to current Viewpoint
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+            enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModelConnection());
+        }
+        
+        setEnabled(enabled);
+        
+        if(getSourceDecoration() != null) {
+            getSourceDecoration().setEnabled(enabled);
+        }
+        
+        if(getTargetDecoration() != null) {
+            getTargetDecoration().setEnabled(enabled);
+        }
+        
+        getConnectionLabel().setEnabled(enabled);
     }
 
     @Override

@@ -386,7 +386,7 @@
         <bounds x="12" y="12" width="869" height="55"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="4056" name="Layered View" viewpoint="14">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="4056" name="Layered View" viewpoint="layered">
       <child xsi:type="archimate:Group" id="4096" name="External Application Services" fillColor="#e1e1e1">
         <bounds x="20" y="510" width="710" height="120"/>
         <child xsi:type="archimate:DiagramObject" id="4103" textAlignment="2" targetConnections="4155" fillColor="#0080c0" archimateElement="1220">
@@ -527,7 +527,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3944" name="Application Structure View" viewpoint="4">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3944" name="Application Structure View" viewpoint="application_usage">
       <child xsi:type="archimate:DiagramObject" id="3955" textAlignment="2" targetConnections="3964" fillColor="#80ffff" archimateElement="838">
         <bounds x="430" y="240" width="120" height="60"/>
       </child>
@@ -556,7 +556,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3893" name="Technical Infrastructure View" viewpoint="13">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3893" name="Technical Infrastructure View" viewpoint="technology_usage">
       <child xsi:type="archimate:DiagramObject" id="3903" textAlignment="2" targetConnections="3940" fillColor="#008040" archimateElement="1110">
         <bounds x="180" y="20" width="120" height="40"/>
       </child>
@@ -624,7 +624,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="4025" name="Service Realisation View" viewpoint="16">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="4025" name="Service Realisation View" viewpoint="service_realization">
       <child xsi:type="archimate:DiagramObject" id="4038" textAlignment="2" targetConnections="4053" fillColor="#0080c0" archimateElement="1214">
         <bounds x="388" y="130" width="103" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="4050" source="4038" target="4034" archimateRelationship="1297"/>
@@ -668,7 +668,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="4048" source="4036" target="4034" archimateRelationship="1293"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3761" name="Business Process View" viewpoint="8">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3761" name="Business Process View" viewpoint="business_process_cooperation">
       <child xsi:type="archimate:DiagramObject" id="3788" textAlignment="2" targetConnections="3806 3811" archimateElement="521">
         <bounds x="200" y="663" width="120" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="3812" source="3788" target="3783" archimateRelationship="770">
@@ -767,7 +767,7 @@
         <bounds x="680" y="302"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3698" name="Organisation Structure View" viewpoint="15">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3698" name="Organisation Structure View" viewpoint="organization">
       <child xsi:type="archimate:DiagramObject" id="3707" font="1|Arial|14.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Arial" textAlignment="2" fillColor="#ffff80" archimateElement="275">
         <bounds x="20" y="20" width="440" height="500"/>
         <child xsi:type="archimate:DiagramObject" id="3720" textAlignment="2" fillColor="#ff8040" archimateElement="345">
@@ -805,7 +805,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3722" name="Business Function View" viewpoint="6">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3722" name="Business Function View">
       <child xsi:type="archimate:DiagramObject" id="3732" textAlignment="2" targetConnections="3756" archimateElement="528">
         <bounds x="610" y="360" width="150" height="120"/>
         <sourceConnection xsi:type="archimate:Connection" id="3757" source="3732" target="3738" archimateRelationship="1778">
@@ -888,7 +888,7 @@
         </sourceConnection>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3821" name="Information Structure View" viewpoint="11">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3821" name="Information Structure View" viewpoint="information_structure">
       <child xsi:type="archimate:DiagramObject" id="3843" textAlignment="2" fillColor="#80ffff" archimateElement="838">
         <bounds x="330" y="460"/>
         <sourceConnection xsi:type="archimate:Connection" id="3864" source="3843" target="3839" archimateRelationship="965"/>
@@ -955,7 +955,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="3859" source="3842" target="3832" archimateRelationship="957"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3865" name="Application Behaviour View" viewpoint="2">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3865" name="Application Behaviour View" viewpoint="application_usage">
       <child xsi:type="archimate:DiagramObject" id="3885" textAlignment="2" targetConnections="3890" fillColor="#00ffff" archimateElement="946">
         <bounds x="80" y="360" width="120" height="60"/>
       </child>
@@ -994,7 +994,7 @@
         <bounds x="300" y="30" width="120" height="60"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3965" name="Organisation Tree View" viewpoint="15">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3965" name="Organisation Tree View" viewpoint="organization">
       <child xsi:type="archimate:DiagramObject" id="3974" font="1|Arial|8.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Arial" textAlignment="2" fillColor="#8080ff" archimateElement="402">
         <bounds x="480" y="20" width="100" height="40"/>
         <sourceConnection xsi:type="archimate:Connection" id="3989" source="3974" target="3976" archimateRelationship="445"/>
@@ -1047,7 +1047,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="3995" source="3978" target="3983" archimateRelationship="464"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="3999" name="Business Product View" viewpoint="9">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="3999" name="Business Product View" viewpoint="product">
       <child xsi:type="archimate:DiagramObject" id="4009" textAlignment="2" archimateElement="521">
         <bounds x="200" y="30" width="120" height="50"/>
         <sourceConnection xsi:type="archimate:Connection" id="4024" source="4009" target="4008" archimateRelationship="1259"/>
@@ -1081,7 +1081,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="4165" name="Actor Cooperation view" viewpoint="1">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="4165" name="Actor Cooperation view">
       <child xsi:type="archimate:DiagramObject" id="4196" textAlignment="2" targetConnections="40d54571 001e8776" archimateElement="507">
         <bounds x="850" y="74" width="120" height="60"/>
       </child>
@@ -1198,7 +1198,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="d9ceaa2d" source="4189" target="4197" archimateRelationship="f19393d1"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="4224" name="Business Cooperation View" viewpoint="7">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="4224" name="Business Cooperation View" viewpoint="business_process_cooperation">
       <child xsi:type="archimate:DiagramObject" id="4253" textAlignment="2" archimateElement="1407">
         <bounds x="446" y="554" width="130" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="8da6d25c" source="4253" target="4241" archimateRelationship="b74a5ecd"/>
@@ -1274,7 +1274,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="4279" name="Application Cooperation View" viewpoint="3">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="4279" name="Application Cooperation View" viewpoint="application_cooperation">
       <child xsi:type="archimate:DiagramObject" id="4288" textAlignment="2" fillColor="#ff8080" archimateElement="1813">
         <bounds x="100" y="570" width="120" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="c5b68bd5" source="4288" target="4307" archimateRelationship="853128f7"/>
@@ -1318,7 +1318,7 @@
         </child>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="4318" name="Implementation and Installation View" viewpoint="10">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="4318" name="Implementation and Installation View">
       <child xsi:type="archimate:DiagramObject" id="4333" textAlignment="2" targetConnections="2b90e415" fillColor="#ff8080" archimateElement="1004">
         <bounds x="390" y="270" width="80" height="60"/>
         <sourceConnection xsi:type="archimate:Connection" id="24573deb" source="4333" target="4334" archimateRelationship="3fb2a575"/>
@@ -1362,7 +1362,7 @@
         <sourceConnection xsi:type="archimate:Connection" id="1b4d9427" source="4331" target="4332" archimateRelationship="e479d313"/>
       </child>
     </element>
-    <element xsi:type="archimate:ArchimateDiagramModel" id="16fe3cf9" name="Goal and Principle View" viewpoint="22">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="16fe3cf9" name="Goal and Principle View">
       <child xsi:type="archimate:Group" id="ecc8b6ec" name="Products &amp; Services Goals">
         <bounds x="36" y="12" width="400" height="196"/>
         <child xsi:type="archimate:DiagramObject" id="859942c2" textAlignment="2" archimateElement="f5674126">

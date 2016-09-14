@@ -24,10 +24,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -102,7 +102,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
                         fIsExecutingCommand = true;
                         getCommandStack().execute(new EObjectFeatureCommand(Messages.ViewpointSection_1,
                                 fDiagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
-                                viewPoint.getIndex()));
+                                viewPoint.getID()));
                         fIsExecutingCommand = false;
                     }
                 }
@@ -120,7 +120,7 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
             
             @Override
             public Object[] getElements(Object inputElement) {
-                return ViewpointsManager.INSTANCE.getAllViewpoints().toArray();
+                return ViewpointManager.INSTANCE.getAllViewpoints().toArray();
             }
         });
         
@@ -148,8 +148,8 @@ public class ViewpointSection extends AbstractArchimatePropertySection {
     }
     
     protected void refreshControls() {
-        int index = fDiagramModel.getViewpoint();
-        IViewpoint viewPoint = ViewpointsManager.INSTANCE.getViewpoint(index);
+        String id = fDiagramModel.getViewpoint();
+        IViewpoint viewPoint = ViewpointManager.INSTANCE.getViewpoint(id);
         
         fIsRefreshing = true; // A Viewer will get a selectionChanged event when setting it
         fComboViewer.setSelection(new StructuredSelection(viewPoint));
