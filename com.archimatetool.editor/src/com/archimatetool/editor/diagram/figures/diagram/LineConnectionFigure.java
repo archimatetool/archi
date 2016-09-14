@@ -73,6 +73,8 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
         else {
             setTargetDecoration(null);
         }
+        
+        repaint(); // repaint when figure changes
     }
     
     protected void setLineStyleFromZoomLevel(double zoomLevel) {

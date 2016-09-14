@@ -76,12 +76,6 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
     }
     
     @Override
-    public void refreshVisuals() {
-        super.refreshVisuals();
-        repaint(); // repaint on figure change
-    }
-    
-    @Override
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();
         return type == 0 ? fRectangleDelegate : fEllipseDelegate;

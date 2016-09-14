@@ -199,7 +199,6 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
         }
         else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS.equals(event.getProperty())) {
             getFigure().refreshVisuals();
-            getFigure().repaint();
         }
     }
     

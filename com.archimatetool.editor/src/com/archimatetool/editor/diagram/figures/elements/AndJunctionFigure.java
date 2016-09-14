@@ -13,7 +13,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -45,9 +44,6 @@ public class AndJunctionFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     public void refreshVisuals() {
-        // Set Enabled according to current Viewpoint
-        boolean enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getDiagramModelObject());
-        setEnabled(enabled);
     }
     
     @Override

@@ -100,6 +100,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             }
             ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
         }
+        
+        repaint(); // repaint when figure changes
     }
     
     @Override

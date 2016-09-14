@@ -53,6 +53,8 @@ extends AbstractDiagramConnectionFigure {
         }
         
         getConnectionLabel().setEnabled(enabled);
+        
+        repaint(); // repaint when figure changes
     }
 
     @Override

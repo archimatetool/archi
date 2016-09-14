@@ -58,6 +58,8 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
         
         // Font Color
         setFontColor();
+        
+        repaint(); // repaint when figure changes
     }
     
     protected void setText() {

@@ -118,6 +118,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         setConnectionText();
         
         setLineWidth();
+        
+        repaint(); // repaint when figure changes
     }
 
     /**
