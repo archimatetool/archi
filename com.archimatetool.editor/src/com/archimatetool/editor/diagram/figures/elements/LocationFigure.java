@@ -25,7 +25,7 @@ public class LocationFigure extends AbstractTextControlContainerFigure {
     public LocationFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 16 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -64,7 +64,7 @@ public class LocationFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 13, bounds.y + 20);
+        return new Point(bounds.x + bounds.width - 10, bounds.y + 20);
     }
 
 }

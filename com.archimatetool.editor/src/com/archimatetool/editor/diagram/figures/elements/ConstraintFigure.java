@@ -68,7 +68,12 @@ public class ConstraintFigure extends AbstractMotivationFigure {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
     }
-    
+
+    @Override
+    protected int getIconOffset() {
+        return 23;
+    }
+
     @Override
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();

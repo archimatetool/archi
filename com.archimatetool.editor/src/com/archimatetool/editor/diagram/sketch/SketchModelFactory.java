@@ -17,6 +17,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -60,6 +61,8 @@ public class SketchModelFactory implements ICreationFactory {
         else if(object instanceof ISketchModelSticky) {
             ISketchModelSticky sticky = (ISketchModelSticky)object;
             sticky.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
+            
+            sticky.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
             
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertColorToString((Color)fParam);

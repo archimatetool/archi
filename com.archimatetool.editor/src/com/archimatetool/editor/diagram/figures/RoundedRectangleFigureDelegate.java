@@ -30,6 +30,10 @@ implements IRoundedRectangleFigure {
         super(owner);
     }
     
+    public RoundedRectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+        super(owner, iconOffset);
+    }
+
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.pushState();

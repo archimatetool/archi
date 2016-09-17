@@ -76,14 +76,4 @@ implements IRoundedRectangleFigure {
     @Override
     public void setArc(Dimension arc) {
     }
-
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds();
-        bounds.x += 20;
-        bounds.y += 5;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 10;
-        return bounds;
-    }
 }

@@ -1885,6 +1885,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IDiagramModelReference diagramModelReference = (IDiagramModelReference)theEObject;
                 T result = caseDiagramModelReference(diagramModelReference);
                 if (result == null) result = caseDiagramModelObject(diagramModelReference);
+                if (result == null) result = caseTextPosition(diagramModelReference);
                 if (result == null) result = caseConnectable(diagramModelReference);
                 if (result == null) result = caseFontAttribute(diagramModelReference);
                 if (result == null) result = caseLineObject(diagramModelReference);
@@ -2071,6 +2072,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelContainer(diagramModelArchimateObject);
                 if (result == null) result = caseDiagramModelArchimateComponent(diagramModelArchimateObject);
+                if (result == null) result = caseTextPosition(diagramModelArchimateObject);
                 if (result == null) result = caseConnectable(diagramModelArchimateObject);
                 if (result == null) result = caseFontAttribute(diagramModelArchimateObject);
                 if (result == null) result = caseLineObject(diagramModelArchimateObject);
@@ -2124,6 +2126,7 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelContainer(sketchModelSticky);
                 if (result == null) result = caseTextContent(sketchModelSticky);
                 if (result == null) result = caseProperties(sketchModelSticky);
+                if (result == null) result = caseTextPosition(sketchModelSticky);
                 if (result == null) result = caseConnectable(sketchModelSticky);
                 if (result == null) result = caseFontAttribute(sketchModelSticky);
                 if (result == null) result = caseLineObject(sketchModelSticky);

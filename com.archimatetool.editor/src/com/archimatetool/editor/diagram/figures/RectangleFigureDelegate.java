@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -21,12 +22,17 @@ import com.archimatetool.editor.preferences.Preferences;
  */
 public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
-    protected static final int TEXT_INDENT = 20;
+    protected int iconOffset;
     
     public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
     }
     
+    public RectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+        super(owner);
+        this.iconOffset = iconOffset;
+    }
+
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
@@ -64,10 +70,26 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width = bounds.width - (TEXT_INDENT * 2);
-        bounds.height -= 10;
+        
+        if(getOwner().getDiagramModelObject() instanceof ITextPosition) {
+            int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+            
+            switch(textpos) {
+                // If the figure has an icon move centre inwards
+                case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+                    bounds.x += iconOffset;
+                    bounds.width = bounds.width - (iconOffset * 2);
+                    break;
+                // top right needs indent for icon
+                case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+                    bounds.width -= iconOffset;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         return bounds;
     }
+
 }

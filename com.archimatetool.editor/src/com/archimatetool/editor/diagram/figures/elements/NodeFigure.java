@@ -29,8 +29,8 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
     
     public NodeFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RectangleFigureDelegate(this);
-        fFigureDelegate2 = new BoxFigureDelegate(this);
+        fFigureDelegate1 = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
+        fFigureDelegate2 = new BoxFigureDelegate(this, 0);
     }
     
     @Override
@@ -85,7 +85,7 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 9);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 9);
     }
     
     @Override

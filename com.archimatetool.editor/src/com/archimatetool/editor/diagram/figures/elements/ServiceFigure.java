@@ -32,7 +32,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
 
     public ServiceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
+        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
         fFigureDelegate2 = new ServiceFigureDelegate(this);
     }
     
@@ -67,7 +67,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 5);
+        return new Point(bounds.x + bounds.width - 21, bounds.y + 7);
     }
 
     @Override

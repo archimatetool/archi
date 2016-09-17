@@ -16,6 +16,7 @@ import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -27,8 +28,11 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
 
     protected static final int FOLD_HEIGHT = 14;
     
-    public BoxFigureDelegate(IDiagramModelObjectFigure owner) {
+    protected int iconOffset;
+    
+    public BoxFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
         super(owner);
+        this.iconOffset = iconOffset;
     }
     
     @Override
@@ -81,10 +85,32 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
-        bounds.x += 12;
-        bounds.y += 2 + FOLD_HEIGHT;
-        bounds.width = bounds.width - 42;
-        bounds.height -= 20;
+        
+        int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+        
+        switch(textpos) {
+            case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+                bounds.x += iconOffset;
+                bounds.width = bounds.width - (iconOffset * 2) - 15;
+            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+            case ITextPosition.TEXT_POSITION_TOP_LEFT:
+                bounds.y += FOLD_HEIGHT;
+                break;
+            default:
+                break;
+        }
+
+        switch(textpos) {
+            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+                bounds.width -= iconOffset;
+            case ITextPosition.TEXT_POSITION_MIDDLE_RIGHT:
+            case ITextPosition.TEXT_POSITION_BOTTOM_RIGHT:
+                bounds.width -= 15;
+                break;
+            default:
+                break;
+        }
+
         return bounds;
     }
 

@@ -34,7 +34,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
     
     public DeviceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate = new BoxFigureDelegate(this);
+        fFigureDelegate = new BoxFigureDelegate(this, 20 - getTextControlMarginWidth());
     }
     
     @Override
@@ -97,20 +97,6 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
         graphics.popState();
     }
     
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        if(getFigureDelegate() != null) {
-            return getFigureDelegate().calculateTextControlBounds();
-        }
-
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += 20;
-        bounds.y += 5;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 10;
-        return bounds;
-    }
-
     /**
      * Draw the icon
      */
@@ -139,7 +125,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 31, bounds.y + 18);
+        return new Point(bounds.x + bounds.width - 31, bounds.y + 20);
     }
     
     @Override

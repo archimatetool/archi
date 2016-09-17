@@ -22,7 +22,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure {
     
     public EquipmentFigure() {
         super(TEXT_FLOW_CONTROL);
-        setFigureDelegate(new BoxFigureDelegate(this));
+        setFigureDelegate(new BoxFigureDelegate(this, 20 - getTextControlMarginWidth()));
     }
     
     

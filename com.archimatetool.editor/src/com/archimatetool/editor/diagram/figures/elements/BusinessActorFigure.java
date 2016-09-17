@@ -24,7 +24,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure {
     public BusinessActorFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 17 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -67,7 +67,7 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure {
      * @return The icon start position
      */
     protected Point getIconOrigin() {
-        Rectangle bounds = getBounds();
+        Rectangle bounds = getBounds().getCopy();
         return new Point(bounds.x + bounds.width - 13, bounds.y + 4);
     }
 

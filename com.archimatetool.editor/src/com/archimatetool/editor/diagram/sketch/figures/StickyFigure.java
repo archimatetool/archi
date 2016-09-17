@@ -25,8 +25,6 @@ import com.archimatetool.model.ISketchModelSticky;
  */
 public class StickyFigure extends AbstractTextControlContainerFigure {
     
-    protected static final int TEXT_INDENT = 10;
-    
     public StickyFigure(ISketchModelSticky diagramModelSticky) {
         super(diagramModelSticky, TEXT_FLOW_CONTROL);
     }
@@ -35,16 +33,6 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
     protected void setText() {
         String text = ((ISketchModelSticky)getDiagramModelObject()).getContent();
         ((TextFlow)getTextControl()).setText(StringUtils.safeString(text));
-    }
-
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width = bounds.width - (TEXT_INDENT * 2);
-        bounds.height -= 10;
-        return bounds;
     }
 
     @Override
@@ -72,5 +60,10 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         graphics.drawRectangle(new Rectangle(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1));
         
         graphics.popState();
+    }
+    
+    @Override
+    protected int getTextControlMarginWidth() {
+        return 10;
     }
 }

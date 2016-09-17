@@ -77,15 +77,4 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure {
         
         graphics.popState();
     }
-    
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += 20;
-        bounds.y += 5;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 10;
-        return bounds;
-    }
-
 }

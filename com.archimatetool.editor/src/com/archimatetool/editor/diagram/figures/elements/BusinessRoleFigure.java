@@ -25,7 +25,7 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
     public BusinessRoleFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -67,6 +67,6 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 19, bounds.y + 5);
+        return new Point(bounds.getRight().x - 18, bounds.y + 7);
     }
 }

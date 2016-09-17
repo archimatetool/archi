@@ -27,7 +27,7 @@ public class PathFigure extends AbstractTextControlContainerFigure {
     public PathFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
     }
     
     @Override

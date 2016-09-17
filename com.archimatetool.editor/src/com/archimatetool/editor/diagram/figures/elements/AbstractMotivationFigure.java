@@ -24,7 +24,6 @@ import com.archimatetool.editor.preferences.Preferences;
 public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure {
     
     protected static final int FLANGE = 10;
-    protected static final int TEXT_INDENT = 20;
     
     protected AbstractMotivationFigure() {
         super(TEXT_FLOW_CONTROL);
@@ -81,15 +80,5 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         graphics.drawPolygon(points);
         
         graphics.popState();
-    }
-    
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width = bounds.width - (TEXT_INDENT * 2);
-        bounds.height -= 10;
-        return bounds;
     }
 }

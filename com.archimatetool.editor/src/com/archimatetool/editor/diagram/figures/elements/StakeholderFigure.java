@@ -61,6 +61,11 @@ public class StakeholderFigure extends AbstractMotivationFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 8);
+        return new Point(bounds.x + bounds.width - 21, bounds.y + 9);
+    }
+    
+    @Override
+    protected int getIconOffset() {
+        return 23;
     }
 }

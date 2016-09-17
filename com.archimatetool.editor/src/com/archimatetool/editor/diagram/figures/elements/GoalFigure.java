@@ -60,6 +60,12 @@ public class GoalFigure extends AbstractMotivationFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
     }
+    
+    @Override
+    protected int getIconOffset() {
+        return 22;
+    }
+
 }

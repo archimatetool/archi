@@ -29,7 +29,7 @@ public class FunctionFigure extends AbstractTextControlContainerFigure {
     public FunctionFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rounded Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RoundedRectangleFigureDelegate(this));
+        setFigureDelegate(new RoundedRectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -78,7 +78,7 @@ public class FunctionFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 20);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 19);
     }
     
     @Override

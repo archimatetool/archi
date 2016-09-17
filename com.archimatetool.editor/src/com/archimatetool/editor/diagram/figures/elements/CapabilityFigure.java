@@ -24,7 +24,7 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure {
     public CapabilityFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rounded Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RoundedRectangleFigureDelegate(this));
+        setFigureDelegate(new RoundedRectangleFigureDelegate(this, 19 - getTextControlMarginWidth()));
     }
     
     @Override

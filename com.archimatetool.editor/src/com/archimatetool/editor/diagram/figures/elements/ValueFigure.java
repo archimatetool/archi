@@ -62,16 +62,6 @@ public class ValueFigure extends AbstractTextControlContainerFigure {
     }
 
     @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += 20;
-        bounds.y += 10;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 15;
-        return bounds;
-    }
-    
-    @Override
     public ConnectionAnchor getDefaultConnectionAnchor() {
         return new EllipseAnchor(this);
     }

@@ -25,7 +25,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure {
     public CourseOfActionFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rounded Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RoundedRectangleFigureDelegate(this));
+        setFigureDelegate(new RoundedRectangleFigureDelegate(this, 25 - getTextControlMarginWidth()));
     }
     
     @Override

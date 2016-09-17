@@ -34,7 +34,7 @@ public class EventFigure extends AbstractTextControlContainerFigure {
 
     public EventFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this);
+        fMainFigureDelegate = new RoundedRectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
     }
     
     @Override
@@ -92,16 +92,6 @@ public class EventFigure extends AbstractTextControlContainerFigure {
         graphics.popState();
     }
 
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += 20;
-        bounds.y += 5;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 10;
-        return bounds;
-    }
-    
     /**
      * Draw the icon
      */
@@ -143,7 +133,7 @@ public class EventFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 5);
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 7);
     }
 
     @Override

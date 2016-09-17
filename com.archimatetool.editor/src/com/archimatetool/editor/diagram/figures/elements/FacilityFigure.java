@@ -22,7 +22,7 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
     
     public FacilityFigure() {
         super(TEXT_FLOW_CONTROL);
-        setFigureDelegate(new BoxFigureDelegate(this));
+        setFigureDelegate(new BoxFigureDelegate(this, 20 - getTextControlMarginWidth()));
     }
     
     
@@ -67,6 +67,6 @@ public class FacilityFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 34, bounds.y + 29);
+        return new Point(bounds.getRight().x - 34, bounds.y + 30);
     }
 }

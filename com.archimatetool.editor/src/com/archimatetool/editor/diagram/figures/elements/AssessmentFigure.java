@@ -50,4 +50,10 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 15, bounds.y + 6);
     }
+    
+    @Override
+    protected int getIconOffset() {
+        return 21;
+    }
+
 }

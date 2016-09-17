@@ -29,7 +29,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
     public InteractionFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rounded Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RoundedRectangleFigureDelegate(this));
+        setFigureDelegate(new RoundedRectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -70,7 +70,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 15, bounds.y + 6);
+        return new Point(bounds.x + bounds.width - 13, bounds.y + 6);
     }
     
     @Override

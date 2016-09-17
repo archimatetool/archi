@@ -31,7 +31,7 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
     
     public InterfaceFigure() {
         super(TEXT_FLOW_CONTROL);
-        fRectangleDelegate = new RectangleFigureDelegate(this);
+        fRectangleDelegate = new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth());
         fEllipseDelegate = new EllipseFigureDelegate(this);
     }
     
@@ -72,7 +72,7 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 15, bounds.y + 8);
+        return new Point(bounds.x + bounds.width - 14, bounds.y + 8);
     }
     
     @Override

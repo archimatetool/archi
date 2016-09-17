@@ -24,6 +24,7 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ISketchModelSticky;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -37,6 +38,7 @@ import com.archimatetool.model.ITextContent;
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getChildren <em>Children</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getContent <em>Content</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getProperties <em>Properties</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.SketchModelSticky#getTextPosition <em>Text Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -81,6 +83,26 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
      * @ordered
      */
     protected EList<IProperty> properties;
+
+    /**
+     * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int TEXT_POSITION_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected int textPosition = TEXT_POSITION_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -146,6 +168,27 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
         return properties;
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public int getTextPosition() {
+        return textPosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setTextPosition(int newTextPosition) {
+        int oldTextPosition = textPosition;
+        textPosition = newTextPosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION, oldTextPosition, textPosition));
+    }
+
     /** 
      * Left Justified
      */
@@ -192,6 +235,8 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 return getContent();
             case IArchimatePackage.SKETCH_MODEL_STICKY__PROPERTIES:
                 return getProperties();
+            case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
+                return getTextPosition();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -216,6 +261,9 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 getProperties().clear();
                 getProperties().addAll((Collection<? extends IProperty>)newValue);
                 return;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
+                setTextPosition((Integer)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -237,6 +285,9 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
             case IArchimatePackage.SKETCH_MODEL_STICKY__PROPERTIES:
                 getProperties().clear();
                 return;
+            case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
+                setTextPosition(TEXT_POSITION_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -255,6 +306,8 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
             case IArchimatePackage.SKETCH_MODEL_STICKY__PROPERTIES:
                 return properties != null && !properties.isEmpty();
+            case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION:
+                return textPosition != TEXT_POSITION_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -281,6 +334,12 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
         if (baseClass == IProperties.class) {
             switch (derivedFeatureID) {
                 case IArchimatePackage.SKETCH_MODEL_STICKY__PROPERTIES: return IArchimatePackage.PROPERTIES__PROPERTIES;
+                default: return -1;
+            }
+        }
+        if (baseClass == ITextPosition.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION: return IArchimatePackage.TEXT_POSITION__TEXT_POSITION;
                 default: return -1;
             }
         }
@@ -312,6 +371,12 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
                 default: return -1;
             }
         }
+        if (baseClass == ITextPosition.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return IArchimatePackage.SKETCH_MODEL_STICKY__TEXT_POSITION;
+                default: return -1;
+            }
+        }
         return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
@@ -327,6 +392,8 @@ public class SketchModelSticky extends DiagramModelObject implements ISketchMode
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (content: "); //$NON-NLS-1$
         result.append(content);
+        result.append(", textPosition: "); //$NON-NLS-1$
+        result.append(textPosition);
         result.append(')');
         return result.toString();
     }

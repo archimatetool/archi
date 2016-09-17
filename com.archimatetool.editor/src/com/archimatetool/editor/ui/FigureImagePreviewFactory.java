@@ -18,6 +18,7 @@ import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -70,6 +71,7 @@ public class FigureImagePreviewFactory {
             IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
             dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
             dmo.setName(provider.getDefaultName());
+            dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
             ColorFactory.setDefaultColors(dmo);
             dmo.setType(type);
 

@@ -13,6 +13,7 @@ import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
+import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -54,6 +55,13 @@ extends AbstractDiagramEditorActionBarContributor {
     @Override
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = super.contributeToEditMenu(menuManager);
+        
+        // Text Positions
+        IMenuManager textPositionMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_1);
+        for(String id : TextPositionAction.ACTION_IDS) {
+            textPositionMenu.add(getAction(id));
+        }
+        editMenu.appendToGroup(GROUP_EDIT_MENU, textPositionMenu);
         
         editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new Separator(editDeleteMenuGroup));
         editMenu.appendToGroup(editDeleteMenuGroup, getAction(DeleteFromModelAction.ID));

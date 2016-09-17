@@ -25,7 +25,7 @@ public class PlateauFigure extends AbstractTextControlContainerFigure {
     
     public PlateauFigure() {
         super(TEXT_FLOW_CONTROL);
-        setFigureDelegate(new BoxFigureDelegate(this));
+        setFigureDelegate(new BoxFigureDelegate(this, 22 - getTextControlMarginWidth()));
     }
     
     
@@ -62,6 +62,6 @@ public class PlateauFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 33, bounds.y + 27);
+        return new Point(bounds.x + bounds.width - 34, bounds.y + 29);
     }
 }

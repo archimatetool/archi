@@ -31,13 +31,12 @@ import com.archimatetool.model.IDiagramModelArchimateObject;
 public class ApplicationComponentFigure extends AbstractTextControlContainerFigure {
     
     protected static final int INDENT = 10;
-    protected static final int TEXT_INDENT = 25;
     
     protected IFigureDelegate fMainFigureDelegate;
     
     public ApplicationComponentFigure() {
         super(TEXT_FLOW_CONTROL);
-        fMainFigureDelegate = new RectangleFigureDelegate(this);
+        fMainFigureDelegate = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
     }
     
     @Override
@@ -102,20 +101,6 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         graphics.popState();
     }
     
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        if(getFigureDelegate() != null) {
-            return getFigureDelegate().calculateTextControlBounds();
-        }
-        
-        Rectangle bounds = getBounds().getCopy();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width -= 35;
-        bounds.height -= 10;
-        return bounds;
-    }
-
     /**
      * Draw the icon
      */
@@ -160,7 +145,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 16, bounds.y + 19);
+        return new Point(bounds.x + bounds.width - 15, bounds.y + 19);
     }
 
     @Override

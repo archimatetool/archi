@@ -79,15 +79,4 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         
         graphics.popState();
     }
-    
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width = bounds.width - (TEXT_INDENT * 2);
-        bounds.height -= 10;
-        return bounds;
-    }
-
 }

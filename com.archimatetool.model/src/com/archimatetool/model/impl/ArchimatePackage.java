@@ -3404,6 +3404,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelEClass.getESuperTypes().add(this.getDocumentable());
         diagramModelEClass.getESuperTypes().add(this.getProperties());
         diagramModelReferenceEClass.getESuperTypes().add(this.getDiagramModelObject());
+        diagramModelReferenceEClass.getESuperTypes().add(this.getTextPosition());
         diagramModelObjectEClass.getESuperTypes().add(this.getConnectable());
         diagramModelObjectEClass.getESuperTypes().add(this.getFontAttribute());
         diagramModelObjectEClass.getESuperTypes().add(this.getLineObject());
@@ -3428,6 +3429,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelObject());
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelContainer());
         diagramModelArchimateObjectEClass.getESuperTypes().add(this.getDiagramModelArchimateComponent());
+        diagramModelArchimateObjectEClass.getESuperTypes().add(this.getTextPosition());
         diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelConnection());
         diagramModelArchimateConnectionEClass.getESuperTypes().add(this.getDiagramModelArchimateComponent());
         sketchModelEClass.getESuperTypes().add(this.getDiagramModel());
@@ -3435,6 +3437,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         sketchModelStickyEClass.getESuperTypes().add(this.getDiagramModelContainer());
         sketchModelStickyEClass.getESuperTypes().add(this.getTextContent());
         sketchModelStickyEClass.getESuperTypes().add(this.getProperties());
+        sketchModelStickyEClass.getESuperTypes().add(this.getTextPosition());
         sketchModelActorEClass.getESuperTypes().add(this.getDiagramModelObject());
         sketchModelActorEClass.getESuperTypes().add(this.getDocumentable());
         sketchModelActorEClass.getESuperTypes().add(this.getProperties());

@@ -14,6 +14,7 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -86,10 +87,13 @@ public class RepresentationFigure extends AbstractTextControlContainerFigure {
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds().getCopy();
-        bounds.x += 20;
-        bounds.y += TOP_MARGIN + 1;
-        bounds.width -= 40;
-        bounds.height -= 10;
+        
+        int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+        
+        if(textPosition <= ITextPosition.TEXT_POSITION_TOP_RIGHT) {
+            bounds.y += TOP_MARGIN - 4;
+        }
+        
         return bounds;
     }
 }

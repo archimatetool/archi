@@ -24,6 +24,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -49,6 +50,8 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(dmo);
         Dimension size = provider.getUserDefaultSize();
         dmo.setBounds(0, 0, size.width, size.height);
+        
+        dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
 
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);

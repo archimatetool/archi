@@ -34,7 +34,7 @@ public class ProcessFigure extends AbstractTextControlContainerFigure {
 
     public ProcessFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this);
+        fFigureDelegate1 = new RoundedRectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
         fFigureDelegate2 = new ProcessFigureDelegate(this);
     }
 
@@ -91,7 +91,7 @@ public class ProcessFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 20, bounds.y + 11);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 11);
     }
 
     @Override

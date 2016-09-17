@@ -57,11 +57,4 @@ public class EllipseFigureDelegate extends AbstractFigureDelegate {
         
         graphics.popState();
     }
-    
-    @Override
-    public Rectangle calculateTextControlBounds() {
-        Rectangle bounds = getBounds();
-        bounds.y += 10;
-        return bounds;
-    }
 }

@@ -27,7 +27,7 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
     public SystemSoftwareFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -63,6 +63,6 @@ public class SystemSoftwareFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 19, bounds.y + 9);
+        return new Point(bounds.x + bounds.width - 18, bounds.y + 8);
     }    
 }

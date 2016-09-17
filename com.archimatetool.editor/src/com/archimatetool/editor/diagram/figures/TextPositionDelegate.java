@@ -3,7 +3,7 @@
  * are made available under the terms of the License
  * which accompanies this distribution in the file LICENSE.txt
  */
-package com.archimatetool.canvas.figures;
+package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;

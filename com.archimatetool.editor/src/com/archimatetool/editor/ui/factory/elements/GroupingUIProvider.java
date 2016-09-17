@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui.factory.elements;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -64,5 +65,15 @@ public class GroupingUIProvider extends AbstractArchimateElementUIProvider {
     @Override
     public Dimension getUserDefaultSize() {
         return getDefaultSize();
+    }
+    
+    @Override
+    public boolean shouldExposeFeature(EAttribute feature) {
+        // Text position & alignment are fixed
+        if(feature == IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION || feature == IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT) {
+            return false;
+        }
+
+        return true;
     }
 }

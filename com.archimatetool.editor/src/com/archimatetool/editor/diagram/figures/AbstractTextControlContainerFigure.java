@@ -6,6 +6,9 @@
 package com.archimatetool.editor.diagram.figures;
 
 import org.eclipse.draw2d.DelegatingLayout;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
@@ -14,6 +17,7 @@ import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
+import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -21,6 +25,7 @@ import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -36,6 +41,8 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
     
     public static final int TEXT_FLOW_CONTROL = 0;
     public static final int LABEL_CONTROL = 1;
+    
+    private TextPositionDelegate fTextPositionDelegate;
     
     protected AbstractTextControlContainerFigure(int textControlType) {
         fTextControlType = textControlType;
@@ -53,10 +60,11 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         Locator textLocator = new Locator() {
             public void relocate(IFigure target) {
                 Rectangle bounds = calculateTextControlBounds();
-                if(bounds != null) {
-                    translateFromParent(bounds);
-                    target.setBounds(bounds);
+                if(bounds == null) {
+                    bounds = getBounds().getCopy();
                 }
+                translateFromParent(bounds);
+                target.setBounds(bounds);
             }
         };
         
@@ -101,6 +109,10 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
             ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
         }
         
+        if(fTextPositionDelegate != null) {
+            fTextPositionDelegate.updateTextPosition();
+        }
+        
         repaint(); // repaint when figure changes
     }
     
@@ -139,17 +151,6 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         return fTextControl;
     }
 
-    /**
-     * Calculate the Text Contrl Bounds or null if none.
-     * The Default is to delegate to the Figure Delegate.
-     */
-    protected Rectangle calculateTextControlBounds() {
-        if(getFigureDelegate() != null) {
-            return getFigureDelegate().calculateTextControlBounds();
-        }
-        return null;
-    }
-    
     protected IFigure createTextControl(Locator textLocator) {
         if(fTextControlType == TEXT_FLOW_CONTROL) {
             return createTextFlowControl(textLocator);
@@ -171,7 +172,20 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         FlowPage page = new FlowPage();
         page.add(block);
         
-        add(page, textLocator);
+        Figure textWrapperFigure = new Figure();
+        GridLayout layout = new GridLayout();
+        layout.marginWidth = getTextControlMarginWidth();
+        layout.marginHeight = 5;
+        textWrapperFigure.setLayoutManager(layout);
+        GridData gd = new GridData(SWT.CENTER, SWT.TOP, true, true);
+        textWrapperFigure.add(page, gd);
+        
+        if(getDiagramModelObject() instanceof ITextPosition) {
+            fTextPositionDelegate = new TextPositionDelegate(textWrapperFigure, page, (ITextPosition)getDiagramModelObject());
+        }
+        
+        add(textWrapperFigure, textLocator);
+        //add(page, textLocator);
         
         return textFlow;
     }
@@ -181,5 +195,55 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         add(label, textLocator);
         return label;
     }
+
+    /**
+     * @return the left and right margin width for text
+     */
+    protected int getTextControlMarginWidth() {
+        return 5;
+    }
+    
+    protected int getIconOffset() {
+        return 0;
+    }
+
+    /**
+     * Calculate the Text Control Bounds or null if none.
+     */
+    protected Rectangle calculateTextControlBounds() {
+        // Delegate
+        if(getFigureDelegate() != null) {
+            return getFigureDelegate().calculateTextControlBounds();
+        }
+        
+        // If there is no icon we don't need to do any offsets
+        if(getIconOffset() == 0) {
+            return null;
+        }
+        
+        Rectangle bounds = getBounds().getCopy();
+
+        // Adjust for left/right margin
+        int iconOffset = getIconOffset() - getTextControlMarginWidth();
+
+        int textpos = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+
+        switch(textpos) {
+            // If the figure has an icon move centre inwards
+            case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+                bounds.x += iconOffset;
+                bounds.width = bounds.width - (iconOffset * 2);
+                break;
+            // top right needs indent for icon
+            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+                bounds.width -= iconOffset;
+                break;
+            default:
+                break;
+        }
+        
+        return bounds;
+    }
+    
 
 }

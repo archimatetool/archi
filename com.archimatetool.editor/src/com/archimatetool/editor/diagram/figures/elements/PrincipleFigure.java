@@ -69,4 +69,10 @@ public class PrincipleFigure extends AbstractMotivationFigure {
         Rectangle bounds = getBounds();
         return new Point(bounds.x + bounds.width - 20, bounds.y + 6);
     }
+    
+    @Override
+    protected int getIconOffset() {
+        return 23;
+    }
+
 }

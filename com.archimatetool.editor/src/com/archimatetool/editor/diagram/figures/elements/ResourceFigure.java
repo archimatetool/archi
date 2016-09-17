@@ -25,7 +25,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
     public ResourceFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -84,7 +84,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.getRight().x - 20, bounds.y + 5);
+        return new Point(bounds.getRight().x - 20, bounds.y + 7);
     }
 
 }

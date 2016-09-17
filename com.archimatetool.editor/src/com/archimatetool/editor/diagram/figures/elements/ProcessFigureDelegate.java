@@ -15,6 +15,7 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -85,10 +86,11 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
-        bounds.x += 10;
-        bounds.y += bounds.height / 4;
-        bounds.width = bounds.width - 40;
-        bounds.height -= 20;
+        
+        if(((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition() <= ITextPosition.TEXT_POSITION_TOP_RIGHT) {
+            bounds.y += bounds.height / 5;
+        }
+        
         return bounds;
     }
 

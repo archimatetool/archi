@@ -27,7 +27,7 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
     public CommunicationNetworkFigure() {
         super(TEXT_FLOW_CONTROL);
         // Use a Rectangle Figure Delegate to Draw
-        setFigureDelegate(new RectangleFigureDelegate(this));
+        setFigureDelegate(new RectangleFigureDelegate(this, 22 - getTextControlMarginWidth()));
     }
     
     @Override
@@ -77,7 +77,7 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 21, bounds.y + 15);
+        return new Point(bounds.x + bounds.width - 20, bounds.y + 14);
     }
 
 }

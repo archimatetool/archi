@@ -22,7 +22,7 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IDiagramModelReference extends IDiagramModelObject {
+public interface IDiagramModelReference extends IDiagramModelObject, ITextPosition {
 
     /**
      * Returns the value of the '<em><b>Referenced Model</b></em>' reference.

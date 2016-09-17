@@ -14,6 +14,7 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -70,9 +71,14 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
 
             @Override
             public Rectangle calculateTextControlBounds() {
-                Rectangle bounds = super.calculateTextControlBounds();
-                bounds.y += TOP_MARGIN - 4;
-                bounds.height -= 10;
+                Rectangle bounds = getBounds();
+                
+                int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
+                
+                if(textPosition <= ITextPosition.TEXT_POSITION_TOP_CENTRE) {
+                    bounds.y += TOP_MARGIN - 4;
+                }
+                
                 return bounds;
             }
         };
