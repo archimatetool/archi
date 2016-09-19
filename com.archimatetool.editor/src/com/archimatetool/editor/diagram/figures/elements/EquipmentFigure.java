@@ -25,7 +25,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure {
     
     public EquipmentFigure() {
         super(TEXT_FLOW_CONTROL);
-        setFigureDelegate(new BoxFigureDelegate(this, 20 - getTextControlMarginWidth()));
+        setFigureDelegate(new BoxFigureDelegate(this, 22 - getTextControlMarginWidth()));
     }
     
     
@@ -45,7 +45,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure {
         graphics.setForegroundColor(isEnabled() ? ColorConstants.black : ColorConstants.gray);
         Point pt = getIconOrigin();
         
-        drawCog(graphics, pt, 8, 3, 6, 8);
+        drawCog(graphics, pt.getTranslated(5, 3), 8, 3, 6, 8);
         drawCog(graphics, pt.getTranslated(10, -8), 6, 2, 4, 5);
         
         graphics.popState();
@@ -81,6 +81,6 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure {
      */
     protected Point getIconOrigin() {
         Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - 33, bounds.y + 30);
+        return new Point(bounds.x + bounds.width - 31, bounds.y + 30);
     }
 }
