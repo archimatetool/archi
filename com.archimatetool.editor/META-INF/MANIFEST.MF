@@ -4,7 +4,7 @@ Bundle-Name: Archi
 Bundle-SymbolicName: com.archimatetool.editor;singleton:=true
 Bundle-Version: 4.0.0.qualifier
 Bundle-Activator: com.archimatetool.editor.ArchiPlugin
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,

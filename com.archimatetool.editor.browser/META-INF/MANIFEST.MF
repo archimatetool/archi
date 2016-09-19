@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.editor.browser;singleton:=true
 Bundle-Version: 4.0.0.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: com.archimatetool.editor.browser.BrowserPlugin
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

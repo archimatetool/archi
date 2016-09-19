@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: MacFullScreen
 Bundle-SymbolicName: com.archimatetool.editor.fullscreen.macos;singleton:=true
 Bundle-Version: 4.0.0.qualifier
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Fragment-Host: com.archimatetool.editor
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-PlatformFilter: (osgi.ws=cocoa)

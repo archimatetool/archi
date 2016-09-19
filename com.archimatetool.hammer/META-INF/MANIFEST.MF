@@ -4,7 +4,7 @@ Bundle-Name: Archi Validator
 Bundle-SymbolicName: com.archimatetool.hammer;singleton:=true
 Bundle-Localization: plugin
 Bundle-Version: 4.0.0.qualifier
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help.ui,

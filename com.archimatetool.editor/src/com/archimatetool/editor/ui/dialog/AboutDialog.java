@@ -147,7 +147,7 @@ public class AboutDialog extends TrayDialog {
                 e.gc.drawImage(image, 0, 0);
                 e.gc.drawString(version, 19, 166, true);
                 e.gc.drawString(build, 19, 166 + fontHeight, true);
-                e.gc.drawString(copyright, 19, imageHeight - fontHeight - 5, true);
+                e.gc.drawString(copyright, 12, imageHeight - fontHeight - 5, true);
             }
         });
     }
