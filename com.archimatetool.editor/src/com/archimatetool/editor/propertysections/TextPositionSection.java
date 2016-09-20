@@ -94,7 +94,7 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
             }
         };
 
-        createLabel(parent, Messages.TextPositionSection_3 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        createLabel(parent, Messages.TextPositionSection_3 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER); //$NON-NLS-1$
         
         Composite client = createComposite(parent, 3);
         
