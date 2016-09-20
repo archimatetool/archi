@@ -19,6 +19,8 @@ public class Messages extends NLS {
 
     public static String SketchEditor_0;
 
+    public static String SketchEditorActionBarContributor_0;
+
     public static String SketchEditorPalette_0;
 
     public static String SketchEditorPalette_1;
