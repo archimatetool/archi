@@ -78,7 +78,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
@@ -115,7 +115,7 @@ import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateModel;
@@ -327,8 +327,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
                 Object selected = ((IStructuredSelection)event.getSelection()).getFirstElement();
                 if(selected instanceof EditPart) {
                     selected = ((EditPart)selected).getModel();
-                    Image image = ArchimateLabelProvider.INSTANCE.getImage(selected);
-                    String text = ArchimateLabelProvider.INSTANCE.getLabel(selected);
+                    Image image = ArchiLabelProvider.INSTANCE.getImage(selected);
+                    String text = ArchiLabelProvider.INSTANCE.getLabel(selected);
                     getEditorSite().getActionBars().getStatusLineManager().setMessage(image, text);
                 }
                 else {
@@ -720,7 +720,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Connection Router types
         action = new ConnectionRouterAction.BendPointConnectionRouterAction(this);
         registry.registerAction(action);
-        action = new ConnectionRouterAction.ShortestPathConnectionRouterAction(this);
+// Doesn't work with Connection to Connection
+//        action = new ConnectionRouterAction.ShortestPathConnectionRouterAction(this);
         registry.registerAction(action);
         action = new ConnectionRouterAction.ManhattanConnectionRouterAction(this);
         registry.registerAction(action);
@@ -809,7 +810,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
 
     @Override
     public String getContributorId() {
-        return ArchimateEditorPlugin.PLUGIN_ID;
+        return ArchiPlugin.PLUGIN_ID;
     }
 
     @SuppressWarnings("rawtypes")

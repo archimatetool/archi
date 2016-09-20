@@ -25,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.csv.CSVImportExportPlugin;
 import com.archimatetool.csv.IPreferenceConstants;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -57,7 +57,7 @@ public class ExportAsCSVPage extends WizardPage implements IPreferenceConstants,
         
         setTitle(Messages.ExportAsCSVPage_0);
         setDescription(Messages.ExportAsCSVPage_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
     @Override

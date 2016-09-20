@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %productName
 Bundle-SymbolicName: com.archimatetool.help;singleton:=true
 Bundle-Version: 4.0.0.qualifier
-Bundle-Activator: com.archimatetool.help.ArchimateEditorHelpPlugin
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Activator: com.archimatetool.help.ArchiHelpPlugin
+Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,

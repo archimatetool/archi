@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IWorkPackage extends IImplementationMigrationElement {
+public interface IWorkPackage extends IImplementationMigrationElement, IBehaviorElement {
 } // IWorkPackage

@@ -7,7 +7,7 @@ package com.archimatetool.canvas.templates.wizard;
 
 import com.archimatetool.canvas.templates.dialog.CanvasTemplateManagerDialog;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.templates.dialog.TemplateManagerDialog;
 import com.archimatetool.templates.model.TemplateManager;
 import com.archimatetool.templates.wizard.NewModelFromTemplateWizardPage;
@@ -31,7 +31,7 @@ public class NewCanvasFromTemplateWizardPage extends NewModelFromTemplateWizardP
     protected void init() {
         setTitle(Messages.NewCanvasFromTemplateWizardPage_0);
         setDescription(Messages.NewCanvasFromTemplateWizardPage_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
     }
 
     @Override

@@ -47,9 +47,9 @@ public class CanvasModelFactoryTests {
     
     @Test
     public void testGetNewObjectCanvasSticky() {
-        ICreationFactory factory = new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), ColorFactory.COLOR_APPLICATION);
+        ICreationFactory factory = new CanvasModelFactory(ICanvasPackage.eINSTANCE.getCanvasModelSticky(), ColorFactory.get(201, 231, 183));
         ICanvasModelSticky sticky = (ICanvasModelSticky)factory.getNewObject();
-        assertEquals(ColorFactory.convertColorToString(ColorFactory.COLOR_APPLICATION), sticky.getFillColor());
+        assertEquals(ColorFactory.convertColorToString(ColorFactory.get(201, 231, 183)), sticky.getFillColor());
         assertEquals("#C0C0C0", sticky.getBorderColor());
     }
 

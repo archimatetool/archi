@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.Text;
 
 import com.archimatetool.editor.actions.AbstractDropDownAction;
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -161,7 +161,7 @@ public class SearchWidget extends Composite {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FILTER_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FILTER);
             }
         };
         toolBarmanager.add(dropDownAction);
@@ -258,7 +258,7 @@ public class SearchWidget extends Composite {
     }
 
 	private IAction createObjectAction(final EClass eClass) {
-        IAction action = new Action(ArchimateLabelProvider.INSTANCE.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
+        IAction action = new Action(ArchiLabelProvider.INSTANCE.getDefaultName(eClass), IAction.AS_CHECK_BOX) {
             @Override
             public void run() {
                 if(isChecked()) {
@@ -271,7 +271,7 @@ public class SearchWidget extends Composite {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass);
+                return ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass);
             }
         };
         

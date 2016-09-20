@@ -8,7 +8,7 @@
   <folder name="Technology" id="1ec9356a" type="technology"/>
   <folder name="Motivation" id="cb8c585e" type="motivation"/>
   <folder name="Implementation &amp; Migration" id="f710fd6b" type="implementation_migration"/>
-  <folder name="Connectors" id="64e25bc1" type="connectors"/>
+  <folder name="Other" id="64e25bc1" type="other"/>
   <folder name="Relations" id="16891263" type="relations">
     <element xsi:type="archimate:AssignmentRelationship" id="ffdc8ea9" source="59fa6c90" target="1efcd76f"/>
   </folder>
@@ -24,7 +24,7 @@
         <bounds x="156" y="204" width="529" height="157"/>
         <child xsi:type="archimate:DiagramObject" id="eac5adf1" textAlignment="2" archimateElement="59fa6c90">
           <bounds x="36" y="42"/>
-          <sourceConnection xsi:type="archimate:Connection" id="f408e9d0" source="eac5adf1" target="f6f8e6ac" relationship="ffdc8ea9"/>
+          <sourceConnection xsi:type="archimate:Connection" id="f408e9d0" source="eac5adf1" target="f6f8e6ac" archimateRelationship="ffdc8ea9"/>
         </child>
         <child xsi:type="archimate:DiagramObject" id="f6f8e6ac" textAlignment="2" targetConnections="f408e9d0" archimateElement="1efcd76f">
           <bounds x="240" y="42"/>
@@ -38,7 +38,7 @@
     <element xsi:type="archimate:ArchimateDiagramModel" id="09cc5e51" name="3 Test Bounds and Images with Connections">
       <child xsi:type="archimate:DiagramObject" id="6e21f397" textAlignment="2" archimateElement="59fa6c90">
         <bounds x="12" y="24"/>
-        <sourceConnection xsi:type="archimate:Connection" id="6cb40cfb" source="6e21f397" target="7551795b" relationship="ffdc8ea9">
+        <sourceConnection xsi:type="archimate:Connection" id="6cb40cfb" source="6e21f397" target="7551795b" archimateRelationship="ffdc8ea9">
           <bendpoint startX="516" startY="285" endX="516" endY="177"/>
         </sourceConnection>
       </child>

@@ -13,7 +13,7 @@ import org.junit.Before;
 import com.archimatetool.editor.ui.factory.model.FolderUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class FolderUIProviderTests extends AbstractElementUIProviderTests {
+public class FolderUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(FolderUIProviderTests.class);

@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
 import com.archimatetool.editor.utils.FileUtils;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.testingtools.ArchimateTestModel;
@@ -73,9 +73,9 @@ public class HTMLReportExporterTests {
         for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             
-            // Elements
-            if(eObject instanceof IArchimateComponent) {
-                assertTrue(new File(elementsFolder, ((IArchimateComponent)eObject).getId() + ".html").exists());
+            // Concepts
+            if(eObject instanceof IArchimateConcept) {
+                assertTrue(new File(elementsFolder, ((IArchimateConcept)eObject).getId() + ".html").exists());
             }
             
             // Views & Images

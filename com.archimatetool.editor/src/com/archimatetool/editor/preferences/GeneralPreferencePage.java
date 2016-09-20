@@ -267,7 +267,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fCurrentTheme = fThemeEngine.getActiveTheme();
 /*
         // e3 method
-        Bundle bundle = FrameworkUtil.getBundle(ArchimateEditorPlugin.class);
+        Bundle bundle = FrameworkUtil.getBundle(ArchiPlugin.class);
         BundleContext context = bundle.getBundleContext();
         ServiceReference<IThemeManager> ref = context.getServiceReference(IThemeManager.class);
         IThemeManager themeManager = context.getService(ref);

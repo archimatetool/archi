@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.templates.model.TemplateManager;
@@ -63,7 +63,7 @@ public class SaveCanvasAsTemplateWizardPage extends WizardPage {
         super("SaveCanvasAsTemplateWizardPage"); //$NON-NLS-1$
         setTitle(Messages.SaveCanvasAsTemplateWizardPage_0);
         setDescription(Messages.SaveCanvasAsTemplateWizardPage_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         fCanvasModel = canvasModel;
         fTemplateManager = templateManager;
     }

@@ -8,8 +8,9 @@ package com.archimatetool.model;
 import java.io.File;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.archimatetool.model.util.IDAdapter;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='model'"
  * @generated
  */
-public interface IArchimateModel extends IFolderContainer, INameable, IIdentifier, IArchimateModelElement, IProperties {
+public interface IArchimateModel extends IFolderContainer, IArchimateModelObject, IProperties {
     /**
      * Returns the value of the '<em><b>Purpose</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -147,26 +148,10 @@ public interface IArchimateModel extends IFolderContainer, INameable, IIdentifie
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @model
+     * @model objectRequired="true"
      * @generated
      */
-    IFolder addDerivedRelationsFolder();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void removeDerivedRelationsFolder();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model elementRequired="true"
-     * @generated
-     */
-    IFolder getDefaultFolderForElement(EObject element);
+    IFolder getDefaultFolderForObject(EObject object);
 
     /**
      * <!-- begin-user-doc -->
@@ -192,4 +177,8 @@ public interface IArchimateModel extends IFolderContainer, INameable, IIdentifie
      */
     IFolder getFolder(FolderType type);
 
+    /**
+     * @return The ID adapter for registering new child object IDs
+     */
+    IDAdapter getIDAdapter();
 } // IArchimateModel

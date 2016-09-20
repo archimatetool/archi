@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IPlateau extends IImplementationMigrationElement {
+public interface IPlateau extends IImplementationMigrationElement, ICompositeElement {
 } // IPlateau

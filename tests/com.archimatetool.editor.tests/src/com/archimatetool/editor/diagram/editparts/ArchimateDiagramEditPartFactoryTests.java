@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.editparts;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.gef.EditPart;
 import org.junit.Before;
@@ -16,22 +15,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.editor.Logger;
-import com.archimatetool.editor.diagram.editparts.business.BusinessActorEditPart;
-import com.archimatetool.editor.diagram.editparts.connections.AccessConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.GroupEditPart;
-import com.archimatetool.editor.diagram.editparts.diagram.LineConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.NoteEditPart;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 public class ArchimateDiagramEditPartFactoryTests {
@@ -79,18 +77,18 @@ public class ArchimateDiagramEditPartFactoryTests {
         dmo.setArchimateElement(element);
         
         EditPart editPart = editPartFactory.createEditPart(null, dmo);
-        assertTrue(editPart instanceof BusinessActorEditPart);
+        assertTrue(editPart instanceof ArchimateElementEditPart);
         assertEquals(dmo, editPart.getModel());
     }
     
     @Test
     public void testArchimateConnectionEditPart() {
-        IRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        IArchimateRelationship relation = IArchimateFactory.eINSTANCE.createAccessRelationship();
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(relation);
+        conn.setArchimateRelationship(relation);
         
         EditPart editPart = editPartFactory.createEditPart(null, conn);
-        assertTrue(editPart instanceof AccessConnectionEditPart);
+        assertTrue(editPart instanceof ArchimateRelationshipEditPart);
         assertEquals(conn, editPart.getModel());
     }
 
@@ -99,7 +97,7 @@ public class ArchimateDiagramEditPartFactoryTests {
         IDiagramModelConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelConnection();
         
         EditPart editPart = editPartFactory.createEditPart(null, conn);
-        assertTrue(editPart instanceof LineConnectionEditPart);
+        assertTrue(editPart instanceof DiagramConnectionEditPart);
         assertEquals(conn, editPart.getModel());
     }
 

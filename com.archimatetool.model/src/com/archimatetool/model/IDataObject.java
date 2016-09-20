@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IDataObject extends IApplicationLayerElement {
+public interface IDataObject extends IApplicationElement, IPassiveStructureElement {
 } // IDataObject

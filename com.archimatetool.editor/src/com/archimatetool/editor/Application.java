@@ -29,7 +29,7 @@ implements IApplication {
     /**
      * ID of the Application
      */
-    public static String ID = ArchimateEditorPlugin.PLUGIN_ID + ".app"; //$NON-NLS-1$
+    public static String ID = ArchiPlugin.PLUGIN_ID + ".app"; //$NON-NLS-1$
     
     public static final String APPLICATION_VERSIONID = "com.archimatetool.editor.versionid"; //$NON-NLS-1$
     public static final String APPLICATION_BUILDID = "com.archimatetool.editor.buildid"; //$NON-NLS-1$
@@ -60,7 +60,7 @@ implements IApplication {
 	    /*
 	     * Platform specific startup if user launches app twice or from .archimate file on the desktop
 	     */
-	    IPlatformLauncher launcher = ArchimateEditorPlugin.INSTANCE.getPlatformLauncher();
+	    IPlatformLauncher launcher = ArchiPlugin.INSTANCE.getPlatformLauncher();
 	    if(launcher != null) {
 	        launcher.startup();
 	        
@@ -84,7 +84,7 @@ implements IApplication {
 	    OpenDocumentHandler.getInstance().hook(display);
 	    	    
 	    try {
-	        int returnCode = PlatformUI.createAndRunWorkbench(display, new ArchimateEditorWorkbenchAdvisor());
+	        int returnCode = PlatformUI.createAndRunWorkbench(display, new ArchiWorkbenchAdvisor());
 	        if(returnCode == PlatformUI.RETURN_RESTART) {
                 return EXIT_RESTART;
             }

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IAssignmentRelationship extends IRelationship {
+public interface IAssignmentRelationship extends IStructuralRelationship {
 } // IAssignmentRelationship

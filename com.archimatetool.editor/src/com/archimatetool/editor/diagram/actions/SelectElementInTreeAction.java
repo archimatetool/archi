@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
@@ -48,11 +49,8 @@ public class SelectElementInTreeAction extends SelectionAction {
                 if(model instanceof IDiagramModel) {
                     elements.add(model);
                 }
-                else if(model instanceof IDiagramModelArchimateObject) {
-                    elements.add(((IDiagramModelArchimateObject)model).getArchimateElement());
-                }
-                else if(model instanceof IDiagramModelArchimateConnection) {
-                    elements.add(((IDiagramModelArchimateConnection)model).getRelationship());
+                else if(model instanceof IDiagramModelArchimateComponent) {
+                    elements.add(((IDiagramModelArchimateComponent)model).getArchimateConcept());
                 }
             }
         }

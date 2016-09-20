@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.EObject;
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IProperty;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -122,7 +122,7 @@ public class CSVExporter implements CSVConstants {
         writeElementsInFolder(writer, fModel.getFolder(FolderType.TECHNOLOGY));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.MOTIVATION));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
-        writeElementsInFolder(writer, fModel.getFolder(FolderType.CONNECTORS));
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.OTHER));
         
         writer.close();
     }
@@ -135,13 +135,13 @@ public class CSVExporter implements CSVConstants {
             return;
         }
         
-        List<IArchimateComponent> components = getComponents(folder);
-        sort(components);
+        List<IArchimateConcept> concepts = getConcepts(folder);
+        sort(concepts);
         
-        for(IArchimateComponent component : components) {
-            if(component instanceof IArchimateElement) {
+        for(IArchimateConcept concept : concepts) {
+            if(concept instanceof IArchimateElement) {
                 writer.write(CRLF);
-                writer.write(createElementRow((IArchimateElement)component));
+                writer.write(createElementRow((IArchimateElement)concept));
             }
         }
     }
@@ -150,11 +150,11 @@ public class CSVExporter implements CSVConstants {
      * Write All Relationships
      */
     private void writeRelationships(File file) throws IOException {
-        List<IArchimateComponent> components = getComponents(fModel.getFolder(FolderType.RELATIONS));
-        sort(components);
+        List<IArchimateConcept> concepts = getConcepts(fModel.getFolder(FolderType.RELATIONS));
+        sort(concepts);
         
         // Are there any to write?
-        if(!fWriteEmptyFile && components.isEmpty()) {
+        if(!fWriteEmptyFile && concepts.isEmpty()) {
             return;
         }
         
@@ -165,10 +165,10 @@ public class CSVExporter implements CSVConstants {
         writer.write(header);
         
         // Write Relationships
-        for(IArchimateComponent component : components) {
-            if(component instanceof IRelationship) {
+        for(IArchimateConcept concept : concepts) {
+            if(concept instanceof IArchimateRelationship) {
                 writer.write(CRLF);
-                writer.write(createRelationshipRow((IRelationship)component));
+                writer.write(createRelationshipRow((IArchimateRelationship)concept));
             }
         }
         
@@ -199,11 +199,11 @@ public class CSVExporter implements CSVConstants {
         // Write Element and Relationship Properties
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IArchimateComponent) {
-                IArchimateComponent component = (IArchimateComponent)eObject;
-                for(IProperty property : component.getProperties()) {
+            if(eObject instanceof IArchimateConcept) {
+                IArchimateConcept concept = (IArchimateConcept)eObject;
+                for(IProperty property : concept.getProperties()) {
                     writer.write(CRLF);
-                    writer.write(createPropertyRow(component.getId(), property));
+                    writer.write(createPropertyRow(concept.getId(), property));
                 }
             }
         }
@@ -221,9 +221,9 @@ public class CSVExporter implements CSVConstants {
         
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IArchimateComponent) {
-                IArchimateComponent component = (IArchimateComponent)eObject;
-                if(!component.getProperties().isEmpty()) {
+            if(eObject instanceof IArchimateConcept) {
+                IArchimateConcept concept = (IArchimateConcept)eObject;
+                if(!concept.getProperties().isEmpty()) {
                     return true;
                 }
             }
@@ -300,7 +300,7 @@ public class CSVExporter implements CSVConstants {
     /**
      * Create a String Row for a Relationship
      */
-    String createRelationshipRow(IRelationship relationship) {
+    String createRelationshipRow(IArchimateRelationship relationship) {
         StringBuffer sb = new StringBuffer();
         
         String id = relationship.getId();
@@ -396,21 +396,21 @@ public class CSVExporter implements CSVConstants {
     /**
      * Return a list of all elements/relations in a given folder and its child folders
      */
-    private List<IArchimateComponent> getComponents(IFolder folder) {
-        List<IArchimateComponent> list = new ArrayList<IArchimateComponent>();
+    private List<IArchimateConcept> getConcepts(IFolder folder) {
+        List<IArchimateConcept> list = new ArrayList<IArchimateConcept>();
         
         if(folder == null) {
             return list;
         }
         
         for(EObject object : folder.getElements()) {
-            if(object instanceof IArchimateComponent) {
-                list.add((IArchimateComponent)object);
+            if(object instanceof IArchimateConcept) {
+                list.add((IArchimateConcept)object);
             }
         }
         
         for(IFolder f : folder.getFolders()) {
-            list.addAll(getComponents(f));
+            list.addAll(getConcepts(f));
         }
         
         return list;
@@ -420,14 +420,14 @@ public class CSVExporter implements CSVConstants {
      * Sort a list of ArchimateElement/Relationship types
      * Sort by class name then element name
      */
-    void sort(List<IArchimateComponent> list) {
+    void sort(List<IArchimateConcept> list) {
         if(list == null || list.size() < 2) {
             return;
         }
         
-        Collections.sort(list, new Comparator<IArchimateComponent>() {
+        Collections.sort(list, new Comparator<IArchimateConcept>() {
             @Override
-            public int compare(IArchimateComponent o1, IArchimateComponent o2) {
+            public int compare(IArchimateConcept o1, IArchimateConcept o2) {
                 if(o1.eClass().equals(o2.eClass())) {
                     String name1 = StringUtils.safeString(o1.getName().toLowerCase().trim());
                     String name2 = StringUtils.safeString(o2.getName().toLowerCase().trim());

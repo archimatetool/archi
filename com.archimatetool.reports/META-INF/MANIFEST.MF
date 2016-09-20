@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi Reports
 Bundle-SymbolicName: com.archimatetool.reports;singleton:=true
 Bundle-Version: 4.0.0.qualifier
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-BundleShape: dir
@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ClassPath: com.archimatetool.reports.jar,
  lib/ST-4.0.8.jar,
  lib/antlr-runtime-4.4.jar
-Bundle-Activator: com.archimatetool.reports.ArchimateEditorReportsPlugin
+Bundle-Activator: com.archimatetool.reports.ArchiReportsPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.reports,
  com.archimatetool.reports.html

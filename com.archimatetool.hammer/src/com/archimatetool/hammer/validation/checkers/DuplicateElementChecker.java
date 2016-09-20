@@ -12,7 +12,7 @@ import java.util.Set;
 
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
@@ -57,7 +57,7 @@ public class DuplicateElementChecker extends AbstractChecker {
         
         for(IArchimateElement element : dupes) {
             String description = NLS.bind(DESCRIPTION, new Object[] { element.getName(),
-                    ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass()) });
+                    ArchiLabelProvider.INSTANCE.getDefaultName(element.eClass()) });
 
             IIssue issue = new WarningType(NAME, description, EXPLANATION, element);
             issues.add(issue);

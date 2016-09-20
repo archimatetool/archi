@@ -8,25 +8,22 @@ package com.archimatetool.editor.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.IViewpoint;
 
 
 
@@ -92,9 +89,9 @@ public class GenerateViewCommand extends Command {
         // New Diagram
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         dm.setName(fViewName);
-        dm.setViewpoint(fViewpoint.getIndex());
+        dm.setViewpoint(fViewpoint.getID());
         
-        fParentFolder = fSelectedElements.get(0).getArchimateModel().getDefaultFolderForElement(dm);
+        fParentFolder = fSelectedElements.get(0).getArchimateModel().getDefaultFolderForObject(dm);
         fParentFolder.getElements().add(dm);
         
         int x = 20;
@@ -125,7 +122,7 @@ public class GenerateViewCommand extends Command {
         // Add connections
         for(IDiagramModelObject dmoSource : dm.getChildren()) {
             IArchimateElement elementSource = ((IDiagramModelArchimateObject)dmoSource).getArchimateElement();
-            for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(elementSource)) {
+            for(IArchimateRelationship relation : elementSource.getSourceRelationships()) {
                 for(IDiagramModelObject dmoTarget : dm.getChildren()) {
                     IArchimateElement elementTarget = ((IDiagramModelArchimateObject)dmoTarget).getArchimateElement();
                     // Don't add connections that are not connected to the main elements if option is set
@@ -147,9 +144,8 @@ public class GenerateViewCommand extends Command {
         IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         dm.getChildren().add(dmo);
         
-        // Size
-        Dimension defaultSize = getDefaultSizeOfElement(element);
-        dmo.setBounds(x, y, defaultSize.width, defaultSize.height);
+        // Location
+        dmo.getBounds().setLocation(x, y);
     }
     
     private void getElementsToAdd() {
@@ -160,29 +156,24 @@ public class GenerateViewCommand extends Command {
                 fAddedElements.add(element);
             }
             
+            // TODO: A3 add connecting relationships
+            
             // Add connecting target elements
-            for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(element)) {
-                IArchimateElement target = relation.getTarget();
-                if(fViewpoint.isAllowedType(target.eClass()) && !fAddedElements.contains(target)) {
-                    fAddedElements.add(target);
+            for(IArchimateRelationship relation : element.getSourceRelationships()) {
+                IArchimateConcept target = relation.getTarget();
+                if(fViewpoint.isAllowedConcept(target.eClass()) && !fAddedElements.contains(target) && target instanceof IArchimateElement) {
+                    fAddedElements.add((IArchimateElement)target);
                 }
             }
             
             // Add connecting source elements
-            for(IRelationship relation : ArchimateModelUtils.getTargetRelationships(element)) {
-                IArchimateElement source = relation.getSource();
-                if(fViewpoint.isAllowedType(source.eClass()) && !fAddedElements.contains(source)) {
-                    fAddedElements.add(source);
+            for(IArchimateRelationship relation : element.getTargetRelationships()) {
+                IArchimateConcept source = relation.getSource();
+                if(fViewpoint.isAllowedConcept(source.eClass()) && !fAddedElements.contains(source)  && source instanceof IArchimateElement) {
+                    fAddedElements.add((IArchimateElement)source);
                 }
             }
         }
     }
     
-    private Dimension getDefaultSizeOfElement(IArchimateElement element) {
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(element);
-        if(provider != null) {
-            return provider.getDefaultSize();
-        }
-        return new Dimension(120, 55);
-    }
 }

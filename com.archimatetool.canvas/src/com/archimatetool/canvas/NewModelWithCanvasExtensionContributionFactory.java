@@ -98,7 +98,7 @@ public class NewModelWithCanvasExtensionContributionFactory extends ExtensionCon
         
         @Override
         public ImageDescriptor getImageDescriptor() {
-            return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_NEWFILE_16);
+            return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_NEWFILE);
         }
     };
     

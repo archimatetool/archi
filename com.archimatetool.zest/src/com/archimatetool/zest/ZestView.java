@@ -44,19 +44,19 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -170,16 +170,16 @@ implements IZestView, ISelectionListener {
     }
     
     private void setElement(Object object) {
-        IArchimateComponent component = null;
+        IArchimateConcept concept = null;
         
-        if(object instanceof IArchimateComponent) {
-            component = (IArchimateComponent)object;
+        if(object instanceof IArchimateConcept) {
+            concept = (IArchimateConcept)object;
         }
         else if(object instanceof IAdaptable) {
-            component = ((IAdaptable)object).getAdapter(IArchimateComponent.class);
+            concept = ((IAdaptable)object).getAdapter(IArchimateConcept.class);
         }
         
-        fDrillDownManager.setNewInput(component);
+        fDrillDownManager.setNewInput(concept);
         updateActions();
         
         updateLabel();
@@ -195,11 +195,11 @@ implements IZestView, ISelectionListener {
      * Update local label
      */
     void updateLabel() {
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentComponent());
+        String text = ArchiLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentConcept());
         text = StringUtils.escapeAmpersandsInText(text);
         String vp = ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getViewpointFilter().getName();
         fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + vp + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        fLabel.setImage(ArchimateLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentComponent()));
+        fLabel.setImage(ArchiLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
     /**
@@ -244,7 +244,7 @@ implements IZestView, ISelectionListener {
         }
         
         // Set depth from prefs
-        int depth = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
+        int depth = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
         ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
         fDepthActions[depth].setChecked(true);
         
@@ -253,19 +253,19 @@ implements IZestView, ISelectionListener {
         menuManager.add(viewpointMenuManager);
         
         // Get viewpoint from prefs
-        int viewpointIndex = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_VIEWPOINT);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointsManager.INSTANCE.getViewpoint(viewpointIndex));
+        String viewpointID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
         
         // Viewpoint actions
         fViewpointActions = new ArrayList<IAction>();
         
-        for(IViewpoint vp : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+        for(IViewpoint vp : ViewpointManager.INSTANCE.getAllViewpoints()) {
             IAction action = createViewpointMenuAction(vp);
             fViewpointActions.add(action);
             viewpointMenuManager.add(action);
             
             // Set checked
-            if(viewpointIndex == vp.getIndex()) {
+            if(vp.getID().equals(viewpointID)) {
                 action.setChecked(true);
             }
         }
@@ -284,7 +284,7 @@ implements IZestView, ISelectionListener {
         orientationMenuManager.add(fDirectionActions[2]);
         
         // Set direction from prefs
-        int direction = ArchimateZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
+        int direction = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
         ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(direction);
         fDirectionActions[direction].setChecked(true);
         
@@ -306,7 +306,7 @@ implements IZestView, ISelectionListener {
                 int depth = Integer.valueOf(getId());
                 ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
                 // store in prefs
-                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
                 fGraphViewer.setSelection(selection);
@@ -326,7 +326,7 @@ implements IZestView, ISelectionListener {
             	// Set viewpoint filter
                 ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(vp);
             	// Store in prefs
-                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, Integer.toString(vp.getIndex()));
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
 
                 // update viewer
             	fGraphViewer.setInput(fGraphViewer.getInput());
@@ -337,7 +337,7 @@ implements IZestView, ISelectionListener {
             }
         };
         
-        act.setId(Integer.toString(vp.getIndex()));
+        act.setId(vp.getID());
         
         return act;
     }
@@ -350,7 +350,7 @@ implements IZestView, ISelectionListener {
             	// Set orientation 
                 ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(orientation);
             	// Store in prefs
-                ArchimateZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
                 // update viewer
             	fGraphViewer.setInput(fGraphViewer.getInput());
                 fGraphViewer.setSelection(selection);
@@ -394,7 +394,7 @@ implements IZestView, ISelectionListener {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchimateZestPlugin.PLUGIN_ID,
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID,
                         "img/layout.gif"); //$NON-NLS-1$
             }
         };
@@ -402,7 +402,7 @@ implements IZestView, ISelectionListener {
         fActionPinContent = new Action(Messages.ZestView_4, IAction.AS_CHECK_BOX) {
             {
                 setToolTipText(Messages.ZestView_1);
-                setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PIN_16));
+                setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
             }
         };
         
@@ -498,8 +498,8 @@ implements IZestView, ISelectionListener {
     
     @Override
     protected IArchimateModel getActiveArchimateModel() {
-        IArchimateComponent component = fDrillDownManager.getCurrentComponent();
-        return component != null ? component.getArchimateModel() : null;
+        IArchimateConcept concept = fDrillDownManager.getCurrentConcept();
+        return concept != null ? concept.getArchimateModel() : null;
     }
     
     @Override
@@ -527,7 +527,7 @@ implements IZestView, ISelectionListener {
         // Model Closed
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
             Object input = getViewer().getInput();
-            if(input instanceof IArchimateModelElement && ((IArchimateModelElement)input).getArchimateModel() == newValue) {
+            if(input instanceof IArchimateModelObject && ((IArchimateModelObject)input).getArchimateModel() == newValue) {
                 fDrillDownManager.reset();
             }
         }
@@ -556,7 +556,7 @@ implements IZestView, ISelectionListener {
                 break;
             case Notification.SET:
                 // Current component name change
-                if(msg.getNotifier() == fDrillDownManager.getCurrentComponent()) {
+                if(msg.getNotifier() == fDrillDownManager.getCurrentConcept()) {
                     updateLabel();
                 }
                 if(!(msg.getNewValue() instanceof IBounds)) { // Don't update on bounds change. This can cause a conflict with Undo/Redo animation

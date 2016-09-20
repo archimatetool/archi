@@ -35,12 +35,12 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.views.tree.ITreeModelView;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -104,7 +104,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             }
             
             public Object[] getElements(Object inputElement) {
-                return ArchimateModelUtils.getRelationships((IArchimateElement)inputElement).toArray();
+                return ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateElement)inputElement).toArray();
             }
         });
         
@@ -114,8 +114,8 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             public void doubleClick(DoubleClickEvent event) {
                 if(isAlive()) {
                     Object o = ((IStructuredSelection)event.getSelection()).getFirstElement();
-                    if(o instanceof IRelationship) {
-                        IRelationship relation = (IRelationship)o;
+                    if(o instanceof IArchimateRelationship) {
+                        IArchimateRelationship relation = (IArchimateRelationship)o;
                         ITreeModelView view = (ITreeModelView)ViewManager.findViewPart(ITreeModelView.ID);
                         if(view != null) {
                             view.getViewer().setSelection(new StructuredSelection(relation), true);
@@ -183,25 +183,25 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         
         @Override
         public String getText(Object element) {
-            IRelationship relationship = (IRelationship)element;
-            String name = ArchimateLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
-            name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getSource());
+            IArchimateRelationship relationship = (IArchimateRelationship)element;
+            String name = ArchiLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
+            name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource());
             name += " - "; //$NON-NLS-1$
-            name += ArchimateLabelProvider.INSTANCE.getLabel(relationship.getTarget());
+            name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget());
             name += ")"; //$NON-NLS-1$
             return name;
         }
         
         @Override
         public Image getImage(Object element) {
-            return ArchimateLabelProvider.INSTANCE.getImage(element);
+            return ArchiLabelProvider.INSTANCE.getImage(element);
         }
 
         @Override
         public Font getFont(Object element) {
             // Italicise unused elements
-            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateComponent) {
-                if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams((IArchimateComponent)element)) {
+            if(Preferences.STORE.getBoolean(IPreferenceConstants.HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE) && element instanceof IArchimateConcept) {
+                if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams((IArchimateConcept)element)) {
                     return fontItalic;
                 }
             }

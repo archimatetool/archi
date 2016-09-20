@@ -146,7 +146,7 @@ public class PluginInstaller {
     }
     
     static File getPluginsFolder() throws IOException {
-        URL url = Platform.getBundle(ArchimateEditorPlugin.PLUGIN_ID).getEntry("/"); //$NON-NLS-1$
+        URL url = Platform.getBundle(ArchiPlugin.PLUGIN_ID).getEntry("/"); //$NON-NLS-1$
         url = FileLocator.resolve(url);
         return new File(url.getPath()).getParentFile();
     }

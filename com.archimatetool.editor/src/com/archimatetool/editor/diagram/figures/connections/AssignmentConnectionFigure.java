@@ -8,11 +8,11 @@ package com.archimatetool.editor.diagram.figures.connections;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
 
-import com.archimatetool.editor.diagram.figures.geometry.PolarPoint;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
+import com.archimatetool.editor.diagram.figures.PolarPoint;
 
 
 /**
@@ -27,7 +27,7 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
      * Ball
      */
     static class BallEndpoint extends Figure implements RotatableDecoration {
-        private int radius = 2;
+        private int radius = 3;
         private Point pLocation;
 
         BallEndpoint() {
@@ -63,20 +63,19 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
      * @return Decoration to use on Target Node
      */
     public static RotatableDecoration createFigureTargetDecoration() {
-        return new BallEndpoint();
+        return new PolygonDecoration();
     }
     
     /**
      * @return Decoration to use on Source Node
      */
     public static RotatableDecoration createFigureSourceDecoration() {
-        return createFigureTargetDecoration();
+        return new BallEndpoint();
+    }
+    
+    public AssignmentConnectionFigure() {
     }
 
-    public AssignmentConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
-    }
-	
     @Override
     protected void setFigureProperties() {
         setSourceDecoration(createFigureSourceDecoration());

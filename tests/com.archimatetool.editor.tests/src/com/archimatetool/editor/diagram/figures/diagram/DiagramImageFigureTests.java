@@ -12,8 +12,6 @@ import static org.mockito.Mockito.mock;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
@@ -24,13 +22,15 @@ import org.junit.Test;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.tests.TestUtils;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -60,18 +60,24 @@ public class DiagramImageFigureTests extends AbstractDiagramModelObjectFigureTes
         return figure;
     }
     
+    @Override
     @Test
-    public void testGetDefaultSize() throws Exception {
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
+    public void testGetDefaultSize() {
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(figure.getDiagramModelObject());
         Dimension defaultSize = provider.getDefaultSize();
         
         assertEquals(defaultSize, figure.getDefaultSize());
         
         // Add image
-        File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
-        addImage(file);
-        Image image = getPrivateImageField();
-        assertEquals(new Dimension(image), figure.getDefaultSize());
+        try {
+            File file = new File(TestSupport.getTestDataFolder().getPath(), "img/img1.png");
+            addImage(file);
+            Image image = getPrivateImageField();
+            assertEquals(new Dimension(image), figure.getDefaultSize());
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
         
         // Reset
         dmImage.setImagePath(null);

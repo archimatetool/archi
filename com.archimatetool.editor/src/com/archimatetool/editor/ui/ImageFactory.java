@@ -167,7 +167,12 @@ public class ImageFactory {
         ImageDescriptor id = registry.getDescriptor(imageName);
         if(id == null) {
             id = AbstractUIPlugin.imageDescriptorFromPlugin(fPlugin.getBundle().getSymbolicName(), imageName);
-            registry.put(imageName, id); // The image will be created next when registry.get(imageName) is called
+            if(id != null) {
+                registry.put(imageName, id); // The image will be created next when registry.get(imageName) is called
+            }
+            else {
+                System.err.println("Could not get Image Descriptor for: " + imageName); //$NON-NLS-1$
+            }
         }
         
         return id;

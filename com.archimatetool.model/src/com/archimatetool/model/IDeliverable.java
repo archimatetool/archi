@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IDeliverable extends IImplementationMigrationElement {
+public interface IDeliverable extends IImplementationMigrationElement, IPassiveStructureElement {
 } // IDeliverable

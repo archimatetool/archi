@@ -126,7 +126,7 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
         
         @Override
         public ImageDescriptor getImageDescriptor() {
-            return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLANK_16);
+            return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLANK);
         }
     };
     
@@ -159,7 +159,7 @@ public class NewCanvasExtensionContributionFactory extends ExtensionContribution
         
         @Override
         public ImageDescriptor getImageDescriptor() {
-            return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_MODEL_16);
+            return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_MODEL);
         }
     };
 

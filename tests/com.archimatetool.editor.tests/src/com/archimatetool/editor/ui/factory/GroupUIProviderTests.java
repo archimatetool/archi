@@ -8,7 +8,6 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EObject;
@@ -21,7 +20,9 @@ import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.factory.diagram.GroupUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class GroupUIProviderTests extends AbstractElementUIProviderTests {
+import junit.framework.JUnit4TestAdapter;
+
+public class GroupUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(GroupUIProviderTests.class);
@@ -42,20 +43,23 @@ public class GroupUIProviderTests extends AbstractElementUIProviderTests {
     @Override
     @Test
     public void testGetDefaultColor() {
-        assertEquals(ColorFactory.get(210, 215, 215), provider.getDefaultColor());
+        assertEquals(ColorFactory.get(210, 215, 215), getProvider().getDefaultColor());
     }
     
     @Override
     @Test
     public void testGetDefaultSize() {
-        assertEquals(new Dimension(400, 140), provider.getDefaultSize());
+        assertEquals(new Dimension(400, 140), getProvider().getDefaultSize());
     }
 
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
+        
+        EObject instance = createInstanceForExpectedClass();
+        provider.setInstance(instance);
+        
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
     }
 
 }

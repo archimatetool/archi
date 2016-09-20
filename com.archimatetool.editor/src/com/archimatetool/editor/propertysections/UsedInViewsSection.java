@@ -26,9 +26,9 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.services.EditorManager;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -48,16 +48,16 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     public static class Filter extends ObjectFilter {
         @Override
         protected boolean isRequiredType(Object object) {
-            return object instanceof IArchimateComponent;
+            return object instanceof IArchimateConcept;
         }
 
         @Override
         protected Class<?> getAdaptableType() {
-            return IArchimateComponent.class;
+            return IArchimateConcept.class;
         }
     }
 
-    private IArchimateComponent fArchimateComponent;
+    private IArchimateConcept fArchimateConcept;
     
     private TableViewer fTableViewer;
     
@@ -92,7 +92,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             }
             
             public Object[] getElements(Object inputElement) {
-                return DiagramModelUtils.findReferencedDiagramsForArchimateComponent((IArchimateComponent)inputElement).toArray();
+                return DiagramModelUtils.findReferencedDiagramsForArchimateConcept((IArchimateConcept)inputElement).toArray();
             }
         });
         
@@ -104,7 +104,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
             
             @Override
             public Image getImage(Object element) {
-                return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
             }
         });
         
@@ -118,7 +118,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
                     IDiagramModel diagramModel = (IDiagramModel)o;
                     IDiagramModelEditor editor = EditorManager.openDiagramEditor(diagramModel);
                     if(editor instanceof IArchimateDiagramEditor) {
-                        ((IArchimateDiagramEditor)editor).selectArchimateComponents(new IArchimateComponent[] { fArchimateComponent });
+                        ((IArchimateDiagramEditor)editor).selectArchimateConcepts(new IArchimateConcept[] { fArchimateConcept });
                     }
                 }
             }
@@ -129,8 +129,8 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        fArchimateComponent = (IArchimateComponent)new Filter().adaptObject(element);
-        if(fArchimateComponent == null) {
+        fArchimateConcept = (IArchimateConcept)new Filter().adaptObject(element);
+        if(fArchimateConcept == null) {
             System.err.println("UsedInViewsSection failed to get element for " + element); //$NON-NLS-1$
         }
         
@@ -138,7 +138,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
     }
     
     protected void refreshControls() {
-        fTableViewer.setInput(fArchimateComponent);
+        fTableViewer.setInput(fArchimateConcept);
     }
     
     @Override
@@ -148,7 +148,7 @@ public class UsedInViewsSection extends AbstractArchimatePropertySection {
 
     @Override
     protected EObject getEObject() {
-        return fArchimateComponent;
+        return fArchimateConcept;
     }
     
     @Override

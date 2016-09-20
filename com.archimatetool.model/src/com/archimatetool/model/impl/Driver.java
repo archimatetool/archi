@@ -18,7 +18,7 @@ import com.archimatetool.model.IDriver;
  *
  * @generated
  */
-public class Driver extends MotivationElement implements IDriver {
+public class Driver extends ArchimateElement implements IDriver {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -14,12 +14,12 @@ import org.eclipse.swt.graphics.RGB;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
@@ -32,10 +32,6 @@ import com.archimatetool.model.ILineObject;
  * @author Phillip Beauvoir
  */
 public class ColorFactory {
-    
-    public static final Color COLOR_BUSINESS = new Color(null, 255, 255, 181);
-    public static final Color COLOR_APPLICATION = new Color(null, 181, 255, 255);
-    public static final Color COLOR_TECHNOLOGY = new Color(null, 201, 231, 183);
     
     /**
      * Color Registry
@@ -134,9 +130,10 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
-            if(provider != null) {
-                return provider.getDefaultColor() == null ? ColorConstants.white : provider.getDefaultColor();
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
+            if(provider instanceof IGraphicalObjectUIProvider) {
+                return ((IGraphicalObjectUIProvider)provider).getDefaultColor() == null ?
+                        ColorConstants.white : ((IGraphicalObjectUIProvider)provider).getDefaultColor();
             }
         }
         
@@ -162,7 +159,7 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(IArchimatePackage.eINSTANCE.getDiagramModelConnection().isSuperTypeOf(eClass) ||
-                IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(eClass)) {
+                IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass)) {
             // User preference
             String value = Preferences.STORE.getString(IPreferenceConstants.DEFAULT_CONNECTION_LINE_COLOR);
             if(StringUtils.isSet(value)) {
@@ -188,9 +185,10 @@ public class ColorFactory {
         EClass eClass = getEClassForObject(object);
         
         if(eClass != null) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(eClass);
-            if(provider != null) {
-                return provider.getDefaultLineColor() == null ? ColorConstants.black : provider.getDefaultLineColor();
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
+            if(provider instanceof IGraphicalObjectUIProvider) {
+                return ((IGraphicalObjectUIProvider)provider).getDefaultLineColor() == null ?
+                        ColorConstants.black : ((IGraphicalObjectUIProvider)provider).getDefaultLineColor();
             }
         }
         
@@ -206,11 +204,8 @@ public class ColorFactory {
         if(object instanceof EClass) {
             eClass = (EClass)object;
         }
-        else if(object instanceof IDiagramModelArchimateObject) {
-            eClass = ((IDiagramModelArchimateObject)object).getArchimateElement().eClass();
-        }
-        else if(object instanceof IDiagramModelArchimateConnection) {
-            eClass = ((IDiagramModelArchimateConnection)object).getRelationship().eClass();
+        else if(object instanceof IDiagramModelArchimateComponent) {
+            eClass = ((IDiagramModelArchimateComponent)object).getArchimateConcept().eClass();
         }
         else if(object instanceof EObject) {
             eClass = ((EObject)object).eClass();

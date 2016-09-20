@@ -7,14 +7,14 @@ package com.archimatetool.jasperreports.data;
 
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -37,13 +37,13 @@ public class FieldDataFactory {
         if("name".equals(fieldName) && dataElement instanceof INameable) { //$NON-NLS-1$
             String name = ((INameable)dataElement).getName();
             if(name == null || "".equals(name)) { //$NON-NLS-1$
-                name = ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+                name = ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
             }
             return name;
         }
         
         if("type".equals(fieldName) && dataElement instanceof EObject) { //$NON-NLS-1$
-            return ArchimateLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+            return ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
         }
         
         if("documentation".equals(fieldName) && dataElement instanceof IDocumentable) { //$NON-NLS-1$
@@ -56,16 +56,16 @@ public class FieldDataFactory {
             return StringUtils.isSet(s) ? s : null;
         }
         
-        if("relation_source".equals(fieldName) && dataElement instanceof IRelationship) { //$NON-NLS-1$
-            IRelationship relation = (IRelationship)dataElement;
-            IArchimateElement source = relation.getSource();
+        if("relation_source".equals(fieldName) && dataElement instanceof IArchimateRelationship) { //$NON-NLS-1$
+            IArchimateRelationship relation = (IArchimateRelationship)dataElement;
+            IArchimateConcept source = relation.getSource();
             String s = source.getName();
             return StringUtils.isSet(s) ? s : null;
         }
         
-        if("relation_target".equals(fieldName) && dataElement instanceof IRelationship) { //$NON-NLS-1$
-            IRelationship relation = (IRelationship)dataElement;
-            IArchimateElement target = relation.getTarget();
+        if("relation_target".equals(fieldName) && dataElement instanceof IArchimateRelationship) { //$NON-NLS-1$
+            IArchimateRelationship relation = (IArchimateRelationship)dataElement;
+            IArchimateConcept target = relation.getTarget();
             String s = target.getName();
             return StringUtils.isSet(s) ? s : null;
         }

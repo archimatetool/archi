@@ -27,7 +27,7 @@ public class Messages extends NLS {
 
     public static String ArchimateModel_7;
 
-    public static String ArchimateModel_8;
+    public static String ArchimateModel_9;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

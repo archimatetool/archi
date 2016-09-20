@@ -25,6 +25,7 @@ package com.archimatetool.model;
 public interface IArchimateDiagramModel extends IDiagramModel {
     /**
      * Returns the value of the '<em><b>Viewpoint</b></em>' attribute.
+     * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Viewpoint</em>' attribute isn't clear,
@@ -32,12 +33,12 @@ public interface IArchimateDiagramModel extends IDiagramModel {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Viewpoint</em>' attribute.
-     * @see #setViewpoint(int)
+     * @see #setViewpoint(String)
      * @see com.archimatetool.model.IArchimatePackage#getArchimateDiagramModel_Viewpoint()
-     * @model
+     * @model default=""
      * @generated
      */
-    int getViewpoint();
+    String getViewpoint();
 
     /**
      * Sets the value of the '{@link com.archimatetool.model.IArchimateDiagramModel#getViewpoint <em>Viewpoint</em>}' attribute.
@@ -47,6 +48,6 @@ public interface IArchimateDiagramModel extends IDiagramModel {
      * @see #getViewpoint()
      * @generated
      */
-    void setViewpoint(int value);
+    void setViewpoint(String value);
 
 } // IArchimateDiagramModel

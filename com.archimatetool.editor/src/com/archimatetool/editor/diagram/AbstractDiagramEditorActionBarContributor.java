@@ -31,7 +31,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 
-import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
+import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.BringForwardAction;
 import com.archimatetool.editor.diagram.actions.BringToFrontAction;
@@ -52,7 +52,7 @@ import com.archimatetool.editor.diagram.actions.SendToBackAction;
 import com.archimatetool.editor.diagram.actions.TextAlignmentAction;
 import com.archimatetool.editor.diagram.actions.TextPositionAction;
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -78,10 +78,12 @@ extends ActionBarContributor {
         // Zoom in and out
         addRetargetAction(new ZoomInRetargetAction());
         addRetargetAction(new ZoomOutRetargetAction());
-        RetargetAction rt = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
-        rt.setActionDefinitionId(ZoomNormalAction.ID);
-        rt.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ZOOM_NORMAL));
-        addRetargetAction(rt);
+        
+        // Zoom normal
+        RetargetAction retargetAction = new RetargetAction(ZoomNormalAction.ID, ZoomNormalAction.TEXT);
+        retargetAction.setActionDefinitionId(ZoomNormalAction.ID);
+        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_NORMAL));
+        addRetargetAction(retargetAction);
         
         // Alignment Actions
         addRetargetAction(new AlignmentRetargetAction(PositionConstants.LEFT));
@@ -108,13 +110,14 @@ extends ActionBarContributor {
         //        "Ruler", IAction.AS_CHECK_BOX));
         
         // Default Size
-        RetargetAction retargetAction = new RetargetAction(DefaultEditPartSizeAction.ID, DefaultEditPartSizeAction.TEXT);
-        retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DEFAULT_SIZE));
+        retargetAction = new RetargetAction(DefaultEditPartSizeAction.ID, DefaultEditPartSizeAction.TEXT);
+        retargetAction.setActionDefinitionId(DefaultEditPartSizeAction.ID);
+        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DEFAULT_SIZE));
         addRetargetAction(retargetAction);
         
         // Reset Aspect Ratio
         retargetAction = new RetargetAction(ResetAspectRatioAction.ID, ResetAspectRatioAction.TEXT);
-        retargetAction.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASPECT_RATIO));
+        retargetAction.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ASPECT_RATIO));
         addRetargetAction(retargetAction);
         
         // Export as Image
@@ -153,8 +156,9 @@ extends ActionBarContributor {
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_BENDPONT, IAction.AS_RADIO_BUTTON));
-        addRetargetAction(new RetargetAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID,
-                ConnectionRouterAction.CONNECTION_ROUTER_SHORTEST_PATH, IAction.AS_RADIO_BUTTON));
+// Doesn't work with Connection to Connection
+//      addRetargetAction(new RetargetAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID,
+//              ConnectionRouterAction.CONNECTION_ROUTER_SHORTEST_PATH, IAction.AS_RADIO_BUTTON));
         addRetargetAction(new RetargetAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_MANHATTAN, IAction.AS_RADIO_BUTTON));
         
@@ -243,7 +247,8 @@ extends ActionBarContributor {
         IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_7, "menu_connection_router"); //$NON-NLS-1$
         viewMenu.add(connectionMenu);
         connectionMenu.add(getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
-        connectionMenu.add(getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
+// Doesn't work with Connection to Connection
+//      connectionMenu.add(getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
         connectionMenu.add(getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
         viewMenu.add(new Separator());
 
@@ -274,7 +279,7 @@ extends ActionBarContributor {
     
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_EDIT);
-        editMenu.insertAfter(ArchimateEditorActionFactory.RENAME.getId(), new Separator(GROUP_EDIT_MENU));
+        editMenu.insertAfter(ArchiActionFactory.RENAME.getId(), new Separator(GROUP_EDIT_MENU));
         
         // Fill Color Action
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FillColorAction.ID));

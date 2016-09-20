@@ -5,14 +5,13 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.ITextPosition;
 
 
 
@@ -23,44 +22,41 @@ import com.archimatetool.editor.preferences.Preferences;
  */
 public class RectangleFigureDelegate extends AbstractFigureDelegate {
     
-    protected static final int SHADOW_OFFSET = 2;
-    protected static final int TEXT_INDENT = 20;
-    
-    private Image fImage;
+    protected int iconOffset;
     
     public RectangleFigureDelegate(IDiagramModelObjectFigure owner) {
         super(owner);
     }
     
+    public RectangleFigureDelegate(IDiagramModelObjectFigure owner, int iconOffset) {
+        super(owner);
+        this.iconOffset = iconOffset;
+    }
+
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
 
         Rectangle bounds = getBounds();
         
-        boolean drawShadows = Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_SHADOWS);
-        
-        if(isEnabled()) {
-            // Shadow
-            if(drawShadows) {
-                graphics.setAlpha(100);
-                graphics.setBackgroundColor(ColorConstants.black);
-                graphics.fillRectangle(new Rectangle(bounds.x + SHADOW_OFFSET, bounds.y + SHADOW_OFFSET, bounds.width - SHADOW_OFFSET, bounds.height - SHADOW_OFFSET));
-                graphics.setAlpha(255);
-            }
-        }
-        else {
+        if(!isEnabled()) {
             setDisabledState(graphics);
         }
 
-        int shadow_offset = drawShadows ? SHADOW_OFFSET : 0;
-
-        bounds.width -= shadow_offset;
-        bounds.height -= shadow_offset;
-        
         // Fill
         graphics.setBackgroundColor(getFillColor());
+        
+        Pattern gradient = null;
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
+            gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
+            graphics.setBackgroundPattern(gradient);
+        }
+        
         graphics.fillRectangle(bounds);
+        
+        if(gradient != null) {
+            gradient.dispose();
+        }
         
         // Outline
         bounds.width--;
@@ -68,34 +64,32 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         graphics.setForegroundColor(getLineColor());
         graphics.drawRectangle(bounds);
         
-        // Image icon
-        if(getImage() != null) {
-            graphics.drawImage(getImage(), calculateImageLocation());
-        }
-        
         graphics.popState();
-    }
-    
-    public void setImage(Image image) {
-        fImage = image;
-    }
-    
-    public Image getImage() {
-        return fImage;
-    }
-
-    protected Point calculateImageLocation() {
-        Rectangle bounds = getBounds();
-        return new Point(bounds.x + bounds.width - TEXT_INDENT - 1, bounds.y + 5);
     }
     
     @Override
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
-        bounds.x += TEXT_INDENT;
-        bounds.y += 5;
-        bounds.width = bounds.width - (TEXT_INDENT * 2);
-        bounds.height -= 10;
+        
+        if(getOwner().getDiagramModelObject() instanceof ITextPosition) {
+            int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+            
+            switch(textpos) {
+                // If the figure has an icon move centre inwards
+                case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+                    bounds.x += iconOffset;
+                    bounds.width = bounds.width - (iconOffset * 2);
+                    break;
+                // top right needs indent for icon
+                case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+                    bounds.width -= iconOffset;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         return bounds;
     }
+
 }

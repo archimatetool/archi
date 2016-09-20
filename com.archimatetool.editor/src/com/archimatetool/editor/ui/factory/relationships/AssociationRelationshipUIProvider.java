@@ -10,8 +10,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.AssociationConnectionEditPart;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
+import com.archimatetool.editor.diagram.figures.connections.AssociationConnectionFigure;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -21,7 +22,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class AssociationRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class AssociationRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getAssociationRelationship();
@@ -29,7 +30,7 @@ public class AssociationRelationshipUIProvider extends AbstractRelationshipUIPro
     
     @Override
     public EditPart createEditPart() {
-        return new AssociationConnectionEditPart();
+        return new ArchimateRelationshipEditPart(AssociationConnectionFigure.class);
     }
 
     @Override
@@ -39,11 +40,11 @@ public class AssociationRelationshipUIProvider extends AbstractRelationshipUIPro
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_ASSOCIATION_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ASSOCIATION_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ASSOCIATION_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ASSOCIATION_RELATION);
     }
 }

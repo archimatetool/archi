@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IApplicationCollaboration extends IApplicationLayerElement {
+public interface IApplicationCollaboration extends IApplicationElement, IActiveStructureElement {
 } // IApplicationCollaboration

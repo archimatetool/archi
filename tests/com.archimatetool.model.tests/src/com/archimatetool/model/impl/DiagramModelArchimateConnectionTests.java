@@ -10,18 +10,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -31,7 +33,7 @@ public class DiagramModelArchimateConnectionTests {
         return new JUnit4TestAdapter(DiagramModelArchimateConnectionTests.class);
     }
     
-    private IRelationship relationship;
+    private IArchimateRelationship relationship;
     private IDiagramModelArchimateObject source, target;
     private IDiagramModelArchimateConnection connection;
     
@@ -43,9 +45,9 @@ public class DiagramModelArchimateConnectionTests {
         target = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         target.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessRole());
 
-        relationship = IArchimateFactory.eINSTANCE.createRealisationRelationship();
+        relationship = IArchimateFactory.eINSTANCE.createRealizationRelationship();
         connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setRelationship(relationship);
+        connection.setArchimateRelationship(relationship);
     }
     
     
@@ -76,45 +78,58 @@ public class DiagramModelArchimateConnectionTests {
         connection.disconnect();
         connection.reconnect();
         
-        assertSame(relationship, connection.getRelationship());
-        assertSame(relationship.getSource(), connection.getRelationship().getSource());
-        assertSame(relationship.getTarget(), connection.getRelationship().getTarget());
+        assertSame(relationship, connection.getArchimateRelationship());
+        assertSame(relationship.getSource(), connection.getArchimateRelationship().getSource());
+        assertSame(relationship.getTarget(), connection.getArchimateRelationship().getTarget());
     }
     
     @Test
-    public void testGetRelationship() {
-        assertSame(relationship, connection.getRelationship());
+    public void testGetArchimateRelationship() {
+        assertSame(relationship, connection.getArchimateRelationship());
+    }
+
+    @Test
+    public void testGetArchimateConcept() {
+        assertSame(relationship, connection.getArchimateConcept());
+    }
+    
+    @Test
+    public void testSetArchimateConcept() {
+        IAccessRelationship r = IArchimateFactory.eINSTANCE.createAccessRelationship();
+        connection.setArchimateConcept(r);
+        assertSame(r, connection.getArchimateConcept());
+        assertSame(r, connection.getArchimateRelationship());
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void testAddRelationshipToModel_AlreadyHasParent() {
+    public void testAddArchimateRelationshipToModel_AlreadyHasParent() {
         IFolder parent = IArchimateFactory.eINSTANCE.createFolder();
-        parent.getElements().add(connection.getRelationship());
+        parent.getElements().add(connection.getArchimateRelationship());
         
-        connection.addRelationshipToModel(null);
+        connection.addArchimateConceptToModel(null);
     }
     
     @Test
-    public void testAdd_Remove_RelationshipToModel() {
+    public void testAdd_Remove_ArchimateRelationshipToModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         dm.getChildren().add(source);
         dm.getChildren().add(target);
         
         connection.connect(source, target);
         
         // Passing null uses a default folder in the model
-        IFolder expectedFolder = model.getDefaultFolderForElement(connection.getRelationship());
-        connection.addRelationshipToModel(null);
-        assertSame(expectedFolder, connection.getRelationship().eContainer());
+        IFolder expectedFolder = model.getDefaultFolderForObject(connection.getArchimateRelationship());
+        connection.addArchimateConceptToModel(null);
+        assertSame(expectedFolder, connection.getArchimateRelationship().eContainer());
         
-        connection.removeRelationshipFromModel();
-        assertNull(connection.getRelationship().eContainer());
+        connection.removeArchimateConceptFromModel();
+        assertNull(connection.getArchimateRelationship().eContainer());
         
         expectedFolder = IArchimateFactory.eINSTANCE.createFolder();
-        connection.addRelationshipToModel(expectedFolder);
-        assertSame(expectedFolder, connection.getRelationship().eContainer());
+        connection.addArchimateConceptToModel(expectedFolder);
+        assertSame(expectedFolder, connection.getArchimateRelationship().eContainer());
     }
     
     @Test
@@ -125,8 +140,10 @@ public class DiagramModelArchimateConnectionTests {
         assertNotSame(copy, connection);
         assertEquals("name", connection.getName());
         
-        assertNotNull(copy.getRelationship());
-        assertNotSame(copy.getRelationship(), connection.getRelationship());
+        assertNotNull(copy.getArchimateRelationship());
+        assertNotSame(copy.getArchimateRelationship(), connection.getArchimateRelationship());
+        assertNull(copy.getArchimateRelationship().getSource());
+        assertNull(copy.getArchimateRelationship().getTarget());
     }
 
 }

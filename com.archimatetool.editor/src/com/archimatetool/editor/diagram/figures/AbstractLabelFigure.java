@@ -25,7 +25,7 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
     
     private Label fLabel;
 
-    public AbstractLabelFigure(IDiagramModelObject diagramModelObject) {
+    protected AbstractLabelFigure(IDiagramModelObject diagramModelObject) {
         super(diagramModelObject);
     }
     
@@ -58,6 +58,8 @@ public abstract class AbstractLabelFigure extends AbstractDiagramModelObjectFigu
         
         // Font Color
         setFontColor();
+        
+        repaint(); // repaint when figure changes
     }
     
     protected void setText() {

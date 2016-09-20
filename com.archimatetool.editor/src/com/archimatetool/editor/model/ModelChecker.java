@@ -14,15 +14,15 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.Logger;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.model.INameable;
-import com.archimatetool.model.IRelationship;
 
 
 /**
@@ -76,6 +76,9 @@ public class ModelChecker {
     List<String> checkFolderStructure() {
         List<String> messages = new ArrayList<String>();
         
+        if(fModel.getFolder(FolderType.STRATEGY) == null) {
+            messages.add(Messages.ModelChecker_23);
+        }
         if(fModel.getFolder(FolderType.BUSINESS) == null) {
             messages.add(Messages.ModelChecker_2);
         }
@@ -85,7 +88,7 @@ public class ModelChecker {
         if(fModel.getFolder(FolderType.TECHNOLOGY) == null) {
             messages.add(Messages.ModelChecker_4);
         }
-        if(fModel.getFolder(FolderType.CONNECTORS) == null) {
+        if(fModel.getFolder(FolderType.OTHER) == null) {
             messages.add(Messages.ModelChecker_5);
         }
         if(fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION) == null) {
@@ -110,8 +113,7 @@ public class ModelChecker {
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             if(eObject instanceof IIdentifier && !StringUtils.isSet(((IIdentifier)eObject).getId())) {
-                String name = (eObject instanceof INameable) ? ((INameable)eObject).getName() : eObject.getClass().getName();
-                String message = Messages.ModelChecker_10 + " " + name; //$NON-NLS-1$
+                String message = Messages.ModelChecker_10 + " " + ArchiLabelProvider.INSTANCE.getLabel(eObject); //$NON-NLS-1$
                 messages.add(message);
             }
         }
@@ -124,8 +126,8 @@ public class ModelChecker {
         
         for(Iterator<EObject> iter = fModel.getFolder(FolderType.RELATIONS).eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
-            if(eObject instanceof IRelationship) {
-                IRelationship relation = (IRelationship)eObject;
+            if(eObject instanceof IArchimateRelationship) {
+                IArchimateRelationship relation = (IArchimateRelationship)eObject;
                 String name = " (" + relation.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
                 if(relation.getSource() == null) {
                     String message = Messages.ModelChecker_19 + name;
@@ -170,7 +172,7 @@ public class ModelChecker {
                 IDiagramModelArchimateConnection conn = (IDiagramModelArchimateConnection)eObject;
                 String name = conn.getDiagramModel() == null ? Messages.ModelChecker_14 : " '" + conn.getDiagramModel().getName() + "' (" + conn.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 
-                IRelationship relation = conn.getRelationship();
+                IArchimateRelationship relation = conn.getArchimateRelationship();
                 if(relation == null) {
                     messages.add(Messages.ModelChecker_15 + name);
                 }

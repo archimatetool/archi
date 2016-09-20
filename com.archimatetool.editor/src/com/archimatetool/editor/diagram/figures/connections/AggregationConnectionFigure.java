@@ -11,8 +11,6 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-
 
 
 /**
@@ -45,11 +43,10 @@ public class AggregationConnectionFigure extends AbstractArchimateConnectionFigu
             }
         };
     }
-
-    public AggregationConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
+    
+    public AggregationConnectionFigure() {
     }
-	
+
     @Override
     protected void setFigureProperties() {
         setSourceDecoration(createFigureSourceDecoration());

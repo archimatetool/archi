@@ -118,9 +118,6 @@ public class FormatPainterToolTests {
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         assertTrue(tool.isPaintableObject(dmao));
         
-        dmao = ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createJunction());
-        assertFalse(tool.isPaintableObject(dmao));
-        
         dmao = ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createAndJunction());
         assertFalse(tool.isPaintableObject(dmao));
         

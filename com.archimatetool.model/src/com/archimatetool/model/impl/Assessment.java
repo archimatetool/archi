@@ -18,7 +18,7 @@ import com.archimatetool.model.IAssessment;
  *
  * @generated
  */
-public class Assessment extends MotivationElement implements IAssessment {
+public class Assessment extends ArchimateElement implements IAssessment {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

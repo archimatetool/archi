@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IBusinessCollaboration extends IBusinessLayerElement {
+public interface IBusinessCollaboration extends IBusinessElement, IActiveStructureElement {
 } // IBusinessCollaboration

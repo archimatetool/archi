@@ -27,6 +27,6 @@ public class WarningType extends AbstractIssueType {
     
     @Override
     public Image getImage() {
-        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_WARNING_16);
+        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_WARNING);
     }
 }

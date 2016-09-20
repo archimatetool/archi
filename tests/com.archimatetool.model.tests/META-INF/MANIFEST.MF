@@ -4,7 +4,7 @@ Bundle-Name: JUnit Tests for Archi Model
 Bundle-SymbolicName: com.archimatetool.model.tests
 Bundle-Version: 4.0.0
 Fragment-Host: com.archimatetool.model
-Bundle-Vendor: Phillip Beauvoir
+Bundle-Vendor: Archi
 Require-Bundle: org.junit,
  com.archimatetool.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

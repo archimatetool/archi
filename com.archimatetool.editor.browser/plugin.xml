@@ -7,7 +7,7 @@
             class="com.archimatetool.editor.browser.BrowserEditor"
             contributorClass="com.archimatetool.editor.browser.BrowserEditorActionBarContributor"
             default="false"
-            icon="img/browser-16.png"
+            icon="img/browser.png"
             id="com.archimatetool.editor.browser.browserEditor"
             name="%editorBrowser">
       </editor>

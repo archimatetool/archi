@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -16,11 +18,11 @@ import org.eclipse.swt.graphics.Font;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateElement;
@@ -47,11 +49,20 @@ implements IDiagramModelObjectFigure {
     // Delegate to do drawing
     private IFigureDelegate fFigureDelegate;
     
-    public AbstractDiagramModelObjectFigure(IDiagramModelObject diagramModelObject){
+    protected AbstractDiagramModelObjectFigure() {
+    }
+    
+    protected AbstractDiagramModelObjectFigure(IDiagramModelObject diagramModelObject){
+        setDiagramModelObject(diagramModelObject);
+    }
+
+    @Override
+    public void setDiagramModelObject(IDiagramModelObject diagramModelObject) {
         fDiagramModelObject = diagramModelObject;
         setUI();
     }
     
+    @Override
     public IDiagramModelObject getDiagramModelObject() {
         return fDiagramModelObject;
     }
@@ -188,13 +199,15 @@ implements IDiagramModelObjectFigure {
             toolTipFigure = new ToolTipFigure();
             setToolTip(toolTipFigure);
         }
-
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
+        
+        // Set text to object's default text
+        String text = ArchiLabelProvider.INSTANCE.getLabel(getDiagramModelObject());
         toolTipFigure.setText(text);
         
+        // If an ArchiMate type, set text to element type if blank
         if(fDiagramModelObject instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)fDiagramModelObject).getArchimateElement();
-            String type = ArchimateLabelProvider.INSTANCE.getDefaultName(element.eClass());
+            String type = ArchiLabelProvider.INSTANCE.getDefaultName(element.eClass());
             if(!StringUtils.isSet(text)) { // Name was blank
                 toolTipFigure.setText(type);
             }
@@ -220,10 +233,15 @@ implements IDiagramModelObjectFigure {
     
     @Override
     public Dimension getDefaultSize() {
-        IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(getDiagramModelObject());
-        return provider != null ? provider.getDefaultSize() : new Dimension(120, 55);
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(getDiagramModelObject());
+        return provider != null ? provider.getUserDefaultSize() : IGraphicalObjectUIProvider.DefaultRectangularSize;
     }
     
+    @Override
+    public ConnectionAnchor getDefaultConnectionAnchor() {
+        return new ChopboxAnchor(this);
+    }
+
     public void dispose() {
     }
 }

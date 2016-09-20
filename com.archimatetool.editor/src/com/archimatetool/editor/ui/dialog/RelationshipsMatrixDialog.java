@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -61,7 +61,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
     
     public RelationshipsMatrixDialog(Shell parentShell) {
         super(parentShell, "RelationshipsMatrixDialog"); //$NON-NLS-1$
-        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
     }
 
@@ -103,16 +103,16 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         viewer.setRowHeaderLabelProvider(new CellLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-                cell.setText(ArchimateLabelProvider.INSTANCE.getDefaultName((EClass)cell.getElement()));
-                cell.setImage(ArchimateLabelProvider.INSTANCE.getImage(cell.getElement()));
+                cell.setText(ArchiLabelProvider.INSTANCE.getDefaultName((EClass)cell.getElement()));
+                cell.setImage(ArchiLabelProvider.INSTANCE.getImage(cell.getElement()));
             }
         });
         
         for(EClass eClass : getData()) {
             GridColumn column = new GridColumn(viewer.getGrid(), SWT.NONE);
             column.setWidth(70);
-            column.setImage(ArchimateLabelProvider.INSTANCE.getImage(eClass));
-            column.setHeaderTooltip(ArchimateLabelProvider.INSTANCE.getDefaultName(eClass));
+            column.setImage(ArchiLabelProvider.INSTANCE.getImage(eClass));
+            column.setHeaderTooltip(ArchiLabelProvider.INSTANCE.getDefaultName(eClass));
         }
         
         viewer.setContentProvider(new IStructuredContentProvider() {
@@ -138,7 +138,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         
         String text = ""; //$NON-NLS-1$
         for(Entry<EClass, Character> entry : RelationshipsMatrix.INSTANCE.getRelationshipsValueMap().entrySet()) {
-            text += entry.getValue() + ": " + ArchimateLabelProvider.INSTANCE.getDefaultName(entry.getKey()) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+            text += entry.getValue() + ": " + ArchiLabelProvider.INSTANCE.getDefaultName(entry.getKey()) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         Label label = new Label(client, SWT.NULL);
         label.setText(text);
@@ -186,7 +186,8 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         if(fAllClasses == null) {
             fAllClasses = new ArrayList<EClass>();
             fAllClasses.addAll(Arrays.asList(ArchimateModelUtils.getAllArchimateClasses()));
-            fAllClasses.add(IArchimatePackage.eINSTANCE.getJunction());
+            fAllClasses.add(IArchimatePackage.eINSTANCE.getAndJunction());
+            fAllClasses.add(IArchimatePackage.eINSTANCE.getOrJunction());
         }
         
         return fAllClasses;

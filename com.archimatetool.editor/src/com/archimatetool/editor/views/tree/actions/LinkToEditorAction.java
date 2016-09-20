@@ -9,7 +9,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.views.tree.TreeSelectionSynchroniser;
 
 
@@ -23,7 +23,7 @@ public class LinkToEditorAction extends Action {
     
     public LinkToEditorAction() {
         super(Messages.LinkToEditorAction_0, IAction.AS_CHECK_BOX);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LINKED_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LINKED));
         setChecked(Preferences.doLinkView());
     }
     

@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface ILocation extends IBusinessLayerElement {
+public interface ILocation extends ICompositeElement {
 } // ILocation

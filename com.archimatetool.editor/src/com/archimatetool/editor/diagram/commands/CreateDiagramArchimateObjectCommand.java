@@ -7,12 +7,12 @@ package com.archimatetool.editor.diagram.commands;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
-import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 
 
@@ -27,40 +27,27 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
     /**
      * Create Nested Relation Command
      */
-    protected CreateRelationCommand fCreateRelationSubCommand;
+    protected CompoundCommand subCommand = new CompoundCommand();
     
     public CreateDiagramArchimateObjectCommand(EditPart parentEditPart, CreateRequest request, Rectangle bounds) {
         super(parentEditPart, request, bounds);
     }
     
     @Override
-    public String getLabel() {
-        String label = super.getLabel();
-        if(fCreateRelationSubCommand != null) {
-            label = NLS.bind(Messages.CreateDiagramArchimateObjectCommand_0, label, fCreateRelationSubCommand.getRelationshipCreated().getName());
-        }
-        return label;
-    }
-
-    @Override
     public void execute() {
         addChild();
         
-        // Create Nested Relation as well
-        if(ConnectionPreferences.createRelationWhenAddingNewElement()) {
+        // Create Nested Relation as well if prefs and both types are Archimate
+        if(ConnectionPreferences.createRelationWhenAddingNewElement() &&
+                                    fParent instanceof IDiagramModelArchimateObject && fChild instanceof IDiagramModelArchimateObject) {
             // We need to have this on a thread.  There has been a case of the odd glitch causing a NPE.
             Display.getCurrent().asyncExec(new Runnable() {
                 @Override
                 public void run() {
-                    if(fParent instanceof IDiagramModelArchimateObject) {
-                        IArchimateElement parentElement = ((IDiagramModelArchimateObject)fParent).getArchimateElement();
-                        IArchimateElement childElement = ((IDiagramModelArchimateObject)fChild).getArchimateElement();
-                        fCreateRelationSubCommand = (CreateRelationCommand)DiagramCommandFactory.createNewNestedRelationCommandWithDialog(parentElement,
-                                new IArchimateElement[] {childElement});
-                        if(fCreateRelationSubCommand != null) {
-                            fCreateRelationSubCommand.execute();
-                        }
-                    }
+                    Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)fParent,
+                                                            (IDiagramModelArchimateObject)fChild);
+                    subCommand.add(cmd);
+                    subCommand.execute();
 
                     // Edit name on this thread
                     editNameOfNewObject();
@@ -83,11 +70,9 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
         super.undo();
         
         // Remove the Archimate model object from its containing folder
-        ((IDiagramModelArchimateObject)fChild).removeArchimateElementFromModel();
+        ((IDiagramModelArchimateObject)fChild).removeArchimateConceptFromModel();
         
-        if(fCreateRelationSubCommand != null) {
-            fCreateRelationSubCommand.undo();
-        }
+        subCommand.undo();
     }
 
     @Override
@@ -96,19 +81,14 @@ public class CreateDiagramArchimateObjectCommand extends CreateDiagramObjectComm
         super.redo();
 
         // Add the Archimate model object to a default folder
-        ((IDiagramModelArchimateObject)fChild).addArchimateElementToModel(null);
+        ((IDiagramModelArchimateObject)fChild).addArchimateConceptToModel(null);
         
-        if(fCreateRelationSubCommand != null) {
-            fCreateRelationSubCommand.redo();
-        }
+        subCommand.redo();
     }
     
     @Override
     public void dispose() {
         super.dispose();
-        if(fCreateRelationSubCommand != null) {
-            fCreateRelationSubCommand.dispose();
-            fCreateRelationSubCommand = null;
-        }
+        subCommand.dispose();
     }
 }

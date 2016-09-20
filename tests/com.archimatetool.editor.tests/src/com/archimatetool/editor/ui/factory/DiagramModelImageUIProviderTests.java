@@ -20,7 +20,7 @@ import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.ui.factory.diagram.DiagramImageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class DiagramModelImageUIProviderTests extends AbstractElementUIProviderTests {
+public class DiagramModelImageUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(DiagramModelImageUIProviderTests.class);
@@ -41,13 +41,15 @@ public class DiagramModelImageUIProviderTests extends AbstractElementUIProviderT
     @Override
     @Test
     public void testGetDefaultSize() {
-        assertEquals(new Dimension(200, 150), provider.getDefaultSize());
+        assertEquals(new Dimension(200, 150), getProvider().getDefaultSize());
     }
 
     @Override
     public void testShouldExposeFeature() {
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertTrue(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
-        assertFalse(provider.shouldExposeFeature(instance, null));
+        EObject instance = createInstanceForExpectedClass();
+        provider.setInstance(instance);
+        
+        assertTrue(provider.shouldExposeFeature(IArchimatePackage.Literals.BORDER_OBJECT__BORDER_COLOR));
+        assertFalse(provider.shouldExposeFeature(null));
     }
 }

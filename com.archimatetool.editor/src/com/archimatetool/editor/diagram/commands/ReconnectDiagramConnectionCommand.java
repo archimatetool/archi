@@ -11,6 +11,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 
@@ -25,10 +26,10 @@ extends Command {
 
     protected IDiagramModelConnection fConnection;
     
-    protected IDiagramModelObject fNewSource;
-    protected IDiagramModelObject fNewTarget;
-    protected IDiagramModelObject fOldSource;
-    protected IDiagramModelObject fOldTarget;
+    protected IConnectable fNewSource;
+    protected IConnectable fNewTarget;
+    protected IConnectable fOldSource;
+    protected IConnectable fOldTarget;
     
     /**
      * Extra bendpoints were added as a result of a circular connection
@@ -45,13 +46,13 @@ extends Command {
         fOldTarget = connection.getTarget();
     }
     
-    public void setNewSource(IDiagramModelObject source) {
+    public void setNewSource(IConnectable source) {
         fNewSource = source;
         fNewTarget = null;
         setLabel(Messages.ReconnectDiagramConnectionCommand_0);
     }
 
-    public void setNewTarget(IDiagramModelObject target) {
+    public void setNewTarget(IConnectable target) {
         fNewTarget = target;
         fNewSource = null;
         setLabel(Messages.ReconnectDiagramConnectionCommand_1);
@@ -107,7 +108,9 @@ extends Command {
             if(fBendpointCommand == null) {
                 fBendpointCommand = createBendPointsCommand();
             }
-            fBendpointCommand.execute();
+            if(fBendpointCommand != null) {
+                fBendpointCommand.execute();
+            }
         }
     }
 
@@ -127,11 +130,19 @@ extends Command {
      * Adding a circular connection requires some bendpoints
      */
     protected Command createBendPointsCommand() {
-        int width = fConnection.getSource().getBounds().getWidth();
+        // Only works for IDiagramModelObject as source and target objects not for connections
+        if(!(fConnection.getSource() instanceof IDiagramModelObject) && !(fConnection.getTarget() instanceof IDiagramModelObject)) {
+            return null;
+        }
+        
+        IDiagramModelObject source = (IDiagramModelObject)fConnection.getSource();
+        IDiagramModelObject target = (IDiagramModelObject)fConnection.getTarget();
+
+        int width = source.getBounds().getWidth();
         if(width == -1) {
             width = 100;
         }
-        int height = fConnection.getSource().getBounds().getHeight();
+        int height = target.getBounds().getHeight();
         if(height == -1) {
             height = 60;
         }

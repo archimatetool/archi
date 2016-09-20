@@ -39,7 +39,7 @@ import com.archimatetool.editor.diagram.IImageExportProvider.IExportDialogAdapte
 import com.archimatetool.editor.diagram.ImageExportProviderManager;
 import com.archimatetool.editor.diagram.ImageExportProviderManager.ImageExportProviderInfo;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -103,7 +103,7 @@ public class ExportAsImagePage extends WizardPage {
         
         setTitle(Messages.ExportAsImagePage_0);
         setDescription(Messages.ExportAsImagePage_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_EXPORT_DIR_WIZARD));
     }
 
     @Override

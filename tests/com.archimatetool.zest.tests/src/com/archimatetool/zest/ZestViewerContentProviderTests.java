@@ -5,19 +5,17 @@
  */
 package com.archimatetool.zest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.archimatetool.editor.model.viewpoints.BusinessProductViewpoint;
-import com.archimatetool.editor.model.viewpoints.TotalViewpoint;
 import com.archimatetool.model.IArchimateElement;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -65,13 +63,14 @@ public class ZestViewerContentProviderTests {
     @Test
     public void testSetViewpointFilter() {
         // Default VP
-        assertTrue(provider.getViewpointFilter() instanceof TotalViewpoint);
+        IViewpoint defaultViewpoint = ViewpointManager.NONE_VIEWPOINT;
+        assertTrue(provider.getViewpointFilter() == defaultViewpoint);
         
-        provider.setViewpointFilter(new BusinessProductViewpoint());
-        assertTrue(provider.getViewpointFilter() instanceof BusinessProductViewpoint);
+        provider.setViewpointFilter(ViewpointManager.INSTANCE.getAllViewpoints().get(1));
+        assertSame(provider.getViewpointFilter(), ViewpointManager.INSTANCE.getAllViewpoints().get(1));
         
         // Back to default
-        provider.setViewpointFilter(new TotalViewpoint());
+        provider.setViewpointFilter(defaultViewpoint);
     }
 
     @Test
@@ -80,13 +79,13 @@ public class ZestViewerContentProviderTests {
         Object[] elements = provider.getElements(inputElement);
         assertEquals(17, elements.length);
         for(Object object : elements) {
-            assertTrue(object instanceof IRelationship);
+            assertTrue(object instanceof IArchimateRelationship);
         }
     }
 
     @Test
     public void testGetElements_Relationship() {
-        IRelationship inputElement = (IRelationship)tm.getObjectByID("460");
+        IArchimateRelationship inputElement = (IArchimateRelationship)tm.getObjectByID("460");
         Object[] elements = provider.getElements(inputElement);
         assertEquals(inputElement, elements[0]);
     }
@@ -100,7 +99,7 @@ public class ZestViewerContentProviderTests {
     
     @Test
     public void testGetSource_Relationship() {
-        IRelationship inputElement = (IRelationship)tm.getObjectByID("460");
+        IArchimateRelationship inputElement = (IArchimateRelationship)tm.getObjectByID("460");
         IArchimateElement expected = (IArchimateElement)tm.getObjectByID("409");
         Object source = provider.getSource(inputElement);
         assertEquals(expected, source);
@@ -115,7 +114,7 @@ public class ZestViewerContentProviderTests {
     
     @Test
     public void testGetDestination_Relationship() {
-        IRelationship inputElement = (IRelationship)tm.getObjectByID("460");
+        IArchimateRelationship inputElement = (IArchimateRelationship)tm.getObjectByID("460");
         IArchimateElement expected = (IArchimateElement)tm.getObjectByID("289");
         Object destination = provider.getDestination(inputElement);
         assertEquals(expected, destination);

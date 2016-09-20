@@ -18,7 +18,7 @@ import com.archimatetool.model.IAssociationRelationship;
  *
  * @generated
  */
-public class AssociationRelationship extends Relationship implements IAssociationRelationship {
+public class AssociationRelationship extends ArchimateRelationship implements IAssociationRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

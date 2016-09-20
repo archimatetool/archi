@@ -21,10 +21,10 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -65,12 +65,12 @@ public class ModelCheckerTests {
         model.getFolders().remove(0);
         messages = modelChecker.checkFolderStructure();
         assertEquals(1, messages.size());
-        assertEquals("Business Folder Missing", messages.get(0));
+        assertEquals("Strategy Folder Missing", messages.get(0));
         
         model.getFolders().remove(0);
         messages = modelChecker.checkFolderStructure();
         assertEquals(2, messages.size());
-        assertEquals("Application Folder Missing", messages.get(1));
+        assertEquals("Business Folder Missing", messages.get(1));
     }
     
     @Test
@@ -89,7 +89,7 @@ public class ModelCheckerTests {
     public void checkRelationsHaveElements() {
         IArchimateElement src = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
         IArchimateElement tgt = (IArchimateElement)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getBusinessActor());
-        IRelationship relation = (IRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
+        IArchimateRelationship relation = (IArchimateRelationship)tm.createModelElementAndAddToModel(IArchimatePackage.eINSTANCE.getAssociationRelationship());
         relation.setSource(src);
         relation.setTarget(tgt);
 

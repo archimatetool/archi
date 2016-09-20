@@ -23,6 +23,8 @@ import org.junit.Test;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelObject;
@@ -127,8 +129,18 @@ public abstract class AbstractDiagramModelObjectFigureTests {
     }
     
     @Test
-    public void testDidClickTestControl() {
+    public void testDidClickTextControl() {
         assertFalse(abstractFigure.didClickTextControl(new Point(10, 10)));
     }
 
+    @Test
+    public void testGetDefaultSize() {
+        IGraphicalObjectUIProvider provider = (IGraphicalObjectUIProvider)ObjectUIFactory.INSTANCE.getProvider(abstractFigure.getDiagramModelObject());
+        assertEquals(provider.getUserDefaultSize(), abstractFigure.getDefaultSize());
+    }
+
+    @Test
+    public void testGetDefaultConnectionAnchor() {
+        assertNotNull(abstractFigure.getDefaultConnectionAnchor());
+    }
 }

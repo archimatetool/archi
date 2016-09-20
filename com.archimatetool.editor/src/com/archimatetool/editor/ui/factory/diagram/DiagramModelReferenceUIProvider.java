@@ -7,17 +7,18 @@ package com.archimatetool.editor.ui.factory.diagram;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramModelReferenceEditPart;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelReference;
@@ -29,7 +30,7 @@ import com.archimatetool.model.IDiagramModelReference;
  * 
  * @author Phillip Beauvoir
  */
-public class DiagramModelReferenceUIProvider extends AbstractElementUIProvider {
+public class DiagramModelReferenceUIProvider extends AbstractGraphicalObjectUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getDiagramModelReference();
@@ -47,27 +48,29 @@ public class DiagramModelReferenceUIProvider extends AbstractElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+        // Get this from the real Provider
+        if(instance instanceof IDiagramModelReference) {
+            IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
+            
+            if(dm != null) {
+                IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dm);
+                if(provider != null) {
+                    return provider.getImage();
+                }
+            }
+        }
+        
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
     }
 
     @Override
     public Dimension getDefaultSize() {
-        return new Dimension(120, 55);
+        return IGraphicalObjectUIProvider.DefaultRectangularSize;
     }
 
     @Override
-    public Image getImage(EObject instance) {
-        if(instance instanceof IDiagramModelReference) {
-            IDiagramModel dm = ((IDiagramModelReference)instance).getReferencedModel();
-            return ArchimateLabelProvider.INSTANCE.getImage(dm);
-        }
-        
-        return getImage();
-    }
-    
-    @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);
     }
 
     @Override

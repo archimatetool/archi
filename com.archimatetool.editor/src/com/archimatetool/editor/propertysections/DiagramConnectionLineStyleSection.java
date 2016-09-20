@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -204,15 +204,15 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
         @Override
         protected void addActions(MenuManager menuManager) {
-            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_2, IDiagramModelConnection.LINE_SOLID, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
+            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_2, IDiagramModelConnection.LINE_SOLID, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID));
             menuManager.add(action);
             action.setChecked((fConnection.getType() & IDiagramModelConnection.LINE_DASHED) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.LINE_DOTTED) == 0);
             
-            action = createAction(Messages.DiagramConnectionLineStyleSection_3, IDiagramModelConnection.LINE_DASHED, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_DASHED));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_3, IDiagramModelConnection.LINE_DASHED, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_DASHED));
             menuManager.add(action);
 
-            action = createAction(Messages.DiagramConnectionLineStyleSection_4, IDiagramModelConnection.LINE_DOTTED, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_DOTTED));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_4, IDiagramModelConnection.LINE_DOTTED, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_DOTTED));
             menuManager.add(action);
         }
         
@@ -222,15 +222,15 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             
             if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
                 fValue = IDiagramModelConnection.LINE_DASHED;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.LINE_DASHED));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_DASHED));
             }
             else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
                 fValue = IDiagramModelConnection.LINE_DOTTED;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.LINE_DOTTED));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_DOTTED));
             }
             else {
                 fValue = IDiagramModelConnection.LINE_SOLID;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.LINE_SOLID));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_SOLID));
             }
         }
     }
@@ -242,19 +242,19 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
         @Override
         protected void addActions(MenuManager menuManager) {
-            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_6, IDiagramModelConnection.ARROW_NONE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
+            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_6, IDiagramModelConnection.ARROW_NONE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID));
             action.setChecked((fConnection.getType() & IDiagramModelConnection.ARROW_FILL_SOURCE) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_SOURCE) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_LINE_SOURCE) == 0);
             menuManager.add(action);
             
-            action = createAction(Messages.DiagramConnectionLineStyleSection_7, IDiagramModelConnection.ARROW_FILL_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_FILL));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_7, IDiagramModelConnection.ARROW_FILL_SOURCE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_SOURCE_FILL));
             menuManager.add(action);
 
-            action = createAction(Messages.DiagramConnectionLineStyleSection_8, IDiagramModelConnection.ARROW_HOLLOW_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_HOLLOW));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_8, IDiagramModelConnection.ARROW_HOLLOW_SOURCE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_SOURCE_HOLLOW));
             menuManager.add(action);
 
-            action = createAction(Messages.DiagramConnectionLineStyleSection_9, IDiagramModelConnection.ARROW_LINE_SOURCE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_SOURCE_LINE));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_9, IDiagramModelConnection.ARROW_LINE_SOURCE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_SOURCE_LINE));
             menuManager.add(action);
         }
         
@@ -264,19 +264,19 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             
             if((connectionType & IDiagramModelConnection.ARROW_FILL_SOURCE) != 0) {
                 fValue = IDiagramModelConnection.ARROW_FILL_SOURCE;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ARROW_SOURCE_FILL));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ARROW_SOURCE_FILL));
             }
             else if((connectionType & IDiagramModelConnection.ARROW_HOLLOW_SOURCE) != 0) {
                 fValue = IDiagramModelConnection.ARROW_HOLLOW_SOURCE;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ARROW_SOURCE_HOLLOW));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ARROW_SOURCE_HOLLOW));
             }
             else if((connectionType & IDiagramModelConnection.ARROW_LINE_SOURCE) != 0) {
                 fValue = IDiagramModelConnection.ARROW_LINE_SOURCE;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ARROW_SOURCE_LINE));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ARROW_SOURCE_LINE));
             }
             else {
                 fValue = IDiagramModelConnection.ARROW_NONE;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.LINE_SOLID));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_SOLID));
             }
         }
     }
@@ -288,19 +288,19 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
 
         @Override
         protected void addActions(MenuManager menuManager) {
-            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_11, IDiagramModelConnection.ARROW_NONE, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.LINE_SOLID));
+            IAction action = createAction(Messages.DiagramConnectionLineStyleSection_11, IDiagramModelConnection.ARROW_NONE, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.LINE_SOLID));
             action.setChecked((fConnection.getType() & IDiagramModelConnection.ARROW_FILL_TARGET) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_HOLLOW_TARGET) == 0 &
                               (fConnection.getType() & IDiagramModelConnection.ARROW_LINE_TARGET) == 0);
             menuManager.add(action);
             
-            action = createAction(Messages.DiagramConnectionLineStyleSection_12, IDiagramModelConnection.ARROW_FILL_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_FILL));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_12, IDiagramModelConnection.ARROW_FILL_TARGET, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_TARGET_FILL));
             menuManager.add(action);
 
-            action = createAction(Messages.DiagramConnectionLineStyleSection_13, IDiagramModelConnection.ARROW_HOLLOW_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_HOLLOW));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_13, IDiagramModelConnection.ARROW_HOLLOW_TARGET, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_TARGET_HOLLOW));
             menuManager.add(action);
 
-            action = createAction(Messages.DiagramConnectionLineStyleSection_14, IDiagramModelConnection.ARROW_LINE_TARGET, IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ARROW_TARGET_LINE));
+            action = createAction(Messages.DiagramConnectionLineStyleSection_14, IDiagramModelConnection.ARROW_LINE_TARGET, IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ARROW_TARGET_LINE));
             menuManager.add(action);
         }
         
@@ -310,19 +310,19 @@ public class DiagramConnectionLineStyleSection extends AbstractArchimateProperty
             
             if((connectionType & IDiagramModelConnection.ARROW_FILL_TARGET) != 0) {
                 fValue = IDiagramModelConnection.ARROW_FILL_TARGET;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ARROW_TARGET_FILL));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ARROW_TARGET_FILL));
             }
             else if((connectionType & IDiagramModelConnection.ARROW_HOLLOW_TARGET) != 0) {
                 fValue = IDiagramModelConnection.ARROW_HOLLOW_TARGET;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ARROW_TARGET_HOLLOW));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ARROW_TARGET_HOLLOW));
             }
             else if((connectionType & IDiagramModelConnection.ARROW_LINE_TARGET) != 0) {
                 fValue = IDiagramModelConnection.ARROW_LINE_TARGET;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ARROW_TARGET_LINE));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ARROW_TARGET_LINE));
             }
             else {
                 fValue = IDiagramModelConnection.ARROW_NONE;
-                fButton.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.LINE_SOLID));
+                fButton.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.LINE_SOLID));
             }
         }
     }

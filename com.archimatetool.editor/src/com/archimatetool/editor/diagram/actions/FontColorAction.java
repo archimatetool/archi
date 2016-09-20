@@ -17,8 +17,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.FontColorCommand;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILockable;
@@ -115,8 +115,8 @@ public class FontColorAction extends SelectionAction {
         }
         
         if(model instanceof IFontAttribute) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
-            return provider != null && provider.shouldExposeFeature((IFontAttribute)model, IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR);
         }
         
         return false;

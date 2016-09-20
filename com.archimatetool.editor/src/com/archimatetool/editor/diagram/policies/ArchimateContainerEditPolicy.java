@@ -5,6 +5,8 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
+import java.util.List;
+
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -14,11 +16,10 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.IRelationship;
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 
@@ -34,48 +35,57 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
      */
 	@Override
     public Command getOrphanChildrenCommand(GroupRequest request) {
-	    CompoundCommand result = (CompoundCommand)super.getOrphanChildrenCommand(request);
+	    CompoundCommand command = (CompoundCommand)super.getOrphanChildrenCommand(request);
 	    
-	    // If we use nested connections and the EditPart model is an Archimate type object...
-	    if(ConnectionPreferences.useNestedConnections() && getHost().getModel() instanceof IDiagramModelArchimateObject) {
-	        IDiagramModelArchimateObject parentObject = (IDiagramModelArchimateObject)getHost().getModel();
-	        IArchimateElement parentElement = parentObject.getArchimateElement();
+	    // If we use nested connections and the EditPart model is an Archimate type object
+	    if(ConnectionPreferences.useNestedConnections() && (getHost().getModel() instanceof IDiagramModelArchimateObject)) {
+	        createNewConnectionCommands((IDiagramModelArchimateObject)getHost().getModel(), request.getEditParts(), command);
+	    }
+	    
+        return command;
+    }
+	
+	/**
+	 * When Archimate child objects are dragged out of a parent Archimate object check to see if new connections should be created
+	 * 
+	 * TODO A3: If O1--C1--O2 and in parent. C1 is also connected to parent (and hidden).
+	 *          O1 or O2 is removed from parent - should add connection from C1 to parent?
+	 *          Or should it be only when O1 AND O2 are removed from parent?
+	 */
+	void createNewConnectionCommands(IDiagramModelArchimateObject parentObject, List<?> childEditParts, CompoundCommand command) {
+	    IArchimateElement parentElement = parentObject.getArchimateElement();
 
-	        // Iterate thru the child EditParts...
-	        for(Object o : request.getEditParts()) {
-	            IDiagramModelObject child = (IDiagramModelObject)((EditPart)o).getModel();
+	    for(Object o : childEditParts) {
+	        IDiagramModelObject child = (IDiagramModelObject)((EditPart)o).getModel();
 
-	            // If it's an Archimate type child object...
-	            if(child instanceof IDiagramModelArchimateObject) {
-	                IDiagramModelArchimateObject childObject = (IDiagramModelArchimateObject)child;
-	                IArchimateElement childElement = childObject.getArchimateElement();
+	        // If it's an Archimate type child object...
+	        if(child instanceof IDiagramModelArchimateObject) {
+	            IDiagramModelArchimateObject childObject = (IDiagramModelArchimateObject)child;
+	            IArchimateElement childElement = childObject.getArchimateElement();
 
-	                // See if there are any (nested type) relationships between parent element and child element...
-	                for(IRelationship relation : ArchimateModelUtils.getSourceRelationships(parentElement)) {
-	                    if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
-	                        // And there's not one already there...
-	                        if(!DiagramModelUtils.hasDiagramModelArchimateConnection(parentObject, childObject, relation)) {
-	                            result.add(new NewConnectionCommand(parentObject, childObject, relation));
-	                        }
+	            // See if there are any (nested type) relationships between parent element and child element...
+	            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
+	                if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
+	                    // And there's not a connection already there then add one
+	                    if(!DiagramModelUtils.hasDiagramModelArchimateConnection(parentObject, childObject, relation)) {
+	                        command.add(new CreateDiagramArchimateConnectionCommand(parentObject, childObject, relation));
 	                    }
 	                }
 	            }
 	        }
 	    }
-	    
-        return result;
-    }
+	}
 	
 	/**
      * Create New Connection Command based on existing relation
      */
-    static class NewConnectionCommand extends Command {
+    static class CreateDiagramArchimateConnectionCommand extends Command {
         IDiagramModelArchimateConnection fConnection;
         IDiagramModelArchimateObject fSource;
         IDiagramModelArchimateObject fTarget;
-        IRelationship fRelation;
+        IArchimateRelationship fRelation;
         
-        NewConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target, IRelationship relation) {
+        CreateDiagramArchimateConnectionCommand(IDiagramModelArchimateObject source, IDiagramModelArchimateObject target, IArchimateRelationship relation) {
             fSource = source;
             fTarget = target;
             fRelation = relation;
@@ -84,7 +94,7 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
         @Override
         public void execute() {
             fConnection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-            fConnection.setRelationship(fRelation);
+            fConnection.setArchimateRelationship(fRelation);
             fConnection.connect(fSource, fTarget);
         }
         

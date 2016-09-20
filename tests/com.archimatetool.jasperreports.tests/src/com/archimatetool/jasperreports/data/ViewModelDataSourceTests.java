@@ -57,13 +57,13 @@ public class ViewModelDataSourceTests {
         assertNull(name);
         
         ds.next();
-        assertEquals("Actor Co-operation viewpoint", ds.getViewpointName());
+        assertEquals("No viewpoint", ds.getViewpointName());
         
         ds.next();
-        assertEquals("Application Behaviour viewpoint", ds.getViewpointName());
+        assertEquals("Application Usage viewpoint", ds.getViewpointName());
 
         ds.next();
-        assertEquals("Application Co-operation viewpoint", ds.getViewpointName());
+        assertEquals("Application Cooperation viewpoint", ds.getViewpointName());
     }
     
     @Test
@@ -102,7 +102,7 @@ public class ViewModelDataSourceTests {
         assertEquals("/img/4165.png", ds.getFieldValue(field));
         
         when(field.getName()).thenReturn("viewpoint");
-        assertEquals("Actor Co-operation viewpoint", ds.getFieldValue(field));
+        assertEquals("No viewpoint", ds.getFieldValue(field));
     }
 
     @Test

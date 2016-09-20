@@ -6,14 +6,14 @@
 package com.archimatetool.model.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IBounds;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -32,7 +32,6 @@ public class BoundsTests {
     
     @Test
     public void testDefaultValues() {
-        assertNotNull(bounds);
         assertEquals(0, bounds.getX());
         assertEquals(0, bounds.getY());
         assertEquals(-1, bounds.getWidth());
@@ -41,8 +40,6 @@ public class BoundsTests {
     
     @Test
     public void testSetValues() {
-        assertNotNull(bounds);
-        
         bounds.setX(1);
         bounds.setY(2);
         bounds.setWidth(3);
@@ -54,4 +51,24 @@ public class BoundsTests {
         assertEquals(4, bounds.getHeight());
     }
 
+    @Test
+    public void testSetLocation() {
+        bounds.setLocation(12, 14);
+        
+        assertEquals(12, bounds.getX());
+        assertEquals(14, bounds.getY());
+        assertEquals(-1, bounds.getWidth());
+        assertEquals(-1, bounds.getHeight());
+    }
+    
+    @Test
+    public void testSetSize() {
+        bounds.setSize(100, 200);
+        
+        assertEquals(0, bounds.getX());
+        assertEquals(0, bounds.getY());
+        assertEquals(100, bounds.getWidth());
+        assertEquals(200, bounds.getHeight());
+    }
+    
 }

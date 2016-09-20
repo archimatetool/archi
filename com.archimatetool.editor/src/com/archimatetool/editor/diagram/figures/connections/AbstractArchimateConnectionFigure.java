@@ -5,13 +5,15 @@
  */
 package com.archimatetool.editor.diagram.figures.connections;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -21,28 +23,38 @@ import com.archimatetool.model.IRelationship;
  * @author Phillip Beauvoir
  */
 public abstract class AbstractArchimateConnectionFigure
-extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
-
-    public AbstractArchimateConnectionFigure(IDiagramModelArchimateConnection connection) {
-        super(connection);
-    }
+extends AbstractDiagramConnectionFigure {
     
     @Override
     public IDiagramModelArchimateConnection getModelConnection() {
         return (IDiagramModelArchimateConnection)super.getModelConnection();
     }
-
+    
     @Override
-    public void highlight(boolean set) {
-        if(set) {
-            setForegroundColor(ColorConstants.red);
-            fLineColor = ColorConstants.red;
-            setLineWidth(2);
+    public void refreshVisuals() {
+        super.refreshVisuals();
+        
+        // Set Enabled according to current Viewpoint
+        boolean enabled = true;
+
+        // Set Enabled according to current Viewpoint
+        if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+            enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModelConnection());
         }
-        else {
-            setLineColor();
-            setLineWidth();
+        
+        setEnabled(enabled);
+        
+        if(getSourceDecoration() != null) {
+            getSourceDecoration().setEnabled(enabled);
         }
+        
+        if(getTargetDecoration() != null) {
+            getTargetDecoration().setEnabled(enabled);
+        }
+        
+        getConnectionLabel().setEnabled(enabled);
+        
+        repaint(); // repaint when figure changes
     }
 
     @Override
@@ -53,15 +65,15 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
             return null;
         }
         
-        IRelationship relation = getModelConnection().getRelationship();
+        IArchimateRelationship relation = getModelConnection().getArchimateRelationship();
         
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(relation);
+        String text = ArchiLabelProvider.INSTANCE.getLabel(relation);
         toolTipFigure.setText(text);
 
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
+        String type = ArchiLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         toolTipFigure.setType(Messages.AbstractArchimateConnectionFigure_0 + " " + type); //$NON-NLS-1$
 
-        String rubric = ArchimateLabelProvider.INSTANCE.getRelationshipSentence(relation);
+        String rubric = ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation);
         toolTipFigure.setRubric(rubric);
 
         return toolTipFigure;

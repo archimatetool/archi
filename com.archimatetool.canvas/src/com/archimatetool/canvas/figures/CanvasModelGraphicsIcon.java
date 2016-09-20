@@ -24,6 +24,8 @@ public class CanvasModelGraphicsIcon implements IGraphicsIcon {
     static Color blue = ColorFactory.get(150, 210, 247);
 
     public void drawIcon(Graphics graphics, Point origin) {
+        graphics.pushState();
+        
         graphics.setLineWidth(1);
         
         graphics.setBackgroundColor(ColorConstants.white);
@@ -42,6 +44,8 @@ public class CanvasModelGraphicsIcon implements IGraphicsIcon {
         graphics.drawLine(origin.x, origin.y + 8, origin.x + 14, origin.y + 8);
         graphics.drawLine(origin.x + 4, origin.y, origin.x + 4, origin.y + 8);
         graphics.drawLine(origin.x + 10, origin.y, origin.x + 10, origin.y + 8);
+        
+        graphics.popState();
     }
 
 }

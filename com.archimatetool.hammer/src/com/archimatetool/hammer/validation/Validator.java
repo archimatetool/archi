@@ -34,7 +34,7 @@ import com.archimatetool.hammer.validation.issues.WarningsCategory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 
 
 /**
@@ -47,7 +47,7 @@ public class Validator {
     private IArchimateModel fModel;
     
     private List<IArchimateElement> fElements;
-    private List<IRelationship> fRelations;
+    private List<IArchimateRelationship> fRelations;
     private List<IArchimateDiagramModel> fViews;
     
     private List<ErrorType> fErrorList;
@@ -69,14 +69,14 @@ public class Validator {
         
         // Collect interesting objects
         fElements = new ArrayList<IArchimateElement>();
-        fRelations = new ArrayList<IRelationship>();
+        fRelations = new ArrayList<IArchimateRelationship>();
         fViews = new ArrayList<IArchimateDiagramModel>();
         
         for(Iterator<EObject> iter = fModel.eAllContents(); iter.hasNext();) {
             EObject eObject = iter.next();
             
-            if(eObject instanceof IRelationship) {
-                fRelations.add((IRelationship)eObject);
+            if(eObject instanceof IArchimateRelationship) {
+                fRelations.add((IArchimateRelationship)eObject);
             }
             else if(eObject instanceof IArchimateElement) {
                 fElements.add((IArchimateElement)eObject);
@@ -178,8 +178,8 @@ public class Validator {
         return new ArrayList<IArchimateElement>(fElements); // copy
     }
     
-    public List<IRelationship> getArchimateRelationships() {
-        return new ArrayList<IRelationship>(fRelations); // copy
+    public List<IArchimateRelationship> getArchimateRelationships() {
+        return new ArrayList<IArchimateRelationship>(fRelations); // copy
     }
     
     public List<IArchimateDiagramModel> getArchimateViews() {

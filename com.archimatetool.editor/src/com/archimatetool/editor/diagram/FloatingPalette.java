@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -90,7 +90,7 @@ public class FloatingPalette {
         checkSafeBounds(fParentShell);
         fShell.setBounds(fPaletteState.bounds);
         
-        fShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_16));
+        fShell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APP));
         fShell.setText(Messages.FloatingPalette_0);
         
         // Disposed by system

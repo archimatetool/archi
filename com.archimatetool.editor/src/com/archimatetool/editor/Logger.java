@@ -108,8 +108,8 @@ public final class Logger {
      */
     public static void log(int severity, String message, Throwable t) {
         if(enabled) {
-            ArchimateEditorPlugin.INSTANCE.getLog().log(
-                    new Status(severity, ArchimateEditorPlugin.INSTANCE.getId(), IStatus.OK, message, t));
+            ArchiPlugin.INSTANCE.getLog().log(
+                    new Status(severity, ArchiPlugin.INSTANCE.getId(), IStatus.OK, message, t));
         }
     }
 }

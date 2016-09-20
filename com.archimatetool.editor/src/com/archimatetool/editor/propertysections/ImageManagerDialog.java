@@ -55,8 +55,8 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -94,7 +94,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
 
     public ImageManagerDialog(Shell parentShell, IArchimateModel selectedModel, String selectedImagePath) {
         super(parentShell, "ImageManagerDialog"); //$NON-NLS-1$
-        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
         fSelectedModel = selectedModel;
@@ -437,7 +437,7 @@ public class ImageManagerDialog extends ExtendedTitleAreaDialog {
             
             @Override
             public Image getImage(Object element) {
-                return ArchimateLabelProvider.INSTANCE.getImage(element);
+                return ArchiLabelProvider.INSTANCE.getImage(element);
             }
         }
     }

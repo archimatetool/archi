@@ -32,7 +32,7 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
         if(getModel() instanceof IDiagramModelContainer) {
             List<IDiagramModelObject> originalList = ((IDiagramModelContainer)getModel()).getChildren();
             
-            IChildEditPartFilter[] filters = getEditPartFilterProvider().getEditPartFilters(IChildEditPartFilter.class);
+            IChildEditPartFilter[] filters = getRootEditPartFilterProvider().getEditPartFilters(IChildEditPartFilter.class);
             if(filters != null) {
                 List<IDiagramModelObject> filteredList = new ArrayList<IDiagramModelObject>();
                 
@@ -60,13 +60,11 @@ public abstract class AbstractFilteredEditPart extends AbstractGraphicalEditPart
         return Collections.EMPTY_LIST;
     }
 
-    protected IEditPartFilterProvider getEditPartFilterProvider() {
-        if(this instanceof IEditPartFilterProvider) {
-            return (IEditPartFilterProvider)this;
+    protected IEditPartFilterProvider getRootEditPartFilterProvider() {
+        if(getRoot() != null && getRoot().getContents() instanceof IEditPartFilterProvider) {
+            return (IEditPartFilterProvider)getRoot().getContents();
         }
-        if(getParent() instanceof AbstractFilteredEditPart) {
-            return ((AbstractFilteredEditPart)getParent()).getEditPartFilterProvider();
-        }
+        
         return null;
     }
 }

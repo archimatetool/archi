@@ -18,7 +18,7 @@ import com.archimatetool.model.IRequirement;
  *
  * @generated
  */
-public class Requirement extends MotivationElement implements IRequirement {
+public class Requirement extends ArchimateElement implements IRequirement {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

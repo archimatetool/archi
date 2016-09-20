@@ -26,6 +26,6 @@ public class ErrorsCategory extends AbstractIssueCategory {
     
     @Override
     public Image getImage() {
-        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ERROR_16);
+        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ERROR);
     }
 }

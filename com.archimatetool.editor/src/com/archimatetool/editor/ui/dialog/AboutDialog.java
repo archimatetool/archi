@@ -33,8 +33,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.about.InstallationDialog;
 
 import com.archimatetool.editor.Application;
-import com.archimatetool.editor.ArchimateEditorPlugin;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.ui.IArchiImages;
 
 
 /**
@@ -123,7 +123,7 @@ public class AboutDialog extends TrayDialog {
 
         final int imageHeight;
         
-        final Image image = IArchimateImages.ImageFactory.getImage("splash.bmp"); //$NON-NLS-1$
+        final Image image = IArchiImages.ImageFactory.getImage("splash.bmp"); //$NON-NLS-1$
         if(image != null) {
             ImageData id = image.getImageData();
             gd.widthHint = id.width;
@@ -138,7 +138,7 @@ public class AboutDialog extends TrayDialog {
         
         final String version = Messages.AboutDialog_2 + System.getProperty(Application.APPLICATION_VERSIONID);
         final String build = Messages.AboutDialog_3 + System.getProperty(Application.APPLICATION_BUILDID);
-        final String copyright = ArchimateEditorPlugin.INSTANCE.getResourceString("%aboutCopyright"); //$NON-NLS-1$
+        final String copyright = ArchiPlugin.INSTANCE.getResourceString("%aboutCopyright"); //$NON-NLS-1$
         
         imageControl.addPaintListener(new PaintListener() {
             public void paintControl(PaintEvent e) {
@@ -147,7 +147,7 @@ public class AboutDialog extends TrayDialog {
                 e.gc.drawImage(image, 0, 0);
                 e.gc.drawString(version, 19, 166, true);
                 e.gc.drawString(build, 19, 166 + fontHeight, true);
-                e.gc.drawString(copyright, 19, imageHeight - fontHeight - 5, true);
+                e.gc.drawString(copyright, 12, imageHeight - fontHeight - 5, true);
             }
         });
     }
@@ -177,7 +177,7 @@ public class AboutDialog extends TrayDialog {
         installationDetailsButton.setVisible(false);
         
         if(licenseText.getText().length() == 0) {
-            File file = new File(ArchimateEditorPlugin.INSTANCE.getPluginFolder(), "LICENSE.txt"); //$NON-NLS-1$
+            File file = new File(ArchiPlugin.INSTANCE.getPluginFolder(), "LICENSE.txt"); //$NON-NLS-1$
             if(file.exists()) {
                 byte[] buffer = new byte[(int) file.length()];
                 BufferedInputStream is = null;

@@ -10,8 +10,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.InfluenceConnectionEditPart;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
+import com.archimatetool.editor.diagram.figures.connections.InfluenceConnectionFigure;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -21,7 +22,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class InfluenceRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class InfluenceRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getInfluenceRelationship();
@@ -29,7 +30,7 @@ public class InfluenceRelationshipUIProvider extends AbstractRelationshipUIProvi
     
     @Override
     public EditPart createEditPart() {
-        return new InfluenceConnectionEditPart();
+        return new ArchimateRelationshipEditPart(InfluenceConnectionFigure.class);
     }
 
     @Override
@@ -39,11 +40,11 @@ public class InfluenceRelationshipUIProvider extends AbstractRelationshipUIProvi
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_INFLUENCE_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_INFLUENCE_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_INFLUENCE_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_INFLUENCE_RELATION);
     }
 }

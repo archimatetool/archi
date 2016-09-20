@@ -36,7 +36,7 @@ import org.eclipse.ui.keys.IBindingService;
 
 import com.archimatetool.editor.diagram.FloatingPalette;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
 import com.archimatetool.editor.utils.PlatformUtils;
 
@@ -180,7 +180,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell.setMaximized(true);
         fNewShell.setText(Display.getAppName());
         fNewShell.setLayout(new FillLayout());
-        fNewShell.setImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_APP_128));
+        fNewShell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APP_128));
         
         // On Ubuntu the min/max/close buttons are shown, so trap close button
         fNewShell.addShellListener(new ShellAdapter() {

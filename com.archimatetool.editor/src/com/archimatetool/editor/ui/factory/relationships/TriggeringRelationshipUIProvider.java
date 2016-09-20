@@ -10,8 +10,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.TriggeringConnectionEditPart;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
+import com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -21,7 +22,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class TriggeringRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class TriggeringRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getTriggeringRelationship();
@@ -29,7 +30,7 @@ public class TriggeringRelationshipUIProvider extends AbstractRelationshipUIProv
     
     @Override
     public EditPart createEditPart() {
-        return new TriggeringConnectionEditPart();
+        return new ArchimateRelationshipEditPart(TriggeringConnectionFigure.class);
     }
 
     @Override
@@ -39,11 +40,11 @@ public class TriggeringRelationshipUIProvider extends AbstractRelationshipUIProv
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_TRIGGERING_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_TRIGGERING_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_TRIGGERING_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_TRIGGERING_RELATION);
     }
 }

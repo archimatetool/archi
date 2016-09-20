@@ -19,7 +19,7 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = ArchimateZestPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = ArchiZestPlugin.INSTANCE.getPreferenceStore();
         
 		store.setDefault(VISUALISER_DEPTH, 0);
     }

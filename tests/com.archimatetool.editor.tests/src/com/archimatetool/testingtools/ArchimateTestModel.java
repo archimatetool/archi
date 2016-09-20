@@ -18,10 +18,10 @@ import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 
@@ -127,7 +127,7 @@ public class ArchimateTestModel {
      */
     public IArchimateDiagramModel addNewArchimateDiagramModel() {
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         return dm;
     }
     
@@ -139,7 +139,7 @@ public class ArchimateTestModel {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement(element);
         if(element.eContainer() == null) {
-            model.getArchimateModel().getDefaultFolderForElement(element).getElements().add(element);
+            model.getArchimateModel().getDefaultFolderForObject(element).getElements().add(element);
         }
         return dmo;
     }
@@ -148,11 +148,11 @@ public class ArchimateTestModel {
      * Create a DiagramModelArchimateConnection and add an Archimate relationship to it.
      * The relationship will be added to its default container folder in the model
      */
-    public IDiagramModelArchimateConnection createDiagramModelArchimateConnectionAndAddToModel(IRelationship relationship) {
+    public IDiagramModelArchimateConnection createDiagramModelArchimateConnectionAndAddToModel(IArchimateRelationship relationship) {
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(relationship);
+        conn.setArchimateRelationship(relationship);
         if(relationship.eContainer() == null) {
-            model.getArchimateModel().getDefaultFolderForElement(relationship).getElements().add(relationship);
+            model.getArchimateModel().getDefaultFolderForObject(relationship).getElements().add(relationship);
         }
         return conn;
     }
@@ -164,7 +164,7 @@ public class ArchimateTestModel {
      */
     public EObject createModelElementAndAddToModel(EClass eClass) {
         EObject element = IArchimateFactory.eINSTANCE.create(eClass);
-        model.getDefaultFolderForElement(element).getElements().add(element);
+        model.getDefaultFolderForObject(element).getElements().add(element);
         return element;
     }
 
@@ -210,9 +210,9 @@ public class ArchimateTestModel {
     /**
      * Create a DiagramModelArchimateConnection and add an Archimate relationship to it
      */
-    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IRelationship relationship) {
+    public static IDiagramModelArchimateConnection createDiagramModelArchimateConnection(IArchimateRelationship relationship) {
         IDiagramModelArchimateConnection conn = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        conn.setRelationship(relationship);
+        conn.setArchimateRelationship(relationship);
         return conn;
     }
 }

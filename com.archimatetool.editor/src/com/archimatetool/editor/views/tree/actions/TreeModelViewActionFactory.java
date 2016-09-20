@@ -17,8 +17,8 @@ import org.eclipse.jface.action.IAction;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.views.tree.commands.NewDiagramCommand;
 import com.archimatetool.editor.views.tree.commands.NewElementCommand;
 import com.archimatetool.model.IArchimateElement;
@@ -71,6 +71,13 @@ public class TreeModelViewActionFactory {
         }
 
         switch(f.getType()) {
+            case STRATEGY:
+                for(EClass eClass : ArchimateModelUtils.getStrategyClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                break;
+
             case BUSINESS:
                 for(EClass eClass : ArchimateModelUtils.getBusinessClasses()) {
                     IAction action = createNewElementAction(folder, eClass);
@@ -100,13 +107,31 @@ public class TreeModelViewActionFactory {
                 break;
 
             case TECHNOLOGY:
+                // Technology
                 for(EClass eClass : ArchimateModelUtils.getTechnologyClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                
+                list.add(null);
+                
+                // Physical
+                for(EClass eClass : ArchimateModelUtils.getPhysicalClasses()) {
                     IAction action = createNewElementAction(folder, eClass);
                     list.add(action);
                 }
                 break;
 
-            case CONNECTORS:
+            case OTHER:
+                // Grouping and Location
+                for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
+                    IAction action = createNewElementAction(folder, eClass);
+                    list.add(action);
+                }
+                
+                list.add(null);
+                
+                // Connectors
                 for(EClass eClass : ArchimateModelUtils.getConnectorClasses()) {
                     IAction action = createNewElementAction(folder, eClass);
                     list.add(action);
@@ -126,7 +151,7 @@ public class TreeModelViewActionFactory {
     }
 
     private IAction createNewElementAction(final IFolder folder, final EClass eClass) {
-        IAction action = new Action(ArchimateLabelProvider.INSTANCE.getDefaultName(eClass)) {
+        IAction action = new Action(ArchiLabelProvider.INSTANCE.getDefaultName(eClass)) {
             @Override
             public void run() {
                 // Create a new Archimate Element, set its name
@@ -139,7 +164,7 @@ public class TreeModelViewActionFactory {
             }
         };
 
-        action.setImageDescriptor(ArchimateLabelProvider.INSTANCE.getImageDescriptor(eClass));
+        action.setImageDescriptor(ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
         return action;
     }
     
@@ -158,7 +183,7 @@ public class TreeModelViewActionFactory {
             }
         };
 
-        action.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DIAGRAM_16));
+        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM));
         return action;
     }
     
@@ -181,7 +206,7 @@ public class TreeModelViewActionFactory {
             }
         };
 
-        action.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SKETCH_16));
+        action.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SKETCH));
         return action;
     }
 }

@@ -160,7 +160,7 @@ public class DiagramUtilsTests {
     }
     
     @Test
-    public void testCreateImage_Figure() {
+    public void testCreateImage_FigureWithChildren() {
         IFigure rootFigure = new FreeformLayer();
         org.eclipse.draw2d.geometry.Rectangle rect1 = new org.eclipse.draw2d.geometry.Rectangle(0, 0, 1000, 1000);
         rootFigure.setBounds(rect1);
@@ -185,6 +185,15 @@ public class DiagramUtilsTests {
         img.dispose();
     }
     
+    @Test
+    public void testCreateImage_SimpleFigure() {
+        IFigure figure = new Figure();
+        figure.setSize(230, 190);
+        Image img = DiagramUtils.createImage(figure, 1, 0);
+        assertEquals(new Rectangle(0, 0, 230, 190), img.getBounds());
+        img.dispose();
+    }
+
     @Test
     public void testCreateImage_Is_Scaled() {
         IFigure rootFigure = new FreeformLayer();
@@ -249,7 +258,7 @@ public class DiagramUtilsTests {
     }
 
     @Test
-    public void testGetMinimumBounds() {
+    public void testGetMinimumBounds_FreeformLayer() {
         IFigure rootFigure = new FreeformLayer();
         org.eclipse.draw2d.geometry.Rectangle rect1 = new org.eclipse.draw2d.geometry.Rectangle(0, 0, 1000, 1000);
         rootFigure.setBounds(rect1);
@@ -267,4 +276,12 @@ public class DiagramUtilsTests {
         
         assertEquals(new org.eclipse.draw2d.geometry.Rectangle(10, 10, 290, 310), DiagramUtils.getMinimumBounds(rootFigure));
     }
+    
+    @Test
+    public void testGetMinimumBounds_SimpleFigure() {
+        IFigure figure = new Figure();
+        figure.setSize(50, 50);
+        assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 50, 50), DiagramUtils.getMinimumBounds(figure));
+    }
+
 }

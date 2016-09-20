@@ -54,28 +54,24 @@ public abstract class AbstractContainerFigureTests extends AbstractDiagramModelO
 
     @Test
     public void testGetPreferredSize() {
-        Dimension d = containerFigure.getPreferredSize();
-        assertEquals(containerFigure.getDefaultSize(), d);
+        assertEquals(containerFigure.getDefaultSize(), containerFigure.getPreferredSize());
         
         IFigure childFigure1 = new Figure();
-        childFigure1.setBounds(new Rectangle(0, 0, 200, 200));
+        childFigure1.setBounds(new Rectangle(400, 400, 200, 200));
         containerFigure.getContentPane().add(childFigure1);
         
-        d = containerFigure.getPreferredSize();
-        assertEquals(new Dimension(210, 210), d);
+        assertEquals(new Dimension(610, 610), containerFigure.getPreferredSize());
 
         IFigure childFigure2 = new Figure();
-        childFigure2.setBounds(new Rectangle(-12, -12, 300, 256));
+        childFigure2.setBounds(new Rectangle(0, 600, 200, 200));
         containerFigure.getContentPane().add(childFigure2);
 
-        d = containerFigure.getPreferredSize();
-        assertEquals(new Dimension(298, 254), d);
+        assertEquals(new Dimension(610, 810), containerFigure.getPreferredSize());
 
         IFigure childFigure3 = new Figure();
-        childFigure3.setBounds(new Rectangle(20, 20, 300, 256));
+        childFigure3.setBounds(new Rectangle(600, 0, 200, 200));
         containerFigure.getContentPane().add(childFigure3);
 
-        d = containerFigure.getPreferredSize();
-        assertEquals(new Dimension(330, 286), d);
+        assertEquals(new Dimension(810, 810), containerFigure.getPreferredSize());
     }
 }

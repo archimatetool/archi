@@ -22,7 +22,7 @@
             locationURI="menu:window?after=show_view_append">
          <command
                commandId="com.archimatetool.help.command.showHintsView"
-               icon="img/hint-16.png"
+               icon="img/hint.png"
                id="com.archimatetool.help.menuitem.showHintsView"
                label="%command.label"
                style="push">
@@ -33,7 +33,7 @@
             locationURI="toolbar:toolbar_views?after=end">
          <command
                commandId="com.archimatetool.help.command.showHintsView"
-               icon="img/hint-16.png"
+               icon="img/hint.png"
                id="com.archimatetool.help.toolbaritem.showHintsView"
                label="%command.label.0"
                style="push">
@@ -54,7 +54,7 @@
          point="org.eclipse.ui.views">
       <view
             class="com.archimatetool.help.hints.HintsView"
-            icon="img/hint-16.png"
+            icon="img/hint.png"
             id="com.archimatetool.help.hintsView"
             name="%viewHints"
             restorable="true">
@@ -157,11 +157,6 @@
             title="%hint.title.4">
       </hint>
       <hint
-            class="com.archimatetool.model.IBusinessActivity"
-            file="hints/business_activity.html"
-            title="%hint.title.5">
-      </hint>
-      <hint
             class="com.archimatetool.model.IBusinessFunction"
             file="hints/business_function.html"
             title="%hint.title.6">
@@ -257,27 +252,27 @@
             title="%hint.title.24">
       </hint>
       <hint
-            class="com.archimatetool.model.IInfrastructureInterface"
+            class="com.archimatetool.model.ITechnologyInterface"
             file="hints/infrastructure_interface.html"
             title="%hint.title.25">
       </hint>
       <hint
-            class="com.archimatetool.model.INetwork"
+            class="com.archimatetool.model.ICommunicationNetwork"
             file="hints/network.html"
             title="%hint.title.26">
       </hint>
       <hint
-            class="com.archimatetool.model.ICommunicationPath"
+            class="com.archimatetool.model.IPath"
             file="hints/communication_path.html"
             title="%hint.title.27">
       </hint>
       <hint
-            class="com.archimatetool.model.IInfrastructureService"
+            class="com.archimatetool.model.ITechnologyService"
             file="hints/infrastructure_service.html"
             title="%hint.title.28">
       </hint>
       <hint
-            class="com.archimatetool.model.IInfrastructureFunction"
+            class="com.archimatetool.model.ITechnologyFunction"
             file="hints/infrastructure_function.html"
             title="%hint.title.29">
       </hint>
@@ -307,13 +302,13 @@
             title="%hint.title.34">
       </hint>
       <hint
-            class="com.archimatetool.model.IRealisationRelationship"
-            file="hints/realisation.html"
+            class="com.archimatetool.model.IRealizationRelationship"
+            file="hints/realization.html"
             title="%hint.title.35">
       </hint>
       <hint
-            class="com.archimatetool.model.IUsedByRelationship"
-            file="hints/used_by.html"
+            class="com.archimatetool.model.IServingRelationship"
+            file="hints/serving.html"
             title="%hint.title.36">
       </hint>
       <hint
@@ -337,19 +332,14 @@
             title="%hint.title.40">
       </hint>
       <hint
-            class="com.archimatetool.model.ISpecialisationRelationship"
-            file="hints/specialisation.html"
+            class="com.archimatetool.model.ISpecializationRelationship"
+            file="hints/specialization.html"
             title="%hint.title.41">
       </hint>
       <hint
             class="com.archimatetool.model.IInfluenceRelationship"
             file="hints/influence.html"
             title="%hint.title.42">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IJunction"
-            file="hints/junction.html"
-            title="%hint.title.43">
       </hint>
       <hint
             class="com.archimatetool.model.IAndJunction"
@@ -473,139 +463,6 @@
             class="com.archimatetool.model.IDiagramModelImage"
             file="hints/diagram_image.html"
             title="%hint.title.67">
-      </hint>
-   </extension>
-   <extension
-         point="com.archimatetool.help.hints">
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ActorCooperationViewpoint"
-            file="hints/viewpoint_actorcooperation.html"
-            title="%hint.title.68">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ApplicationBehaviourViewpoint"
-            file="hints/viewpoint_applicationbehaviour.html"
-            title="%hint.title.69">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ApplicationCooperationViewpoint"
-            file="hints/viewpoint_applicationcooperation.html"
-            title="%hint.title.70">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ApplicationStructureViewpoint"
-            file="hints/viewpoint_applicationstructure.html"
-            title="%hint.title.71">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ApplicationUsageViewpoint"
-            file="hints/viewpoint_applicationusage.html"
-            title="%hint.title.72">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.BusinessFunctionViewpoint"
-            file="hints/viewpoint_businessfunction.html"
-            title="%hint.title.73">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.BusinessProcessViewpoint"
-            file="hints/viewpoint_businessprocess.html"
-            title="%hint.title.74">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.BusinessProcessCooperationViewpoint"
-            file="hints/viewpoint_businessprocesscoop.html"
-            title="%hint.title.75">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.BusinessProductViewpoint"
-            file="hints/viewpoint_businessproduct.html"
-            title="%hint.title.76">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.GoalContributionViewpoint"
-            file="hints/viewpoint_goalcontribution.html"
-            title="%hint.title.77">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.GoalRealisationViewpoint"
-            file="hints/viewpoint_goalrealisation.html"
-            title="%hint.title.78">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ImplementationAndDeploymentViewpoint"
-            file="hints/viewpoint_impldeploy.html"
-            title="%hint.title.79">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ImplementationMigrationViewpoint"
-            file="hints/viewpoint_implmigration.html"
-            title="%hint.title.80">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.InformationStructureViewpoint"
-            file="hints/viewpoint_infostructure.html"
-            title="%hint.title.81">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.InfrastructureViewpoint"
-            file="hints/viewpoint_infra.html"
-            title="%hint.title.82">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.InfrastructureUsageViewpoint"
-            file="hints/viewpoint_infrausage.html"
-            title="%hint.title.83">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.LayeredViewpoint"
-            file="hints/viewpoint_layered.html"
-            title="%hint.title.84">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.MigrationViewpoint"
-            file="hints/viewpoint_migration.html"
-            title="%hint.title.85">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.MotivationViewpoint"
-            file="hints/viewpoint_motivation.html"
-            title="%hint.title.86">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.OrganisationViewpoint"
-            file="hints/viewpoint_organisation.html"
-            title="%hint.title.87">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.PrinciplesViewpoint"
-            file="hints/viewpoint_principles.html"
-            title="%hint.title.88">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ProjectViewpoint"
-            file="hints/viewpoint_project.html"
-            title="%hint.title.89">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.RequirementsRealisationViewpoint"
-            file="hints/viewpoint_requirementsrealisation.html"
-            title="%hint.title.90">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.ServiceRealisationViewpoint"
-            file="hints/viewpoint_servicereal.html"
-            title="%hint.title.91">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.StakeholderViewpoint"
-            file="hints/viewpoint_stakeholder.html"
-            title="%hint.title.92">
-      </hint>
-      <hint
-            class="com.archimatetool.editor.model.viewpoints.TotalViewpoint"
-            file="hints/viewpoint_total.html"
-            title="%hint.title.93">
       </hint>
    </extension>
 

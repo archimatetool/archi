@@ -225,6 +225,26 @@ public class Bounds extends EObjectImpl implements IBounds {
      * <!-- end-user-doc -->
      * @generated NOT
      */
+    public void setLocation(int x, int y) {
+        setX(x);
+        setY(y);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
+    public void setSize(int width, int height) {
+        setWidth(width);
+        setHeight(height);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated NOT
+     */
     public IBounds getCopy() {
         return EcoreUtil.copy(this);
     }

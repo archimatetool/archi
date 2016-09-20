@@ -8,7 +8,7 @@ package com.archimatetool.editor.views.tree.actions;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
+import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 
 
@@ -24,7 +24,7 @@ public class DuplicateAction extends ViewerAction {
         super(selectionProvider);
         setText(Messages.DuplicateAction_0);
         
-        setActionDefinitionId(ArchimateEditorActionFactory.DUPLICATE.getCommandId()); // Ensures key binding is displayed
+        setActionDefinitionId(ArchiActionFactory.DUPLICATE.getCommandId()); // Ensures key binding is displayed
         setEnabled(false);
     }
     

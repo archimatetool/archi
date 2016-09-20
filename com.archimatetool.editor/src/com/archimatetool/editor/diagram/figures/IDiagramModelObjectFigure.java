@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -24,7 +25,12 @@ import com.archimatetool.model.IDiagramModelObject;
 public interface IDiagramModelObjectFigure extends IFigure {
     
     /**
-     * @return The DiagramModelObject
+     * Set the Diagram ModelObject
+     */
+    void setDiagramModelObject(IDiagramModelObject diagramModelObject);
+    
+    /**
+     * @return The Diagram ModelObject
      */
     IDiagramModelObject getDiagramModelObject();
     
@@ -63,4 +69,9 @@ public interface IDiagramModelObjectFigure extends IFigure {
      * @return The Line Color if any
      */
     Color getLineColor();
+
+    /**
+     * @return The default Connection Anchor to use for this figure
+     */
+    ConnectionAnchor getDefaultConnectionAnchor();
 }

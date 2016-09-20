@@ -10,7 +10,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.views.tree.commands.NewFolderCommand;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
@@ -28,7 +28,7 @@ public class NewFolderAction extends ViewerAction {
     public NewFolderAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
         setText(Messages.NewFolderAction_0);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_FOLDER));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_FOLDER));
     }
     
     @Override

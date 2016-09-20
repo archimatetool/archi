@@ -29,7 +29,6 @@ import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManage
 import com.archimatetool.editor.diagram.editparts.AbstractConnectedEditPart;
 import com.archimatetool.editor.diagram.editparts.SnapEditPartAdapter;
 import com.archimatetool.editor.diagram.figures.IContainerFigure;
-import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
 import com.archimatetool.editor.diagram.policies.ContainerHighlightEditPolicy;
 import com.archimatetool.editor.diagram.policies.PartComponentEditPolicy;
@@ -123,7 +122,7 @@ public class CanvasBlockEditPart extends AbstractConnectedEditPart {
     @Override
     protected void refreshFigure() {
         // Refresh the figure if necessary
-        ((IDiagramModelObjectFigure)getFigure()).refreshVisuals();
+        getFigure().refreshVisuals();
     }
 
     @SuppressWarnings("rawtypes")

@@ -11,9 +11,8 @@ import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IAccessRelationship;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
 
 
 /**
@@ -40,20 +39,28 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     private RotatableDecoration fDecoratorSource = createFigureSourceDecoration();
     private RotatableDecoration fDecoratorTarget = createFigureTargetDecoration();
     
-    public AccessConnectionFigure(IDiagramModelArchimateConnection connection) {
-	    super(connection);
-	}
-	
+    public AccessConnectionFigure() {
+    }
+    
     @Override
     protected void setFigureProperties() {
         setLineStyle(SWT.LINE_CUSTOM); // We have to explitly set this otherwise dashes/dots don't show
-        setLineDash(new float[] { 1.5f, 3 });
+        setLineDash(getLineDashes(1.0));
+    }
+    
+    @Override
+    public void handleZoomChanged(double newZoomValue) {
+        setLineDash(getLineDashes(newZoomValue));
+    }
+    
+    private float[] getLineDashes(double zoomLevel) {
+        return new float[] { (float)(2 * zoomLevel) }; 
     }
     
     @Override
     public void refreshVisuals() {
         // Access type
-        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getRelationship();
+        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:
             default:
@@ -91,8 +98,8 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         
         // Show access type in tooltip
         
-        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getRelationship();
-        String type = ArchimateLabelProvider.INSTANCE.getDefaultName(relation.eClass());
+        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
+        String type = ArchiLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:

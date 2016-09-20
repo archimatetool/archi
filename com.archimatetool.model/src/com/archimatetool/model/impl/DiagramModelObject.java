@@ -5,23 +5,16 @@
  */
 package com.archimatetool.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBounds;
-import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
 import com.archimatetool.model.ILineObject;
@@ -42,14 +35,12 @@ import com.archimatetool.model.ITextAlignment;
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTextAlignment <em>Text Alignment</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getBounds <em>Bounds</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getSourceConnections <em>Source Connections</em>}</li>
- *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelObject#getFillColor <em>Fill Color</em>}</li>
  * </ul>
  *
  * @generated
  */
-public abstract class DiagramModelObject extends DiagramModelComponent implements IDiagramModelObject {
+public abstract class DiagramModelObject extends Connectable implements IDiagramModelObject {
     /**
      * The default value of the '{@link #getFont() <em>Font</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -161,26 +152,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
     protected IBounds bounds;
 
     /**
-     * The cached value of the '{@link #getSourceConnections() <em>Source Connections</em>}' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getSourceConnections()
-     * @generated
-     * @ordered
-     */
-    protected EList<IDiagramModelConnection> sourceConnections;
-
-    /**
-     * The cached value of the '{@link #getTargetConnections() <em>Target Connections</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTargetConnections()
-     * @generated
-     * @ordered
-     */
-    protected EList<IDiagramModelConnection> targetConnections;
-
-    /**
      * The default value of the '{@link #getFillColor() <em>Fill Color</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -270,30 +241,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS, newBounds, newBounds));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList<IDiagramModelConnection> getSourceConnections() {
-        if (sourceConnections == null) {
-            sourceConnections = new EObjectContainmentEList<IDiagramModelConnection>(IDiagramModelConnection.class, this, IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS);
-        }
-        return sourceConnections;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList<IDiagramModelConnection> getTargetConnections() {
-        if (targetConnections == null) {
-            targetConnections = new EObjectEList<IDiagramModelConnection>(IDiagramModelConnection.class, this, IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS);
-        }
-        return targetConnections;
     }
 
     /**
@@ -431,45 +378,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public void addConnection(IDiagramModelConnection connection) {
-        if(connection == null) {
-            throw new IllegalArgumentException("Connection was null"); //$NON-NLS-1$
-        }
-        
-        // This used to be "if/else if". This way it is possible for source == target (recursive)
-        if(connection.getSource() == this) {
-            getSourceConnections().add(connection);
-        }
-        
-        if(connection.getTarget() == this) {
-            getTargetConnections().add(connection);
-        }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public void removeConnection(IDiagramModelConnection connection) {
-        if(connection == null) {
-            throw new IllegalArgumentException();
-        }
-        
-        if(connection.getSource() == this) {
-            getSourceConnections().remove(connection);
-        } 
-        
-        if(connection.getTarget() == this) {
-            getTargetConnections().remove(connection);
-        }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
     public int getDefaultTextAlignment() {
         return TEXT_ALIGNMENT_CENTER;
     }
@@ -494,8 +402,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return basicSetBounds(null, msgs);
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
-                return ((InternalEList<?>)getSourceConnections()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -520,10 +426,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return getTextAlignment();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return getBounds();
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
-                return getSourceConnections();
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS:
-                return getTargetConnections();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 return getFillColor();
         }
@@ -535,7 +437,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
      * <!-- end-user-doc -->
      * @generated
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
@@ -556,14 +457,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
-                getSourceConnections().clear();
-                getSourceConnections().addAll((Collection<? extends IDiagramModelConnection>)newValue);
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS:
-                getTargetConnections().clear();
-                getTargetConnections().addAll((Collection<? extends IDiagramModelConnection>)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 setFillColor((String)newValue);
@@ -598,12 +491,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 setBounds((IBounds)null);
                 return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
-                getSourceConnections().clear();
-                return;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS:
-                getTargetConnections().clear();
-                return;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 setFillColor(FILL_COLOR_EDEFAULT);
                 return;
@@ -631,10 +518,6 @@ public abstract class DiagramModelObject extends DiagramModelComponent implement
                 return textAlignment != TEXT_ALIGNMENT_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS:
                 return bounds != null;
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS:
-                return sourceConnections != null && !sourceConnections.isEmpty();
-            case IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS:
-                return targetConnections != null && !targetConnections.isEmpty();
             case IArchimatePackage.DIAGRAM_MODEL_OBJECT__FILL_COLOR:
                 return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
         }

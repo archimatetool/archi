@@ -18,7 +18,7 @@ import com.archimatetool.model.IArchimatePackage;
  *
  * @generated
  */
-public class AggregationRelationship extends Relationship implements IAggregationRelationship {
+public class AggregationRelationship extends ArchimateRelationship implements IAggregationRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

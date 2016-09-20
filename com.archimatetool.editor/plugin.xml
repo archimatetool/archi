@@ -3,7 +3,7 @@
 <plugin>
    <extension-point id="exportHandler" name="Export Handler" schema="schema/exportHandler.exsd"/>
    <extension-point id="importHandler" name="Import Handler" schema="schema/importHandler.exsd"/>
-   <extension-point id="elementUIProvider" name="Element UI Provider" schema="schema/elementUIProvider.exsd"/>
+   <extension-point id="objectUIProvider" name="Object UI Provider" schema="schema/objectUIProvider.exsd"/>
    <extension-point id="diagramEditorFactory" name="Diagram Editor Factory" schema="schema/diagramEditorFactory.exsd"/>
    <extension-point id="compatibilityHandler" name="Model Compatibility Handler" schema="schema/compatibilityHandler.exsd"/>
    <extension-point id="imageExportProvider" name="Image Export Provider" schema="schema/imageExportProvider.exsd"/>
@@ -114,7 +114,7 @@
             class="com.archimatetool.editor.diagram.ArchimateDiagramEditor"
             contributorClass="com.archimatetool.editor.diagram.ArchimateDiagramEditorActionBarContributor"
             default="false"
-            icon="img/diagram-16.png"
+            icon="img/diagram.png"
             id="com.archimatetool.editor.diagramEditor"
             name="%editorDiagram">
       </editor>
@@ -122,7 +122,7 @@
             class="com.archimatetool.editor.diagram.sketch.SketchEditor"
             contributorClass="com.archimatetool.editor.diagram.sketch.SketchEditorActionBarContributor"
             default="false"
-            icon="img/sketch-16.png"
+            icon="img/sketch.png"
             id="com.archimatetool.editor.sketchEditor"
             name="%editorSketch">
       </editor>
@@ -145,7 +145,7 @@
       </view>
       <view
             class="com.archimatetool.editor.views.navigator.NavigatorView"
-            icon="img/navigator-16.png"
+            icon="img/navigator.png"
             id="com.archimatetool.editor.navigatorView"
             name="%viewNavigator"
             restorable="true">
@@ -209,8 +209,8 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.ArchimateComponentSection"
-               filter="com.archimatetool.editor.propertysections.ArchimateComponentSection$Filter"
+               class="com.archimatetool.editor.propertysections.ArchimateConceptSection"
+               filter="com.archimatetool.editor.propertysections.ArchimateConceptSection$Filter"
                id="archimateElementSection"
                tab="main.tab">
          </propertySection>
@@ -221,9 +221,9 @@
                tab="main.tab">
          </propertySection>
          <propertySection
-               class="com.archimatetool.editor.propertysections.InterfaceElementSection"
-               filter="com.archimatetool.editor.propertysections.InterfaceElementSection$Filter"
-               id="interfaceElementSection"
+               class="com.archimatetool.editor.propertysections.InfluenceRelationshipSection"
+               filter="com.archimatetool.editor.propertysections.InfluenceRelationshipSection$Filter"
+               id="influenceRelationshipSection"
                tab="main.tab">
          </propertySection>
          <propertySection
@@ -557,6 +557,11 @@
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+G">
       </key>
+      <key
+            commandId="com.archimatetool.action.defaultSize"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+/">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -616,7 +621,11 @@
       </command>
       <command
             id="com.archimatetool.action.generateView"
-            name="Generate View">
+            name="%command.name.12">
+      </command>
+      <command
+            id="com.archimatetool.action.defaultSize"
+            name="%command.name.13">
       </command>
    </extension>
    <extension
@@ -706,17 +715,6 @@
       </menuContribution>
    </extension>
    <extension
-         point="com.archimatetool.editor.compatibilityHandler">
-      <compatibilityHandler
-            class="com.archimatetool.editor.model.compatibility.handlers.FixConnectionTextNames"
-            id="com.archimatetool.editor.compatibility.connectionTextHandler">
-      </compatibilityHandler>
-      <compatibilityHandler
-            class="com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandler"
-            id="com.archimatetool.editor.compatibility.defaultSizes">
-      </compatibilityHandler>
-   </extension>
-   <extension
          point="com.archimatetool.editor.imageExportProvider">
       <imageExportProvider
             class="com.archimatetool.editor.diagram.ImageExportProvider"
@@ -766,207 +764,256 @@
       </config>
    </extension>
    <extension
-         point="com.archimatetool.editor.elementUIProvider">
+         name="ArchiMate Elements"
+         point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessActorUIProvider"
-            id="com.archimatetool.editor.uiProvider.businessActor">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessInterfaceUIProvider"
-            id="com.archimatetool.editor.BusinessInterfaceUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessActivityUIProvider"
-            id="com.archimatetool.editor.BusinessActivityUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessCollaborationUIProvider"
-            id="com.archimatetool.editor.BusinessCollaborationUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessContractUIProvider"
-            id="com.archimatetool.editor.BusinessContractUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessEventUIProvider"
-            id="com.archimatetool.editor.BusinessEventUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessFunctionUIProvider"
-            id="com.archimatetool.editor.BusinessFunctionUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessInteractionUIProvider"
-            id="com.archimatetool.editor.BusinessInteractionUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessMeaningUIProvider"
-            id="com.archimatetool.editor.BusinessMeaningUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessObjectUIProvider"
-            id="com.archimatetool.editor.BusinessObjectUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessProcessUIProvider"
-            id="com.archimatetool.editor.BusinessProcessUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessProductUIProvider"
-            id="com.archimatetool.editor.BusinessProductUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessRepresentationUIProvider"
-            id="com.archimatetool.editor.BusinessRepresentationUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessRoleUIProvider"
-            id="com.archimatetool.editor.BusinessRoleUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessServiceUIProvider"
-            id="com.archimatetool.editor.BusinessServiceUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessValueUIProvider"
-            id="com.archimatetool.editor.BusinessValueUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.business.BusinessLocationUIProvider"
-            id="com.archimatetool.editor.BusinessLocationUIProvider">
-      </uiProvider>
-   </extension>
-   <extension
-         point="com.archimatetool.editor.elementUIProvider">
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationCollaborationUIProvider"
-            id="com.archimatetool.editor.ApplicationCollaborationUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationComponentUIProvider"
-            id="com.archimatetool.editor.ApplicationComponentUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationFunctionUIProvider"
-            id="com.archimatetool.editor.ApplicationFunctionUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationInteractionUIProvider"
-            id="com.archimatetool.editor.ApplicationInteractionUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationInterfaceUIProvider"
-            id="com.archimatetool.editor.ApplicationInterfaceUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationDataObjectUIProvider"
-            id="com.archimatetool.editor.ApplicationDataObjectUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.application.ApplicationServiceUIProvider"
-            id="com.archimatetool.editor.ApplicationServiceUIProvider">
-      </uiProvider>
-   </extension>
-   <extension
-         point="com.archimatetool.editor.elementUIProvider">
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyArtifactUIProvider"
-            id="com.archimatetool.editor.TechnologyArtifactUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyCommunicationPathUIProvider"
-            id="com.archimatetool.editor.TechnologyCommunicationPathUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyNetworkUIProvider"
-            id="com.archimatetool.editor.TechnologyNetworkUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureInterfaceUIProvider"
-            id="com.archimatetool.editor.TechnologyInfrastructureInterfaceUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureServiceUIProvider"
-            id="com.archimatetool.editor.TechnologyInfrastructureServiceUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider"
-            id="com.archimatetool.editor.TechnologyNodeUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUIProvider"
-            id="com.archimatetool.editor.TechnologySystemSoftwareUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyDeviceUIProvider"
-            id="com.archimatetool.editor.TechnologyDeviceUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureFunctionUIProvider"
-            id="com.archimatetool.editor.TechnologyInfrastructureFunctionUIProvider">
-      </uiProvider>
-   </extension>
-   <extension
-         point="com.archimatetool.editor.elementUIProvider">
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.StakeholderUIProvider"
-            id="com.archimatetool.editor.StakeholderUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.DriverUIProvider"
-            id="com.archimatetool.editor.DriverUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.AssessmentUIProvider"
-            id="com.archimatetool.editor.AssessmentUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.GoalUIProvider"
-            id="com.archimatetool.editor.GoalUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.PrincipleUIProvider"
-            id="com.archimatetool.editor.PrincipleUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.RequirementUIProvider"
-            id="com.archimatetool.editor.RequirementUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.ConstraintUIProvider"
-            id="com.archimatetool.editor.ConstraintUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.WorkPackageUIProvider"
-            id="com.archimatetool.editor.WorkPackageUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.DeliverableUIProvider"
-            id="com.archimatetool.editor.DeliverableUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.PlateauUIProvider"
-            id="com.archimatetool.editor.PlateauUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.extensions.GapUIProvider"
-            id="com.archimatetool.editor.GapUIProvider">
-      </uiProvider>
-   </extension>
-   <extension
-         point="com.archimatetool.editor.elementUIProvider">
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.junctions.JunctionUIProvider"
-            id="com.archimatetool.editor.JunctionUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.junctions.AndJunctionUIProvider"
+            class="com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider"
             id="com.archimatetool.editor.AndJunctionUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.junctions.OrJunctionUIProvider"
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider"
+            id="com.archimatetool.editor.ApplicationCollaborationUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider"
+            id="com.archimatetool.editor.ApplicationComponentUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider"
+            id="com.archimatetool.editor.ApplicationEventUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationFunctionUIProvider"
+            id="com.archimatetool.editor.ApplicationFunctionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationInteractionUIProvider"
+            id="com.archimatetool.editor.ApplicationInteractionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationInterfaceUIProvider"
+            id="com.archimatetool.editor.ApplicationInterfaceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationProcessUIProvider"
+            id="com.archimatetool.editor.ApplicationProcessUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ApplicationServiceUIProvider"
+            id="com.archimatetool.editor.ApplicationServiceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ArtifactUIProvider"
+            id="com.archimatetool.editor.ArtifactUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.AssessmentUIProvider"
+            id="com.archimatetool.editor.AssessmentUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessActorUIProvider"
+            id="com.archimatetool.editor.BusinessActorUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessCollaborationUIProvider"
+            id="com.archimatetool.editor.BusinessCollaborationUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessEventUIProvider"
+            id="com.archimatetool.editor.BusinessEventUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessFunctionUIProvider"
+            id="com.archimatetool.editor.BusinessFunctionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessInteractionUIProvider"
+            id="com.archimatetool.editor.BusinessInteractionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessInterfaceUIProvider"
+            id="com.archimatetool.editor.BusinessInterfaceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessObjectUIProvider"
+            id="com.archimatetool.editor.BusinessObjectUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessProcessUIProvider"
+            id="com.archimatetool.editor.BusinessProcessUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessRoleUIProvider"
+            id="com.archimatetool.editor.BusinessRoleUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.BusinessServiceUIProvider"
+            id="com.archimatetool.editor.BusinessServiceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.CapabilityUIProvider"
+            id="com.archimatetool.editor.CapabilityUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.CommunicationNetworkUIProvider"
+            id="com.archimatetool.editor.CommunicationNetworkUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ConstraintUIProvider"
+            id="com.archimatetool.editor.ConstraintUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ContractUIProvider"
+            id="com.archimatetool.editor.ContractUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.CourseOfActionUIProvider"
+            id="com.archimatetool.editor.CourseOfActionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.DataObjectUIProvider"
+            id="com.archimatetool.editor.DataObjectUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.DeliverableUIProvider"
+            id="com.archimatetool.editor.DeliverableUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.DeviceUIProvider"
+            id="com.archimatetool.editor.DeviceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.DistributionNetworkUIProvider"
+            id="com.archimatetool.editor.DistributionNetworkUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.DriverUIProvider"
+            id="com.archimatetool.editor.DriverUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.EquipmentUIProvider"
+            id="com.archimatetool.editor.EquipmentUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.FacilityUIProvider"
+            id="com.archimatetool.editor.FacilityUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.GapUIProvider"
+            id="com.archimatetool.editor.GapUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.GoalUIProvider"
+            id="com.archimatetool.editor.GoalUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.GroupingUIProvider"
+            id="com.archimatetool.editor.GroupingUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider"
+            id="com.archimatetool.editor.ImplementationEventUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.LocationUIProvider"
+            id="com.archimatetool.editor.LocationUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.MaterialUIProvider"
+            id="com.archimatetool.editor.MaterialUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.MeaningUIProvider"
+            id="com.archimatetool.editor.MeaningUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.NodeUIProvider"
+            id="com.archimatetool.editor.NodeUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.OrJunctionUIProvider"
             id="com.archimatetool.editor.OrJunctionUIProvider">
       </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.OutcomeUIProvider"
+            id="com.archimatetool.editor.OutcomeUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.PathUIProvider"
+            id="com.archimatetool.editor.PathUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.PlateauUIProvider"
+            id="com.archimatetool.editor.PlateauUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.PrincipleUIProvider"
+            id="com.archimatetool.editor.PrincipleUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ProductUIProvider"
+            id="com.archimatetool.editor.ProductUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.RepresentationUIProvider"
+            id="com.archimatetool.editor.RepresentationUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.RequirementUIProvider"
+            id="com.archimatetool.editor.RequirementUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ResourceUIProvider"
+            id="com.archimatetool.editor.ResourceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.StakeholderUIProvider"
+            id="com.archimatetool.editor.StakeholderUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider"
+            id="com.archimatetool.editor.SystemSoftwareUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyCollaborationUIProvider"
+            id="com.archimatetool.editor.TechnologyCollaborationUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyEventUIProvider"
+            id="com.archimatetool.editor.TechnologyEventUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider"
+            id="com.archimatetool.editor.TechnologyFunctionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyInteractionUIProvider"
+            id="com.archimatetool.editor.TechnologyInteractionUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider"
+            id="com.archimatetool.editor.TechnologyInterfaceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyProcessUIProvider"
+            id="com.archimatetool.editor.TechnologyProcessUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider"
+            id="com.archimatetool.editor.TechnologyServiceUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.ValueUIProvider"
+            id="com.archimatetool.editor.ValueUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider"
+            id="com.archimatetool.editor.WorkPackageUIProvider">
+      </uiProvider>
+   </extension>
+   <extension
+         name="ArchiMate Relationships"
+         point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.relationships.AccessRelationshipUIProvider"
             id="com.archimatetool.editor.AccessRelationshipUIProvider">
@@ -992,28 +1039,29 @@
             id="com.archimatetool.editor.FlowRelationshipUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.RealisationRelationshipUIProvider"
-            id="com.archimatetool.editor.RealisationRelationshipUIProvider">
+            class="com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider"
+            id="com.archimatetool.editor.InfluenceRelationshipUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.SpecialisationRelationshipUIProvider"
-            id="com.archimatetool.editor.SpecialisationRelationshipUIProvider">
+            class="com.archimatetool.editor.ui.factory.relationships.RealizationRelationshipUIProvider"
+            id="com.archimatetool.editor.RealizationRelationshipUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.relationships.ServingRelationshipUIProvider"
+            id="com.archimatetool.editor.ServingRelationshipUIProvider">
+      </uiProvider>
+      <uiProvider
+            class="com.archimatetool.editor.ui.factory.relationships.SpecializationRelationshipUIProvider"
+            id="com.archimatetool.editor.SpecializationRelationshipUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.relationships.TriggeringRelationshipUIProvider"
             id="com.archimatetool.editor.TriggeringRelationshipUIProvider">
       </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.UsedByRelationshipUIProvider"
-            id="com.archimatetool.editor.UsedByRelationshipUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.relationships.InfluenceRelationshipUIProvider"
-            id="com.archimatetool.editor.InfluenceRelationshipUIProvider">
-      </uiProvider>
    </extension>
    <extension
-         point="com.archimatetool.editor.elementUIProvider">
+         name="Other"
+         point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.model.ArchimateModelUIProvider"
             id="com.archimatetool.editor.ArchimateModelUIProvider">
@@ -1043,12 +1091,13 @@
             id="com.archimatetool.editor.DiagramImageUIProvider">
       </uiProvider>
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.diagram.LineConnectionUIProvider"
+            class="com.archimatetool.editor.ui.factory.diagram.DiagramConnectionUIProvider"
             id="com.archimatetool.editor.LineConnectionUIProvider">
       </uiProvider>
    </extension>
    <extension
-         point="com.archimatetool.editor.elementUIProvider">
+         name="Sketch"
+         point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
             class="com.archimatetool.editor.ui.factory.sketch.SketchModelUIProvider"
             id="com.archimatetool.editor.SketchModelUIProvider">

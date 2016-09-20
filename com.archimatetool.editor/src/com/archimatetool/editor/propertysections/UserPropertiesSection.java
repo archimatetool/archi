@@ -83,7 +83,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.EObjectNonNotifyingCompoundCommand;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
@@ -91,7 +91,7 @@ import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IProperties;
@@ -195,8 +195,8 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
      * @return 
      */
     protected IArchimateModel getArchimateModel() {
-        if(fPropertiesElement instanceof IArchimateModelElement) {
-            return ((IArchimateModelElement)fPropertiesElement).getArchimateModel();
+        if(fPropertiesElement instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)fPropertiesElement).getArchimateModel();
         }
         if(fPropertiesElement instanceof IDiagramModelComponent) {
             return ((IDiagramModelComponent)fPropertiesElement).getDiagramModel().getArchimateModel();
@@ -293,7 +293,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PLUS);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PLUS);
             }
         };
 
@@ -316,7 +316,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_MUTIPLE);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_MUTIPLE);
             }
         };
 
@@ -346,7 +346,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SMALL_X);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SMALL_X);
             }
         };
         fActionRemoveProperty.setEnabled(false);
@@ -369,7 +369,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_COG);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COG);
             }
         };
 
@@ -1022,7 +1022,7 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
         public MultipleAddDialog(Shell parentShell) {
             super(parentShell, "ArchimatePropertiesMultipleAddDialog"); //$NON-NLS-1$
-            setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
+            setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_IMPORT_PREF_WIZARD));
             setShellStyle(getShellStyle() | SWT.RESIZE);
 
             keys = getAllUniquePropertyKeysForModel();

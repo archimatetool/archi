@@ -46,24 +46,18 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.services.ComponentSelectionManager;
 import com.archimatetool.editor.ui.services.IComponentSelectionListener;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.help.ArchimateEditorHelpPlugin;
-import com.archimatetool.model.IApplicationLayerElement;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.help.ArchiHelpPlugin;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
-import com.archimatetool.model.IBusinessLayerElement;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelObject;
-import com.archimatetool.model.ITechnologyLayerElement;
 
 
 
@@ -76,7 +70,7 @@ public class HintsView
 extends ViewPart
 implements IContextProvider, IHintsView, ISelectionListener, IComponentSelectionListener {
     
-    static File cssFile = new File(ArchimateEditorHelpPlugin.INSTANCE.getHintsFolder(), "style.css"); //$NON-NLS-1$
+    static File cssFile = new File(ArchiHelpPlugin.INSTANCE.getHintsFolder(), "style.css"); //$NON-NLS-1$
 
     private Browser fBrowser;
     
@@ -94,7 +88,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         PinAction() {
             super(Messages.HintsView_0, IAction.AS_CHECK_BOX);
             setToolTipText(Messages.HintsView_1);
-            setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_PIN_16));
+            setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_PIN));
         }
     }
     
@@ -254,7 +248,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         else if(selected instanceof IAdaptable) {
             object = ((IAdaptable)selected).getAdapter(IHelpHintProvider.class); // This first
             if(object == null) {
-                object = ((IAdaptable)selected).getAdapter(IArchimateComponent.class);
+                object = ((IAdaptable)selected).getAdapter(IArchimateConcept.class);
             }
             if(object == null) {
                 object = ((IAdaptable)selected).getAdapter(IDiagramModelObject.class);
@@ -286,10 +280,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
         }
 
-        // Convert Archimate Diagram Model object to Viewpoint object
+        // TODO: A3 Convert Archimate Diagram Model object to Viewpoint object
         if(object instanceof IArchimateDiagramModel) {
-            int index = ((IArchimateDiagramModel)object).getViewpoint();
-            object = ViewpointsManager.INSTANCE.getViewpoint(index);
+            
         }
         
         Hint hint = getHintFromObject(object);
@@ -418,32 +411,6 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     }
     
     private Color getTitleColor(Object object) {
-        Class<?> clazz;
-        
-        if(object instanceof IDiagramModelArchimateObject) {
-            object = ((IDiagramModelArchimateObject)object).getArchimateElement();
-        }
-        else if(object instanceof IDiagramModelArchimateConnection) {
-            object = ((IDiagramModelArchimateConnection)object).getRelationship();
-        }
-        
-        if(object instanceof Class<?>) {
-            clazz = (Class<?>)object;
-        }
-        else {
-            clazz = object.getClass();
-        }
-        
-        if(IBusinessLayerElement.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_BUSINESS;
-        }
-        if(IApplicationLayerElement.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_APPLICATION;
-        }
-        if(ITechnologyLayerElement.class.isAssignableFrom(clazz)) {
-            return ColorFactory.COLOR_TECHNOLOGY;
-        }
-        
         return ColorFactory.get(220, 235, 235);
     }
 

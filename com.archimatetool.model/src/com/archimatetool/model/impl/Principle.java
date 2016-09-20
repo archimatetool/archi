@@ -18,7 +18,7 @@ import com.archimatetool.model.IPrinciple;
  *
  * @generated
  */
-public class Principle extends MotivationElement implements IPrinciple {
+public class Principle extends ArchimateElement implements IPrinciple {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

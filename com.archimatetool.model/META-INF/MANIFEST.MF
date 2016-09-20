@@ -8,7 +8,8 @@ Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.model,
  com.archimatetool.model.impl,
- com.archimatetool.model.util
+ com.archimatetool.model.util,
+ com.archimatetool.model.viewpoints
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,

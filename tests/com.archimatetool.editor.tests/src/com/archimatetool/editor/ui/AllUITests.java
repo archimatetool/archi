@@ -16,9 +16,9 @@ public class AllUITests {
         TestSuite suite = new TestSuite("com.archimatetool.editor.ui");
 
         // ui
-        suite.addTest(ArchimateLabelProviderTests.suite());
+        suite.addTest(ArchiLabelProviderTests.suite());
         suite.addTest(ColorFactoryTests.suite());
-        suite.addTest(FigureChooserTests.suite());
+        suite.addTest(FigureImagePreviewFactoryTests.suite());
         
         // factory
         suite.addTest(AllUIFactoryTests.suite());

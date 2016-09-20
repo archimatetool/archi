@@ -10,7 +10,7 @@ import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.action.Action;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 
 
 /**
@@ -33,7 +33,7 @@ public class ZoomNormalAction extends Action implements ZoomListener, Disposable
         setText(TEXT);
         setId(ID);
         setActionDefinitionId(ID);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ZOOM_NORMAL));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ZOOM_NORMAL));
         
         this.zoomManager = zoomManager;
         zoomManager.addZoomListener(this);

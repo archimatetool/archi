@@ -13,9 +13,9 @@ import org.junit.Before;
 
 import com.archimatetool.canvas.editparts.CanvasDiagramPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProviderTests;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProviderTests;
 
-public class CanvasModelUIProviderTests extends AbstractElementUIProviderTests {
+public class CanvasModelUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(CanvasModelUIProviderTests.class);

@@ -10,7 +10,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.views.tree.commands.SortFolderCommand;
 import com.archimatetool.model.IFolder;
 
@@ -26,7 +26,7 @@ public class SortFolderAction extends ViewerAction {
     public SortFolderAction(ISelectionProvider selectionProvider) {
         super(selectionProvider);
         setText(Messages.SortFolderAction_0);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SORT_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SORT));
     }
     
     @Override

@@ -18,7 +18,7 @@ import com.archimatetool.model.IAssignmentRelationship;
  *
  * @generated
  */
-public class AssignmentRelationship extends Relationship implements IAssignmentRelationship {
+public class AssignmentRelationship extends ArchimateRelationship implements IAssignmentRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -18,7 +18,7 @@ import com.archimatetool.model.ITriggeringRelationship;
  *
  * @generated
  */
-public class TriggeringRelationship extends Relationship implements ITriggeringRelationship {
+public class TriggeringRelationship extends ArchimateRelationship implements ITriggeringRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

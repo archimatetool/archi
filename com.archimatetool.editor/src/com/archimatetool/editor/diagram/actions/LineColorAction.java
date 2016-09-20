@@ -19,8 +19,8 @@ import com.archimatetool.editor.diagram.commands.LineColorCommand;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILineObject;
@@ -125,8 +125,8 @@ public class LineColorAction extends SelectionAction {
         }
         
         if(model instanceof ILineObject) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ILineObject)model));
-            return provider != null && provider.shouldExposeFeature((ILineObject)model, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ILineObject)model));
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR);
         }
         
         return false;

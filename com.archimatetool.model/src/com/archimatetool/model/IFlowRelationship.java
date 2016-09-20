@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IFlowRelationship extends IRelationship {
+public interface IFlowRelationship extends IDynamicRelationship {
 } // IFlowRelationship

@@ -9,6 +9,7 @@ import junit.framework.TestSuite;
 
 import com.archimatetool.editor.diagram.actions.CopySnapshotTests;
 import com.archimatetool.editor.diagram.actions.SelectAllActionTests;
+import com.archimatetool.editor.diagram.commands.AllCommandsTests;
 import com.archimatetool.editor.diagram.editparts.AllEditPartsTests;
 import com.archimatetool.editor.diagram.figures.AllFiguresTests;
 import com.archimatetool.editor.diagram.policies.AllPoliciesTests;
@@ -33,6 +34,9 @@ public class AllDiagramTests {
         suite.addTest(CopySnapshotTests.suite());
         suite.addTest(SelectAllActionTests.suite());
         
+        // diagram.commands
+        suite.addTest(AllCommandsTests.suite());
+
         // diagram.editparts
         suite.addTest(AllEditPartsTests.suite());
         

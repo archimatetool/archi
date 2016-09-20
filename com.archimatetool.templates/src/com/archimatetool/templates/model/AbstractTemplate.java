@@ -20,7 +20,7 @@ import org.eclipse.swt.graphics.Image;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.utils.ZipUtils;
@@ -97,7 +97,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
         }
         
         if(fKeyThumbnailImage == null) {
-            return IArchimateImages.ImageFactory.getImage(IArchimateImages.DEFAULT_MODEL_THUMB);
+            return IArchiImages.ImageFactory.getImage(IArchiImages.DEFAULT_MODEL_THUMB);
         }
         else {
             return fKeyThumbnailImage;

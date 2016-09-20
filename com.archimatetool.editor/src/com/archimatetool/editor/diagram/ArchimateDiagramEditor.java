@@ -23,28 +23,23 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.actions.CreateDerivedRelationAction;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.FindReplaceAction;
 import com.archimatetool.editor.diagram.actions.GenerateViewAction;
-import com.archimatetool.editor.diagram.actions.ShowStructuralChainsAction;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
-import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -78,10 +73,6 @@ implements IArchimateDiagramEditor {
                 getPaletteRoot().setViewpoint(null);
             }
         }
-        // Hide Diagram Elements on Viewpoint
-        else if(IPreferenceConstants.VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS == event.getProperty()) {
-            getGraphicalViewer().setContents(getModel()); // refresh the model contents
-        }
         else {
             super.applicationPreferencesChanged(event);
         }
@@ -100,7 +91,7 @@ implements IArchimateDiagramEditor {
      */
     protected void setPaletteViewpoint() {
         if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
-            getPaletteRoot().setViewpoint(ViewpointsManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
+            getPaletteRoot().setViewpoint(ViewpointManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
         }
     }
     
@@ -174,26 +165,14 @@ implements IArchimateDiagramEditor {
     }
     
     @Override
-    public void selectArchimateComponents(IArchimateComponent[] archimateComponents) {
+    public void selectArchimateConcepts(IArchimateConcept[] archimateConcepts) {
         List<Object> objects = new ArrayList<Object>();
         
-        for(IArchimateComponent archimateComponent : archimateComponents) {
-            // Find Diagram Components
-            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(getModel(), archimateComponent)) {
+        for(IArchimateConcept archimateConcept : archimateConcepts) {
+            // Find Diagram Concepts
+            for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(getModel(), archimateConcept)) {
                 if(!objects.contains(dc)) {
                     objects.add(dc);
-                }
-            }
-            
-            // Find Components from nested connections
-            if(ConnectionPreferences.useNestedConnections() && archimateComponent instanceof IRelationship) {
-                for(IDiagramModelArchimateObject[] list : DiagramModelUtils.findNestedComponentsForRelationship(getModel(), (IRelationship)archimateComponent)) {
-                    if(!objects.contains(list[0])) {
-                        objects.add(list[0]);
-                    }
-                    if(!objects.contains(list[1])) {
-                        objects.add(list[1]);
-                    }
                 }
             }
         }
@@ -212,22 +191,13 @@ implements IArchimateDiagramEditor {
         ActionRegistry registry = getActionRegistry();
         IAction action;
 
-        // Show Structural Chains
-        action = new ShowStructuralChainsAction(this);
-        registry.registerAction(action);
-        
-        // Create Derived Relation
-        action = new CreateDerivedRelationAction(this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-        
         // Delete from Model
         action = new DeleteFromModelAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         
         // Viewpoints
-        for(IViewpoint viewPoint : ViewpointsManager.INSTANCE.getAllViewpoints()) {
+        for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             action = new ViewpointAction(this, viewPoint);
             registry.registerAction(action);
         }

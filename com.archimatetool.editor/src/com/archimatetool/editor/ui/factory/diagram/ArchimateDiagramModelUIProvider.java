@@ -12,9 +12,10 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
 import com.archimatetool.editor.diagram.figures.diagram.ArchimateDiagramModelGraphicsIcon;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.IGraphicsIcon;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
+import com.archimatetool.editor.ui.factory.IDiagramModelUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -24,7 +25,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class ArchimateDiagramModelUIProvider extends AbstractElementUIProvider {
+public class ArchimateDiagramModelUIProvider extends AbstractObjectUIProvider implements IDiagramModelUIProvider {
     
     private IGraphicsIcon graphicsIcon = new ArchimateDiagramModelGraphicsIcon();
 
@@ -44,12 +45,12 @@ public class ArchimateDiagramModelUIProvider extends AbstractElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DIAGRAM_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DIAGRAM);
     }
     
     @Override

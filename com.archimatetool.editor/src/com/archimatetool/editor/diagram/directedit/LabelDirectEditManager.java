@@ -8,7 +8,6 @@ package com.archimatetool.editor.diagram.directedit;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.jface.viewers.CellEditor;
@@ -37,10 +36,12 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
     
     private VerifyListener fVerifyListener;
     private IFigure fTextFigure;
+    private String fInitialText;
 
-    public LabelDirectEditManager(GraphicalEditPart source, IFigure textFigure) {
+    public LabelDirectEditManager(GraphicalEditPart source, IFigure textFigure, String text) {
         super(source, TextCellEditor.class, null);
         fTextFigure = textFigure;
+        fInitialText = text;
         setLocator(new TextCellEditorLocator());
     }
 
@@ -88,12 +89,7 @@ public class LabelDirectEditManager extends AbstractDirectEditManager {
         text.addVerifyListener(fVerifyListener);
 
         // set the initial value of the text
-        if(fTextFigure instanceof Label) {
-            getCellEditor().setValue(((Label)fTextFigure).getText());
-        }
-        else if(fTextFigure instanceof TextFlow) {
-            getCellEditor().setValue(((TextFlow)fTextFigure).getText());
-        }
+        getCellEditor().setValue(fInitialText);
 
         if(USE_ORIGINAL_FONT) {
             IFigure figure = (getEditPart()).getFigure();

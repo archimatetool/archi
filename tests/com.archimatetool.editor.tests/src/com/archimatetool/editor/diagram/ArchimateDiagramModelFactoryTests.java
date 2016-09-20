@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,6 +28,8 @@ import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.tests.TestUtils;
 
+import junit.framework.JUnit4TestAdapter;
+
 
 @SuppressWarnings("nls")
 public class ArchimateDiagramModelFactoryTests {
@@ -44,21 +45,22 @@ public class ArchimateDiagramModelFactoryTests {
     
     @Test
     public void testCreateDiagramModelArchimateObject() {
-        Preferences.STORE.setValue(IPreferenceConstants.BUSINESS_PROCESS_FIGURE, 1);
-        Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
-        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + "BusinessProcess", "#ededed");
-        
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessProcess();
-        IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         
+        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName(), 1);
+        Preferences.STORE.setValue(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR, true);
+        Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName(), "#ededed");
+        
+        IDiagramModelArchimateObject dmo = ArchimateDiagramModelFactory.createDiagramModelArchimateObject(element);
         assertNotNull(dmo);
         assertEquals(element, dmo.getArchimateElement());
+
         assertEquals(1, dmo.getType());
         assertEquals("#ededed", dmo.getFillColor());
         
-        Preferences.STORE.setToDefault(IPreferenceConstants.BUSINESS_PROCESS_FIGURE);
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FIGURE_PREFIX + element.eClass().getName());
         Preferences.STORE.setToDefault(IPreferenceConstants.SAVE_USER_DEFAULT_COLOR);
-        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + "BusinessProcess");
+        Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_FILL_COLOR_PREFIX + element.eClass().getName());
     }
 
     @Test
@@ -75,7 +77,7 @@ public class ArchimateDiagramModelFactoryTests {
         
         ICreationFactory factory = new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getAssignmentRelationship());
         IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)factory.getNewObject();
-        assertTrue(connection.getRelationship() instanceof IAssignmentRelationship);
+        assertTrue(connection.getArchimateRelationship() instanceof IAssignmentRelationship);
         assertEquals("#ababab", connection.getLineColor());
         assertEquals("", connection.getName());
         

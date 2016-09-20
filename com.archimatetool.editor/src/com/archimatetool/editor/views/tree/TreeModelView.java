@@ -45,13 +45,13 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.archimatetool.editor.actions.ArchimateEditorActionFactory;
+import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.actions.NewArchimateModelAction;
 import com.archimatetool.editor.actions.OpenModelAction;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.IUIRequestListener;
@@ -75,9 +75,9 @@ import com.archimatetool.editor.views.tree.actions.TreeModelViewActionFactory;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
@@ -207,7 +207,7 @@ implements ITreeModelView, IUIRequestListener {
     private void handleOpenAction() {
         for(Object selected : ((IStructuredSelection)getViewer().getSelection()).toArray()) {
             // Element or Relation - open Properties view
-            if(selected instanceof IArchimateComponent) {
+            if(selected instanceof IArchimateConcept) {
                 ViewManager.showViewPart(ViewManager.PROPERTIES_VIEW, false);
             }
             // Folder - open Properties view
@@ -317,7 +317,7 @@ implements ITreeModelView, IUIRequestListener {
             };
         };
         fActionToggleSearchField.setToolTipText(Messages.TreeModelView_0);
-        fActionToggleSearchField.setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_SEARCH_16));
+        fActionToggleSearchField.setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_SEARCH));
         
         fActionCollapseSelected = new Action(Messages.TreeModelView_3) {
             @Override
@@ -332,7 +332,7 @@ implements ITreeModelView, IUIRequestListener {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_COLLAPSEALL_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COLLAPSEALL);
             }
         };
         
@@ -349,7 +349,7 @@ implements ITreeModelView, IUIRequestListener {
             
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_EXPANDALL_16);
+                return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_EXPANDALL);
             }
         };
     }
@@ -361,14 +361,14 @@ implements ITreeModelView, IUIRequestListener {
         IActionBars actionBars = getViewSite().getActionBars();
         
         // Register our interest in the global menu actions
-        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.CLOSE_MODEL.getId(), fActionCloseModel);
-        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.OPEN_DIAGRAM.getId(), fActionOpenDiagram);
+        actionBars.setGlobalActionHandler(ArchiActionFactory.CLOSE_MODEL.getId(), fActionCloseModel);
+        actionBars.setGlobalActionHandler(ArchiActionFactory.OPEN_DIAGRAM.getId(), fActionOpenDiagram);
         actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), fActionDelete);
         actionBars.setGlobalActionHandler(ActionFactory.PROPERTIES.getId(), fActionProperties);
         actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), fActionRename);
-        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.DUPLICATE.getId(), fActionDuplicate);
+        actionBars.setGlobalActionHandler(ArchiActionFactory.DUPLICATE.getId(), fActionDuplicate);
         actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), fActionFindReplace);
-        actionBars.setGlobalActionHandler(ArchimateEditorActionFactory.GENERATE_VIEW.getId(), fActionGenerateView);
+        actionBars.setGlobalActionHandler(ArchiActionFactory.GENERATE_VIEW.getId(), fActionGenerateView);
     }
     
     /**
@@ -432,8 +432,11 @@ implements ITreeModelView, IUIRequestListener {
         
         // Create "New" Actions
         List<IAction> actions = TreeModelViewActionFactory.INSTANCE.getNewObjectActions(selected);
-        if(!actions.isEmpty()) {
-            for(IAction action : actions) {
+        for(IAction action : actions) {
+            if(action == null) {
+                newMenu.add(new Separator());
+            }
+            else {
                 newMenu.add(action);
             }
         }
@@ -533,8 +536,8 @@ implements ITreeModelView, IUIRequestListener {
     @Override
     protected IArchimateModel getActiveArchimateModel() {
         Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
-        if(selected instanceof IArchimateModelElement) {
-            return ((IArchimateModelElement)selected).getArchimateModel();
+        if(selected instanceof IArchimateModelObject) {
+            return ((IArchimateModelObject)selected).getArchimateModel();
         }
         return null;
     }

@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.zest.core.widgets.GraphNode;
 
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 
 
@@ -41,8 +41,8 @@ public class DrillDownManager implements ISelectionChangedListener {
     private ZestView fView;
     private ZestGraphViewer fGraphViewer;
     
-    private IArchimateComponent fHomeComponent;
-    private IArchimateComponent fCurrentComponent;
+    private IArchimateConcept fHomeConcept;
+    private IArchimateConcept fCurrentConcept;
     
     private HashMap<Object, NodePositions> fPositions = new HashMap<Object, NodePositions>();
 
@@ -53,17 +53,17 @@ public class DrillDownManager implements ISelectionChangedListener {
         makeActions();
     }
     
-    void setNewInput(IArchimateComponent component) {
-        if(component == fCurrentComponent) {
+    void setNewInput(IArchimateConcept concept) {
+        if(concept == fCurrentConcept) {
             return;
         }
         
         saveCurrentState();
         
-        fHomeComponent = component;
-        fCurrentComponent = component;
+        fHomeConcept = concept;
+        fCurrentConcept = concept;
         
-        setGraphViewerInput(component);
+        setGraphViewerInput(concept);
         
         fBackStack.clear();
         restoreLastState();
@@ -75,8 +75,8 @@ public class DrillDownManager implements ISelectionChangedListener {
         fGraphViewer.setInput(object);
     }
     
-    IArchimateComponent getCurrentComponent() {
-        return fCurrentComponent;
+    IArchimateConcept getCurrentConcept() {
+        return fCurrentConcept;
     }
     
     void reset() {
@@ -87,25 +87,25 @@ public class DrillDownManager implements ISelectionChangedListener {
     }
     
     void goHome() {
-        if(isDeletedObject(fHomeComponent)) {
+        if(isDeletedObject(fHomeConcept)) {
             reset();
         }
         else {
-            setNewInput(fHomeComponent);
+            setNewInput(fHomeConcept);
             fView.updateLabel();
         }
     }
     
     void goInto() {
         IStructuredSelection sel = (IStructuredSelection)fGraphViewer.getSelection();
-        IArchimateComponent component = (IArchimateComponent)sel.getFirstElement();
+        IArchimateConcept concept = (IArchimateConcept)sel.getFirstElement();
         
-        if(isValidObject(component)) {
+        if(isValidObject(concept)) {
             saveCurrentState();
 
-            fBackStack.push(fCurrentComponent);
-            fCurrentComponent = component;
-            setGraphViewerInput(component);
+            fBackStack.push(fCurrentConcept);
+            fCurrentConcept = concept;
+            setGraphViewerInput(concept);
             
             updateNavigationButtons();
             
@@ -119,15 +119,15 @@ public class DrillDownManager implements ISelectionChangedListener {
         if(!fBackStack.isEmpty()) {
             saveCurrentState();
             
-            IArchimateComponent component = (IArchimateComponent)fBackStack.pop();
+            IArchimateConcept concept = (IArchimateConcept)fBackStack.pop();
             
-            if(isDeletedObject(component)) {
+            if(isDeletedObject(concept)) {
                 reset();
                 return;
             }
             
-            fCurrentComponent = component;
-            setGraphViewerInput(component);
+            fCurrentConcept = concept;
+            setGraphViewerInput(concept);
             
             updateNavigationButtons();
             
@@ -150,24 +150,24 @@ public class DrillDownManager implements ISelectionChangedListener {
     }
 
     void saveCurrentState() {
-        if(fCurrentComponent == null) {
+        if(fCurrentConcept == null) {
             return;
         }
         
-        NodePositions pos = fPositions.get(fCurrentComponent);
+        NodePositions pos = fPositions.get(fCurrentConcept);
         if(pos == null) {
             pos = new NodePositions();
-            fPositions.put(fCurrentComponent, pos);
+            fPositions.put(fCurrentConcept, pos);
         }
         pos.saveNodePositions();
     }
     
     void restoreLastState() {
-        if(fCurrentComponent == null) {
+        if(fCurrentConcept == null) {
             return;
         }
         
-        NodePositions pos = fPositions.get(fCurrentComponent);
+        NodePositions pos = fPositions.get(fCurrentConcept);
         if(pos != null) {
             // Restore positions
             pos.restoreNodePositions();
@@ -192,7 +192,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchimateZestPlugin.PLUGIN_ID, "img/home_nav.gif"); //$NON-NLS-1$
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/home_nav.gif"); //$NON-NLS-1$
             }
         };
         
@@ -211,7 +211,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchimateZestPlugin.PLUGIN_ID, "img/backward.gif"); //$NON-NLS-1$
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/backward.gif"); //$NON-NLS-1$
             }
         };
         
@@ -230,7 +230,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchimateZestPlugin.PLUGIN_ID, "img/forward.gif"); //$NON-NLS-1$
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/forward.gif"); //$NON-NLS-1$
             }
         };
 
@@ -241,17 +241,17 @@ public class DrillDownManager implements ISelectionChangedListener {
         IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
         Object selected = selection.getFirstElement();
         
-        fActionHome.setEnabled(fHomeComponent != null && fHomeComponent != fCurrentComponent);
+        fActionHome.setEnabled(fHomeConcept != null && fHomeConcept != fCurrentConcept);
         fActionBack.setEnabled(!fBackStack.isEmpty());
         fActionGoInto.setEnabled(isValidObject(selected));
     }
     
     private boolean isValidObject(Object selected) {
-        return (selected != null) && (selected != fCurrentComponent) && (selected instanceof IArchimateElement);
+        return (selected != null) && (selected != fCurrentConcept) && (selected instanceof IArchimateElement);
     }
     
-    private boolean isDeletedObject(IArchimateComponent component) {
-        return component != null && component.eContainer() == null;
+    private boolean isDeletedObject(IArchimateConcept concept) {
+        return concept != null && concept.eContainer() == null;
     }
 
     @Override

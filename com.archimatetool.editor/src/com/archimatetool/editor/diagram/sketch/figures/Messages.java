@@ -12,8 +12,6 @@ public class Messages extends NLS {
     private static final String BUNDLE_NAME = "com.archimatetool.editor.diagram.sketch.figures.messages"; //$NON-NLS-1$
 
     public static String SketchActorFigure_0;
-
-    public static String StickyFigure_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

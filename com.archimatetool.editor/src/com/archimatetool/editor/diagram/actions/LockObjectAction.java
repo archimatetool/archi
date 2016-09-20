@@ -14,7 +14,7 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LockObjectCommand;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.ILockable;
 
 
@@ -32,7 +32,7 @@ public class LockObjectAction extends SelectionAction {
         setText(Messages.LockObjectAction_0);
         setId(ID);
         setToolTipText(Messages.LockObjectAction_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LOCK_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK));
     }
 
     @Override
@@ -61,8 +61,8 @@ public class LockObjectAction extends SelectionAction {
     private void updateText() {
         boolean lock = isToLock();
         setText(lock ? Messages.LockObjectAction_0 : Messages.LockObjectAction_2);
-        setImageDescriptor(lock ? IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_LOCK_16) :
-            IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_UNLOCK_16));
+        setImageDescriptor(lock ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK) :
+            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_UNLOCK));
     }
 
     @Override

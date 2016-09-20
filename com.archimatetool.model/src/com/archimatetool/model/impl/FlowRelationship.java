@@ -18,7 +18,7 @@ import com.archimatetool.model.IFlowRelationship;
  *
  * @generated
  */
-public class FlowRelationship extends Relationship implements IFlowRelationship {
+public class FlowRelationship extends ArchimateRelationship implements IFlowRelationship {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

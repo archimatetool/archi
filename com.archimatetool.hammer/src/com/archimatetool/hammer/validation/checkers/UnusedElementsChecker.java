@@ -11,7 +11,7 @@ import java.util.List;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.WarningType;
@@ -42,8 +42,8 @@ public class UnusedElementsChecker extends AbstractChecker {
         List<IIssue> issues = new ArrayList<IIssue>();
         
         for(IArchimateElement element : archimateElements) {
-            if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams(element)) {
-                String name = ArchimateLabelProvider.INSTANCE.getLabel(element);
+            if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams(element)) {
+                String name = ArchiLabelProvider.INSTANCE.getLabel(element);
                 String description = NLS.bind(DESCRIPTION, name);
                 String explanation = NLS.bind(EXPLANATION, name);
                 

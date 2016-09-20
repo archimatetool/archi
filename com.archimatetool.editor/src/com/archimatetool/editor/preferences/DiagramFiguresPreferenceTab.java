@@ -6,30 +6,32 @@
 package com.archimatetool.editor.preferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TableItem;
 
-import com.archimatetool.editor.ui.FigureChooser;
-import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.editor.ui.FigureImagePreviewFactory;
+import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 
 
 /**
@@ -43,25 +45,25 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     
     private TableViewer fTableViewer;
     
+    private final int itemWidth = 180;
+    private final int itemHeight = 72;
+    
     private class ImageChoice {
         String name;
         String preferenceKey;
         int chosenType = 0;
-        Image[] images;
+        Image[] images = new Image[2];
         
-        ImageChoice(String name, String preferenceKey, EClass eClass) {
-            this.name = name;
-            this.preferenceKey = preferenceKey;
-            images = FigureChooser.getFigurePreviewImagesForClass(eClass);
+        ImageChoice(IObjectUIProvider provider) {
+            name = provider.getDefaultName();
+            this.preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
+            images[0] = FigureImagePreviewFactory.getFigurePreviewImageForClass(provider.providerFor());
+            images[1] = FigureImagePreviewFactory.getAlternateFigurePreviewImageForClass(provider.providerFor());
             chosenType = Preferences.STORE.getInt(preferenceKey);
         }
         
-        Image getImage() {
-            return images[chosenType];
-        }
-        
-        void flip() {
-            chosenType = (chosenType == 0) ? 1 : 0;
+        Image getImage(int index) {
+            return images[index];
         }
     }
     
@@ -98,41 +100,24 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
     }
     
     private void loadFigures() {
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_7,
-                BUSINESS_PROCESS_FIGURE, IArchimatePackage.eINSTANCE.getBusinessProcess()));
+        // Find Providers that have alternate figures
+        for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
+            if(provider instanceof IArchimateElementUIProvider && ((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
+                fChoices.add(new ImageChoice(provider));
+            }
+        }
         
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_1,
-                BUSINESS_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getBusinessInterface()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_0,
-                BUSINESS_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getBusinessService()));
-
-
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_2,
-                APPLICATION_COMPONENT_FIGURE, IArchimatePackage.eINSTANCE.getApplicationComponent()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_3,
-                APPLICATION_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getApplicationInterface()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_1,
-                APPLICATION_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getApplicationService()));
-
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_4,
-                TECHNOLOGY_DEVICE_FIGURE, IArchimatePackage.eINSTANCE.getDevice()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_5,
-                TECHNOLOGY_NODE_FIGURE, IArchimatePackage.eINSTANCE.getNode()));
-        
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferencePage_6,
-                TECHNOLOGY_INTERFACE_FIGURE, IArchimatePackage.eINSTANCE.getInfrastructureInterface()));
-
-        fChoices.add(new ImageChoice(Messages.DiagramFiguresPreferenceTab_2,
-                TECHNOLOGY_SERVICE_FIGURE, IArchimatePackage.eINSTANCE.getInfrastructureService()));
+        // Sort them by name
+        Collections.sort(fChoices, new Comparator<ImageChoice>() {
+            public int compare(ImageChoice o1, ImageChoice o2) {
+                return o1.name.compareTo(o2.name);
+            }
+        });
     }
     
     private void createTable(Composite parent) {
-        fTableViewer = new TableViewer(parent, SWT.BORDER);
+        fTableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+        
         
         TableColumnLayout layout = (TableColumnLayout)parent.getLayout();
         TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE);
@@ -142,10 +127,62 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
         // This is definitely needed on some Linux versions where the row height is stuck at 17 for some reason
         fTableViewer.getTable().addListener(SWT.MeasureItem, new Listener() {
             public void handleEvent(Event event) {
-                event.height = 72;
+                event.height = itemHeight;
              }
         });
         
+        fTableViewer.getTable().addListener(SWT.PaintItem, new Listener() {
+            public void handleEvent(Event event) {
+                TableItem item = (TableItem)event.item;
+                int row = fTableViewer.getTable().indexOf(item);
+                
+                ImageChoice ic = fChoices.get(row);
+                
+                Image image1 = ic.getImage(0);
+                int x = (itemWidth / 2) - (image1.getBounds().width / 2);
+                event.gc.setAlpha(ic.chosenType == 0 ? 255 : 70);
+                event.gc.drawImage(image1, event.x + x, event.y + (itemHeight - image1.getBounds().height) / 2);
+                
+                Image image2 = ic.getImage(1);
+                x = itemWidth + ((itemWidth / 2) - (image2.getBounds().width / 2));
+                event.gc.setAlpha(ic.chosenType == 1 ? 255 : 70);
+                event.gc.drawImage(image2, event.x + x, event.y + (itemHeight - image2.getBounds().height) / 2);
+                
+                // Highlight rectangle
+                //int highlight_x = ic.chosenType == 0 ? 20 : itemWidth + 20;
+                //event.gc.setForeground(ColorConstants.gray);
+                //event.gc.setLineWidth(2);
+                //event.gc.drawRectangle(event.x + highlight_x, event.y + 2, event.x + itemWidth - 39, itemHeight - 3);
+             }
+        });
+        
+        fTableViewer.getTable().addListener(SWT.EraseItem, new Listener() {   
+            @Override
+            public void handleEvent(Event event) {
+                // No selection highlighting
+                event.detail &= ~SWT.SELECTED;
+                event.detail &= ~SWT.HOT;
+            }
+        });
+        
+        fTableViewer.getTable().addListener(SWT.MouseDown, new Listener() {   
+            @Override
+            public void handleEvent(Event event) {
+                TableItem item = fTableViewer.getTable().getItem(new Point(event.x, event.y));
+                int row = fTableViewer.getTable().indexOf(item);
+                ImageChoice ic = fChoices.get(row);
+                
+                if(event.x < itemWidth) {
+                    ic.chosenType = 0;
+                }
+                else {
+                    ic.chosenType = 1;
+                }
+                
+                fTableViewer.refresh(ic);
+            }
+        });
+
         fTableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public void dispose() {
@@ -161,28 +198,10 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
             }
         });
         
-        class TableLabelProvider extends LabelProvider {
-            @Override
-            public Image getImage(Object element) {
-                return ((ImageChoice)element).getImage();
-            }
-
+        fTableViewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
-                return ((ImageChoice)element).name;
-            }
-        }
-        
-        fTableViewer.setLabelProvider(new TableLabelProvider());
-        
-        fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                ImageChoice ic = (ImageChoice)((IStructuredSelection)event.getSelection()).getFirstElement();
-                if(ic != null) {
-                    ic.flip();
-                    fTableViewer.update(ic, null);
-                }
+                return null;
             }
         });
     }
@@ -200,6 +219,6 @@ public class DiagramFiguresPreferenceTab implements IPreferenceConstants {
             choice.chosenType = 0;
         }
         
-        fTableViewer.refresh();
+        fTableViewer.getTable().redraw();
     }
 }

@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IBounds;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILockable;
@@ -33,15 +33,16 @@ import com.archimatetool.model.ILockable;
  */
 public class DefaultEditPartSizeAction extends SelectionAction {
 
-    public static final String ID = "DefaultEditPartSizeAction"; //$NON-NLS-1$
+    public static final String ID = "com.archimatetool.action.defaultSize"; //$NON-NLS-1$
     public static final String TEXT = Messages.DefaultEditPartSizeAction_0;
 
     public DefaultEditPartSizeAction(IWorkbenchPart part) {
         super(part);
         setText(TEXT);
         setId(ID);
+        setActionDefinitionId(ID);
         setToolTipText(Messages.DefaultEditPartSizeAction_1);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_DEFAULT_SIZE));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_DEFAULT_SIZE));
     }
 
     @Override

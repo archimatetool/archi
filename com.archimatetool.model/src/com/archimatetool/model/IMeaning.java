@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IMeaning extends IBusinessLayerElement {
+public interface IMeaning extends IMotivationElement {
 } // IMeaning

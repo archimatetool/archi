@@ -7,7 +7,7 @@ package com.archimatetool.editor.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 
 
 
@@ -18,7 +18,7 @@ import com.archimatetool.editor.ArchimateEditorPlugin;
  */
 public class Preferences implements IPreferenceConstants {
     
-    public static IPreferenceStore STORE = ArchimateEditorPlugin.INSTANCE.getPreferenceStore();
+    public static IPreferenceStore STORE = ArchiPlugin.INSTANCE.getPreferenceStore();
 
     public static String getUserDataFolder() {
         return STORE.getString(USER_DATA_FOLDER);

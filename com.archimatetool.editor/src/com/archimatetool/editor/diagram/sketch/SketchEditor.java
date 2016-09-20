@@ -27,7 +27,7 @@ import com.archimatetool.editor.diagram.actions.FindReplaceAction;
 import com.archimatetool.editor.diagram.sketch.dnd.SketchDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.ISketchModel;
 
@@ -132,12 +132,12 @@ implements ISketchEditor {
                 break;
 
             case 1:
-                Image img = IArchimateImages.ImageFactory.getImage(IArchimateImages.BROWN_PAPER_BACKGROUND);
+                Image img = IArchiImages.ImageFactory.getImage(IArchiImages.BROWN_PAPER_BACKGROUND);
                 fBackgroundImageLayer.setImage(img);
                 break;
                 
             case 2:
-                img = IArchimateImages.ImageFactory.getImage(IArchimateImages.CORK_BACKGROUND);
+                img = IArchiImages.ImageFactory.getImage(IArchiImages.CORK_BACKGROUND);
                 fBackgroundImageLayer.setImage(img);
                 break;
                 

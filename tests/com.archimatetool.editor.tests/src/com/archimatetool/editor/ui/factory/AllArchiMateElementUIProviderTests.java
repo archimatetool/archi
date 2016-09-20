@@ -7,82 +7,89 @@ package com.archimatetool.editor.ui.factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import junit.framework.JUnit4TestAdapter;
-
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.archimatetool.editor.diagram.editparts.AbstractArchimateEditPart;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.factory.application.AbstractApplicationUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationCollaborationUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationComponentUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationDataObjectUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationFunctionUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationInteractionUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationInterfaceUIProvider;
-import com.archimatetool.editor.ui.factory.application.ApplicationServiceUIProvider;
-import com.archimatetool.editor.ui.factory.business.AbstractBusinessUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessActorUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessCollaborationUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessContractUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessEventUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessFunctionUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessInteractionUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessInterfaceUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessLocationUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessMeaningUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessObjectUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessProcessUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessProductUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessRepresentationUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessRoleUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessServiceUIProvider;
-import com.archimatetool.editor.ui.factory.business.BusinessValueUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.AssessmentUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.ConstraintUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.DeliverableUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.DriverUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.GapUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.GoalUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.PlateauUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.PrincipleUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.RequirementUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.StakeholderUIProvider;
-import com.archimatetool.editor.ui.factory.extensions.WorkPackageUIProvider;
-import com.archimatetool.editor.ui.factory.junctions.AndJunctionUIProvider;
-import com.archimatetool.editor.ui.factory.junctions.JunctionUIProvider;
-import com.archimatetool.editor.ui.factory.junctions.OrJunctionUIProvider;
-import com.archimatetool.editor.ui.factory.technology.AbstractTechnologyUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyArtifactUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyCommunicationPathUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyDeviceUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureFunctionUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureInterfaceUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyInfrastructureServiceUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyNetworkUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologyNodeUIProvider;
-import com.archimatetool.editor.ui.factory.technology.TechnologySystemSoftwareUIProvider;
+import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationFunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationInteractionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationInterfaceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationProcessUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ApplicationServiceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ArtifactUIProvider;
+import com.archimatetool.editor.ui.factory.elements.AssessmentUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessActorUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessCollaborationUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessEventUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessFunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessInteractionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessInterfaceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessObjectUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessProcessUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessRoleUIProvider;
+import com.archimatetool.editor.ui.factory.elements.BusinessServiceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.CapabilityUIProvider;
+import com.archimatetool.editor.ui.factory.elements.CommunicationNetworkUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ConstraintUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ContractUIProvider;
+import com.archimatetool.editor.ui.factory.elements.CourseOfActionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.DataObjectUIProvider;
+import com.archimatetool.editor.ui.factory.elements.DeliverableUIProvider;
+import com.archimatetool.editor.ui.factory.elements.DeviceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.DistributionNetworkUIProvider;
+import com.archimatetool.editor.ui.factory.elements.DriverUIProvider;
+import com.archimatetool.editor.ui.factory.elements.EquipmentUIProvider;
+import com.archimatetool.editor.ui.factory.elements.FacilityUIProvider;
+import com.archimatetool.editor.ui.factory.elements.GapUIProvider;
+import com.archimatetool.editor.ui.factory.elements.GoalUIProvider;
+import com.archimatetool.editor.ui.factory.elements.GroupingUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ImplementationEventUIProvider;
+import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
+import com.archimatetool.editor.ui.factory.elements.MaterialUIProvider;
+import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;
+import com.archimatetool.editor.ui.factory.elements.NodeUIProvider;
+import com.archimatetool.editor.ui.factory.elements.OrJunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.PathUIProvider;
+import com.archimatetool.editor.ui.factory.elements.PlateauUIProvider;
+import com.archimatetool.editor.ui.factory.elements.PrincipleUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ProductUIProvider;
+import com.archimatetool.editor.ui.factory.elements.RepresentationUIProvider;
+import com.archimatetool.editor.ui.factory.elements.RequirementUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ResourceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.StakeholderUIProvider;
+import com.archimatetool.editor.ui.factory.elements.SystemSoftwareUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyCollaborationUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyEventUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyFunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyInteractionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyInterfaceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyProcessUIProvider;
+import com.archimatetool.editor.ui.factory.elements.TechnologyServiceUIProvider;
+import com.archimatetool.editor.ui.factory.elements.ValueUIProvider;
+import com.archimatetool.editor.ui.factory.elements.WorkPackageUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.tests.TestUtils;
 
+import junit.framework.JUnit4TestAdapter;
+
 @RunWith(Parameterized.class)
-public class AllArchiMateElementUIProviderTests extends AbstractElementUIProviderTests {
+public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(AllArchiMateElementUIProviderTests.class);
@@ -96,117 +103,144 @@ public class AllArchiMateElementUIProviderTests extends AbstractElementUIProvide
     @Parameters
     public static Collection<Object[]> eObjects() {
         return Arrays.asList(new Object[][] {
-                { new BusinessActorUIProvider(), IArchimatePackage.eINSTANCE.getBusinessActor() },
-                { new BusinessInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInterface() },
-                { new BusinessCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getBusinessCollaboration() },
-                { new BusinessContractUIProvider(), IArchimatePackage.eINSTANCE.getContract() },
-                { new BusinessEventUIProvider(), IArchimatePackage.eINSTANCE.getBusinessEvent() },
-                { new BusinessFunctionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessFunction() },
-                { new BusinessInteractionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInteraction() },
-                { new BusinessMeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
-                { new BusinessObjectUIProvider(), IArchimatePackage.eINSTANCE.getBusinessObject() },
-                { new BusinessProcessUIProvider(), IArchimatePackage.eINSTANCE.getBusinessProcess() },
-                { new BusinessProductUIProvider(), IArchimatePackage.eINSTANCE.getProduct() },
-                { new BusinessRepresentationUIProvider(), IArchimatePackage.eINSTANCE.getRepresentation() },
-                { new BusinessRoleUIProvider(), IArchimatePackage.eINSTANCE.getBusinessRole() },
-                { new BusinessServiceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessService() },
-                { new BusinessValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
-                { new BusinessLocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation() },
                 
+                { new AndJunctionUIProvider(), IArchimatePackage.eINSTANCE.getAndJunction() },
                 { new ApplicationCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getApplicationCollaboration() },
                 { new ApplicationComponentUIProvider(), IArchimatePackage.eINSTANCE.getApplicationComponent() },
+                { new ApplicationEventUIProvider(), IArchimatePackage.eINSTANCE.getApplicationEvent() },
                 { new ApplicationFunctionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationFunction() },
                 { new ApplicationInteractionUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInteraction() },
                 { new ApplicationInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationInterface() },
-                { new ApplicationDataObjectUIProvider(), IArchimatePackage.eINSTANCE.getDataObject() },
+                { new ApplicationProcessUIProvider(), IArchimatePackage.eINSTANCE.getApplicationProcess() },
                 { new ApplicationServiceUIProvider(), IArchimatePackage.eINSTANCE.getApplicationService() },
-                
-                { new TechnologyArtifactUIProvider(), IArchimatePackage.eINSTANCE.getArtifact() },
-                { new TechnologyCommunicationPathUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationPath() },
-                { new TechnologyNetworkUIProvider(), IArchimatePackage.eINSTANCE.getNetwork() },
-                { new TechnologyInfrastructureInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureInterface() },
-                { new TechnologyInfrastructureServiceUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureService() },
-                { new TechnologyNodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
-                { new TechnologySystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
-                { new TechnologyDeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
-                { new TechnologyInfrastructureFunctionUIProvider(), IArchimatePackage.eINSTANCE.getInfrastructureFunction() },
-                
-                { new JunctionUIProvider(), IArchimatePackage.eINSTANCE.getJunction() },
-                { new AndJunctionUIProvider(), IArchimatePackage.eINSTANCE.getAndJunction() },
-                { new OrJunctionUIProvider(), IArchimatePackage.eINSTANCE.getOrJunction() },
-                
-                { new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder() },
-                { new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver() },
+                { new ArtifactUIProvider(), IArchimatePackage.eINSTANCE.getArtifact() },
                 { new AssessmentUIProvider(), IArchimatePackage.eINSTANCE.getAssessment() },
-                { new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal() },
-                { new PrincipleUIProvider(), IArchimatePackage.eINSTANCE.getPrinciple() },
-                { new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement() },
+                { new BusinessActorUIProvider(), IArchimatePackage.eINSTANCE.getBusinessActor() },
+                { new BusinessInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInterface() },
+                { new BusinessCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getBusinessCollaboration() },
+                { new BusinessEventUIProvider(), IArchimatePackage.eINSTANCE.getBusinessEvent() },
+                { new BusinessFunctionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessFunction() },
+                { new BusinessInteractionUIProvider(), IArchimatePackage.eINSTANCE.getBusinessInteraction() },
+                { new BusinessObjectUIProvider(), IArchimatePackage.eINSTANCE.getBusinessObject() },
+                { new BusinessProcessUIProvider(), IArchimatePackage.eINSTANCE.getBusinessProcess() },
+                { new BusinessRoleUIProvider(), IArchimatePackage.eINSTANCE.getBusinessRole() },
+                { new BusinessServiceUIProvider(), IArchimatePackage.eINSTANCE.getBusinessService() },
+                { new CommunicationNetworkUIProvider(), IArchimatePackage.eINSTANCE.getCommunicationNetwork() },
+                { new CapabilityUIProvider(), IArchimatePackage.eINSTANCE.getCapability() },
                 { new ConstraintUIProvider(), IArchimatePackage.eINSTANCE.getConstraint() },
-                
-                { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() },
+                { new ContractUIProvider(), IArchimatePackage.eINSTANCE.getContract() },
+                { new CourseOfActionUIProvider(), IArchimatePackage.eINSTANCE.getCourseOfAction() },
+                { new DataObjectUIProvider(), IArchimatePackage.eINSTANCE.getDataObject() },
                 { new DeliverableUIProvider(), IArchimatePackage.eINSTANCE.getDeliverable() },
+                { new DeviceUIProvider(), IArchimatePackage.eINSTANCE.getDevice() },
+                { new DistributionNetworkUIProvider(), IArchimatePackage.eINSTANCE.getDistributionNetwork() },
+                { new DriverUIProvider(), IArchimatePackage.eINSTANCE.getDriver() },
+                { new EquipmentUIProvider(), IArchimatePackage.eINSTANCE.getEquipment() },
+                { new FacilityUIProvider(), IArchimatePackage.eINSTANCE.getFacility() },
+                { new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap() },
+                { new GoalUIProvider(), IArchimatePackage.eINSTANCE.getGoal() },
+                { new GroupingUIProvider(), IArchimatePackage.eINSTANCE.getGrouping() },
+                { new ImplementationEventUIProvider(), IArchimatePackage.eINSTANCE.getImplementationEvent() },
+                { new LocationUIProvider(), IArchimatePackage.eINSTANCE.getLocation() },
+                { new MaterialUIProvider(), IArchimatePackage.eINSTANCE.getMaterial() },
+                { new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
+                { new NodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
+                { new OrJunctionUIProvider(), IArchimatePackage.eINSTANCE.getOrJunction() },
+                { new PathUIProvider(), IArchimatePackage.eINSTANCE.getPath() },
                 { new PlateauUIProvider(), IArchimatePackage.eINSTANCE.getPlateau() },
-                { new GapUIProvider(), IArchimatePackage.eINSTANCE.getGap() }
+                { new PrincipleUIProvider(), IArchimatePackage.eINSTANCE.getPrinciple() },
+                { new ProductUIProvider(), IArchimatePackage.eINSTANCE.getProduct() },
+                { new RepresentationUIProvider(), IArchimatePackage.eINSTANCE.getRepresentation() },
+                { new ResourceUIProvider(), IArchimatePackage.eINSTANCE.getResource() },
+                { new RequirementUIProvider(), IArchimatePackage.eINSTANCE.getRequirement() },
+                { new StakeholderUIProvider(), IArchimatePackage.eINSTANCE.getStakeholder() },
+                { new SystemSoftwareUIProvider(), IArchimatePackage.eINSTANCE.getSystemSoftware() },
+                { new TechnologyCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyCollaboration() },
+                { new TechnologyEventUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyEvent() },
+                { new TechnologyFunctionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyFunction() },
+                { new TechnologyInterfaceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInterface() },
+                { new TechnologyInteractionUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyInteraction() },
+                { new TechnologyProcessUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyProcess() },
+                { new TechnologyServiceUIProvider(), IArchimatePackage.eINSTANCE.getTechnologyService() },
+                { new ValueUIProvider(), IArchimatePackage.eINSTANCE.getValue() },
+                { new WorkPackageUIProvider(), IArchimatePackage.eINSTANCE.getWorkPackage() }
+                
         });
     }
     
-    public AllArchiMateElementUIProviderTests(IElementUIProvider provider, EClass expectedClass) {
+    public AllArchiMateElementUIProviderTests(IObjectUIProvider provider, EClass expectedClass) {
         this.provider = provider;
         this.expectedClass = expectedClass;
     }
     
+    @Override
+    protected IArchimateElementUIProvider getProvider() {
+        return (IArchimateElementUIProvider)provider;
+    }
     
     @Override
     public void testCreateEditPart() {
-        EditPart editPart = provider.createEditPart();
-        assertTrue(editPart instanceof AbstractArchimateEditPart);
+        EditPart editPart = getProvider().createEditPart();
+        assertNotNull(editPart);
     }
 
     @Override
     @Test
     public void testGetDefaultColor() {
-        Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
-        
-        if(provider instanceof AbstractBusinessUIProvider) {
-            assertEquals(ColorFactory.COLOR_BUSINESS, provider.getDefaultColor());
-        }
-        else if(provider instanceof AbstractApplicationUIProvider) {
-            assertEquals(ColorFactory.COLOR_APPLICATION, provider.getDefaultColor());
-        }
-        else if(provider instanceof AbstractTechnologyUIProvider) {
-            assertEquals(ColorFactory.COLOR_TECHNOLOGY, provider.getDefaultColor());
-        }
-        else if(provider instanceof JunctionUIProvider) {
-            assertEquals(ColorConstants.black, provider.getDefaultColor());
-        }
+        assertNotNull(getProvider().getDefaultColor());
     }
 
     @Override
     @Test
     public void testGetDefaultSize() {
-        Assume.assumeTrue(provider instanceof AbstractArchimateElementUIProvider);
-
-        if(provider instanceof JunctionUIProvider) {
-            assertEquals(new Dimension(15, 15), provider.getDefaultSize());
+        // Junctions
+        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+            assertEquals(new Dimension(15, 15), getProvider().getDefaultSize());
         }
+        
+        // Grouping
+        else if(getProvider() instanceof GroupingUIProvider) {
+            assertEquals(new Dimension(400, 140), getProvider().getDefaultSize());
+        }
+        
+        else {
+            assertEquals(IGraphicalObjectUIProvider.DefaultRectangularSize, getProvider().getDefaultSize());
+        }
+    }
+    
+    @Override
+    @Test
+    public void testGetUserDefaultSize() {
+        // Junctions
+        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+            assertEquals(new Dimension(15, 15), getProvider().getUserDefaultSize());
+        }
+        
+        // Grouping
+        else if(getProvider() instanceof GroupingUIProvider) {
+            assertEquals(new Dimension(400, 140), getProvider().getUserDefaultSize());
+        }
+        
         else {
             // New value via preferences
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH, 150);
             Preferences.STORE.setValue(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 90);
-            assertEquals(new Dimension(150, 90), provider.getDefaultSize());
+            assertEquals(new Dimension(150, 90), getProvider().getUserDefaultSize());
 
             // Default value in preferences
             Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_WIDTH);
             Preferences.STORE.setToDefault(IPreferenceConstants.DEFAULT_ARCHIMATE_FIGURE_HEIGHT);
-            assertEquals(new Dimension(120, 55), provider.getDefaultSize());
+            assertEquals(IGraphicalObjectUIProvider.DefaultRectangularSize, getProvider().getUserDefaultSize());
         }
     }
 
     @Override
     public void testShouldExposeFeature() {
-        if(provider instanceof JunctionUIProvider) {
-            EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-            assertFalse(provider.shouldExposeFeature(instance, null));
+        // Junctions
+        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+            EObject instance = createInstanceForExpectedClass();
+            getProvider().setInstance(instance);
+            assertFalse(getProvider().shouldExposeFeature(null));
         }
         else {
             super.testShouldExposeFeature();

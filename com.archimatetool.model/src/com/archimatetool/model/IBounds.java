@@ -136,6 +136,22 @@ public interface IBounds extends EObject {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @model
+     * @generated
+     */
+    void setLocation(int x, int y);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model
+     * @generated
+     */
+    void setSize(int width, int height);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @model kind="operation"
      * @generated
      */

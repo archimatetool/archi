@@ -17,16 +17,16 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.viewpoints.IViewpoint;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -166,22 +166,22 @@ public class TreeViewpointFilterProvider implements IPartListener {
      * @return Color or null
      */
     Color getTextColor(Object element) {
-        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateComponent) {
-            int index = fActiveDiagramModel.getViewpoint();
-            IViewpoint viewpoint = ViewpointsManager.INSTANCE.getViewpoint(index);
+        if(isActive() && fActiveDiagramModel != null && element instanceof IArchimateConcept) {
+            String id = fActiveDiagramModel.getViewpoint();
+            IViewpoint viewpoint = ViewpointManager.INSTANCE.getViewpoint(id);
             if(viewpoint != null) {
                 // From same model as active diagram
-                IArchimateModel model = ((IArchimateComponent)element).getArchimateModel();
+                IArchimateModel model = ((IArchimateConcept)element).getArchimateModel();
                 if(model == fActiveDiagramModel.getArchimateModel()) {
-                    if(element instanceof IRelationship) {
-                        IArchimateElement source = ((IRelationship)element).getSource();
-                        IArchimateElement target = ((IRelationship)element).getTarget();
-                        if(!viewpoint.isAllowedType(source.eClass()) || !viewpoint.isAllowedType(target.eClass())) {
+                    if(element instanceof IArchimateRelationship) {
+                        IArchimateConcept source = ((IArchimateRelationship)element).getSource();
+                        IArchimateConcept target = ((IArchimateRelationship)element).getTarget();
+                        if(!viewpoint.isAllowedConcept(source.eClass()) || !viewpoint.isAllowedConcept(target.eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }
                     }
                     else if(element instanceof IArchimateElement) {
-                        if(!viewpoint.isAllowedType(((IArchimateElement)element).eClass())) {
+                        if(!viewpoint.isAllowedConcept(((IArchimateElement)element).eClass())) {
                             return ColorFactory.get(128, 128, 128);
                         }
                     }

@@ -27,6 +27,6 @@ public class AdviceType extends AbstractIssueType {
     
     @Override
     public Image getImage() {
-        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ADVICE_16);
+        return IHammerImages.ImageFactory.getImage(IHammerImages.ICON_ADVICE);
     }
 }

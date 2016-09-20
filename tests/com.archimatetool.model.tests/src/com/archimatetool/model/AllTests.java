@@ -8,7 +8,7 @@ package com.archimatetool.model;
 import junit.framework.TestSuite;
 
 import com.archimatetool.model.impl.AllArchimateElementTypeTests;
-import com.archimatetool.model.impl.AllRelationshipTypeTests;
+import com.archimatetool.model.impl.AllArchimateRelationshipTypeTests;
 import com.archimatetool.model.impl.ArchimateDiagramModelTests;
 import com.archimatetool.model.impl.ArchimateFactoryTests;
 import com.archimatetool.model.impl.ArchimateModelTests;
@@ -30,9 +30,10 @@ import com.archimatetool.model.impl.SketchModelStickyTests;
 import com.archimatetool.model.impl.SketchModelTests;
 import com.archimatetool.model.util.ArchimateModelUtilsTests;
 import com.archimatetool.model.util.ArchimateResourceFactoryTests;
-import com.archimatetool.model.util.DerivedRelationsUtilsTests;
 import com.archimatetool.model.util.IDAdapterTests;
 import com.archimatetool.model.util.RelationshipsMatrixTests;
+import com.archimatetool.model.viewpoints.ViewpointManagerTests;
+import com.archimatetool.model.viewpoints.ViewpointTests;
 
 @SuppressWarnings("nls")
 public class AllTests {
@@ -65,14 +66,17 @@ public class AllTests {
         suite.addTest(SketchModelStickyTests.suite());
 		
         suite.addTest(AllArchimateElementTypeTests.suite());
-        suite.addTest(AllRelationshipTypeTests.suite());
+        suite.addTest(AllArchimateRelationshipTypeTests.suite());
         
         // util
         suite.addTest(ArchimateModelUtilsTests.suite());
         suite.addTest(ArchimateResourceFactoryTests.suite());
-        suite.addTest(DerivedRelationsUtilsTests.suite());
         suite.addTest(IDAdapterTests.suite());
         suite.addTest(RelationshipsMatrixTests.suite());
+
+        // viewpoints
+        suite.addTest(ViewpointTests.suite());
+        suite.addTest(ViewpointManagerTests.suite());
 
         return suite;
 	}

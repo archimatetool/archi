@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -27,9 +30,14 @@ import com.archimatetool.model.IDiagramModel;
 public abstract class ConnectionRouterAction extends Action implements Disposable {
     
     public static String CONNECTION_ROUTER_BENDPONT = Messages.ConnectionRouterAction_0;
-    public static String CONNECTION_ROUTER_SHORTEST_PATH = Messages.ConnectionRouterAction_1;
+    //public static String CONNECTION_ROUTER_SHORTEST_PATH = Messages.ConnectionRouterAction_1;
     public static String CONNECTION_ROUTER_MANHATTAN = Messages.ConnectionRouterAction_2;
     
+    public static List<Integer> CONNECTION_ROUTER_TYPES = Arrays.asList(new Integer[] {
+            IDiagramModel.CONNECTION_ROUTER_BENDPOINT,
+            IDiagramModel.CONNECTION_ROUTER_MANHATTAN
+    });
+
     private IWorkbenchPart part;
     private IDiagramModel diagramModel;
     
@@ -63,7 +71,13 @@ public abstract class ConnectionRouterAction extends Action implements Disposabl
     }
     
     protected void update() {
-        setChecked(diagramModel.getConnectionRouterType() == getType());
+        int type = diagramModel.getConnectionRouterType();
+        
+        if(CONNECTION_ROUTER_TYPES.indexOf(type) == -1) {
+            type = 0;
+        }
+
+        setChecked(type == getType());
     }
     
     protected abstract int getType();
@@ -93,21 +107,22 @@ public abstract class ConnectionRouterAction extends Action implements Disposabl
     
     /*
      * Shortest Path
+     * Doesn't work with Connection to Connection
      */
-    public static class ShortestPathConnectionRouterAction extends ConnectionRouterAction  {
-        public static String ID = "ShortestPathConnectionRouterAction"; //$NON-NLS-1$
-        
-        public ShortestPathConnectionRouterAction(IWorkbenchPart part) {
-            super(part);
-            setId(ID);
-            setText(CONNECTION_ROUTER_SHORTEST_PATH);
-        }
-
-        @Override
-        public int getType() {
-            return IDiagramModel.CONNECTION_ROUTER_SHORTEST_PATH;
-        }
-    };
+//    public static class ShortestPathConnectionRouterAction extends ConnectionRouterAction  {
+//        public static String ID = "ShortestPathConnectionRouterAction"; //$NON-NLS-1$
+//        
+//        public ShortestPathConnectionRouterAction(IWorkbenchPart part) {
+//            super(part);
+//            setId(ID);
+//            setText(CONNECTION_ROUTER_SHORTEST_PATH);
+//        }
+//
+//        @Override
+//        public int getType() {
+//            return IDiagramModel.CONNECTION_ROUTER_SHORTEST_PATH;
+//        }
+//    };
     
     /*
      * Manhattan

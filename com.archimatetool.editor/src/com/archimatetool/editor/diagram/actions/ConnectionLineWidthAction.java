@@ -23,8 +23,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.LineWidthCommand;
 import com.archimatetool.editor.propertysections.DiagramConnectionSection;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.ILineObject;
@@ -108,8 +108,8 @@ public class ConnectionLineWidthAction extends SelectionAction {
         }
         
         if(model instanceof IDiagramModelConnection) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((IDiagramModelConnection)model));
-            return provider != null && provider.shouldExposeFeature((IDiagramModelConnection)model, IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelConnection)model));
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH);
         }
         
         return false;

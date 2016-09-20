@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.factory.AbstractObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -20,7 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class FolderUIProvider extends AbstractElementUIProvider {
+public class FolderUIProvider extends AbstractObjectUIProvider {
     
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getFolder();
@@ -33,11 +33,11 @@ public class FolderUIProvider extends AbstractElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_FOLDER);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_FOLDER);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_FOLDER);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_FOLDER);
     }
 }

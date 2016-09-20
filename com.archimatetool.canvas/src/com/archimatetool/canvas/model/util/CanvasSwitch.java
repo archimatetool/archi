@@ -12,9 +12,10 @@ import org.eclipse.emf.ecore.util.Switch;
 import com.archimatetool.canvas.model.*;
 import com.archimatetool.help.hints.IHelpHintProvider;
 import com.archimatetool.model.IAdapter;
-import com.archimatetool.model.IArchimateModelElement;
+import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBorderObject;
 import com.archimatetool.model.ICloneable;
+import com.archimatetool.model.IConnectable;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
@@ -96,10 +97,11 @@ public class CanvasSwitch<T> extends Switch<T> {
                 T result = caseIconic(iconic);
                 if (result == null) result = caseDiagramModelObject(iconic);
                 if (result == null) result = caseDiagramModelImageProvider(iconic);
-                if (result == null) result = caseDiagramModelComponent(iconic);
+                if (result == null) result = caseConnectable(iconic);
                 if (result == null) result = caseFontAttribute(iconic);
                 if (result == null) result = caseLineObject(iconic);
                 if (result == null) result = caseTextAlignment(iconic);
+                if (result == null) result = caseDiagramModelComponent(iconic);
                 if (result == null) result = caseIdentifier(iconic);
                 if (result == null) result = caseCloneable(iconic);
                 if (result == null) result = caseAdapter(iconic);
@@ -131,15 +133,15 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModel(canvasModel);
                 if (result == null) result = caseHintProvider(canvasModel);
                 if (result == null) result = caseHelpHintProvider(canvasModel);
-                if (result == null) result = caseArchimateModelElement(canvasModel);
+                if (result == null) result = caseArchimateModelObject(canvasModel);
                 if (result == null) result = caseDiagramModelContainer(canvasModel);
                 if (result == null) result = caseDocumentable(canvasModel);
                 if (result == null) result = caseProperties(canvasModel);
                 if (result == null) result = caseDiagramModelComponent(canvasModel);
                 if (result == null) result = caseAdapter(canvasModel);
+                if (result == null) result = caseNameable(canvasModel);
                 if (result == null) result = caseIdentifier(canvasModel);
                 if (result == null) result = caseCloneable(canvasModel);
-                if (result == null) result = caseNameable(canvasModel);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -155,10 +157,11 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseTextPosition(canvasModelSticky);
                 if (result == null) result = caseDiagramModelObject(canvasModelSticky);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelSticky);
-                if (result == null) result = caseDiagramModelComponent(canvasModelSticky);
+                if (result == null) result = caseConnectable(canvasModelSticky);
                 if (result == null) result = caseFontAttribute(canvasModelSticky);
                 if (result == null) result = caseLineObject(canvasModelSticky);
                 if (result == null) result = caseTextAlignment(canvasModelSticky);
+                if (result == null) result = caseDiagramModelComponent(canvasModelSticky);
                 if (result == null) result = caseIdentifier(canvasModelSticky);
                 if (result == null) result = caseCloneable(canvasModelSticky);
                 if (result == null) result = caseAdapter(canvasModelSticky);
@@ -180,10 +183,11 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseTextPosition(canvasModelBlock);
                 if (result == null) result = caseDiagramModelObject(canvasModelBlock);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelBlock);
-                if (result == null) result = caseDiagramModelComponent(canvasModelBlock);
+                if (result == null) result = caseConnectable(canvasModelBlock);
                 if (result == null) result = caseFontAttribute(canvasModelBlock);
                 if (result == null) result = caseLineObject(canvasModelBlock);
                 if (result == null) result = caseTextAlignment(canvasModelBlock);
+                if (result == null) result = caseDiagramModelComponent(canvasModelBlock);
                 if (result == null) result = caseIdentifier(canvasModelBlock);
                 if (result == null) result = caseCloneable(canvasModelBlock);
                 if (result == null) result = caseAdapter(canvasModelBlock);
@@ -199,10 +203,11 @@ public class CanvasSwitch<T> extends Switch<T> {
                 if (result == null) result = caseDiagramModelObject(canvasModelImage);
                 if (result == null) result = caseBorderObject(canvasModelImage);
                 if (result == null) result = caseDiagramModelImageProvider(canvasModelImage);
-                if (result == null) result = caseDiagramModelComponent(canvasModelImage);
+                if (result == null) result = caseConnectable(canvasModelImage);
                 if (result == null) result = caseFontAttribute(canvasModelImage);
                 if (result == null) result = caseLineObject(canvasModelImage);
                 if (result == null) result = caseTextAlignment(canvasModelImage);
+                if (result == null) result = caseDiagramModelComponent(canvasModelImage);
                 if (result == null) result = caseIdentifier(canvasModelImage);
                 if (result == null) result = caseCloneable(canvasModelImage);
                 if (result == null) result = caseAdapter(canvasModelImage);
@@ -215,11 +220,12 @@ public class CanvasSwitch<T> extends Switch<T> {
                 T result = caseCanvasModelConnection(canvasModelConnection);
                 if (result == null) result = caseDiagramModelConnection(canvasModelConnection);
                 if (result == null) result = caseLockable(canvasModelConnection);
-                if (result == null) result = caseDiagramModelComponent(canvasModelConnection);
+                if (result == null) result = caseConnectable(canvasModelConnection);
                 if (result == null) result = caseFontAttribute(canvasModelConnection);
                 if (result == null) result = caseProperties(canvasModelConnection);
                 if (result == null) result = caseDocumentable(canvasModelConnection);
                 if (result == null) result = caseLineObject(canvasModelConnection);
+                if (result == null) result = caseDiagramModelComponent(canvasModelConnection);
                 if (result == null) result = caseIdentifier(canvasModelConnection);
                 if (result == null) result = caseCloneable(canvasModelConnection);
                 if (result == null) result = caseAdapter(canvasModelConnection);
@@ -322,6 +328,21 @@ public class CanvasSwitch<T> extends Switch<T> {
     }
 
     /**
+     * Returns the result of interpreting the object as an instance of '<em>Model Object</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Model Object</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseArchimateModelObject(IArchimateModelObject object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>Hint Provider</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -382,21 +403,6 @@ public class CanvasSwitch<T> extends Switch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Model Element</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Model Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseArchimateModelElement(IArchimateModelElement object) {
-        return null;
-    }
-
-    /**
      * Returns the result of interpreting the object as an instance of '<em>Identifier</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -453,6 +459,21 @@ public class CanvasSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDiagramModelComponent(IDiagramModelComponent object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Connectable</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Connectable</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseConnectable(IConnectable object) {
         return null;
     }
 

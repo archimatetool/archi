@@ -31,15 +31,17 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.preferences.ConnectionPreferences;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimateElement;
+import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -60,13 +62,13 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
     private EClass[] fValidRelations;
     private EClass fSelected;
 
-    public NewNestedRelationDialog(Shell parentShell, IArchimateElement parentElement, IArchimateElement childElement) {
-        super(parentShell, "NewNestedRelationDialog"); //$NON-NLS-1$
-        setTitleImage(IArchimateImages.ImageFactory.getImage(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+    public NewNestedRelationDialog(IDiagramModelArchimateObject parentObject, IDiagramModelArchimateObject childObject) {
+        super(Display.getCurrent().getActiveShell(), "NewNestedRelationDialog"); //$NON-NLS-1$
+        setTitleImage(IArchiImages.ImageFactory.getImage(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         setShellStyle(getShellStyle() | SWT.RESIZE);
         
-        fParentElement = parentElement;
-        fChildElement = childElement;
+        fParentElement = parentObject.getArchimateElement();
+        fChildElement = childObject.getArchimateElement();
     }
 
     @Override
@@ -186,12 +188,12 @@ public class NewNestedRelationDialog extends ExtendedTitleAreaDialog {
         class RelationsTableViewerLabelCellProvider extends LabelProvider {
             @Override
             public String getText(Object element) {
-                return ArchimateLabelProvider.INSTANCE.getDefaultName((EClass)element);
+                return ArchiLabelProvider.INSTANCE.getDefaultName((EClass)element);
             }
             
             @Override
             public Image getImage(Object element) {
-                return ArchimateLabelProvider.INSTANCE.getImage(element);
+                return ArchiLabelProvider.INSTANCE.getImage(element);
             }
          }
     }

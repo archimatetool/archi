@@ -15,7 +15,7 @@ import com.archimatetool.editor.diagram.editparts.ArchimateDiagramPart;
 import com.archimatetool.editor.ui.factory.diagram.ArchimateDiagramModelUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class ArchimateDiagramModelUIProviderTests extends AbstractElementUIProviderTests {
+public class ArchimateDiagramModelUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ArchimateDiagramModelUIProviderTests.class);

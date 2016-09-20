@@ -10,8 +10,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.diagram.editparts.connections.CompositionConnectionEditPart;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.diagram.editparts.ArchimateRelationshipEditPart;
+import com.archimatetool.editor.diagram.figures.connections.CompositionConnectionFigure;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -21,7 +22,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class CompositionRelationshipUIProvider extends AbstractRelationshipUIProvider {
+public class CompositionRelationshipUIProvider extends AbstractArchimateRelationshipUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getCompositionRelationship();
@@ -29,7 +30,7 @@ public class CompositionRelationshipUIProvider extends AbstractRelationshipUIPro
     
     @Override
     public EditPart createEditPart() {
-        return new CompositionConnectionEditPart();
+        return new ArchimateRelationshipEditPart(CompositionConnectionFigure.class);
     }
 
     @Override
@@ -39,11 +40,11 @@ public class CompositionRelationshipUIProvider extends AbstractRelationshipUIPro
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_COMPOSITION_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_COMPOSITION_RELATION);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_COMPOSITION_CONNECTION_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_COMPOSITION_RELATION);
     }
 }

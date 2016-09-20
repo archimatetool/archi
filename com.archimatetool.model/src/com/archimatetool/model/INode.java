@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface INode extends ITechnologyLayerElement {
+public interface INode extends ITechnologyElement, IActiveStructureElement {
 } // INode

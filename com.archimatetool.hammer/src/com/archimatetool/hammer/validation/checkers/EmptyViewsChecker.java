@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.AdviceType;
 import com.archimatetool.hammer.validation.issues.IIssue;
@@ -43,7 +43,7 @@ public class EmptyViewsChecker extends AbstractChecker {
         
         for(IArchimateDiagramModel view : archimateViews) {
             if(view.getChildren().isEmpty()) {
-                String viewName = ArchimateLabelProvider.INSTANCE.getLabel(view);
+                String viewName = ArchiLabelProvider.INSTANCE.getLabel(view);
                 String description = NLS.bind(fDescription, viewName);
                 String explanation = NLS.bind(fExplanation, viewName);
                 

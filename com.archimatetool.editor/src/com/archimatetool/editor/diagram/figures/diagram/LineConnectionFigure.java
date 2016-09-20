@@ -14,7 +14,7 @@ import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IDiagramModelConnection;
 
 
@@ -33,11 +33,7 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     private PolygonDecoration fArrowheadTargetFilled;
     private PolylineDecoration fArrowheadTargetLine;
     private PolygonDecoration fArrowheadTargetHollow;
-
-    public LineConnectionFigure(IDiagramModelConnection connection) {
-        super(connection);
-    }
-
+    
     @Override
     protected void setFigureProperties() {
     }
@@ -45,21 +41,10 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
     @Override
     public void refreshVisuals() {
         super.refreshVisuals();
+        
+        setLineStyleFromZoomLevel(1);
 
         int connectionType = getModelConnection().getType();
-        
-        // Line Style
-        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
-            setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 4 });
-        }
-        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
-            setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 1, 4 });
-        }
-        else {
-            setLineStyle(Graphics.LINE_SOLID);
-        }
         
         // Source Arrow head
         if((connectionType & IDiagramModelConnection.ARROW_FILL_SOURCE) != 0) {
@@ -88,6 +73,30 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
         else {
             setTargetDecoration(null);
         }
+        
+        repaint(); // repaint when figure changes
+    }
+    
+    protected void setLineStyleFromZoomLevel(double zoomLevel) {
+        int connectionType = getModelConnection().getType();
+        
+        // Line Style
+        if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
+            setLineStyle(SWT.LINE_CUSTOM);
+            setLineDash(new float[] { (float)(4 * zoomLevel) });
+        }
+        else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
+            setLineStyle(SWT.LINE_CUSTOM);
+            setLineDash(new float[] { (float)(1 * zoomLevel), (float)(4 * zoomLevel) });
+        }
+        else {
+            setLineStyle(Graphics.LINE_SOLID);
+        }
+    }
+    
+    @Override
+    public void handleZoomChanged(double newZoomValue) {
+        setLineStyleFromZoomLevel(newZoomValue);
     }
     
     protected PolygonDecoration getArrowheadSourceFilled() {
@@ -159,7 +168,7 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
             return null;
         }
         
-        String text = ArchimateLabelProvider.INSTANCE.getLabel(getModelConnection());
+        String text = ArchiLabelProvider.INSTANCE.getLabel(getModelConnection());
         tooltip.setText(text);
         tooltip.setType(Messages.LineConnectionFigure_0);
         

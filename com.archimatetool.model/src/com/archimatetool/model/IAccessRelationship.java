@@ -22,7 +22,7 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IAccessRelationship extends IRelationship {
+public interface IAccessRelationship extends IDependendencyRelationship {
 
     int WRITE_ACCESS = 0; // Default
     int READ_ACCESS = 1;

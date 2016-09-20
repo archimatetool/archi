@@ -5,22 +5,20 @@
  */
 package com.archimatetool.model.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
+import static org.junit.Assert.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 
@@ -36,10 +34,29 @@ public class ArchimateModelUtilsTests {
     }
     
     /*
-     * NOTE - Tests for ArchimateModelUtils.isValidRelationshipStart() and ArchimateModelUtils.isValidRelationship() are in RelationshipsMatrixTests
+     * NOTE - Tests for ArchimateModelUtils.isValidRelationshipStart() and ArchimateModelUtils.isValidRelationship() are in ViewpointTests
      */
     
-    
+    @Test
+    public void testHasDirectRelationship() {
+        IArchimateConcept sourceConcept = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateConcept someTarget = IArchimateFactory.eINSTANCE.createBusinessRole();
+
+        IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        
+        assertFalse(ArchimateModelUtils.hasDirectRelationship(sourceConcept, relationship));
+        assertFalse(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
+        
+        relationship.connect(sourceConcept, someTarget);
+        
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(sourceConcept, relationship));
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
+        
+        relationship.connect(someTarget, sourceConcept);
+        
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(sourceConcept, relationship));
+        assertTrue(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
+    }
     
     @Test
     public void testGetValidRelationships() {
@@ -51,128 +68,62 @@ public class ArchimateModelUtilsTests {
         
         // The order of these is set in ArchimateModelUtils.getRelationsClasses()
         assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), classes[0]);
-        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes[1]);
-        assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes[2]);
-        assertEquals(IArchimatePackage.eINSTANCE.getUsedByRelationship(), classes[3]);
+        assertEquals(IArchimatePackage.eINSTANCE.getServingRelationship(), classes[1]);
+        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes[2]);
+        assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes[3]);
         assertEquals(IArchimatePackage.eINSTANCE.getAssociationRelationship(), classes[4]);
         
         // How much more can we test this...?
     }
     
     @Test
-    public void testGetRelationships_NotNull() {
+    public void testGetAllRelationshipsForConcept_NotNull() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
+        model.getDefaultFolderForObject(element1).getElements().add(element1);
         
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
+        model.getDefaultFolderForObject(element2).getElements().add(element2);
         
-        assertNotNull(ArchimateModelUtils.getRelationships(element1));
-        assertNotNull(ArchimateModelUtils.getRelationships(element2));
+        assertNotNull(ArchimateModelUtils.getAllRelationshipsForConcept(element1));
+        assertNotNull(ArchimateModelUtils.getAllRelationshipsForConcept(element2));
     }
 
     @Test
-    public void testGetRelationships_NoRelations() {
+    public void testGetAllRelationshipsForConcept_NoRelations() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
+        model.getDefaultFolderForObject(element1).getElements().add(element1);
         
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
+        model.getDefaultFolderForObject(element2).getElements().add(element2);
         
-        assertTrue(ArchimateModelUtils.getRelationships(element1).isEmpty());
-        assertTrue(ArchimateModelUtils.getRelationships(element2).isEmpty());
+        assertTrue(ArchimateModelUtils.getAllRelationshipsForConcept(element1).isEmpty());
+        assertTrue(ArchimateModelUtils.getAllRelationshipsForConcept(element2).isEmpty());
     }
 
     @Test
-    public void testGetRelationships() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-
+    public void testGetAllRelationshipsForConcept() {
         IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
-        
         IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
         
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation1.setSource(element1);
         relation1.setTarget(element2);
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
         
-        assertEquals(1, ArchimateModelUtils.getRelationships(element1).size());
-        assertEquals(1, ArchimateModelUtils.getRelationships(element2).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForConcept(element1).size());
+        assertEquals(1, ArchimateModelUtils.getAllRelationshipsForConcept(element2).size());
 
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        IArchimateRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
         relation2.setSource(element1);
         relation2.setTarget(element2);
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
        
-        assertEquals(2, ArchimateModelUtils.getRelationships(element1).size());
-        assertEquals(2, ArchimateModelUtils.getRelationships(element2).size());
-    }
-    
-    @Test
-    public void testGetSourceRelationships() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-
-        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
-        
-        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
-        
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation1.setSource(element1);
-        relation1.setTarget(element2);
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
-        
-        assertEquals(1, ArchimateModelUtils.getSourceRelationships(element1).size());
-        assertEquals(0, ArchimateModelUtils.getSourceRelationships(element2).size());
-        assertSame(relation1, ArchimateModelUtils.getSourceRelationships(element1).get(0));
-
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation2.setSource(element1);
-        relation2.setTarget(element2);
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
-       
-        assertEquals(2, ArchimateModelUtils.getSourceRelationships(element1).size());
-        assertEquals(0, ArchimateModelUtils.getSourceRelationships(element2).size());
-    }
-    
-    @Test
-    public void testGetTargetRelationships() {
-        IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
-        model.setDefaults();
-
-        IArchimateElement element1 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(element1).getElements().add(element1);
-        
-        IArchimateElement element2 = IArchimateFactory.eINSTANCE.createBusinessRole();
-        model.getDefaultFolderForElement(element2).getElements().add(element2);
-        
-        IRelationship relation1 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation1.setSource(element1);
-        relation1.setTarget(element2);
-        model.getDefaultFolderForElement(relation1).getElements().add(relation1);
-        
-        assertEquals(0, ArchimateModelUtils.getTargetRelationships(element1).size());
-        assertEquals(1, ArchimateModelUtils.getTargetRelationships(element2).size());
-        assertSame(relation1, ArchimateModelUtils.getTargetRelationships(element2).get(0));
-
-        IRelationship relation2 = IArchimateFactory.eINSTANCE.createAssociationRelationship();
-        relation2.setSource(element1);
-        relation2.setTarget(element2);
-        model.getDefaultFolderForElement(relation2).getElements().add(relation2);
-       
-        assertEquals(0, ArchimateModelUtils.getTargetRelationships(element1).size());
-        assertEquals(2, ArchimateModelUtils.getTargetRelationships(element2).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForConcept(element1).size());
+        assertEquals(2, ArchimateModelUtils.getAllRelationshipsForConcept(element2).size());
     }
     
     @Test
@@ -183,9 +134,9 @@ public class ArchimateModelUtilsTests {
         assertNull(element);
         
         IArchimateElement newElement1 = IArchimateFactory.eINSTANCE.createApplicationFunction();
-        model.getDefaultFolderForElement(newElement1).getElements().add(newElement1);
+        model.getDefaultFolderForObject(newElement1).getElements().add(newElement1);
         IArchimateElement newElement2 = IArchimateFactory.eINSTANCE.createBusinessActor();
-        model.getDefaultFolderForElement(newElement2).getElements().add(newElement2);
+        model.getDefaultFolderForObject(newElement2).getElements().add(newElement2);
         
         element = ArchimateModelUtils.getObjectByID(model, newElement1.getId());
         assertSame(newElement1, element);
@@ -195,39 +146,59 @@ public class ArchimateModelUtilsTests {
     }
     
     @Test
-    public void testGetBusinessClasses() {
-        EClass[] classes = ArchimateModelUtils.getBusinessClasses();
-        assertEquals(16, classes.length);
+    public void testGetStrategyClasses() {
+        EClass[] classes = ArchimateModelUtils.getStrategyClasses();
+        assertEquals(3, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getBusinessLayerElement().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getStrategyElement().isSuperTypeOf(eClass));
+        }
+    }
+    
+    @Test
+    public void testGetBusinessClasses() {
+        EClass[] classes = ArchimateModelUtils.getBusinessClasses();
+        assertEquals(13, classes.length);
+        
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getBusinessElement().isSuperTypeOf(eClass));
         }
     }
     
     @Test
     public void testGetApplicationClasses() {
         EClass[] classes = ArchimateModelUtils.getApplicationClasses();
-        assertEquals(7, classes.length);
+        assertEquals(9, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getApplicationLayerElement().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getApplicationElement().isSuperTypeOf(eClass));
         }
     }
 
     @Test
     public void testGetTechnologyClasses() {
         EClass[] classes = ArchimateModelUtils.getTechnologyClasses();
-        assertEquals(9, classes.length);
+        assertEquals(13, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getTechnologyLayerElement().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getTechnologyElement().isSuperTypeOf(eClass));
+        }
+    }
+    
+    @Test
+    public void testGetPhysicalClasses() {
+        EClass[] classes = ArchimateModelUtils.getPhysicalClasses();
+        assertEquals(4, classes.length);
+        
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getPhysicalElement().isSuperTypeOf(eClass));
         }
     }
     
     @Test
     public void testGetMotivationClasses() {
         EClass[] classes = ArchimateModelUtils.getMotivationClasses();
-        assertEquals(7, classes.length);
+        assertEquals(10, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getMotivationElement().isSuperTypeOf(eClass));
@@ -237,7 +208,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetImplementationMigrationClasses() {
         EClass[] classes = ArchimateModelUtils.getImplementationMigrationClasses();
-        assertEquals(4, classes.length);
+        assertEquals(5, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getImplementationMigrationElement().isSuperTypeOf(eClass));
@@ -245,19 +216,29 @@ public class ArchimateModelUtilsTests {
     }
     
     @Test
+    public void testGetOtherClasses() {
+        EClass[] classes = ArchimateModelUtils.getOtherClasses();
+        assertEquals(2, classes.length);
+
+        for(EClass eClass : classes) {
+            assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));
+        }
+    }
+
+    @Test
     public void testGetRelationsClasses() {
         EClass[] classes = ArchimateModelUtils.getRelationsClasses();
         assertEquals(11, classes.length);
         
         for(EClass eClass : classes) {
-            assertTrue(IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(eClass));
+            assertTrue(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass));
         }
     }
     
     @Test
     public void testGetConnectorClasses() {
         EClass[] classes = ArchimateModelUtils.getConnectorClasses();
-        assertEquals(3, classes.length);
+        assertEquals(2, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getJunctionElement().isSuperTypeOf(eClass));
@@ -267,7 +248,7 @@ public class ArchimateModelUtilsTests {
     @Test
     public void testGetAllArchimateClasses() {
         EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
-        assertEquals(43, classes.length);
+        assertEquals(59, classes.length);
         
         for(EClass eClass : classes) {
             assertTrue(IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass));

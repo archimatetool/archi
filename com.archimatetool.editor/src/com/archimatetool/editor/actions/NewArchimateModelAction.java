@@ -9,7 +9,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
 import com.archimatetool.editor.model.IEditorModelManager;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
@@ -27,7 +27,7 @@ implements IWorkbenchAction
 {
     
     public NewArchimateModelAction() {
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_NEW_FILE_16));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_NEW_FILE));
         setText(Messages.NewArchimateModelAction_0);
         setToolTipText(Messages.NewArchimateModelAction_1);
         setId("com.archimatetool.editor.action.newModel"); //$NON-NLS-1$

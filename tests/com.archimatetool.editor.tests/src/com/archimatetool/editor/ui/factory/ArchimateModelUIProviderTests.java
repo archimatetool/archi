@@ -13,7 +13,7 @@ import org.junit.Before;
 import com.archimatetool.editor.ui.factory.model.ArchimateModelUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class ArchimateModelUIProviderTests extends AbstractElementUIProviderTests {
+public class ArchimateModelUIProviderTests extends AbstractObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ArchimateModelUIProviderTests.class);

@@ -27,7 +27,7 @@ extends DiagramLayoutPolicy {
     private boolean constrainChildren = false;
     
     @Override
-    protected Command createAddCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
+    protected AddObjectCommand createAddCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
         Rectangle rect = (Rectangle)(constrainChildren ? getLimitedBounds(child, (Rectangle)constraint) : constraint);
         return super.createAddCommand(request, child, rect);
     }

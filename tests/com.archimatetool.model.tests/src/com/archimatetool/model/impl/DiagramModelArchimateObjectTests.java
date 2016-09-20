@@ -10,19 +10,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 
+import com.archimatetool.model.IApplicationInterface;
 import com.archimatetool.model.IArchimateDiagramModel;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
-import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IFolder;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -34,10 +35,13 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
     
     private IDiagramModelArchimateObject object;
     
+    private IArchimateElement element;
+    
     @Override
     protected IDiagramModelComponent getComponent() {
         object = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
-        object.setArchimateElement(IArchimateFactory.eINSTANCE.createBusinessActor());
+        element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        object.setArchimateElement(element);
         return object;
     }
 
@@ -61,9 +65,22 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
 
     @Test
     public void testGetArchimateElement() {
-        assertTrue(object.getArchimateElement() instanceof IBusinessActor);
+        assertSame(element, object.getArchimateElement());
     }
     
+    @Test
+    public void testGetArchimateConcept() {
+        assertSame(element, object.getArchimateConcept());
+    }
+    
+    @Test
+    public void testSetArchimateConcept() {
+        IApplicationInterface e = IArchimateFactory.eINSTANCE.createApplicationInterface();
+        object.setArchimateConcept(e);
+        assertSame(e, object.getArchimateConcept());
+        assertSame(e, object.getArchimateElement());
+    }
+
     @Test
     public void testGetType() {
         assertEquals(0, object.getType());
@@ -76,26 +93,26 @@ public class DiagramModelArchimateObjectTests extends DiagramModelObjectTests {
         IFolder parent = IArchimateFactory.eINSTANCE.createFolder();
         parent.getElements().add(object.getArchimateElement());
         
-        object.addArchimateElementToModel(null);
+        object.addArchimateConceptToModel(null);
     }
     
     @Test
     public void testAdd_Remove_ArchimateElementToModel() {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         IArchimateDiagramModel dm = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model.getDefaultFolderForElement(dm).getElements().add(dm);
+        model.getDefaultFolderForObject(dm).getElements().add(dm);
         dm.getChildren().add(object);
         
         // Passing null uses a default folder in the model
-        IFolder expectedFolder = model.getDefaultFolderForElement(object.getArchimateElement());
-        object.addArchimateElementToModel(null);
+        IFolder expectedFolder = model.getDefaultFolderForObject(object.getArchimateElement());
+        object.addArchimateConceptToModel(null);
         assertSame(expectedFolder, object.getArchimateElement().eContainer());
         
-        object.removeArchimateElementFromModel();
+        object.removeArchimateConceptFromModel();
         assertNull(object.getArchimateElement().eContainer());
         
         expectedFolder = IArchimateFactory.eINSTANCE.createFolder();
-        object.addArchimateElementToModel(expectedFolder);
+        object.addArchimateConceptToModel(expectedFolder);
         assertSame(expectedFolder, object.getArchimateElement().eContainer());
     }
 

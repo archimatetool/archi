@@ -22,14 +22,15 @@ package com.archimatetool.model;
  * @model abstract="true"
  * @generated
  */
-public interface IDiagramModel extends IArchimateModelElement, IDiagramModelContainer, IDocumentable, IProperties {
+public interface IDiagramModel extends IArchimateModelObject, IDiagramModelContainer, IDocumentable, IProperties {
     
     /*
      * Connection Router Types
      */
     int CONNECTION_ROUTER_BENDPOINT = 0;
     
-    int CONNECTION_ROUTER_SHORTEST_PATH = 1;
+    // Doesn't work with connections to connections
+    // int CONNECTION_ROUTER_SHORTEST_PATH = 1;
     
     int CONNECTION_ROUTER_MANHATTAN = 2;
 

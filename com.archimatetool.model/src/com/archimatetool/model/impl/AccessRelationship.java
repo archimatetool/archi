@@ -26,7 +26,7 @@ import com.archimatetool.model.IArchimatePackage;
  *
  * @generated
  */
-public class AccessRelationship extends Relationship implements IAccessRelationship {
+public class AccessRelationship extends ArchimateRelationship implements IAccessRelationship {
     /**
      * The default value of the '{@link #getAccessType() <em>Access Type</em>}' attribute.
      * <!-- begin-user-doc -->

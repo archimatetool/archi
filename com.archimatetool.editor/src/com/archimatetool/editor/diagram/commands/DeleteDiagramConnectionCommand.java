@@ -30,7 +30,7 @@ class DeleteDiagramConnectionCommand extends Command {
 	
 	@Override
     public void execute() {
-		fConnection.disconnect();
+        fConnection.disconnect();
 	}
 	
 	@Override
@@ -38,7 +38,8 @@ class DeleteDiagramConnectionCommand extends Command {
 		fConnection.reconnect();
 	}
 
-	@Override
+
+    @Override
 	public void dispose() {
 	    fConnection = null;
 	}

@@ -18,9 +18,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.diagram.commands.TextAlignmentCommand;
-import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.ElementUIFactory;
-import com.archimatetool.editor.ui.factory.IElementUIProvider;
+import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextAlignment;
@@ -68,11 +68,11 @@ public class TextAlignmentAction extends SelectionAction {
         List<TextAlignmentAction> list = new ArrayList<TextAlignmentAction>();
         
         list.add(new TextAlignmentAction(part, ITextAlignment.TEXT_ALIGNMENT_LEFT, ACTION_LEFT_ID, ACTION_LEFT_TEXT,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_LEFT)));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ALIGN_TEXT_LEFT)));
         list.add(new TextAlignmentAction(part, ITextAlignment.TEXT_ALIGNMENT_CENTER, ACTION_CENTER_ID, ACTION_CENTER_TEXT,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_CENTER)));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ALIGN_TEXT_CENTER)));
         list.add(new TextAlignmentAction(part, ITextAlignment.TEXT_ALIGNMENT_RIGHT, ACTION_RIGHT_ID, ACTION_RIGHT_TEXT,
-                IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_ALIGN_TEXT_RIGHT)));
+                IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_ALIGN_TEXT_RIGHT)));
      
         return list;
     }
@@ -150,8 +150,8 @@ public class TextAlignmentAction extends SelectionAction {
         }
         
         if(model instanceof ITextAlignment) {
-            IElementUIProvider provider = ElementUIFactory.INSTANCE.getProvider(((ITextAlignment)model));
-            return provider != null && provider.shouldExposeFeature((ITextAlignment)model, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT);
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ITextAlignment)model));
+            return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT);
         }
         
         return false;

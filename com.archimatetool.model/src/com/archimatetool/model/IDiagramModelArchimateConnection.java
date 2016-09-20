@@ -15,54 +15,44 @@ package com.archimatetool.model;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.archimatetool.model.IDiagramModelArchimateConnection#getRelationship <em>Relationship</em>}</li>
+ *   <li>{@link com.archimatetool.model.IDiagramModelArchimateConnection#getArchimateRelationship <em>Archimate Relationship</em>}</li>
  * </ul>
  *
  * @see com.archimatetool.model.IArchimatePackage#getDiagramModelArchimateConnection()
  * @model extendedMetaData="name='Connection'"
  * @generated
  */
-public interface IDiagramModelArchimateConnection extends IDiagramModelConnection {
+public interface IDiagramModelArchimateConnection extends IDiagramModelConnection, IDiagramModelArchimateComponent {
     /**
-     * Returns the value of the '<em><b>Relationship</b></em>' reference.
+     * Returns the value of the '<em><b>Archimate Relationship</b></em>' reference.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Relationship</em>' reference isn't clear,
+     * If the meaning of the '<em>Archimate Relationship</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Relationship</em>' reference.
-     * @see #setRelationship(IRelationship)
-     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelArchimateConnection_Relationship()
+     * @return the value of the '<em>Archimate Relationship</em>' reference.
+     * @see #setArchimateRelationship(IArchimateRelationship)
+     * @see com.archimatetool.model.IArchimatePackage#getDiagramModelArchimateConnection_ArchimateRelationship()
      * @model resolveProxies="false" volatile="true"
      * @generated
      */
-    IRelationship getRelationship();
+    IArchimateRelationship getArchimateRelationship();
 
     /**
-     * Sets the value of the '{@link com.archimatetool.model.IDiagramModelArchimateConnection#getRelationship <em>Relationship</em>}' reference.
+     * Sets the value of the '{@link com.archimatetool.model.IDiagramModelArchimateConnection#getArchimateRelationship <em>Archimate Relationship</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Relationship</em>' reference.
-     * @see #getRelationship()
+     * @param value the new value of the '<em>Archimate Relationship</em>' reference.
+     * @see #getArchimateRelationship()
      * @generated
      */
-    void setRelationship(IRelationship value);
+    void setArchimateRelationship(IArchimateRelationship value);
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
+     * Over-ride to return correct type
      */
-    void addRelationshipToModel(IFolder parent);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
-     */
-    void removeRelationshipFromModel();
+    @Override
+    IArchimateRelationship getArchimateConcept();
 
 } // IDiagramModelArchimateConnection

@@ -7,7 +7,7 @@ package com.archimatetool.templates.impl.model;
 
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.templates.model.AbstractTemplate;
 
 
@@ -30,7 +30,7 @@ public class ArchimateModelTemplate extends AbstractTemplate {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_MODELS_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_MODELS);
     }
 
     @Override

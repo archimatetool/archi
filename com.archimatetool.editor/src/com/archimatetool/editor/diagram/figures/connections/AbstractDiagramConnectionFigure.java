@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.connections;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Locator;
@@ -15,12 +16,13 @@ import org.eclipse.draw2d.PolygonDecoration;
 // Use alternate PolylineConnection
 //import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.editparts.ZoomListener;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
-import com.archimatetool.editor.model.viewpoints.ViewpointsManager;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
@@ -47,13 +49,49 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     protected Color fFontColor;
     protected Color fLineColor;
     
-	public AbstractDiagramConnectionFigure(IDiagramModelConnection connection) {
-	    fDiagramModelConnection = connection;
+    protected boolean SHOW_TARGET_FEEDBACK = false;
+    
+    private ZoomListener zoomListener = new ZoomListener() {
+        public void zoomChanged(double newZoomValue) {
+            handleZoomChanged(newZoomValue);
+        }
+    };
+    
+    protected ZoomManager zoomManager;
+    
+    /**
+     * Set the Zoom Manager
+     * @param manager
+     */
+    public void setZoomManager(ZoomManager manager) {
+        if(zoomManager != manager) {
+            if(zoomManager != null) {
+                zoomManager.removeZoomListener(zoomListener);
+            }
+            
+            zoomManager = manager;
+            
+            if(zoomManager != null) {
+                zoomManager.addZoomListener(zoomListener);
+                handleZoomChanged(zoomManager.getZoom());
+            }
+        }
+    }
 
+    /**
+     * Zoom Factor changed - deal with it :-)
+     * @param newZoomValue
+     */
+    protected void handleZoomChanged(double newZoomValue) {
+    }
+    
+	public void setModelConnection(IDiagramModelConnection connection) {
+	    fDiagramModelConnection = connection;
+	    
 	    setFigureProperties();
 	    
-		// Have to add this if we want Animation to work!
-		AnimationUtil.addConnectionForRoutingAnimation(this);
+	    // Have to add this if we want Animation to work!
+	    AnimationUtil.addConnectionForRoutingAnimation(this);
 	}
 	
 	public IDiagramModelConnection getModelConnection() {
@@ -81,16 +119,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         
         setLineWidth();
         
-        // Set Enabled according to current Viewpoint
-        boolean enabled = ViewpointsManager.INSTANCE.isAllowedType(getModelConnection());
-        setEnabled(enabled);
-        if(getSourceDecoration() != null) {
-            getSourceDecoration().setEnabled(enabled);
-        }
-        if(getTargetDecoration() != null) {
-            getTargetDecoration().setEnabled(enabled);
-        }
-        getConnectionLabel().setEnabled(enabled);
+        repaint(); // repaint when figure changes
     }
 
     /**
@@ -184,12 +213,6 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         setLineWidth(fDiagramModelConnection.getLineWidth());
     }
     
-    /**
-     * Highlight this connection
-     */
-    public void highlight(boolean set) {
-    }
-    
     @Override
     public IFigure getToolTip() {
         if(super.getToolTip() == null && Preferences.doShowViewTooltips()) {
@@ -197,4 +220,36 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         }
         return Preferences.doShowViewTooltips() ? super.getToolTip() : null;
     }
+    
+    @Override
+    public void showTargetFeedback() {
+        if(!SHOW_TARGET_FEEDBACK) {
+            SHOW_TARGET_FEEDBACK = true;
+            repaint();
+        }
+    }
+    
+    @Override
+    public void eraseTargetFeedback() {
+        if(SHOW_TARGET_FEEDBACK) {
+            SHOW_TARGET_FEEDBACK = false;
+            repaint();
+        }
+    }
+    
+    @Override
+    public void paintFigure(Graphics graphics) {
+        if(SHOW_TARGET_FEEDBACK) {
+            setForegroundColor(ColorFactory.get(0, 0, 255));
+            setLineWidth(getModelConnection().getLineWidth() + 1);
+        }
+        else {
+            setLineWidth();
+            setForegroundColor(fLineColor);
+        }
+
+        super.paintFigure(graphics);
+    }
+    
+    
 }

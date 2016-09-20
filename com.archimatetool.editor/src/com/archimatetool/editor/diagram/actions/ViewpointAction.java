@@ -14,10 +14,10 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
-import com.archimatetool.editor.model.viewpoints.IViewpoint;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.viewpoints.IViewpoint;
 
 
 
@@ -47,10 +47,7 @@ public class ViewpointAction extends Action implements Disposable {
     
     public ViewpointAction(IWorkbenchPart part, IViewpoint viewPoint) {
         super(viewPoint.getName(), AS_RADIO_BUTTON);
-        setId(viewPoint.getClass().toString());
-        
-        // Not sure about this
-        //setImageDescriptor(ViewpointsManager.INSTANCE.getImageDescriptor(viewPoint));
+        setId(viewPoint.toString());
         
         this.part = part;
         this.viewPoint = viewPoint;
@@ -66,12 +63,12 @@ public class ViewpointAction extends Action implements Disposable {
             CommandStack stack = part.getAdapter(CommandStack.class);
             stack.execute(new EObjectFeatureCommand(Messages.ViewpointAction_0,
                                 diagramModel, IArchimatePackage.Literals.ARCHIMATE_DIAGRAM_MODEL__VIEWPOINT,
-                                viewPoint.getIndex()));
+                                viewPoint.getID()));
         }
     }
     
     protected void update() {
-        setChecked(diagramModel.getViewpoint() == viewPoint.getIndex());
+        setChecked(diagramModel.getViewpoint().equals(viewPoint.getID()));
     }
     
     public void dispose() {

@@ -32,7 +32,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.utils.StringUtils;
 
 
@@ -468,7 +468,7 @@ public class FindReplaceDialog extends Dialog implements IPartListener, IDialogC
     }
     
     protected IDialogSettings getDialogSettings(String sectionName) {
-        IDialogSettings settings = ArchimateEditorPlugin.INSTANCE.getDialogSettings();
+        IDialogSettings settings = ArchiPlugin.INSTANCE.getDialogSettings();
         IDialogSettings section = settings.getSection(sectionName);
         if(section == null) {
             section = settings.addNewSection(sectionName);

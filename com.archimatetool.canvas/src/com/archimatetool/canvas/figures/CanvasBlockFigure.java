@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
+import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.utils.StringUtils;

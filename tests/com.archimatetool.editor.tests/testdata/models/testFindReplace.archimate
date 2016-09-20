@@ -23,19 +23,19 @@
     <element xsi:type="archimate:Stakeholder" id="db95a2b5" name="FindMe 7"/>
   </folder>
   <folder name="Implementation &amp; Migration" id="b9270ad8" type="implementation_migration"/>
-  <folder name="Connectors" id="b77bc390" type="connectors">
-    <element xsi:type="archimate:Junction" id="503c4cf4" name="FindMe 8"/>
+  <folder name="Other" id="b77bc390" type="other">
+    <element xsi:type="archimate:AndJunction" id="503c4cf4" name="FindMe 8"/>
   </folder>
   <folder name="Relations" id="bb382708" type="relations">
     <folder name="New Folder" id="f04f5133">
-      <element xsi:type="archimate:SpecialisationRelationship" id="9d271a81" name="FindMe 9" source="b3b3a0b2" target="2f8182cb"/>
+      <element xsi:type="archimate:SpecializationRelationship" id="9d271a81" name="FindMe 9" source="b3b3a0b2" target="2f8182cb"/>
     </folder>
   </folder>
   <folder name="Views" id="84172b06" type="diagrams">
     <element xsi:type="archimate:ArchimateDiagramModel" id="6a346079" name="FindMe 10">
       <child xsi:type="archimate:DiagramObject" id="75169540" textAlignment="2" archimateElement="b3b3a0b2">
         <bounds x="36" y="72" width="169" height="180"/>
-        <sourceConnection xsi:type="archimate:Connection" id="d5138494" source="75169540" target="c76c0d2a" relationship="9d271a81"/>
+        <sourceConnection xsi:type="archimate:Connection" id="d5138494" source="75169540" target="c76c0d2a" archimateRelationship="9d271a81"/>
         <child xsi:type="archimate:DiagramObject" id="c1c958bd" textAlignment="2" archimateElement="44cb6838">
           <bounds x="24" y="96"/>
         </child>

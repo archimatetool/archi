@@ -35,6 +35,6 @@ public class CanvasModelTemplate extends AbstractTemplate {
 
     @Override
     public Image getImage() {
-        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_MODEL_16);
+        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_MODEL);
     }
 }

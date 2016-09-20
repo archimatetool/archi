@@ -8,7 +8,6 @@ package com.archimatetool.canvas.factory;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -16,7 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.canvas.ICanvasImages;
 import com.archimatetool.canvas.editparts.CanvasBlockEditPart;
 import com.archimatetool.canvas.model.ICanvasPackage;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -26,7 +25,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class CanvasBlockUIProvider extends AbstractElementUIProvider {
+public class CanvasBlockUIProvider extends AbstractGraphicalObjectUIProvider {
 
     @Override
     public EClass providerFor() {
@@ -50,20 +49,20 @@ public class CanvasBlockUIProvider extends AbstractElementUIProvider {
 
     @Override
     public Image getImage() {
-        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_BLOCK_16);
+        return ICanvasImages.ImageFactory.getImage(ICanvasImages.ICON_CANVAS_BLOCK);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK_16);
+        return ICanvasImages.ImageFactory.getImageDescriptor(ICanvasImages.ICON_CANVAS_BLOCK);
     }
     
     @Override
-    public boolean shouldExposeFeature(EObject instance, EAttribute feature) {
+    public boolean shouldExposeFeature(EAttribute feature) {
         if(feature == IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR) {
             return false;
         }
         
-        return super.shouldExposeFeature(instance, feature);
+        return true;
     }
 }

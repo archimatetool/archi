@@ -12,27 +12,33 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+import com.archimatetool.editor.TestSupport;
 import com.archimatetool.editor.diagram.actions.CopySnapshot.BidiHashtable;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
-import com.archimatetool.model.IDiagramModelContainer;
-import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelReference;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.testingtools.ArchimateTestModel;
 import com.archimatetool.tests.TestData;
 
@@ -50,19 +56,6 @@ public class CopySnapshotTests {
     private IDiagramModel sourceDiagramModel;
     private IDiagramModel targetDiagramModel;
     
-    @Before
-    public void runOnceBeforeEachTest() throws IOException {
-        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
-        model = tm.loadModelWithCommandStack();
-        sourceDiagramModel = model.getDiagramModels().get(1);
-        targetDiagramModel = tm.addNewArchimateDiagramModel();
-    }
-    
-    @After
-    public void runOnceAfterEachTest() {
-        targetDiagramModel.getChildren().clear();
-    }
-
     // ---------------------------------------------------------------------------------------------
     // Tests
     // ---------------------------------------------------------------------------------------------
@@ -78,17 +71,19 @@ public class CopySnapshotTests {
     }
 
     @Test
-    public void testCanPasteToDiagram() {
-        List<IDiagramModelObject> selectedObjects = new ArrayList<IDiagramModelObject>();
+    public void testCanPasteToDiagram() throws IOException {
+        loadTestModel1();
+        
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
         
         // Empty selection
-        CopySnapshot snapshot = new CopySnapshot(selectedObjects);
+        CopySnapshot snapshot = new CopySnapshot(selected);
         assertFalse(snapshot.canPasteToDiagram(targetDiagramModel));
         
         // Select some
-        selectedObjects.addAll(sourceDiagramModel.getChildren());
+        selected.addAll(sourceDiagramModel.getChildren());
         
-        snapshot = new CopySnapshot(selectedObjects);
+        snapshot = new CopySnapshot(selected);
         assertTrue(snapshot.canPasteToDiagram(targetDiagramModel));
 
         // Different diagram model types
@@ -97,7 +92,9 @@ public class CopySnapshotTests {
     }
         
     @Test
-    public void testCanPasteToDiagram_DifferentModelDiagramReference() {
+    public void testCanPasteToDiagram_DifferentModelDiagramReference() throws IOException {
+        loadTestModel1();
+        
         // Test can't paste IDiagramModelReference to another Archimate model
 
         // Source model
@@ -108,26 +105,28 @@ public class CopySnapshotTests {
         // Target model
         IArchimateModel model2 = IArchimateFactory.eINSTANCE.createArchimateModel();
         IArchimateDiagramModel targetDiagramModel2 = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
-        model2.getDefaultFolderForElement(targetDiagramModel2).getElements().add(targetDiagramModel2);
+        model2.getDefaultFolderForObject(targetDiagramModel2).getElements().add(targetDiagramModel2);
         
-        List<IDiagramModelObject> selectedObjects = new ArrayList<IDiagramModelObject>();
-        selectedObjects.add(reference);
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
+        selected.add(reference);
 
-        CopySnapshot snapshot = new CopySnapshot(selectedObjects);
+        CopySnapshot snapshot = new CopySnapshot(selected);
         assertFalse(snapshot.canPasteToDiagram(targetDiagramModel2));
         
         // Should be OK if other objects added
-        selectedObjects.addAll(sourceDiagramModel.getChildren());
-        snapshot = new CopySnapshot(selectedObjects);
+        selected.addAll(sourceDiagramModel.getChildren());
+        snapshot = new CopySnapshot(selected);
         assertTrue(snapshot.canPasteToDiagram(targetDiagramModel2));
     }
 
     @Test
-    public void testGetPasteCommand() {
-        List<IDiagramModelObject> selectedObjects = new ArrayList<IDiagramModelObject>();
-        selectedObjects.addAll(sourceDiagramModel.getChildren());
+    public void testGetPasteCommand() throws IOException {
+        loadTestModel1();
         
-        CopySnapshot snapshot = new CopySnapshot(selectedObjects);
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
+        selected.addAll(getAllDiagramComponents(sourceDiagramModel));
+        
+        CopySnapshot snapshot = new CopySnapshot(selected);
         assertNotNull(snapshot);
         
         // Should be null
@@ -141,14 +140,16 @@ public class CopySnapshotTests {
         cmd.execute();
 
         // Same number of objects pasted
-        assertEquals(countObjects(selectedObjects), countObjects(targetDiagramModel.getChildren()));
+        assertEquals(countAllObjects(sourceDiagramModel), countAllObjects(targetDiagramModel));
 
         // Same number of connections pasted
-        assertEquals(countConnections(selectedObjects), countConnections(targetDiagramModel.getChildren()));
+        assertEquals(countAllConnections(sourceDiagramModel), countAllConnections(targetDiagramModel));
     }
     
     @Test
-    public void testNestedConnectionIsCopied() {
+    public void testNestedConnectionIsCopied() throws IOException {
+        loadTestModel1();
+        
         // Create parent object
         IDiagramModelArchimateObject dmoParent =
                 ArchimateTestModel.createDiagramModelArchimateObject(IArchimateFactory.eINSTANCE.createBusinessActor());
@@ -162,7 +163,7 @@ public class CopySnapshotTests {
         dmoParent.getChildren().add(dmoChild);
         
         // Create relationship
-        IRelationship relationship = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
+        IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createAssignmentRelationship();
         relationship.setSource(dmoParent.getArchimateElement());
         relationship.setTarget(dmoChild.getArchimateElement());
         
@@ -173,56 +174,138 @@ public class CopySnapshotTests {
                 ArchimateTestModel.createDiagramModelArchimateConnection(relationship);
         connection.connect(dmoParent, dmoChild);
         
-        List<IDiagramModelObject> selectedObjects = new ArrayList<IDiagramModelObject>();
-        selectedObjects.add(dmoParent);
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
+        selected.add(dmoParent);
         
-        CopySnapshot snapshot = new CopySnapshot(selectedObjects);
+        CopySnapshot snapshot = new CopySnapshot(selected);
         Command cmd = snapshot.getPasteCommand(targetDiagramModel, null, null);
         assertNotNull(cmd);
         cmd.execute();
-        assertEquals(1, countConnections(targetDiagramModel.getChildren()));
-        
-        // @TODO - need to redo implicit connection logic
-        // Now test that an implicit nested connection is copied
-//        connection.disconnect();
-//        targetDiagramModel.getChildren().clear();
-//        snapshot = new CopySnapshot(selectedObjects);
-//        cmd = snapshot.getPasteCommand(targetDiagramModel, null, null);
-//        cmd.execute();
-//        assertEquals(1, countConnections(targetDiagramModel.getChildren()));
+        assertEquals(1, countAllConnections(targetDiagramModel));
     }
     
-    /**
-     * @param objects
-     * @return count of connections and child objects connections
-     */
-    private int countConnections(List<IDiagramModelObject> objects) {
+    @Test
+    public void testDiagramCopyContainsAllConnectionsAndObjects() throws IOException {
+        loadTestModel2();
+        
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
+        
+        // Select all
+        selected.addAll(getAllDiagramComponents(sourceDiagramModel));
+        
+        CopySnapshot snapshot = new CopySnapshot(selected);
+        assertTrue(snapshot.canPasteToDiagram(targetDiagramModel));
+
+        Command cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null);
+        assertTrue(cmd.canExecute());
+        cmd.execute();
+        
+        // Same number of objects pasted
+        assertEquals(8, countAllObjects(sourceDiagramModel));
+        assertEquals(countAllObjects(sourceDiagramModel), countAllObjects(targetDiagramModel));
+
+        // Same number of connections pasted
+        assertEquals(11, countAllConnections(sourceDiagramModel));
+        assertEquals(countAllConnections(sourceDiagramModel), countAllConnections(targetDiagramModel));
+    }
+    
+    @Test
+    public void testCopiedObjectsHaveIdentifiersAndParentsWhenPastedToSameDiagramModel() throws IOException {
+        loadTestModel1();
+        testCopiedObjectsHaveIdentifiersAndParents(sourceDiagramModel);
+    }
+    
+    @Test
+    public void testCopiedObjectsHaveIdentifiersAndParentsWhenPastedToNewDiagramModel() throws IOException {
+        loadTestModel1();
+        testCopiedObjectsHaveIdentifiersAndParents(targetDiagramModel);
+    }
+
+    @Test
+    public void testCopiedObjectsHaveIdentifiersAndParentsWhenPastedToNewArchimateModel() throws IOException {
+        loadTestModel1();
+        
+        ArchimateTestModel tm = new ArchimateTestModel();
+        IArchimateModel newModel = tm.createNewModel();
+        targetDiagramModel = newModel.getDefaultDiagramModel();
+        
+        testCopiedObjectsHaveIdentifiersAndParents(targetDiagramModel);
+    }
+
+    private void testCopiedObjectsHaveIdentifiersAndParents(IDiagramModel newTargetDiagramModel) {
+        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
+        selected.addAll(getAllDiagramComponents(sourceDiagramModel));
+        
+        CopySnapshot snapshot = new CopySnapshot(selected);
+        Command cmd = snapshot.getPasteCommand(newTargetDiagramModel, mock(GraphicalViewer.class), null);
+        cmd.execute();
+        
+        for(TreeIterator<EObject> iter = newTargetDiagramModel.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            
+            assertNotNull(eObject.eContainer());
+            
+            if(eObject instanceof IIdentifier) {
+                assertNotNull(((IIdentifier)eObject).getId());
+            }
+            if(eObject instanceof IDiagramModelArchimateComponent) {
+                assertNotNull(((IDiagramModelArchimateComponent)eObject).getArchimateConcept());
+                assertNotNull(((IDiagramModelArchimateComponent)eObject).getArchimateConcept().eContainer());
+            }
+        }
+    }
+
+
+    // ---------------------------------------------------------------------------------------------
+    // Support
+    // ---------------------------------------------------------------------------------------------
+
+    private void loadTestModel1() throws IOException {
+        tm = new ArchimateTestModel(TestData.TEST_MODEL_FILE_ARCHISURANCE);
+        model = tm.loadModelWithCommandStack();
+        sourceDiagramModel = model.getDiagramModels().get(1);
+        targetDiagramModel = tm.addNewArchimateDiagramModel();
+    }
+    
+    private void loadTestModel2() throws IOException {
+        tm = new ArchimateTestModel(new File(TestSupport.getTestDataFolder(), "models/testCopySnapshot.archimate"));
+        model = tm.loadModelWithCommandStack();
+        sourceDiagramModel = model.getDiagramModels().get(0);
+        targetDiagramModel = tm.addNewArchimateDiagramModel();
+    }
+    
+    private List<IDiagramModelComponent> getAllDiagramComponents(IDiagramModel dm) {
+        List<IDiagramModelComponent> list = new ArrayList<IDiagramModelComponent>();
+        
+        for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(eObject instanceof IDiagramModelComponent) {
+                list.add((IDiagramModelComponent)eObject);
+            }
+        }
+        
+        return list;
+    }
+
+    private int countAllObjects(IDiagramModel dm) {
+        return countAllThings(dm, IArchimatePackage.eINSTANCE.getDiagramModelObject());
+    }
+        
+    private int countAllConnections(IDiagramModel dm) {
+        return countAllThings(dm, IArchimatePackage.eINSTANCE.getDiagramModelConnection());
+    }
+
+    private int countAllThings(IDiagramModel dm, EClass type) {
         int count = 0;
         
-        for(IDiagramModelObject dmo : objects) {
-            count += dmo.getTargetConnections().size();
-            
-            if(dmo instanceof IDiagramModelContainer) {
-                count += countConnections(((IDiagramModelContainer)dmo).getChildren());
+        for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+            EObject eObject = iter.next();
+            if(type.isSuperTypeOf(eObject.eClass())) {
+                count++;
             }
         }
         
         return count;
     }
 
-    /**
-     * @param objects
-     * @return count of objects and child objects
-     */
-    private int countObjects(List<IDiagramModelObject> objects) {
-        int count = objects.size();
-        
-        for(IDiagramModelObject dmo : objects) {
-            if(dmo instanceof IDiagramModelContainer) {
-                count += countObjects(((IDiagramModelContainer)dmo).getChildren());
-            }
-        }
-        
-        return count;
-    }
 }

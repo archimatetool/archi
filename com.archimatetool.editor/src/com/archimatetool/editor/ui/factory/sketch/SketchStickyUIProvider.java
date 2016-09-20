@@ -12,8 +12,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.sketch.editparts.StickyEditPart;
-import com.archimatetool.editor.ui.IArchimateImages;
-import com.archimatetool.editor.ui.factory.AbstractElementUIProvider;
+import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.factory.AbstractGraphicalObjectUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
 
@@ -23,7 +23,7 @@ import com.archimatetool.model.IArchimatePackage;
  * 
  * @author Phillip Beauvoir
  */
-public class SketchStickyUIProvider extends AbstractElementUIProvider {
+public class SketchStickyUIProvider extends AbstractGraphicalObjectUIProvider {
 
     public EClass providerFor() {
         return IArchimatePackage.eINSTANCE.getSketchModelSticky();
@@ -46,11 +46,11 @@ public class SketchStickyUIProvider extends AbstractElementUIProvider {
 
     @Override
     public Image getImage() {
-        return IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_STICKY_16);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_STICKY);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_STICKY_16);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_STICKY);
     }
 }

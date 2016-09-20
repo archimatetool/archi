@@ -36,7 +36,7 @@ import org.osgi.framework.Bundle;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
@@ -44,12 +44,12 @@ import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
-import com.archimatetool.reports.ArchimateEditorReportsPlugin;
+import com.archimatetool.reports.ArchiReportsPlugin;
 
 
 /**
@@ -61,7 +61,7 @@ import com.archimatetool.reports.ArchimateEditorReportsPlugin;
  */
 public class HTMLReportExporter extends AbstractUIPlugin {
     
-    public static File PREVIEW_FOLDER = new File(ArchimateEditorPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
+    public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
     
     private IArchimateModel fModel;
     
@@ -144,7 +144,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         imagesFolder.mkdirs(); // Make dir
              
         // Instantiate templates files
-        File mainFile = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
+        File mainFile = new File(ArchiReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
         STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
         ST stFrame = groupFile.getInstanceOf("frame"); //$NON-NLS-1$
         
@@ -169,7 +169,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         stModel.add("technologyFolder", fModel.getFolder(FolderType.TECHNOLOGY)); //$NON-NLS-1$
         stModel.add("motivationFolder", fModel.getFolder(FolderType.MOTIVATION)); //$NON-NLS-1$
         stModel.add("implementationFolder", fModel.getFolder(FolderType.IMPLEMENTATION_MIGRATION)); //$NON-NLS-1$
-        stModel.add("connectorsFolder", fModel.getFolder(FolderType.CONNECTORS)); //$NON-NLS-1$
+        stModel.add("connectorsFolder", fModel.getFolder(FolderType.OTHER)); //$NON-NLS-1$
         stModel.add("relationsFolder", fModel.getFolder(FolderType.RELATIONS)); //$NON-NLS-1$
         stModel.add("viewsFolder", fModel.getFolder(FolderType.DIAGRAMS)); //$NON-NLS-1$
         
@@ -184,7 +184,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
      * @throws IOException 
      */
     private void copyHTMLSkeleton(File targetFolder) throws IOException {
-        File srcDir = new File(ArchimateEditorReportsPlugin.INSTANCE.getTemplatesFolder(), "html"); //$NON-NLS-1$
+        File srcDir = new File(ArchiReportsPlugin.INSTANCE.getTemplatesFolder(), "html"); //$NON-NLS-1$
         FileUtils.copyFolder(srcDir, targetFolder);
     }
     
@@ -221,7 +221,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     private void writeElements(File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
         if(!list.isEmpty()) {
             for(EObject object : list) {
-                if(object instanceof IArchimateComponent) {
+                if(object instanceof IArchimateConcept) {
                 	writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
                 }
             }

@@ -89,6 +89,24 @@ public interface ICanvasPackage extends EPackage {
     int ICONIC__NAME = IArchimatePackage.DIAGRAM_MODEL_OBJECT__NAME;
 
     /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__SOURCE_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ICONIC__TARGET_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
+
+    /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -141,24 +159,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int ICONIC__BOUNDS = IArchimatePackage.DIAGRAM_MODEL_OBJECT__BOUNDS;
-
-    /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ICONIC__SOURCE_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_OBJECT__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ICONIC__TARGET_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_OBJECT__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -332,15 +332,6 @@ public interface ICanvasPackage extends EPackage {
     int NOTES_CONTENT_FEATURE_COUNT = 1;
 
     /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL__ID = IArchimatePackage.DIAGRAM_MODEL__ID;
-
-    /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -348,6 +339,15 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL__NAME = IArchimatePackage.DIAGRAM_MODEL__NAME;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL__ID = IArchimatePackage.DIAGRAM_MODEL__ID;
 
     /**
      * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -431,6 +431,24 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_STICKY__NAME = ICONIC__NAME;
 
     /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__SOURCE_CONNECTIONS = ICONIC__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_STICKY__TARGET_CONNECTIONS = ICONIC__TARGET_CONNECTIONS;
+
+    /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -483,24 +501,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_STICKY__BOUNDS = ICONIC__BOUNDS;
-
-    /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_STICKY__SOURCE_CONNECTIONS = ICONIC__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_STICKY__TARGET_CONNECTIONS = ICONIC__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -611,6 +611,24 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_BLOCK__NAME = ICONIC__NAME;
 
     /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__SOURCE_CONNECTIONS = ICONIC__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_BLOCK__TARGET_CONNECTIONS = ICONIC__TARGET_CONNECTIONS;
+
+    /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -663,24 +681,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_BLOCK__BOUNDS = ICONIC__BOUNDS;
-
-    /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__SOURCE_CONNECTIONS = ICONIC__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_BLOCK__TARGET_CONNECTIONS = ICONIC__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -819,6 +819,24 @@ public interface ICanvasPackage extends EPackage {
     int CANVAS_MODEL_IMAGE__NAME = IArchimatePackage.DIAGRAM_MODEL_IMAGE__NAME;
 
     /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__SOURCE_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_IMAGE__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_IMAGE__TARGET_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_IMAGE__TARGET_CONNECTIONS;
+
+    /**
      * The feature id for the '<em><b>Font</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -871,24 +889,6 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_IMAGE__BOUNDS = IArchimatePackage.DIAGRAM_MODEL_IMAGE__BOUNDS;
-
-    /**
-     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_IMAGE__SOURCE_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_IMAGE__SOURCE_CONNECTIONS;
-
-    /**
-     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CANVAS_MODEL_IMAGE__TARGET_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_IMAGE__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -962,6 +962,24 @@ public interface ICanvasPackage extends EPackage {
      * @ordered
      */
     int CANVAS_MODEL_CONNECTION__NAME = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__NAME;
+
+    /**
+     * The feature id for the '<em><b>Source Connections</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_CONNECTION__SOURCE_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__SOURCE_CONNECTIONS;
+
+    /**
+     * The feature id for the '<em><b>Target Connections</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CANVAS_MODEL_CONNECTION__TARGET_CONNECTIONS = IArchimatePackage.DIAGRAM_MODEL_CONNECTION__TARGET_CONNECTIONS;
 
     /**
      * The feature id for the '<em><b>Font</b></em>' attribute.

@@ -18,7 +18,7 @@ import com.archimatetool.model.IDeliverable;
  *
  * @generated
  */
-public class Deliverable extends ImplementationMigrationElement implements IDeliverable {
+public class Deliverable extends ArchimateElement implements IDeliverable {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

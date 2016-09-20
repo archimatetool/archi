@@ -14,7 +14,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.palette.ToolEntry;
 
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo.PaintFormat;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelConnection;
 
@@ -96,12 +96,12 @@ public class FormatPainterToolEntry extends ToolEntry implements PropertyChangeL
     
     protected void setIcons() {
         if(FormatPainterInfo.INSTANCE.isFat()) {
-            setLargeIcon(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FORMAT_PAINTER_16));
-            setSmallIcon(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FORMAT_PAINTER_16));
+            setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER));
+            setSmallIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER));
         }
         else {
-            setLargeIcon(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FORMAT_PAINTER_GREY_16));
-            setSmallIcon(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ICON_FORMAT_PAINTER_GREY_16));
+            setLargeIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY));
+            setSmallIcon(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_FORMAT_PAINTER_GREY));
         }
     }
     

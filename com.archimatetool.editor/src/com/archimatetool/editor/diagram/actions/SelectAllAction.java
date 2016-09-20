@@ -5,8 +5,8 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
@@ -55,8 +55,9 @@ public class SelectAllAction extends Action {
      * @param editpart from which the edit parts are to be retrieved
      * @return list of selectable EditParts
      */
-    List<GraphicalEditPart> getSelectableEditParts(EditPart editpart) {
-        List<GraphicalEditPart> selected = new ArrayList<GraphicalEditPart>();
+    Set<GraphicalEditPart> getSelectableEditParts(EditPart editpart) {
+        // Use a HashSet for uniqueness
+        Set<GraphicalEditPart> selected = new HashSet<GraphicalEditPart>();
         
         for(Object child : editpart.getChildren()) {
             if(child instanceof GraphicalEditPart) {
@@ -65,8 +66,14 @@ public class SelectAllAction extends Action {
                 if(childPart.isSelectable()) {
                     selected.add(childPart);
                     
-                    // Add connections if selectable (only need to get source connections, not target)
+                    // Add connections if selectable
                     for(Object o : childPart.getSourceConnections()) {
+                        GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
+                        if(connectionEditPart.isSelectable()) {
+                            selected.add(connectionEditPart);
+                        }
+                    }
+                    for(Object o : childPart.getTargetConnections()) {
                         GraphicalEditPart connectionEditPart = (GraphicalEditPart)o;
                         if(connectionEditPart.isSelectable()) {
                             selected.add(connectionEditPart);

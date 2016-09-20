@@ -11,11 +11,11 @@ import java.util.List;
 import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.ui.ArchimateLabelProvider;
+import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.WarningType;
-import com.archimatetool.model.IRelationship;
+import com.archimatetool.model.IArchimateRelationship;
 
 
 /**
@@ -41,9 +41,9 @@ public class UnusedRelationsChecker extends AbstractChecker {
     List<IIssue> findUnusedRelations() {
         List<IIssue> issues = new ArrayList<IIssue>();
         
-        for(IRelationship relation : archimateRelations) {
-            if(!DiagramModelUtils.isArchimateComponentReferencedInDiagrams(relation)) {
-                String name = ArchimateLabelProvider.INSTANCE.getLabel(relation);
+        for(IArchimateRelationship relation : archimateRelations) {
+            if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams(relation)) {
+                String name = ArchiLabelProvider.INSTANCE.getLabel(relation);
                 String description = NLS.bind(DESCRIPTION, name);
                 String explanation = NLS.bind(EXPLANATION, name);
                 

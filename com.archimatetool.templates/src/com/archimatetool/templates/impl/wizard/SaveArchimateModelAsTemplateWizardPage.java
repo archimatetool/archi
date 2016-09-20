@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
@@ -70,7 +70,7 @@ public class SaveArchimateModelAsTemplateWizardPage extends WizardPage {
         super("SaveModelAsTemplateWizardPage"); //$NON-NLS-1$
         setTitle(Messages.SaveArchimateModelAsTemplateWizardPage_2);
         setDescription(Messages.SaveArchimateModelAsTemplateWizardPage_3);
-        setImageDescriptor(IArchimateImages.ImageFactory.getImageDescriptor(IArchimateImages.ECLIPSE_IMAGE_NEW_WIZARD));
+        setImageDescriptor(IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ECLIPSE_IMAGE_NEW_WIZARD));
         fModel = model;
         fTemplateManager = templateManager;
     }

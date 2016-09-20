@@ -18,7 +18,7 @@ import com.archimatetool.model.IStakeholder;
  *
  * @generated
  */
-public class Stakeholder extends MotivationElement implements IStakeholder {
+public class Stakeholder extends ArchimateElement implements IStakeholder {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -8,7 +8,7 @@ package com.archimatetool.editor.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.archimatetool.editor.ArchimateEditorPlugin;
+import com.archimatetool.editor.ArchiPlugin;
 
 
 
@@ -22,9 +22,9 @@ implements IPreferenceConstants {
 
     @Override
     public void initializeDefaultPreferences() {
-		IPreferenceStore store = ArchimateEditorPlugin.INSTANCE.getPreferenceStore();
+		IPreferenceStore store = ArchiPlugin.INSTANCE.getPreferenceStore();
         
-		store.setDefault(USER_DATA_FOLDER, ArchimateEditorPlugin.INSTANCE.getWorkspaceFolder().getPath());
+		store.setDefault(USER_DATA_FOLDER, ArchiPlugin.INSTANCE.getWorkspaceFolder().getPath());
 		
 		store.setDefault(MRU_MAX, 6);
         
@@ -61,11 +61,11 @@ implements IPreferenceConstants {
         store.setDefault(CREATE_RELATION_WHEN_ADDING_MODEL_TREE_ELEMENT_TO_CONTAINER, true);
         store.setDefault(CREATE_RELATION_WHEN_MOVING_ELEMENT_TO_CONTAINER, true);
         
-        store.setDefault(NEW_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7);
-        store.setDefault(HIDDEN_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7);
+        store.setDefault(NEW_RELATIONS_TYPES, 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 1);
+        store.setDefault(HIDDEN_RELATIONS_TYPES, 1 << 10 | 1 << 9 | 1 << 8 | 1 << 7 | 1 << 6 | 1 << 5 | 1 << 4 | 1 << 3 | 1 << 2 | 1 << 1 | 1 << 0);
         
         store.setDefault(VIEWPOINTS_FILTER_MODEL_TREE, true);
-        store.setDefault(VIEWPOINTS_HIDE_DIAGRAM_ELEMENTS, false);
+        store.setDefault(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS, true);
         store.setDefault(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, true);
         store.setDefault(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, true);
         
@@ -82,8 +82,8 @@ implements IPreferenceConstants {
         
         store.setDefault(ANIMATE_VISUALISER_NODES, true);
         
-        // Show shadows
-        store.setDefault(SHOW_SHADOWS, false);
+        // Show gradient
+        store.setDefault(SHOW_GRADIENT, false);
         
         // Archimate Figure Word Wrap type
         store.setDefault(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, 1);

@@ -8,7 +8,6 @@ package com.archimatetool.editor.ui.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -22,7 +21,9 @@ import com.archimatetool.editor.diagram.sketch.editparts.SketchActorEditPart;
 import com.archimatetool.editor.ui.factory.sketch.SketchActorUIProvider;
 import com.archimatetool.model.IArchimatePackage;
 
-public class SketchActorUIProviderTests extends AbstractElementUIProviderTests {
+import junit.framework.JUnit4TestAdapter;
+
+public class SketchActorUIProviderTests extends AbstractGraphicalObjectUIProviderTests {
     
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(SketchActorUIProviderTests.class);
@@ -36,28 +37,31 @@ public class SketchActorUIProviderTests extends AbstractElementUIProviderTests {
     
     @Override
     public void testCreateEditPart() {
-        EditPart editPart = provider.createEditPart();
+        EditPart editPart = getProvider().createEditPart();
         assertTrue(editPart instanceof SketchActorEditPart);
     }
     
     @Override
     @Test
     public void testGetDefaultSize() {
-        assertEquals(new Dimension(75, 100), provider.getDefaultSize());
+        assertEquals(new Dimension(75, 100), getProvider().getDefaultSize());
     }
 
     @Override
     public void testGetDefaultColor() {
-        Color color = provider.getDefaultColor();
+        Color color = getProvider().getDefaultColor();
         assertEquals(ColorConstants.black, color);
     }
     
     @Override
     public void testShouldExposeFeature() {
         super.testShouldExposeFeature();
-        EObject instance = expectedClass.getEPackage().getEFactoryInstance().create(expectedClass);
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
-        assertFalse(provider.shouldExposeFeature(instance, IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
+        
+        EObject instance = createInstanceForExpectedClass();
+        getProvider().setInstance(instance);
+        
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT));
+        assertFalse(provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR));
     }
 
 }

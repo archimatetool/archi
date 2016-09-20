@@ -20,13 +20,13 @@ public class Messages extends NLS {
 
     public static String InfluenceRelationshipUIProvider_0;
 
-    public static String RealisationRelationshipUIProvider_0;
+    public static String RealizationRelationshipUIProvider_0;
 
-    public static String SpecialisationRelationshipUIProvider_0;
+    public static String SpecializationRelationshipUIProvider_0;
 
     public static String TriggeringRelationshipUIProvider_0;
 
-    public static String UsedByRelationshipUIProvider_0;
+    public static String ServingRelationshipUIProvider_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

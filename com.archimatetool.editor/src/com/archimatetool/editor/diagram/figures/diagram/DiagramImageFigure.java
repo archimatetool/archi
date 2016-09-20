@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.Image;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.IArchimateImages;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelImage;
 
@@ -105,7 +105,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         else {
             super.paintFigure(graphics);
-            Image image = IArchimateImages.ImageFactory.getImage(IArchimateImages.ICON_LANDSCAPE_16);
+            Image image = IArchiImages.ImageFactory.getImage(IArchiImages.ICON_LANDSCAPE);
             graphics.drawImage(image, bounds.x + (bounds.width / 2) - 7, bounds.y + (bounds.height / 2) - 7);
         }
         
