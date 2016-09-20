@@ -100,10 +100,14 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
     }
     
     @Test
-    public void testGetTextAlignment() {
-        assertEquals(object.getDefaultTextAlignment(), object.getTextAlignment());
-        object.setTextAlignment(2);
-        assertEquals(2, object.getTextAlignment());
+    public void testGetDefaultTextAlignment() {
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, object.getTextAlignment());
+    }
+    
+    @Test
+    public void testSetTextAlignment() {
+        object.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_RIGHT);
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_RIGHT, object.getTextAlignment());
     }
     
     @Test
@@ -169,11 +173,6 @@ public abstract class DiagramModelObjectTests extends DiagramModelComponentTests
         assertTrue(object.getTargetConnections().isEmpty());
     }
 
-    @Test
-    public void testGetDefaultTextAlignment() {
-        assertEquals(ITextAlignment.TEXT_ALIGNMENT_CENTER, object.getDefaultTextAlignment());
-    }
-    
     @Override
     @Test
     public void testGetCopy() {

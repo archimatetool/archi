@@ -31,6 +31,7 @@ public class SketchModelStickyTests extends DiagramModelObjectTests {
     @Override
     protected IDiagramModelComponent getComponent() {
         sticky = IArchimateFactory.eINSTANCE.createSketchModelSticky();
+        sticky.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         return sticky;
     }
 
@@ -38,7 +39,7 @@ public class SketchModelStickyTests extends DiagramModelObjectTests {
     @Override
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, sticky.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, sticky.getTextAlignment());
     }
 
     @Override

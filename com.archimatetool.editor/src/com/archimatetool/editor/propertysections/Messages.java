@@ -193,27 +193,7 @@ public class Messages extends NLS {
 
     public static String TextContentSection_2;
 
-    public static String TextPositionSection_0;
-
-    public static String TextPositionSection_1;
-
-    public static String TextPositionSection_10;
-
-    public static String TextPositionSection_2;
-
     public static String TextPositionSection_3;
-
-    public static String TextPositionSection_4;
-
-    public static String TextPositionSection_5;
-
-    public static String TextPositionSection_6;
-
-    public static String TextPositionSection_7;
-
-    public static String TextPositionSection_8;
-
-    public static String TextPositionSection_9;
 
     public static String UsedInRelationshipsSection_0;
 

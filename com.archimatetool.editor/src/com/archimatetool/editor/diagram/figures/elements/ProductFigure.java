@@ -75,7 +75,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                 
                 int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
                 
-                if(textPosition <= ITextPosition.TEXT_POSITION_TOP_CENTRE) {
+                if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
                     bounds.y += TOP_MARGIN - 4;
                 }
                 

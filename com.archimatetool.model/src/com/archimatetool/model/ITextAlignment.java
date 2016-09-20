@@ -24,13 +24,14 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface ITextAlignment extends EObject {
-    int TEXT_ALIGNMENT_NONE = 0; // Legacy support
+    
     int TEXT_ALIGNMENT_LEFT = 1;
     int TEXT_ALIGNMENT_CENTER = 2;
     int TEXT_ALIGNMENT_RIGHT = 4;
     
     /**
      * Returns the value of the '<em><b>Text Alignment</b></em>' attribute.
+     * The default value is <code>"2"</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Text Alignment</em>' attribute isn't clear,
@@ -40,7 +41,7 @@ public interface ITextAlignment extends EObject {
      * @return the value of the '<em>Text Alignment</em>' attribute.
      * @see #setTextAlignment(int)
      * @see com.archimatetool.model.IArchimatePackage#getTextAlignment_TextAlignment()
-     * @model
+     * @model default="2"
      * @generated
      */
     int getTextAlignment();
@@ -54,13 +55,5 @@ public interface ITextAlignment extends EObject {
      * @generated
      */
     void setTextAlignment(int value);
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model kind="operation"
-     * @generated
-     */
-    int getDefaultTextAlignment();
 
 } // ITextAlignment

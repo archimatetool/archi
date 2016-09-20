@@ -25,15 +25,9 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ITextPosition extends EObject {
 
-    int TEXT_POSITION_TOP_LEFT = 0;
-    int TEXT_POSITION_TOP_CENTRE = 1;
-    int TEXT_POSITION_TOP_RIGHT = 2;
-    int TEXT_POSITION_MIDDLE_LEFT = 3;
-    int TEXT_POSITION_MIDDLE_CENTRE = 4;
-    int TEXT_POSITION_MIDDLE_RIGHT = 5;
-    int TEXT_POSITION_BOTTOM_LEFT = 6;
-    int TEXT_POSITION_BOTTOM_CENTRE = 7;
-    int TEXT_POSITION_BOTTOM_RIGHT = 8;
+    int TEXT_POSITION_TOP = 0;
+    int TEXT_POSITION_CENTRE = 1;
+    int TEXT_POSITION_BOTTOM = 2;
     
     /**
      * Returns the value of the '<em><b>Text Position</b></em>' attribute.

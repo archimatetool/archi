@@ -30,13 +30,14 @@ public class DiagramModelGroupTests extends DiagramModelObjectTests {
     @Override
     protected IDiagramModelComponent getComponent() {
         group = IArchimateFactory.eINSTANCE.createDiagramModelGroup();
+        group.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         return group;
     }
 
     @Override
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, group.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, group.getTextAlignment());
     }
 
     @Override

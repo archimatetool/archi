@@ -133,18 +133,6 @@ public class Messages extends NLS {
 
     public static String TextPositionAction_2;
 
-    public static String TextPositionAction_3;
-
-    public static String TextPositionAction_4;
-
-    public static String TextPositionAction_5;
-
-    public static String TextPositionAction_6;
-
-    public static String TextPositionAction_7;
-
-    public static String TextPositionAction_8;
-
     public static String TextPositionAction_9;
 
     public static String ToggleGridEnabledAction_0;

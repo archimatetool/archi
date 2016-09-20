@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
+import com.archimatetool.editor.diagram.commands.TextPositionCommand;
+import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextPosition;
@@ -58,57 +58,63 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
         @Override
         public void notifyChanged(Notification msg) {
             Object feature = msg.getFeature();
-            // Model event
-            if(feature == FEATURE) {
+            // Position event (From Undo/Redo and here)
+            if(feature == FEATURE || feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
                 refreshControls();
-            }
-            else if(feature == IArchimatePackage.Literals.LOCKABLE__LOCKED) {
-                refreshButtons();
             }
         }
     };
     
-    private ITextPosition fTextPosition;
+    private ITextPosition fTextPositionObject;
     
-    private Combo fComboPositions;
-    
-    private static final String[] fComboPositionItems = {
-        Messages.TextPositionSection_0,
-        Messages.TextPositionSection_1,
-        Messages.TextPositionSection_2,
-        Messages.TextPositionSection_3,
-        Messages.TextPositionSection_4,
-        Messages.TextPositionSection_5,
-        Messages.TextPositionSection_6,
-        Messages.TextPositionSection_7,
-        Messages.TextPositionSection_8,
-    };
+    private Button[] fPositionButtons = new Button[3];
     
     
     @Override
     protected void createControls(Composite parent) {
-        createLabel(parent, Messages.TextPositionSection_9, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
-        
-        // Position
-        fComboPositions = new Combo(parent, SWT.READ_ONLY);
-        fComboPositions.setItems(fComboPositionItems);
-        fComboPositions.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        fComboPositions.addSelectionListener(new SelectionAdapter() {
+        SelectionAdapter adapter = new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if(isAlive()) {
-                    fIsExecutingCommand = true;
-                    getCommandStack().execute(new EObjectFeatureCommand(Messages.TextPositionSection_10,
-                                                fTextPosition,
-                                                FEATURE,
-                                                fComboPositions.getSelectionIndex()));
-                    fIsExecutingCommand = false;
+                for(int i = 0; i < fPositionButtons.length; i++) {
+                    // Select/deselects
+                    fPositionButtons[i].setSelection(e.widget == fPositionButtons[i]);
+                    
+                    // Command
+                    if(fPositionButtons[i] == e.widget) {
+                        int position = (Integer)fPositionButtons[i].getData();
+                        if(fTextPositionObject.getTextPosition() != position) {
+                            if(isAlive()) {
+                                fIsExecutingCommand = true;
+                                getCommandStack().execute(new TextPositionCommand(fTextPositionObject, position));
+                                fIsExecutingCommand = false;
+                            }
+                        }
+                    }
                 }
             }
-        });
+        };
+
+        createLabel(parent, Messages.TextPositionSection_3 + ":", ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
         
-        GridData gd = new GridData(SWT.NONE, SWT.NONE, false, false);
-        fComboPositions.setLayoutData(gd);
+        Composite client = createComposite(parent, 3);
+        
+        for(int i = 0; i < fPositionButtons.length; i++) {
+            fPositionButtons[i] = new Button(client, SWT.TOGGLE | SWT.FLAT);
+            getWidgetFactory().adapt(fPositionButtons[i], true, true); // Need to do it this way for Mac
+            fPositionButtons[i].addSelectionListener(adapter);
+        }
+        
+        // Top Button
+        fPositionButtons[0].setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ALIGN_TEXT_TOP));
+        fPositionButtons[0].setData(ITextPosition.TEXT_POSITION_TOP);
+
+        // Middle Button
+        fPositionButtons[1].setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ALIGN_TEXT_MIDDLE));
+        fPositionButtons[1].setData(ITextPosition.TEXT_POSITION_CENTRE);
+
+        // Bottom Button
+        fPositionButtons[2].setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_ALIGN_TEXT_BOTTOM));
+        fPositionButtons[2].setData(ITextPosition.TEXT_POSITION_BOTTOM);
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
@@ -116,8 +122,8 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     
     @Override
     protected void setElement(Object element) {
-        fTextPosition = (ITextPosition)new Filter().adaptObject(element);
-        if(fTextPosition == null) {
+        fTextPositionObject = (ITextPosition)new Filter().adaptObject(element);
+        if(fTextPositionObject == null) {
             System.err.println(getClass() + " failed to get element for " + element); //$NON-NLS-1$
         }
         
@@ -125,20 +131,32 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
     }
     
     protected void refreshControls() {
-        refreshButtons();
-    }
-    
-    protected void refreshButtons() {
-        boolean enabled = fTextPosition instanceof ILockable ? !((ILockable)fTextPosition).isLocked() : true;
-        
-        int position = fTextPosition.getTextPosition();
-        if(position < ITextPosition.TEXT_POSITION_TOP_LEFT || position > ITextPosition.TEXT_POSITION_BOTTOM_RIGHT) {
-            position = ITextPosition.TEXT_POSITION_TOP_RIGHT;
+        if(fIsExecutingCommand) {
+            return; 
         }
         
-        if(!fIsExecutingCommand) {
-            fComboPositions.select(position);
-            fComboPositions.setEnabled(enabled);
+        for(int i = 0; i < fPositionButtons.length; i++) {
+            fPositionButtons[i].setSelection(fPositionButtons[i] == getPositionButton());
+            boolean enabled = fTextPositionObject instanceof ILockable ? !((ILockable)fTextPositionObject).isLocked() : true;
+            fPositionButtons[i].setEnabled(enabled);
+        }
+    }
+    
+    private Button getPositionButton() {
+        int position = fTextPositionObject.getTextPosition();
+        
+        switch(position) {
+            case ITextPosition.TEXT_POSITION_TOP:
+                return fPositionButtons[0];
+
+            case ITextPosition.TEXT_POSITION_CENTRE:
+                return fPositionButtons[1];
+
+            case ITextPosition.TEXT_POSITION_BOTTOM:
+                return fPositionButtons[2];
+
+            default:
+                return fPositionButtons[1];
         }
     }
     
@@ -149,6 +167,6 @@ public class TextPositionSection extends AbstractArchimatePropertySection {
 
     @Override
     protected EObject getEObject() {
-        return fTextPosition;
+        return fTextPositionObject;
     }
 }

@@ -71,7 +71,7 @@ public class FigureImagePreviewFactory {
             IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
             dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
             dmo.setName(provider.getDefaultName());
-            dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
+            dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
             ColorFactory.setDefaultColors(dmo);
             dmo.setType(type);
 

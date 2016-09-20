@@ -16,6 +16,7 @@ import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -86,29 +87,26 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
         
-        int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+        int offset = FOLD_HEIGHT + 1;
         
-        switch(textpos) {
-            case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+        int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+        int textAlignment = getOwner().getDiagramModelObject().getTextAlignment();
+        
+        if(textpos == ITextPosition.TEXT_POSITION_TOP) {
+            bounds.y += FOLD_HEIGHT;
+            
+            if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
                 bounds.x += iconOffset;
-                bounds.width = bounds.width - (iconOffset * 2) - 15;
-            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
-            case ITextPosition.TEXT_POSITION_TOP_LEFT:
-                bounds.y += FOLD_HEIGHT;
-                break;
-            default:
-                break;
+                bounds.width = bounds.width - (iconOffset * 2) - offset;
+            }
+            else if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
+                bounds.width -= offset + iconOffset;
+            }
         }
-
-        switch(textpos) {
-            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
-                bounds.width -= iconOffset;
-            case ITextPosition.TEXT_POSITION_MIDDLE_RIGHT:
-            case ITextPosition.TEXT_POSITION_BOTTOM_RIGHT:
-                bounds.width -= 15;
-                break;
-            default:
-                break;
+        else {
+            if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
+                bounds.width -= offset;
+            }
         }
 
         return bounds;

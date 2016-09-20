@@ -100,17 +100,14 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         // Line Color
         setLineColor();
         
-        // Alignment (default is CENTER)
+        // Text Position
         if(getTextControl() instanceof TextFlow) {
             int alignment = getDiagramModelObject().getTextAlignment();
-            if(alignment == ITextAlignment.TEXT_ALIGNMENT_NONE) {
-                alignment = ITextAlignment.TEXT_ALIGNMENT_CENTER;
-            }
             ((BlockFlow)getTextControl().getParent()).setHorizontalAligment(alignment);
-        }
-        
-        if(fTextPositionDelegate != null) {
-            fTextPositionDelegate.updateTextPosition();
+            
+            if(fTextPositionDelegate != null) {
+                fTextPositionDelegate.updateTextPosition();
+            }
         }
         
         repaint(); // repaint when figure changes
@@ -227,19 +224,16 @@ public abstract class AbstractTextControlContainerFigure extends AbstractContain
         int iconOffset = getIconOffset() - getTextControlMarginWidth();
 
         int textpos = ((ITextPosition)getDiagramModelObject()).getTextPosition();
-
-        switch(textpos) {
-            // If the figure has an icon move centre inwards
-            case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+        int textAlignment = getDiagramModelObject().getTextAlignment();
+        
+        if(textpos == ITextPosition.TEXT_POSITION_TOP) {
+            if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
                 bounds.x += iconOffset;
                 bounds.width = bounds.width - (iconOffset * 2);
-                break;
-            // top right needs indent for icon
-            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+            }
+            else if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
                 bounds.width -= iconOffset;
-                break;
-            default:
-                break;
+            }
         }
         
         return bounds;
