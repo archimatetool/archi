@@ -321,6 +321,25 @@ public class CSVImporter implements CSVConstants {
                 createRelationFromRecord(csvRecord);
             }
         }
+        
+        // Now connect the relations
+        for(Entry<String, IArchimateConcept> entry : newConcepts.entrySet()) {
+            if(entry.getValue() instanceof IArchimateRelationship) {
+                IArchimateRelationship relation = (IArchimateRelationship)entry.getValue();
+                
+                // Get the ids from the temporary stores
+                IArchimateConcept source = findReferencedConcept((String)relation.getAdapter("sourceID")); //$NON-NLS-1$
+                IArchimateConcept target = findReferencedConcept((String)relation.getAdapter("targetID")); //$NON-NLS-1$
+                
+                // Is it a valid relationship?
+                if(!ArchimateModelUtils.isValidRelationship(source.eClass(), target.eClass(), relation.eClass())) {
+                    throw new CSVParseException(Messages.CSVImporter_5 + relation.getId());
+                }
+                
+                // Connect
+                relation.connect(source, target);
+            }
+        }
     }
     
     private boolean isRelationsRecordCorrectSize(CSVRecord csvRecord) {
@@ -344,7 +363,7 @@ public class CSVImporter implements CSVConstants {
         // Type
         String type = csvRecord.get(1);
         EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type);
-        if(!isRelationshipEClass(eClass)) {
+        if(!isArchimateRelationshipEClass(eClass)) {
             throw new CSVParseException(Messages.CSVImporter_4 + id);
         }
 
@@ -361,26 +380,17 @@ public class CSVImporter implements CSVConstants {
         // No, create a new one
         else {
             relation = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(eClass);
-            
-            // Find source and target elements
-            String sourceID = csvRecord.get(4);
-            IArchimateElement source = findReferencedElement(sourceID);
-            
-            String targetID = csvRecord.get(5);
-            IArchimateElement target = findReferencedElement(targetID);
-            
-            // Is it a valid relationship?
-            if(!ArchimateModelUtils.isValidRelationship(source.eClass(), target.eClass(), eClass)) {
-                throw new CSVParseException(Messages.CSVImporter_5 + id);
-            }
-            
-            relation.setSource(source);
-            relation.setTarget(target);
-            
             relation.setId(id);
             relation.setName(name);
             relation.setDocumentation(documentation);
-
+            
+            // Get source and target ids and temporarily store their ids
+            String sourceID = csvRecord.get(4);
+            relation.setAdapter("sourceID", sourceID); //$NON-NLS-1$
+            
+            String targetID = csvRecord.get(5);
+            relation.setAdapter("targetID", targetID); //$NON-NLS-1$
+            
             newConcepts.put(id, relation);
         }
     }
@@ -428,7 +438,7 @@ public class CSVImporter implements CSVConstants {
             checkIDForInvalidCharacters(id);
         }
         
-        // Find referenced element in newly created list
+        // Find referenced concept in newly created list
         IProperties propertiesObject = newConcepts.get(id);
         
         // Not found, check if it's referencing an existing element in the model
@@ -640,9 +650,9 @@ public class CSVImporter implements CSVConstants {
     }
     
     /**
-     * Find a referenced element either in the model or in the newly created elements list
+     * Find a referenced concept either in the model or in the newly created elements list
      */
-    IArchimateElement findReferencedElement(String id) throws CSVParseException {
+    IArchimateConcept findReferencedConcept(String id) throws CSVParseException {
         // Do we have it as a newly created element?
         EObject eObject = newConcepts.get(id);
         
@@ -657,18 +667,22 @@ public class CSVImporter implements CSVConstants {
         }
         
         // Check eClass type
-        if(!isArchimateElementEClass(eObject.eClass())) {
+        if(!isArchimateConceptEClass(eObject.eClass())) {
             throw new CSVParseException(Messages.CSVImporter_11 + id);
         }
 
-        return (IArchimateElement)eObject;
+        return (IArchimateConcept)eObject;
+    }
+    
+    boolean isArchimateConceptEClass(EClass eClass) {
+        return eClass != null && IArchimatePackage.eINSTANCE.getArchimateConcept().isSuperTypeOf(eClass);
     }
     
     boolean isArchimateElementEClass(EClass eClass) {
         return eClass != null && IArchimatePackage.eINSTANCE.getArchimateElement().isSuperTypeOf(eClass);
     }
     
-    boolean isRelationshipEClass(EClass eClass) {
+    boolean isArchimateRelationshipEClass(EClass eClass) {
         return eClass != null && IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass);
     }
     

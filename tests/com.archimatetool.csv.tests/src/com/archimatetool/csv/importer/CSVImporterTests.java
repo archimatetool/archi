@@ -342,43 +342,51 @@ public class CSVImporterTests {
     }
     
     @Test
-    public void testFindReferencedElement() throws Exception {
+    public void testFindReferencedConcept() throws Exception {
         importer.doImport(elements1File);
-        assertNotNull(importer.findReferencedElement("f6a18059"));
+        assertNotNull(importer.findReferencedConcept("f6a18059"));
     }
     
     @Test
-    public void testFindReferencedElement_IsRelationship() throws Exception {
-        expectedEx.expect(CSVParseException.class);
-        expectedEx.expectMessage("Type should be of ArchiMate element type: 5854f8a3");
-        
+    public void testFindReferencedConcept_IsRelationship() throws Exception {
         importer.doImport(elements1File);
-        importer.findReferencedElement("5854f8a3");
+        IArchimateConcept concept = importer.findReferencedConcept("5854f8a3");
+        assertTrue(concept instanceof IArchimateRelationship);
     }
 
     @Test(expected=CSVParseException.class)
-    public void testFindReferencedElement_NotFound() throws Exception {
+    public void testFindReferencedConcept_NotFound() throws Exception {
         importer.doImport(elements1File);
-        importer.findReferencedElement("someid");
+        importer.findReferencedConcept("someid");
     }
 
     @Test(expected=CSVParseException.class)
-    public void testFindReferencedElement_Null() throws CSVParseException {
-        importer.findReferencedElement(null);
+    public void testFindReferencedConcept_Null() throws CSVParseException {
+        importer.findReferencedConcept(null);
     }
    
     @Test
+    public void testIsArchimateConceptEClass() {
+        assertFalse(importer.isArchimateConceptEClass(null));
+        assertFalse(importer.isArchimateConceptEClass(IArchimatePackage.eINSTANCE.getFolder()));
+        assertTrue(importer.isArchimateConceptEClass(IArchimatePackage.eINSTANCE.getAccessRelationship()));
+        assertTrue(importer.isArchimateConceptEClass(IArchimatePackage.eINSTANCE.getBusinessActor()));
+    }
+
+    @Test
     public void testIsArchimateElementEClass() {
         assertFalse(importer.isArchimateElementEClass(null));
+        assertFalse(importer.isArchimateConceptEClass(IArchimatePackage.eINSTANCE.getFolder()));
         assertFalse(importer.isArchimateElementEClass(IArchimatePackage.eINSTANCE.getAccessRelationship()));
         assertTrue(importer.isArchimateElementEClass(IArchimatePackage.eINSTANCE.getBusinessActor()));
     }
    
     @Test
-    public void testIsRelationshipEClass() {
-        assertFalse(importer.isRelationshipEClass(null));
-        assertFalse(importer.isRelationshipEClass(IArchimatePackage.eINSTANCE.getBusinessActor()));
-        assertTrue(importer.isRelationshipEClass(IArchimatePackage.eINSTANCE.getAccessRelationship()));
+    public void testIsArchimateRelationshipEClass() {
+        assertFalse(importer.isArchimateRelationshipEClass(null));
+        assertFalse(importer.isArchimateConceptEClass(IArchimatePackage.eINSTANCE.getFolder()));
+        assertFalse(importer.isArchimateRelationshipEClass(IArchimatePackage.eINSTANCE.getBusinessActor()));
+        assertTrue(importer.isArchimateRelationshipEClass(IArchimatePackage.eINSTANCE.getAccessRelationship()));
     }
     
     @Test

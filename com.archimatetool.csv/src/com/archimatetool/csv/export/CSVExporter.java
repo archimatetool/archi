@@ -117,6 +117,7 @@ public class CSVExporter implements CSVConstants {
         writer.write(modelRow);
         
         // Write Elements
+        writeElementsInFolder(writer, fModel.getFolder(FolderType.STRATEGY));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.BUSINESS));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.APPLICATION));
         writeElementsInFolder(writer, fModel.getFolder(FolderType.TECHNOLOGY));
