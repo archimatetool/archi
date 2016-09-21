@@ -41,7 +41,7 @@ public class AddDiagramModelReferenceCommand extends Command {
         Dimension size = provider.getUserDefaultSize();
         fReference.setBounds(x, y, size.width, size.height);
         
-        fReference.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
+        fReference.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
         
         ColorFactory.setDefaultColors(fReference);
     }

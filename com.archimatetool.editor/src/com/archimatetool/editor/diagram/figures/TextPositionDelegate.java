@@ -9,6 +9,7 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -30,48 +31,47 @@ public class TextPositionDelegate {
     }
     
     public void updateTextPosition() {
-        GridData gd = null;
+        int textPosition = SWT.CENTER;
         
         switch(fTextPositionObject.getTextPosition()) {
-            case ITextPosition.TEXT_POSITION_TOP_LEFT:
-                gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
+            case ITextPosition.TEXT_POSITION_TOP:
+                textPosition = SWT.TOP;
                 break;
 
-            case ITextPosition.TEXT_POSITION_TOP_CENTRE:
-                gd = new GridData(SWT.CENTER, SWT.TOP, true, true);
+            case ITextPosition.TEXT_POSITION_CENTRE:
+                textPosition = SWT.CENTER;
                 break;
 
-            case ITextPosition.TEXT_POSITION_TOP_RIGHT:
-                gd = new GridData(SWT.RIGHT, SWT.TOP, true, true);
-                break;
-
-            case ITextPosition.TEXT_POSITION_MIDDLE_LEFT:
-                gd = new GridData(SWT.LEFT, SWT.CENTER, true, true);
-                break;
-
-            case ITextPosition.TEXT_POSITION_MIDDLE_CENTRE:
-                gd = new GridData(SWT.CENTER, SWT.CENTER, true, true);
-                break;
-
-            case ITextPosition.TEXT_POSITION_MIDDLE_RIGHT:
-                gd = new GridData(SWT.RIGHT, SWT.CENTER, true, true);
-                break;
-
-            case ITextPosition.TEXT_POSITION_BOTTOM_LEFT:
-                gd = new GridData(SWT.LEFT, SWT.BOTTOM, true, true);
-                break;
-
-            case ITextPosition.TEXT_POSITION_BOTTOM_CENTRE:
-                gd = new GridData(SWT.CENTER, SWT.BOTTOM, true, true);
-                break;
-
-            case ITextPosition.TEXT_POSITION_BOTTOM_RIGHT:
-                gd = new GridData(SWT.RIGHT, SWT.BOTTOM, true, true);
+            case ITextPosition.TEXT_POSITION_BOTTOM:
+                textPosition = SWT.BOTTOM;
                 break;
 
             default:
                 break;
         }
+        
+        int textAlignment = SWT.CENTER;
+        
+        if(fTextPositionObject instanceof ITextAlignment) {
+            switch(((ITextAlignment)fTextPositionObject).getTextAlignment()) {
+                case ITextAlignment.TEXT_ALIGNMENT_LEFT:
+                    textAlignment = SWT.LEFT;
+                    break;
+
+                case ITextAlignment.TEXT_ALIGNMENT_CENTER:
+                    textAlignment = SWT.CENTER;
+                    break;
+
+                case ITextAlignment.TEXT_ALIGNMENT_RIGHT:
+                    textAlignment = SWT.RIGHT;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        
+        GridData gd = new GridData(textAlignment, textPosition, true, true);
         
         fParentFigure.setConstraint(fChildFigure, gd);
     }

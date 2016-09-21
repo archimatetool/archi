@@ -459,11 +459,6 @@ public class CanvasModelBlock extends DiagramModelObject implements ICanvasModel
     }
 
     @Override
-    public int getDefaultTextAlignment() {
-        return TEXT_ALIGNMENT_LEFT;
-    }
-    
-    @Override
     public EObject getCopy() {
         ICanvasModelBlock newObject = (ICanvasModelBlock)super.getCopy();
         newObject.getChildren().clear(); // need to do this!

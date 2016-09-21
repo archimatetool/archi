@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.ITextContent;
+import com.archimatetool.model.ITextPosition;
 
 
 /**
@@ -23,6 +24,7 @@ import com.archimatetool.model.ITextContent;
  * </p>
  * <ul>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getContent <em>Content</em>}</li>
+ *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getTextPosition <em>Text Position</em>}</li>
  *   <li>{@link com.archimatetool.model.impl.DiagramModelNote#getBorderType <em>Border Type</em>}</li>
  * </ul>
  *
@@ -48,6 +50,26 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * @ordered
      */
     protected String content = CONTENT_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected static final int TEXT_POSITION_EDEFAULT = 0;
+
+    /**
+     * The cached value of the '{@link #getTextPosition() <em>Text Position</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getTextPosition()
+     * @generated
+     * @ordered
+     */
+    protected int textPosition = TEXT_POSITION_EDEFAULT;
 
     /**
      * The default value of the '{@link #getBorderType() <em>Border Type</em>}' attribute.
@@ -114,6 +136,27 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
      * <!-- end-user-doc -->
      * @generated
      */
+    public int getTextPosition() {
+        return textPosition;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setTextPosition(int newTextPosition) {
+        int oldTextPosition = textPosition;
+        textPosition = newTextPosition;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION, oldTextPosition, textPosition));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public int getBorderType() {
         return borderType;
     }
@@ -130,14 +173,6 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE, oldBorderType, borderType));
     }
 
-    /** 
-     * Left Justified
-     */
-    @Override
-    public int getDefaultTextAlignment() {
-        return TEXT_ALIGNMENT_LEFT;
-    }
-    
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -148,6 +183,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 return getContent();
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
+                return getTextPosition();
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 return getBorderType();
         }
@@ -164,6 +201,9 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 setContent((String)newValue);
+                return;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
+                setTextPosition((Integer)newValue);
                 return;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 setBorderType((Integer)newValue);
@@ -183,6 +223,9 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 setContent(CONTENT_EDEFAULT);
                 return;
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
+                setTextPosition(TEXT_POSITION_EDEFAULT);
+                return;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 setBorderType(BORDER_TYPE_EDEFAULT);
                 return;
@@ -200,6 +243,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         switch (featureID) {
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT:
                 return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+            case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION:
+                return textPosition != TEXT_POSITION_EDEFAULT;
             case IArchimatePackage.DIAGRAM_MODEL_NOTE__BORDER_TYPE:
                 return borderType != BORDER_TYPE_EDEFAULT;
         }
@@ -219,6 +264,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
                 default: return -1;
             }
         }
+        if (baseClass == ITextPosition.class) {
+            switch (derivedFeatureID) {
+                case IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION: return IArchimatePackage.TEXT_POSITION__TEXT_POSITION;
+                default: return -1;
+            }
+        }
         return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
     }
 
@@ -232,6 +283,12 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         if (baseClass == ITextContent.class) {
             switch (baseFeatureID) {
                 case IArchimatePackage.TEXT_CONTENT__CONTENT: return IArchimatePackage.DIAGRAM_MODEL_NOTE__CONTENT;
+                default: return -1;
+            }
+        }
+        if (baseClass == ITextPosition.class) {
+            switch (baseFeatureID) {
+                case IArchimatePackage.TEXT_POSITION__TEXT_POSITION: return IArchimatePackage.DIAGRAM_MODEL_NOTE__TEXT_POSITION;
                 default: return -1;
             }
         }
@@ -250,6 +307,8 @@ public class DiagramModelNote extends DiagramModelObject implements IDiagramMode
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (content: "); //$NON-NLS-1$
         result.append(content);
+        result.append(", textPosition: "); //$NON-NLS-1$
+        result.append(textPosition);
         result.append(", borderType: "); //$NON-NLS-1$
         result.append(borderType);
         result.append(')');

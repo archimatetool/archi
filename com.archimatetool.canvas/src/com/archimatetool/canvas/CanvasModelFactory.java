@@ -15,6 +15,7 @@ import com.archimatetool.canvas.model.ICanvasModelImage;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.editor.diagram.ICreationFactory;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -54,7 +55,8 @@ public class CanvasModelFactory implements ICreationFactory {
         // Sticky
         if(object instanceof ICanvasModelSticky) {
             ICanvasModelSticky sticky = (ICanvasModelSticky)object;
-            sticky.setTextPosition(ITextPosition.TEXT_POSITION_MIDDLE_CENTRE);
+            sticky.setTextPosition(ITextPosition.TEXT_POSITION_CENTRE);
+            sticky.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_CENTER);
             if(fParam instanceof Color) {
                 String color = ColorFactory.convertColorToString((Color)fParam);
                 sticky.setFillColor(color);
@@ -65,7 +67,8 @@ public class CanvasModelFactory implements ICreationFactory {
         // Block
         else if(object instanceof ICanvasModelBlock) {
             ICanvasModelBlock block = (ICanvasModelBlock)object;
-            block.setTextPosition(ITextPosition.TEXT_POSITION_TOP_LEFT);
+            block.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
+            block.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
             block.setBorderColor("#000000"); //$NON-NLS-1$
         }
         

@@ -116,7 +116,7 @@ implements ICheatSheetAction {
                 diagramModel.getChildren().add(ref);
                 y += 120;
                 
-                ref.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
+                ref.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
             }
         }
     }

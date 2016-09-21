@@ -54,7 +54,7 @@ public abstract class AbstractTextControlContainerFigureTests extends AbstractCo
     public void testDidClickTextControl() {
         Rectangle bounds = figure.getTextControl().getBounds().getCopy();
         figure.getTextControl().translateToAbsolute(bounds);
-        assertTrue(figure.didClickTextControl(new Point(bounds.x + 3, bounds.y + 3)));
+        assertTrue(figure.didClickTextControl(new Point(bounds.x + 10, bounds.y + 5)));
     }
     
 }

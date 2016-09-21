@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigureTests;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelNote;
+import com.archimatetool.model.ITextAlignment;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -35,6 +36,7 @@ public class NoteFigureTests extends AbstractDiagramModelObjectFigureTests {
         dmNote = IArchimateFactory.eINSTANCE.createDiagramModelNote();
         dmNote.setBounds(IArchimateFactory.eINSTANCE.createBounds());
         dmNote.setContent("Note Test");
+        dmNote.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         dm.getChildren().add(dmNote);
         
         editor.layoutPendingUpdates();

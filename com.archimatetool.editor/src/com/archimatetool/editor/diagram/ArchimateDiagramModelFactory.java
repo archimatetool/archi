@@ -24,6 +24,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -51,7 +52,7 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
         Dimension size = provider.getUserDefaultSize();
         dmo.setBounds(0, 0, size.width, size.height);
         
-        dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP_CENTRE);
+        dmo.setTextPosition(ITextPosition.TEXT_POSITION_TOP);
 
         // Set user default colors as set in prefs
         ColorFactory.setDefaultColors(dmo);
@@ -112,11 +113,13 @@ public class ArchimateDiagramModelFactory implements ICreationFactory {
             IDiagramModelGroup group = (IDiagramModelGroup)object;
             group.setName(ArchiLabelProvider.INSTANCE.getDefaultName(fTemplate));
             ColorFactory.setDefaultColors(group);
+            ((IDiagramModelGroup)object).setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         }
         
         // Note
         else if(object instanceof IDiagramModelNote) {
             ColorFactory.setDefaultColors((IDiagramModelObject)object);
+            ((IDiagramModelNote)object).setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         }
         
         // Connection

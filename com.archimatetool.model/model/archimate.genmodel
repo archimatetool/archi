@@ -259,7 +259,6 @@
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//TextAlignment">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//TextAlignment/textAlignment"/>
-      <genOperations ecoreOperation="archimate.ecore#//TextAlignment/getDefaultTextAlignment"/>
     </genClasses>
     <genClasses image="false" ecoreClass="archimate.ecore#//BorderObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//BorderObject/borderColor"/>

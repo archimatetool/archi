@@ -131,6 +131,12 @@ public interface IArchiImages {
     String ICON_ALIGN_TEXT_LEFT = IMGPATH + "alignleft.gif"; //$NON-NLS-1$
     String ICON_ALIGN_TEXT_CENTER = IMGPATH + "aligncenter.gif"; //$NON-NLS-1$
     String ICON_ALIGN_TEXT_RIGHT = IMGPATH + "alignright.gif"; //$NON-NLS-1$
+
+    String ICON_ALIGN_TEXT_TOP = IMGPATH + "aligntop.png"; //$NON-NLS-1$
+    String ICON_ALIGN_TEXT_MIDDLE = IMGPATH + "alignmiddle.png"; //$NON-NLS-1$
+    String ICON_ALIGN_TEXT_BOTTOM = IMGPATH + "alignbottom.png"; //$NON-NLS-1$
+
+    
     String ICON_ASPECT_RATIO = IMGPATH + "aspect-ratio.png"; //$NON-NLS-1$
     String ICON_CANCEL_SEARCH = IMGPATH + "cancelsearch.png"; //$NON-NLS-1$
     String ICON_COG = IMGPATH + "cog.png"; //$NON-NLS-1$

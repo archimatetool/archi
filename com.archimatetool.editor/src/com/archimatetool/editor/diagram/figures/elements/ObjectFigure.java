@@ -76,7 +76,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure {
             
             int textPosition = ((ITextPosition)getDiagramModelObject()).getTextPosition();
             
-            if(textPosition <= ITextPosition.TEXT_POSITION_TOP_RIGHT) {
+            if(textPosition == ITextPosition.TEXT_POSITION_TOP) {
                 bounds.y += TOP_MARGIN - 4;
             }
             

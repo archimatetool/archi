@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
+import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -73,19 +74,16 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         
         if(getOwner().getDiagramModelObject() instanceof ITextPosition) {
             int textpos = ((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition();
+            int textAlignment = getOwner().getDiagramModelObject().getTextAlignment();
             
-            switch(textpos) {
-                // If the figure has an icon move centre inwards
-                case ITextPosition.TEXT_POSITION_TOP_CENTRE:
+            if(textpos == ITextPosition.TEXT_POSITION_TOP) {
+                if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
                     bounds.x += iconOffset;
                     bounds.width = bounds.width - (iconOffset * 2);
-                    break;
-                // top right needs indent for icon
-                case ITextPosition.TEXT_POSITION_TOP_RIGHT:
+                }
+                else if(textAlignment == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
                     bounds.width -= iconOffset;
-                    break;
-                default:
-                    break;
+                }
             }
         }
 

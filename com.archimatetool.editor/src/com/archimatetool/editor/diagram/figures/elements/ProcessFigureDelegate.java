@@ -87,7 +87,7 @@ public class ProcessFigureDelegate extends AbstractFigureDelegate {
     public Rectangle calculateTextControlBounds() {
         Rectangle bounds = getBounds();
         
-        if(((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition() <= ITextPosition.TEXT_POSITION_TOP_RIGHT) {
+        if(((ITextPosition)getOwner().getDiagramModelObject()).getTextPosition() == ITextPosition.TEXT_POSITION_TOP) {
             bounds.y += bounds.height / 5;
         }
         

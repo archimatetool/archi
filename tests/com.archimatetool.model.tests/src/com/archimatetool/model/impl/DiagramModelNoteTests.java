@@ -29,6 +29,7 @@ public class DiagramModelNoteTests extends DiagramModelObjectTests {
     @Override
     protected IDiagramModelComponent getComponent() {
         note = IArchimateFactory.eINSTANCE.createDiagramModelNote();
+        note.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         return note;
     }
 
@@ -43,7 +44,7 @@ public class DiagramModelNoteTests extends DiagramModelObjectTests {
     @Override
     @Test
     public void testGetDefaultTextAlignment() {
-        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, note.getDefaultTextAlignment());
+        assertEquals(ITextAlignment.TEXT_ALIGNMENT_LEFT, note.getTextAlignment());
     }
     
     @Override

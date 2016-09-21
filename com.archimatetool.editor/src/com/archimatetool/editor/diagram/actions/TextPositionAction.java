@@ -32,48 +32,24 @@ import com.archimatetool.model.ITextPosition;
  */
 public class TextPositionAction extends SelectionAction {
     
-    public static final String ACTION_TOP_LEFT_ID = "TextPositionActionTopLeft"; //$NON-NLS-1$
-    public static final String ACTION_TOP_CENTRE_ID = "TextPositionActionTopCentre"; //$NON-NLS-1$
-    public static final String ACTION_TOP_RIGHT_ID = "TextPositionActionTopRight"; //$NON-NLS-1$
-    public static final String ACTION_MIDDLE_LEFT_ID = "TextPositionActionMiddleLeft"; //$NON-NLS-1$
-    public static final String ACTION_MIDDLE_CENTRE_ID = "TextPositionActionMiddleCentre"; //$NON-NLS-1$
-    public static final String ACTION_MIDDLE_RIGHT_ID = "TextPositionActionMiddleRight"; //$NON-NLS-1$
-    public static final String ACTION_BOTTOM_LEFT_ID = "TextPositionActionBottomLeft"; //$NON-NLS-1$
-    public static final String ACTION_BOTTOM_CENTRE_ID = "TextPositionActionBottomCentre"; //$NON-NLS-1$
-    public static final String ACTION_BOTTOM_RIGHT_ID = "TextPositionActionBottomRight"; //$NON-NLS-1$
+    public static final String ACTION_TOP_ID = "TextPositionActionTop"; //$NON-NLS-1$
+    public static final String ACTION_CENTRE_ID = "TextPositionActionCentre"; //$NON-NLS-1$
+    public static final String ACTION_BOTTOM_ID = "TextPositionActionBottom"; //$NON-NLS-1$
     
-    public static final String ACTION_TOP_LEFT_TEXT = Messages.TextPositionAction_0;
-    public static final String ACTION_TOP_CENTRE_TEXT = Messages.TextPositionAction_1;
-    public static final String ACTION_TOP_RIGHT_TEXT = Messages.TextPositionAction_2;
-    public static final String ACTION_MIDDLE_LEFT_TEXT = Messages.TextPositionAction_3;
-    public static final String ACTION_MIDDLE_CENTRE_TEXT = Messages.TextPositionAction_4;
-    public static final String ACTION_MIDDLE_RIGHT_TEXT = Messages.TextPositionAction_5;
-    public static final String ACTION_BOTTOM_LEFT_TEXT = Messages.TextPositionAction_6;
-    public static final String ACTION_BOTTOM_CENTRE_TEXT = Messages.TextPositionAction_7;
-    public static final String ACTION_BOTTOM_RIGHT_TEXT = Messages.TextPositionAction_8;
+    public static final String ACTION_TOP_TEXT = Messages.TextPositionAction_0;
+    public static final String ACTION_CENTRE_TEXT = Messages.TextPositionAction_1;
+    public static final String ACTION_BOTTOM_TEXT = Messages.TextPositionAction_2;
     
     public static final String ACTION_IDS[] = {
-        ACTION_TOP_LEFT_ID,
-        ACTION_TOP_CENTRE_ID,
-        ACTION_TOP_RIGHT_ID,
-        ACTION_MIDDLE_LEFT_ID,
-        ACTION_MIDDLE_CENTRE_ID,
-        ACTION_MIDDLE_RIGHT_ID,
-        ACTION_BOTTOM_LEFT_ID,
-        ACTION_BOTTOM_CENTRE_ID,
-        ACTION_BOTTOM_RIGHT_ID
+            ACTION_TOP_ID,
+            ACTION_CENTRE_ID,
+            ACTION_BOTTOM_ID
     };
     
     public static final String ACTION_TEXTS[] = {
-        ACTION_TOP_LEFT_TEXT,
-        ACTION_TOP_CENTRE_TEXT,
-        ACTION_TOP_RIGHT_TEXT,
-        ACTION_MIDDLE_LEFT_TEXT,
-        ACTION_MIDDLE_CENTRE_TEXT,
-        ACTION_MIDDLE_RIGHT_TEXT,
-        ACTION_BOTTOM_LEFT_TEXT,
-        ACTION_BOTTOM_CENTRE_TEXT,
-        ACTION_BOTTOM_RIGHT_TEXT
+            ACTION_TOP_TEXT,
+            ACTION_CENTRE_TEXT,
+            ACTION_BOTTOM_TEXT
     };
     
     public static List<RetargetAction> createRetargetActions() {
@@ -89,15 +65,9 @@ public class TextPositionAction extends SelectionAction {
     public static List<TextPositionAction> createActions(IWorkbenchPart part) {
         List<TextPositionAction> list = new ArrayList<TextPositionAction>();
         
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP_LEFT, ACTION_TOP_LEFT_ID, ACTION_TOP_LEFT_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP_CENTRE, ACTION_TOP_CENTRE_ID, ACTION_TOP_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP_RIGHT, ACTION_TOP_RIGHT_ID, ACTION_TOP_RIGHT_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_MIDDLE_LEFT, ACTION_MIDDLE_LEFT_ID, ACTION_MIDDLE_LEFT_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_MIDDLE_CENTRE, ACTION_MIDDLE_CENTRE_ID, ACTION_MIDDLE_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_MIDDLE_RIGHT, ACTION_MIDDLE_RIGHT_ID, ACTION_MIDDLE_RIGHT_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM_LEFT, ACTION_BOTTOM_LEFT_ID, ACTION_BOTTOM_LEFT_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM_CENTRE, ACTION_BOTTOM_CENTRE_ID, ACTION_BOTTOM_CENTRE_TEXT));
-        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM_RIGHT, ACTION_BOTTOM_RIGHT_ID, ACTION_BOTTOM_RIGHT_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_TOP, ACTION_TOP_ID, ACTION_TOP_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_CENTRE, ACTION_CENTRE_ID, ACTION_CENTRE_TEXT));
+        list.add(new TextPositionAction(part, ITextPosition.TEXT_POSITION_BOTTOM, ACTION_BOTTOM_ID, ACTION_BOTTOM_TEXT));
      
         return list;
     }

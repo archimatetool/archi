@@ -70,6 +70,6 @@ public class AllArchimateTextControlContainerFigureTests extends AbstractTextCon
     public void testDidClickTextControl() {
         Rectangle bounds = abstractFigure.getTextControl().getBounds().getCopy();
         abstractFigure.getTextControl().translateToAbsolute(bounds);
-        assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 3, bounds.y + 3)));
+        assertTrue(abstractFigure.didClickTextControl(new Point(bounds.x + 10, bounds.y + 5)));
     }
 }

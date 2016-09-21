@@ -129,7 +129,7 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
      * @generated
      * @ordered
      */
-    protected static final int TEXT_ALIGNMENT_EDEFAULT = 0;
+    protected static final int TEXT_ALIGNMENT_EDEFAULT = 2;
 
     /**
      * The cached value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
@@ -309,13 +309,9 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated NOT
+     * @generated
      */
     public int getTextAlignment() {
-        // Check for backward compatibility where default is 0 and not persisted
-        if(textAlignment == TEXT_ALIGNMENT_NONE) {
-            textAlignment = getDefaultTextAlignment();
-        }
         return textAlignment;
     }
 
@@ -371,15 +367,6 @@ public abstract class DiagramModelObject extends Connectable implements IDiagram
         lineColor = newLineColor;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.DIAGRAM_MODEL_OBJECT__LINE_COLOR, oldLineColor, lineColor));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
-    public int getDefaultTextAlignment() {
-        return TEXT_ALIGNMENT_CENTER;
     }
 
     @Override

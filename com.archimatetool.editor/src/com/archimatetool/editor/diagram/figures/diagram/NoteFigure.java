@@ -6,19 +6,21 @@
 package com.archimatetool.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.BlockFlow;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
+import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.utils.StringUtils;
@@ -34,6 +36,8 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
     
     private TextFlow fTextFlow;
     
+    private TextPositionDelegate fTextPositionDelegate;
+    
     public NoteFigure(IDiagramModelNote diagramModelNote) {
         super(diagramModelNote);
     }
@@ -45,18 +49,20 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
     
     @Override
     protected void setUI() {
-        ToolbarLayout layout = new ToolbarLayout();
-        setLayoutManager(layout);
+        setLayoutManager(new GridLayout());
 
         FlowPage page = new FlowPage();
-        page.setBorder(new MarginBorder(4));
         BlockFlow block = new BlockFlow();
         fTextFlow = new TextFlow();
         fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_SOFT));
         block.add(fTextFlow);
         page.add(block);
         setOpaque(true);
-        add(page);
+        
+        GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
+        add(page, gd);
+        
+        fTextPositionDelegate = new TextPositionDelegate(this, page, getDiagramModelObject());
     }
     
     public void refreshVisuals() {
@@ -77,6 +83,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure {
 
         // Alignment
         ((BlockFlow)fTextFlow.getParent()).setHorizontalAligment(getDiagramModelObject().getTextAlignment());
+        fTextPositionDelegate.updateTextPosition();
         
         // Repaint for border
         repaint();
