@@ -234,7 +234,7 @@ public class ArchimateModelTests {
 
     @Test
     public void testGetPurpose() {
-        assertEquals(null, model.getPurpose());
+        assertEquals("", model.getPurpose());
         model.setPurpose("name");
         assertEquals("name", model.getPurpose());
     }

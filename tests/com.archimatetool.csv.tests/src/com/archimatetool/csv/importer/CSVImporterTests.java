@@ -84,7 +84,7 @@ public class CSVImporterTests {
         stack.undo();
         
         assertEquals("", model.getName());
-        assertNull(model.getPurpose());
+        assertEquals("", model.getPurpose());
         assertEquals(0, model.getProperties().size());
         
         assertEquals(0, model.getFolder(FolderType.BUSINESS).getElements().size());

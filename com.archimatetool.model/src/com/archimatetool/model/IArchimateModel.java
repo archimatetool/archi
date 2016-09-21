@@ -34,6 +34,7 @@ import com.archimatetool.model.util.IDAdapter;
 public interface IArchimateModel extends IFolderContainer, IArchimateModelObject, IProperties {
     /**
      * Returns the value of the '<em><b>Purpose</b></em>' attribute.
+     * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Purpose</em>' attribute isn't clear,
@@ -43,7 +44,8 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
      * @return the value of the '<em>Purpose</em>' attribute.
      * @see #setPurpose(String)
      * @see com.archimatetool.model.IArchimatePackage#getArchimateModel_Purpose()
-     * @model extendedMetaData="kind='element'"
+     * @model default=""
+     *        extendedMetaData="kind='element'"
      * @generated
      */
     String getPurpose();

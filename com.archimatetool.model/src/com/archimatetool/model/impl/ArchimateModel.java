@@ -134,7 +134,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
      * @generated
      * @ordered
      */
-    protected static final String PURPOSE_EDEFAULT = null;
+    protected static final String PURPOSE_EDEFAULT = ""; //$NON-NLS-1$
     /**
      * The cached value of the '{@link #getPurpose() <em>Purpose</em>}' attribute.
      * <!-- begin-user-doc -->
