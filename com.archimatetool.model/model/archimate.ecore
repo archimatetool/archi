@@ -310,7 +310,7 @@
       <details key="name" value="Group"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramModelNote" eSuperTypes="#//DiagramModelObject #//TextContent #//TextPosition">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Note"/>
     </eAnnotations>
