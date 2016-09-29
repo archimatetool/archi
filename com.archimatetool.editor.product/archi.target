@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Archi" sequenceNumber="30">
+<?pde version="3.8"?><target name="Archi" sequenceNumber="32">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.12.0.v20160526-0356"/>
-<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201605020204"/>
-<unit id="org.eclipse.zest.sdk.feature.group" version="1.7.0.201605020204"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.7.0.201606061308"/>
 <repository location="http://download.eclipse.org/releases/neon"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.12.0.v20160606-1311"/>
-<unit id="org.eclipse.sdk.ide" version="4.6.0.I20160606-1100"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.12.0.v20160829-1338"/>
+<unit id="org.eclipse.sdk.ide" version="4.6.1.M20160907-1200"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.6"/>
 </location>
 </locations>
