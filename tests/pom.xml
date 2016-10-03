@@ -18,6 +18,7 @@
 
         <module>com.archimatetool.csv.tests</module>
         <module>com.archimatetool.export.svg.tests</module>
+		<module>com.archimatetool.hammer.tests</module>
         <module>com.archimatetool.help.tests</module>
         <module>com.archimatetool.jasperreports.tests</module>
         <module>com.archimatetool.jdom.tests</module>

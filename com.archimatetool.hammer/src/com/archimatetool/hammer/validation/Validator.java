@@ -99,37 +99,37 @@ public class Validator {
         
         // Invalid Relations
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_INVALID_RELATIONS)) {
-            collectIssues(new InvalidRelationsChecker(this));
+            collectIssues(new InvalidRelationsChecker(getArchimateRelationships()));
         }
         
         // Unused Elements
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_UNUSED_ELEMENTS)) {
-            collectIssues(new UnusedElementsChecker(this));
+            collectIssues(new UnusedElementsChecker(getArchimateElements()));
         }
         
         // Unused Relations
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_UNUSED_RELATIONS)) {
-            collectIssues(new UnusedRelationsChecker(this));
+            collectIssues(new UnusedRelationsChecker(getArchimateRelationships()));
         }
         
         // Empty Views
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_EMPTY_VIEWS)) {
-            collectIssues(new EmptyViewsChecker(this));
+            collectIssues(new EmptyViewsChecker(getArchimateViews()));
         }
         
         // Components in wrong Viewpoints
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_VIEWPOINT)) {
-            collectIssues(new ViewpointChecker(this));
+            collectIssues(new ViewpointChecker(getArchimateViews()));
         }
         
         // Nested elements
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_NESTING)) {
-            collectIssues(new NestedElementsChecker(this));
+            collectIssues(new NestedElementsChecker(getArchimateViews()));
         }
 
         // Possible Duplicates
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_DUPLICATE_ELEMENTS)) {
-            collectIssues(new DuplicateElementChecker(this));
+            collectIssues(new DuplicateElementChecker(getArchimateElements()));
         }
 
         // ----------------------------------------------------------

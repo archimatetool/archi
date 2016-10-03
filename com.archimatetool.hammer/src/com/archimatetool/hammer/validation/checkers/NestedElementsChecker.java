@@ -6,13 +6,15 @@
 package com.archimatetool.hammer.validation.checkers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
 
-import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.AdviceType;
 import com.archimatetool.hammer.validation.issues.IIssue;
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimateRelationship;
@@ -20,6 +22,8 @@ import com.archimatetool.model.IAssignmentRelationship;
 import com.archimatetool.model.ICompositionRelationship;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
+import com.archimatetool.model.IRealizationRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
 
 
 /**
@@ -27,14 +31,17 @@ import com.archimatetool.model.IDiagramModelObject;
  * 
  * @author Phillip Beauvoir
  */
-public class NestedElementsChecker extends AbstractChecker {
+public class NestedElementsChecker implements IChecker {
     
     final String fName = Messages.NestedElementsChecker_0;
     final String fDescription = Messages.NestedElementsChecker_1;
     final String fExplanation = Messages.NestedElementsChecker_2 +
                                       Messages.NestedElementsChecker_3;
-    public NestedElementsChecker(Validator validator) {
-        super(validator);
+    
+    private List<IArchimateDiagramModel> fViews;
+    
+    public NestedElementsChecker(List<IArchimateDiagramModel> views) {
+        fViews = views;
     }
 
     public List<IIssue> getIssues() {
@@ -45,10 +52,13 @@ public class NestedElementsChecker extends AbstractChecker {
     List<IIssue> findWrongNestedElements() {
         List<IIssue> issues = new ArrayList<IIssue>();
         
-        for(IArchimateDiagramModel dm : archimateViews) {
-            for(IDiagramModelObject dmo : dm.getChildren()) {
-                if(dmo instanceof IDiagramModelArchimateObject) {
-                    IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)dmo;
+        for(IArchimateDiagramModel dm : fViews) {
+            for(Iterator<EObject> iter = dm.eAllContents(); iter.hasNext();) {
+                EObject eObject = iter.next();
+                
+                if(eObject instanceof IDiagramModelArchimateObject) {
+                    IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)eObject;
+                    
                     for(IDiagramModelObject dmoChild : parent.getChildren()) {
                         if(dmoChild instanceof IDiagramModelArchimateObject) {
                             IDiagramModelArchimateObject child = (IDiagramModelArchimateObject)dmoChild;
@@ -73,12 +83,15 @@ public class NestedElementsChecker extends AbstractChecker {
 
     boolean hasValidNestedRelation(IDiagramModelArchimateObject parent, IDiagramModelArchimateObject child) {
         for(IArchimateRelationship relation : parent.getArchimateElement().getSourceRelationships()) {
+            
             if(relation.getTarget() == child.getArchimateElement()) {
                 if(relation instanceof ICompositionRelationship || relation instanceof IAggregationRelationship
-                        || relation instanceof IAssignmentRelationship) {
+                        || relation instanceof IAssignmentRelationship || relation instanceof ISpecializationRelationship
+                        || relation instanceof IRealizationRelationship || relation instanceof IAccessRelationship) {
                     return true;
                 }
             }
+            
         }
         
         return false;

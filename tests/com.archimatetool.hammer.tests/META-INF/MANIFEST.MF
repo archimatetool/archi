@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUnit Tests for Hammer
+Bundle-SymbolicName: com.archimatetool.hammer.tests
+Bundle-Version: 4.0.0
+Fragment-Host: com.archimatetool.hammer
+Bundle-Vendor: Archi
+Require-Bundle: org.junit,
+ com.archimatetool.testsupport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

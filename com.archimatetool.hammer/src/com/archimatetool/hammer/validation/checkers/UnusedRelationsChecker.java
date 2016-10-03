@@ -12,7 +12,6 @@ import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
-import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.WarningType;
 import com.archimatetool.model.IArchimateRelationship;
@@ -23,15 +22,17 @@ import com.archimatetool.model.IArchimateRelationship;
  * 
  * @author Phillip Beauvoir
  */
-public class UnusedRelationsChecker extends AbstractChecker {
+public class UnusedRelationsChecker implements IChecker {
     
     final String NAME = Messages.UnusedRelationsChecker_0;
     final String DESCRIPTION = Messages.UnusedRelationsChecker_1;
     final String EXPLANATION = Messages.UnusedRelationsChecker_2 +
                                Messages.UnusedRelationsChecker_3;
 
-    public UnusedRelationsChecker(Validator validator) {
-        super(validator);
+    private List<IArchimateRelationship> fRelations;
+
+    public UnusedRelationsChecker(List<IArchimateRelationship> relations) {
+        fRelations = relations;
     }
 
     public List<IIssue> getIssues() {
@@ -41,7 +42,7 @@ public class UnusedRelationsChecker extends AbstractChecker {
     List<IIssue> findUnusedRelations() {
         List<IIssue> issues = new ArrayList<IIssue>();
         
-        for(IArchimateRelationship relation : archimateRelations) {
+        for(IArchimateRelationship relation : fRelations) {
             if(!DiagramModelUtils.isArchimateConceptReferencedInDiagrams(relation)) {
                 String name = ArchiLabelProvider.INSTANCE.getLabel(relation);
                 String description = NLS.bind(DESCRIPTION, name);

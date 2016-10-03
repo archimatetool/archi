@@ -14,7 +14,6 @@ import org.eclipse.osgi.util.NLS;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.hammer.validation.Validator;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.hammer.validation.issues.WarningType;
 import com.archimatetool.model.IArchimateElement;
@@ -25,14 +24,16 @@ import com.archimatetool.model.IArchimateElement;
  * 
  * @author Phillip Beauvoir
  */
-public class DuplicateElementChecker extends AbstractChecker {
+public class DuplicateElementChecker implements IChecker {
     
     final String NAME = Messages.DuplicateElementChecker_0;
     final String DESCRIPTION = Messages.DuplicateElementChecker_1;
     final String EXPLANATION = Messages.DuplicateElementChecker_2;
-
-    public DuplicateElementChecker(Validator validator) {
-        super(validator);
+    
+    private List<IArchimateElement> fArchimateElements;
+    
+    public DuplicateElementChecker(List<IArchimateElement> archimateElements) {
+        fArchimateElements = archimateElements;
     }
 
     public List<IIssue> getIssues() {
@@ -44,10 +45,10 @@ public class DuplicateElementChecker extends AbstractChecker {
         
         Set<IArchimateElement> dupes = new LinkedHashSet<IArchimateElement>();
         
-        for(int i = 0; i < archimateElements.size(); i++) {
-            for(int j = i + 1; j < archimateElements.size(); j++) {
-                IArchimateElement element1 = archimateElements.get(i);
-                IArchimateElement element2 = archimateElements.get(j);
+        for(int i = 0; i < fArchimateElements.size(); i++) {
+            for(int j = i + 1; j < fArchimateElements.size(); j++) {
+                IArchimateElement element1 = fArchimateElements.get(i);
+                IArchimateElement element2 = fArchimateElements.get(j);
                 if(isDuplicate(element1, element2)) {
                     dupes.add(element1);
                     dupes.add(element2);
