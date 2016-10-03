@@ -70,10 +70,10 @@
     <eLiterals name="application" value="3"/>
     <eLiterals name="technology" value="4"/>
     <eLiterals name="relations" value="5"/>
-    <eLiterals name="other" value="5" literal="other"/>
-    <eLiterals name="diagrams" value="6"/>
-    <eLiterals name="motivation" value="7" literal="motivation"/>
-    <eLiterals name="implementation_migration" value="8" literal="implementation_migration"/>
+    <eLiterals name="other" value="6" literal="other"/>
+    <eLiterals name="diagrams" value="7"/>
+    <eLiterals name="motivation" value="8" literal="motivation"/>
+    <eLiterals name="implementation_migration" value="9" literal="implementation_migration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FolderContainer" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="folders" upperBound="-1"

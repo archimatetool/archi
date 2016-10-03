@@ -84,7 +84,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    OTHER(5, "other", "other"), //$NON-NLS-1$ //$NON-NLS-2$
+    OTHER(6, "other", "other"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Diagrams</b></em>' literal object.
@@ -94,7 +94,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    DIAGRAMS(6, "diagrams", "diagrams"), //$NON-NLS-1$ //$NON-NLS-2$
+    DIAGRAMS(7, "diagrams", "diagrams"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Motivation</b></em>' literal object.
@@ -104,7 +104,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    MOTIVATION(7, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
+    MOTIVATION(8, "motivation", "motivation"), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>Implementation migration</b></em>' literal object.
@@ -114,7 +114,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    IMPLEMENTATION_MIGRATION(8, "implementation_migration", "implementation_migration"); //$NON-NLS-1$ //$NON-NLS-2$
+    IMPLEMENTATION_MIGRATION(9, "implementation_migration", "implementation_migration"); //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The '<em><b>User</b></em>' literal value.
@@ -219,7 +219,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int OTHER_VALUE = 5;
+    public static final int OTHER_VALUE = 6;
 
     /**
      * The '<em><b>Diagrams</b></em>' literal value.
@@ -234,7 +234,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int DIAGRAMS_VALUE = 6;
+    public static final int DIAGRAMS_VALUE = 7;
 
     /**
      * The '<em><b>Motivation</b></em>' literal value.
@@ -249,7 +249,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int MOTIVATION_VALUE = 7;
+    public static final int MOTIVATION_VALUE = 8;
 
     /**
      * The '<em><b>Implementation migration</b></em>' literal value.
@@ -264,7 +264,7 @@ public enum FolderType implements Enumerator {
      * @generated
      * @ordered
      */
-    public static final int IMPLEMENTATION_MIGRATION_VALUE = 8;
+    public static final int IMPLEMENTATION_MIGRATION_VALUE = 9;
 
     /**
      * An array of all the '<em><b>Folder Type</b></em>' enumerators.
@@ -346,6 +346,7 @@ public enum FolderType implements Enumerator {
             case APPLICATION_VALUE: return APPLICATION;
             case TECHNOLOGY_VALUE: return TECHNOLOGY;
             case RELATIONS_VALUE: return RELATIONS;
+            case OTHER_VALUE: return OTHER;
             case DIAGRAMS_VALUE: return DIAGRAMS;
             case MOTIVATION_VALUE: return MOTIVATION;
             case IMPLEMENTATION_MIGRATION_VALUE: return IMPLEMENTATION_MIGRATION;
