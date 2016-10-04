@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.model.IArchiveManager;
@@ -135,8 +136,7 @@ public class ArchiveManager implements IArchiveManager {
      */
     private void testImageBytesValid(byte[] bytes) throws IOException {
         try {
-            Image img = new Image(Display.getCurrent(), new ByteArrayInputStream(bytes));
-            img.dispose();
+            new ImageData(new ByteArrayInputStream(bytes));
         }
         catch(Throwable ex) {
             throw new IOException("Not a supported image file", ex); //$NON-NLS-1$
