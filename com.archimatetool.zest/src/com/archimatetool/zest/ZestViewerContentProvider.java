@@ -69,8 +69,6 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
     }
     
-    // TODO: A3 get relations->relations
-
     @Override
     public Object[] getElements(Object inputElement) {
         if(inputElement instanceof IArchimateConcept) {
@@ -89,7 +87,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
             // Element - Get its relationships
             if(archimateConcept instanceof IArchimateElement) {
                 List<IArchimateRelationship> mainList = new ArrayList<IArchimateRelationship>();
-                getRelations(mainList, new ArrayList<IArchimateElement>(), (IArchimateElement)archimateConcept, 0);
+                getRelations(mainList, new ArrayList<IArchimateConcept>(), archimateConcept, 0);
                 return mainList.toArray();
             }
         }
@@ -98,25 +96,26 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     }
     
     /**
-     * Get all relations from source and target of element and add to list, no more than DEPTH
+     * Get all relations from source and target of concept and add to list, no more than DEPTH
      */
-    private void getRelations(List<IArchimateRelationship> mainList, List<IArchimateElement> checkList, IArchimateElement element, int count) {
-        if(checkList.contains(element)) {
+    private void getRelations(List<IArchimateRelationship> mainList, List<IArchimateConcept> checkList, IArchimateConcept concept, int count) {
+        if(checkList.contains(concept)) {
             return;
         }
         
-        checkList.add(element);
+        checkList.add(concept);
         
         if(count > fDepth) {
             return;
         }
+        
         count++;
         
-        List<IArchimateRelationship> list = ArchimateModelUtils.getAllRelationshipsForConcept(element);
+        List<IArchimateRelationship> allRelationships = ArchimateModelUtils.getAllRelationshipsForConcept(concept);
         
-        for(IArchimateRelationship relationship : list) {
-            IArchimateConcept other = relationship.getSource().equals(element) ? relationship.getTarget() : relationship.getSource();
-            int direction = relationship.getSource().equals(element) ? DIR_OUT : DIR_IN;
+        for(IArchimateRelationship relationship : allRelationships) {
+            IArchimateConcept other = relationship.getSource().equals(concept) ? relationship.getTarget() : relationship.getSource();
+            int direction = relationship.getSource().equals(concept) ? DIR_OUT : DIR_IN;
 
             if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass())) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
@@ -124,15 +123,11 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
                 }
             }
 
-            if(fViewpoint.isAllowedConcept(other.eClass()) && other instanceof IArchimateElement) {
+            if(fViewpoint.isAllowedConcept(other.eClass())) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
-                    getRelations(mainList, checkList, (IArchimateElement)other, count);
+                    getRelations(mainList, checkList, other, count);
                 }
             }
-            /*
-	            if(fViewpoint.isAllowedConcept(((IArchimateElement)target).eClass())) {
-	            	getRelations(mainList, checkList, target, count);	
-	            } */
         }
     }
     
