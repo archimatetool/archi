@@ -65,11 +65,8 @@ public class DeleteCommandHandler {
     // Selected objects in Tree
     private Object[] fSelectedObjects = new Object[1]; // default value
     
-    // Top level objects to delete
+    // Objects to delete
     private List<Object> fElementsToDelete;
-    
-    // Elements to check including children of top elements to delete
-    private List<Object> fElementsToCheck;
     
     // The object to select in the tree after the deletion
     private Object fObjectToSelectAfterDeletion;
@@ -242,9 +239,6 @@ public class DeleteCommandHandler {
         // Actual elements to delete
         fElementsToDelete = new ArrayList<Object>();
         
-        // Elements to check against for diagram references and other uses
-        fElementsToCheck = new ArrayList<Object>();
-        
         // First, gather up the list of Archimate objects to be deleted...
         for(Object object : fSelectedObjects) {
             if(canDelete(object)) {
@@ -255,7 +249,7 @@ public class DeleteCommandHandler {
         }
         
         // Gather referenced diagram objects to be deleted checking that the parent diagram model is not also selected to be deleted
-        for(Object object : fElementsToCheck) {
+        for(Object object : new ArrayList<>(fElementsToDelete)) {
             // Archimate Components
             if(object instanceof IArchimateConcept) {
                 IArchimateConcept archimateConcept = (IArchimateConcept)object;
@@ -296,12 +290,7 @@ public class DeleteCommandHandler {
             }
         }
         else {
-            // Add to check list
-            addToList(object, fElementsToCheck);
-            // Diagram models need to be deleted explicitly with their own command in case they need closing in the editor
-            if(object instanceof IDiagramModel) {
-                addToList(object, fElementsToDelete);
-            }
+            addToList(object, fElementsToDelete);
         }
     }
     
@@ -324,7 +313,6 @@ public class DeleteCommandHandler {
         else if(object instanceof IArchimateConcept) {
             for(IArchimateRelationship relationship : ArchimateModelUtils.getAllRelationshipsForConcept((IArchimateConcept)object)) {
                 addToList(relationship, fElementsToDelete);
-                addToList(relationship, fElementsToCheck);
                 
                 // Recurse
                 addElementRelationships(relationship);
