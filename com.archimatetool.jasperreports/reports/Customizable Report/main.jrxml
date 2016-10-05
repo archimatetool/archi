@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="main_report" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="0">
+
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+
 	<template><![CDATA[$P{REPORT_PATH}+"style.jrtx"]]></template>
+
 	<subDataset name="PropertiesDataset">
 		<field name="this" class="com.archimatetool.model.IProperty"/>
 		<field name="key" class="java.lang.String"/>
 		<field name="value" class="java.lang.String"/>
 	</subDataset>
+
 	<subDataset name="ElementsDataset">
 		<field name="this" class="com.archimatetool.model.IArchimateElement"/>
 		<field name="name" class="java.lang.String"/>
@@ -17,6 +21,7 @@
 		<field name="relation_source" class="java.lang.String"/>
 		<field name="relation_target" class="java.lang.String"/>
 	</subDataset>
+
 	<parameter name="REPORT_TITLE" class="java.lang.String"/>
 	<parameter name="view_report" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="properties_report" class="net.sf.jasperreports.engine.JasperReport"/>
@@ -26,16 +31,21 @@
 		<defaultValueExpression><![CDATA[(new java.text.SimpleDateFormat("d MMM yyyy HH:mm:ss")).format(new java.util.Date())]]></defaultValueExpression>
 	</parameter>
 	<parameter name="REPORT_PATH" class="java.lang.String"/>
+
 	<field name="this" class="com.archimatetool.model.IArchimateModel"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="purpose" class="java.lang.String"/>
+
+    <variable name="MODEL_HIDE_STRATEGY" class="java.lang.String" calculation="System">
+        <initialValueExpression><![CDATA[""]]></initialValueExpression>
+    </variable>
 	<variable name="MODEL_HIDE_BUSINESS" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="MODEL_HIDE_APPLICATION" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
-	<variable name="MODEL_HIDE_TECHNOLOGY" class="java.lang.String" calculation="System">
+	<variable name="MODEL_HIDE_TECHNOLOGY_PHYSICAL" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="MODEL_HIDE_MOTIVATION" class="java.lang.String" calculation="System">
@@ -44,7 +54,7 @@
 	<variable name="MODEL_HIDE_IMPLEMENTATION_MIGRATION" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
-	<variable name="MODEL_HIDE_CONNECTORS" class="java.lang.String" calculation="System">
+	<variable name="MODEL_HIDE_OTHER" class="java.lang.String" calculation="System">
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
 	<variable name="MODEL_HIDE_RELATIONS" class="java.lang.String" calculation="System">
@@ -73,6 +83,7 @@
     $P{REPORT_TITLE}.split("\\#")[1]
     : ""]]></variableExpression>
 	</variable>
+
 	<background>
 		<band height="842">
 			<image scaleImage="Clip" onErrorType="Blank" evaluationTime="Report">
@@ -93,6 +104,7 @@
 			</image>
 		</band>
 	</background>
+
 	<title>
 		<band height="600">
 			<textField isStretchWithOverflow="true">
@@ -112,6 +124,9 @@
 			</break>
 			<subreport>
 				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="379" width="515" height="30" isRemoveLineWhenBlank="true"/>
+                <subreportParameter name="PROPERTY_0">
+                    <subreportParameterExpression><![CDATA["Report:Model:Hide:Strategy"]]></subreportParameterExpression>
+                </subreportParameter>
 				<subreportParameter name="PROPERTY_1">
 					<subreportParameterExpression><![CDATA["Report:Model:Hide:Business"]]></subreportParameterExpression>
 				</subreportParameter>
@@ -119,7 +134,7 @@
 					<subreportParameterExpression><![CDATA["Report:Model:Hide:Application"]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_3">
-					<subreportParameterExpression><![CDATA["Report:Model:Hide:Technology"]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA["Report:Model:Hide:Technology&Physical"]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_4">
 					<subreportParameterExpression><![CDATA["Report:Model:Hide:Motivation"]]></subreportParameterExpression>
@@ -130,7 +145,7 @@
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
 				<returnValue subreportVariable="RETURNED_VALUE_1" toVariable="MODEL_HIDE_BUSINESS"/>
 				<returnValue subreportVariable="RETURNED_VALUE_2" toVariable="MODEL_HIDE_APPLICATION"/>
-				<returnValue subreportVariable="RETURNED_VALUE_3" toVariable="MODEL_HIDE_TECHNOLOGY"/>
+				<returnValue subreportVariable="RETURNED_VALUE_3" toVariable="MODEL_HIDE_TECHNOLOGY_PHYSICAL"/>
 				<returnValue subreportVariable="RETURNED_VALUE_4" toVariable="MODEL_HIDE_MOTIVATION"/>
 				<returnValue subreportVariable="RETURNED_VALUE_5" toVariable="MODEL_HIDE_IMPLEMENTATION_MIGRATION"/>
 				<returnValue subreportVariable="NON_REPORT_ENTRIES" toVariable="NON_REPORT_ENTRIES"/>
@@ -151,10 +166,10 @@
 					<subreportParameterExpression><![CDATA["Report:Model:Cover:Background"]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="PROPERTY_1">
-					<subreportParameterExpression><![CDATA["Report:Model:Hide:Connectors"]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA["Report:Model:Hide:Other"]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getPropertiesDataSource()]]></dataSourceExpression>
-				<returnValue subreportVariable="RETURNED_VALUE_1" toVariable="MODEL_HIDE_CONNECTORS"/>
+				<returnValue subreportVariable="RETURNED_VALUE_1" toVariable="MODEL_HIDE_OTHER"/>
 				<returnValue subreportVariable="RETURNED_VALUE_2" toVariable="MODEL_HIDE_RELATIONS"/>
 				<returnValue subreportVariable="RETURNED_VALUE_3" toVariable="MODEL_HIDE_VIEWS"/>
 				<returnValue subreportVariable="RETURNED_VALUE_4" toVariable="MODEL_HIDE_VIEW_NUMBERING"/>
@@ -172,10 +187,14 @@
 			</subreport>
 		</band>
 	</title>
+
 	<pageHeader>
 		<band height="60"/>
 	</pageHeader>
+
 	<detail>
+    
+        <!-- Model Name & Purpose -->
 		<band height="45">
 			<printWhenExpression><![CDATA[$F{name} != null]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -191,6 +210,8 @@
 				<text><![CDATA[Purpose]]></text>
 			</staticText>
 		</band>
+
+        <!-- Model Properties -->
 		<band height="55" splitType="Prevent">
 			<printWhenExpression><![CDATA[$V{NON_REPORT_ENTRIES} != 0]]></printWhenExpression>
 			<staticText>
@@ -226,6 +247,8 @@
 				</jr:list>
 			</componentElement>
 		</band>
+
+        <!-- Views -->
 		<band height="90">
 			<printWhenExpression><![CDATA[!$V{MODEL_HIDE_VIEWS}.equals("true")]]></printWhenExpression>
 			<break>
@@ -262,204 +285,101 @@
 				<subreportExpression><![CDATA[$P{view_report}]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="115">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_actors") == true
+
+        <!-- Strategy Layer -->
+        <band height="90">
+            <printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("strategy") == true
+&& !$V{MODEL_HIDE_STRATEGY}.equals("true")]]></printWhenExpression>
+            <break>
+                <reportElement x="0" y="0" width="1" height="1"/>
+            </break>
+            <subreport>
+                <reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
+                <subreportParameter name="properties_report">
+                    <subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="REPORT_PATH">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="TITLE">
+                    <subreportParameterExpression><![CDATA["Strategy"]]></subreportParameterExpression>
+                </subreportParameter>
+                <dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("strategy")]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
+            </subreport>
+            <staticText>
+                <reportElement style="Title 1" x="0" y="1" width="515" height="25">
+                    <property name="net.sf.jasperreports.export.pdf.tag.h1"/>
+                </reportElement>
+                <textElement/>
+                <text><![CDATA[Strategy Layer]]></text>
+            </staticText>
+        </band>
+
+        <!-- Business Layer -->
+        <band height="90">
+            <printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business") == true
 && !$V{MODEL_HIDE_BUSINESS}.equals("true")]]></printWhenExpression>
-			<break>
-				<reportElement x="0" y="0" width="1" height="1"/>
-			</break>
-			<staticText>
-				<reportElement style="Title 1" x="0" y="1" width="515" height="25">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement/>
-				<text><![CDATA[Business Layer]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="26" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Business Actors]]></text>
-			</staticText>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="0" y="65" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Business Actors"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_actors")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_functions") == true
-&& !$V{MODEL_HIDE_BUSINESS}.equals("true")]]></printWhenExpression>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="0" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Business Functions]]></text>
-			</staticText>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Business Functions"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_functions")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_information") == true
-&& !$V{MODEL_HIDE_BUSINESS}.equals("true")]]></printWhenExpression>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="0" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Business Information]]></text>
-			</staticText>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Business Information"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_information")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_processes") == true
-&& !$V{MODEL_HIDE_BUSINESS}.equals("true")]]></printWhenExpression>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="0" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Business Processes]]></text>
-			</staticText>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Business Processes"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_processes")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("business_products") == true
-&& !$V{MODEL_HIDE_BUSINESS}.equals("true")]]></printWhenExpression>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="0" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Business Products]]></text>
-			</staticText>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="1" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Business Products"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business_products")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-		</band>
-		<band height="115">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("applications") == true
+            <break>
+                <reportElement x="0" y="0" width="1" height="1"/>
+            </break>
+            <subreport>
+                <reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
+                <subreportParameter name="properties_report">
+                    <subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="REPORT_PATH">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="TITLE">
+                    <subreportParameterExpression><![CDATA["Business"]]></subreportParameterExpression>
+                </subreportParameter>
+                <dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("business")]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
+            </subreport>
+            <staticText>
+                <reportElement style="Title 1" x="0" y="1" width="515" height="25">
+                    <property name="net.sf.jasperreports.export.pdf.tag.h1"/>
+                </reportElement>
+                <textElement/>
+                <text><![CDATA[Business Layer]]></text>
+            </staticText>
+        </band>
+
+        <!-- Application Layer -->
+        <band height="90">
+            <printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("application") == true
 && !$V{MODEL_HIDE_APPLICATION}.equals("true")]]></printWhenExpression>
-			<break>
-				<reportElement x="0" y="0" width="1" height="1"/>
-			</break>
-			<staticText>
-				<reportElement style="Title 1" x="0" y="1" width="515" height="25">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement/>
-				<text><![CDATA[Application Layer]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="26" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Application Components]]></text>
-			</staticText>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="0" y="65" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Applications"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("applications")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-		</band>
+            <break>
+                <reportElement x="0" y="0" width="1" height="1"/>
+            </break>
+            <subreport>
+                <reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
+                <subreportParameter name="properties_report">
+                    <subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="REPORT_PATH">
+                    <subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
+                </subreportParameter>
+                <subreportParameter name="TITLE">
+                    <subreportParameterExpression><![CDATA["Application"]]></subreportParameterExpression>
+                </subreportParameter>
+                <dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("application")]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
+            </subreport>
+            <staticText>
+                <reportElement style="Title 1" x="0" y="1" width="515" height="25">
+                    <property name="net.sf.jasperreports.export.pdf.tag.h1"/>
+                </reportElement>
+                <textElement/>
+                <text><![CDATA[Application Layer]]></text>
+            </staticText>
+        </band>
+
+        <!-- Technology & Physical Layer -->
 		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("application_data") == true
-&& !$V{MODEL_HIDE_APPLICATION}.equals("true")]]></printWhenExpression>
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="0" y="40" width="515" height="50" isRemoveLineWhenBlank="true"/>
-				<subreportParameter name="properties_report">
-					<subreportParameterExpression><![CDATA[$P{properties_report}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="REPORT_PATH">
-					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Application Data"]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("application_data")]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
-			</subreport>
-			<staticText>
-				<reportElement style="Title 2" x="0" y="0" width="515" height="35">
-					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom"/>
-				<text><![CDATA[Application Data]]></text>
-			</staticText>
-		</band>
-		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("infrastructures") == true
-&& !$V{MODEL_HIDE_TECHNOLOGY}.equals("true")]]></printWhenExpression>
+			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("technology") == true
+&& !$V{MODEL_HIDE_TECHNOLOGY_PHYSICAL}.equals("true")]]></printWhenExpression>
 			<break>
 				<reportElement x="0" y="0" width="1" height="1"/>
 			</break>
@@ -472,9 +392,9 @@
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Infrastructures"]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA["Technology"]]></subreportParameterExpression>
 				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("infrastructures")]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("technology")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
 			<staticText>
@@ -482,9 +402,11 @@
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
 				<textElement/>
-				<text><![CDATA[Technology Layer]]></text>
+				<text><![CDATA[Technology & Physical Layer]]></text>
 			</staticText>
 		</band>
+
+        <!-- Motivation -->
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("motivation") == true
 && !$V{MODEL_HIDE_MOTIVATION}.equals("true")]]></printWhenExpression>
@@ -513,6 +435,8 @@
 				<text><![CDATA[Motivation]]></text>
 			</staticText>
 		</band>
+
+        <!-- Implementation and Migration -->
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("impl_migration") == true
 && !$V{MODEL_HIDE_IMPLEMENTATION_MIGRATION}.equals("true")]]></printWhenExpression>
@@ -541,9 +465,11 @@
 				<text><![CDATA[Implementation and Migration]]></text>
 			</staticText>
 		</band>
+
+        <!-- Other -->
 		<band height="90">
-			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("connectors") == true
-&& !$V{MODEL_HIDE_CONNECTORS}.equals("true")]]></printWhenExpression>
+			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("other") == true
+&& !$V{MODEL_HIDE_OTHER}.equals("true")]]></printWhenExpression>
 			<break>
 				<reportElement x="0" y="0" width="1" height="1"/>
 			</break>
@@ -556,9 +482,9 @@
 					<subreportParameterExpression><![CDATA[$P{REPORT_PATH}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="TITLE">
-					<subreportParameterExpression><![CDATA["Connectors"]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA["Other"]]></subreportParameterExpression>
 				</subreportParameter>
-				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("connectors")]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).getElementsDataSource("other")]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{elements_report}]]></subreportExpression>
 			</subreport>
 			<staticText>
@@ -566,9 +492,11 @@
 					<property name="net.sf.jasperreports.export.pdf.tag.h1"/>
 				</reportElement>
 				<textElement/>
-				<text><![CDATA[Connectors]]></text>
+				<text><![CDATA[Other]]></text>
 			</staticText>
 		</band>
+        
+        <!-- Relations -->
 		<band height="90">
 			<printWhenExpression><![CDATA[((com.archimatetool.jasperreports.data.ArchimateModelDataSource)$P{REPORT_DATA_SOURCE}).hasElements("relations") == true
 && !$V{MODEL_HIDE_RELATIONS}.equals("true")]]></printWhenExpression>
@@ -598,6 +526,7 @@
 			</staticText>
 		</band>
 	</detail>
+
 	<pageFooter>
 		<band height="50">
 			<textField>
