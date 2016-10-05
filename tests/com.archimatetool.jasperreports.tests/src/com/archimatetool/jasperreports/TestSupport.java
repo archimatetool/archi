@@ -20,7 +20,6 @@ public class TestSupport {
     
     private static File reportsFolder;
     
-    public static File STANDARD_REPORT_MAIN_FILE = new File(getReportsFolder(), "Standard Report/main.jrxml");
     public static File CUSTOM_REPORT_MAIN_FILE = new File(getReportsFolder(), "Customizable Report/main.jrxml");
 
     public static File getReportsFolder() {

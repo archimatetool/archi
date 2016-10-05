@@ -40,7 +40,7 @@ public class JasperReportsExporterTests {
     private static File exportFolder;
     private static File tmpFolder;
     private static String exportFileName = "archi";
-    private static File mainTemplateFile = TestSupport.STANDARD_REPORT_MAIN_FILE;
+    private static File mainTemplateFile = TestSupport.CUSTOM_REPORT_MAIN_FILE;
     private static String reportTitle = "Title";
     
     private static JasperReportsExporter exporter;
@@ -81,7 +81,7 @@ public class JasperReportsExporterTests {
         File htmlFolder = new File(exportFolder, exportFileName + ".html_files");
         assertTrue(htmlFolder.exists());
         assertTrue(htmlFolder.isDirectory());
-        assertEquals(17, htmlFolder.listFiles().length);
+        assertEquals(18, htmlFolder.listFiles().length);
     }
     
     @Test

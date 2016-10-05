@@ -71,9 +71,11 @@ public class ArchimateModelDataSourceTests {
 
     @Test
     public void testGetElementsDataSource() {
-        ElementsDataSource source = ds.getElementsDataSource(ElementsDataSource.ELEMENTS_APPLICATION_DATA);
+        ElementsDataSource source = ds.getElementsDataSource(ElementsDataSource.ELEMENTS_BUSINESS);
         assertNotNull(source);
-        source = ds.getElementsDataSource(ElementsDataSource.ELEMENTS_APPLICATIONS);
+        source = ds.getElementsDataSource(ElementsDataSource.ELEMENTS_APPLICATION);
+        assertNotNull(source);
+        source = ds.getElementsDataSource(ElementsDataSource.ELEMENTS_TECHNOLOGY);
         assertNotNull(source);
         source = ds.getElementsDataSource(ElementsDataSource.ELEMENTS_MOTIVATION);
         assertNotNull(source);
@@ -81,8 +83,8 @@ public class ArchimateModelDataSourceTests {
 
     @Test
     public void testHasElements() {
-        assertTrue(ds.hasElements(ElementsDataSource.ELEMENTS_BUSINESS_ACTORS));
-        assertTrue(ds.hasElements(ElementsDataSource.ELEMENTS_APPLICATION_DATA));
+        assertTrue(ds.hasElements(ElementsDataSource.ELEMENTS_BUSINESS));
+        assertTrue(ds.hasElements(ElementsDataSource.ELEMENTS_APPLICATION));
         assertFalse(ds.hasElements("bogus"));
     }
     
