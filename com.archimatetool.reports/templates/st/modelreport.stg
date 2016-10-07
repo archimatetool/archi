@@ -20,7 +20,7 @@ expandFolder(folder, target) ::= <<
 </ul>
 >>
 
-modelreport(model, businessFolder, applicationFolder, technologyFolder, motivationFolder, implementationFolder, connectorsFolder, relationsFolder, viewsFolder) ::= <<
+modelreport(model, strategyFolder, businessFolder, applicationFolder, technologyFolder, motivationFolder, implementationFolder, otherFolder, relationsFolder, viewsFolder) ::= <<
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html class="model" lang="en">
 <head>
@@ -72,6 +72,9 @@ modelreport(model, businessFolder, applicationFolder, technologyFolder, motivati
 					<!-- START OF STRINGTEMPLATE CODE -->
 						<li><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 							<ul>
+                                <li><span class="i18n-strategy"><i class="glyphicon glyphicon-triangle-right"></i> </span>
+                                    ^expandFolder(strategyFolder, "element")^
+                                </li>
 								<li><span class="i18n-business_layer"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(businessFolder, "element")^
 								</li>
@@ -88,7 +91,7 @@ modelreport(model, businessFolder, applicationFolder, technologyFolder, motivati
 									^expandFolder(implementationFolder, "element")^
 								</li>
 								<li><span class="i18n-connectors"><i class="glyphicon glyphicon-triangle-right"></i> </span>
-									^expandFolder(connectorsFolder, "element")^
+									^expandFolder(otherFolder, "element")^
 								</li>
 								<li><span class="i18n-relations"><i class="glyphicon glyphicon-triangle-right"></i> </span>
 									^expandFolder(relationsFolder, "element")^
