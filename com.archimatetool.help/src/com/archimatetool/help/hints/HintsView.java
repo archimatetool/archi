@@ -76,6 +76,9 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
     
     private IAction fActionPinContent;
     
+    /*
+     * Lookup table mapping class/interface name + key (if any) to Hint
+     */
     private Hashtable<String, Hint> fLookupTable = new Hashtable<String, Hint>();
     
     private String fLastPath;
@@ -238,6 +241,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         }
         
         Object object = null;
+        String key = null;
 
         // EClass (selected from Diagram Palette) so get Java class
         if(selected instanceof EClass) {
@@ -280,12 +284,13 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             }
         }
 
-        // TODO: A3 Convert Archimate Diagram Model object to Viewpoint object
+        // Archimate Diagram Model use Viewpoint as key
         if(object instanceof IArchimateDiagramModel) {
-            
+            key = ((IArchimateDiagramModel)object).getViewpoint();
         }
         
-        Hint hint = getHintFromObject(object);
+        Hint hint = getHintFromObject(object, key);
+        
         if(hint != null) {
             if(fLastPath != hint.path) {
                 // Title and Color
@@ -354,28 +359,35 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
         });
     }
     
-    private Hint getHintFromObject(Object object) {
+    private Hint getHintFromObject(Object object, String key) {
         if(object == null) {
             return null;
         }
         
         Hint hint = null;
         
-        // Is it in the lookup?
+        // Object - check class name
         hint = fLookupTable.get(object.getClass().getName());
         if(hint != null) {
             return hint;
         }
         
-        // It's a Class
+        // Class = check class name
         if(object instanceof Class<?>) {
             return fLookupTable.get(((Class<?>)object).getName());
         }
         
-        // Look for Java interface
-        Class<?> clazzes[] = object.getClass().getInterfaces();
-        for(Class<?> interf : clazzes) {
-            hint = fLookupTable.get(interf.getName());
+        // Does a Java interface match on the object perhaps?
+        for(Class<?> interf : object.getClass().getInterfaces()) {
+            String interfaceName = interf.getName();
+            
+            // Add key, if any
+            if(key != null) {
+                interfaceName += key;
+            }
+            
+            hint = fLookupTable.get(interfaceName);
+            
             if(hint != null) {
                 return hint;
             }
@@ -390,6 +402,7 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
             String className = configurationElement.getAttribute("class"); //$NON-NLS-1$
             String fileName = configurationElement.getAttribute("file"); //$NON-NLS-1$
             String title = configurationElement.getAttribute("title"); //$NON-NLS-1$
+            String key = configurationElement.getAttribute("key"); //$NON-NLS-1$
             
             String id = configurationElement.getNamespaceIdentifier();
             Bundle bundle = Platform.getBundle(id);
@@ -403,9 +416,18 @@ implements IContextProvider, IHintsView, ISelectionListener, IComponentSelection
                 continue;
             }
             
+            if(url == null) {
+                continue;
+            }
+            
             File f = new File(url.getPath());
             
             Hint hint = new Hint(title, f.getPath());
+            
+            if(key != null) {
+                className += key;
+            }
+            
             fLookupTable.put(className, hint);
         }
     }
