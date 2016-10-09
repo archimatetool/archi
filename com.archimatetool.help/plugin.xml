@@ -343,12 +343,12 @@
       </hint>
       <hint
             class="com.archimatetool.model.IAndJunction"
-            file="hints/and_junction.html"
+            file="hints/junction.html"
             title="%hint.title.44">
       </hint>
       <hint
             class="com.archimatetool.model.IOrJunction"
-            file="hints/or_junction.html"
+            file="hints/junction.html"
             title="%hint.title.45">
       </hint>
       <hint

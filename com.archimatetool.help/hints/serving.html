@@ -1,16 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <link rel="stylesheet" href="style.css" charset="ISO-8859-1" type="text/css"/>
-</head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+        <title>Serving relationship</title>
+    </head>
+    
     <body>
-   	<p>The <em>used by relationship</em> models the use of <em>services</em> by <em>processes</em>, <em>functions</em>, or <em>interactions</em> and 
-    the access to <em>interfaces</em> by <em>roles</em>, <em>components</em>, or <em>collaborations</em>.</p>
-   	<p>The <em>used by relationship</em> describes the services that a <em>role</em> or <em>component</em> offers that are used by 
-    entities in the environment.   	</p>
-   	<h2>Category:</h2>
-   	<p>Structural.</p>
-   	<h2>Examples:</h2>
-   	<p>A payment service is used by a pay process.<br>
-    A customer file service is used by a &quot;CRM System&quot; <em>application component</em>.</p>
+        <p>The <b>Serving relationship</b> models that an element provides its functionality to another element.</p>
+   	
+   	    <p>The Serving relationship describes how the services or interfaces offered by a behavioural or active structure element serve entities in their environment. This relationship is applied for both the behaviour aspect and the active structure aspect.</p>
+   	
+        <h2>Category:</h2>
+        <p>Dependency.</p>
+   	
+        <h2>Examples:</h2>
+        <p>A Payment Interface serves the Customer, while the Payment Service serves the Pay Invoices Process of that customer.</p>
     </body>
 </html>
