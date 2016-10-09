@@ -406,6 +406,26 @@
             file="hints/gap.html"
             title="%hint.title.56">
       </hint>
+      <hint
+            class="com.archimatetool.model.IGrouping"
+            file="hints/grouping.html"
+            title="%hint.title.91">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IResource"
+            file="hints/resource.html"
+            title="%hint.title.92">
+      </hint>
+      <hint
+            class="com.archimatetool.model.ICapability"
+            file="hints/capability.html"
+            title="%hint.title.93">
+      </hint>
+      <hint
+            class="com.archimatetool.model.ICourseOfAction"
+            file="hints/course_of_action.html"
+            title="%hint.title.94">
+      </hint>
    </extension>
    <extension
          point="com.archimatetool.help.hints">
