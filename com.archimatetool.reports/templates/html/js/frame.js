@@ -80,6 +80,7 @@ var hints = {
 	Gap: "gap.html",
 	Goal: "goal.html",
 	Grouping: "grouping.html",
+	ImplementationEvent: "implementation_event.html",
 	InfluenceRelationship: "influence.html",
 	Location: "location.html",
 	Material: "material.html",

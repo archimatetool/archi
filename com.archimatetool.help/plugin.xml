@@ -308,6 +308,11 @@
             title="%hint.title.91">
       </hint>
       <hint
+            class="com.archimatetool.model.IImplementationEvent"
+            file="hints/implementation_event.html"
+            title="%hint.title.105">
+      </hint>
+      <hint
             class="com.archimatetool.model.ILocation"
             file="hints/location.html"
             title="%hint.title.15">
