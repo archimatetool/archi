@@ -38,7 +38,7 @@ frame(element) ::= <<
 			<b>^element.Name^</b>
 			^if(element.Children)^
 			(<span class="i18n-viewpoint-^element.Viewpoint^"></span>)
-			<a class="glyphicon glyphicon-info-sign" id="hint-viewpoint^element.Viewpoint^" target="hint"></a>
+			<a class="glyphicon glyphicon-info-sign" id="hint-viewpoint_^element.Viewpoint^" target="hint"></a>
 			^elseif(element.Documentation)^
 			(<span class="i18n-elementtype-^element.Class.SimpleName^"></span>)
 			<a class="glyphicon glyphicon-info-sign" id="hint-^element.Class.SimpleName^" target="hint"></a>

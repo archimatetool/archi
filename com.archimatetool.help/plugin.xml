@@ -253,27 +253,27 @@
       </hint>
       <hint
             class="com.archimatetool.model.ITechnologyInterface"
-            file="hints/infrastructure_interface.html"
+            file="hints/technology_interface.html"
             title="%hint.title.25">
       </hint>
       <hint
             class="com.archimatetool.model.ICommunicationNetwork"
-            file="hints/network.html"
+            file="hints/communication_network.html"
             title="%hint.title.26">
       </hint>
       <hint
             class="com.archimatetool.model.IPath"
-            file="hints/communication_path.html"
+            file="hints/path.html"
             title="%hint.title.27">
       </hint>
       <hint
             class="com.archimatetool.model.ITechnologyService"
-            file="hints/infrastructure_service.html"
+            file="hints/technology_service.html"
             title="%hint.title.28">
       </hint>
       <hint
             class="com.archimatetool.model.ITechnologyFunction"
-            file="hints/infrastructure_function.html"
+            file="hints/technology_function.html"
             title="%hint.title.29">
       </hint>
       <hint
