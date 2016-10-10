@@ -273,9 +273,24 @@
             title="%hint.title.24">
       </hint>
       <hint
+            class="com.archimatetool.model.IDistributionNetwork"
+            file="hints/distribution_network.html"
+            title="%hint.title.101">
+      </hint>
+      <hint
             class="com.archimatetool.model.IDriver"
             file="hints/driver.html"
             title="%hint.title.47">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IEquipment"
+            file="hints/equipment.html"
+            title="%hint.title.102">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IFacility"
+            file="hints/facility.html"
+            title="%hint.title.103">
       </hint>
       <hint
             class="com.archimatetool.model.IGap"
@@ -296,6 +311,11 @@
             class="com.archimatetool.model.ILocation"
             file="hints/location.html"
             title="%hint.title.15">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IMaterial"
+            file="hints/material.html"
+            title="%hint.title.104">
       </hint>
       <hint
             class="com.archimatetool.model.IMeaning"
