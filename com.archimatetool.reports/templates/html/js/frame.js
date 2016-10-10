@@ -80,6 +80,7 @@ var hints = {
 	Meaning: "meaning.html",
 	Node: "node.html",
 	OrJunction: "junction.html",
+	Outcome: "outcome.html",
     Path: "path.html",
 	Plateau: "plateau.html",
 	Principle: "principle.html",
