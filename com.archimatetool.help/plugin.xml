@@ -143,6 +143,11 @@
             title="%hint.title.16">
       </hint>
       <hint
+            class="com.archimatetool.model.IApplicationEvent"
+            file="hints/application_event.html"
+            title="%hint.title.96">
+      </hint>
+      <hint
             class="com.archimatetool.model.IApplicationFunction"
             file="hints/application_function.html"
             title="%hint.title.20">
@@ -156,6 +161,11 @@
             class="com.archimatetool.model.IApplicationInterface"
             file="hints/application_interface.html"
             title="%hint.title.18">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationProcess"
+            file="hints/application_process.html"
+            title="%hint.title.5">
       </hint>
       <hint
             class="com.archimatetool.model.IApplicationService"
