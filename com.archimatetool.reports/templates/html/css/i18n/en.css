@@ -69,10 +69,12 @@
 :lang(en) .i18n-elementtype-CommunicationNetwork:after {content: "Communication Network"}
 :lang(en) .i18n-elementtype-CompositionRelationship:after {content: "Composition"}
 :lang(en) .i18n-elementtype-Constraint:after {content: "Constraint"}
+:lang(en) .i18n-elementtype-CourseOfAction:after {content: "Course of Action"}
 :lang(en) .i18n-elementtype-Contract:after {content: "Contract"}
 :lang(en) .i18n-elementtype-DataObject:after {content: "Data Object"}
 :lang(en) .i18n-elementtype-Deliverable:after {content: "Deliverable"}
 :lang(en) .i18n-elementtype-Device:after {content: "Device"}
+:lang(en) .i18n-elementtype-DistributionNetwork:after {content: "Distribution Network"}
 :lang(en) .i18n-elementtype-Driver:after {content: "Driver"}
 :lang(en) .i18n-elementtype-Equipment:after {content: "Equipment"}
 :lang(en) .i18n-elementtype-Facility:after {content: "Facility"}

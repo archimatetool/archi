@@ -125,16 +125,67 @@
       </key>
    </extension>
    <extension
+         name="Elements"
          point="com.archimatetool.help.hints">
+      <hint
+            class="com.archimatetool.model.IAndJunction"
+            file="hints/junction.html"
+            title="%hint.title.44">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationCollaboration"
+            file="hints/application_collaboration.html"
+            title="%hint.title.17">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationComponent"
+            file="hints/application_component.html"
+            title="%hint.title.16">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationEvent"
+            file="hints/application_event.html"
+            title="%hint.title.96">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationFunction"
+            file="hints/application_function.html"
+            title="%hint.title.20">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationInteraction"
+            file="hints/application_interaction.html"
+            title="%hint.title.21">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationInterface"
+            file="hints/application_interface.html"
+            title="%hint.title.18">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationProcess"
+            file="hints/application_process.html"
+            title="%hint.title.5">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IApplicationService"
+            file="hints/application_service.html"
+            title="%hint.title.22">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArtifact"
+            file="hints/artifact.html"
+            title="%hint.title.31">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IAssessment"
+            file="hints/assessment.html"
+            title="%hint.title.48">
+      </hint>
       <hint
             class="com.archimatetool.model.IBusinessActor"
             file="hints/business_actor.html"
             title="%hint.title">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IBusinessRole"
-            file="hints/business_role.html"
-            title="%hint.title.0">
       </hint>
       <hint
             class="com.archimatetool.model.IBusinessCollaboration"
@@ -157,6 +208,11 @@
             title="%hint.title.4">
       </hint>
       <hint
+            class="com.archimatetool.model.IBusinessRole"
+            file="hints/business_role.html"
+            title="%hint.title.0">
+      </hint>
+      <hint
             class="com.archimatetool.model.IBusinessFunction"
             file="hints/business_function.html"
             title="%hint.title.6">
@@ -177,24 +233,19 @@
             title="%hint.title.9">
       </hint>
       <hint
-            class="com.archimatetool.model.IRepresentation"
-            file="hints/representation.html"
-            title="%hint.title.10">
+            class="com.archimatetool.model.ICapability"
+            file="hints/capability.html"
+            title="%hint.title.93">
       </hint>
       <hint
-            class="com.archimatetool.model.IMeaning"
-            file="hints/meaning.html"
-            title="%hint.title.11">
+            class="com.archimatetool.model.ICommunicationNetwork"
+            file="hints/communication_network.html"
+            title="%hint.title.26">
       </hint>
       <hint
-            class="com.archimatetool.model.IValue"
-            file="hints/value.html"
-            title="%hint.title.12">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IProduct"
-            file="hints/product.html"
-            title="%hint.title.13">
+            class="com.archimatetool.model.IConstraint"
+            file="hints/constraint.html"
+            title="%hint.title.51">
       </hint>
       <hint
             class="com.archimatetool.model.IContract"
@@ -202,24 +253,9 @@
             title="%hint.title.14">
       </hint>
       <hint
-            class="com.archimatetool.model.ILocation"
-            file="hints/location.html"
-            title="%hint.title.15">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IApplicationComponent"
-            file="hints/application_component.html"
-            title="%hint.title.16">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IApplicationCollaboration"
-            file="hints/application_collaboration.html"
-            title="%hint.title.17">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IApplicationInterface"
-            file="hints/application_interface.html"
-            title="%hint.title.18">
+            class="com.archimatetool.model.ICourseOfAction"
+            file="hints/course_of_action.html"
+            title="%hint.title.94">
       </hint>
       <hint
             class="com.archimatetool.model.IDataObject"
@@ -227,24 +263,9 @@
             title="%hint.title.19">
       </hint>
       <hint
-            class="com.archimatetool.model.IApplicationFunction"
-            file="hints/application_function.html"
-            title="%hint.title.20">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IApplicationInteraction"
-            file="hints/application_interaction.html"
-            title="%hint.title.21">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IApplicationService"
-            file="hints/application_service.html"
-            title="%hint.title.22">
-      </hint>
-      <hint
-            class="com.archimatetool.model.INode"
-            file="hints/node.html"
-            title="%hint.title.23">
+            class="com.archimatetool.model.IDeliverable"
+            file="hints/deliverable.html"
+            title="%hint.title.54">
       </hint>
       <hint
             class="com.archimatetool.model.IDevice"
@@ -252,29 +273,109 @@
             title="%hint.title.24">
       </hint>
       <hint
-            class="com.archimatetool.model.ITechnologyInterface"
-            file="hints/infrastructure_interface.html"
-            title="%hint.title.25">
+            class="com.archimatetool.model.IDistributionNetwork"
+            file="hints/distribution_network.html"
+            title="%hint.title.101">
       </hint>
       <hint
-            class="com.archimatetool.model.ICommunicationNetwork"
-            file="hints/network.html"
-            title="%hint.title.26">
+            class="com.archimatetool.model.IDriver"
+            file="hints/driver.html"
+            title="%hint.title.47">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IEquipment"
+            file="hints/equipment.html"
+            title="%hint.title.102">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IFacility"
+            file="hints/facility.html"
+            title="%hint.title.103">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IGap"
+            file="hints/gap.html"
+            title="%hint.title.56">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IGoal"
+            file="hints/goal.html"
+            title="%hint.title.49">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IGrouping"
+            file="hints/grouping.html"
+            title="%hint.title.91">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IImplementationEvent"
+            file="hints/implementation_event.html"
+            title="%hint.title.105">
+      </hint>
+      <hint
+            class="com.archimatetool.model.ILocation"
+            file="hints/location.html"
+            title="%hint.title.15">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IMaterial"
+            file="hints/material.html"
+            title="%hint.title.104">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IMeaning"
+            file="hints/meaning.html"
+            title="%hint.title.11">
+      </hint>
+      <hint
+            class="com.archimatetool.model.INode"
+            file="hints/node.html"
+            title="%hint.title.23">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IOrJunction"
+            file="hints/junction.html"
+            title="%hint.title.45">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IOutcome"
+            file="hints/outcome.html"
+            title="%hint.title.95">
       </hint>
       <hint
             class="com.archimatetool.model.IPath"
-            file="hints/communication_path.html"
+            file="hints/path.html"
             title="%hint.title.27">
       </hint>
       <hint
-            class="com.archimatetool.model.ITechnologyService"
-            file="hints/infrastructure_service.html"
-            title="%hint.title.28">
+            class="com.archimatetool.model.IPlateau"
+            file="hints/plateau.html"
+            title="%hint.title.55">
       </hint>
       <hint
-            class="com.archimatetool.model.ITechnologyFunction"
-            file="hints/infrastructure_function.html"
-            title="%hint.title.29">
+            class="com.archimatetool.model.IPrinciple"
+            file="hints/principle.html"
+            title="%hint.title.52">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IProduct"
+            file="hints/product.html"
+            title="%hint.title.13">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IRepresentation"
+            file="hints/representation.html"
+            title="%hint.title.10">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IRequirement"
+            file="hints/requirement.html"
+            title="%hint.title.50">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IStakeholder"
+            file="hints/stakeholder.html"
+            title="%hint.title.46">
       </hint>
       <hint
             class="com.archimatetool.model.ISystemSoftware"
@@ -282,24 +383,73 @@
             title="%hint.title.30">
       </hint>
       <hint
-            class="com.archimatetool.model.IArtifact"
-            file="hints/artifact.html"
-            title="%hint.title.31">
+            class="com.archimatetool.model.ITechnologyCollaboration"
+            file="hints/technology_collaboration.html"
+            title="%hint.title.97">
       </hint>
       <hint
-            class="com.archimatetool.model.ICompositionRelationship"
-            file="hints/composition.html"
-            title="%hint.title.32">
+            class="com.archimatetool.model.ITechnologyEvent"
+            file="hints/technology_event.html"
+            title="%hint.title.98">
       </hint>
       <hint
-            class="com.archimatetool.model.IAggregationRelationship"
-            file="hints/aggregation.html"
-            title="%hint.title.33">
+            class="com.archimatetool.model.ITechnologyFunction"
+            file="hints/technology_function.html"
+            title="%hint.title.29">
       </hint>
+      <hint
+            class="com.archimatetool.model.ITechnologyInteraction"
+            file="hints/technology_interaction.html"
+            title="%hint.title.99">
+      </hint>
+      <hint
+            class="com.archimatetool.model.ITechnologyInterface"
+            file="hints/technology_interface.html"
+            title="%hint.title.25">
+      </hint>
+      <hint
+            class="com.archimatetool.model.ITechnologyProcess"
+            file="hints/technology_process.html"
+            title="%hint.title.100">
+      </hint>
+      <hint
+            class="com.archimatetool.model.ITechnologyService"
+            file="hints/technology_service.html"
+            title="%hint.title.28">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IValue"
+            file="hints/value.html"
+            title="%hint.title.12">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IWorkPackage"
+            file="hints/workpackage.html"
+            title="%hint.title.53">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IResource"
+            file="hints/resource.html"
+            title="%hint.title.92">
+      </hint>
+   </extension>
+   <extension
+         name="Relations"
+         point="com.archimatetool.help.hints">
       <hint
             class="com.archimatetool.model.IAssignmentRelationship"
             file="hints/assignment.html"
             title="%hint.title.34">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IFlowRelationship"
+            file="hints/flow.html"
+            title="%hint.title.40">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IInfluenceRelationship"
+            file="hints/influence.html"
+            title="%hint.title.42">
       </hint>
       <hint
             class="com.archimatetool.model.IRealizationRelationship"
@@ -312,9 +462,9 @@
             title="%hint.title.36">
       </hint>
       <hint
-            class="com.archimatetool.model.IAccessRelationship"
-            file="hints/access.html"
-            title="%hint.title.37">
+            class="com.archimatetool.model.ISpecializationRelationship"
+            file="hints/specialization.html"
+            title="%hint.title.41">
       </hint>
       <hint
             class="com.archimatetool.model.IAssociationRelationship"
@@ -322,102 +472,33 @@
             title="%hint.title.38">
       </hint>
       <hint
+            class="com.archimatetool.model.ICompositionRelationship"
+            file="hints/composition.html"
+            title="%hint.title.32">
+      </hint>
+      <hint
             class="com.archimatetool.model.ITriggeringRelationship"
             file="hints/triggering.html"
             title="%hint.title.39">
       </hint>
       <hint
-            class="com.archimatetool.model.IFlowRelationship"
-            file="hints/flow.html"
-            title="%hint.title.40">
+            class="com.archimatetool.model.IAccessRelationship"
+            file="hints/access.html"
+            title="%hint.title.37">
       </hint>
       <hint
-            class="com.archimatetool.model.ISpecializationRelationship"
-            file="hints/specialization.html"
-            title="%hint.title.41">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IInfluenceRelationship"
-            file="hints/influence.html"
-            title="%hint.title.42">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IAndJunction"
-            file="hints/and_junction.html"
-            title="%hint.title.44">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IOrJunction"
-            file="hints/or_junction.html"
-            title="%hint.title.45">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IStakeholder"
-            file="hints/stakeholder.html"
-            title="%hint.title.46">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IDriver"
-            file="hints/driver.html"
-            title="%hint.title.47">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IAssessment"
-            file="hints/assessment.html"
-            title="%hint.title.48">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IGoal"
-            file="hints/goal.html"
-            title="%hint.title.49">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IRequirement"
-            file="hints/requirement.html"
-            title="%hint.title.50">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IConstraint"
-            file="hints/constraint.html"
-            title="%hint.title.51">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IPrinciple"
-            file="hints/principle.html"
-            title="%hint.title.52">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IWorkPackage"
-            file="hints/workpackage.html"
-            title="%hint.title.53">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IDeliverable"
-            file="hints/deliverable.html"
-            title="%hint.title.54">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IPlateau"
-            file="hints/plateau.html"
-            title="%hint.title.55">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IGap"
-            file="hints/gap.html"
-            title="%hint.title.56">
+            class="com.archimatetool.model.IAggregationRelationship"
+            file="hints/aggregation.html"
+            title="%hint.title.33">
       </hint>
    </extension>
    <extension
+         name="Other"
          point="com.archimatetool.help.hints">
       <hint
             class="com.archimatetool.model.IDiagramModelGroup"
             file="hints/group.html"
             title="%hint.title.57">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IDiagramModel"
-            file="hints/view.html"
-            title="%hint.title.58">
       </hint>
       <hint
             class="com.archimatetool.model.IDiagramModelNote"
@@ -463,6 +544,153 @@
             class="com.archimatetool.model.IDiagramModelImage"
             file="hints/diagram_image.html"
             title="%hint.title.67">
+      </hint>
+   </extension>
+   <extension
+         name="Viewpoints"
+         point="com.archimatetool.help.hints">
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/view.html"
+            title="%hint.title.58">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_organization.html"
+            key="organization"
+            title="%hint.title.90">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_business_process_cooperation.html"
+            key="business_process_cooperation"
+            title="%hint.title.68">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_product.html"
+            key="product"
+            title="%hint.title.69">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_application_cooperation.html"
+            key="application_cooperation"
+            title="%hint.title.70">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_application_usage.html"
+            key="application_usage"
+            title="%hint.title.71">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_implementation_deployment.html"
+            key="implementation_deployment"
+            title="%hint.title.72">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_technology.html"
+            key="technology"
+            title="%hint.title.73">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_technology_usage.html"
+            key="technology_usage"
+            title="%hint.title.74">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_information_structure.html"
+            key="information_structure"
+            title="%hint.title.75">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_service_realization.html"
+            key="service_realization"
+            title="%hint.title.76">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_physical.html"
+            key="physical"
+            title="%hint.title.77">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_stakeholder.html"
+            key="stakeholder"
+            title="%hint.title.78">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_goal_realization.html"
+            key="goal_realization"
+            title="%hint.title.79">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_requirements_realization.html"
+            key="requirements_realization"
+            title="%hint.title.80">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_motivation.html"
+            key="motivation"
+            title="%hint.title.81">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_strategy.html"
+            key="strategy"
+            title="%hint.title.82">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_capability.html"
+            key="capability"
+            title="%hint.title.83">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_outcome_realization.html"
+            key="outcome_realization"
+            title="%hint.title.84">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_resource.html"
+            key="resource"
+            title="%hint.title.85">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_project.html"
+            key="project"
+            title="%hint.title.86">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_migration.html"
+            key="migration"
+            title="%hint.title.87">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_implementation_migration.html"
+            key="implementation_migration"
+            title="%hint.title.88">
+      </hint>
+      <hint
+            class="com.archimatetool.model.IArchimateDiagramModel"
+            file="hints/vp_layered.html"
+            key="layered"
+            title="%hint.title.89">
       </hint>
    </extension>
 
