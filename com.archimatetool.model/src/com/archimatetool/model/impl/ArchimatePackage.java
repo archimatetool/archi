@@ -3530,9 +3530,9 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         initEClass(structureElementEClass, IStructureElement.class, "StructureElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
-        initEClass(activeStructureElementEClass, IActiveStructureElement.class, "ActiveStructureElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEClass(activeStructureElementEClass, IActiveStructureElement.class, "ActiveStructureElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
-        initEClass(passiveStructureElementEClass, IPassiveStructureElement.class, "PassiveStructureElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+        initEClass(passiveStructureElementEClass, IPassiveStructureElement.class, "PassiveStructureElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(structuralRelationshipEClass, IStructuralRelationship.class, "StructuralRelationship", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

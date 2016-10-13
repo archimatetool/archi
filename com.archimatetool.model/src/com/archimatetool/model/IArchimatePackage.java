@@ -1459,20 +1459,20 @@ public interface IArchimatePackage extends EPackage {
     int STRUCTURE_ELEMENT = 26;
 
     /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.ActiveStructureElement <em>Active Structure Element</em>}' class.
+     * The meta object id for the '{@link com.archimatetool.model.IActiveStructureElement <em>Active Structure Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.ActiveStructureElement
+     * @see com.archimatetool.model.IActiveStructureElement
      * @see com.archimatetool.model.impl.ArchimatePackage#getActiveStructureElement()
      * @generated
      */
     int ACTIVE_STRUCTURE_ELEMENT = 27;
 
     /**
-     * The meta object id for the '{@link com.archimatetool.model.impl.PassiveStructureElement <em>Passive Structure Element</em>}' class.
+     * The meta object id for the '{@link com.archimatetool.model.IPassiveStructureElement <em>Passive Structure Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.archimatetool.model.impl.PassiveStructureElement
+     * @see com.archimatetool.model.IPassiveStructureElement
      * @see com.archimatetool.model.impl.ArchimatePackage#getPassiveStructureElement()
      * @generated
      */
@@ -11241,20 +11241,20 @@ public interface IArchimatePackage extends EPackage {
         EClass STRUCTURE_ELEMENT = eINSTANCE.getStructureElement();
 
         /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.ActiveStructureElement <em>Active Structure Element</em>}' class.
+         * The meta object literal for the '{@link com.archimatetool.model.IActiveStructureElement <em>Active Structure Element</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.ActiveStructureElement
+         * @see com.archimatetool.model.IActiveStructureElement
          * @see com.archimatetool.model.impl.ArchimatePackage#getActiveStructureElement()
          * @generated
          */
         EClass ACTIVE_STRUCTURE_ELEMENT = eINSTANCE.getActiveStructureElement();
 
         /**
-         * The meta object literal for the '{@link com.archimatetool.model.impl.PassiveStructureElement <em>Passive Structure Element</em>}' class.
+         * The meta object literal for the '{@link com.archimatetool.model.IPassiveStructureElement <em>Passive Structure Element</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see com.archimatetool.model.impl.PassiveStructureElement
+         * @see com.archimatetool.model.IPassiveStructureElement
          * @see com.archimatetool.model.impl.ArchimatePackage#getPassiveStructureElement()
          * @generated
          */

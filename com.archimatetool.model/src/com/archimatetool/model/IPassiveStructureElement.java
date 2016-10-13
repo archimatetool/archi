@@ -13,7 +13,7 @@ package com.archimatetool.model;
  *
  *
  * @see com.archimatetool.model.IArchimatePackage#getPassiveStructureElement()
- * @model
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface IPassiveStructureElement extends IStructureElement {

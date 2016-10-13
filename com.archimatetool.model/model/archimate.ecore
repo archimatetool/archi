@@ -138,8 +138,10 @@
       eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="StructureElement" abstract="true" interface="true"
       eSuperTypes="#//ArchimateElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ActiveStructureElement" eSuperTypes="#//StructureElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PassiveStructureElement" eSuperTypes="#//StructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActiveStructureElement" abstract="true"
+      interface="true" eSuperTypes="#//StructureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PassiveStructureElement" abstract="true"
+      interface="true" eSuperTypes="#//StructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="StructuralRelationship" abstract="true"
       interface="true" eSuperTypes="#//ArchimateRelationship"/>
   <eClassifiers xsi:type="ecore:EClass" name="DependendencyRelationship" abstract="true"

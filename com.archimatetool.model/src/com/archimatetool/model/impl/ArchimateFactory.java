@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAccessRelationship;
-import com.archimatetool.model.IActiveStructureElement;
 import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
@@ -79,7 +78,6 @@ import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.INode;
 import com.archimatetool.model.IOrJunction;
 import com.archimatetool.model.IOutcome;
-import com.archimatetool.model.IPassiveStructureElement;
 import com.archimatetool.model.IPath;
 import com.archimatetool.model.IPlateau;
 import com.archimatetool.model.IPrinciple;
@@ -155,8 +153,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.PROPERTY: return createProperty();
             case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.FOLDER: return createFolder();
-            case IArchimatePackage.ACTIVE_STRUCTURE_ELEMENT: return createActiveStructureElement();
-            case IArchimatePackage.PASSIVE_STRUCTURE_ELEMENT: return createPassiveStructureElement();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
             case IArchimatePackage.AND_JUNCTION: return createAndJunction();
             case IArchimatePackage.APPLICATION_COLLABORATION: return createApplicationCollaboration();
@@ -326,26 +322,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IFolder createFolder() {
         Folder folder = new Folder();
         return folder;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IActiveStructureElement createActiveStructureElement() {
-        ActiveStructureElement activeStructureElement = new ActiveStructureElement();
-        return activeStructureElement;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IPassiveStructureElement createPassiveStructureElement() {
-        PassiveStructureElement passiveStructureElement = new PassiveStructureElement();
-        return passiveStructureElement;
     }
 
     /**

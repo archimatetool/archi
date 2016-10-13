@@ -71,24 +71,6 @@ public interface IArchimateFactory extends EFactory {
     IFolder createFolder();
 
     /**
-     * Returns a new object of class '<em>Active Structure Element</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Active Structure Element</em>'.
-     * @generated
-     */
-    IActiveStructureElement createActiveStructureElement();
-
-    /**
-     * Returns a new object of class '<em>Passive Structure Element</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Passive Structure Element</em>'.
-     * @generated
-     */
-    IPassiveStructureElement createPassiveStructureElement();
-
-    /**
      * Returns a new object of class '<em>Business Actor</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
