@@ -28,6 +28,12 @@ public class Messages extends NLS {
 
     public static String InvalidRelationsChecker_3;
 
+    public static String JunctionsChecker_0;
+
+    public static String JunctionsChecker_1;
+
+    public static String JunctionsChecker_2;
+
     public static String NestedElementsChecker_0;
 
     public static String NestedElementsChecker_1;

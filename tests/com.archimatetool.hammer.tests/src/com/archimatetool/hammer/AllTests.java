@@ -10,6 +10,7 @@ import com.archimatetool.hammer.validation.ValidatorTests;
 import com.archimatetool.hammer.validation.checkers.DuplicateElementCheckerTests;
 import com.archimatetool.hammer.validation.checkers.EmptyViewsCheckerTests;
 import com.archimatetool.hammer.validation.checkers.InvalidRelationsCheckerTests;
+import com.archimatetool.hammer.validation.checkers.JunctionsCheckerTests;
 import com.archimatetool.hammer.validation.checkers.NestedElementsCheckerTests;
 import com.archimatetool.hammer.validation.checkers.UnusedElementsCheckerTests;
 import com.archimatetool.hammer.validation.checkers.UnusedRelationsCheckerTests;
@@ -38,6 +39,7 @@ public class AllTests {
 		suite.addTest(DuplicateElementCheckerTests.suite());
         suite.addTest(EmptyViewsCheckerTests.suite());
         suite.addTest(InvalidRelationsCheckerTests.suite());
+        suite.addTest(JunctionsCheckerTests.suite());
         suite.addTest(NestedElementsCheckerTests.suite());
         suite.addTest(UnusedElementsCheckerTests.suite());
         suite.addTest(UnusedRelationsCheckerTests.suite());

@@ -18,6 +18,7 @@ import com.archimatetool.hammer.validation.checkers.DuplicateElementChecker;
 import com.archimatetool.hammer.validation.checkers.EmptyViewsChecker;
 import com.archimatetool.hammer.validation.checkers.IChecker;
 import com.archimatetool.hammer.validation.checkers.InvalidRelationsChecker;
+import com.archimatetool.hammer.validation.checkers.JunctionsChecker;
 import com.archimatetool.hammer.validation.checkers.NestedElementsChecker;
 import com.archimatetool.hammer.validation.checkers.UnusedElementsChecker;
 import com.archimatetool.hammer.validation.checkers.UnusedRelationsChecker;
@@ -130,6 +131,11 @@ public class Validator {
         // Possible Duplicates
         if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_DUPLICATE_ELEMENTS)) {
             collectIssues(new DuplicateElementChecker(getArchimateElements()));
+        }
+        
+        // Junctions
+        if(store.getBoolean(IPreferenceConstants.PREFS_HAMMER_CHECK_JUNCTIONS)) {
+            collectIssues(new JunctionsChecker(getArchimateElements()));
         }
 
         // ----------------------------------------------------------
