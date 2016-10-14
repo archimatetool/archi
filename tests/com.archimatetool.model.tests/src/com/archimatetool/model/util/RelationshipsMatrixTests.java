@@ -35,18 +35,18 @@ public class RelationshipsMatrixTests {
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRelationshipsMatrixIsUnmodifiable() {
         Map<EClass, List<TargetMatrix>> map = matrix.getRelationshipsMatrix();
-        map.put(IArchimatePackage.eINSTANCE.getAndJunction(), null);
+        map.put(IArchimatePackage.eINSTANCE.getJunction(), null);
     }
     
     @Test(expected = UnsupportedOperationException.class)
     public void testGetRelationshipsValueMapIsUnmodifiable() {
         Map<EClass, Character> map = matrix.getRelationshipsValueMap();
-        map.put(IArchimatePackage.eINSTANCE.getAndJunction(), null);
+        map.put(IArchimatePackage.eINSTANCE.getJunction(), null);
     }
 
     @Test
     public void testIsValidRelationshipStart_Element() {
-        IArchimateElement sourceElement = IArchimateFactory.eINSTANCE.createAndJunction();
+        IArchimateElement sourceElement = IArchimateFactory.eINSTANCE.createJunction();
         IArchimateRelationship relationship = IArchimateFactory.eINSTANCE.createFlowRelationship();
         
         assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
@@ -78,8 +78,8 @@ public class RelationshipsMatrixTests {
 
     @Test
     public void testIsValidRelationship_ElementToElement() {
-        EClass sourceClass = IArchimatePackage.eINSTANCE.getAndJunction();
-        EClass targetClass = IArchimatePackage.eINSTANCE.getAndJunction();
+        EClass sourceClass = IArchimatePackage.eINSTANCE.getJunction();
+        EClass targetClass = IArchimatePackage.eINSTANCE.getJunction();
         EClass relationship = IArchimatePackage.eINSTANCE.getFlowRelationship();
         assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
 
@@ -98,7 +98,7 @@ public class RelationshipsMatrixTests {
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         sourceClass = IArchimatePackage.eINSTANCE.getValue();
-        targetClass = IArchimatePackage.eINSTANCE.getOrJunction();
+        targetClass = IArchimatePackage.eINSTANCE.getJunction();
         relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         

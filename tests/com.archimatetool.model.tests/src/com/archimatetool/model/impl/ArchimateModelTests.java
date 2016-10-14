@@ -105,7 +105,7 @@ public class ArchimateModelTests {
         assertNotNull(folder);
         assertEquals(FolderType.TECHNOLOGY, folder.getType());
 
-        element = IArchimateFactory.eINSTANCE.createAndJunction();
+        element = IArchimateFactory.eINSTANCE.createJunction();
         folder = model.getDefaultFolderForObject(element);
         assertNotNull(folder);
         assertEquals(FolderType.OTHER, folder.getType());

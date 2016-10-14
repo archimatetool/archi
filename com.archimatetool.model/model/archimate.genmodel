@@ -80,7 +80,6 @@
       <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/reconnect"/>
       <genOperations ecoreOperation="archimate.ecore#//ArchimateRelationship/disconnect"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="archimate.ecore#//JunctionElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//StrategyElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//BusinessElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ApplicationElement"/>
@@ -113,7 +112,9 @@
         <genParameters ecoreParameter="archimate.ecore#//ArchimateModel/getFolder/type"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="archimate.ecore#//AndJunction"/>
+    <genClasses ecoreClass="archimate.ecore#//Junction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute archimate.ecore#//Junction/type"/>
+    </genClasses>
     <genClasses ecoreClass="archimate.ecore#//ApplicationCollaboration"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationComponent"/>
     <genClasses ecoreClass="archimate.ecore#//ApplicationEvent"/>
@@ -155,7 +156,6 @@
     <genClasses ecoreClass="archimate.ecore#//Meaning"/>
     <genClasses ecoreClass="archimate.ecore#//Node"/>
     <genClasses ecoreClass="archimate.ecore#//Outcome"/>
-    <genClasses ecoreClass="archimate.ecore#//OrJunction"/>
     <genClasses ecoreClass="archimate.ecore#//Path"/>
     <genClasses ecoreClass="archimate.ecore#//Plateau"/>
     <genClasses ecoreClass="archimate.ecore#//Principle"/>

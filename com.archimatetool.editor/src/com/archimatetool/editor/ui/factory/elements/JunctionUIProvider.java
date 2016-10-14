@@ -15,32 +15,32 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.diagram.editparts.LeafEditPart;
-import com.archimatetool.editor.diagram.figures.elements.AndJunctionFigure;
+import com.archimatetool.editor.diagram.figures.elements.JunctionFigure;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
 
 
 
 /**
- * And Junction UI Provider
+ * Junction UI Provider
  * 
  * @author Phillip Beauvoir
  */
-public class AndJunctionUIProvider extends AbstractArchimateElementUIProvider {
+public class JunctionUIProvider extends AbstractArchimateElementUIProvider {
 
     @Override
     public EClass providerFor() {
-        return IArchimatePackage.eINSTANCE.getAndJunction();
+        return IArchimatePackage.eINSTANCE.getJunction();
     }
     
     @Override
     public EditPart createEditPart() {
-        return new LeafEditPart(AndJunctionFigure.class);
+        return new LeafEditPart(JunctionFigure.class);
     }
 
     @Override
     public String getDefaultName() {
-        return Messages.AndJunctionUIProvider_0;
+        return Messages.JunctionUIProvider_0;
     }
 
     @Override

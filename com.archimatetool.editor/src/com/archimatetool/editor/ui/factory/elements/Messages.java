@@ -6,8 +6,6 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.ui.factory.elements.messages"; //$NON-NLS-1$
 
-    public static String AndJunctionUIProvider_0;
-
     public static String ApplicationCollaborationUIProvider_0;
 
     public static String ApplicationComponentUIProvider_0;
@@ -80,6 +78,8 @@ public class Messages extends NLS {
 
     public static String ImplementationEventUIProvider_0;
 
+    public static String JunctionUIProvider_0;
+
     public static String LocationUIProvider_0;
 
     public static String MaterialUIProvider_0;
@@ -87,8 +87,6 @@ public class Messages extends NLS {
     public static String MeaningUIProvider_0;
 
     public static String NodeUIProvider_0;
-
-    public static String OrJunctionUIProvider_0;
 
     public static String OutcomeUIProvider_0;
 

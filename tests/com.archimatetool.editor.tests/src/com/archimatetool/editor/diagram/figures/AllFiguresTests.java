@@ -9,8 +9,7 @@ import com.archimatetool.editor.diagram.figures.diagram.DiagramImageFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.DiagramModelReferenceFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.GroupFigureTests;
 import com.archimatetool.editor.diagram.figures.diagram.NoteFigureTests;
-import com.archimatetool.editor.diagram.figures.elements.AndJunctionFigureTests;
-import com.archimatetool.editor.diagram.figures.elements.OrJunctionFigureTests;
+import com.archimatetool.editor.diagram.figures.elements.JunctionFigureTests;
 
 import junit.framework.TestSuite;
 
@@ -30,8 +29,7 @@ public class AllFiguresTests {
         suite.addTest(NoteFigureTests.suite());
 
         // figures.elements
-        suite.addTest(OrJunctionFigureTests.suite());
-        suite.addTest(AndJunctionFigureTests.suite());
+        suite.addTest(JunctionFigureTests.suite());
 
 
         return suite;

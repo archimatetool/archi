@@ -53,6 +53,15 @@ public interface IArchimateFactory extends EFactory {
     IArchimateModel createArchimateModel();
 
     /**
+     * Returns a new object of class '<em>Junction</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Junction</em>'.
+     * @generated
+     */
+    IJunction createJunction();
+
+    /**
      * Returns a new object of class '<em>Resource</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -709,24 +718,6 @@ public interface IArchimateFactory extends EFactory {
      * @generated
      */
     IApplicationCollaboration createApplicationCollaboration();
-
-    /**
-     * Returns a new object of class '<em>And Junction</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>And Junction</em>'.
-     * @generated
-     */
-    IAndJunction createAndJunction();
-
-    /**
-     * Returns a new object of class '<em>Or Junction</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Or Junction</em>'.
-     * @generated
-     */
-    IOrJunction createOrJunction();
 
     /**
      * Returns a new object of class '<em>Path</em>'.

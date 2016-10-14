@@ -9,7 +9,6 @@ import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IActiveStructureElement;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IAggregationRelationship;
-import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
 import com.archimatetool.model.IApplicationComponent;
 import com.archimatetool.model.IApplicationElement;
@@ -88,7 +87,7 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
@@ -98,7 +97,6 @@ import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.INode;
-import com.archimatetool.model.IOrJunction;
 import com.archimatetool.model.IOtherRelationship;
 import com.archimatetool.model.IOutcome;
 import com.archimatetool.model.IPassiveStructureElement;
@@ -320,21 +318,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseAdapter(archimateRelationship);
                 if (result == null) result = caseNameable(archimateRelationship);
                 if (result == null) result = caseIdentifier(archimateRelationship);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.JUNCTION_ELEMENT: {
-                IJunctionElement junctionElement = (IJunctionElement)theEObject;
-                T result = caseJunctionElement(junctionElement);
-                if (result == null) result = caseArchimateElement(junctionElement);
-                if (result == null) result = caseArchimateConcept(junctionElement);
-                if (result == null) result = caseArchimateModelObject(junctionElement);
-                if (result == null) result = caseCloneable(junctionElement);
-                if (result == null) result = caseDocumentable(junctionElement);
-                if (result == null) result = caseProperties(junctionElement);
-                if (result == null) result = caseAdapter(junctionElement);
-                if (result == null) result = caseNameable(junctionElement);
-                if (result == null) result = caseIdentifier(junctionElement);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -610,19 +593,18 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case IArchimatePackage.AND_JUNCTION: {
-                IAndJunction andJunction = (IAndJunction)theEObject;
-                T result = caseAndJunction(andJunction);
-                if (result == null) result = caseJunctionElement(andJunction);
-                if (result == null) result = caseArchimateElement(andJunction);
-                if (result == null) result = caseArchimateConcept(andJunction);
-                if (result == null) result = caseArchimateModelObject(andJunction);
-                if (result == null) result = caseCloneable(andJunction);
-                if (result == null) result = caseDocumentable(andJunction);
-                if (result == null) result = caseProperties(andJunction);
-                if (result == null) result = caseAdapter(andJunction);
-                if (result == null) result = caseNameable(andJunction);
-                if (result == null) result = caseIdentifier(andJunction);
+            case IArchimatePackage.JUNCTION: {
+                IJunction junction = (IJunction)theEObject;
+                T result = caseJunction(junction);
+                if (result == null) result = caseArchimateElement(junction);
+                if (result == null) result = caseArchimateConcept(junction);
+                if (result == null) result = caseArchimateModelObject(junction);
+                if (result == null) result = caseCloneable(junction);
+                if (result == null) result = caseDocumentable(junction);
+                if (result == null) result = caseProperties(junction);
+                if (result == null) result = caseAdapter(junction);
+                if (result == null) result = caseNameable(junction);
+                if (result == null) result = caseIdentifier(junction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -1332,22 +1314,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseAdapter(outcome);
                 if (result == null) result = caseNameable(outcome);
                 if (result == null) result = caseIdentifier(outcome);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.OR_JUNCTION: {
-                IOrJunction orJunction = (IOrJunction)theEObject;
-                T result = caseOrJunction(orJunction);
-                if (result == null) result = caseJunctionElement(orJunction);
-                if (result == null) result = caseArchimateElement(orJunction);
-                if (result == null) result = caseArchimateConcept(orJunction);
-                if (result == null) result = caseArchimateModelObject(orJunction);
-                if (result == null) result = caseCloneable(orJunction);
-                if (result == null) result = caseDocumentable(orJunction);
-                if (result == null) result = caseProperties(orJunction);
-                if (result == null) result = caseAdapter(orJunction);
-                if (result == null) result = caseNameable(orJunction);
-                if (result == null) result = caseIdentifier(orJunction);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -2324,6 +2290,21 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseArchimateModel(IArchimateModel object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Junction</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Junction</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseJunction(IJunction object) {
         return null;
     }
 
@@ -4023,21 +4004,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Junction Element</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Junction Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseJunctionElement(IJunctionElement object) {
-        return null;
-    }
-
-    /**
      * Returns the result of interpreting the object as an instance of '<em>Business Element</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
@@ -4094,36 +4060,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T casePhysicalElement(IPhysicalElement object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>And Junction</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>And Junction</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseAndJunction(IAndJunction object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Or Junction</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Or Junction</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseOrJunction(IOrJunction object) {
         return null;
     }
 

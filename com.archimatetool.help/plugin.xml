@@ -128,9 +128,9 @@
          name="Elements"
          point="com.archimatetool.help.hints">
       <hint
-            class="com.archimatetool.model.IAndJunction"
+            class="com.archimatetool.model.IJunction"
             file="hints/junction.html"
-            title="%hint.title.44">
+            title="%hint.title.43">
       </hint>
       <hint
             class="com.archimatetool.model.IApplicationCollaboration"
@@ -331,11 +331,6 @@
             class="com.archimatetool.model.INode"
             file="hints/node.html"
             title="%hint.title.23">
-      </hint>
-      <hint
-            class="com.archimatetool.model.IOrJunction"
-            file="hints/junction.html"
-            title="%hint.title.45">
       </hint>
       <hint
             class="com.archimatetool.model.IOutcome"

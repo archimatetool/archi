@@ -38,7 +38,7 @@ import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationMigrationElement;
-import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
@@ -285,7 +285,7 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         if(object instanceof IImplementationMigrationElement) {
             return getFolder(FolderType.IMPLEMENTATION_MIGRATION);
         }
-        if(object instanceof IJunctionElement || object instanceof ILocation || object instanceof IGrouping) {
+        if(object instanceof IJunction || object instanceof ILocation || object instanceof IGrouping) {
             return getFolder(FolderType.OTHER);
         }
         if(object instanceof IArchimateRelationship) {

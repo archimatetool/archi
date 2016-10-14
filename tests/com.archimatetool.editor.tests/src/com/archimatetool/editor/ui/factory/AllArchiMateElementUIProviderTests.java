@@ -23,7 +23,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
-import com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider;
+import com.archimatetool.editor.ui.factory.elements.JunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationComponentUIProvider;
 import com.archimatetool.editor.ui.factory.elements.ApplicationEventUIProvider;
@@ -64,7 +64,6 @@ import com.archimatetool.editor.ui.factory.elements.LocationUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MaterialUIProvider;
 import com.archimatetool.editor.ui.factory.elements.MeaningUIProvider;
 import com.archimatetool.editor.ui.factory.elements.NodeUIProvider;
-import com.archimatetool.editor.ui.factory.elements.OrJunctionUIProvider;
 import com.archimatetool.editor.ui.factory.elements.PathUIProvider;
 import com.archimatetool.editor.ui.factory.elements.PlateauUIProvider;
 import com.archimatetool.editor.ui.factory.elements.PrincipleUIProvider;
@@ -104,7 +103,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     public static Collection<Object[]> eObjects() {
         return Arrays.asList(new Object[][] {
                 
-                { new AndJunctionUIProvider(), IArchimatePackage.eINSTANCE.getAndJunction() },
+                { new JunctionUIProvider(), IArchimatePackage.eINSTANCE.getJunction() },
                 { new ApplicationCollaborationUIProvider(), IArchimatePackage.eINSTANCE.getApplicationCollaboration() },
                 { new ApplicationComponentUIProvider(), IArchimatePackage.eINSTANCE.getApplicationComponent() },
                 { new ApplicationEventUIProvider(), IArchimatePackage.eINSTANCE.getApplicationEvent() },
@@ -145,7 +144,6 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
                 { new MaterialUIProvider(), IArchimatePackage.eINSTANCE.getMaterial() },
                 { new MeaningUIProvider(), IArchimatePackage.eINSTANCE.getMeaning() },
                 { new NodeUIProvider(), IArchimatePackage.eINSTANCE.getNode() },
-                { new OrJunctionUIProvider(), IArchimatePackage.eINSTANCE.getOrJunction() },
                 { new PathUIProvider(), IArchimatePackage.eINSTANCE.getPath() },
                 { new PlateauUIProvider(), IArchimatePackage.eINSTANCE.getPlateau() },
                 { new PrincipleUIProvider(), IArchimatePackage.eINSTANCE.getPrinciple() },
@@ -194,7 +192,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Test
     public void testGetDefaultSize() {
         // Junctions
-        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+        if(getProvider() instanceof JunctionUIProvider) {
             assertEquals(new Dimension(15, 15), getProvider().getDefaultSize());
         }
         
@@ -212,7 +210,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Test
     public void testGetUserDefaultSize() {
         // Junctions
-        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+        if(getProvider() instanceof JunctionUIProvider) {
             assertEquals(new Dimension(15, 15), getProvider().getUserDefaultSize());
         }
         
@@ -237,7 +235,7 @@ public class AllArchiMateElementUIProviderTests extends AbstractGraphicalObjectU
     @Override
     public void testShouldExposeFeature() {
         // Junctions
-        if(getProvider() instanceof AndJunctionUIProvider || getProvider() instanceof OrJunctionUIProvider) {
+        if(getProvider() instanceof JunctionUIProvider) {
             EObject instance = createInstanceForExpectedClass();
             getProvider().setInstance(instance);
             assertFalse(getProvider().shouldExposeFeature(null));

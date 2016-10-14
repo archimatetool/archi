@@ -5,6 +5,10 @@
  */
 package com.archimatetool.editor.diagram.tools;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -330,15 +334,27 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
                 Menu subMenu = new Menu(item);
                 item.setMenu(subMenu);
                 
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_7, sourceDiagramModelComponent, ArchimateModelUtils.getStrategyClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_0, sourceDiagramModelComponent, ArchimateModelUtils.getBusinessClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_1, sourceDiagramModelComponent, ArchimateModelUtils.getApplicationClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_2, sourceDiagramModelComponent, ArchimateModelUtils.getTechnologyClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_9, sourceDiagramModelComponent, ArchimateModelUtils.getPhysicalClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_3, sourceDiagramModelComponent, ArchimateModelUtils.getMotivationClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_4, sourceDiagramModelComponent, ArchimateModelUtils.getImplementationMigrationClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelComponent, ArchimateModelUtils.getOtherClasses(), relationshipType);
-                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_5, sourceDiagramModelComponent, ArchimateModelUtils.getConnectorClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_7,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getStrategyClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_0,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getBusinessClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_1,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getApplicationClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_2,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getTechnologyClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_9,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getPhysicalClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_3,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getMotivationClasses(), relationshipType);
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_4,
+                        sourceDiagramModelComponent, ArchimateModelUtils.getImplementationMigrationClasses(), relationshipType);
+                
+                List<EClass> list = new ArrayList<EClass>();
+                list.addAll(Arrays.asList(ArchimateModelUtils.getOtherClasses()));
+                list.addAll(Arrays.asList(ArchimateModelUtils.getConnectorClasses()));
+                EClass[] arr = list.toArray(new EClass[] {});
+                addConnectionActions(subMenu, Messages.MagicConnectionCreationTool_8,
+                        sourceDiagramModelComponent, arr, relationshipType);
                 
                 if(subMenu.getItemCount() == 0) {
                     item.dispose(); // Nothing there

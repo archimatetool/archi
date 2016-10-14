@@ -15,7 +15,7 @@ import com.archimatetool.hammer.validation.issues.ErrorType;
 import com.archimatetool.hammer.validation.issues.IIssue;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
 
@@ -44,7 +44,7 @@ public class JunctionsChecker implements IChecker {
         List<IIssue> issues = new ArrayList<IIssue>();
         
         for(IArchimateElement element : fArchimateElements) {
-            if(element instanceof IJunctionElement) {
+            if(element instanceof IJunction) {
                 
                 IArchimateRelationship rel = null;
                 for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(element)) {

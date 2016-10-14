@@ -227,6 +227,12 @@
                tab="main.tab">
          </propertySection>
          <propertySection
+               class="com.archimatetool.editor.propertysections.JunctionTypeSection"
+               filter="com.archimatetool.editor.propertysections.JunctionTypeSection$Filter"
+               id="junctionTypeSection"
+               tab="main.tab">
+         </propertySection>
+         <propertySection
                class="com.archimatetool.editor.propertysections.DiagramModelSection"
                filter="com.archimatetool.editor.propertysections.DiagramModelSection$Filter"
                id="diagramModelSection"
@@ -767,8 +773,8 @@
          name="ArchiMate Elements"
          point="com.archimatetool.editor.objectUIProvider">
       <uiProvider
-            class="com.archimatetool.editor.ui.factory.elements.AndJunctionUIProvider"
-            id="com.archimatetool.editor.AndJunctionUIProvider">
+            class="com.archimatetool.editor.ui.factory.elements.JunctionUIProvider"
+            id="com.archimatetool.editor.JunctionUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.ApplicationCollaborationUIProvider"
@@ -929,10 +935,6 @@
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.NodeUIProvider"
             id="com.archimatetool.editor.NodeUIProvider">
-      </uiProvider>
-      <uiProvider
-            class="com.archimatetool.editor.ui.factory.elements.OrJunctionUIProvider"
-            id="com.archimatetool.editor.OrJunctionUIProvider">
       </uiProvider>
       <uiProvider
             class="com.archimatetool.editor.ui.factory.elements.OutcomeUIProvider"

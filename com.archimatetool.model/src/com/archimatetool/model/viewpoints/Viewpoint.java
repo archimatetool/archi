@@ -24,8 +24,7 @@ class Viewpoint implements IViewpoint {
 
     private static List<EClass> defaultList = new ArrayList<EClass>();
     static {
-        defaultList.add(IArchimatePackage.eINSTANCE.getAndJunction());
-        defaultList.add(IArchimatePackage.eINSTANCE.getOrJunction());
+        defaultList.add(IArchimatePackage.eINSTANCE.getJunction());
         defaultList.add(IArchimatePackage.eINSTANCE.getGrouping());
     }
     
