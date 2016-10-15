@@ -30,7 +30,7 @@ import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFontAttribute;
-import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILockable;
 import com.archimatetool.model.ITextAlignment;
@@ -200,7 +200,7 @@ public class FormatPainterTool extends AbstractTool {
         // Junctions are a no-no
         if(object instanceof IDiagramModelArchimateObject) {
             IArchimateElement element = ((IDiagramModelArchimateObject)object).getArchimateElement();
-            return !(element instanceof IJunctionElement);
+            return !(element instanceof IJunction);
         }
         
         // No to Image

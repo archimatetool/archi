@@ -9,7 +9,6 @@ import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IActiveStructureElement;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IAggregationRelationship;
-import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
 import com.archimatetool.model.IApplicationComponent;
 import com.archimatetool.model.IApplicationElement;
@@ -88,7 +87,7 @@ import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IImplementationMigrationElement;
 import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IJunctionElement;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILineObject;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.ILockable;
@@ -98,7 +97,6 @@ import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.IMotivationElement;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.INode;
-import com.archimatetool.model.IOrJunction;
 import com.archimatetool.model.IOtherRelationship;
 import com.archimatetool.model.IOutcome;
 import com.archimatetool.model.IPassiveStructureElement;
@@ -261,10 +259,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createArchimateRelationshipAdapter();
             }
             @Override
-            public Adapter caseJunctionElement(IJunctionElement object) {
-                return createJunctionElementAdapter();
-            }
-            @Override
             public Adapter caseStrategyElement(IStrategyElement object) {
                 return createStrategyElementAdapter();
             }
@@ -337,8 +331,8 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
                 return createArchimateModelAdapter();
             }
             @Override
-            public Adapter caseAndJunction(IAndJunction object) {
-                return createAndJunctionAdapter();
+            public Adapter caseJunction(IJunction object) {
+                return createJunctionAdapter();
             }
             @Override
             public Adapter caseApplicationCollaboration(IApplicationCollaboration object) {
@@ -503,10 +497,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseOutcome(IOutcome object) {
                 return createOutcomeAdapter();
-            }
-            @Override
-            public Adapter caseOrJunction(IOrJunction object) {
-                return createOrJunctionAdapter();
             }
             @Override
             public Adapter casePath(IPath object) {
@@ -899,6 +889,20 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createArchimateModelAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IJunction <em>Junction</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see com.archimatetool.model.IJunction
+     * @generated
+     */
+    public Adapter createJunctionAdapter() {
         return null;
     }
 
@@ -2485,20 +2489,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IJunctionElement <em>Junction Element</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IJunctionElement
-     * @generated
-     */
-    public Adapter createJunctionElementAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link com.archimatetool.model.IBusinessElement <em>Business Element</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -2551,34 +2541,6 @@ public class ArchimateAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createPhysicalElementAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IAndJunction <em>And Junction</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IAndJunction
-     * @generated
-     */
-    public Adapter createAndJunctionAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link com.archimatetool.model.IOrJunction <em>Or Junction</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see com.archimatetool.model.IOrJunction
-     * @generated
-     */
-    public Adapter createOrJunctionAdapter() {
         return null;
     }
 

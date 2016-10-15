@@ -292,8 +292,7 @@ public class ArchimateModelUtils {
      */
     public static EClass[] getConnectorClasses() {
         return new EClass[] {
-                IArchimatePackage.eINSTANCE.getAndJunction(),
-                IArchimatePackage.eINSTANCE.getOrJunction()
+                IArchimatePackage.eINSTANCE.getJunction()
         };
     }
     

@@ -43,8 +43,7 @@ public class ViewpointTests {
     
     @Test
     public void testIsAllowedConcept_All_True_ByDefault() {
-        assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getAndJunction()));
-        assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getOrJunction()));
+        assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getJunction()));
         assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getGrouping()));
         
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
@@ -65,8 +64,7 @@ public class ViewpointTests {
         assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getBusinessActor()));
         
         // Default concepts allowed too
-        assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getAndJunction()));
-        assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getOrJunction()));
+        assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getJunction()));
         assertTrue(vp.isAllowedConcept(IArchimatePackage.eINSTANCE.getGrouping()));
         
         // But no others

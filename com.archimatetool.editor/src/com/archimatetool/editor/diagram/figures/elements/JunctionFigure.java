@@ -10,20 +10,23 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.model.IJunction;
+import com.archimatetool.model.impl.DiagramModelArchimateObject;
 
 
 
 /**
- * And Junction Figure
+ * Junction Figure
  * 
  * @author Phillip Beauvoir
  */
-public class AndJunctionFigure extends AbstractDiagramModelObjectFigure {
+public class JunctionFigure extends AbstractDiagramModelObjectFigure {
     
-    public AndJunctionFigure() {
+    public JunctionFigure() {
     }
 
     @Override
@@ -36,14 +39,28 @@ public class AndJunctionFigure extends AbstractDiagramModelObjectFigure {
             setDisabledState(graphics);
         }
         
-        graphics.setBackgroundColor(getFillColor());
-        graphics.fillOval(bounds.getCopy());
+        Rectangle bounds = getBounds().getCopy();
+        
+        String type = ((IJunction)((DiagramModelArchimateObject)getDiagramModelObject()).getArchimateElement()).getType();
+        switch(type) {
+            case IJunction.AND_JUNCTION_TYPE:
+            default:
+                graphics.setBackgroundColor(getFillColor());
+                graphics.fillOval(bounds.getCopy());                
+                break;
+
+            case IJunction.OR_JUNCTION_TYPE:
+                graphics.setBackgroundColor(getFillColor());
+                graphics.drawOval(bounds.x, bounds.y, bounds.width - 1, bounds.height - 1);
+                break;
+        }
         
         graphics.popState();
     }
     
     @Override
     public void refreshVisuals() {
+        repaint(); // repaint when figure changes
     }
     
     @Override

@@ -35,7 +35,7 @@ public class JunctionsCheckerTests {
         IArchimateElement e1 = IArchimateFactory.eINSTANCE.createBusinessActor();
         elements.add(e1);
         
-        IArchimateElement junction = IArchimateFactory.eINSTANCE.createAndJunction();
+        IArchimateElement junction = IArchimateFactory.eINSTANCE.createJunction();
         elements.add(junction);
         
         IArchimateElement e2 = IArchimateFactory.eINSTANCE.createBusinessActor();

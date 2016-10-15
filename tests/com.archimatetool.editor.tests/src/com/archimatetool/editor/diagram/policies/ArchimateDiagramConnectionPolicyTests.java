@@ -101,7 +101,7 @@ public class ArchimateDiagramConnectionPolicyTests {
     
     @Test
     public void testGetConnectionCreateCommand_CreatesNullCommand() {
-        setupSourcePolicy(IArchimateFactory.eINSTANCE.createAndJunction());
+        setupSourcePolicy(IArchimateFactory.eINSTANCE.createJunction());
         
         CreateConnectionRequest request = new CreateConnectionRequest();
         
@@ -153,7 +153,7 @@ public class ArchimateDiagramConnectionPolicyTests {
         }
         
         // Bogus one
-        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createAndJunction());
+        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
         assertFalse(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, IArchimatePackage.eINSTANCE.getInfluenceRelationship()));
         
         // OK if relationshipType is null (magic connector)

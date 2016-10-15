@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
-import com.archimatetool.model.IAndJunction;
 import com.archimatetool.model.IApplicationCollaboration;
 import com.archimatetool.model.IApplicationComponent;
 import com.archimatetool.model.IApplicationEvent;
@@ -71,12 +70,12 @@ import com.archimatetool.model.IGoal;
 import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IImplementationEvent;
 import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IMaterial;
 import com.archimatetool.model.IMeaning;
 import com.archimatetool.model.IMetadata;
 import com.archimatetool.model.INode;
-import com.archimatetool.model.IOrJunction;
 import com.archimatetool.model.IOutcome;
 import com.archimatetool.model.IPath;
 import com.archimatetool.model.IPlateau;
@@ -154,7 +153,7 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.METADATA: return createMetadata();
             case IArchimatePackage.FOLDER: return createFolder();
             case IArchimatePackage.ARCHIMATE_MODEL: return createArchimateModel();
-            case IArchimatePackage.AND_JUNCTION: return createAndJunction();
+            case IArchimatePackage.JUNCTION: return createJunction();
             case IArchimatePackage.APPLICATION_COLLABORATION: return createApplicationCollaboration();
             case IArchimatePackage.APPLICATION_COMPONENT: return createApplicationComponent();
             case IArchimatePackage.APPLICATION_EVENT: return createApplicationEvent();
@@ -196,7 +195,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
             case IArchimatePackage.MEANING: return createMeaning();
             case IArchimatePackage.NODE: return createNode();
             case IArchimatePackage.OUTCOME: return createOutcome();
-            case IArchimatePackage.OR_JUNCTION: return createOrJunction();
             case IArchimatePackage.PATH: return createPath();
             case IArchimatePackage.PLATEAU: return createPlateau();
             case IArchimatePackage.PRINCIPLE: return createPrinciple();
@@ -302,6 +300,16 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IArchimateModel createArchimateModel() {
         ArchimateModel archimateModel = new ArchimateModel();
         return archimateModel;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public IJunction createJunction() {
+        Junction junction = new Junction();
+        return junction;
     }
 
     /**
@@ -1051,26 +1059,6 @@ public class ArchimateFactory extends EFactoryImpl implements IArchimateFactory 
     public IApplicationCollaboration createApplicationCollaboration() {
         ApplicationCollaboration applicationCollaboration = new ApplicationCollaboration();
         return applicationCollaboration;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IAndJunction createAndJunction() {
-        AndJunction andJunction = new AndJunction();
-        return andJunction;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IOrJunction createOrJunction() {
-        OrJunction orJunction = new OrJunction();
-        return orJunction;
     }
 
     /**

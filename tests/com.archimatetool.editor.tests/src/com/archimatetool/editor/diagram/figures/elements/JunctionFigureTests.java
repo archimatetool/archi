@@ -17,25 +17,25 @@ import junit.framework.JUnit4TestAdapter;
 
 
 
-public class AndJunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
+public class JunctionFigureTests extends AbstractDiagramModelObjectFigureTests {
     
     public static junit.framework.Test suite() {
-        return new JUnit4TestAdapter(AndJunctionFigureTests.class);
+        return new JUnit4TestAdapter(JunctionFigureTests.class);
     }
     
 
     @Override
-    protected AndJunctionFigure createFigure() {
+    protected JunctionFigure createFigure() {
         // Add a DiagramModelObject
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setBounds(IArchimateFactory.eINSTANCE.createBounds());
-        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createAndJunction());
+        dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
         dm.getChildren().add(dmo);
         
         // Layout
         editor.layoutPendingUpdates();
         
-        return (AndJunctionFigure)editor.findFigure(dmo);
+        return (JunctionFigure)editor.findFigure(dmo);
     }
     
     @Test

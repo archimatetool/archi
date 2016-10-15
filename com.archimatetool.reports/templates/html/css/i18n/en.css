@@ -42,7 +42,6 @@
 /* Elements (Class.SimpleName from com.archimatetool.model) */
 :lang(en) .i18n-elementtype-AccessRelationship:after {content: "Access"}
 :lang(en) .i18n-elementtype-AggregationRelationship:after {content: "Aggregation"}
-:lang(en) .i18n-elementtype-AndJunction:after {content: "And Junction"}
 :lang(en) .i18n-elementtype-ApplicationCollaboration:after {content: "Application Collaboration"}
 :lang(en) .i18n-elementtype-ApplicationComponent:after {content: "Application Component"}
 :lang(en) .i18n-elementtype-ApplicationEvent:after {content: "Application Event"}
@@ -84,11 +83,11 @@
 :lang(en) .i18n-elementtype-Grouping:after {content: "Grouping"}
 :lang(en) .i18n-elementtype-ImplementationEvent:after {content: "Implementation Event"}
 :lang(en) .i18n-elementtype-InfluenceRelationship:after {content: "Influence"}
+:lang(en) .i18n-elementtype-Junction:after {content: "Junction"}
 :lang(en) .i18n-elementtype-Location:after {content: "Location"}
 :lang(en) .i18n-elementtype-Material:after {content: "Material"}
 :lang(en) .i18n-elementtype-Meaning:after {content: "Meaning"}
 :lang(en) .i18n-elementtype-Node:after {content: "Node"}
-:lang(en) .i18n-elementtype-OrJunction:after {content: "Or Junction"}
 :lang(en) .i18n-elementtype-Outcome:after {content: "Outcome"}
 :lang(en) .i18n-elementtype-Path:after {content: "Path"}
 :lang(en) .i18n-elementtype-Plateau:after {content: "Plateau"}

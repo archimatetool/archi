@@ -46,8 +46,7 @@ public class ViewpointManagerTests {
             assertTrue(ViewpointManager.NONE_VIEWPOINT.isAllowedConcept(eClass));
         }
         
-        assertTrue(ViewpointManager.NONE_VIEWPOINT.isAllowedConcept(IArchimatePackage.eINSTANCE.getAndJunction()));
-        assertTrue(ViewpointManager.NONE_VIEWPOINT.isAllowedConcept(IArchimatePackage.eINSTANCE.getOrJunction()));
+        assertTrue(ViewpointManager.NONE_VIEWPOINT.isAllowedConcept(IArchimatePackage.eINSTANCE.getJunction()));
     }
     
     @Test
