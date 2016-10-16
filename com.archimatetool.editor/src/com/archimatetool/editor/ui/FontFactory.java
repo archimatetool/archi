@@ -157,4 +157,21 @@ public final class FontFactory {
 
         return font;
     }
+    
+    /**
+     * // TODO: San Fransisco font on Mac causes problems - see https://bugs.eclipse.org/bugs/show_bug.cgi?id=486734
+     * @param font The font to check
+     * @return Lucida Grande Font if on Mac and font is ".SF NS Text", otherwise the same font
+     */
+    public static Font getMacAlternateFont(Font font) {
+        if(font != null && PlatformUtils.isMac()) {
+            FontData fd = font.getFontData()[0];
+            if(".SF NS Text".equals(fd.getName())) { //$NON-NLS-1$
+                fd.setName("Lucida Grande"); //$NON-NLS-1$
+                return get(fd.toString());
+            }
+        }
+        
+        return font;
+    }
 }

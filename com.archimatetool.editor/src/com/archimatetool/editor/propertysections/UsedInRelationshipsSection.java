@@ -8,7 +8,6 @@ package com.archimatetool.editor.propertysections;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -30,13 +29,16 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.services.ViewManager;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
@@ -108,7 +110,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
             }
         });
         
-        fTableViewer.setLabelProvider(new TableLabelProvider());
+        fTableViewer.setLabelProvider(new UsedInRelationshipsTableLabelProvider(fTableViewer.getTable()));
         
         fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
@@ -178,8 +180,17 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
         return true;
     }
     
-    private static class TableLabelProvider extends LabelProvider implements IFontProvider {
-        Font fontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
+    private static class UsedInRelationshipsTableLabelProvider extends LabelProvider implements IFontProvider {
+        Font fontNormal = null;
+        Font fontItalic = FontFactory.SystemFontItalic;
+        
+        UsedInRelationshipsTableLabelProvider(Table table) {
+            // Mac font issues
+            if(PlatformUtils.isMac()) {
+                fontNormal = FontFactory.getMacAlternateFont(table.getFont());
+                fontItalic = FontFactory.getMacAlternateFont(fontItalic);
+            }
+        }
         
         @Override
         public String getText(Object element) {
@@ -206,7 +217,7 @@ public class UsedInRelationshipsSection extends AbstractArchimatePropertySection
                 }
             }
             
-            return null;
+            return fontNormal;
         }
     }
 }

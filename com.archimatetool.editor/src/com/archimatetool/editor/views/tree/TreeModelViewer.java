@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IColorProvider;
@@ -35,6 +34,8 @@ import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.FontFactory;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
@@ -273,8 +274,18 @@ public class TreeModelViewer extends TreeViewer {
      * Label Provider
      */
     class ModelTreeViewerLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
-        Font fontItalic = JFaceResources.getFontRegistry().getItalic(""); //$NON-NLS-1$
-        Font fontBold = JFaceResources.getFontRegistry().getBold(""); //$NON-NLS-1$
+        Font fontNormal = null;
+        Font fontItalic = FontFactory.SystemFontItalic;
+        Font fontBold = FontFactory.SystemFontBold;
+        
+        ModelTreeViewerLabelProvider() {
+            // Mac font issues
+            if(PlatformUtils.isMac()) {
+                fontNormal = FontFactory.getMacAlternateFont(getTree().getFont());
+                fontItalic = FontFactory.getMacAlternateFont(fontItalic);
+                fontBold = FontFactory.getMacAlternateFont(fontBold);
+            }
+        }
         
         @Override
         public String getText(Object element) {
@@ -319,7 +330,7 @@ public class TreeModelViewer extends TreeViewer {
                 }
             }
             
-            return null;
+            return fontNormal;
         }
 
         @Override
