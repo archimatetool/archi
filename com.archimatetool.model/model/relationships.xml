@@ -3031,8 +3031,6 @@
         <target concept="TechnologyService" relations="o" />
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
-
-        <target concept="Junction" relations="fiort" />
     </source>
 
 
