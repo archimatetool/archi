@@ -15,8 +15,13 @@ import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -26,6 +31,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -47,6 +53,8 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
@@ -240,7 +248,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         elementW.write(stFrame.render());
         elementW.close();
     }
-    
+
     /**
      * Write diagrams
      */
@@ -249,9 +257,16 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             return;
         }
 
-        saveImages(imagesFolder);
+        Hashtable<IDiagramModel, Rectangle> offsetsTable = saveImages(imagesFolder);
 
         for(IDiagramModel dm : fModel.getDiagramModels()) {
+            // we need to add the necessary offsets in order to get correct absolute coordinates for the elements
+            // in the generated image
+            Rectangle offset = offsetsTable.get(dm);
+            for (IDiagramModelObject om: dm.getChildren() ) {
+                setOffset(om, offset.x*-1, offset.y*-1);
+            }
+
             File viewF = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
             stFrame.remove("element"); //$NON-NLS-1$
@@ -260,12 +275,15 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             viewW.close();
         }
     }
-    
+
     /**
      * Save diagram images
+     * return the offsets of the top-left element(s) in each image
      */
-    private void saveImages(File imagesFolder) {
+    private Hashtable<IDiagramModel, Rectangle> saveImages(File imagesFolder) {
         Hashtable<IDiagramModel, String> table = new Hashtable<IDiagramModel, String>();
+        // we store the offsets of the top-left element(s) in each image
+        Hashtable<IDiagramModel, Rectangle> offsetsTable = new Hashtable<>();
         int i = 1;
         
         for(IDiagramModel dm : fModel.getDiagramModels()) {
@@ -289,6 +307,10 @@ public class HTMLReportExporter extends AbstractUIPlugin {
 
             table.put(dm, diagramName);
 
+            // Get and store the offset of the top-left element in the figure
+            Rectangle offset = getOffset(dm, 1, 10);
+            offsetsTable.put(dm,  offset);
+
             try {
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { image.getImageData() };
@@ -299,8 +321,9 @@ public class HTMLReportExporter extends AbstractUIPlugin {
                 image.dispose();
             }
         }
+        return offsetsTable;
     }
-    
+
     private File askSaveFolder() {
         DirectoryDialog dialog = new DirectoryDialog(Display.getCurrent().getActiveShell());
         dialog.setText(Messages.HTMLReportExporter_2);
@@ -328,4 +351,46 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         
         return folder;
     }
+
+	/**
+     * Get the offset of the top left element(s) in the generated image of a diagram
+     * based on the given scales and margins
+     * This has been "copied" together from the image-generating call stack...
+     * (mostly contained in com.archimatetool.editor.diagram.util.DiagramUtils)
+     *
+     * @param dm
+     * @param scale
+     * @param margin
+     * @return
+     */
+    private Rectangle getOffset(IDiagramModel dm, double scale, int margin) {
+        Shell shell = new Shell();
+        GraphicalViewer graphViewer = DiagramUtils.createViewer(dm, shell);
+        shell.dispose();
+        LayerManager layerManager = (LayerManager)graphViewer.getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+        Rectangle bounds = DiagramUtils.getMinimumBounds(rootFigure);
+        if(bounds == null) {
+            bounds = new Rectangle(0, 0, 100, 100); // At least a minimum for a blank image
+        }
+        else {
+            bounds.expand(margin / scale, margin / scale); // margins
+        }
+        return bounds;
+	}
+
+    private void setOffset(IDiagramModelObject om, int offsetX, int offsetY ) {
+        BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(om.getBounds());
+        b.setOffset(offsetX, offsetY);
+        om.setBounds(b);
+        if (om instanceof IDiagramModelContainer) {
+            // in case we have a model container, the contained coordinates are relative to the container
+            // -> recursively add the containers base coordinate as an offset to the children
+            IDiagramModelContainer mg = (IDiagramModelContainer) om;
+            for (IDiagramModelObject omc: mg.getChildren() ) {
+                setOffset(omc, b.getX1(), b.getY1());
+            }
+        }
+    }
+
 }
