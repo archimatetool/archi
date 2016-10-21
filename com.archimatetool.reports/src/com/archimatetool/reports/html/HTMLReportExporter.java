@@ -15,13 +15,9 @@ import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -31,7 +27,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -46,6 +41,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.diagram.util.GeoReferencedImage;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -287,7 +283,8 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         int i = 1;
         
         for(IDiagramModel dm : fModel.getDiagramModels()) {
-            Image image = DiagramUtils.createImage(dm, 1, 10);
+            GeoReferencedImage geoImage = DiagramUtils.createGeoReferencedImage(dm, 1, 10);
+            Image image = geoImage.getImage();
             String diagramName = dm.getId();
             if(StringUtils.isSet(diagramName)) {
                 // removed this because ids can have hyphens in them (when imported from TOG format)
@@ -308,8 +305,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             table.put(dm, diagramName);
 
             // Get and store the offset of the top-left element in the figure
-            Rectangle offset = getOffset(dm, 1, 10);
-            offsetsTable.put(dm,  offset);
+            offsetsTable.put(dm,  geoImage.getOffset());
 
             try {
                 ImageLoader loader = new ImageLoader();
@@ -351,33 +347,6 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         
         return folder;
     }
-
-	/**
-     * Get the offset of the top left element(s) in the generated image of a diagram
-     * based on the given scales and margins
-     * This has been "copied" together from the image-generating call stack...
-     * (mostly contained in com.archimatetool.editor.diagram.util.DiagramUtils)
-     *
-     * @param dm
-     * @param scale
-     * @param margin
-     * @return
-     */
-    private Rectangle getOffset(IDiagramModel dm, double scale, int margin) {
-        Shell shell = new Shell();
-        GraphicalViewer graphViewer = DiagramUtils.createViewer(dm, shell);
-        shell.dispose();
-        LayerManager layerManager = (LayerManager)graphViewer.getEditPartRegistry().get(LayerManager.ID);
-        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        Rectangle bounds = DiagramUtils.getMinimumBounds(rootFigure);
-        if(bounds == null) {
-            bounds = new Rectangle(0, 0, 100, 100); // At least a minimum for a blank image
-        }
-        else {
-            bounds.expand(margin / scale, margin / scale); // margins
-        }
-        return bounds;
-	}
 
     private void setOffset(IDiagramModelObject om, int offsetX, int offsetY ) {
         BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(om.getBounds());

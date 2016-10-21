@@ -92,11 +92,14 @@ public final class DiagramUtils {
      *         If model has no children a blank image of 100x100 is returned
      */
     public static Image createImage(IDiagramModel model, double scale, int margin) {
+        return createGeoReferencedImage(model, scale, margin).getImage();
+    }
+    public static GeoReferencedImage createGeoReferencedImage(IDiagramModel model, double scale, int margin) {
         Shell shell = new Shell();
         shell.setLayout(new FillLayout());
         
         GraphicalViewer viewer = createViewer(model, shell);
-        Image image = createImage(viewer, scale, margin);
+        GeoReferencedImage image = createGeoReferencedImage(viewer, scale, margin);
         shell.dispose();
         
         return image;
@@ -111,9 +114,12 @@ public final class DiagramUtils {
      *         If graphicalViewer has no children a blank image of 100x100 is returned
      */
     public static Image createImage(GraphicalViewer graphicalViewer, double scale, int margin) {
+        return createGeoReferencedImage(graphicalViewer, scale, margin).getImage();
+    }
+    private static GeoReferencedImage createGeoReferencedImage(GraphicalViewer graphicalViewer, double scale, int margin) {
         LayerManager layerManager = (LayerManager)graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
         IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        return createImage(rootFigure, scale, margin);
+        return createGeoReferencedImage(rootFigure, scale, margin);
     }
     
     /**
@@ -125,6 +131,10 @@ public final class DiagramUtils {
      *         If figure has no children a blank image of 100x100 is returned
      */
     public static Image createImage(IFigure figure, double scale, int margin) {
+        return createGeoReferencedImage(figure, scale, margin).getImage();
+    }
+
+    private static GeoReferencedImage createGeoReferencedImage(IFigure figure, double scale, int margin) {
         if(scale <= 0) {
             scale = 1;
         }
@@ -164,7 +174,7 @@ public final class DiagramUtils {
             swtGraphics.dispose();
         }
         
-        return image;
+        return new GeoReferencedImage(image, rectangle);
     }
     
     /**
