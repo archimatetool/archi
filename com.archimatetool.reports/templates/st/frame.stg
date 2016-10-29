@@ -13,19 +13,6 @@ expandChildren(children) ::= <<
 }^
 >>
 
-expandAreasForChildren(children) ::= <<
-^children:{c |
-	^if(c.Children)^
-		^expandAreasForChildren(c.Children)^
-	^endif^
-	^if(c.ArchimateElement)^
-		<area shape="rect" coords="^c.Bounds.X1^,^c.Bounds.Y1^,^c.Bounds.X2^,^c.Bounds.Y2^" href="../elements/^c.ArchimateElement.Id^.html"  target="element">
-	^elseif(c.ReferencedModel)^
-		<area shape="rect" coords="^c.Bounds.X1^,^c.Bounds.Y1^,^c.Bounds.X2^,^c.Bounds.Y2^" href="../views/^c.ReferencedModel.Id^.html"  target="view">
-	^endif^
-}^
->>
-
 frame(element) ::= <<
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html class="frame" lang="en">
@@ -43,7 +30,6 @@ frame(element) ::= <<
 	<link type="text/css" rel="stylesheet" href="../../css/model.css">
 	<link type="text/css" rel="stylesheet" href="../../css/i18n.css">
 	<script type="text/javascript" src="../../js/frame.js"></script>
-	<script type="text/javascript" src="../../js/imageMapResizer.min.js"></script>
 </head>
 
 <body>
@@ -60,10 +46,7 @@ frame(element) ::= <<
 		</div>
 		<div class="panel-body root-panel-body">
 			^if(element.Children)^
-			<img class="diagram" src="../images/^element.Id^.png" alt="^element.Name^" usemap="#^element.Id^map">
-			<map name="^element.Id^map">
-				^expandAreasForChildren(element.Children)^
-			</map>
+			<img class="diagram" src="../images/^element.Id^.png" alt="^element.Name^">
 			^endif^
 			<div role="tabpanel">
 				<!-- Nav tabs -->
@@ -125,7 +108,6 @@ frame(element) ::= <<
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">imageMapResize();</script>
 </body>
 </html>
 >>
