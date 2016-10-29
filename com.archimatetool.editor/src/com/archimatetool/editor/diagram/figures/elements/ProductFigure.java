@@ -43,13 +43,15 @@ public class ProductFigure extends AbstractTextControlContainerFigure {
                     setDisabledState(graphics);
                 }
                 
+                // Fill
+                graphics.setBackgroundColor(getFillColor());
+                
                 Pattern gradient = null;
                 if(Preferences.STORE.getBoolean(IPreferenceConstants.SHOW_GRADIENT)) {
                     gradient = FigureUtils.createGradient(graphics, bounds, getFillColor());
                     graphics.setBackgroundPattern(gradient);
                 }
 
-                // Main Fill
                 graphics.fillRectangle(bounds);
                 
                 if(gradient != null) {
