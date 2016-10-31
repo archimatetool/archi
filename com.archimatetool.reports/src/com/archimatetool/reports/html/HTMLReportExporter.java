@@ -49,7 +49,8 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
@@ -255,12 +256,19 @@ public class HTMLReportExporter extends AbstractUIPlugin {
 
         Hashtable<IDiagramModel, Rectangle> offsetsTable = saveImages(imagesFolder);
 
-        for(IDiagramModel dm : fModel.getDiagramModels()) {
-            // we need to add the necessary offsets in order to get correct absolute coordinates for the elements
-            // in the generated image
-            Rectangle offset = offsetsTable.get(dm);
-            for (IDiagramModelObject om: dm.getChildren() ) {
-                setOffset(om, offset.x*-1, offset.y*-1);
+        for(IDiagramModel dmO : fModel.getDiagramModels()) {
+            // we need to add the necessary offsets in order to get correct absolute coordinates
+            // for the elements in the generated image
+            Rectangle offset = offsetsTable.get(dmO);
+            // we create a copy of the Model: (children will not be copied!)
+            IDiagramModel dm = (IDiagramModel) dmO.getCopy();
+            // FIX THE ID WHICH IS NOT COPIED
+            dm.setId(dmO.getId());
+            // process the children
+            for (IDiagramModelObject omO: dmO.getChildren() ) {
+                IDiagramModelObject om = getOffsetCopy(omO, offset.x*-1, offset.y*-1);
+                // add copy of child to copy of model
+                dm.getChildren().add(om);
             }
 
             File viewF = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
@@ -348,18 +356,46 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         return folder;
     }
 
-    private void setOffset(IDiagramModelObject om, int offsetX, int offsetY ) {
-        BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(om.getBounds());
+    private IDiagramModelObject getOffsetCopy(IDiagramModelObject omO, int offsetX, int offsetY ) {
+        IDiagramModelObject ret;
+        BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(omO.getBounds());
         b.setOffset(offsetX, offsetY);
-        om.setBounds(b);
-        if (om instanceof IDiagramModelContainer) {
-            // in case we have a model container, the contained coordinates are relative to the container
+        if (omO instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject oaO = (IDiagramModelArchimateObject) omO;
+            // we create a copy of the IDiagramModelArchimateObject: (children will not be copied!)
+            IDiagramModelArchimateObject oa = (IDiagramModelArchimateObject) oaO.getCopy();
+            // NEED TO FIX ArchimateElement.ID WHICH IS NOT COPIED
+            oa.getArchimateElement().setId(oaO.getArchimateElement().getId());
+            // in case we have am archimateObject, the contained coordinates are relative to the object container
             // -> recursively add the containers base coordinate as an offset to the children
-            IDiagramModelContainer mg = (IDiagramModelContainer) om;
-            for (IDiagramModelObject omc: mg.getChildren() ) {
-                setOffset(omc, b.getX1(), b.getY1());
+            for (IDiagramModelObject oacO: oaO.getChildren() ) {
+                IDiagramModelObject oac = getOffsetCopy(oacO, b.getX1(), b.getY1());
+                // add copy of child to copy of modelObject
+                oa.getChildren().add(oac);
             }
+            ret = oa;
+        } else if (omO instanceof IDiagramModelGroup) {
+            IDiagramModelGroup mgO = (IDiagramModelGroup) omO;
+            // we create a copy of the IDiagramModelGroup: (children will not be copied!)
+            IDiagramModelGroup mg = (IDiagramModelGroup) mgO.getCopy();
+            // in case we have a model group, the contained coordinates are relative to the group container
+            // -> recursively add the containers base coordinate as an offset to the children
+            for (IDiagramModelObject omcO: mgO.getChildren() ) {
+                IDiagramModelObject omc = getOffsetCopy(omcO, b.getX1(), b.getY1());
+                // add copy of child to copy of modelObject
+                mg.getChildren().add(omc);
+            }
+            ret = mg;
+        } else {
+            // all other elements
+            IDiagramModelObject om = (IDiagramModelObject) omO.getCopy();
+            ret = om;
         }
+        // NEED TO EXPLICITELY COPY ID WHICH IS NOT COPIED!
+        ret.setId(omO.getId());
+        // Set the offset bounds.
+        ret.setBounds(b);
+        return ret;
     }
 
 }
