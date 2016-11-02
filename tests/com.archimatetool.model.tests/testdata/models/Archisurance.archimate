@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="Archisurance" id="11f5304f" version="2.6.0">
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="Archisurance" id="11f5304f" version="4.0.0">
   <folder name="Business" id="8c90fdfa" type="business">
     <folder name="Actors" id="fa63373b">
       <element xsi:type="archimate:BusinessInterface" id="1544" name="mail"/>

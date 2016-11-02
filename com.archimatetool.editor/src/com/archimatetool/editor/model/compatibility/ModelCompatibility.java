@@ -36,7 +36,8 @@ public class ModelCompatibility {
     
     private Resource fResource;
     
-    boolean doLog = true;
+    // Too noisy converting from A2 to A3 models
+    boolean doLog = false;
     
     public ModelCompatibility(Resource resource) {
         fResource = resource;
@@ -53,6 +54,11 @@ public class ModelCompatibility {
                     Logger.logWarning(diagnostic.getMessage());
                 }
             }
+        }
+        
+        // Is it an ArchiMate 2 model? If it is, return
+        if(!fResource.getContents().isEmpty() && isArchimate2Model()) {
+            return;
         }
         
         // Is it catastrophic? If it is, throw an IncompatibleModelException
@@ -77,6 +83,16 @@ public class ModelCompatibility {
         return version != null && StringUtils.compareVersionNumbers(version, presentVersion) > 0;
     }
     
+    /**
+     * @return True if this is an ArchiMate 2.x model
+     * This means < Archi 4.0.0
+     */
+    public boolean isArchimate2Model() {
+        IArchimateModel model = (IArchimateModel)fResource.getContents().get(0);
+        String version = model.getVersion();
+        return version != null && StringUtils.compareVersionNumbers(version, "4.0.0") < 0; //$NON-NLS-1$
+    }
+
     /**
      * @return A list of Exceptions that should be non-catastrophic
      */

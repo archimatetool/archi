@@ -13,8 +13,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.junit.Test;
@@ -22,6 +20,8 @@ import org.junit.Test;
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.util.ArchimateResourceFactory;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -92,6 +92,26 @@ public class ModelCompatibilityTests {
         
         model.setVersion("99.9.9");
         assertFalse(mc.isLaterModelVersion("99.9.9"));
+    }
+
+    @Test
+    public void testIsArchimate2Model() {
+        createResource(file1);
+        IArchimateModel model = (IArchimateModel)resource.getContents().get(0);
+        
+        String[] oldVersions = { "1.1.0", "2.0.0", "2.1.0", "2.3.0", "3.0.0", "3.1.0", "3.2.0", "3.2.1", "3.3.0", "3.3.1", "3.3.2"};
+        
+        for(String version : oldVersions) {
+            model.setVersion(version);
+            assertTrue(mc.isArchimate2Model());
+        }
+        
+        String[] newVersions = { "4.0.0", "4.0.1", "4.1.0", "4.1.1", "4.2.0", "5.0.0"};
+        
+        for(String version : newVersions) {
+            model.setVersion(version);
+            assertFalse(mc.isArchimate2Model());
+        }
     }
 
     @Test
