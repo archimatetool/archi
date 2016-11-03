@@ -721,6 +721,13 @@
       </menuContribution>
    </extension>
    <extension
+         point="com.archimatetool.editor.compatibilityHandler">
+      <compatibilityHandler
+            class="com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandler"
+            id="com.archimatetool.editor.compatibility.defaultSizes">
+      </compatibilityHandler>
+   </extension>
+   <extension
          point="com.archimatetool.editor.imageExportProvider">
       <imageExportProvider
             class="com.archimatetool.editor.diagram.ImageExportProvider"
