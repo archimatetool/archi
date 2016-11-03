@@ -92,11 +92,23 @@ public final class DiagramUtils {
      *         If model has no children a blank image of 100x100 is returned
      */
     public static Image createImage(IDiagramModel model, double scale, int margin) {
+        return createModelReferencedImage(model, scale, margin).getImage();
+    }
+    
+    /**
+     * @param model The model to create the image from
+     * @param scale The scale to use. 1 is full size.
+     * @param margin amount of white space margin to apply around the image
+     * @return ModelReferencedImage wrapper class containing a Scaled Image from the given Diagram Model and offset bounds
+     *         Clients must dispose of the Image when done.
+     *         If model has no children a blank image of 100x100 is returned
+     */
+    public static ModelReferencedImage createModelReferencedImage(IDiagramModel model, double scale, int margin) {
         Shell shell = new Shell();
         shell.setLayout(new FillLayout());
         
         GraphicalViewer viewer = createViewer(model, shell);
-        Image image = createImage(viewer, scale, margin);
+        ModelReferencedImage image = createModelReferencedImage(viewer, scale, margin);
         shell.dispose();
         
         return image;
@@ -111,9 +123,13 @@ public final class DiagramUtils {
      *         If graphicalViewer has no children a blank image of 100x100 is returned
      */
     public static Image createImage(GraphicalViewer graphicalViewer, double scale, int margin) {
+        return createModelReferencedImage(graphicalViewer, scale, margin).getImage();
+    }
+    
+    private static ModelReferencedImage createModelReferencedImage(GraphicalViewer graphicalViewer, double scale, int margin) {
         LayerManager layerManager = (LayerManager)graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
         IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        return createImage(rootFigure, scale, margin);
+        return createModelReferencedImage(rootFigure, scale, margin);
     }
     
     /**
@@ -125,6 +141,10 @@ public final class DiagramUtils {
      *         If figure has no children a blank image of 100x100 is returned
      */
     public static Image createImage(IFigure figure, double scale, int margin) {
+        return createModelReferencedImage(figure, scale, margin).getImage();
+    }
+
+    private static ModelReferencedImage createModelReferencedImage(IFigure figure, double scale, int margin) {
         if(scale <= 0) {
             scale = 1;
         }
@@ -164,7 +184,7 @@ public final class DiagramUtils {
             swtGraphics.dispose();
         }
         
-        return image;
+        return new ModelReferencedImage(image, rectangle);
     }
     
     /**
