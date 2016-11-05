@@ -65,7 +65,7 @@
        </topic>
        <topic href="help/Text/view_container_nested.html" label="Container Elements and Nested Element Relationships">
        </topic>
-       <topic label="Setting the Order of Overlapping Elements">
+       <topic href="help/Text/view_z_order.html" label="Setting the Order of Overlapping Elements">
        </topic>
        <topic href="help/Text/view_copy_paste_delete.html" label="Copying, Pasting, Selecting and Deleting Elements">
        </topic>
