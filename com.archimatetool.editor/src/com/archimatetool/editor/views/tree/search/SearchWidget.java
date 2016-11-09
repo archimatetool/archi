@@ -207,6 +207,12 @@ public class SearchWidget extends Composite {
             implementationMenu.add(createObjectAction(eClass));
         }
 
+        MenuManager otherMenu = new MenuManager(Messages.SearchWidget_14);
+        dropDownAction.add(otherMenu);
+        for(EClass eClass : ArchimateModelUtils.getOtherClasses()) {
+            otherMenu.add(createObjectAction(eClass));
+        }
+
         MenuManager relationsMenu = new MenuManager(Messages.SearchWidget_11);
         dropDownAction.add(relationsMenu);
         for(EClass eClass : ArchimateModelUtils.getRelationsClasses()) {

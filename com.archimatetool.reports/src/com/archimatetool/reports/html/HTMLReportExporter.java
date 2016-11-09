@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -40,6 +41,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.diagram.util.ModelReferencedImage;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -47,6 +49,10 @@ import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateObject;
+import com.archimatetool.model.IDiagramModelContainer;
+import com.archimatetool.model.IDiagramModelGroup;
+import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
@@ -249,13 +255,27 @@ public class HTMLReportExporter extends AbstractUIPlugin {
             return;
         }
 
-        saveImages(imagesFolder);
+        Hashtable<IDiagramModel, Rectangle> offsetsTable = saveImages(imagesFolder);
 
-        for(IDiagramModel dm : fModel.getDiagramModels()) {
-            File viewF = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
+        for(IDiagramModel dmOrig : fModel.getDiagramModels()) {
+            // we need to add the necessary offsets in order to get correct absolute coordinates
+            // for the elements in the generated image
+            Rectangle offset = offsetsTable.get(dmOrig);
+            // we create a copy of the Model: (children will not be copied!)
+            IDiagramModel dmCopy = (IDiagramModel) dmOrig.getCopy();
+            // FIX THE ID WHICH IS NOT COPIED
+            dmCopy.setId(dmOrig.getId());
+            // process the children
+            for (IDiagramModelObject dmoOrig: dmOrig.getChildren() ) {
+                IDiagramModelObject dmoCopy = getOffsetCopy(dmoOrig, offset.x*-1, offset.y*-1);
+                // add copy of child to copy of model
+                dmCopy.getChildren().add(dmoCopy);
+            }
+
+            File viewF = new File(viewsFolder, dmCopy.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
             stFrame.remove("element"); //$NON-NLS-1$
-            stFrame.add("element", dm); //$NON-NLS-1$
+            stFrame.add("element", dmCopy); //$NON-NLS-1$
             viewW.write(stFrame.render());
             viewW.close();
         }
@@ -263,13 +283,17 @@ public class HTMLReportExporter extends AbstractUIPlugin {
     
     /**
      * Save diagram images
+     * return the offsets of the top-left element(s) in each image
      */
-    private void saveImages(File imagesFolder) {
+    private Hashtable<IDiagramModel, Rectangle> saveImages(File imagesFolder) {
         Hashtable<IDiagramModel, String> table = new Hashtable<IDiagramModel, String>();
+        // we store the offsets of the top-left element(s) in each image
+        Hashtable<IDiagramModel, Rectangle> offsetsTable = new Hashtable<>();
         int i = 1;
         
         for(IDiagramModel dm : fModel.getDiagramModels()) {
-            Image image = DiagramUtils.createImage(dm, 1, 10);
+            ModelReferencedImage geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
+            Image image = geoImage.getImage();
             String diagramName = dm.getId();
             if(StringUtils.isSet(diagramName)) {
                 // removed this because ids can have hyphens in them (when imported from TOG format)
@@ -289,6 +313,9 @@ public class HTMLReportExporter extends AbstractUIPlugin {
 
             table.put(dm, diagramName);
 
+            // Get and store the offset of the top-left element in the figure
+            offsetsTable.put(dm,  geoImage.getOffset());
+
             try {
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { image.getImageData() };
@@ -299,6 +326,7 @@ public class HTMLReportExporter extends AbstractUIPlugin {
                 image.dispose();
             }
         }
+        return offsetsTable;
     }
     
     private File askSaveFolder() {
@@ -328,4 +356,44 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         
         return folder;
     }
+
+    private IDiagramModelObject getOffsetCopy(IDiagramModelObject dmoOrig, int offsetX, int offsetY ) {
+        IDiagramModelObject dmoCopy;
+        // Prepare new bounds
+        BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(dmoOrig.getBounds());
+        b.setOffset(offsetX, offsetY);
+        // create and process copy
+        if (dmoOrig instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject dmaoOrig = (IDiagramModelArchimateObject) dmoOrig;
+            IDiagramModelArchimateObject dmaoCopy = (IDiagramModelArchimateObject) dmaoOrig.getCopy();
+            // NEED TO FIX ArchimateElement.ID WHICH IS NOT COPIED
+            dmaoCopy.getArchimateElement().setId(dmaoOrig.getArchimateElement().getId());
+            processChildren(dmaoOrig, dmaoCopy, b);
+            dmoCopy = dmaoCopy;
+        } else if (dmoOrig instanceof IDiagramModelGroup) {
+            IDiagramModelGroup dmgOrig = (IDiagramModelGroup) dmoOrig;
+            IDiagramModelGroup dmgCopy = (IDiagramModelGroup) dmgOrig.getCopy();
+            processChildren(dmgOrig, dmgCopy, b);
+            dmoCopy = dmgCopy;
+        } else {
+            // all other elements
+            dmoCopy = (IDiagramModelObject) dmoOrig.getCopy();
+        }
+        // NEED TO FIX ID WHICH IS NOT COPIED!
+        dmoCopy.setId(dmoOrig.getId());
+        // Set the offset bounds.
+        dmoCopy.setBounds(b);
+        return dmoCopy;
+    }
+
+    private void processChildren(IDiagramModelContainer orig, IDiagramModelContainer copy, BoundsWithAbsolutePosition b) {
+        // in case we have a ModelContainer, the contained coordinates are relative to the object container
+        // -> recursively add the containers base coordinate as an offset to the children
+        for (IDiagramModelObject childOrig: orig.getChildren() ) {
+            IDiagramModelObject childCopy = getOffsetCopy(childOrig, b.getX1(), b.getY1());
+            // add copy of child to copy of modelObject
+            copy.getChildren().add(childCopy);
+        }
+    }
+
 }

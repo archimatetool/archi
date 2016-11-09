@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="FindMe 0" id="cd65c1fd" version="2.6.0">
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="FindMe 0" id="cd65c1fd" version="4.0.0">
   <folder name="Business" id="0c8b0515" type="business">
     <folder name="f1" id="04081912">
       <folder name="2" id="38f66001">
