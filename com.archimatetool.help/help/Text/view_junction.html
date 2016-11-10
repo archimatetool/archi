@@ -12,20 +12,26 @@
 
     <h2>Adding a Junction</h2>
     
-    <p>A Junction element can be added from the View's palette in  the Relations palette section:</p>
+    <p>A Junction element can be added from the View's palette in the Relations palette section:</p>
     
     <img src="../Images/palette_junctions.png"/>
     <p class="caption">The Junction entry in the Palette</p>
     
-    <p>The palette entry is a three-way drop-down box, so three  different types of junction can be added - "Junction", "And Junction", and "Or  Junction". A Junction is used to connect dynamic relationships of the same  type. A Junction is used in a number of situations to connect dynamic (triggering  or flow) relationships of the same type; for example, to indicate splits or joins.</p>
-    <p>Junctions appear in the Model tree in the "Connectors" folder. They can also be added directly to the Model Tree by  right-clicking on the "Connectors" folder and selecting the "New" menu item.</p>
+    <p>A junction is used in a number of situations to connect relationships of the same type. A junction may have multiple incoming relationships and one outgoing relationship, one incoming relationship and multiple outgoing relationships, or multiple incoming and outgoing relationships (the latter can be considered a shorthand of two subsequent junctions).</p>
+    
+    <p>There are two types of Junction - "And" and "Or". The type of Junction can be set in the Properties window:</p>
+    
+    <img src="../Images/junction_properties.png"/>
+    <p class="caption">Setting the type of Junction</p>
+
+    <p>Junctions appear in the Model tree in the "Other" folder. They can also be added directly to the Model Tree by right-clicking on the "Other" folder and selecting the "New" menu item.</p>
     
     <img src="../Images/junction.png"/>
     <p class="caption">Example of an "Or" type Junction</p>
     
     <br/>
     
-    <p class="boxout"><img src="../Images/tip.png" class="tipImage"/>Note that Archi does not currently enforce the  full ArchiMate rules when connecting junctions. You should ensure that only  relationships of the same type (Flow or Triggering) are used to connect  elements and junctions.</p>
+    <p class="boxout"><img src="../Images/tip.png" class="tipImage"/>Note that Archi does not currently enforce the full ArchiMate rules when connecting junctions. You should ensure that only relationships of the same type are used to connect concepts and junctions. You can check for consistency by using the <a href="validator.html">Validator</a>.</p>
     
     <p>&nbsp;</p>
 
