@@ -613,7 +613,7 @@ public class CSVImporter implements CSVConstants {
     String generateID() {
         String id;
         do {
-            id = UUID.randomUUID().toString().split("-")[0]; //$NON-NLS-1$
+            id = UUID.randomUUID().toString();
         }
         while(newConcepts.containsKey(id));
         

@@ -212,7 +212,7 @@ public class ArchimateModelTests {
         model.setDefaults();
         id = model.getId();
         assertNotNull(id);
-        assertEquals(8, id.length());
+        assertEquals(36, id.length());
     }
         
     @Test
@@ -283,7 +283,7 @@ public class ArchimateModelTests {
         model.getDefaultFolderForObject(element).getElements().add(element);
         String id = element.getId();
         assertNotNull(id);
-        assertEquals(8, id.length());
+        assertEquals(36, id.length());
     }
 
 }

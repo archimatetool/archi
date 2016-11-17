@@ -55,7 +55,7 @@ public abstract class AbstractTemplate implements ITemplate, ITemplateXMLTags {
      */
     public AbstractTemplate(String id) {
         if(id == null) {
-            id = UUID.randomUUID().toString().split("-")[0]; //$NON-NLS-1$
+            id = UUID.randomUUID().toString();
         }
         fID = id;
     }

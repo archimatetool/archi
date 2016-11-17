@@ -68,7 +68,7 @@ public class IDAdapterTests {
     public void testGetNewID() throws Exception {
         IDAdapter adapter = new IDAdapter();
         String id = adapter.getNewID();
-        assertEquals(8, id.length());
+        assertEquals(36, id.length());
         
         List<String> usedIDs = getPrivateIDList(adapter);
         assertTrue(usedIDs.contains(id));
