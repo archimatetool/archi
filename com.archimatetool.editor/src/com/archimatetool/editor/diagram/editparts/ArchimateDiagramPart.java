@@ -25,8 +25,6 @@ import com.archimatetool.model.IArchimatePackage;
 public class ArchimateDiagramPart extends AbstractDiagramPart {
     
     public ArchimateDiagramPart() {
-        // Add a Nested Connection Filter
-        addEditPartFilter(new NestedConnectionEditPartFilter());
     }
 
     @Override

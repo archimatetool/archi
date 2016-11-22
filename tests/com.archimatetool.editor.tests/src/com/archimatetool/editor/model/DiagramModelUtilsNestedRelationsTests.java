@@ -5,22 +5,18 @@
  */
 package com.archimatetool.editor.model;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.EClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.testingtools.ArchimateTestModel;
@@ -112,31 +108,4 @@ public class DiagramModelUtilsNestedRelationsTests {
         }
     }
     
-    @Test
-    public void testShouldBeHiddenConnection() {
-        IDiagramModelArchimateConnection connection = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-        connection.setArchimateRelationship(relationship1);
-        connection.connect(dmo1, dmo2);
-        assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
-        
-        // swap
-        connection.connect(dmo2, dmo1);
-        assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
-        
-        // Set prefs to say no
-        Preferences.STORE.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, false);
-
-        connection.connect(dmo3, dmo4);
-        assertFalse(DiagramModelUtils.shouldBeHiddenConnection(connection));
-        
-        // Set prefs to say yes
-        Preferences.STORE.setValue(IPreferenceConstants.USE_NESTED_CONNECTIONS, true);
-        
-        assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
-        
-        // Another one to be sure - association
-        connection.setArchimateRelationship(relationship2);
-        connection.connect(dmo4, dmo5);
-        assertTrue(DiagramModelUtils.shouldBeHiddenConnection(connection));
-    }
 }
