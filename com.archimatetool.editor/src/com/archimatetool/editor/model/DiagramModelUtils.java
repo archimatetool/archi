@@ -323,6 +323,86 @@ public class DiagramModelUtils {
         return false;
     }
     
+    /**
+     * @param connection The connection to check
+     * @return true if a connection should be hidden when its source (parent) element contains its target (child) element
+     */
+    public static boolean shouldBeHiddenConnection(IDiagramModelArchimateConnection connection) {
+        if(!ConnectionPreferences.useNestedConnections()) {
+            return false;
+        }
+
+        // Only if the connection's source and target are both ArchiMate concepts
+        if(!(connection.getSource() instanceof IDiagramModelArchimateComponent) && !(connection.getTarget() instanceof IDiagramModelArchimateComponent)) {
+            return false;
+        }
+            
+        IDiagramModelArchimateComponent source = (IDiagramModelArchimateComponent)connection.getSource();
+        IDiagramModelArchimateComponent target = (IDiagramModelArchimateComponent)connection.getTarget();
+
+        // If the connection's source element contains the target
+        if(source instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)source;
+            if(parent.getChildren().contains(target)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // If the connection's target element contains the source
+        // TODO: Not sure if this directionality should be allowed
+        if(target instanceof IDiagramModelArchimateObject) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)target;
+            if(parent.getChildren().contains(source)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // If connection's source is an element and target is a connection
+        if(source instanceof IDiagramModelArchimateObject && target instanceof IDiagramModelArchimateConnection) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)source;
+            IConnectable connectionSource = ((IDiagramModelArchimateConnection)target).getSource();
+            IConnectable connectionTarget = ((IDiagramModelArchimateConnection)target).getTarget();
+
+            if(parent.getChildren().contains(connectionSource) && parent.getChildren().contains(connectionTarget)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // If connection's target is an element and source is a connection
+        // TODO: Not sure if this directionality should be allowed
+        if(target instanceof IDiagramModelArchimateObject && source instanceof IDiagramModelArchimateConnection) {
+            IDiagramModelArchimateObject parent = (IDiagramModelArchimateObject)target;
+            IConnectable connectionSource = ((IDiagramModelArchimateConnection)source).getSource();
+            IConnectable connectionTarget = ((IDiagramModelArchimateConnection)source).getTarget();
+
+            if(parent.getChildren().contains(connectionSource) && parent.getChildren().contains(connectionTarget)) {
+                // And it's a relationship type we have chosen to hide
+                for(EClass eClass : ConnectionPreferences.getRelationsClassesForHiding()) {
+                    if(connection.getArchimateRelationship().eClass() == eClass) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+    
     // ========================================================================================================
     
     /**

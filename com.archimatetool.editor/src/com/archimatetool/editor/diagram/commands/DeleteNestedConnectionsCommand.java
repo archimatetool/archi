@@ -11,6 +11,8 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import com.archimatetool.editor.model.DiagramModelUtils;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelConnection;
 
@@ -66,12 +68,18 @@ public class DeleteNestedConnectionsCommand extends CompoundCommand {
     void createDeleteCommands() {
         for(IDiagramModelArchimateObject child : fChildObjects) {
             for(IDiagramModelConnection connection : child.getTargetConnections()) {
-                if(connection.getSource() == fParentObject) {
+                if(connection instanceof IDiagramModelArchimateConnection && DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection)) {
                     Command cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(connection);
-                    add(cmd);                    
+                    add(cmd);
+                }
+                
+                for(IDiagramModelConnection subconnection : connection.getTargetConnections()) {
+                    if(subconnection instanceof IDiagramModelArchimateConnection && DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)subconnection)) {
+                        Command cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(subconnection);
+                        add(cmd);
+                    }
                 }
             }
         }
     }
-        
 }
