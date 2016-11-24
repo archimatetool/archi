@@ -63,7 +63,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
 
 
@@ -129,7 +129,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -195,7 +195,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -261,7 +261,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -327,7 +327,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -393,7 +393,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -459,7 +459,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -525,7 +525,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -591,7 +591,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -657,7 +657,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -723,7 +723,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -789,7 +789,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -855,7 +855,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -921,7 +921,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -987,7 +987,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1053,7 +1053,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1119,7 +1119,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1185,7 +1185,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1251,7 +1251,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1317,7 +1317,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1383,7 +1383,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1449,7 +1449,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1515,7 +1515,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1581,7 +1581,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1647,7 +1647,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1713,7 +1713,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1779,7 +1779,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1845,7 +1845,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1911,7 +1911,7 @@
         <target concept="Value" relations="or" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -1977,7 +1977,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2043,7 +2043,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2109,7 +2109,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2175,7 +2175,7 @@
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2241,7 +2241,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2307,7 +2307,7 @@
         <target concept="Value" relations="acfginorstv" />
         <target concept="WorkPackage" relations="acfginorstv" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2373,7 +2373,7 @@
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="fot" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2439,7 +2439,7 @@
         <target concept="Value" relations="cgno" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2505,7 +2505,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2571,7 +2571,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2637,7 +2637,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2703,7 +2703,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2769,7 +2769,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2835,7 +2835,7 @@
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2901,7 +2901,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -2967,7 +2967,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
 
@@ -3096,7 +3096,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3162,7 +3162,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3228,7 +3228,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3294,7 +3294,7 @@
         <target concept="Value" relations="o" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3360,7 +3360,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3426,7 +3426,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3492,7 +3492,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3558,7 +3558,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3624,7 +3624,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3690,7 +3690,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3756,7 +3756,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3822,7 +3822,7 @@
         <target concept="Value" relations="no" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3888,7 +3888,7 @@
         <target concept="Value" relations="cgnos" />
         <target concept="WorkPackage" relations="o" />
 
-        <target concept="Junction" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
     </source>
     
     
@@ -3953,71 +3953,73 @@
         <target concept="TechnologyService" relations="or" />
         <target concept="Value" relations="or" />
         <target concept="WorkPackage" relations="cfgost" />
+
+        <target concept="Junction" relations="afiort" />
     </source>
 
     <!-- Junctions -->
 
     <source concept="Junction">
-        <target concept="Junction" relations="fiort" />
-        <target concept="ApplicationCollaboration" relations="fiort" />
-        <target concept="ApplicationComponent" relations="fiort" />
-        <target concept="ApplicationEvent" relations="fiort" />
-        <target concept="ApplicationFunction" relations="fiort" />
-        <target concept="ApplicationInteraction" relations="fiort" />
-        <target concept="ApplicationInterface" relations="fiort" />
-        <target concept="ApplicationProcess" relations="fiort" />
-        <target concept="ApplicationService" relations="fiort" />
-        <target concept="Artifact" relations="fiort" />
-        <target concept="Assessment" relations="fiort" />
-        <target concept="BusinessActor" relations="fiort" />
-        <target concept="BusinessCollaboration" relations="fiort" />
-        <target concept="BusinessEvent" relations="fiort" />
-        <target concept="BusinessFunction" relations="fiort" />
-        <target concept="BusinessInteraction" relations="fiort" />
-        <target concept="BusinessInterface" relations="fiort" />
-        <target concept="BusinessObject" relations="fiort" />
-        <target concept="BusinessProcess" relations="fiort" />
-        <target concept="BusinessRole" relations="fiort" />
-        <target concept="BusinessService" relations="fiort" />
-        <target concept="Capability" relations="fiort" />
-        <target concept="CommunicationNetwork" relations="fiort" />
-        <target concept="Constraint" relations="fiort" />
-        <target concept="Contract" relations="fiort" />
-        <target concept="CourseOfAction" relations="fiort" />
-        <target concept="DataObject" relations="fiort" />
-        <target concept="Deliverable" relations="fiort" />
-        <target concept="Device" relations="fiort" />
-        <target concept="DistributionNetwork" relations="fiort" />
-        <target concept="Driver" relations="fiort" />
-        <target concept="Equipment" relations="fiort" />
-        <target concept="Facility" relations="fiort" />
-        <target concept="Gap" relations="fiort" />
-        <target concept="Goal" relations="fiort" />
-        <target concept="Grouping" relations="fiort" />
-        <target concept="ImplementationEvent" relations="fiort" />
-        <target concept="Location" relations="fiort" />
-        <target concept="Material" relations="fiort" />
-        <target concept="Meaning" relations="fiort" />
-        <target concept="Node" relations="fiort" />
-        <target concept="Outcome" relations="fiort" />
-        <target concept="Path" relations="fiort" />
-        <target concept="Plateau" relations="fiort" />
-        <target concept="Principle" relations="fiort" />
-        <target concept="Product" relations="fiort" />
-        <target concept="Representation" relations="fiort" />
-        <target concept="Requirement" relations="fiort" />
-        <target concept="Resource" relations="fiort" />
-        <target concept="Stakeholder" relations="fiort" />
-        <target concept="SystemSoftware" relations="fiort" />
-        <target concept="TechnologyCollaboration" relations="fiort" />
-        <target concept="TechnologyEvent" relations="fiort" />
-        <target concept="TechnologyFunction" relations="fiort" />
-        <target concept="TechnologyInteraction" relations="fiort" />
-        <target concept="TechnologyInterface" relations="fiort" />
-        <target concept="TechnologyProcess" relations="fiort" />
-        <target concept="TechnologyService" relations="fiort" />
-        <target concept="Value" relations="fiort" />
-        <target concept="WorkPackage" relations="fiort" />
+        <target concept="Junction" relations="afiort" />
+        <target concept="ApplicationCollaboration" relations="afiort" />
+        <target concept="ApplicationComponent" relations="afiort" />
+        <target concept="ApplicationEvent" relations="afiort" />
+        <target concept="ApplicationFunction" relations="afiort" />
+        <target concept="ApplicationInteraction" relations="afiort" />
+        <target concept="ApplicationInterface" relations="afiort" />
+        <target concept="ApplicationProcess" relations="afiort" />
+        <target concept="ApplicationService" relations="afiort" />
+        <target concept="Artifact" relations="afiort" />
+        <target concept="Assessment" relations="afiort" />
+        <target concept="BusinessActor" relations="afiort" />
+        <target concept="BusinessCollaboration" relations="afiort" />
+        <target concept="BusinessEvent" relations="afiort" />
+        <target concept="BusinessFunction" relations="afiort" />
+        <target concept="BusinessInteraction" relations="afiort" />
+        <target concept="BusinessInterface" relations="afiort" />
+        <target concept="BusinessObject" relations="afiort" />
+        <target concept="BusinessProcess" relations="afiort" />
+        <target concept="BusinessRole" relations="afiort" />
+        <target concept="BusinessService" relations="afiort" />
+        <target concept="Capability" relations="afiort" />
+        <target concept="CommunicationNetwork" relations="afiort" />
+        <target concept="Constraint" relations="afiort" />
+        <target concept="Contract" relations="afiort" />
+        <target concept="CourseOfAction" relations="afiort" />
+        <target concept="DataObject" relations="afiort" />
+        <target concept="Deliverable" relations="afiort" />
+        <target concept="Device" relations="afiort" />
+        <target concept="DistributionNetwork" relations="afiort" />
+        <target concept="Driver" relations="afiort" />
+        <target concept="Equipment" relations="afiort" />
+        <target concept="Facility" relations="afiort" />
+        <target concept="Gap" relations="afiort" />
+        <target concept="Goal" relations="afiort" />
+        <target concept="Grouping" relations="afiort" />
+        <target concept="ImplementationEvent" relations="afiort" />
+        <target concept="Location" relations="afiort" />
+        <target concept="Material" relations="afiort" />
+        <target concept="Meaning" relations="afiort" />
+        <target concept="Node" relations="afiort" />
+        <target concept="Outcome" relations="afiort" />
+        <target concept="Path" relations="afiort" />
+        <target concept="Plateau" relations="afiort" />
+        <target concept="Principle" relations="afiort" />
+        <target concept="Product" relations="afiort" />
+        <target concept="Representation" relations="afiort" />
+        <target concept="Requirement" relations="afiort" />
+        <target concept="Resource" relations="afiort" />
+        <target concept="Stakeholder" relations="afiort" />
+        <target concept="SystemSoftware" relations="afiort" />
+        <target concept="TechnologyCollaboration" relations="afiort" />
+        <target concept="TechnologyEvent" relations="afiort" />
+        <target concept="TechnologyFunction" relations="afiort" />
+        <target concept="TechnologyInteraction" relations="afiort" />
+        <target concept="TechnologyInterface" relations="afiort" />
+        <target concept="TechnologyProcess" relations="afiort" />
+        <target concept="TechnologyService" relations="afiort" />
+        <target concept="Value" relations="afiort" />
+        <target concept="WorkPackage" relations="afiort" />
     </source>
 
 </relationships>
