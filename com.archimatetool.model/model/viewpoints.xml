@@ -244,15 +244,14 @@
     <viewpoint id="implementation_migration">
         <name xml:lang="en">Implementation and Migration</name>
         
+        <concept>$BusinessElements$</concept>
+        <concept>$ApplicationElements$</concept>
+        <concept>$TechnologyElements$</concept>
         <concept>$ImplementationMigrationElements$</concept>
-        <concept>BusinessActor</concept>
-        <concept>BusinessRole</concept>
         <concept>Constraint</concept>
         <concept>Goal</concept>
         <concept>Location</concept>
         <concept>Requirement</concept>
-        
-        <!-- Spec has core elements - is this wrong? -->
     </viewpoint>
 
     <viewpoint id="layered">
