@@ -102,7 +102,7 @@ public class RelationshipsMatrixTests {
         relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
-        relationship = IArchimatePackage.eINSTANCE.getAccessRelationship();
+        relationship = IArchimatePackage.eINSTANCE.getServingRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
     }
     
