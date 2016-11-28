@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -112,12 +113,12 @@ implements NodeEditPart {
     
     @Override
     protected List<IDiagramModelConnection> getModelSourceConnections() {
-        return getModel().getSourceConnections();
+        return getFilteredModelSourceConnections();
     }
 
     @Override
     protected List<IDiagramModelConnection> getModelTargetConnections() {
-        return getModel().getTargetConnections();
+        return getFilteredModelTargetConnections();
     }
     
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
@@ -177,5 +178,47 @@ implements NodeEditPart {
         for(Object editPart : getTargetConnections()) {
             ((EditPart)editPart).refresh();
         }
+    }
+    
+    // =================================== Filtering ====================================================
+    
+    public List<IDiagramModelConnection> getFilteredModelSourceConnections() {
+        return getFilteredConnections(getModel().getSourceConnections());
+    }
+    
+    public List<IDiagramModelConnection> getFilteredModelTargetConnections() {
+        return getFilteredConnections(getModel().getTargetConnections());
+    }
+    
+    /**
+     * See if any connections are filtered out
+     * @param originalList
+     * @return A list of filtered connections
+     */
+    private List<IDiagramModelConnection> getFilteredConnections(List<IDiagramModelConnection> originalList) {
+        IConnectionEditPartFilter[] filters = getRootEditPartFilterProvider().getEditPartFilters(IConnectionEditPartFilter.class);
+        if(filters != null) {
+            List<IDiagramModelConnection> filteredList = new ArrayList<IDiagramModelConnection>();
+            
+            for(IDiagramModelConnection connection : originalList) {
+                boolean add = true;
+                
+                for(IConnectionEditPartFilter filter : filters) {
+                    add = filter.isConnectionVisible(this, connection);
+                    
+                    if(!add) { // no point in trying the next filter
+                        break;
+                    }
+                }
+                
+                if(add) {
+                    filteredList.add(connection);
+                }
+            }
+            
+            return filteredList;
+        }
+        
+        return originalList;
     }
 }

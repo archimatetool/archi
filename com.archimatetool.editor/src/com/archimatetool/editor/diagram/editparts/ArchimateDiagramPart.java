@@ -12,6 +12,8 @@ import org.eclipse.gef.editpolicies.SnapFeedbackPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDNDEditPolicy;
 import com.archimatetool.editor.diagram.policies.ArchimateDiagramLayoutPolicy;
 import com.archimatetool.editor.diagram.policies.BasicContainerEditPolicy;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 
@@ -25,6 +27,10 @@ import com.archimatetool.model.IArchimatePackage;
 public class ArchimateDiagramPart extends AbstractDiagramPart {
     
     public ArchimateDiagramPart() {
+        // Add a Viewpoint Child EditPart Filter if set in Preferences (hides rather than ghosts)
+        if(!Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
+            addEditPartFilter(new ViewpointEditPartFilter());
+        }
     }
 
     @Override

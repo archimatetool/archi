@@ -73,6 +73,10 @@ implements IArchimateDiagramEditor {
                 getPaletteRoot().setViewpoint(null);
             }
         }
+        // Hide Diagram Elements on Viewpoint
+        else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS == event.getProperty()) {
+            getGraphicalViewer().setContents(getModel()); // refresh the model contents
+        }
         else {
             super.applicationPreferencesChanged(event);
         }
