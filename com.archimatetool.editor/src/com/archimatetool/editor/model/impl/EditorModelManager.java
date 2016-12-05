@@ -41,7 +41,6 @@ import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.ModelChecker;
-import com.archimatetool.editor.model.compatibility.Archimate2To3Converter;
 import com.archimatetool.editor.model.compatibility.CompatibilityHandlerException;
 import com.archimatetool.editor.model.compatibility.IncompatibleModelException;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
@@ -258,30 +257,6 @@ implements IEditorModelManager {
                         + "\n" + ex1.getMessage()); //$NON-NLS-1$
                 return null;
             }
-        }
-        
-        // Check at this point - some older models might not throw an exception
-        if(modelCompatibility.isArchimate2Model()) {
-            boolean response = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
-                    Messages.EditorModelManager_14,
-                    Messages.EditorModelManager_15 +
-                    "\n\n" + Messages.EditorModelManager_17); //$NON-NLS-1$
-
-            if(response) {
-                File newFile = askSaveModel();
-                if(newFile != null) {
-                    try {
-                        new Archimate2To3Converter().convert(file, newFile);
-                    }
-                    catch(Exception ex) {
-                        MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                                Messages.EditorModelManager_18,
-                                ex.getMessage());
-                    }
-                }
-            }
-                
-            return null;
         }
         
         model = (IArchimateModel)resource.getContents().get(0);
