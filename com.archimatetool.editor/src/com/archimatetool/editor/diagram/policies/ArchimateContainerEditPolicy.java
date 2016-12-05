@@ -37,10 +37,14 @@ public class ArchimateContainerEditPolicy extends BasicContainerEditPolicy {
     public Command getOrphanChildrenCommand(GroupRequest request) {
 	    CompoundCommand command = (CompoundCommand)super.getOrphanChildrenCommand(request);
 	    
+	    /* This behavior has been disabled because connections have already been created
+	     * in a hiden state when nesting the child inside its parent.
+	     * TODO: Clean-up if no side effects have been found after some time...
+	     */
 	    // If we use nested connections and the EditPart model is an Archimate type object
-	    if(ConnectionPreferences.useNestedConnections() && (getHost().getModel() instanceof IDiagramModelArchimateObject)) {
-	        createNewConnectionCommands((IDiagramModelArchimateObject)getHost().getModel(), request.getEditParts(), command);
-	    }
+//	    if(ConnectionPreferences.useNestedConnections() && (getHost().getModel() instanceof IDiagramModelArchimateObject)) {
+//	        createNewConnectionCommands((IDiagramModelArchimateObject)getHost().getModel(), request.getEditParts(), command);
+//	    }
 	    
         return command;
     }
