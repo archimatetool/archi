@@ -63,15 +63,15 @@ public class ArchimateContainerLayoutPolicy extends ArchimateDiagramLayoutPolicy
             }
         }
         
-        // We have some child objects so add the sub command
-        if(!childObjectsForNewConnections.isEmpty()) {
-            Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)parent, childObjectsForNewConnections);
-            command.add(cmd);
-        }
-        
         // We have some child objects for deletion connections
         if(!childObjectsForDeletedConnections.isEmpty()) {
             Command cmd = new DeleteNestedConnectionsCommand((IDiagramModelArchimateObject)parent, childObjectsForDeletedConnections);
+            command.add(cmd);
+        }
+        
+        // We have some child objects so add the sub command
+        if(!childObjectsForNewConnections.isEmpty()) {
+            Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)parent, childObjectsForNewConnections);
             command.add(cmd);
         }
 

@@ -67,8 +67,6 @@ public final class DiagramCommandFactory {
     }
     
     private static void __addDeleteDiagramConnectionCommands(IDiagramModelConnection connection, CompoundCommand result) {
-        result.add(new DeleteDiagramConnectionCommand(connection));
-        
         for(IDiagramModelConnection conn : connection.getSourceConnections()) {
             result.add(createDeleteDiagramConnectionCommand(conn));
         }
@@ -76,5 +74,7 @@ public final class DiagramCommandFactory {
         for(IDiagramModelConnection conn : connection.getTargetConnections()) {
             result.add(createDeleteDiagramConnectionCommand(conn));
         }
+        
+        result.add(new DeleteDiagramConnectionCommand(connection));
     }
 }
