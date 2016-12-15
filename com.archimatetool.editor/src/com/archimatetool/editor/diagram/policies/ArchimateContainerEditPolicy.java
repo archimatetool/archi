@@ -13,7 +13,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
-import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateRelationship;

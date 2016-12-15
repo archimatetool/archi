@@ -70,7 +70,7 @@ public class ArchiConnectionEndpointLocator implements Locator {
 	 * 
 	 * @param loc The point that is to be located
 	 */
-	private int calculateConnectionLocation(Point loc, Point topLeft,
+/*	private int calculateConnectionLocation(Point loc, Point topLeft,
 			Point center) {
 		double m1, m2 = 0;
 		m1 = (double) (topLeft.y - center.y) / (double) (topLeft.x - center.x);
@@ -98,7 +98,7 @@ public class ArchiConnectionEndpointLocator implements Locator {
 				return 1;
 		}
 	}
-
+*/
 	/*
 	 * This method is used to calculate the "quadrant" value of a connection
 	 * that does not have an owner on its starting point.
