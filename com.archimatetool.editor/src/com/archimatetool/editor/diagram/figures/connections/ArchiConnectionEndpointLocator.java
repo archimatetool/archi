@@ -226,15 +226,16 @@ public class ArchiConnectionEndpointLocator implements Locator {
 		    // *********************** Fix part 1: switch to relative ******************** 
 	        connOwner.translateToRelative(startPoint);
 	        connOwner.translateToRelative(endPoint);
+		}
 	        // *********************** End of fix part 1 ***********************
-
+/*
 	        Rectangle connOwnerBounds = connOwner.getBounds();
 			Point connOwnerCenter = connOwnerBounds.getCenter();
 			Point connOwnerTL = connOwnerBounds.getTopLeft();
 			quadrant = calculateConnectionLocation(startPoint, connOwnerTL,
 					connOwnerCenter);
 		} else
-			quadrant = calculateConnectionLocation(startPoint, endPoint);
+*/			quadrant = calculateConnectionLocation(startPoint, endPoint);
 
 		int cos = 1;
 		transposer.setEnabled(false);
