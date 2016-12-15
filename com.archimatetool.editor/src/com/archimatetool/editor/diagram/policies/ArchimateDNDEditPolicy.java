@@ -123,10 +123,19 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
                     if(dcSource instanceof IConnectable && dcTarget instanceof IConnectable) {
                         // Add a new connection between dcSource & dcTarget if there isn't already one on the diagram
                         if(dcTarget != dcSource && !DiagramModelUtils.hasDiagramModelArchimateConnection((IConnectable)dcSource, (IConnectable)dcTarget, relation)) {
-                            AddDiagramArchimateConnectionCommand cmd = new AddDiagramArchimateConnectionCommand((IConnectable)dcSource, (IConnectable)dcTarget, relation);
-                            result.add(cmd);
-                            // Store it
-                            diagramComponentsThatWereAdded.add(cmd.getConnection());
+                        	// Check that source or target is not a hiden connection 
+                        	if(!(
+                        			(dcSource instanceof IDiagramModelArchimateConnection
+                        			&& DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection) dcSource))
+                        			||
+                        			(dcTarget instanceof IDiagramModelArchimateConnection
+                                	&& DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection) dcTarget))
+                        	)) {
+                                AddDiagramArchimateConnectionCommand cmd = new AddDiagramArchimateConnectionCommand((IConnectable)dcSource, (IConnectable)dcTarget, relation);
+                                result.add(cmd);
+                                // Store it
+                                diagramComponentsThatWereAdded.add(cmd.getConnection());
+                        	}
                         }
                     }
                 }
@@ -223,10 +232,36 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             // It's a selected relationship - also add any connected components
             else if(object instanceof IArchimateRelationship) {
                 IArchimateRelationship relationship = (IArchimateRelationship)object;
-                addUniqueObjectToList(fRelationsToAdd, relationship);
                 
-                // Add relationship's connected concepts
-                addRelationshipConcepts(relationship);
+                // A connection (C1) from an element (E) to another connection (C2) is managed in a specific manner:
+                // - if C2 is in the diagram and not hidden, then add C1 (and E if not already there)
+                // - if C2 is not in the diagram or is hidden then do nothings
+                if(relationship.getSource() instanceof IArchimateRelationship || relationship.getTarget() instanceof IArchimateRelationship) {
+                	IArchimateRelationship otherRelationship = relationship.getSource() instanceof IArchimateRelationship ?
+                			(IArchimateRelationship) relationship.getSource()
+                			: (IArchimateRelationship) relationship.getTarget();
+                	
+                	List<IDiagramModelArchimateConnection> otherConnections = DiagramModelUtils.findDiagramModelConnectionsForRelation(getTargetDiagramModel(), otherRelationship);
+                	
+                	if(!otherConnections.isEmpty()) {
+                		for(IDiagramModelArchimateConnection otherConnection : otherConnections) {
+                			if(!DiagramModelUtils.shouldBeHiddenConnection(otherConnection)) {
+                				// We've just found C2 which is not hidden
+                				// We can add C1 (and E if not already there)
+                				addUniqueObjectToList(fRelationsToAdd, relationship);
+            	                // Add relationship's connected concepts
+            	                addRelationshipConcepts(relationship);
+            	                break;
+                			}
+                		}
+                	}
+                }
+                // Simple case: a relationship from an element to another element
+                else {
+	                addUniqueObjectToList(fRelationsToAdd, relationship);
+	                // Add relationship's connected concepts
+	                addRelationshipConcepts(relationship);
+                }
             }
             // It's a selected diagram models (reference)
             else if(object instanceof IDiagramModel && object != getTargetDiagramModel()) { // not the same diagram
@@ -237,6 +272,10 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
     
     /**
      * Add connected concepts
+     * 
+     * Don't forget that connections to connections have been managed in getElementsToAdd(). So
+     * We don't have to add any other relationships here, only elements!
+     * 
      * @param relationship
      */
     private void addRelationshipConcepts(IArchimateRelationship relationship) {
@@ -245,11 +284,11 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             if(relationship.getSource() instanceof IArchimateElement) {
                 addUniqueObjectToList(fElementsToAdd, (IArchimateElement)relationship.getSource());
             }
-            else if(relationship.getSource() instanceof IArchimateRelationship) {
-                IArchimateRelationship source = (IArchimateRelationship)relationship.getSource();
-                addUniqueObjectToList(fRelationsToAdd, source);
-                addRelationshipConcepts(source);
-            }
+//            else if(relationship.getSource() instanceof IArchimateRelationship) {
+//                IArchimateRelationship source = (IArchimateRelationship)relationship.getSource();
+//                addUniqueObjectToList(fRelationsToAdd, source);
+//                addRelationshipConcepts(source);
+//            }
         }
         
         // Connected Target Element if not on Diagram
@@ -257,14 +296,15 @@ public class ArchimateDNDEditPolicy extends AbstractDNDEditPolicy {
             if(relationship.getTarget() instanceof IArchimateElement) {
                 addUniqueObjectToList(fElementsToAdd, (IArchimateElement)relationship.getTarget());
             }
-            else if(relationship.getTarget() instanceof IArchimateRelationship) {
-                IArchimateRelationship target = (IArchimateRelationship)relationship.getTarget();
-                addUniqueObjectToList(fRelationsToAdd, target);
-                addRelationshipConcepts(target);
-            }
+//            else if(relationship.getTarget() instanceof IArchimateRelationship) {
+//                IArchimateRelationship target = (IArchimateRelationship)relationship.getTarget();
+//                addUniqueObjectToList(fRelationsToAdd, target);
+//                addRelationshipConcepts(target);
+//            }
         }
         
         // Recursive case - ensure at least 2 connecting elements
+        // TODO: I don't understand ??? (JB)
         if(relationship.getSource() instanceof IArchimateElement && relationship.getSource() == relationship.getTarget()) {
             int size = DiagramModelUtils.findDiagramModelObjectsForElement(getTargetDiagramModel(), (IArchimateElement)relationship.getSource()).size();
             for(IArchimateElement e : fElementsToAdd) {

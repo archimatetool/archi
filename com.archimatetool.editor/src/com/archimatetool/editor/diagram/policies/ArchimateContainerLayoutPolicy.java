@@ -32,29 +32,29 @@ public class ArchimateContainerLayoutPolicy extends ArchimateDiagramLayoutPolicy
     @Override
     protected Command getAddCommand(Request generic) {
         Object parent = getHost().getModel();
-        
+                
         ChangeBoundsRequest request = (ChangeBoundsRequest)generic;
         
         CompoundCommand command = new CompoundCommand();
         
-        // Add relations between parent and child if Prefs set and if parent is an Archimate object
-        boolean doAddNestedRelations = ConnectionPreferences.createRelationWhenMovingElement() && parent instanceof IDiagramModelArchimateObject;
+        // Add relations/connections between parent and child if Prefs set and if parent is an Archimate object
+        boolean doAddNestedConnections = ConnectionPreferences.createRelationWhenMovingElement() && parent instanceof IDiagramModelArchimateObject;
         
-        List<IDiagramModelArchimateObject> childObjectsForNewRelations = new ArrayList<IDiagramModelArchimateObject>();
-
+        List<IDiagramModelArchimateObject> childObjectsForNewConnections = new ArrayList<IDiagramModelArchimateObject>();
+        
         // Delete connections between parent and child if Prefs set and if parent is an Archimate object
         boolean doDeleteNestedConnections = ConnectionPreferences.useNestedConnections();
                 
         List<IDiagramModelArchimateObject> childObjectsForDeletedConnections = new ArrayList<IDiagramModelArchimateObject>();
-
+        
         for(Object editPart : request.getEditParts()) {
             GraphicalEditPart child = (GraphicalEditPart)editPart;
             AddObjectCommand addCommand = createAddCommand(request, child, translateToModelConstraint(getConstraintFor(request, child)));
             command.add(addCommand);
             
             // If we use nested connections, and child is an Archimate diagram object add it to the list
-            if(doAddNestedRelations && addCommand.child instanceof IDiagramModelArchimateObject) {
-                childObjectsForNewRelations.add((IDiagramModelArchimateObject)addCommand.child);
+            if(doAddNestedConnections && addCommand.child instanceof IDiagramModelArchimateObject) {
+            	childObjectsForNewConnections.add((IDiagramModelArchimateObject)addCommand.child);
             }
             
             // If we need to delete some nested connections
@@ -63,18 +63,18 @@ public class ArchimateContainerLayoutPolicy extends ArchimateDiagramLayoutPolicy
             }
         }
         
-        // We have some child objects for new relations so add the sub commands
-        if(!childObjectsForNewRelations.isEmpty()) {
-            Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)parent, childObjectsForNewRelations);
-            command.add(cmd);
-        }
-
         // We have some child objects for deletion connections
         if(!childObjectsForDeletedConnections.isEmpty()) {
-            Command cmd = new DeleteNestedConnectionsCommand((IDiagramModelArchimateObject)parent, childObjectsForNewRelations);
+            Command cmd = new DeleteNestedConnectionsCommand((IDiagramModelArchimateObject)parent, childObjectsForDeletedConnections);
             command.add(cmd);
         }
         
+        // We have some child objects so add the sub command
+        if(!childObjectsForNewConnections.isEmpty()) {
+            Command cmd = new CreateNestedArchimateConnectionsWithDialogCommand((IDiagramModelArchimateObject)parent, childObjectsForNewConnections);
+            command.add(cmd);
+        }
+
         return command.unwrap();
     }
 }

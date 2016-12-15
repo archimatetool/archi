@@ -69,15 +69,15 @@ public class DeleteNestedConnectionsCommand extends CompoundCommand {
         for(IDiagramModelArchimateObject child : fChildObjects) {
             for(IDiagramModelConnection connection : child.getTargetConnections()) {
                 if(connection instanceof IDiagramModelArchimateConnection && DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)connection)) {
-                    Command cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(connection);
-                    add(cmd);
-                }
-                
-                for(IDiagramModelConnection subconnection : connection.getTargetConnections()) {
-                    if(subconnection instanceof IDiagramModelArchimateConnection && DiagramModelUtils.shouldBeHiddenConnection((IDiagramModelArchimateConnection)subconnection)) {
+	                for(IDiagramModelConnection subconnection : connection.getTargetConnections()) {
                         Command cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(subconnection);
                         add(cmd);
-                    }
+	                }
+	                
+	                for(IDiagramModelConnection subconnection : connection.getSourceConnections()) {
+                        Command cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(subconnection);
+                        add(cmd);
+	                }
                 }
             }
         }
