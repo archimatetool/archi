@@ -36,6 +36,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
+import org.stringtemplate.v4.StringRenderer;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.browser.BrowserEditorInput;
@@ -153,6 +154,8 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         File mainFile = new File(ArchiReportsPlugin.INSTANCE.getTemplatesFolder(), "st/main.stg"); //$NON-NLS-1$
         STGroupFile groupFile = new STGroupFile(mainFile.getAbsolutePath(), '^', '^');
         ST stFrame = groupFile.getInstanceOf("frame"); //$NON-NLS-1$
+        
+        groupFile.registerRenderer(String.class, new StringRenderer());
         
         // Write model purpose and properties html
         writeElement(new File(elementsFolder, "model.html"), stFrame, fModel); //$NON-NLS-1$
