@@ -90,7 +90,7 @@ frame(element) ::= <<
 								</a> <br>
 							<br>
 						^endif^
-						<textarea id="docsrc" style="display:none">^element.Documentation^^element.Purpose;format="xml-encode"^</textarea>
+						<textarea id="docsrc" style="display:none">^element.Documentation^^element.Purpose^</textarea>
 						<div id="doctgt" style="white-space:pre-wrap"></div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="properties">
