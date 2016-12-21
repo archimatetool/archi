@@ -23,12 +23,6 @@ public class Messages extends NLS {
 
     public static String EditorModelManager_13;
 
-    public static String EditorModelManager_14;
-
-    public static String EditorModelManager_15;
-
-    public static String EditorModelManager_17;
-
     public static String EditorModelManager_18;
 
     public static String EditorModelManager_2;

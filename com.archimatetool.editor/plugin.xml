@@ -726,6 +726,10 @@
             class="com.archimatetool.editor.model.compatibility.handlers.FixDefaultSizesHandler"
             id="com.archimatetool.editor.compatibility.defaultSizes">
       </compatibilityHandler>
+      <compatibilityHandler
+            class="com.archimatetool.editor.model.compatibility.handlers.Archimate2To3Handler"
+            id="com.archimatetool.editor.compatibility.archimate2converter">
+      </compatibilityHandler>
    </extension>
    <extension
          point="com.archimatetool.editor.imageExportProvider">

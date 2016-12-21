@@ -3953,6 +3953,8 @@
         <target concept="TechnologyService" relations="or" />
         <target concept="Value" relations="or" />
         <target concept="WorkPackage" relations="cfgost" />
+
+        <target concept="Junction" relations="fiort" />
     </source>
 
     <!-- Junctions -->

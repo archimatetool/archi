@@ -65,7 +65,7 @@
        </topic>
        <topic href="help/Text/view_container_nested.html" label="Container Elements and Nested Element Relationships">
        </topic>
-       <topic label="Setting the Order of Overlapping Elements">
+       <topic href="help/Text/view_z_order.html" label="Setting the Order of Overlapping Elements">
        </topic>
        <topic href="help/Text/view_copy_paste_delete.html" label="Copying, Pasting, Selecting and Deleting Elements">
        </topic>
@@ -112,6 +112,8 @@
        <topic href="help/Text/generate_view.html" label="Generating a View from an Element">
        </topic>
        <topic href="help/Text/validator.html" label="The Validator">
+       </topic>
+       <topic href="help/Text/preview_report.html" label="Preview HTML Report">
        </topic>
     </topic>
     <topic href="help/Text/open_save_print.html" label="Opening, Saving and Printing">

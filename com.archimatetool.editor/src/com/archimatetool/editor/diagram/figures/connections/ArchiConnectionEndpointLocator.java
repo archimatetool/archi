@@ -70,7 +70,7 @@ public class ArchiConnectionEndpointLocator implements Locator {
 	 * 
 	 * @param loc The point that is to be located
 	 */
-	private int calculateConnectionLocation(Point loc, Point topLeft,
+/*	private int calculateConnectionLocation(Point loc, Point topLeft,
 			Point center) {
 		double m1, m2 = 0;
 		m1 = (double) (topLeft.y - center.y) / (double) (topLeft.x - center.x);
@@ -98,7 +98,7 @@ public class ArchiConnectionEndpointLocator implements Locator {
 				return 1;
 		}
 	}
-
+*/
 	/*
 	 * This method is used to calculate the "quadrant" value of a connection
 	 * that does not have an owner on its starting point.
@@ -226,15 +226,16 @@ public class ArchiConnectionEndpointLocator implements Locator {
 		    // *********************** Fix part 1: switch to relative ******************** 
 	        connOwner.translateToRelative(startPoint);
 	        connOwner.translateToRelative(endPoint);
+		}
 	        // *********************** End of fix part 1 ***********************
-
+/*
 	        Rectangle connOwnerBounds = connOwner.getBounds();
 			Point connOwnerCenter = connOwnerBounds.getCenter();
 			Point connOwnerTL = connOwnerBounds.getTopLeft();
 			quadrant = calculateConnectionLocation(startPoint, connOwnerTL,
 					connOwnerCenter);
 		} else
-			quadrant = calculateConnectionLocation(startPoint, endPoint);
+*/			quadrant = calculateConnectionLocation(startPoint, endPoint);
 
 		int cos = 1;
 		transposer.setEnabled(false);

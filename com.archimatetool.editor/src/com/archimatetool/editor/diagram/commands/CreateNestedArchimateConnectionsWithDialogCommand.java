@@ -169,14 +169,25 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         // Check connections between parent and child objects that are being dragged in
         for(IDiagramModelArchimateObject childObject : fChildObjects) {
             IArchimateElement childElement = childObject.getArchimateElement();
+            boolean aConnectionExists = false;
             
+            // If there is already a connection between parent an child, then don't create another one from relationships
             for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
                 if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
-                    // And there's not one already there...
-                    if(!DiagramModelUtils.hasDiagramModelArchimateConnection(fParentObject, childObject, relation)) {
-                        add(new CreateDiagramArchimateConnectionCommand(fParentObject, childObject, relation));
+                    if(DiagramModelUtils.hasDiagramModelArchimateConnection(fParentObject, childObject, relation)) {
+                       aConnectionExists = true;
+                       break;
                     }
                 }
+            }
+            
+            // Create connections from relationships if none already exists
+            if(!aConnectionExists) {
+	            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
+	                if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
+                        add(new CreateDiagramArchimateConnectionCommand(fParentObject, childObject, relation));
+	                }
+	            }
             }
         }
         

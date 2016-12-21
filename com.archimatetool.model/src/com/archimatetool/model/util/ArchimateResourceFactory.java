@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -81,7 +80,7 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
         XMLResource result = new ArchimateResource(uri);
         
         // Ensure we have ExtendedMetaData for both Saving and Loading
-        ExtendedMetaData ext = new BasicExtendedMetaData();
+        ExtendedMetaData ext = new ConverterExtendedMetadata();
 
         result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
         result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
