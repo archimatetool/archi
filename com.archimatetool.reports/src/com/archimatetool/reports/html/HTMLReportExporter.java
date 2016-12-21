@@ -61,7 +61,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
-import com.archimatetool.reports.preferences.EArchiReportsTabs;
+import com.archimatetool.reports.preferences.IArchiReportsPreferenceConstants;
 
 
 /**
@@ -71,7 +71,7 @@ import com.archimatetool.reports.preferences.EArchiReportsTabs;
  * @author Quentin Varquet
  * @author Phillip Beauvoir
  */
-public class HTMLReportExporter extends AbstractUIPlugin {
+public class HTMLReportExporter extends AbstractUIPlugin implements IArchiReportsPreferenceConstants {
     
     public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
     
@@ -313,19 +313,19 @@ public class HTMLReportExporter extends AbstractUIPlugin {
         stFrame.remove("defaultViews");
     }
 
-    private void setDefaultTab(ST stFrame, EArchiReportsTabs defaultTab) {
+    private void setDefaultTab(ST stFrame, String defaultTab) {
         if (defaultTab != null) {
             switch (defaultTab) {
-            case Documentation:
+            case DOCUMENTATION:
                 stFrame.add("defaultDocumentation", true);
                 break;
-            case Properties:
+            case PROPERTIES:
                 stFrame.add("defaultProperties", true);
             break;
-            case Elements:
+            case ELEMENTS:
                 stFrame.add("defaultElements", true);
                 break;
-            case Views:
+            case VIEWS:
                 stFrame.add("defaultViews", true);
                 break;
             }

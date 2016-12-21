@@ -14,7 +14,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.archimatetool.reports.html.HTMLReportExporter;
-import com.archimatetool.reports.preferences.EArchiReportsTabs;
 import com.archimatetool.reports.preferences.IArchiReportsPreferenceConstants;
 
 /**
@@ -102,21 +101,11 @@ public class ArchiReportsPlugin extends AbstractUIPlugin {
         return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.ELEMENTS_SHOW_VIEWS);
     }
 
-    public EArchiReportsTabs getDefaultElementsTab() {
-        String elementsDefaultTab = getPreferenceStore().getString(IArchiReportsPreferenceConstants.ELEMENTS_DEFAULT_TAB);
-        if (elementsDefaultTab == null || elementsDefaultTab.isEmpty()) {
-            return null;
-        } else {
-            return EArchiReportsTabs.valueOf(elementsDefaultTab);
-        }
+    public String getDefaultElementsTab() {
+        return getPreferenceStore().getString(IArchiReportsPreferenceConstants.ELEMENTS_DEFAULT_TAB);
     }
 
-    public EArchiReportsTabs getDefaultViewsTab() {
-        String viewsDefaultTab = getPreferenceStore().getString(IArchiReportsPreferenceConstants.VIEWS_DEFAULT_TAB);
-        if (viewsDefaultTab == null || viewsDefaultTab.isEmpty()) {
-            return null;
-        } else {
-            return EArchiReportsTabs.valueOf(viewsDefaultTab);
-        }
+    public String getDefaultViewsTab() {
+        return getPreferenceStore().getString(IArchiReportsPreferenceConstants.VIEWS_DEFAULT_TAB);       
     }
 }

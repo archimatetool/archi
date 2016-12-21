@@ -13,8 +13,8 @@ package com.archimatetool.reports.preferences;
  *
  * @author Tun Schlechter
  */
-public interface IArchiReportsPreferenceConstants {
-
+public interface IArchiReportsPreferenceConstants {       
+    
     // PREFERENCES DENOMINATIONS
     String VIEWS_SHOW_DOCUMENTATION = "VIEWS_SHOW_DOCUMENTATION";
     String VIEWS_SHOW_PROPERTIES= "VIEWS_SHOW_PROPERTIES";
@@ -28,17 +28,23 @@ public interface IArchiReportsPreferenceConstants {
 
     String ELEMENTS_DEFAULT_TAB = "ELEMENTS_DEFAULT_TAB";
 
+    // PREFERENCES VALUES
+    String DOCUMENTATION = "Documentation";
+    String PROPERTIES = "Properties";
+    String VIEWS = "Views";
+    String ELEMENTS = "Elements";
+    
     // DEFAULT VALUES
     Boolean VIEWS_SHOW_DOCUMENTATION_DEFAULT_VALUE = true;
     Boolean VIEWS_SHOW_PROPERTIES_DEFAULT_VALUE= true;
     Boolean VIEWS_SHOW_ELEMENTS_DEFAULT_VALUE  = true;
 
-    String VIEWS_DEFAULT_TAB_DEFAULT_VALUE = EArchiReportsTabs.Documentation.toString();
+    String VIEWS_DEFAULT_TAB_DEFAULT_VALUE = DOCUMENTATION;
 
     Boolean ELEMENTS_SHOW_DOCUMENTATION_DEFAULT_VALUE = true;
     Boolean ELEMENTS_SHOW_PROPERTIES_DEFAULT_VALUE= true;
     Boolean ELEMENTS_SHOW_VIEWS_DEFAULT_VALUE = true;
 
-    String ELEMENTS_DEFAULT_TAB_DEFAULT_VALUE = EArchiReportsTabs.Documentation.toString();
+    String ELEMENTS_DEFAULT_TAB_DEFAULT_VALUE = DOCUMENTATION;
 
 }

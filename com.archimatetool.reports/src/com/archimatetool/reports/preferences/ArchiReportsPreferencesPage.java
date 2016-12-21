@@ -68,27 +68,27 @@ implements IWorkbenchPreferencePage, IArchiReportsPreferenceConstants {
 
         // checkboxes to select the tabs to be exported
         viewsExportDocumentationButton = new Button(exportViewsSettingsGroup, SWT.CHECK);
-        viewsExportDocumentationButton.setText(EArchiReportsTabs.Documentation.toString());
+        viewsExportDocumentationButton.setText(DOCUMENTATION);
         viewsExportDocumentationButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                updateCombo(viewsDefaultTabCombo, EArchiReportsTabs.Documentation, event);
+                updateViewsCombo();//Combo(viewsDefaultTabCombo, EArchiReportsTabs.Documentation, event);
             }
         });
         viewsExportPropertiesButton = new Button(exportViewsSettingsGroup, SWT.CHECK);
-        viewsExportPropertiesButton.setText(EArchiReportsTabs.Properties.toString());
+        viewsExportPropertiesButton.setText(PROPERTIES);
         viewsExportPropertiesButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                updateCombo(viewsDefaultTabCombo, EArchiReportsTabs.Properties, event);
+                updateViewsCombo();//Combo(viewsDefaultTabCombo, EArchiReportsTabs.Properties, event);
             }
         });
         viewsExportElementsButton = new Button(exportViewsSettingsGroup, SWT.CHECK);
-        viewsExportElementsButton.setText(EArchiReportsTabs.Elements.toString());
+        viewsExportElementsButton.setText(ELEMENTS);
         viewsExportElementsButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                updateCombo(viewsDefaultTabCombo, EArchiReportsTabs.Elements, event);
+                updateViewsCombo();//Combo(viewsDefaultTabCombo, EArchiReportsTabs.Elements, event);
             }
         });
 
@@ -104,27 +104,27 @@ implements IWorkbenchPreferencePage, IArchiReportsPreferenceConstants {
 
         // checkboxes to select the tabs to be exported
         elementsExportDocumentationButton = new Button(exportElementsSettingsGroup, SWT.CHECK);
-        elementsExportDocumentationButton.setText(EArchiReportsTabs.Documentation.toString());
+        elementsExportDocumentationButton.setText(DOCUMENTATION);
         elementsExportDocumentationButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                updateCombo(elementsDefaultTabCombo, EArchiReportsTabs.Documentation, event);
+                updateElementsCombo();//Combo(elementsDefaultTabCombo, EArchiReportsTabs.Documentation, event);
             }
         });
         elementsExportPropertiesButton = new Button(exportElementsSettingsGroup, SWT.CHECK);
-        elementsExportPropertiesButton.setText(EArchiReportsTabs.Properties.toString());
+        elementsExportPropertiesButton.setText(PROPERTIES);
         elementsExportPropertiesButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                updateCombo(elementsDefaultTabCombo, EArchiReportsTabs.Properties, event);
+                updateElementsCombo();//Combo(elementsDefaultTabCombo, EArchiReportsTabs.Properties, event);
             }
         });
         elementsExportViewsButton = new Button(exportElementsSettingsGroup, SWT.CHECK);
-        elementsExportViewsButton.setText(EArchiReportsTabs.Views.toString());
+        elementsExportViewsButton.setText(VIEWS);
         elementsExportViewsButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                updateCombo(elementsDefaultTabCombo, EArchiReportsTabs.Views, event);
+                updateElementsCombo();//Combo(elementsDefaultTabCombo, EArchiReportsTabs.Views, event);
             }
         });
         // Combobox to select the tab that is active by default
@@ -138,74 +138,47 @@ implements IWorkbenchPreferencePage, IArchiReportsPreferenceConstants {
         return client;
     }
 
-    /**
-     * Add or remove an enabled/disabled Tab to a default-tab-selection combobox
-     * @param c: default-tab-selection combobox
-     * @param t: Tab
-     * @param event: selectionEvent from checkbox
-     */
-    private void updateCombo(Combo c, EArchiReportsTabs t, SelectionEvent event) {
-        if (((Button) event.getSource()).getSelection()) {
-            int pos=0;
-            // find correct position to insert the element
-            while (pos < c.getItemCount()
-                    && EArchiReportsTabs.valueOf(c.getItem(pos)).getSequenceNumber() <= t.getSequenceNumber()) {
-                pos++;
-            }
-            c.add(t.toString(), pos);
-            // Make sure we select something, if the list was empty before (i.e. there was no selection)
-            if (c.getItemCount() == 1) {
-                c.select(0);
-            }
-        } else {
-            String currentSelection = c.getText();
-            c.remove(t.toString());
-            // if we deleted the currently selected element ...
-            if (t.toString().equals(currentSelection)) {
-                // ... select something else
-                c.select(0);
-            }
+    private void updateElementsCombo() {
+        // store current selection
+        String currentSelection = elementsDefaultTabCombo.getText();
+        fillElementsCombo();
+        if (currentSelection != null && !currentSelection.isEmpty()) {
+            elementsDefaultTabCombo.setText(currentSelection);
+            
         }
+        if (elementsDefaultTabCombo.getSelectionIndex() == -1) {
+            elementsDefaultTabCombo.select(0);
+        }        
     }
+    
+    private void updateViewsCombo() {
+        // store current selection
+        String currentSelection = viewsDefaultTabCombo.getText();
+        fillViewsCombo();
+        if (currentSelection != null && !currentSelection.isEmpty()) {
+            viewsDefaultTabCombo.setText(currentSelection);
+        } 
+        if (viewsDefaultTabCombo.getSelectionIndex() == -1){
+            viewsDefaultTabCombo.select(0);
+        }        
+    }    
 
     private void setValues() {
         // initialize checkboxes
         viewsExportDocumentationButton.setSelection(getPreferenceStore().getBoolean(VIEWS_SHOW_DOCUMENTATION));
         viewsExportPropertiesButton.setSelection(getPreferenceStore().getBoolean(VIEWS_SHOW_PROPERTIES));
         viewsExportElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWS_SHOW_ELEMENTS));
-
-        // determine what values need to be added to the select_default_tab-combobox based on initial selection
-        if (viewsExportDocumentationButton.getSelection()) {
-            viewsDefaultTabCombo.add(EArchiReportsTabs.Documentation.toString());
-        }
-        if (viewsExportPropertiesButton.getSelection()) {
-            viewsDefaultTabCombo.add(EArchiReportsTabs.Properties.toString());
-        }
-        if (viewsExportElementsButton.getSelection()) {
-            viewsDefaultTabCombo.add(EArchiReportsTabs.Elements.toString());
-        }
-
-        // preselect default tab
-        viewsDefaultTabCombo.setText(getPreferenceStore().getString(VIEWS_DEFAULT_TAB));
-
-        // initialize checkboxes
+      
         elementsExportDocumentationButton.setSelection(getPreferenceStore().getBoolean(ELEMENTS_SHOW_DOCUMENTATION));
         elementsExportPropertiesButton.setSelection(getPreferenceStore().getBoolean(ELEMENTS_SHOW_PROPERTIES));
         elementsExportViewsButton.setSelection(getPreferenceStore().getBoolean(ELEMENTS_SHOW_VIEWS));
 
-        // determine what values need to be added to the select_default_tab-combobox based on initial selection
-        if (elementsExportDocumentationButton.getSelection()) {
-            elementsDefaultTabCombo.add(EArchiReportsTabs.Documentation.toString());
-        }
-        if (elementsExportPropertiesButton.getSelection()) {
-            elementsDefaultTabCombo.add(EArchiReportsTabs.Properties.toString());
-        }
-        if (elementsExportViewsButton.getSelection()) {
-            elementsDefaultTabCombo.add(EArchiReportsTabs.Views.toString());
-        }
+        fillCombos();
+        
         // preselect default tab
+        viewsDefaultTabCombo.setText(getPreferenceStore().getString(VIEWS_DEFAULT_TAB));
         elementsDefaultTabCombo.setText(getPreferenceStore().getString(ELEMENTS_DEFAULT_TAB));
-
+        
     }
 
     @Override
@@ -230,15 +203,50 @@ implements IWorkbenchPreferencePage, IArchiReportsPreferenceConstants {
         viewsExportDocumentationButton.setSelection(VIEWS_SHOW_DOCUMENTATION_DEFAULT_VALUE);
         viewsExportPropertiesButton.setSelection(VIEWS_SHOW_PROPERTIES_DEFAULT_VALUE);
         viewsExportElementsButton.setSelection(VIEWS_SHOW_ELEMENTS_DEFAULT_VALUE);
-
-        viewsDefaultTabCombo.setText(VIEWS_DEFAULT_TAB_DEFAULT_VALUE);
+       
 
         elementsExportDocumentationButton.setSelection(ELEMENTS_SHOW_DOCUMENTATION_DEFAULT_VALUE);
         elementsExportPropertiesButton.setSelection(ELEMENTS_SHOW_PROPERTIES_DEFAULT_VALUE);
         elementsExportViewsButton.setSelection(ELEMENTS_SHOW_VIEWS_DEFAULT_VALUE);
 
+        fillCombos();
+        
+        viewsDefaultTabCombo.setText(VIEWS_DEFAULT_TAB_DEFAULT_VALUE);
         elementsDefaultTabCombo.setText(ELEMENTS_DEFAULT_TAB_DEFAULT_VALUE);
         super.performDefaults();
+    }
+    
+    private void fillCombos() {
+        fillViewsCombo();
+        fillElementsCombo();
+    }
+    
+    private void fillViewsCombo() {
+        // determine what values need to be added to the select_default_tab-combobox based on initial selection
+        viewsDefaultTabCombo.removeAll();
+        if (viewsExportDocumentationButton.getSelection()) {
+            viewsDefaultTabCombo.add(DOCUMENTATION);
+        }
+        if (viewsExportPropertiesButton.getSelection()) {
+            viewsDefaultTabCombo.add(PROPERTIES);
+        }
+        if (viewsExportElementsButton.getSelection()) {
+            viewsDefaultTabCombo.add(ELEMENTS);
+        }
+    }
+    
+    private void fillElementsCombo() {
+        elementsDefaultTabCombo.removeAll();
+        // determine what values need to be added to the select_default_tab-combobox based on initial selection        
+        if (elementsExportDocumentationButton.getSelection()) {
+            elementsDefaultTabCombo.add(DOCUMENTATION);
+        }
+        if (elementsExportPropertiesButton.getSelection()) {
+            elementsDefaultTabCombo.add(PROPERTIES);
+        }
+        if (elementsExportViewsButton.getSelection()) {
+            elementsDefaultTabCombo.add(VIEWS);
+        }
     }
 
     public void init(IWorkbench workbench) {
