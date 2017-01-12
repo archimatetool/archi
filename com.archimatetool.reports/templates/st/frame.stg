@@ -49,7 +49,7 @@ frame(element) ::= <<
 <body>
 	<div class="panel panel-default root-panel">
 		<div class="panel-heading root-panel-heading">
-			<b>^element.Name^</b>
+			<b>^element.Name;format="xml-encode"^</b>
 			^if(element.Children)^
 			(<span class="i18n-viewpoint-^element.Viewpoint^"></span>)
 			<a class="glyphicon glyphicon-info-sign" id="hint-viewpoint_^element.Viewpoint^" target="hint"></a>
@@ -82,11 +82,11 @@ frame(element) ::= <<
 							<br>
 							<b class="i18n-relation-source"></b>
 								<a href="../elements/^element.Source.Id^.html" target="element">
-									^element.Source.Name^
+									^element.Source.Name;format="xml-encode"^
 								</a> <br>
 							<b class="i18n-relation-target"></b>
 								<a href="../elements/^element.Target.Id^.html" target="element">
-									^element.Target.Name^
+									^element.Target.Name;format="xml-encode"^
 								</a> <br>
 							<br>
 						^endif^

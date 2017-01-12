@@ -9,12 +9,12 @@ expandFolder(folder, target) ::= <<
 				^if(e.Name.Empty)^
 					<span class="i18n-elementtype-^e.Class.SimpleName^"></span>
 				^else^
-					^e.Name^
+					^e.Name;format="xml-encode"^
 				^endif^
-				(^e.Source.Name^ - ^e.Target.Name^) 
+				(^e.Source.Name;format="xml-encode"^ - ^e.Target.Name;format="xml-encode"^) 
 			</a></li>
 		^else^
-			<li class="tree-element"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^"> ^e.Name^ </a></li>
+			<li class="tree-element"><a href="^model.Id^/^target^s/^e.Id^.html" target="^target^"> ^e.Name;format="xml-encode"^ </a></li>
 		^endif^
 	}^
 </ul>
@@ -47,7 +47,7 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 	<div class="ui-layout-north">
 		<nav class="navbar navbar-default">
 			<div class="navbar-header">
-				<span class="navbar-brand">^model.Name^</span>
+				<span class="navbar-brand">^model.Name;format="xml-encode"^</span>
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -67,7 +67,7 @@ modelreport(model, strategyFolder, businessFolder, applicationFolder, technology
 					<b><span class="i18n-modeltree"></span></b>
 				</div>
 				<div class="panel-body root-panel-body">
-					<b><a href="^model.Id^/elements/model.html" target="view">^model.Name^</a></b>
+					<b><a href="^model.Id^/elements/model.html" target="view">^model.Name;format="xml-encode"^</a></b>
 					<ul class="tree">
 					<!-- START OF STRINGTEMPLATE CODE -->
 						<li><span class="i18n-model_content"><i class="glyphicon glyphicon-triangle-right"></i> </span>
