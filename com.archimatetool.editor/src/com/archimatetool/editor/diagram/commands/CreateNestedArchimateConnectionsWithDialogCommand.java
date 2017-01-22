@@ -20,6 +20,7 @@ import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.ConnectionPreferences;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
@@ -99,28 +100,27 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
             }
         }
         
-        // One
+        // One child object
         if(childObjectsForDialog.size() == 1) {
             NewNestedRelationDialog dialog = new NewNestedRelationDialog(fParentObject, childObjectsForDialog.get(0));
             
             if(dialog.open() == Window.OK) {
                 EClass eClass = dialog.getSelectedType();
                 if(eClass != null) {
-                    Command cmd = new CreateRelationshioAndDiagramArchimateConnectionCommand(fParentObject, childObjectsForDialog.get(0), eClass);
+                    Command cmd = new CreateRelationshipAndDiagramArchimateConnectionCommand(fParentObject, childObjectsForDialog.get(0), eClass);
                     add(cmd);
                 }
             }
         }
         
-        // More than one
+        // More than one child object
         else if(childObjectsForDialog.size() > 1) {
             NewNestedRelationsDialog dialog = new NewNestedRelationsDialog(fParentObject, childObjectsForDialog);
             
             if(dialog.open() == Window.OK) {
                 List<SelectedRelationshipType> selectedTypes = dialog.getSelectedTypes();
-                
                 for(SelectedRelationshipType selType : selectedTypes) {
-                    Command cmd = new CreateRelationshioAndDiagramArchimateConnectionCommand(fParentObject, selType.childObject, selType.relationshipType);
+                    Command cmd = new CreateRelationshipAndDiagramArchimateConnectionCommand(fParentObject, selType.childObject, selType.relationshipType);
                     add(cmd);
                 }
             }
@@ -128,13 +128,20 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
     }
     
     /**
-     * @return true if a new relation can/should be added between parent and child when adding an element to a View
+     * @return true if any new relation can/should be added between parent and child when adding a child element to a parent object
      */
     boolean canAddNewRelationship(IDiagramModelArchimateObject parentObject, IDiagramModelArchimateObject childObject) {
         IArchimateElement parentElement = parentObject.getArchimateElement();
         IArchimateElement childElement = childObject.getArchimateElement();
         
-        // Not if there is already a relationship of an allowed type between the two
+        // Specialization relationship goes the other way around, so check this first
+        for(IArchimateRelationship relation : parentElement.getTargetRelationships()) {
+            if(relation.getSource() == childElement && relation.eClass() == IArchimatePackage.eINSTANCE.getSpecializationRelationship()) {
+                return false;
+            }
+        }
+        
+        // Not if there is already a relationship of an allowed type between parent and child elements
         for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
             if(relation.getTarget() == childElement) {
                 for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
@@ -145,8 +152,15 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
             }
         }
         
-        // Check this is a valid relationship
+        // Check this is at least one valid relationship
         for(EClass eClass : ConnectionPreferences.getRelationsClassesForNewRelations()) {
+            // Specialization relationship goes the other way around, so check this first
+            if(eClass == IArchimatePackage.eINSTANCE.getSpecializationRelationship()) {
+                if(ArchimateModelUtils.isValidRelationship(childElement, parentElement, eClass)) {
+                    return true;
+                }
+            }
+            
             if(ArchimateModelUtils.isValidRelationship(parentElement, childElement, eClass)) {
                 return true;
             }
@@ -172,6 +186,18 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
             boolean aConnectionExists = false;
             
             // If there is already a connection between parent an child, then don't create another one from relationships
+            
+            // Specialization relationship is the other way around
+            for(IArchimateRelationship relation : parentElement.getTargetRelationships()) {
+                if(relation.getSource() == childElement && relation.eClass() == IArchimatePackage.eINSTANCE.getSpecializationRelationship() 
+                        && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
+                    if(DiagramModelUtils.hasDiagramModelArchimateConnection(childObject, fParentObject, relation)) {
+                       aConnectionExists = true;
+                       break;
+                    }
+                }
+            }
+            
             for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
                 if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
                     if(DiagramModelUtils.hasDiagramModelArchimateConnection(fParentObject, childObject, relation)) {
@@ -183,6 +209,14 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
             
             // Create connections from relationships if none already exists
             if(!aConnectionExists) {
+                // Specialization relationship is the other way around
+                for(IArchimateRelationship relation : parentElement.getTargetRelationships()) {
+                    if(relation.getSource() == childElement && relation.eClass() == IArchimatePackage.eINSTANCE.getSpecializationRelationship()
+                            && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
+                        add(new CreateDiagramArchimateConnectionCommand(childObject, fParentObject, relation));
+                    }
+                }
+                
 	            for(IArchimateRelationship relation : parentElement.getSourceRelationships()) {
 	                if(relation.getTarget() == childElement && DiagramModelUtils.isNestedConnectionTypeRelationship(relation)) {
                         add(new CreateDiagramArchimateConnectionCommand(fParentObject, childObject, relation));
@@ -236,10 +270,20 @@ public class CreateNestedArchimateConnectionsWithDialogCommand extends CompoundC
         return null;
     }
     
-    static class CreateRelationshioAndDiagramArchimateConnectionCommand extends CompoundCommand {
+    /**
+     * Command to create Relationship and Connection
+     */
+    static class CreateRelationshipAndDiagramArchimateConnectionCommand extends CompoundCommand {
         
-        CreateRelationshioAndDiagramArchimateConnectionCommand(IDiagramModelArchimateObject sourceObject,
+        CreateRelationshipAndDiagramArchimateConnectionCommand(IDiagramModelArchimateObject sourceObject,
                 IDiagramModelArchimateObject targetObject, EClass relationshipType) {
+            
+            // Specialization relationship goes the other way around, so swap them
+            if(relationshipType == IArchimatePackage.eINSTANCE.getSpecializationRelationship()) {
+                IDiagramModelArchimateObject temp = sourceObject;
+                sourceObject = targetObject;
+                targetObject = temp;
+            }
             
             IArchimateRelationship relationship = (IArchimateRelationship)IArchimateFactory.eINSTANCE.create(relationshipType);
             
