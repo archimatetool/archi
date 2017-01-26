@@ -1,7 +1,7 @@
 expandChildren(children) ::= <<
 ^children:{c |
 	^if(c.ArchimateElement)^
-		<tr><td> <a href="../elements/^c.ArchimateElement.Id^.html" target="element"> ^c.Name^ </a> </td><td class="i18n-elementtype-^c.ArchimateElement.Class.SimpleName^"></td></tr>
+		<tr><td> <a href="../elements/^c.ArchimateElement.Id^.html" target="element"> ^c.Name;format="xml-encode"^ </a> </td><td class="i18n-elementtype-^c.ArchimateElement.Class.SimpleName^"></td></tr>
 	^elseif(c.ReferencedModel)^
 		<tr><td> <a href="../views/^c.ReferencedModel.Id^.html" target="view"> ^c.Name^ </a> </td><td class="i18n-viewpoint-^c.ReferencedModel.Viewpoint^"></td></tr>
 	^else^
