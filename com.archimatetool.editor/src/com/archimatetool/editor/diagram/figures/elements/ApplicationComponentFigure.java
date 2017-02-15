@@ -158,4 +158,17 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
     public IDiagramModelArchimateObject getDiagramModelObject() {
         return (IDiagramModelArchimateObject)super.getDiagramModelObject();
     }
+    
+    @Override
+    protected Rectangle calculateTextControlBounds() {
+        // Compensate for left hand nubs
+        if(getFigureDelegate() == null) {
+            Rectangle bounds = getBounds().getCopy();
+            bounds.x += 18;
+            bounds.width -= 18;
+            return bounds;
+        }
+        
+        return super.calculateTextControlBounds();
+    }
 }
