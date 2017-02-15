@@ -555,7 +555,7 @@
         <target concept="Constraint" relations="nor" />
         <target concept="Contract" relations="ao" />
         <target concept="CourseOfAction" relations="or" />
-        <target concept="DataObject" relations="ao" />
+        <target concept="DataObject" relations="aor" />
         <target concept="Deliverable" relations="o" />
         <target concept="Device" relations="fortv" />
         <target concept="DistributionNetwork" relations="fot" />
