@@ -122,5 +122,12 @@ public class RelationshipsMatrixTests {
 
         // Not OK from relation -> relation
         assertFalse(matrix.isValidRelationship(relationClass, relationClass, relationshipType));
+        
+        // Not OK from relation -> Junction
+        objectClass = IArchimatePackage.eINSTANCE.getJunction();
+        assertFalse(matrix.isValidRelationship(relationClass, objectClass, relationshipType));
+        
+        // Not OK from Junction to relation
+        assertFalse(matrix.isValidRelationship(objectClass, relationClass, relationshipType));
     }
 } 
