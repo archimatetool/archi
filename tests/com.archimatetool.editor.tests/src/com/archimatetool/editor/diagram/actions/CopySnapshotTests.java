@@ -130,11 +130,11 @@ public class CopySnapshotTests {
         assertNotNull(snapshot);
         
         // Should be null
-        Command cmd = snapshot.getPasteCommand(null, null, null);
+        Command cmd = snapshot.getPasteCommand(null, null, null, false);
         assertNull(cmd);
 
         // Real one
-        cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null);
+        cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null, false);
         assertTrue(cmd.canExecute());
 
         cmd.execute();
@@ -178,7 +178,7 @@ public class CopySnapshotTests {
         selected.add(dmoParent);
         
         CopySnapshot snapshot = new CopySnapshot(selected);
-        Command cmd = snapshot.getPasteCommand(targetDiagramModel, null, null);
+        Command cmd = snapshot.getPasteCommand(targetDiagramModel, null, null, false);
         assertNotNull(cmd);
         cmd.execute();
         assertEquals(1, countAllConnections(targetDiagramModel));
@@ -196,7 +196,7 @@ public class CopySnapshotTests {
         CopySnapshot snapshot = new CopySnapshot(selected);
         assertTrue(snapshot.canPasteToDiagram(targetDiagramModel));
 
-        Command cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null);
+        Command cmd = snapshot.getPasteCommand(targetDiagramModel, mock(GraphicalViewer.class), null, false);
         assertTrue(cmd.canExecute());
         cmd.execute();
         
@@ -237,7 +237,7 @@ public class CopySnapshotTests {
         selected.addAll(getAllDiagramComponents(sourceDiagramModel));
         
         CopySnapshot snapshot = new CopySnapshot(selected);
-        Command cmd = snapshot.getPasteCommand(newTargetDiagramModel, mock(GraphicalViewer.class), null);
+        Command cmd = snapshot.getPasteCommand(newTargetDiagramModel, mock(GraphicalViewer.class), null, false);
         cmd.execute();
         
         for(TreeIterator<EObject> iter = newTargetDiagramModel.eAllContents(); iter.hasNext();) {

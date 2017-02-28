@@ -34,6 +34,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.keys.IBindingService;
 
+import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.FloatingPalette;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -251,6 +252,7 @@ public class FullScreenAction extends WorkbenchPartAction {
             addKeyBinding(registry, service, ActionFactory.CUT);
             addKeyBinding(registry, service, ActionFactory.COPY);
             addKeyBinding(registry, service, ActionFactory.PASTE);
+            addKeyBinding(registry, service, ArchiActionFactory.PASTE_SPECIAL);
             addKeyBinding(registry, service, ActionFactory.RENAME);
         }
     }

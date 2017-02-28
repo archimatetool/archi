@@ -52,6 +52,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private DiagramFiguresPreferenceTab fDiagramFiguresPreferenceTab;
     private DiagramAppearancePreferenceTab fDiagramAppearancePreferenceTab;
     
+    private Button[] fPasteSpecialButtons;
+    
+    private String[] PASTE_SPECIAL_BEHAVIOR = {
+            Messages.DiagramPreferencePage_22,
+            Messages.DiagramPreferencePage_23
+    };
     
 	/**
 	 * Constructor
@@ -173,6 +179,20 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fViewpointsGhostDiagramElementsButton.setLayoutData(gd);
         
+        // -------------- Paste Special ----------------------------
+        Group pasteSpecialGroup = new Group(client, SWT.NULL);
+        pasteSpecialGroup.setText(Messages.DiagramPreferencePage_21);
+        pasteSpecialGroup.setLayout(new GridLayout());
+        pasteSpecialGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        fPasteSpecialButtons = new Button[2];
+        for(int i = 0; i < fPasteSpecialButtons.length; i++) {
+        	fPasteSpecialButtons[i] = new Button(pasteSpecialGroup, SWT.RADIO);
+        	fPasteSpecialButtons[i].setText(PASTE_SPECIAL_BEHAVIOR[i]);
+            gd = new GridData(GridData.FILL_HORIZONTAL);
+            fPasteSpecialButtons[i].setLayoutData(gd);
+        }
+        
         setValues();
     }
     
@@ -209,6 +229,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
+        
+        for(int i = 0; i < fPasteSpecialButtons.length; i++) {
+        	fPasteSpecialButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
+        }
     }
     
     private void setSpinnerValues() {
@@ -232,6 +256,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS, fViewpointsGhostDiagramElementsButton.getSelection());
         
         getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
+        
+        for(int i = 0; i < fPasteSpecialButtons.length; i++) {
+            if(fPasteSpecialButtons[i].getSelection()) {
+                getPreferenceStore().setValue(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, i);
+            }
+        }
         
         fDiagramFiguresPreferenceTab.performOk();
         fDiagramAppearancePreferenceTab.performOk();
@@ -277,6 +307,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewpointsGhostDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS));
         
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
+        
+        for(int i = 0; i < fPasteSpecialButtons.length; i++) {
+        	fPasteSpecialButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
+        }
     }
 
     public void init(IWorkbench workbench) {

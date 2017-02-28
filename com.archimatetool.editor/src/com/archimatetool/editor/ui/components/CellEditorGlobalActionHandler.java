@@ -14,6 +14,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.archimatetool.editor.actions.ArchiActionFactory;
+
 
 /**
  * Manages de-activating and restoring of editing type global Action Handlers setting them to null
@@ -31,6 +33,7 @@ public class CellEditorGlobalActionHandler {
             ActionFactory.CUT.getId(),
             ActionFactory.COPY.getId(),
             ActionFactory.PASTE.getId(),
+            ArchiActionFactory.PASTE_SPECIAL.getId(),
             ActionFactory.DELETE.getId(),
             ActionFactory.SELECT_ALL.getId(),
             ActionFactory.FIND.getId(),

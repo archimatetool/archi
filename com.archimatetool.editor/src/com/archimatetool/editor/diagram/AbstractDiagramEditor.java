@@ -96,6 +96,7 @@ import com.archimatetool.editor.diagram.actions.FullScreenAction;
 import com.archimatetool.editor.diagram.actions.LineColorAction;
 import com.archimatetool.editor.diagram.actions.LockObjectAction;
 import com.archimatetool.editor.diagram.actions.PasteAction;
+import com.archimatetool.editor.diagram.actions.PasteSpecialAction;
 import com.archimatetool.editor.diagram.actions.PrintDiagramAction;
 import com.archimatetool.editor.diagram.actions.PropertiesAction;
 import com.archimatetool.editor.diagram.actions.ResetAspectRatioAction;
@@ -600,6 +601,11 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         registry.registerAction(pasteAction);
         getSelectionActions().add(pasteAction.getId());
         
+        // Paste Special
+        PasteSpecialAction pasteSpecialAction = new PasteSpecialAction(this, viewer);
+        registry.registerAction(pasteSpecialAction);
+        getSelectionActions().add(pasteSpecialAction.getId());
+
         // Cut
         action = new CutAction(this, pasteAction);
         registry.registerAction(action);

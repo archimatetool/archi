@@ -87,4 +87,6 @@ public interface IPreferenceConstants {
     String DEFAULT_ARCHIMATE_FIGURE_HEIGHT = "defaultArchiMateFigureHeight"; //$NON-NLS-1$
     
     String HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE = "highlightUnusedElementsInModelTree"; //$NON-NLS-1$
+    
+    String DIAGRAM_PASTE_SPECIAL_BEHAVIOR = "pasteSpecialBehavior"; //$NON-NLS-1$
 }

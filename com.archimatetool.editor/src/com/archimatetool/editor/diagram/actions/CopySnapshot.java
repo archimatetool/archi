@@ -26,6 +26,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
@@ -432,9 +434,10 @@ public final class CopySnapshot {
      * @param targetDiagramModel The diagram model to paste to
      * @param viewer An optional GraphicalViewer in which to select the pasted objects
      * @param mousePosition position of mouse clicked in viewer or null if no mouse click
+     * @param pasteSpecial if set to true, use the alternate pasting method (forces "by ref")
      * @return A command or null if targetDiagramModel is null
      */
-    public Command getPasteCommand(IDiagramModel targetDiagramModel, GraphicalViewer viewer, Point mousePosition) {
+    public Command getPasteCommand(IDiagramModel targetDiagramModel, GraphicalViewer viewer, Point mousePosition, boolean pasteSpecial) {
         if(targetDiagramModel == null) {
             return null;
         }
@@ -442,7 +445,24 @@ public final class CopySnapshot {
         fTargetDiagramModel = targetDiagramModel;
         
         // Create new copies of Archimate concepts or not
-        fDoCreateNewArchimateComponents = needsNewArchimateConcepts();
+        if(pasteSpecial) {
+        	// Now decide what to do depending of preferences
+	        switch(Preferences.STORE.getInt(IPreferenceConstants.DIAGRAM_PASTE_SPECIAL_BEHAVIOR)) {
+	        	case 0:
+	        		// Force by-ref
+	        		fDoCreateNewArchimateComponents = !isSourceAndTargetArchiMateModelSame();
+	        		break;
+	        	case 1:
+	        		// Force a clone
+	        		fDoCreateNewArchimateComponents = true;
+	        		break;
+	        	default:
+	        		// Should not happen but in case: Force by-ref
+	        		fDoCreateNewArchimateComponents = !isSourceAndTargetArchiMateModelSame();
+	        }
+        } else {
+        	fDoCreateNewArchimateComponents = needsNewArchimateConcepts();
+        }
 
         // Find x,y origin offset to paste at
         calculateXYOffset(mousePosition);
