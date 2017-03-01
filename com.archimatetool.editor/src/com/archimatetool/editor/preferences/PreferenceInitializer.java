@@ -96,5 +96,7 @@ implements IPreferenceConstants {
         store.setDefault(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, 55);
         
         store.setDefault(HIGHLIGHT_UNUSED_ELEMENTS_IN_MODEL_TREE, true);
+        
+        store.setDefault(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, 0);
     }
 }

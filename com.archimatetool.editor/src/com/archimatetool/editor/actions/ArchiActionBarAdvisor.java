@@ -73,6 +73,7 @@ extends ActionBarAdvisor {
     private IWorkbenchAction fActionCut;
     private IWorkbenchAction fActionCopy;
     private IWorkbenchAction fActionPaste;
+    private IWorkbenchAction fActionPasteSpecial;
     private IWorkbenchAction fActionDelete;
     private IWorkbenchAction fActionRename;
     private IWorkbenchAction fActionDuplicate;
@@ -176,6 +177,10 @@ extends ActionBarAdvisor {
         fActionPaste = ActionFactory.PASTE.create(window);
         register(fActionPaste);
         
+        // Paste Special
+        fActionPasteSpecial = ArchiActionFactory.PASTE_SPECIAL.create(window);
+        register(fActionPasteSpecial);
+
         // Delete
         fActionDelete = ArchiActionFactory.DELETE.create(window);
         register(fActionDelete);
@@ -382,6 +387,7 @@ extends ActionBarAdvisor {
         menu.add(fActionCut);
         menu.add(fActionCopy);
         menu.add(fActionPaste);
+        menu.add(fActionPasteSpecial);
         menu.add(fActionDelete);
         menu.add(new Separator(IWorkbenchActionConstants.CUT_EXT));
         

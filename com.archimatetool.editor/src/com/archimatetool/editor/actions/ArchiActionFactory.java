@@ -190,4 +190,27 @@ public final class ArchiActionFactory {
             return action;
         }
     };
+    
+    /**
+     * Workbench action Paste Special
+     */
+    public static final ActionFactory PASTE_SPECIAL = new ActionFactory("paste_special", //$NON-NLS-1$
+            "com.archimatetool.com.paste_special") { //$NON-NLS-1$
+
+        @Override
+        public IWorkbenchAction create(IWorkbenchWindow window) {
+            if (window == null) {
+                throw new IllegalArgumentException();
+            }
+            RetargetAction action = new RetargetAction(getId(), Messages.ArchiActionFactory_0);
+            action.setToolTipText(Messages.ArchiActionFactory_0);
+            window.getPartService().addPartListener(action);
+            action.setActionDefinitionId(getCommandId());
+            ISharedImages sharedImages = window.getWorkbench().getSharedImages();
+            action.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+            action.setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+            return action;
+        }
+    };
+
 }

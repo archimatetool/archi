@@ -30,8 +30,10 @@ import com.archimatetool.model.IDiagramModel;
  * @author Phillip Beauvoir
  */
 public class PasteAction extends SelectionAction {
-    
-    private GraphicalViewer fGraphicalViewer;
+	
+	private boolean fPasteSpecial = false;
+
+	private GraphicalViewer fGraphicalViewer;
     
     private Point fMousePosition = null;
     
@@ -66,7 +68,6 @@ public class PasteAction extends SelectionAction {
         public void mouseDoubleClicked(MouseEvent me) {
         }
     };
-
     
     public PasteAction(IWorkbenchPart part, GraphicalViewer viewer) {
         super(part);
@@ -109,7 +110,7 @@ public class PasteAction extends SelectionAction {
         
         if(obj instanceof CopySnapshot) {
             CopySnapshot clipBoardCopy = (CopySnapshot)obj;
-            execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition));
+            execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition, fPasteSpecial));
             fMousePosition = null;
         }
     }
@@ -136,4 +137,8 @@ public class PasteAction extends SelectionAction {
         
         fGraphicalViewer = null;
     }
+    
+    public void setPasteSpecial(boolean pasteSpecial) {
+		fPasteSpecial = pasteSpecial;
+	}
 }

@@ -568,6 +568,11 @@
             schemeId="com.archimatetool.editor.keybindings"
             sequence="M1+/">
       </key>
+      <key
+            commandId="com.archimatetool.com.paste_special"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="M1+M2+V">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -632,6 +637,10 @@
       <command
             id="com.archimatetool.action.defaultSize"
             name="%command.name.13">
+      </command>
+      <command
+            id="com.archimatetool.com.paste_special"
+            name="Paste Special">
       </command>
    </extension>
    <extension

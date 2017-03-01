@@ -11,6 +11,8 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.actions.messages"; //$NON-NLS-1$
 
+    public static String ArchiActionFactory_0;
+
     public static String ArchimateEditorActionBarAdvisor_0;
 
     public static String ArchimateEditorActionBarAdvisor_1;

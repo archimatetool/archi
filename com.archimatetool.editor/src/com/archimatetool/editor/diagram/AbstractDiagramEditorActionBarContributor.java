@@ -182,6 +182,7 @@ extends ActionBarContributor {
         addGlobalActionKey(ActionFactory.CUT.getId());
         addGlobalActionKey(ActionFactory.COPY.getId());
         addGlobalActionKey(ActionFactory.PASTE.getId());
+        addGlobalActionKey(ArchiActionFactory.PASTE_SPECIAL.getId());
         addGlobalActionKey(ActionFactory.UNDO.getId());
         addGlobalActionKey(ActionFactory.REDO.getId());
         addGlobalActionKey(ActionFactory.SELECT_ALL.getId());
