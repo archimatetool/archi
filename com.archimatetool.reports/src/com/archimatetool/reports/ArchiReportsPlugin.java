@@ -14,6 +14,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.archimatetool.reports.html.HTMLReportExporter;
+import com.archimatetool.reports.preferences.IArchiReportsPreferenceConstants;
 
 /**
  * Activator
@@ -74,5 +75,37 @@ public class ArchiReportsPlugin extends AbstractUIPlugin {
         }
         
         return fPluginFolder;
+    }
+
+    public Boolean showViewDocumentationTab() {
+        return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.VIEWS_SHOW_DOCUMENTATION);
+    }
+
+    public Boolean showViewPropertiesTab() {
+        return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.VIEWS_SHOW_PROPERTIES);
+    }
+
+    public Boolean showViewElementsTab() {
+        return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.VIEWS_SHOW_ELEMENTS);
+    }
+
+    public Boolean showElementDocumentationTab() {
+        return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.ELEMENTS_SHOW_DOCUMENTATION);
+    }
+
+    public Boolean showElementPropertiesTab() {
+        return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.ELEMENTS_SHOW_PROPERTIES);
+    }
+
+    public Boolean showElementViewsTab() {
+        return getPreferenceStore().getBoolean(IArchiReportsPreferenceConstants.ELEMENTS_SHOW_VIEWS);
+    }
+
+    public String getDefaultElementsTab() {
+        return getPreferenceStore().getString(IArchiReportsPreferenceConstants.ELEMENTS_DEFAULT_TAB);
+    }
+
+    public String getDefaultViewsTab() {
+        return getPreferenceStore().getString(IArchiReportsPreferenceConstants.VIEWS_DEFAULT_TAB);       
     }
 }

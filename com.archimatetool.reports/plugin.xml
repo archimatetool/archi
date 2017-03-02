@@ -57,5 +57,19 @@
             class="com.archimatetool.reports.Startup">
       </startup>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.archimatetool.reports.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.archimatetool.reports.preferences.ArchiReportsPreferencesPage"
+            id="com.archimatetool.reports.preferences.ArchiReportsPreferencePage"
+            name="%prefsArchiReports">
+      </page>
+   </extension>
 
 </plugin>
