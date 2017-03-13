@@ -32,7 +32,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
@@ -66,7 +65,7 @@ import com.archimatetool.reports.ArchiReportsPlugin;
  * @author Quentin Varquet
  * @author Phillip Beauvoir
  */
-public class HTMLReportExporter extends AbstractUIPlugin {
+public class HTMLReportExporter {
     
     public static File PREVIEW_FOLDER = new File(ArchiPlugin.INSTANCE.getUserDataFolder(), "html-report-preview"); //$NON-NLS-1$
     
