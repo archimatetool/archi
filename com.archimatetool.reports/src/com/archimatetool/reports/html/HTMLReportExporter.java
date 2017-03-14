@@ -132,7 +132,7 @@ public class HTMLReportExporter {
         FileUtils.deleteFolder(PREVIEW_FOLDER);
     }
 
-    File createReport(File targetFolder, String indexFileName) throws IOException {
+    public File createReport(File targetFolder, String indexFileName) throws IOException {
         // Copy HTML skeleton to target
         copyHTMLSkeleton(targetFolder);
         
