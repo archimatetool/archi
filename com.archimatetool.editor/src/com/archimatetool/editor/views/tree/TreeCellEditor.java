@@ -214,6 +214,7 @@ public class TreeCellEditor {
             if(!updatedText.equals(fElement.getName())) {
                 disposeEditor();
                 RenameCommandHandler.doRenameCommand(fElement, updatedText);
+                fTree.setFocus();
             }
             else {
                 cancelEditing();
@@ -232,6 +233,8 @@ public class TreeCellEditor {
             fCurrentItem.setText(fOldText);
             fCurrentItem = null;
         }
+        
+        fTree.setFocus();
     }
     
     private void disposeEditor() {
