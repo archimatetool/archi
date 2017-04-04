@@ -131,7 +131,7 @@ public class DeviceFigure extends AbstractTextControlContainerFigure {
     @Override
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();
-        return type == 0 ? fFigureDelegate : null;
+        return type == 1 ? fFigureDelegate : null;
     }
     
     @Override

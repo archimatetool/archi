@@ -29,8 +29,8 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
     
     public NodeFigure() {
         super(TEXT_FLOW_CONTROL);
-        fFigureDelegate1 = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
-        fFigureDelegate2 = new BoxFigureDelegate(this, 0);
+        fFigureDelegate1 = new BoxFigureDelegate(this, 0);
+        fFigureDelegate2 = new RectangleFigureDelegate(this, 20 - getTextControlMarginWidth());
     }
     
     @Override
@@ -38,7 +38,7 @@ public class NodeFigure extends AbstractTextControlContainerFigure {
         super.drawFigure(graphics);
         
         int type = getDiagramModelObject().getType();
-        if(type == 0) {
+        if(type == 1) {
             drawIcon(graphics);
         }
     }

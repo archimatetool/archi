@@ -151,7 +151,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
     @Override
     public IFigureDelegate getFigureDelegate() {
         int type = getDiagramModelObject().getType();
-        return type == 0 ? fMainFigureDelegate : null;
+        return type == 1 ? fMainFigureDelegate : null;
     }
     
     @Override
