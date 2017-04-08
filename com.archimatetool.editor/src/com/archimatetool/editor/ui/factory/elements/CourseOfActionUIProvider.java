@@ -20,7 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
 
 
 /**
- * Course Of Action UI Provider
+ * Course of Action UI Provider
  * 
  * @author Phillip Beauvoir
  */
