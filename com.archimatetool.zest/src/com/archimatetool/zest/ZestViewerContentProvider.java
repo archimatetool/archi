@@ -14,9 +14,12 @@ import org.eclipse.zest.core.viewers.IGraphContentProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.relationships.RelationshipManager;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
+import com.archimatetool.model.relationships.IRelationship;
+import com.archimatetool.model.relationships.RelationshipManager;
 
 
 /**
@@ -32,6 +35,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
+    private IRelationship fRelationship = RelationshipManager.ALL_RELATIONSHIPS;
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
@@ -41,6 +45,15 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     public IViewpoint getViewpointFilter() {
         return fViewpoint;
+    }
+    
+    public void setRelationshipFilter(IRelationship rel) {
+        assert(rel != null);
+        fRelationship = rel;
+    }
+    
+    public IRelationship getRelationshipFilter() {
+        return fRelationship;
     }
     
     public void setDirection(int direction) {

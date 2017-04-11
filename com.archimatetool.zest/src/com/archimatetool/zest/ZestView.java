@@ -55,6 +55,8 @@ import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.relationships.IRelationship;
+import com.archimatetool.model.relationships.RelationshipManager;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -82,6 +84,7 @@ implements IZestView, ISelectionListener {
     // Depth Actions
     private IAction[] fDepthActions;
     private List<IAction> fViewpointActions;
+    private List<IAction> fRelationshipActions;
     private IAction[] fDirectionActions;
 
 
@@ -270,6 +273,23 @@ implements IZestView, ISelectionListener {
             }
         }
         
+        // Set filter based on Relationship
+        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
+        menuManager.add(relationshipMenuManager);
+        // Get relationship for prefs
+        String relationshipID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIP);
+        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setRelationshipFilter(RelationshipManager.INSTANCE.getRelationship(relationshipID));
+        // Relationship actions
+        fRelationshipActions = new ArrayList<IAction>();
+        for(IRelationship rel : RelationshipManager.INSTANCE.getAllRelationships()) {
+        	IAction action = createRelationshipMenuAction(rel);
+        	fRelationshipActions.add(action);
+        	// Set checked
+        	if(rel.getID().equals(relationshipID)) {
+        		action.setChecked(true);
+        	}
+        }
+        
         // Orientation
         IMenuManager orientationMenuManager = new MenuManager(Messages.ZestView_32);
         menuManager.add(orientationMenuManager);
@@ -340,6 +360,29 @@ implements IZestView, ISelectionListener {
         act.setId(vp.getID());
         
         return act;
+    }
+    
+    private IAction createRelationshipMenuAction(final IRelationship rel) {
+    	IAction act = new Action(rel.getName(), IAction.AS_RADIO_BUTTON) {
+    		@Override
+            public void run() {
+            	// Set relationship filter
+                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setRelationshipFilter(rel);
+            	// Store in prefs
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, rel.getID());
+
+                // update viewer
+            	fGraphViewer.setInput(fGraphViewer.getInput());
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+                updateLabel();
+            }
+
+    	};
+        act.setId(rel.getID());
+        
+    	return act;
     }
     
     private IAction createOrientationMenuAction(final int actionId, String label, final int orientation) {
@@ -468,6 +511,15 @@ implements IZestView, ISelectionListener {
         for(IAction action : fViewpointActions) {
             vpMenuManager.add(action);
         }
+
+        // Relationship filter
+        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
+        manager.add(relationshipMenuManager); 
+
+        for(IAction action : fRelationshipActions) {
+            relationshipMenuManager.add(action);
+        }
+
         
         // Direction
         IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
