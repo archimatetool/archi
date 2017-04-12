@@ -130,13 +130,13 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
             IArchimateConcept other = relationship.getSource().equals(concept) ? relationship.getTarget() : relationship.getSource();
             int direction = relationship.getSource().equals(concept) ? DIR_OUT : DIR_IN;
 
-            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass())) {
+            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !fRelationship.isFiltered(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     mainList.add(relationship);
                 }
             }
 
-            if(fViewpoint.isAllowedConcept(other.eClass())) {
+            if(fViewpoint.isAllowedConcept(other.eClass()) && !fRelationship.isFiltered(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     getRelations(mainList, checkList, other, count);
                 }

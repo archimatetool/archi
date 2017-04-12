@@ -1,5 +1,7 @@
 package com.archimatetool.model.relationships;
 
+import com.archimatetool.model.IArchimateRelationship;
+
 /**
  * IRelationship
  * 
@@ -17,5 +19,10 @@ public interface IRelationship {
      * @return The name of the relationship
      */
     String getName();
+
+    /**
+     * @return True if the relationship is filtered
+     */
+	boolean isFiltered(IArchimateRelationship relationship);
 
 }
