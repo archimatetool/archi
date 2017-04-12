@@ -26,11 +26,11 @@
     </relationship>
 
     <relationship id="AssociationRelationship">
-        <name xml:lang="en">AssociationRelationship</name>
+        <name xml:lang="en">Association Relationship</name>
     </relationship>
 
     <relationship id="RealizationRelationship">
-        <name xml:lang="en">RealizationRelationship</name>
+        <name xml:lang="en">Realization Relationship</name>
     </relationship>
 
     <relationship id="SpecializationRelationship">
