@@ -35,7 +35,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
-    private IRelationship fRelationship = RelationshipManager.ALL_RELATIONSHIPS;
+    private IRelationship fRelationship = RelationshipManager.NONE_RELATIONSHIPS;
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {

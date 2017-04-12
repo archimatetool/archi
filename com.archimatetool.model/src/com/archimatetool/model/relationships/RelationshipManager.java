@@ -10,13 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EClass;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-
-import com.archimatetool.model.util.ArchimateModelUtils;
 
 import com.archimatetool.model.relationships.IRelationship;
 import com.archimatetool.model.relationships.Messages;
@@ -26,10 +23,10 @@ public class RelationshipManager {
 	
 
 	/**
-     * The default relationship representing "all".
+     * The default relationship representing "none".
      * All relationships are allowed.
      */
-    public static IRelationship ALL_RELATIONSHIPS = new Relationship("", Messages.RelationshipManager_0); //$NON-NLS-1$
+    public static IRelationship NONE_RELATIONSHIPS = new Relationship("", Messages.RelationshipManager_0); //$NON-NLS-1$
     
     /**
      * The Bundle ID
@@ -37,30 +34,10 @@ public class RelationshipManager {
     private static final String BUNDLE_ID = "com.archimatetool.model"; //$NON-NLS-1$
 
     /**
-     * The Viewpoints XML file
+     * The Relationships XML file
      */
     static final String RELATIONSHIPS_FILE = "model/relationshipTypes.xml"; //$NON-NLS-1$
-    
-    static final String BUSINESS_ELEMENTS = "$BusinessElements$"; //$NON-NLS-1$
-    static final String APPLICATION_ELEMENTS = "$ApplicationElements$"; //$NON-NLS-1$
-    static final String TECHNOLOGY_ELEMENTS = "$TechnologyElements$"; //$NON-NLS-1$
-    static final String PHYSICAL_ELEMENTS = "$PhysicalElements$"; //$NON-NLS-1$
-    static final String STRATEGY_ELEMENTS = "$StrategyElements$"; //$NON-NLS-1$
-    static final String MOTIVATION_ELEMENTS = "$MotivationElements$"; //$NON-NLS-1$
-    static final String IMPLEMENTATION_MIGRATION_ELEMENTS = "$ImplementationMigrationElements$"; //$NON-NLS-1$
-    
-    static final Map<String, EClass[]> ELEMENTS_MAP = new HashMap<String, EClass[]>();
-    
-    static {
-        ELEMENTS_MAP.put(BUSINESS_ELEMENTS, ArchimateModelUtils.getBusinessClasses());
-        ELEMENTS_MAP.put(APPLICATION_ELEMENTS, ArchimateModelUtils.getApplicationClasses());
-        ELEMENTS_MAP.put(TECHNOLOGY_ELEMENTS, ArchimateModelUtils.getTechnologyClasses());
-        ELEMENTS_MAP.put(PHYSICAL_ELEMENTS, ArchimateModelUtils.getPhysicalClasses());
-        ELEMENTS_MAP.put(STRATEGY_ELEMENTS, ArchimateModelUtils.getStrategyClasses());
-        ELEMENTS_MAP.put(MOTIVATION_ELEMENTS, ArchimateModelUtils.getMotivationClasses());
-        ELEMENTS_MAP.put(IMPLEMENTATION_MIGRATION_ELEMENTS, ArchimateModelUtils.getImplementationMigrationClasses());
-    }
-    
+        
     /**
      * Single Instance of ViewpointManager
      */
@@ -94,8 +71,8 @@ public class RelationshipManager {
             }
         });
         
-        // Add the default "none" Viewpoint at the top of the list
-        list.add(0, ALL_RELATIONSHIPS);
+        // Add the default "none" Relationships at the top of the list
+        list.add(0, NONE_RELATIONSHIPS);
         
         return list;
     }
@@ -106,12 +83,12 @@ public class RelationshipManager {
      */
     public IRelationship getRelationship(String id) {
         if(id == null || "".equals(id)) { //$NON-NLS-1$
-            return ALL_RELATIONSHIPS;
+            return NONE_RELATIONSHIPS;
         }
         
         IRelationship rel = RELATIONSHIPS.get(id);
         
-        return rel == null ? ALL_RELATIONSHIPS : rel;
+        return rel == null ? NONE_RELATIONSHIPS : rel;
     }
         
     

@@ -201,7 +201,8 @@ implements IZestView, ISelectionListener {
         String text = ArchiLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentConcept());
         text = StringUtils.escapeAmpersandsInText(text);
         String vp = ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getViewpointFilter().getName();
-        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + vp + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String rel = ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getRelationshipFilter().getName();
+        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + vp + " " + Messages.ZestView_6 + ": " + rel + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         fLabel.setImage(ArchiLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
@@ -284,6 +285,8 @@ implements IZestView, ISelectionListener {
         for(IRelationship rel : RelationshipManager.INSTANCE.getAllRelationships()) {
         	IAction action = createRelationshipMenuAction(rel);
         	fRelationshipActions.add(action);
+        	relationshipMenuManager.add(action);
+        	
         	// Set checked
         	if(rel.getID().equals(relationshipID)) {
         		action.setChecked(true);
@@ -369,7 +372,7 @@ implements IZestView, ISelectionListener {
             	// Set relationship filter
                 ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setRelationshipFilter(rel);
             	// Store in prefs
-                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, rel.getID());
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIP, rel.getID());
 
                 // update viewer
             	fGraphViewer.setInput(fGraphViewer.getInput());

@@ -78,7 +78,7 @@ public class ZestViewerContentProviderTests {
     @Test
     public void testSetRelationshipFilter() {
         // Default Relationship
-        IRelationship defaultRelationship = RelationshipManager.ALL_RELATIONSHIPS;
+        IRelationship defaultRelationship = RelationshipManager.NONE_RELATIONSHIPS;
         assertTrue(provider.getRelationshipFilter() == defaultRelationship);
         
         provider.setRelationshipFilter(RelationshipManager.INSTANCE.getAllRelationships().get(1));
