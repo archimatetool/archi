@@ -107,6 +107,11 @@ implements IEditorModelManager {
                         }
                         catch(IOException ex) {
                             ex.printStackTrace();
+                            MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                                    Messages.EditorModelManager_14,
+                                    NLS.bind(Messages.EditorModelManager_15, model.getFile())
+                                    + "\n" + ex.getMessage()); //$NON-NLS-1$
+                            return false;
                         }
                     }
                 }
