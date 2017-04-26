@@ -8,18 +8,37 @@ package com.archimatetool.zest;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
-
+import com.archimatetool.model.IAccessRelationship;
+import com.archimatetool.model.IAggregationRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.relationships.RelationshipManager;
+import com.archimatetool.model.IAssignmentRelationship;
+import com.archimatetool.model.IAssociationRelationship;
+import com.archimatetool.model.ICompositionRelationship;
+import com.archimatetool.model.IFlowRelationship;
+import com.archimatetool.model.IInfluenceRelationship;
+import com.archimatetool.model.IRealizationRelationship;
+import com.archimatetool.model.IServingRelationship;
+import com.archimatetool.model.ISpecializationRelationship;
+import com.archimatetool.model.ITriggeringRelationship;
+import com.archimatetool.model.impl.AccessRelationship;
+import com.archimatetool.model.impl.AggregationRelationship;
+import com.archimatetool.model.impl.AssignmentRelationship;
+import com.archimatetool.model.impl.AssociationRelationship;
+import com.archimatetool.model.impl.CompositionRelationship;
+import com.archimatetool.model.impl.FlowRelationship;
+import com.archimatetool.model.impl.InfluenceRelationship;
+import com.archimatetool.model.impl.RealizationRelationship;
+import com.archimatetool.model.impl.ServingRelationship;
+import com.archimatetool.model.impl.SpecializationRelationship;
+import com.archimatetool.model.impl.TriggeringRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
-import com.archimatetool.model.relationships.IRelationship;
-import com.archimatetool.model.relationships.RelationshipManager;
 
 
 /**
@@ -35,7 +54,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
-    private IRelationship fRelationship = RelationshipManager.NONE_RELATIONSHIPS;
+    private EClass fRelationship;
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
@@ -47,12 +66,12 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         return fViewpoint;
     }
     
-    public void setRelationshipFilter(IRelationship rel) {
+    public void setRelationshipFilter(EClass rel) {
         assert(rel != null);
         fRelationship = rel;
     }
     
-    public IRelationship getRelationshipFilter() {
+    public EClass getRelationshipFilter() {
         return fRelationship;
     }
     
@@ -130,13 +149,13 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
             IArchimateConcept other = relationship.getSource().equals(concept) ? relationship.getTarget() : relationship.getSource();
             int direction = relationship.getSource().equals(concept) ? DIR_OUT : DIR_IN;
 
-            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !fRelationship.isFiltered(relationship)) {
+            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !isFiltered(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     mainList.add(relationship);
                 }
             }
 
-            if(fViewpoint.isAllowedConcept(other.eClass()) && !fRelationship.isFiltered(relationship)) {
+            if(fViewpoint.isAllowedConcept(other.eClass()) && !isFiltered(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     getRelations(mainList, checkList, other, count);
                 }
@@ -159,4 +178,35 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         }
         return null;
     }
+    
+	private boolean isFiltered(IArchimateRelationship rel) {
+		if (fRelationship == null){
+			return false;
+		}
+		if (fRelationship.getInstanceClass() == IAccessRelationship.class && rel instanceof AccessRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == ICompositionRelationship.class && rel instanceof CompositionRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IFlowRelationship.class && rel instanceof FlowRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IAggregationRelationship.class && rel instanceof AggregationRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IAssignmentRelationship.class && rel instanceof AssignmentRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IInfluenceRelationship.class && rel instanceof InfluenceRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IAssociationRelationship.class && rel instanceof AssociationRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IRealizationRelationship.class && rel instanceof RealizationRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == ISpecializationRelationship.class && rel instanceof SpecializationRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == ITriggeringRelationship.class && rel instanceof TriggeringRelationship) {
+			return false;
+		} else if (fRelationship.getInstanceClass() == IServingRelationship.class && rel instanceof ServingRelationship) {
+			return false;
+		}
+		return true;
+	}
+
 }
