@@ -9,11 +9,13 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import org.eclipse.emf.ecore.EClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
+import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 import com.archimatetool.testingtools.ArchimateTestModel;
@@ -71,6 +73,19 @@ public class ZestViewerContentProviderTests {
         
         // Back to default
         provider.setViewpointFilter(defaultViewpoint);
+    }
+
+    @Test
+    public void testSetRelationshipFilter() {
+        // Default Relationship
+        EClass defaultRelationship = null;
+        assertTrue(provider.getRelationshipFilter() == defaultRelationship);
+        
+        provider.setRelationshipFilter(ArchimateModelUtils.getRelationsClasses()[1]);
+        assertSame(provider.getRelationshipFilter(), ArchimateModelUtils.getRelationsClasses()[1]);
+        
+        // Back to default
+        provider.setRelationshipFilter(defaultRelationship);
     }
 
     @Test
