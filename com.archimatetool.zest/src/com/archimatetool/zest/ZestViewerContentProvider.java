@@ -183,30 +183,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 		if (fRelationship == null){
 			return false;
 		}
-		if (fRelationship.getInstanceClass() == IAccessRelationship.class && rel instanceof AccessRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == ICompositionRelationship.class && rel instanceof CompositionRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IFlowRelationship.class && rel instanceof FlowRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IAggregationRelationship.class && rel instanceof AggregationRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IAssignmentRelationship.class && rel instanceof AssignmentRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IInfluenceRelationship.class && rel instanceof InfluenceRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IAssociationRelationship.class && rel instanceof AssociationRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IRealizationRelationship.class && rel instanceof RealizationRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == ISpecializationRelationship.class && rel instanceof SpecializationRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == ITriggeringRelationship.class && rel instanceof TriggeringRelationship) {
-			return false;
-		} else if (fRelationship.getInstanceClass() == IServingRelationship.class && rel instanceof ServingRelationship) {
-			return false;
-		}
-		return true;
+		return fRelationship != rel.eClass();
 	}
 
 }
