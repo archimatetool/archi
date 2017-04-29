@@ -11,31 +11,10 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
-import com.archimatetool.model.IAccessRelationship;
-import com.archimatetool.model.IAggregationRelationship;
+
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
-import com.archimatetool.model.IAssignmentRelationship;
-import com.archimatetool.model.IAssociationRelationship;
-import com.archimatetool.model.ICompositionRelationship;
-import com.archimatetool.model.IFlowRelationship;
-import com.archimatetool.model.IInfluenceRelationship;
-import com.archimatetool.model.IRealizationRelationship;
-import com.archimatetool.model.IServingRelationship;
-import com.archimatetool.model.ISpecializationRelationship;
-import com.archimatetool.model.ITriggeringRelationship;
-import com.archimatetool.model.impl.AccessRelationship;
-import com.archimatetool.model.impl.AggregationRelationship;
-import com.archimatetool.model.impl.AssignmentRelationship;
-import com.archimatetool.model.impl.AssociationRelationship;
-import com.archimatetool.model.impl.CompositionRelationship;
-import com.archimatetool.model.impl.FlowRelationship;
-import com.archimatetool.model.impl.InfluenceRelationship;
-import com.archimatetool.model.impl.RealizationRelationship;
-import com.archimatetool.model.impl.ServingRelationship;
-import com.archimatetool.model.impl.SpecializationRelationship;
-import com.archimatetool.model.impl.TriggeringRelationship;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -51,6 +30,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
 	final static int DIR_BOTH = 1;
 	final static int DIR_IN = 2;
 	final static int DIR_OUT = 3;
+	final static String NONE_RELATIONSHIP = Messages.ZestViewerContentProvider_0;
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
@@ -67,7 +47,6 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     }
     
     public void setRelationshipFilter(EClass rel) {
-        assert(rel != null);
         fRelationship = rel;
     }
     
@@ -75,6 +54,14 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         return fRelationship;
     }
     
+    public String getRelationshipFilterName() {
+        if (fRelationship == null) {
+            return NONE_RELATIONSHIP;
+        }
+        // A small regexp to return only first part of class name
+        return fRelationship.getName().split("(?=\\p{Upper})")[0];
+    }
+
     public void setDirection(int direction) {
     	if(direction == DIR_BOTH || direction == DIR_IN || direction == DIR_OUT) {
     	    fDirection = direction;
