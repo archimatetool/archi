@@ -53,10 +53,10 @@ public class Messages extends NLS {
 	public static String ZestView_5;
 
 	public static String ZestView_6;
+
+    public static String ZestView_7;
 	
     public static String ZestViewerLabelProvider_0;
-    
-    public static String ZestViewerContentProvider_0;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
