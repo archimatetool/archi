@@ -8,6 +8,7 @@ package com.archimatetool.zest;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
@@ -32,6 +33,7 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     private int fDepth = 0;
     private IViewpoint fViewpoint = ViewpointManager.NONE_VIEWPOINT;
+    private EClass fRelationshipClass;
     private int fDirection = DIR_BOTH;
     
     public void setViewpointFilter(IViewpoint vp) {
@@ -41,6 +43,14 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
     
     public IViewpoint getViewpointFilter() {
         return fViewpoint;
+    }
+    
+    public void setRelationshipFilter(EClass relationshipClass) {
+        fRelationshipClass = relationshipClass;
+    }
+    
+    public EClass getRelationshipFilter() {
+        return fRelationshipClass;
     }
     
     public void setDirection(int direction) {
@@ -117,13 +127,13 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
             IArchimateConcept other = relationship.getSource().equals(concept) ? relationship.getTarget() : relationship.getSource();
             int direction = relationship.getSource().equals(concept) ? DIR_OUT : DIR_IN;
 
-            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass())) {
+            if(!mainList.contains(relationship) && fViewpoint.isAllowedConcept(other.eClass()) && !isFilteredByRelationship(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     mainList.add(relationship);
                 }
             }
 
-            if(fViewpoint.isAllowedConcept(other.eClass())) {
+            if(fViewpoint.isAllowedConcept(other.eClass()) && !isFilteredByRelationship(relationship)) {
                 if(direction == fDirection || fDirection == DIR_BOTH) {
                     getRelations(mainList, checkList, other, count);
                 }
@@ -146,4 +156,12 @@ public class ZestViewerContentProvider implements IGraphContentProvider {
         }
         return null;
     }
+    
+	private boolean isFilteredByRelationship(IArchimateRelationship relation) {
+		if(fRelationshipClass == null){
+			return false;
+		}
+		return fRelationshipClass != relation.eClass();
+	}
+
 }

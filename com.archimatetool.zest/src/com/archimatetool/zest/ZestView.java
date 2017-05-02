@@ -7,10 +7,12 @@ package com.archimatetool.zest;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.Action;
@@ -54,7 +56,9 @@ import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IBounds;
+import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.viewpoints.IViewpoint;
 import com.archimatetool.model.viewpoints.ViewpointManager;
 
@@ -82,6 +86,7 @@ implements IZestView, ISelectionListener {
     // Depth Actions
     private IAction[] fDepthActions;
     private List<IAction> fViewpointActions;
+    private List<IAction> fRelationshipActions;
     private IAction[] fDirectionActions;
 
 
@@ -197,8 +202,11 @@ implements IZestView, ISelectionListener {
     void updateLabel() {
         String text = ArchiLabelProvider.INSTANCE.getLabel(fDrillDownManager.getCurrentConcept());
         text = StringUtils.escapeAmpersandsInText(text);
-        String vp = ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).getViewpointFilter().getName();
-        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + vp + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        
+        String viewPointName = getContentProvider().getViewpointFilter().getName();
+       	String relationshipName = getRelationshipFilterName(getContentProvider().getRelationshipFilter());	
+        
+        fLabel.setText(text + " (" + Messages.ZestView_5 + ": " + viewPointName + ", " + Messages.ZestView_6 + ": " + relationshipName + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         fLabel.setImage(ArchiLabelProvider.INSTANCE.getImage(fDrillDownManager.getCurrentConcept()));
     }
 
@@ -245,7 +253,7 @@ implements IZestView, ISelectionListener {
         
         // Set depth from prefs
         int depth = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DEPTH);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
+        getContentProvider().setDepth(depth);
         fDepthActions[depth].setChecked(true);
         
         // Set filter based on Viewpoint
@@ -254,7 +262,7 @@ implements IZestView, ISelectionListener {
         
         // Get viewpoint from prefs
         String viewpointID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_VIEWPOINT);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
+        getContentProvider().setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
         
         // Viewpoint actions
         fViewpointActions = new ArrayList<IAction>();
@@ -268,6 +276,37 @@ implements IZestView, ISelectionListener {
             if(vp.getID().equals(viewpointID)) {
                 action.setChecked(true);
             }
+        }
+        
+        // Set filter based on Relationship
+        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
+        menuManager.add(relationshipMenuManager);
+        
+        // Get relationship from prefs
+        String relationshipID = ArchiZestPlugin.INSTANCE.getPreferenceStore().getString(IPreferenceConstants.VISUALISER_RELATIONSHIP);
+        EClass eClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(relationshipID);
+        getContentProvider().setRelationshipFilter(eClass);
+        // Relationship actions, first the "None" relationship
+        fRelationshipActions = new ArrayList<IAction>();
+        IAction action = createRelationshipMenuAction(null);
+        if(eClass == null) {
+            action.setChecked(true);
+        }
+        fRelationshipActions.add(action);
+        relationshipMenuManager.add(action);
+        
+        // Then get all relationships and sort them
+        ArrayList<EClass> actionList = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getRelationsClasses()));
+        actionList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+        for(EClass rel : actionList) {
+        	action = createRelationshipMenuAction(rel);
+        	fRelationshipActions.add(action);
+        	relationshipMenuManager.add(action);
+        	
+        	// Set checked
+            if(eClass != null && rel.getName().equals(eClass.getName())) {
+        		action.setChecked(true);
+        	}
         }
         
         // Orientation
@@ -285,7 +324,7 @@ implements IZestView, ISelectionListener {
         
         // Set direction from prefs
         int direction = ArchiZestPlugin.INSTANCE.getPreferenceStore().getInt(IPreferenceConstants.VISUALISER_DIRECTION);
-        ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(direction);
+        getContentProvider().setDirection(direction);
         fDirectionActions[direction].setChecked(true);
         
 		menuManager.add(new Separator());
@@ -304,7 +343,7 @@ implements IZestView, ISelectionListener {
                 IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
                 // set depth
                 int depth = Integer.valueOf(getId());
-                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDepth(depth);
+                getContentProvider().setDepth(depth);
                 // store in prefs
                 ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DEPTH, depth);
                 // update viewer
@@ -324,7 +363,7 @@ implements IZestView, ISelectionListener {
             @Override
             public void run() {
             	// Set viewpoint filter
-                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setViewpointFilter(vp);
+                getContentProvider().setViewpointFilter(vp);
             	// Store in prefs
                 ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_VIEWPOINT, vp.getID());
 
@@ -342,13 +381,39 @@ implements IZestView, ISelectionListener {
         return act;
     }
     
+    private IAction createRelationshipMenuAction(final EClass relationClass) {
+        String id = relationClass == null ? "none" : relationClass.getName(); //$NON-NLS-1$
+        
+    	IAction act = new Action(getRelationshipFilterName(relationClass), IAction.AS_RADIO_BUTTON) {
+    		@Override
+            public void run() {
+            	// Set relationship filter
+                getContentProvider().setRelationshipFilter(relationClass);
+            	// Store in prefs
+                ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_RELATIONSHIP, id);
+
+                // update viewer
+            	fGraphViewer.setInput(fGraphViewer.getInput());
+                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                fGraphViewer.setSelection(selection);
+                fGraphViewer.doApplyLayout();
+                updateLabel();
+            }
+
+    	};
+    	
+        act.setId(id);
+        
+    	return act;
+    }
+    
     private IAction createOrientationMenuAction(final int actionId, String label, final int orientation) {
         IAction act = new Action(label, IAction.AS_RADIO_BUTTON) {
             @Override
             public void run() {
             	IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
             	// Set orientation 
-                ((ZestViewerContentProvider)fGraphViewer.getContentProvider()).setDirection(orientation);
+                getContentProvider().setDirection(orientation);
             	// Store in prefs
                 ArchiZestPlugin.INSTANCE.getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_DIRECTION, actionId);
                 // update viewer
@@ -361,6 +426,10 @@ implements IZestView, ISelectionListener {
         act.setId(Integer.toString(actionId));
         
         return act;
+    }
+    
+    private String getRelationshipFilterName(EClass relationClass) {
+        return relationClass == null ? Messages.ZestView_7: ArchiLabelProvider.INSTANCE.getDefaultName(relationClass);
     }
     
     @Override
@@ -468,6 +537,15 @@ implements IZestView, ISelectionListener {
         for(IAction action : fViewpointActions) {
             vpMenuManager.add(action);
         }
+
+        // Relationship filter
+        IMenuManager relationshipMenuManager = new MenuManager(Messages.ZestView_6);
+        manager.add(relationshipMenuManager); 
+
+        for(IAction action : fRelationshipActions) {
+            relationshipMenuManager.add(action);
+        }
+
         
         // Direction
         IMenuManager directionMenuManager = new MenuManager(Messages.ZestView_32);
@@ -500,6 +578,13 @@ implements IZestView, ISelectionListener {
     protected IArchimateModel getActiveArchimateModel() {
         IArchimateConcept concept = fDrillDownManager.getCurrentConcept();
         return concept != null ? concept.getArchimateModel() : null;
+    }
+    
+    /**
+     * @return Casted Content Provider
+     */
+    protected ZestViewerContentProvider getContentProvider() {
+        return (ZestViewerContentProvider)fGraphViewer.getContentProvider();
     }
     
     @Override
