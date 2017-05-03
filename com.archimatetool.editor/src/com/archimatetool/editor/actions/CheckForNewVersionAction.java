@@ -32,9 +32,9 @@ import com.archimatetool.editor.utils.StringUtils;
  */
 public class CheckForNewVersionAction extends Action {
     
-    String versionFile = "http://www.archimatetool.com/archi-version.txt"; //$NON-NLS-1$
+    String versionFile = "https://www.archimatetool.com/archi-version.txt"; //$NON-NLS-1$
     
-    String downloadPage = "http://www.archimatetool.com/download"; //$NON-NLS-1$
+    String downloadPage = "https://www.archimatetool.com/download"; //$NON-NLS-1$
     
     public CheckForNewVersionAction() {
         super(Messages.CheckForNewVersionAction_0);
