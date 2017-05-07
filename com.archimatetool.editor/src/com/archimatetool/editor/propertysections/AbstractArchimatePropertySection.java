@@ -6,6 +6,7 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -53,6 +54,11 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      * Set this to true when executing command to stop unnecessary refreshing of controls
      */
     protected boolean fIsExecutingCommand;
+    
+    /*
+     * Used for Mac bug - see https://bugs.eclipse.org/bugs/show_bug.cgi?id=383750 
+     */
+    protected Text fHiddenText;
     
     /**
      * Object Filter class to show or reject this section depending on input value
@@ -333,4 +339,41 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
         
         return tableComp;
     }
+    
+    
+    /**
+     * Add hidden text field to section on a Mac because of a bug.
+     * See https://bugs.eclipse.org/bugs/show_bug.cgi?id=383750
+     * @param parent
+     */
+    protected void addHiddenTextFieldToForm(Composite parent) {
+        // This fix applies only on Mac OS systems
+        if(!Platform.getOS().equals(Platform.OS_MACOSX)) {
+            return;
+        }
+
+        // The grid data used to reduce space of the fake Text field
+        final GridData hiddenData = new GridData(0, 0);
+        // It takes 2 columns spaces in the table
+        hiddenData.horizontalSpan = 2;
+
+        // The fake Text field
+        fHiddenText = new Text(parent, SWT.READ_ONLY);
+        fHiddenText.setLayoutData(hiddenData);
+
+        // Here is the trick. To hide the fake Text field, we change top margin
+        // value to move the content up, and bottom margin to prevent from
+        // cropping the end of the table content. This is very bad, but it works.
+        ((GridLayout)parent.getLayout()).marginHeight = -5; // default was 5
+        ((GridLayout)parent.getLayout()).marginBottom = 10; // default was 0
+    }
+    
+    @Override
+    public void refresh() {
+        // Workaround for bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=383750
+        if(fHiddenText != null && !fHiddenText.isDisposed()) {
+            fHiddenText.setFocus();
+        }
+    }
+
 }
