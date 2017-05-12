@@ -28,6 +28,7 @@ import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -176,7 +177,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         // Create new Shell
         // SWT.SHELL_TRIM is needed for GTK for a full-size shell (tested on Ubuntu)
         int style = PlatformUtils.isWindows() ? SWT.NONE : SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
-        fNewShell = new Shell(Display.getCurrent(), style); 
+        fNewShell = new Shell(Display.getCurrent(), style);
+        // To put the full screen on the current monitor:
+        fNewShell.setLocation(Display.getCurrent().getCursorLocation());
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
         fNewShell.setText(Display.getAppName());
