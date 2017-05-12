@@ -39,7 +39,6 @@ import com.archimatetool.editor.diagram.FloatingPalette;
 import com.archimatetool.editor.diagram.IDiagramModelEditor;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.PartListenerAdapter;
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
