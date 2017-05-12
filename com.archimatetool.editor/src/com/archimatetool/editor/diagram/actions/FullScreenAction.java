@@ -177,6 +177,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         // SWT.SHELL_TRIM is needed for GTK for a full-size shell (tested on Ubuntu)
         int style = PlatformUtils.isWindows() ? SWT.NONE : SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
         fNewShell = new Shell(Display.getCurrent(), style); 
+        fNewShell.setText("ArchiFullScreen"); //$NON-NLS-1$
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
         fNewShell.setText(Display.getAppName());
