@@ -174,10 +174,9 @@ public class FullScreenAction extends WorkbenchPartAction {
         fGraphicalViewer.getControl().addKeyListener(keyListener);
 
         // Create new Shell
-        // SWT.SHELL_TRIM is needed for GTK for a full-size shell (tested on Ubuntu)
-        int style = PlatformUtils.isWindows() ? SWT.NONE : SWT.APPLICATION_MODAL | SWT.SHELL_TRIM ;
-        fNewShell = new Shell(Display.getCurrent(), style); 
-        // To put the full screen on the current monitor:
+        fNewShell = new Shell(Display.getCurrent(), SWT.NONE); 
+        
+        // To put the full screen on the current monitor
         fNewShell.setLocation(fOldParent.getShell().getLocation());
 
         fNewShell.setFullScreen(true);
@@ -186,7 +185,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell.setLayout(new FillLayout());
         fNewShell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_APP_128));
         
-        // On Ubuntu the min/max/close buttons are shown, so trap close button
+        // On Ubuntu the min/max/close buttons are shown, so trap the close button
         fNewShell.addShellListener(new ShellAdapter() {
             @Override
             public void shellClosed(ShellEvent e) {
@@ -205,8 +204,8 @@ public class FullScreenAction extends WorkbenchPartAction {
             fFloatingPalette.open();
         }
         
-        // Hide the old shell
-        fOldParent.getShell().setVisible(false);
+        // Hide the old parent
+        fOldParent.setVisible(false);
         
         // Listen to Parts being closed
         getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
@@ -231,8 +230,8 @@ public class FullScreenAction extends WorkbenchPartAction {
         // Reset Property
         fGraphicalViewer.setProperty("full_screen", null); //$NON-NLS-1$
 
-        // Show the old shell
-        fOldParent.getShell().setVisible(true);
+        // Show the old parent
+        fOldParent.setVisible(true);
 
         // Focus
         getWorkbenchPart().getSite().getWorkbenchWindow().getShell().setFocus();
