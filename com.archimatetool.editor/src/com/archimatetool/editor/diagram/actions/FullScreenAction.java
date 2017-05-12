@@ -203,8 +203,8 @@ public class FullScreenAction extends WorkbenchPartAction {
             fFloatingPalette.open();
         }
         
-        // Hide the old parent
-        fOldParent.setVisible(false);
+        // Disable the old parent shell
+        fOldParent.getShell().setEnabled(false);
         
         // Listen to Parts being closed
         getWorkbenchPart().getSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
@@ -229,8 +229,8 @@ public class FullScreenAction extends WorkbenchPartAction {
         // Reset Property
         fGraphicalViewer.setProperty("full_screen", null); //$NON-NLS-1$
 
-        // Show the old parent
-        fOldParent.setVisible(true);
+        // Enable the old parent shell
+        fOldParent.getShell().setEnabled(true);
 
         // Focus
         getWorkbenchPart().getSite().getWorkbenchWindow().getShell().setFocus();
