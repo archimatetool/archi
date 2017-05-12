@@ -25,7 +25,6 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -180,11 +179,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         fNewShell = new Shell(Display.getCurrent(), style); 
 
         // To put the full screen on the current monitor:
-        Rectangle bounds = fOldParent.getShell().getBounds();
-        Rectangle rect = fNewShell.getBounds();
-        int x = bounds.x + (bounds.width - rect.width) / 2;
-        int y = bounds.y + (bounds.height - rect.height) / 2;
-        fNewShell.setLocation(x, y);
+        fNewShell.setLocation(fOldParent.getShell().getLocation());
 
         fNewShell.setFullScreen(true);
         fNewShell.setMaximized(true);
