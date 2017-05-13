@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.model.FolderType;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IFolder;
 
@@ -51,10 +51,13 @@ public class MyExporter implements IModelExporter {
         
         writer = new OutputStreamWriter(new FileOutputStream(file));
         
+        writeFolder(model.getFolder(FolderType.STRATEGY));
         writeFolder(model.getFolder(FolderType.BUSINESS));
         writeFolder(model.getFolder(FolderType.APPLICATION));
         writeFolder(model.getFolder(FolderType.TECHNOLOGY));
-        writeFolder(model.getFolder(FolderType.CONNECTORS));
+        writeFolder(model.getFolder(FolderType.MOTIVATION));
+        writeFolder(model.getFolder(FolderType.IMPLEMENTATION_MIGRATION));
+        writeFolder(model.getFolder(FolderType.OTHER));
         writeFolder(model.getFolder(FolderType.RELATIONS));
         
         writer.close();
@@ -66,11 +69,11 @@ public class MyExporter implements IModelExporter {
         getElements(folder, list);
         
         for(EObject eObject : list) {
-            if(eObject instanceof IArchimateComponent) {
-                IArchimateComponent component = (IArchimateComponent)eObject;
-                String string = normalise(component.eClass().getName()) +
-                        "," + normalise(component.getName()) //$NON-NLS-1$
-                        + "," + normalise(component.getDocumentation()); //$NON-NLS-1$
+            if(eObject instanceof IArchimateConcept) {
+                IArchimateConcept concept = (IArchimateConcept)eObject;
+                String string = normalise(concept.eClass().getName()) +
+                        "," + normalise(concept.getName()) //$NON-NLS-1$
+                        + "," + normalise(concept.getDocumentation()); //$NON-NLS-1$
                 writer.write(string + "\n"); //$NON-NLS-1$
             }
         }

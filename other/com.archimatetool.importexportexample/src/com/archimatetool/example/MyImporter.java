@@ -20,18 +20,19 @@ import org.eclipse.swt.widgets.FileDialog;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.model.IModelImporter;
-import com.archimatetool.model.IArchimateComponent;
+import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelComponent;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IRelationship;
 
 
 
@@ -135,7 +136,7 @@ public class MyImporter implements IModelImporter {
             String id = relations[i++];
             String sourceID = relations[i++];
             String targetID = relations[i++];
-            IRelationship relationship = createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type), name, id);
+            IArchimateRelationship relationship = createAndAddArchimateRelationship(model, (EClass)IArchimatePackage.eINSTANCE.getEClassifier(type), name, id);
             
             // Find source and target elements from their IDs in the lookup table
             IArchimateElement source = (IArchimateElement)idLookup.get(sourceID);
@@ -171,7 +172,7 @@ public class MyImporter implements IModelImporter {
             String relationshipID = viewConnections[i++];
             
             IDiagramModel diagramModel = (IDiagramModel)idLookup.get(viewID);
-            IRelationship relationship = (IRelationship)idLookup.get(relationshipID);
+            IArchimateRelationship relationship = (IArchimateRelationship)idLookup.get(relationshipID);
             createAndAddConnectionsToView(diagramModel, relationship);
         }
         
@@ -179,14 +180,14 @@ public class MyImporter implements IModelImporter {
         IEditorModelManager.INSTANCE.openModel(model);
     }
     
-    protected void createAndAddConnectionsToView(IDiagramModel diagramModel, IRelationship relationship) {
-        List<IDiagramModelComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship.getSource());
-        List<IDiagramModelComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateComponent(diagramModel, relationship.getTarget());
+    protected void createAndAddConnectionsToView(IDiagramModel diagramModel, IArchimateRelationship relationship) {
+        List<IDiagramModelArchimateComponent> sources = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getSource());
+        List<IDiagramModelArchimateComponent> targets = DiagramModelUtils.findDiagramModelComponentsForArchimateConcept(diagramModel, relationship.getTarget());
 
         for(IDiagramModelComponent dmcSource : sources) {
             for(IDiagramModelComponent dmcTarget : targets) {
                 IDiagramModelArchimateConnection dmc = IArchimateFactory.eINSTANCE.createDiagramModelArchimateConnection();
-                dmc.setRelationship(relationship);
+                dmc.setArchimateRelationship(relationship);
                 dmc.connect((IDiagramModelObject)dmcSource, (IDiagramModelObject)dmcTarget);
                 idLookup.put(dmc.getId(), dmc);
             }
@@ -206,18 +207,18 @@ public class MyImporter implements IModelImporter {
         IDiagramModel diagramModel = IArchimateFactory.eINSTANCE.createArchimateDiagramModel();
         diagramModel.setName(name);
         diagramModel.setId(id);
-        IFolder folder = model.getDefaultFolderForElement(diagramModel);
+        IFolder folder = model.getDefaultFolderForObject(diagramModel);
         folder.getElements().add(diagramModel);
         idLookup.put(diagramModel.getId(), diagramModel);
         return diagramModel;
     }
     
-    protected IRelationship createAndAddArchimateRelationship(IArchimateModel model, EClass type, String name, String id) {
-        if(!IArchimatePackage.eINSTANCE.getRelationship().isSuperTypeOf(type)) {
+    protected IArchimateRelationship createAndAddArchimateRelationship(IArchimateModel model, EClass type, String name, String id) {
+        if(!IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(type)) {
             throw new IllegalArgumentException("Eclass type should be of relationship type");
         }
         
-        return (IRelationship)createAndAddArchimateComponent(model, type, name, id);
+        return (IArchimateRelationship)createAndAddArchimateComponent(model, type, name, id);
     }
     
     protected IArchimateElement createAndAddArchimateElement(IArchimateModel model, EClass type, String name, String id) {
@@ -228,14 +229,14 @@ public class MyImporter implements IModelImporter {
         return (IArchimateElement)createAndAddArchimateComponent(model, type, name, id);
     }
     
-    protected IArchimateComponent createAndAddArchimateComponent(IArchimateModel model, EClass type, String name, String id) {
-        IArchimateComponent component = (IArchimateComponent)IArchimateFactory.eINSTANCE.create(type);
-        component.setName(name);
-        component.setId(id);
-        IFolder folder = model.getDefaultFolderForElement(component);
-        folder.getElements().add(component);
-        idLookup.put(component.getId(), component);
-        return component;
+    protected IArchimateConcept createAndAddArchimateComponent(IArchimateModel model, EClass type, String name, String id) {
+        IArchimateConcept concept = (IArchimateConcept)IArchimateFactory.eINSTANCE.create(type);
+        concept.setName(name);
+        concept.setId(id);
+        IFolder folder = model.getDefaultFolderForObject(concept);
+        folder.getElements().add(concept);
+        idLookup.put(concept.getId(), concept);
+        return concept;
     }
 
     protected File askOpenFile() {
