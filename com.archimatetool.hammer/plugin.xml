@@ -22,6 +22,7 @@
          <command
                commandId="com.archimatetool.hammer.command.showValidatorView"
                icon="img/icon.gif"
+               id="com.archimatetool.hammer.menuitem.showValidatorView"
                label="%command.label"
                style="push">
          </command>
