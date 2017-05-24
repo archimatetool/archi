@@ -192,7 +192,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/home_nav.gif"); //$NON-NLS-1$
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/home_nav.png"); //$NON-NLS-1$
             }
         };
         
@@ -211,7 +211,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/backward.gif"); //$NON-NLS-1$
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/backward.png"); //$NON-NLS-1$
             }
         };
         
@@ -230,7 +230,7 @@ public class DrillDownManager implements ISelectionChangedListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/forward.gif"); //$NON-NLS-1$
+                return AbstractUIPlugin.imageDescriptorFromPlugin(ArchiZestPlugin.PLUGIN_ID, "img/forward.png"); //$NON-NLS-1$
             }
         };
 
