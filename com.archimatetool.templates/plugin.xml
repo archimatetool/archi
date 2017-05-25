@@ -21,7 +21,7 @@
             locationURI="menu:new_menu?after=new_menu.ext">
          <command
                commandId="com.archimatetool.templates.modelFromTemplate"
-               icon="img/newfile.gif"
+               icon="img/newfile.png"
                label="%action.label"
                style="push">
          </command>
@@ -31,7 +31,7 @@
             locationURI="menu:com.archimatetool.menu.newDropdown">
          <command
                commandId="com.archimatetool.templates.modelFromTemplate"
-               icon="img/newfile.gif"
+               icon="img/newfile.png"
                label="%action.label"
                style="push">
          </command>

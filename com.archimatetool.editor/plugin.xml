@@ -131,14 +131,14 @@
          point="org.eclipse.ui.views">
       <view
             class="com.archimatetool.editor.views.tree.TreeModelView"
-            icon="img/models.gif"
+            icon="img/models.png"
             id="com.archimatetool.editor.treeModelView"
             name="%viewTreeModel"
             restorable="true">
       </view>
       <view
             class="com.archimatetool.editor.views.properties.CustomPropertiesView"
-            icon="img/properties.gif"
+            icon="img/properties.png"
             id="com.archimatetool.editor.propertiesView"
             name="%viewProperties"
             restorable="true">
@@ -673,7 +673,7 @@
             locationURI="toolbar:toolbar_file?after=start">
          <command
                commandId="com.archimatetool.editor.action.newModel"
-               icon="img/newfile.gif"
+               icon="img/newfile.png"
                id="com.archimatetool.menu.newDropdown"
                label="%command.label"
                style="pulldown">
@@ -684,7 +684,7 @@
             locationURI="menu:com.archimatetool.menu.newDropdown">
          <command
                commandId="com.archimatetool.editor.action.newModel"
-               icon="img/newfile.gif"
+               icon="img/newfile.png"
                id="com.archimatetool.menu.newModel"
                label="%command.label.0"
                style="push">
@@ -769,7 +769,7 @@
       </introProductBinding>
       <intro
             class="org.eclipse.ui.intro.config.CustomizableIntroPart"
-            icon="img/welcome.gif"
+            icon="img/welcome.png"
             id="com.archimatetool.editor.intro">
       </intro>
    </extension>

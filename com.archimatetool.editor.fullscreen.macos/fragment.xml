@@ -35,7 +35,7 @@
             locationURI="menu:window?before=nav_start">
          <command
                commandId="com.archimatetool.editor.fullscreen.macos.commandFullScreen"
-               label="Mac Full Screen"
+               label="Full Screen"
                style="push">
             <visibleWhen
                   checkEnabled="true">

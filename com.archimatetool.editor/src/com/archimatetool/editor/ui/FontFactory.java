@@ -123,7 +123,7 @@ public final class FontFactory {
         }
         // Mac
         else if(PlatformUtils.isMac()) {
-            fd = new FontData("Lucida Grande", 12, SWT.NORMAL); //$NON-NLS-1$
+            fd = new FontData("SF Compact Text", 11, SWT.NORMAL); //$NON-NLS-1$
         }
 
         return fd;
@@ -167,7 +167,7 @@ public final class FontFactory {
         if(font != null && PlatformUtils.isMac()) {
             FontData fd = font.getFontData()[0];
             if(".SF NS Text".equals(fd.getName())) { //$NON-NLS-1$
-                fd.setName("Lucida Grande"); //$NON-NLS-1$
+                fd.setName("SF Compact Text"); //$NON-NLS-1$
                 return get(fd.toString());
             }
         }
