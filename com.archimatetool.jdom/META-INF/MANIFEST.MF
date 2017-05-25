@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JDOM and Jaxen Utils
 Bundle-SymbolicName: com.archimatetool.jdom
-Bundle-Version: 4.0.0.qualifier
+Bundle-Version: 4.0.1.qualifier
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.jdom,

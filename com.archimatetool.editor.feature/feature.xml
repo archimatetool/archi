@@ -2,7 +2,7 @@
 <feature
       id="com.archimatetool.editor.feature"
       label="Archi Editor"
-      version="4.0.0.qualifier"
+      version="4.0.1.qualifier"
       provider-name="Phillip Beauvoir">
 
    <description>
