@@ -10,8 +10,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -47,6 +51,7 @@ import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
+import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -56,6 +61,7 @@ import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IFolder;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
+import com.archimatetool.reports.preferences.EArchiReportsTabs;
 
 
 /**
@@ -157,13 +163,14 @@ public class HTMLReportExporter {
         groupFile.registerRenderer(String.class, new StringRenderer());
         
         // Write model purpose and properties html
-        writeElement(new File(elementsFolder, "model.html"), stFrame, fModel); //$NON-NLS-1$
-        
-        // Write all folders
-        writeFolders(elementsFolder, stFrame, fModel.getFolders());
+        writeElement(new File(elementsFolder, "model.html"), stFrame, fModel, null); //$NON-NLS-1$
         
         // Write Diagrams and images
-        writeDiagrams(imagesFolder, viewsFolder, stFrame);
+        // and collect references from elements to the diagrams they are used in
+        Map<IArchimateConcept, Set<IDiagramModel>> viewMap = writeDiagrams(imagesFolder, viewsFolder, stFrame);
+
+        // Write all folders
+        writeFolders(viewMap, elementsFolder, stFrame, fModel.getFolders());
         
         // Write root model.html frame
         File indexFile = new File(targetFolder, indexFileName);
@@ -210,28 +217,28 @@ public class HTMLReportExporter {
     /**
      * Write all folders
      */
-    private void writeFolders(File elementsFolder, ST stFrame, EList<IFolder> folders) throws IOException {
-    	for(IFolder folder : folders) {
-    		writeFolder(elementsFolder, stFrame, folder);
-    	}
+    private void writeFolders(Map<IArchimateConcept, Set<IDiagramModel>> viewMap, File elementsFolder, ST stFrame, EList<IFolder> folders) throws IOException {
+        for(IFolder folder : folders) {
+            writeFolder(viewMap, elementsFolder, stFrame, folder);
+        }
     }
     
     /**
      * Write a single folder
      */
-    private void writeFolder(File elementsFolder, ST stFrame, IFolder folder) throws IOException {
-    	writeElements(elementsFolder, stFrame, folder.getElements());
-    	writeFolders(elementsFolder, stFrame, folder.getFolders());
+    private void writeFolder(Map<IArchimateConcept, Set<IDiagramModel>> viewMap, File elementsFolder, ST stFrame, IFolder folder) throws IOException {
+        writeElements(viewMap, elementsFolder, stFrame, folder.getElements());
+        writeFolders(viewMap, elementsFolder, stFrame, folder.getFolders());
     }
     
     /**
      * Write all elements
      */
-    private void writeElements(File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
+    private void writeElements(Map<IArchimateConcept, Set<IDiagramModel>> viewMap, File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
         if(!list.isEmpty()) {
             for(EObject object : list) {
                 if(object instanceof IArchimateConcept) {
-                	writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
+                    writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object, viewMap.get((IArchimateConcept) object)); //$NON-NLS-1$
                 }
             }
         }
@@ -240,11 +247,17 @@ public class HTMLReportExporter {
     /**
      * Write a single element
      */
-    private void writeElement(File elementFile, ST stFrame, EObject component) throws IOException {
+    private void writeElement(File elementFile, ST stFrame, EObject component, Set<IDiagramModel> views) throws IOException {
         OutputStreamWriter elementW = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8"); //$NON-NLS-1$
-        stFrame.remove("element"); //$NON-NLS-1$
-        //frame.remove("children");
+        resetStFrame(stFrame);
         stFrame.add("element", component); //$NON-NLS-1$
+        stFrame.add("showDocumentation", ArchiReportsPlugin.INSTANCE.showElementDocumentationTab());
+        stFrame.add("showProperties", ArchiReportsPlugin.INSTANCE.showElementPropertiesTab());
+        if (ArchiReportsPlugin.INSTANCE.showElementViewsTab()) {
+            stFrame.add("views", views);
+        }
+        setDefaultTab(stFrame, ArchiReportsPlugin.INSTANCE.getDefaultElementsTab());
+
         elementW.write(stFrame.render());
         elementW.close();
     }
@@ -252,9 +265,10 @@ public class HTMLReportExporter {
     /**
      * Write diagrams
      */
-    private void writeDiagrams(File imagesFolder, File viewsFolder, ST stFrame) throws IOException {
+    private Map<IArchimateConcept, Set<IDiagramModel>> writeDiagrams(File imagesFolder, File viewsFolder, ST stFrame) throws IOException {
+        Map<IArchimateConcept, Set<IDiagramModel>> viewMap = new HashMap<>();
         if(fModel.getDiagramModels().isEmpty()) {
-            return;
+            return viewMap;
         }
 
         Hashtable<IDiagramModel, Rectangle> offsetsTable = saveImages(imagesFolder);
@@ -269,17 +283,54 @@ public class HTMLReportExporter {
             dmCopy.setId(dmOrig.getId());
             // process the children
             for (IDiagramModelObject dmoOrig: dmOrig.getChildren() ) {
-                IDiagramModelObject dmoCopy = getOffsetCopy(dmoOrig, offset.x*-1, offset.y*-1);
+                IDiagramModelObject dmoCopy = getOffsetCopy(dmoOrig, offset.x*-1, offset.y*-1, viewMap, dmOrig);
                 // add copy of child to copy of model
                 dmCopy.getChildren().add(dmoCopy);
+                addToViewMap(viewMap, dmoOrig, dmOrig);
             }
 
             File viewF = new File(viewsFolder, dmCopy.getId() + ".html"); //$NON-NLS-1$
             OutputStreamWriter viewW = new OutputStreamWriter(new FileOutputStream(viewF), "UTF8"); //$NON-NLS-1$
-            stFrame.remove("element"); //$NON-NLS-1$
+            resetStFrame(stFrame);
             stFrame.add("element", dmCopy); //$NON-NLS-1$
+            stFrame.add("showDocumentation", ArchiReportsPlugin.INSTANCE.showViewDocumentationTab());
+            stFrame.add("showProperties", ArchiReportsPlugin.INSTANCE.showViewPropertiesTab());
+            stFrame.add("showElements", ArchiReportsPlugin.INSTANCE.showViewElementsTab());
+            setDefaultTab(stFrame, ArchiReportsPlugin.INSTANCE.getDefaultViewsTab());
             viewW.write(stFrame.render());
             viewW.close();
+        }
+        return viewMap;
+    }
+
+    private void resetStFrame(ST stFrame) {
+        stFrame.remove("element"); //$NON-NLS-1$
+        stFrame.remove("showDocumentation");
+        stFrame.remove("showProperties");
+        stFrame.remove("showElements");
+        stFrame.remove("views");
+        stFrame.remove("defaultDocumentation");
+        stFrame.remove("defaultProperties");
+        stFrame.remove("defaultElements");
+        stFrame.remove("defaultViews");
+    }
+
+    private void setDefaultTab(ST stFrame, EArchiReportsTabs defaultTab) {
+        if (defaultTab != null) {
+            switch (defaultTab) {
+            case Documentation:
+                stFrame.add("defaultDocumentation", true);
+                break;
+            case Properties:
+                stFrame.add("defaultProperties", true);
+            break;
+            case Elements:
+                stFrame.add("defaultElements", true);
+                break;
+            case Views:
+                stFrame.add("defaultViews", true);
+                break;
+            }
         }
     }
     
@@ -359,7 +410,7 @@ public class HTMLReportExporter {
         return folder;
     }
 
-    private IDiagramModelObject getOffsetCopy(IDiagramModelObject dmoOrig, int offsetX, int offsetY ) {
+    private IDiagramModelObject getOffsetCopy(IDiagramModelObject dmoOrig, int offsetX, int offsetY, Map<IArchimateConcept, Set<IDiagramModel>> viewMap, IDiagramModel diagram ) {
         IDiagramModelObject dmoCopy;
         // Prepare new bounds
         BoundsWithAbsolutePosition b = new BoundsWithAbsolutePosition(dmoOrig.getBounds());
@@ -370,12 +421,12 @@ public class HTMLReportExporter {
             IDiagramModelArchimateObject dmaoCopy = (IDiagramModelArchimateObject) dmaoOrig.getCopy();
             // NEED TO FIX ArchimateElement.ID WHICH IS NOT COPIED
             dmaoCopy.getArchimateElement().setId(dmaoOrig.getArchimateElement().getId());
-            processChildren(dmaoOrig, dmaoCopy, b);
+            processChildren(dmaoOrig, dmaoCopy, b, viewMap, diagram);
             dmoCopy = dmaoCopy;
         } else if (dmoOrig instanceof IDiagramModelGroup) {
             IDiagramModelGroup dmgOrig = (IDiagramModelGroup) dmoOrig;
             IDiagramModelGroup dmgCopy = (IDiagramModelGroup) dmgOrig.getCopy();
-            processChildren(dmgOrig, dmgCopy, b);
+            processChildren(dmgOrig, dmgCopy, b, viewMap, diagram);
             dmoCopy = dmgCopy;
         } else {
             // all other elements
@@ -388,13 +439,26 @@ public class HTMLReportExporter {
         return dmoCopy;
     }
 
-    private void processChildren(IDiagramModelContainer orig, IDiagramModelContainer copy, BoundsWithAbsolutePosition b) {
+    private void processChildren(IDiagramModelContainer orig, IDiagramModelContainer copy, BoundsWithAbsolutePosition b, Map<IArchimateConcept, Set<IDiagramModel>> viewMap, IDiagramModel diagram) {
         // in case we have a ModelContainer, the contained coordinates are relative to the object container
         // -> recursively add the containers base coordinate as an offset to the children
         for (IDiagramModelObject childOrig: orig.getChildren() ) {
-            IDiagramModelObject childCopy = getOffsetCopy(childOrig, b.getX1(), b.getY1());
+            IDiagramModelObject childCopy = getOffsetCopy(childOrig, b.getX1(), b.getY1(), viewMap, diagram);
             // add copy of child to copy of modelObject
             copy.getChildren().add(childCopy);
+            addToViewMap(viewMap, childOrig, diagram);
+        }
+    }
+
+    private void addToViewMap(Map<IArchimateConcept, Set<IDiagramModel>> viewMap, IDiagramModelObject dmo, IDiagramModel dm){
+        if (dmo instanceof IDiagramModelArchimateObject) {
+            IArchimateElement archimateElement = ((IDiagramModelArchimateObject) dmo).getArchimateElement();
+            Set<IDiagramModel> views = viewMap.get(archimateElement);
+            if (views == null) {
+                views = new HashSet<>();
+                viewMap.put(archimateElement, views);
+            }
+            views.add(dm);
         }
     }
 
