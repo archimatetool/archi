@@ -91,7 +91,7 @@ class PoofAnimater {
         image[2] = IArchiImages.ImageFactory.getImage("img/poof3.png"); //$NON-NLS-1$
         image[3] = IArchiImages.ImageFactory.getImage("img/poof4.png"); //$NON-NLS-1$
         image[4] = IArchiImages.ImageFactory.getImage("img/poof5.png"); //$NON-NLS-1$
-        width = image[0].getImageData().width;
-        height = image[0].getImageData().height;
+        width = image[0].getImageDataAtCurrentZoom().width;
+        height = image[0].getImageDataAtCurrentZoom().height;
     }
 }

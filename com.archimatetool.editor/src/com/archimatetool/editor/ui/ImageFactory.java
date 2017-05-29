@@ -208,7 +208,7 @@ public class ImageFactory {
         Image image;
         
         // If there is a transparency pixel set copy the source ImageData to preserve it
-        ImageData sourceImageData = source.getImageData();
+        ImageData sourceImageData = source.getImageDataAtCurrentZoom();
         if(sourceImageData.transparentPixel != -1) {
             ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
             id.transparentPixel = sourceImageData.transparentPixel;

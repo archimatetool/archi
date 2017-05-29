@@ -453,7 +453,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
             cloneGC(gc);
             layout.draw(gc, 0, 0, selectionStart, selectionEnd, selectionForeground, selectionBackground);
 
-            ImageData imageData = image.getImageData();
+            ImageData imageData = image.getImageDataAtCurrentZoom();
             imageData.transparentPixel = imageData.palette.getPixel(getBackgroundColor().getRGB());
 
             gc.dispose();
@@ -750,7 +750,7 @@ public class GraphicsToGraphics2DAdaptor extends Graphics {
             gc.setFont(getFont());
             gc.drawString(s, 0, 0);
             gc.dispose();
-            ImageData data = image.getImageData();
+            ImageData data = image.getImageDataAtCurrentZoom();
             image.dispose();
             RGB backgroundRGB = getBackgroundColor().getRGB();
             for (int i = 0; i < data.width; i++) {
