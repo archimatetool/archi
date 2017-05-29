@@ -87,6 +87,7 @@ import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.CellEditorGlobalActionHandler;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.editor.ui.components.StringComboBoxCellEditor;
+import com.archimatetool.editor.ui.components.UpdatingTableColumnLayout;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateFactory;
@@ -178,6 +179,9 @@ public class UserPropertiesSection extends AbstractArchimatePropertySection {
 
     protected void refreshControls() {
         fTableViewer.setInput(fPropertiesElement);
+        
+        // Update kludge
+        ((UpdatingTableColumnLayout)fTableViewer.getTable().getParent().getLayout()).doRelayout();
     }
 
     @Override

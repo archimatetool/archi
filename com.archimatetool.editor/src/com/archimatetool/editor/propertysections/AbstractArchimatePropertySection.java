@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,8 +27,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.ui.components.StyledTextControl;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.ui.components.UpdatingTableColumnLayout;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
@@ -335,7 +335,7 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
         gd.heightHint = 50;
         tableComp.setLayoutData(gd);
 
-        tableComp.setLayout(new TableColumnLayout());
+        tableComp.setLayout(new UpdatingTableColumnLayout(tableComp));
         
         return tableComp;
     }
