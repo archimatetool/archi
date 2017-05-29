@@ -103,7 +103,7 @@ public class ImageConverter {
      *         as the swt <code>Image</code>
      */
     public static BufferedImage convert(Image srcImage) {
-        return convertFromImageData(srcImage.getImageData());
+        return convertFromImageData(srcImage.getImageDataAtCurrentZoom());
     }
 
     /**

@@ -230,7 +230,7 @@ public class SketchEditorPalette extends AbstractPaletteRoot {
         
         @Override
         public ImageData getImageData() {
-            return image.getImageData();
+            return image.getImageDataAtCurrentZoom();
         }
         
         public void dispose() {

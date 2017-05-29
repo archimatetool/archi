@@ -47,7 +47,7 @@ public class ImageExportProvider implements IImageExportProvider {
         
         try {
             image = DiagramUtils.createImage(fFigure, (double)fScaleSpinner.getSelection() / 100, 10);
-            ImageData imageData = image.getImageData();
+            ImageData imageData = image.getImageDataAtCurrentZoom();
             
             ImageLoader loader = new ImageLoader();
             loader.data = new ImageData[] { imageData };
