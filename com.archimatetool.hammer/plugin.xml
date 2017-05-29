@@ -57,6 +57,7 @@
             locationURI="menu:tools">
          <command
                commandId="com.archimatetool.hammer.command.validate"
+               id="com.archimatetool.hammer.menuitem.validate"
                label="%command.name"
                style="push">
          </command>
