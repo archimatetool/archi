@@ -43,7 +43,7 @@
             locationURI="popup:com.archimatetool.editor.treeModelView?after=append_extensions">
          <command
                commandId="com.archimatetool.hammer.command.validate"
-               id="com.archimatetool.hammer.popupmeu.validate"
+               id="com.archimatetool.hammer.popupmenu.validate"
                label="%command.name"
                style="push">
          </command>
