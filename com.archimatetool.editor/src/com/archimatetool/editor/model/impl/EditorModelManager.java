@@ -162,6 +162,10 @@ implements IEditorModelManager {
     
     @Override
     public void registerModel(IArchimateModel model) {
+        if(model == null) {
+            return;
+        }
+        
         // Add to Models
         getModels().add(model);
         
@@ -329,6 +333,10 @@ implements IEditorModelManager {
     
     @Override
     public boolean closeModel(IArchimateModel model) throws IOException {
+        if(model == null) {
+            return true;
+        }
+        
         // Check if model needs saving
         if(isModelDirty(model)) {
             boolean result = askSaveModel(model);
@@ -436,6 +444,10 @@ implements IEditorModelManager {
     
     @Override
     public boolean saveModelAs(IArchimateModel model) throws IOException {
+        if(model == null) {
+            return false;
+        }
+        
         File file = askSaveModel();
         if(file == null) {
             return false;
