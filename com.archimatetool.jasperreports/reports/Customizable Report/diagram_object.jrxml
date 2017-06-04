@@ -37,13 +37,13 @@
 	</columnHeader>
 	<detail>
 		<band height="16">
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="Table row" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="257" height="16"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement style="Table row" x="257" y="0" width="257" height="16"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table row" stretchType="RelativeToBandHeight" x="257" y="0" width="257" height="16"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>

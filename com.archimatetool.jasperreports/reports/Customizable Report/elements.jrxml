@@ -33,7 +33,7 @@
 	</title>
 	<detail>
 		<band height="34">
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="Normal" positionType="Float" x="0" y="0" width="515" height="16">
 					<property name="net.sf.jasperreports.export.pdf.tag.h2"/>
 				</reportElement>
@@ -42,16 +42,16 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
+            <staticText>
+                <reportElement style="Table header" positionType="Float" x="0" y="18" width="150" height="16" isRemoveLineWhenBlank="true"/>
+                <textElement markup="none"/>
+                <text><![CDATA[Type]]></text>
+            </staticText>
 			<textField>
 				<reportElement style="Table row" positionType="Float" x="150" y="18" width="365" height="16"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement style="Table header" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="18" width="150" height="16" isRemoveLineWhenBlank="true"/>
-				<textElement markup="none"/>
-				<text><![CDATA[Type]]></text>
-			</staticText>
 		</band>
 		<band height="32">
 			<printWhenExpression><![CDATA[$F{relation_source} != null]]></printWhenExpression>
