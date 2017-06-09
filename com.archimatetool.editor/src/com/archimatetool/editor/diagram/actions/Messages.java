@@ -45,6 +45,10 @@ public class Messages extends NLS {
 
     public static String DeleteFromModelAction_0;
 
+    public static String DeleteFromModelAction_1;
+
+    public static String DeleteFromModelAction_2;
+
     public static String ExportAsImageAction_0;
 
     public static String ExportAsImageAction_1;

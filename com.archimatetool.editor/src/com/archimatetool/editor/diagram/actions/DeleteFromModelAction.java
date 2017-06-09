@@ -12,6 +12,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
@@ -120,6 +122,17 @@ public class DeleteFromModelAction extends SelectionAction {
                 }
             }
         }
+
+        // Check whether any of these concepts are referenced in other diagrams
+        if(hasMoreThanOneReference(archimateConcepts, diagramObjects)) {
+            if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(),
+                    Messages.DeleteFromModelAction_0,
+                    Messages.DeleteFromModelAction_1 +
+                    "\n\n" + //$NON-NLS-1$
+                    Messages.DeleteFromModelAction_2)) {
+                return;
+            }
+        }
         
         // Create commands
         
@@ -149,5 +162,23 @@ public class DeleteFromModelAction extends SelectionAction {
         
         execute(compoundCommand);
     }
-    
+
+    private boolean hasMoreThanOneReference(List<IArchimateConcept> archimateConcepts, List<IDiagramModelComponent> diagramObjects) {
+        for(IArchimateConcept archimateConcept : archimateConcepts) {
+            int count = 0;
+
+            for(IDiagramModelComponent dmc : diagramObjects) {
+                if(dmc instanceof IDiagramModelArchimateComponent) {
+                    if(((IDiagramModelArchimateComponent)dmc).getArchimateConcept() == archimateConcept) {
+                        count++;
+                        if(count > 1) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
 }
