@@ -519,10 +519,7 @@ extends ActionBarAdvisor {
         menu.add(fDonateAction);
         menu.add(fActionCheckForNewVersion);
         
-        // Can't use this on Windows because of UAC with installed version
-        if(!PlatformUtils.isWindows()) {
-            menu.add(fInstallPlugin);
-        }
+        menu.add(fInstallPlugin);
         
         menu.add(new Separator());
         menu.add(fActionResetApplication);
