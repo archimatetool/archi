@@ -23,6 +23,7 @@ import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IBusinessActor;
 import com.archimatetool.model.IBusinessRole;
 import com.archimatetool.model.IDiagramModelImage;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.tests.TestUtils;
@@ -138,6 +139,18 @@ public class ArchiLabelProviderTests {
         relation.setSource(role);
         relation.setTarget(actor);
         assertEquals("Nobody is assigned to Fred", ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation));
+        
+        // Junctions
+        IJunction j1 = IArchimateFactory.eINSTANCE.createJunction();
+        j1.setName("Johnny");
+        
+        relation.setSource(j1);
+        relation.setTarget(actor);
+        assertEquals("Johnny connects to Fred", ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation));
+        
+        relation.setSource(actor);
+        relation.setTarget(j1);
+        assertEquals("Fred connects to Johnny", ArchiLabelProvider.INSTANCE.getRelationshipSentence(relation));
     }
     
     @Test
