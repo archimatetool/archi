@@ -20,6 +20,7 @@ import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
+import com.archimatetool.model.IJunction;
 import com.archimatetool.model.INameable;
 
 
@@ -165,39 +166,44 @@ public class ArchiLabelProvider {
                 String nameSource = ArchiLabelProvider.INSTANCE.getLabel(relation.getSource());
                 String nameTarget = ArchiLabelProvider.INSTANCE.getLabel(relation.getTarget());
                 
+                // If it's a Junction then do something special
+                if(relation.getSource() instanceof IJunction || relation.getTarget() instanceof IJunction) {
+                    return NLS.bind(Messages.ArchiLabelProvider_0, nameSource, nameTarget);
+                }
+                
                 switch(relation.eClass().getClassifierID()) {
                     case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_3, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_3, nameSource, nameTarget);
 
                     case IArchimatePackage.COMPOSITION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_4, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_4, nameSource, nameTarget);
 
                     case IArchimatePackage.AGGREGATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_5, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_5, nameSource, nameTarget);
 
                     case IArchimatePackage.TRIGGERING_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_6, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_6, nameSource, nameTarget);
 
                     case IArchimatePackage.FLOW_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_7, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_7, nameSource, nameTarget);
 
                     case IArchimatePackage.ACCESS_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_8, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_8, nameSource, nameTarget);
 
                     case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_9, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_9, nameSource, nameTarget);
 
                     case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_10, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_10, nameSource, nameTarget);
 
                     case IArchimatePackage.REALIZATION_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_11, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_11, nameSource, nameTarget);
 
                     case IArchimatePackage.SERVING_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_12, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_12, nameSource, nameTarget);
 
                     case IArchimatePackage.INFLUENCE_RELATIONSHIP:
-                        return NLS.bind(Messages.ArchimateLabelProvider_13, nameSource, nameTarget);
+                        return NLS.bind(Messages.ArchiLabelProvider_13, nameSource, nameTarget);
 
                     default:
                         return ""; //$NON-NLS-1$
@@ -220,37 +226,37 @@ public class ArchiLabelProvider {
         
         switch(eClass.getClassifierID()) {
             case IArchimatePackage.SPECIALIZATION_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_14 : Messages.ArchimateLabelProvider_15;
+                return reverseDirection ? Messages.ArchiLabelProvider_14 : Messages.ArchiLabelProvider_15;
 
             case IArchimatePackage.COMPOSITION_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_16 : Messages.ArchimateLabelProvider_17;
+                return reverseDirection ? Messages.ArchiLabelProvider_16 : Messages.ArchiLabelProvider_17;
 
             case IArchimatePackage.AGGREGATION_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_18 : Messages.ArchimateLabelProvider_19;
+                return reverseDirection ? Messages.ArchiLabelProvider_18 : Messages.ArchiLabelProvider_19;
 
             case IArchimatePackage.TRIGGERING_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_20 : Messages.ArchimateLabelProvider_21;
+                return reverseDirection ? Messages.ArchiLabelProvider_20 : Messages.ArchiLabelProvider_21;
 
             case IArchimatePackage.FLOW_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_22 : Messages.ArchimateLabelProvider_23;
+                return reverseDirection ? Messages.ArchiLabelProvider_22 : Messages.ArchiLabelProvider_23;
 
             case IArchimatePackage.ACCESS_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_24 : Messages.ArchimateLabelProvider_25;
+                return reverseDirection ? Messages.ArchiLabelProvider_24 : Messages.ArchiLabelProvider_25;
 
             case IArchimatePackage.ASSOCIATION_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_26 : Messages.ArchimateLabelProvider_27;
+                return reverseDirection ? Messages.ArchiLabelProvider_26 : Messages.ArchiLabelProvider_27;
 
             case IArchimatePackage.ASSIGNMENT_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_28 : Messages.ArchimateLabelProvider_29;
+                return reverseDirection ? Messages.ArchiLabelProvider_28 : Messages.ArchiLabelProvider_29;
 
             case IArchimatePackage.REALIZATION_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_30 : Messages.ArchimateLabelProvider_31;
+                return reverseDirection ? Messages.ArchiLabelProvider_30 : Messages.ArchiLabelProvider_31;
 
             case IArchimatePackage.SERVING_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_32 : Messages.ArchimateLabelProvider_33;
+                return reverseDirection ? Messages.ArchiLabelProvider_32 : Messages.ArchiLabelProvider_33;
 
             case IArchimatePackage.INFLUENCE_RELATIONSHIP:
-                return reverseDirection ? Messages.ArchimateLabelProvider_34 : Messages.ArchimateLabelProvider_35;
+                return reverseDirection ? Messages.ArchiLabelProvider_34 : Messages.ArchiLabelProvider_35;
 
             default:
                 return ""; //$NON-NLS-1$
