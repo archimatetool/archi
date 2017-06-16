@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SVG Image Export
 Bundle-SymbolicName: com.archimatetool.export.svg;singleton:=true
-Bundle-Version: 4.0.1.qualifier
+Bundle-Version: 4.0.2.qualifier
 Bundle-Activator: com.archimatetool.export.svg.ExportSVGPlugin
 Bundle-Vendor: Phil Beauvoir
 Eclipse-BundleShape: dir
