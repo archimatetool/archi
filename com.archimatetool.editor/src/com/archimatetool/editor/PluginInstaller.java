@@ -64,33 +64,34 @@ public class PluginInstaller {
         File installFolder = getInstallFolder();
 
         if(installFolder != null && installFolder.exists() && installFolder.isDirectory()) {
-            File pluginsFolder = getPluginsFolder();
-            
-            for(File file : installFolder.listFiles()) {
-                // Ignore the magic entry file
-                if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
-                    continue;
-                }
+            try {
+                File pluginsFolder = getPluginsFolder();
                 
-                // Delete old ones in target plugins folder
-                deleteMatchingPlugin(file, pluginsFolder);
-                
-                // Copy new ones
-                if(file.isDirectory()) {
-                    FileUtils.copyFolder(file, new File(pluginsFolder, file.getName()));
-                }
-                else {
-                    FileUtils.copyFile(file, new File(pluginsFolder, file.getName()), false);
+                for(File file : installFolder.listFiles()) {
+                    // Ignore the magic entry file
+                    if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
+                        continue;
+                    }
+                    
+                    // Delete old ones in target plugins folder
+                    deleteMatchingPlugin(file, pluginsFolder);
+                    
+                    // Copy new ones
+                    if(file.isDirectory()) {
+                        FileUtils.copyFolder(file, new File(pluginsFolder, file.getName()));
+                    }
+                    else {
+                        FileUtils.copyFile(file, new File(pluginsFolder, file.getName()), false);
+                    }
                 }
             }
-            
-            // Now delete the install folder
-            FileUtils.deleteFolder(installFolder);
-            
-            // If we got this far and successfully deleted the install folder then return true
-            if(!installFolder.exists()) {
-                return true;
+            // Delete the install folder in all cases
+            finally {
+                FileUtils.deleteFolder(installFolder);
             }
+            
+            // If we got this far then return true
+            return true;
         }
         
         return false;
