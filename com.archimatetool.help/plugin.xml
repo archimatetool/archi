@@ -98,6 +98,16 @@
             Create a Map View
          </description>
       </cheatsheet>
+      <cheatsheet
+            category="com.archimatetool.help.cheatsheets"
+            composite="false"
+            contentFile="cheatsheets/training1.xml"
+            id="com.archimatetool.help.cheatsheet3"
+            name="Using Viewpoints">
+         <description>
+            Create a Map View
+         </description>
+      </cheatsheet>
    </extension>
    <extension
          point="org.eclipse.help.toc">
