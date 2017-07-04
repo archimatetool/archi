@@ -75,6 +75,7 @@ import com.archimatetool.editor.views.tree.actions.TreeModelViewActionFactory;
 import com.archimatetool.editor.views.tree.commands.DuplicateCommandHandler;
 import com.archimatetool.editor.views.tree.search.SearchFilter;
 import com.archimatetool.editor.views.tree.search.SearchWidget;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
@@ -592,7 +593,7 @@ implements ITreeModelView, IUIRequestListener {
             IArchimateModel model = (IArchimateModel)evt.getNewValue();
             
             // Expand and Select new node
-            getViewer().expandToLevel(model.getDefaultDiagramModel(), -1);
+            getViewer().expandToLevel(model.getFolder(FolderType.DIAGRAMS), 1);
             getViewer().setSelection(new StructuredSelection(model), true);
         }
         
