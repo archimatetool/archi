@@ -40,6 +40,13 @@ public class ImageFactory {
     }
     
     /**
+     * @return The plugin that owns this ImageFactory
+     */
+    public AbstractUIPlugin getPlugin() {
+        return fPlugin;
+    }
+    
+    /**
      * Returns the shared image represented by the given key.
      * 
      * @param imageName
@@ -75,24 +82,21 @@ public class ImageFactory {
      * @return The image
      */
     public Image getOverlayImage(Image underlay, String overlayName, int quadrant) {
-        // Make a registry name, cached
-        String key_name = overlayName + quadrant;
-
-        Image image = getImage(key_name);
+        String key = underlay.hashCode() + overlayName + quadrant;
         
-        // Make it and cache it
-        if(image == null) {
-            ImageDescriptor overlay = getImageDescriptor(overlayName);
-            if(overlay != null) {
-                image = new DecorationOverlayIcon(underlay, overlay, quadrant).createImage();
-                if(image != null) {
+        Image newImage = getImage(key);
+        if(newImage == null) {
+            ImageDescriptor overlayDescripter = getImageDescriptor(overlayName);
+            if(overlayDescripter != null) {
+                newImage = new DecorationOverlayIcon(underlay, overlayDescripter, quadrant).createImage();
+                if(newImage != null) {
                     ImageRegistry registry = fPlugin.getImageRegistry();
-                    registry.put(key_name, image);
+                    registry.put(key, newImage);
                 }
             }
         }
         
-        return image;
+        return newImage != null ? newImage : underlay;
     }
     
     /**
@@ -170,7 +174,7 @@ public class ImageFactory {
                 registry.put(imageName, id); // The image will be created next when registry.get(imageName) is called
             }
             else {
-                // Can be null in the case of composite overlay images where the image name is a composite
+                // Can be null in the case of overlay images where the image name is a composite name
                 //System.err.println("Could not get Image Descriptor for: " + imageName); //$NON-NLS-1$
             }
         }
