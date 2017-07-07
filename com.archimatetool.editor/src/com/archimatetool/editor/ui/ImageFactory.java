@@ -64,27 +64,26 @@ public class ImageFactory {
     }
     
     /**
-     * Return a composite overlay image
+     * Return a composite image with overlay image
      * 
-     * @param imageName
-     * @param overlayName
+     * @param underlay The underlay image
+     * @param overlayName Name of the overlay image
      * @param quadrant the quadrant (one of {@link IDecoration} 
      * ({@link IDecoration#TOP_LEFT}, {@link IDecoration#TOP_RIGHT},
      * {@link IDecoration#BOTTOM_LEFT}, {@link IDecoration#BOTTOM_RIGHT} 
      * or {@link IDecoration#UNDERLAY})
-     * @return
+     * @return The image
      */
-    public Image getOverlayImage(String imageName, String overlayName, int quadrant) {
+    public Image getOverlayImage(Image underlay, String overlayName, int quadrant) {
         // Make a registry name, cached
-        String key_name = imageName + overlayName + quadrant;
-        
+        String key_name = overlayName + quadrant;
+
         Image image = getImage(key_name);
         
         // Make it and cache it
         if(image == null) {
-            Image underlay = getImage(imageName);
             ImageDescriptor overlay = getImageDescriptor(overlayName);
-            if(underlay != null && overlay != null) {
+            if(overlay != null) {
                 image = new DecorationOverlayIcon(underlay, overlay, quadrant).createImage();
                 if(image != null) {
                     ImageRegistry registry = fPlugin.getImageRegistry();
@@ -171,7 +170,8 @@ public class ImageFactory {
                 registry.put(imageName, id); // The image will be created next when registry.get(imageName) is called
             }
             else {
-                System.err.println("Could not get Image Descriptor for: " + imageName); //$NON-NLS-1$
+                // Can be null in the case of composite overlay images where the image name is a composite
+                //System.err.println("Could not get Image Descriptor for: " + imageName); //$NON-NLS-1$
             }
         }
         
