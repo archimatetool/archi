@@ -62,11 +62,11 @@ public class DiagramModelExtraTests {
         IDiagramModelArchimateObject parent2 = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         parent1.getChildren().add(parent2);
 
-        // Starts at zero size
-        assertEquals(0, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(0, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(0, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(0, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        // Starts at sizes
+        assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(1, dmo2.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
         // Add to dm
         dm.getChildren().add(dmo1);
@@ -78,10 +78,10 @@ public class DiagramModelExtraTests {
         
         // Add to parent 2
         parent2.getChildren().add(dmo3);
-        assertEquals(1, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
-        assertEquals(1, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
+        assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
-        // Add dmo3a - dmo3.getArchimateElement() should be incremented as well
+        // Add dmo3a - dmo3.getArchimateElement() should be same
         dm.getChildren().add(dmo3a);
         assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
         assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
@@ -94,7 +94,7 @@ public class DiagramModelExtraTests {
         assertEquals(2, dmo3.getArchimateElement().getReferencingDiagramObjects().size());
         assertEquals(2, dmo3a.getArchimateElement().getReferencingDiagramObjects().size());
         
-        // Add diagram model back again
+        // Add diagram model back again, should be the same
         model.getDefaultFolderForObject(dm).getElements().add(dm);
         
         assertEquals(1, dmo1.getArchimateElement().getReferencingDiagramObjects().size());
@@ -184,11 +184,11 @@ public class DiagramModelExtraTests {
         parent2.getChildren().add(dmo3);
         dm.getChildren().add(dmo4);
 
-        // Starts at zero size
-        assertEquals(0, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
-        assertEquals(0, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
+        // Starts at sizes
+        assertEquals(1, conn1.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(1, conn2.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3.getArchimateRelationship().getReferencingDiagramConnections().size());
+        assertEquals(2, conn3a.getArchimateRelationship().getReferencingDiagramConnections().size());
         
         // Connect
         conn1.connect(dmo1, dmo2);
