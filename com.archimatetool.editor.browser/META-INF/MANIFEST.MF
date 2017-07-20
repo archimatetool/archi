@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Browser Component
 Bundle-SymbolicName: com.archimatetool.editor.browser;singleton:=true
-Bundle-Version: 4.0.2.qualifier
+Bundle-Version: 4.0.3.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: com.archimatetool.editor.browser.BrowserPlugin
 Bundle-Vendor: Archi

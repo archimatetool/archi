@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="4.0.2.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Archi" uid="com.archimatetool.editor.product" id="com.archimatetool.editor.product" application="com.archimatetool.editor.app" version="4.0.3.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
       <linux>/com.archimatetool.editor/config.ini</linux>

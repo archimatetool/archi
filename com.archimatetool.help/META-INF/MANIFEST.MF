@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %productName
 Bundle-SymbolicName: com.archimatetool.help;singleton:=true
-Bundle-Version: 4.0.2.qualifier
+Bundle-Version: 4.0.3.qualifier
 Bundle-Activator: com.archimatetool.help.ArchiHelpPlugin
 Bundle-Vendor: Archi
 Bundle-Localization: plugin

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Archi Widgets
 Bundle-SymbolicName: com.archimatetool.widgets;singleton:=true
-Bundle-Version: 4.0.2.qualifier
+Bundle-Version: 4.0.3.qualifier
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-BundleShape: dir
