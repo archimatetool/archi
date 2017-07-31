@@ -5,6 +5,7 @@
 	<style name="Normal" fontName="DejaVu Sans" fontSize="12"/>
 	<style name="Bold" style="Normal" isBold="true"/>
 	<style name="Title" style="Normal" fontSize="22"/>
+	<style name="Title Date" style="Normal" fontSize="10"/>
 	<style name="Page footer" style="Normal" forecolor="#666666" fontSize="8"/>
 	<style name="Title 1" style="Normal" forecolor="#7CA9BF" fontSize="20"/>
 	<style name="Title 2" style="Normal" forecolor="#7CA9BF" fontSize="16"/>

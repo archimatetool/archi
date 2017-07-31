@@ -108,7 +108,7 @@
 				<textFieldExpression><![CDATA[$V{REPORT_TITLE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="1" y="349" width="515" height="20" uuid="0d3ecbc2-8dbe-4a48-a461-34c06224f5a4"/>
+				<reportElement style="Title Date" positionType="Float" x="1" y="349" width="515" height="20" uuid="0d3ecbc2-8dbe-4a48-a461-34c06224f5a4"/>
 				<textFieldExpression><![CDATA[$P{DATE_NOW}]]></textFieldExpression>
 			</textField>
 			<break>
