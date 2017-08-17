@@ -188,13 +188,15 @@ public class DiagramModelArchimateObject extends DiagramModelObject implements I
         if(archimateElement == null) {
             Logger.logError("setArchimateElement() setting null", new Throwable()); //$NON-NLS-1$
         }
-
+        
         fArchimateElement = archimateElement;
+        
+        fArchimateElement.getReferencingDiagramObjects().add(this);
     }
     
     @Override
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs) {
-        // Add a reference to this in the Archimate Element
+        // Re-Add a reference to this in the Archimate Element
         if(fArchimateElement != null) { // this will be null when a copy of this object is made
             fArchimateElement.getReferencingDiagramObjects().add(this);
         }

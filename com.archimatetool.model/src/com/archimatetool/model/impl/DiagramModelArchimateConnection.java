@@ -131,6 +131,8 @@ public class DiagramModelArchimateConnection extends DiagramModelConnection impl
         }
         
         fRelationship = relationship;
+        
+        fRelationship.getReferencingDiagramConnections().add(this);
     }
 
     /**

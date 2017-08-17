@@ -6,8 +6,10 @@
 package com.archimatetool.model.util;
 
 import java.io.File;
+import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
@@ -77,28 +79,31 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
      */
     @Override
     public Resource createResource(URI uri) {
-        XMLResource result = new ArchimateResource(uri);
+        ArchimateResource resource = new ArchimateResource(uri);
         
         // Ensure we have ExtendedMetaData for both Saving and Loading
         ExtendedMetaData ext = new ConverterExtendedMetadata();
 
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
+        resource.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
+        resource.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, ext);
 
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+        resource.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+        resource.getDefaultLoadOptions().put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+        
+        resource.getDefaultLoadOptions().put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+        resource.setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
         
         // Not sure about this
-        // result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+        // resource.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 
         // Don't set this as it prefixes a hash # to ID references
-        // result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
-        // result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+        // resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+        // resource.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
         // Not sure about this
-        // result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+        // resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
         
-        return result;
+        return resource;
     }
 
 } //ArchimateResourceFactory
