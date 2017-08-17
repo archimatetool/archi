@@ -106,7 +106,7 @@ public class ArchimateDiagramConnectionPolicyTests {
         CreateConnectionRequest request = new CreateConnectionRequest();
         
         // Use a non-legal relationship
-        request.setFactory(new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getInfluenceRelationship()));
+        request.setFactory(new ArchimateDiagramModelFactory(IArchimatePackage.eINSTANCE.getSpecializationRelationship()));
         
         // Should be null
         Command cmd = sourcePolicy.getConnectionCreateCommand(request);
@@ -154,7 +154,7 @@ public class ArchimateDiagramConnectionPolicyTests {
         
         // Bogus one
         dmo.setArchimateElement(IArchimateFactory.eINSTANCE.createJunction());
-        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, IArchimatePackage.eINSTANCE.getInfluenceRelationship()));
+        assertFalse(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, IArchimatePackage.eINSTANCE.getSpecializationRelationship()));
         
         // OK if relationshipType is null (magic connector)
         assertTrue(ArchimateDiagramConnectionPolicy.isValidConnectionSource(dmo, null));

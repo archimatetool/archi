@@ -54,7 +54,7 @@ public class RelationshipsMatrixTests {
         relationship = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
         assertTrue(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
         
-        relationship = IArchimateFactory.eINSTANCE.createInfluenceRelationship();
+        relationship = IArchimateFactory.eINSTANCE.createSpecializationRelationship();
         assertFalse(matrix.isValidRelationshipStart(sourceElement.eClass(), relationship.eClass()));
 
         sourceElement = IArchimateFactory.eINSTANCE.createSystemSoftware();
@@ -86,7 +86,7 @@ public class RelationshipsMatrixTests {
         relationship = IArchimatePackage.eINSTANCE.getTriggeringRelationship();
         assertTrue(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
-        relationship = IArchimatePackage.eINSTANCE.getInfluenceRelationship();
+        relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
         sourceClass = IArchimatePackage.eINSTANCE.getSystemSoftware();
@@ -102,7 +102,7 @@ public class RelationshipsMatrixTests {
         relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
         
-        relationship = IArchimatePackage.eINSTANCE.getInfluenceRelationship();
+        relationship = IArchimatePackage.eINSTANCE.getSpecializationRelationship();
         assertFalse(matrix.isValidRelationship(sourceClass, targetClass, relationship));
     }
     
