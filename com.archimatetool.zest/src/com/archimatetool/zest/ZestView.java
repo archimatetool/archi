@@ -48,7 +48,6 @@ import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.AbstractModelView;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
@@ -329,10 +328,7 @@ implements IZestView, ISelectionListener {
         
 		menuManager.add(new Separator());
 		
-        // TODO Copy as Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
-        if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
-            menuManager.add(fActionCopyImageToClipboard);
-        }
+		menuManager.add(fActionCopyImageToClipboard);
 		menuManager.add(fActionExportImageToFile);
     }
     
@@ -558,11 +554,7 @@ implements IZestView, ISelectionListener {
         
         manager.add(new Separator());
         
-        // TODO Copy as Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
-        if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
-            manager.add(fActionCopyImageToClipboard);
-        }
-        
+        manager.add(fActionCopyImageToClipboard);
         manager.add(fActionExportImageToFile);
         
         if(!isEmpty) {

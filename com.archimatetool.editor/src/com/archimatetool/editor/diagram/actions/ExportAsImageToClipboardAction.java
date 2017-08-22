@@ -17,6 +17,8 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.PngTransfer;
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 
@@ -52,7 +54,11 @@ public class ExportAsImageToClipboardAction extends Action {
                     ImageData imageData = image.getImageDataAtCurrentZoom();
                     
                     cb = new Clipboard(Display.getDefault());
-                    cb.setContents(new Object[] { imageData }, new Transfer[] { ImageTransfer.getInstance() });
+                    
+                    // Use different Transfer for Linux64
+                    Transfer transfer = (PlatformUtils.isLinux() && PlatformUtils.is64Bit()) ? PngTransfer.getInstance() : ImageTransfer.getInstance(); 
+                    
+                    cb.setContents(new Object[] { imageData }, new Transfer[] { transfer });
                     
                     MessageDialog.openInformation(Display.getDefault().getActiveShell(),
                             Messages.ExportAsImageToClipboardAction_1,

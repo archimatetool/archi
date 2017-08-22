@@ -717,11 +717,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new ExportAsImageAction(viewer);
         registry.registerAction(action);
         
-        // TODO Export As Image to Clipboard. But not on Linux 64-bit. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=283960
-        if(!(PlatformUtils.isLinux() && PlatformUtils.is64Bit())) {
-            action = new ExportAsImageToClipboardAction(viewer);
-            registry.registerAction(action);
-        }
+        // Export As Image to Clipboard
+        action = new ExportAsImageToClipboardAction(viewer);
+        registry.registerAction(action);
         
         // Connection Router types
         action = new ConnectionRouterAction.BendPointConnectionRouterAction(this);
