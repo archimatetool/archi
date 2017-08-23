@@ -5,10 +5,10 @@
  */
 package com.archimatetool.editor.diagram;
 
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
@@ -63,7 +63,7 @@ extends AbstractDiagramEditorActionBarContributor {
         }
         editMenu.appendToGroup(GROUP_EDIT_MENU, textPositionMenu);
         
-        editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new Separator(editDeleteMenuGroup));
+        editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new GroupMarker(editDeleteMenuGroup));
         editMenu.appendToGroup(editDeleteMenuGroup, getAction(DeleteFromModelAction.ID));
         
         return editMenu;

@@ -59,17 +59,12 @@ public class ExportAsImageToClipboardAction extends Action {
                     Transfer transfer = (PlatformUtils.isLinux() && PlatformUtils.is64Bit()) ? PngTransfer.getInstance() : ImageTransfer.getInstance(); 
                     
                     cb.setContents(new Object[] { imageData }, new Transfer[] { transfer });
-                    
-                    MessageDialog.openInformation(Display.getDefault().getActiveShell(),
-                            Messages.ExportAsImageToClipboardAction_1,
-                            Messages.ExportAsImageToClipboardAction_2);
-
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
                     ex.printStackTrace();
                     
                     MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                            Messages.ExportAsImageToClipboardAction_1,
+                            Messages.ExportAsImageToClipboardAction_0,
                             Messages.ExportAsImageToClipboardAction_3 + " " + ex.getMessage()); //$NON-NLS-1$
                 }
                 finally {

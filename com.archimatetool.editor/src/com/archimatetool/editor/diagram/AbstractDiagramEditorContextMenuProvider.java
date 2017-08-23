@@ -81,6 +81,9 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         action = actionRegistry.getAction(ActionFactory.COPY.getId());
         menu.appendToGroup(GROUP_EDIT, action);
         
+        action = actionRegistry.getAction(ExportAsImageToClipboardAction.ID);
+        menu.appendToGroup(GROUP_EDIT, action);
+
         action = actionRegistry.getAction(ActionFactory.PASTE.getId());
         menu.appendToGroup(GROUP_EDIT, action);
         
@@ -105,7 +108,6 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         IMenuManager exportMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_0, "menu_export"); //$NON-NLS-1$
         menu.add(exportMenu);
         exportMenu.add(actionRegistry.getAction(ExportAsImageAction.ID));
-        exportMenu.add(actionRegistry.getAction(ExportAsImageToClipboardAction.ID));
         
         menu.add(new Separator(GROUP_ORDER));
         IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorContextMenuProvider_1, "menu_order"); //$NON-NLS-1$

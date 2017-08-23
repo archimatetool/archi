@@ -268,15 +268,15 @@ extends ActionBarContributor {
         IMenuManager exportMenu = menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_FILE + "/export_menu"); //$NON-NLS-1$
         exportMenu.add(getAction(ExportAsImageAction.ID));
         
-        // Export as Image to Clipboard
-        exportMenu.add(getAction(ExportAsImageToClipboardAction.ID));
-        
         return fileMenu;
     }
     
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_EDIT);
         editMenu.insertAfter(ArchiActionFactory.RENAME.getId(), new Separator(GROUP_EDIT_MENU));
+        
+        // Copy as Image to Clipboard
+        editMenu.insertAfter(ActionFactory.COPY.getId(), getAction(ExportAsImageToClipboardAction.ID));
         
         // Fill Color Action
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(FillColorAction.ID));

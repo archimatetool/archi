@@ -53,11 +53,6 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                     Transfer transfer = (PlatformUtils.isLinux() && PlatformUtils.is64Bit()) ? PngTransfer.getInstance() : ImageTransfer.getInstance(); 
                     
                     cb.setContents(new Object[] { imageData }, new Transfer[] { transfer });
-                    
-                    MessageDialog.openInformation(Display.getDefault().getActiveShell(),
-                            Messages.CopyZestViewAsImageToClipboardAction_0,
-                            Messages.CopyZestViewAsImageToClipboardAction_1);
-
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
                     ex.printStackTrace();
