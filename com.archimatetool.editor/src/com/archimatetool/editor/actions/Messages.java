@@ -99,6 +99,8 @@ public class Messages extends NLS {
 
     public static String InstallPluginAction_3;
 
+    public static String InstallPluginAction_4;
+
     public static String MRUMenuManager_0;
 
     public static String MRUMenuManager_1;

@@ -17,7 +17,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.service.datalocation.Location;
+import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.ZipUtils;
@@ -60,41 +62,66 @@ public class PluginInstaller {
      * @return True if plugins were copied to the plugins folder and the install folder deleted
      * @throws IOException
      */
-    public static boolean installPendingPlugins() throws IOException {
+    public static boolean installPendingPlugins() {
         File installFolder = getInstallFolder();
+        
+        if(installFolder == null || !installFolder.exists()) {
+            return false;
+        }
 
-        if(installFolder != null && installFolder.exists() && installFolder.isDirectory()) {
-            try {
-                File pluginsFolder = getPluginsFolder();
-                
-                for(File file : installFolder.listFiles()) {
-                    // Ignore the magic entry file
-                    if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
-                        continue;
-                    }
-                    
-                    // Delete old ones in target plugins folder
-                    deleteMatchingPlugin(file, pluginsFolder);
-                    
-                    // Copy new ones
-                    if(file.isDirectory()) {
-                        FileUtils.copyFolder(file, new File(pluginsFolder, file.getName()));
-                    }
-                    else {
-                        FileUtils.copyFile(file, new File(pluginsFolder, file.getName()), false);
-                    }
+        try {
+            File pluginsFolder = getPluginsFolder();
+
+            for(File file : installFolder.listFiles()) {
+                // Ignore the magic entry file
+                if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
+                    continue;
+                }
+
+                // Delete old ones in target plugins folder
+                deleteMatchingPlugin(file, pluginsFolder);
+
+                // Copy new ones
+                if(file.isDirectory()) {
+                    FileUtils.copyFolder(file, new File(pluginsFolder, file.getName()));
+                }
+                else {
+                    FileUtils.copyFile(file, new File(pluginsFolder, file.getName()), false);
                 }
             }
-            // Delete the install folder in all cases
-            finally {
-                FileUtils.deleteFolder(installFolder);
-            }
-            
-            // If we got this far then return true
-            return true;
         }
-        
-        return false;
+        catch(IOException ex) {
+            String message = Messages.PluginInstaller_0 + "\n\n" + ex.getLocalizedMessage(); //$NON-NLS-1$
+            MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.PluginInstaller_1, message);
+            Logger.logError("Could not install plugin", ex); //$NON-NLS-1$
+            return false;
+        }
+        // Delete the install folder in all cases
+        finally {
+            try {
+                recursiveDeleteOnExit(installFolder.toPath());
+            }
+            catch(IOException ex) {
+                Logger.logError("Could not delete plugin install folder", ex); //$NON-NLS-1$
+                return false;
+            }
+        }
+
+        // If we got this far then return true
+        return true;
+    }
+    
+    /**
+     * @return True if we can write to the plugins folder
+     */
+    public static boolean canWrite() {
+        try {
+            File pluginsFolder = getPluginsFolder();
+            return Files.isWritable(pluginsFolder.toPath());
+        }
+        catch(IOException ex) {
+            return false;
+        }
     }
     
     // Delete matching target plugin

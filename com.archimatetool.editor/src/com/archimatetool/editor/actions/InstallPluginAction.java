@@ -31,6 +31,14 @@ public class InstallPluginAction extends Action {
 
     @Override
     public void run() {
+        // Check that we can write to plugins folder
+        if(!PluginInstaller.canWrite()) {
+            MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                    Messages.InstallPluginAction_0,
+                    Messages.InstallPluginAction_4);
+            return;
+        }
+        
         File file = askOpenFile();
         if(file == null) {
             return;

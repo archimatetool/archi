@@ -6,6 +6,10 @@ public class Messages extends NLS {
 
     private static final String BUNDLE_NAME = "com.archimatetool.editor.messages"; //$NON-NLS-1$
 
+    public static String PluginInstaller_0;
+
+    public static String PluginInstaller_1;
+
     public static String WorkbenchCleaner_0;
 
     public static String WorkbenchCleaner_1;
