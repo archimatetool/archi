@@ -17,9 +17,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.osgi.service.datalocation.Location;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.ZipUtils;
@@ -32,7 +29,6 @@ import com.archimatetool.editor.utils.ZipUtils;
  */
 public class PluginInstaller {
     
-    static final String INSTALL_FOLDER = ".install"; //$NON-NLS-1$
     static final String MAGIC_ENTRY = "archi-plugin"; //$NON-NLS-1$
 
     /**
@@ -45,41 +41,27 @@ public class PluginInstaller {
     }
 
     /**
-     * Unzip the zip file to the install folder
+     * Unzip the zip file to the plugins folder
      * @param zipFile The zip file
      * @throws IOException
      */
-    public static void unpackZipPackageToInstallFolder(File zipFile) throws IOException {
-        File installFolder = getInstallFolder();
-        if(installFolder != null) {
-            FileUtils.deleteFolder(installFolder);
-            ZipUtils.unpackZip(zipFile, installFolder);
-        }
-    }
-
-    /**
-     * Check for and copy any pending plugins in the install folder.
-     * @return True if plugins were copied to the plugins folder and the install folder deleted
-     * @throws IOException
-     */
-    public static boolean installPendingPlugins() {
-        File installFolder = getInstallFolder();
+    public static void unpackZipPackageToPluginsFolder(File zipFile) throws IOException {
+        Path tmp = Files.createTempDirectory("archi"); //$NON-NLS-1$
+        File tmpFolder = tmp.toFile();
         
-        if(installFolder == null || !installFolder.exists()) {
-            return false;
-        }
-
         try {
+            ZipUtils.unpackZip(zipFile, tmpFolder);
+            
             File pluginsFolder = getPluginsFolder();
 
-            for(File file : installFolder.listFiles()) {
+            for(File file : tmpFolder.listFiles()) {
                 // Ignore the magic entry file
                 if(MAGIC_ENTRY.equalsIgnoreCase(file.getName())) {
                     continue;
                 }
-
-                // Delete old ones in target plugins folder
-                deleteMatchingPlugin(file, pluginsFolder);
+                
+                // Delete old ones on exit in target plugins folder
+                deleteMatchingPluginOnExit(file, pluginsFolder);
 
                 // Copy new ones
                 if(file.isDirectory()) {
@@ -90,27 +72,11 @@ public class PluginInstaller {
                 }
             }
         }
-        catch(IOException ex) {
-            String message = Messages.PluginInstaller_0 + "\n\n" + ex.getLocalizedMessage(); //$NON-NLS-1$
-            MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.PluginInstaller_1, message);
-            Logger.logError("Could not install plugin", ex); //$NON-NLS-1$
-            return false;
-        }
-        // Delete the install folder in all cases
         finally {
-            try {
-                FileUtils.deleteFolder(installFolder);
-            }
-            catch(IOException ex) {
-                Logger.logError("Could not delete plugin install folder", ex); //$NON-NLS-1$
-                return false;
-            }
+            FileUtils.deleteFolder(tmpFolder);
         }
-
-        // If we got this far then return true
-        return true;
     }
-    
+
     /**
      * @return True if we can write to the plugins folder
      */
@@ -125,7 +91,7 @@ public class PluginInstaller {
     }
     
     // Delete matching target plugin
-    private static void deleteMatchingPlugin(File newPlugin, File pluginsFolder) throws IOException {
+    private static void deleteMatchingPluginOnExit(File newPlugin, File pluginsFolder) throws IOException {
         for(File file : findMatchingPlugins(pluginsFolder, newPlugin)) {
             if(file.isDirectory()) {
                 recursiveDeleteOnExit(file.toPath());
@@ -168,14 +134,6 @@ public class PluginInstaller {
         }
         
         return string;
-    }
-    
-    static File getInstallFolder() {
-        Location instanceLoc = Platform.getInstanceLocation();
-        if(instanceLoc != null) {
-            return new File(instanceLoc.getURL().getPath(), INSTALL_FOLDER);
-        }
-        return null;
     }
     
     static File getPluginsFolder() throws IOException {

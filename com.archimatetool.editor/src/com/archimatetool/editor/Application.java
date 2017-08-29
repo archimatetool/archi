@@ -44,12 +44,6 @@ implements IApplication {
 	    // Check if workbench cleanup required
 	    WorkbenchCleaner.checkForReset();
 	    
-	    // Check if new pending plugins need installing
-	    if(PluginInstaller.installPendingPlugins()) {
-	        // If yes, restart to register the plugins
-            return EXIT_RESTART;
-        }
-	    
 	    // Store the application version and build IDs in System Property
 	    String fullVersion = context.getBrandingBundle().getVersion().toString();
 	    String version = fullVersion.substring(0, 5);

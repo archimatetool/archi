@@ -55,11 +55,6 @@ public class PluginInstallerTests {
     }
     
     @Test
-    public void testGetInstallFolder() {
-        assertNotNull(PluginInstaller.getInstallFolder());
-    }
-
-    @Test
     public void testGetPluginsFolder() throws IOException {
         assertNotNull(PluginInstaller.getPluginsFolder());
     }

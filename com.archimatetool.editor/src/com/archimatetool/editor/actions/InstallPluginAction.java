@@ -55,15 +55,15 @@ public class InstallPluginAction extends Action {
         }
         
         try {
-            // Not an Archi plug-in zip file
+            // Not an Archi plugin
             if(!PluginInstaller.isPluginZipFile(file)) {
                 MessageDialog.openError(Display.getCurrent().getActiveShell(),
                         Messages.InstallPluginAction_0, Messages.InstallPluginAction_1);
                 return;
             }
 
-            // Unpack zip to install folder
-            PluginInstaller.unpackZipPackageToInstallFolder(file);
+            // Unpack zip to plugins folder
+            PluginInstaller.unpackZipPackageToPluginsFolder(file);
         }
         catch(IOException ex) {
             ex.printStackTrace();
