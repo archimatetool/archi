@@ -99,7 +99,7 @@ public class PluginInstaller {
         // Delete the install folder in all cases
         finally {
             try {
-                recursiveDeleteOnExit(installFolder.toPath());
+                FileUtils.deleteFolder(installFolder);
             }
             catch(IOException ex) {
                 Logger.logError("Could not delete plugin install folder", ex); //$NON-NLS-1$
