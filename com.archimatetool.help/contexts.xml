@@ -183,7 +183,7 @@
     </context>
     <context id="GenerateViewDialog">
        <description>Generate a View from Elements</description>
-       <topic href="help/Text/generate_view.html" label="Generate a View from a Elements"/>
+       <topic href="help/Text/generate_view.html" label="Generate a View from Elements"/>
     </context>
     
 </contexts>

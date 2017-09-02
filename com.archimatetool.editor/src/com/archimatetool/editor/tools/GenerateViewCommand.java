@@ -6,8 +6,10 @@
 package com.archimatetool.editor.tools;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
@@ -119,24 +121,54 @@ public class GenerateViewCommand extends Command {
             }
         }
         
-        // Add connections
+        // Add connections between elements first
         for(IDiagramModelObject dmoSource : dm.getChildren()) {
             IArchimateElement elementSource = ((IDiagramModelArchimateObject)dmoSource).getArchimateElement();
+            
             for(IArchimateRelationship relation : elementSource.getSourceRelationships()) {
                 for(IDiagramModelObject dmoTarget : dm.getChildren()) {
                     IArchimateElement elementTarget = ((IDiagramModelArchimateObject)dmoTarget).getArchimateElement();
+                    
                     // Don't add connections that are not connected to the main elements if option is set
                     if(!fAddAllConnections && !(fSelectedElements.contains(elementSource)) && !(fSelectedElements.contains(elementTarget))) {
                         continue;
                     }
+                    
                     if(relation.getTarget() == elementTarget) {
-                        IDiagramModelArchimateConnection connection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
-                        connection.connect(dmoSource, dmoTarget);
+                        // Create connection
+                        IDiagramModelArchimateConnection newConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
+                        newConnection.connect(dmoSource, dmoTarget);
                     }
                 }
             }
         }
         
+        // Add connections to connections
+        for(Iterator<EObject> iter1 = dm.eAllContents(); iter1.hasNext();) {
+            EObject eObject1 = iter1.next();
+            if(eObject1 instanceof IDiagramModelArchimateConnection) {
+                IDiagramModelArchimateConnection connection = (IDiagramModelArchimateConnection)eObject1;
+                
+                for(IDiagramModelObject dmo : dm.getChildren()) {
+                    IArchimateElement element = ((IDiagramModelArchimateObject) dmo).getArchimateElement();
+                    
+                    for(IArchimateRelationship relation : connection.getArchimateRelationship().getSourceRelationships()) {
+                        if(relation.getTarget() == element) {
+                            IDiagramModelArchimateConnection newConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
+                            newConnection.connect(connection, dmo);
+                        }
+                    }
+                    
+                    for(IArchimateRelationship relation : connection.getArchimateRelationship().getTargetRelationships()) {
+                        if(relation.getSource() == element) {
+                            IDiagramModelArchimateConnection newConnection = ArchimateDiagramModelFactory.createDiagramModelArchimateConnection(relation);
+                            newConnection.connect(dmo, connection);
+                        }
+                    }
+                }
+            }
+        }
+       
         return dm;
     }
     
@@ -152,28 +184,35 @@ public class GenerateViewCommand extends Command {
         fAddedElements = new ArrayList<IArchimateElement>();
         
         for(IArchimateElement element : fSelectedElements) {
-            if(!fAddedElements.contains(element)) {
-                fAddedElements.add(element);
-            }
-            
-            // TODO: A3 add connecting relationships
+            addElement(element);
             
             // Add connecting target elements
             for(IArchimateRelationship relation : element.getSourceRelationships()) {
-                IArchimateConcept target = relation.getTarget();
-                if(fViewpoint.isAllowedConcept(target.eClass()) && !fAddedElements.contains(target) && target instanceof IArchimateElement) {
-                    fAddedElements.add((IArchimateElement)target);
-                }
+                addElement(relation.getTarget());
             }
             
             // Add connecting source elements
             for(IArchimateRelationship relation : element.getTargetRelationships()) {
-                IArchimateConcept source = relation.getSource();
-                if(fViewpoint.isAllowedConcept(source.eClass()) && !fAddedElements.contains(source)  && source instanceof IArchimateElement) {
-                    fAddedElements.add((IArchimateElement)source);
-                }
+                addElement(relation.getSource());
             }
         }
     }
     
+    private void addElement(IArchimateConcept concept) {
+        if(concept instanceof IArchimateElement) {
+            if(fViewpoint.isAllowedConcept(concept.eClass()) && !fAddedElements.contains(concept)) {
+                fAddedElements.add((IArchimateElement)concept);
+            }
+        }
+        else if(concept instanceof IArchimateRelationship) {
+            IArchimateConcept source = ((IArchimateRelationship)concept).getSource();
+            if(source instanceof IArchimateElement) {
+                addElement(source);
+            }
+            IArchimateConcept target = ((IArchimateRelationship)concept).getTarget();
+            if(target instanceof IArchimateElement) {
+                addElement(target);
+            }
+        }
+    }
 }
