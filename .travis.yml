@@ -1,5 +1,8 @@
 language: java
 
+# Fixes Travis issue
+group: edge
+
 jdk:
   - oraclejdk8
 
