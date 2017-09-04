@@ -1,7 +1,8 @@
 language: java
 
-# Fixes Travis issue
-group: edge
+# Fixes Travis memory issue
+env:
+  - JAVA_TOOL_OPTIONS="-Xmx2048m -Xms512m"
 
 jdk:
   - oraclejdk8
