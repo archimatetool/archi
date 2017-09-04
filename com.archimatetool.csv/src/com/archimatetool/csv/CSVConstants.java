@@ -5,8 +5,9 @@
  */
 package com.archimatetool.csv;
 
-
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Constant definitions for CSV
@@ -41,4 +42,9 @@ public interface CSVConstants {
     String[] DELIMITER_NAMES = { "comma", "semicolon", "tab" };
     
     String[] ENCODINGS = { "UTF-8", "ANSI" };
+    
+    String INFLUENCE_STRENGTH = "Influence_Strength";
+    
+    String ACCESS_TYPE = "Access_Type";
+    List<String> ACCESS_TYPES = new ArrayList<String>(Arrays.asList(new String[] { "Write", "Read", "Access", "ReadWrite" }));
 }

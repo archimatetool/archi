@@ -21,11 +21,13 @@ import org.eclipse.emf.ecore.EObject;
 import com.archimatetool.csv.CSVConstants;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.FolderType;
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IProperty;
 
 
@@ -202,14 +204,35 @@ public class CSVExporter implements CSVConstants {
             EObject eObject = iter.next();
             if(eObject instanceof IArchimateConcept) {
                 IArchimateConcept concept = (IArchimateConcept)eObject;
+                
                 for(IProperty property : concept.getProperties()) {
                     writer.write(CRLF);
                     writer.write(createPropertyRow(concept.getId(), property));
                 }
+                
+                // Write special attributes as properties
+                writeSpecialProperties(writer, concept);
             }
         }
         
         writer.close();
+    }
+    
+    private void writeSpecialProperties(Writer writer, IArchimateConcept concept) throws IOException {
+        // Influence relationship strength
+        if(concept instanceof IInfluenceRelationship) {
+            String strength = ((IInfluenceRelationship)concept).getStrength();
+            if(StringUtils.isSet(strength)) {
+                writer.write(CRLF);
+                writer.write(createPropertyRow(concept.getId(), INFLUENCE_STRENGTH, strength));
+            }
+        }
+        
+        // Access relationship type
+        else if(concept instanceof IAccessRelationship) {
+            writer.write(CRLF);
+            writer.write(createPropertyRow(concept.getId(), ACCESS_TYPE, ACCESS_TYPES.get(((IAccessRelationship)concept).getAccessType())));
+        }
     }
     
     /**
@@ -342,18 +365,24 @@ public class CSVExporter implements CSVConstants {
     /**
      * Create a String Row for a Property
      */
-    String createPropertyRow(String elementID, IProperty property) {
+    String createPropertyRow(String conceptID, IProperty property) {
+        return createPropertyRow(conceptID, property.getKey(), property.getValue());
+    }
+
+    /**
+     * Create a String Row for a Key/Value
+     */
+    String createPropertyRow(String conceptID, String key, String value) {
         StringBuffer sb = new StringBuffer();
         
-        String id = elementID;
-        sb.append(surroundWithQuotes(id));
+        sb.append(surroundWithQuotes(conceptID));
         sb.append(fDelimiter);
         
-        String key = normalise(property.getKey());
+        key = normalise(key);
         sb.append(surroundWithQuotes(key));
         sb.append(fDelimiter);
         
-        String value = normalise(property.getValue());
+        value = normalise(value);
         sb.append(surroundWithQuotes(value));
         
         return sb.toString();

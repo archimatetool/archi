@@ -18,6 +18,7 @@ import java.util.UUID;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -30,6 +31,7 @@ import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
 import com.archimatetool.editor.model.commands.NonNotifyingCompoundCommand;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
@@ -37,6 +39,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IInfluenceRelationship;
 import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.util.ArchimateModelUtils;
@@ -60,8 +63,8 @@ public class CSVImporter implements CSVConstants {
     // IProperty -> Value: updated Property
     Map<IProperty, String> updatedProperties = new HashMap<IProperty, String>();
 
-    // IArchimateConcept -> String[] : Updated concepts' name and documentation
-    Map<IArchimateConcept, String[]> updatedConcepts = new HashMap<IArchimateConcept, String[]>();
+    // IArchimateConcept -> Map [EAttribute, value] : Updated concepts' features
+    Map<IArchimateConcept, Map<EAttribute, Object>> updatedConcepts = new HashMap<IArchimateConcept, Map<EAttribute, Object>>();
 
     // CSV Model id. This might be set as a reference for Properties. Might be null.
     private String modelID;
@@ -145,23 +148,18 @@ public class CSVImporter implements CSVConstants {
             }
         }
         
-        // Updated elements/relations' name and documentation
-        for(final Entry<IArchimateConcept, String[]> entry : updatedConcepts.entrySet()) {
-            // Name
-            Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.NAMEABLE__NAME, entry.getValue()[0]);
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
-            }
-            
-            // Documentation
-            cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, entry.getKey(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, entry.getValue()[1]);
-            if(cmd.canExecute()) {
-                compoundCommand.add(cmd);
+        // Updated concepts' features
+        for(Entry<IArchimateConcept, Map<EAttribute, Object>> conceptEntry : updatedConcepts.entrySet()) {
+            for(Entry<EAttribute, Object> entry : conceptEntry.getValue().entrySet()) {
+                Command cmd = new EObjectFeatureCommand(Messages.CSVImporter_0, conceptEntry.getKey(), entry.getKey(), entry.getValue());
+                if(cmd.canExecute()) {
+                    compoundCommand.add(cmd);
+                }
             }
         }
 
         // New Properties
-        for(final Entry<IProperty, IProperties> entry : newProperties.entrySet()) {
+        for(Entry<IProperty, IProperties> entry : newProperties.entrySet()) {
             Command cmd = new Command() {
                 IProperty property = entry.getKey();
                 IProperties propertiesObject = entry.getValue();
@@ -284,11 +282,12 @@ public class CSVImporter implements CSVConstants {
         // Is the element already in the model?
         IArchimateElement element = (IArchimateElement)findArchimateConceptInModel(id, eClass);
         
-        // Yes
+        // Yes it is, so update values
         if(element != null) {
-            updatedConcepts.put(element, new String[] { name, documentation });
+            storeUpdatedConceptFeature(element, IArchimatePackage.Literals.NAMEABLE__NAME, name);
+            storeUpdatedConceptFeature(element, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, documentation);
         }
-        // No, create a new one
+        // No, create a new element
         else {
             element = (IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass);
             element.setId(id);
@@ -373,9 +372,10 @@ public class CSVImporter implements CSVConstants {
         // Is the relation already in the model?
         IArchimateRelationship relation = (IArchimateRelationship)findArchimateConceptInModel(id, eClass);
         
-        // Yes
+        // Yes it is, so updated values
         if(relation != null) {
-            updatedConcepts.put(relation, new String[] { name, documentation});
+            storeUpdatedConceptFeature(relation, IArchimatePackage.Literals.NAMEABLE__NAME, name);
+            storeUpdatedConceptFeature(relation, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, documentation);
         }
         // No, create a new one
         else {
@@ -461,6 +461,17 @@ public class CSVImporter implements CSVConstants {
         
         String key = normalise(csvRecord.get(1));
         String value = normalise(csvRecord.get(2));
+        
+        // Special properties for relationship attributes
+        if(INFLUENCE_STRENGTH.equals(key) && propertiesObject instanceof IInfluenceRelationship) {
+            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject, IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH, value);
+            return;
+        }
+        else if(ACCESS_TYPE.equals(key) && propertiesObject instanceof IAccessRelationship) {
+            int newvalue = ACCESS_TYPES.indexOf(value);
+            storeUpdatedConceptFeature((IArchimateConcept)propertiesObject, IArchimatePackage.Literals.ACCESS_RELATIONSHIP__ACCESS_TYPE, newvalue);
+            return;
+        }
         
         // Is there already a property with this key?
         IProperty property = getProperty(propertiesObject, key);
@@ -704,5 +715,16 @@ public class CSVImporter implements CSVConstants {
         }
         
         return null;
+    }
+    
+    void storeUpdatedConceptFeature(IArchimateConcept concept, EAttribute feature, Object value) {
+        Map<EAttribute, Object> map = updatedConcepts.get(concept);
+        
+        if(map == null) {
+            map = new HashMap<EAttribute, Object>();
+            updatedConcepts.put(concept, map);
+        }
+        
+        map.put(feature, value);
     }
 }

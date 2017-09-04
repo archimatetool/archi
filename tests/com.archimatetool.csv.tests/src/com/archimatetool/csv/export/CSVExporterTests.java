@@ -5,23 +5,24 @@
  */
 package com.archimatetool.csv.export;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.archimatetool.csv.export.CSVExporter;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IProperty;
+
+import junit.framework.JUnit4TestAdapter;
 
 
 @SuppressWarnings("nls")
@@ -175,7 +176,7 @@ public class CSVExporterTests {
     
     
     @Test
-    public void testCreatePropertyRow() {
+    public void testCreatePropertyRow_Property() {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         element.setId("1234567a");
         IProperty property = IArchimateFactory.eINSTANCE.createProperty();
@@ -184,6 +185,11 @@ public class CSVExporterTests {
         element.getProperties().add(property);
         
         assertEquals("\"1234567a\",\"Some key\",\"Some value\"", exporter.createPropertyRow(element.getId(), property));
+    }
+
+    @Test
+    public void testCreatePropertyRow_String() {
+        assertEquals("\"1234567a\",\"strength\",\"12\"", exporter.createPropertyRow("1234567a", "strength", "12"));
     }
 
     @Test
