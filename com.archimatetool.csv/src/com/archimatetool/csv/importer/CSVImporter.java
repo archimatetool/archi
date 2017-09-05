@@ -5,9 +5,11 @@
  */
 package com.archimatetool.csv.importer;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -506,7 +508,8 @@ public class CSVImporter implements CSVConstants {
         String errorMessage = "invalid char between encapsulated token and delimiter"; //$NON-NLS-1$
         
         try {
-            parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
+            parser = new CSVParser(br, CSVFormat.DEFAULT);
             records = parser.getRecords();
         }
         catch(IOException ex) {
@@ -515,7 +518,8 @@ public class CSVImporter implements CSVConstants {
             }
             if(ex.getMessage() != null && ex.getMessage().contains(errorMessage)) {
                 try {
-                    parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT.withDelimiter(';'));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
+                    parser = new CSVParser(br, CSVFormat.DEFAULT.withDelimiter(';'));
                     records = parser.getRecords();
                 }
                 catch(IOException ex2) {
@@ -523,7 +527,8 @@ public class CSVImporter implements CSVConstants {
                         parser.close();
                     }
                     if(ex2.getMessage() != null && ex2.getMessage().contains(errorMessage)) {
-                        parser = new CSVParser(new FileReader(file), CSVFormat.DEFAULT.withDelimiter('\t'));
+                        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
+                        parser = new CSVParser(br, CSVFormat.DEFAULT.withDelimiter('\t'));
                         records = parser.getRecords();
                     }
                     else {
