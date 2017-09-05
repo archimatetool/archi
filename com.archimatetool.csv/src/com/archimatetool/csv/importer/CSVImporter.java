@@ -5,7 +5,6 @@
  */
 package com.archimatetool.csv.importer;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,6 +19,7 @@ import java.util.UUID;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.input.BOMInputStream;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -508,8 +508,8 @@ public class CSVImporter implements CSVConstants {
         String errorMessage = "invalid char between encapsulated token and delimiter"; //$NON-NLS-1$
         
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
-            parser = new CSVParser(br, CSVFormat.DEFAULT);
+            InputStreamReader is = new InputStreamReader(new BOMInputStream(new FileInputStream(file)), "UTF-8"); //$NON-NLS-1$
+            parser = new CSVParser(is, CSVFormat.DEFAULT);
             records = parser.getRecords();
         }
         catch(IOException ex) {
@@ -518,8 +518,8 @@ public class CSVImporter implements CSVConstants {
             }
             if(ex.getMessage() != null && ex.getMessage().contains(errorMessage)) {
                 try {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
-                    parser = new CSVParser(br, CSVFormat.DEFAULT.withDelimiter(';'));
+                    InputStreamReader is = new InputStreamReader(new BOMInputStream(new FileInputStream(file)), "UTF-8"); //$NON-NLS-1$
+                    parser = new CSVParser(is, CSVFormat.DEFAULT.withDelimiter(';'));
                     records = parser.getRecords();
                 }
                 catch(IOException ex2) {
@@ -527,8 +527,8 @@ public class CSVImporter implements CSVConstants {
                         parser.close();
                     }
                     if(ex2.getMessage() != null && ex2.getMessage().contains(errorMessage)) {
-                        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")); //$NON-NLS-1$
-                        parser = new CSVParser(br, CSVFormat.DEFAULT.withDelimiter('\t'));
+                        InputStreamReader is = new InputStreamReader(new BOMInputStream(new FileInputStream(file)), "UTF-8"); //$NON-NLS-1$
+                        parser = new CSVParser(is, CSVFormat.DEFAULT.withDelimiter('\t'));
                         records = parser.getRecords();
                     }
                     else {
