@@ -1,0 +1,332 @@
+                        Apache Commons CSV
+                            Version 1.5
+                           Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.5 version of Apache Commons CSV.
+Commons CSV reads and writes files in variations of the Comma Separated Value (CSV) format.
+
+CSV requires at least Java 7.
+
+The Apache Commons CSV library provides a simple interface for reading and writing
+CSV files of various types.
+
+Feature and bug fix release
+
+Changes in this version include:
+
+NEW FEATURES
+==============
+
+o CSV-189:  CSVParser: Add factory method accepting InputStream. Thanks to Peter Holzwarth, Gary Gregory.
+o CSV-190:  Add convenience API CSVFormat.print(File, Charset). Thanks to Gary Gregory.
+o CSV-191:  Add convenience API CSVFormat.print(Path, Charset). Thanks to Gary Gregory.
+o CSV-192:  Add convenience API CSVParser.parse(Path, Charset, CSVFormat). Thanks to Gary Gregory.
+o CSV-205:  Add convenience API CSVFormat#printer() to print to System.out. Thanks to Gary Gregory.
+o CSV-207:  Provide a CSV Format for printing PostgreSQL CSV and Text formats. Thanks to Gary Gregory.
+o CSV-214:  Adding a placeholder in the Lexer and CSV parser to store the end-of-line string. Thanks to Nitin Mahendru, Gary Gregory.
+
+FIXED BUGS
+============
+
+o CSV-203:  withNullString value is printed without quotes when QuoteMode.ALL is specified; add QuoteMode.ALL_NON_NULL. PR #17. Thanks to Richard Wheeldon, Kai Paroth.
+o CSV-194:  Fix outdated comments about FileReader in CSVParser #13. Thanks to Marc Prud'hommeaux.
+o CSV-193:  Fix incorrect method name 'withFirstRowAsHeader' in user guide. Thanks to Matthias Wiehl.
+o CSV-171:  Negative numeric values in the first column are always quoted in minimal mode. Thanks to Gary Gregory, Michael Graessle, Adrian Bridgett.
+
+CHANGES
+=========
+
+o CSV-187: Update platform requirement from Java 6 to 7. Thanks to Gary Gregory.
+o CSV-201: Do not use RuntimeException in CSVParser.iterator().new Iterator() {...}.getNextRecord(). Thanks to Benedikt Ritter, Gary Gregory.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-csv/changes-report.html
+
+For complete information on Apache Commons CSV, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons CSV website:
+
+http://commons.apache.org/proper/commons-csv/
+
+Have fun!
+-Apache Commons CSV team
+
+------------------------------------------------------------------------------
+
+                        Apache Commons CSV
+                            Version 1.4
+                           Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.4 version of Apache Commons CSV.
+Commons CSV reads and writes files in variations of the Comma Separated Value (CSV) format.
+
+CSV requires at least Java 6.
+
+The Apache Commons CSV library provides a simple interface for reading and writing
+CSV files of various types.
+
+Feature and bug fix release
+
+Changes in this version include:
+
+NEW FEATURES
+==============
+
+o CSV-182:  Allow some printing operations directly from CSVFormat. Thanks to Gary Gregory.
+
+
+CHANGES
+=========
+
+o CSV-181:  Make CSVPrinter.print(Object) GC-free. Thanks to Gary Gregory.
+o CSV-183:  Drop ferc.gov tests.  
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-csv/changes-report.html
+
+For complete information on Apache Commons CSV, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons CSV website:
+
+http://commons.apache.org/proper/commons-csv/
+
+Have fun!
+-Apache Commons CSV team
+
+------------------------------------------------------------------------------
+
+                        Apache Commons CSV
+                           Version 1.3
+                          Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.3 version of Apache Commons CSV.
+Commons CSV reads and writes files in variations of the Comma Separated Value (CSV) format.
+
+CSV requires at least Java 6.
+
+The Apache Commons CSV library provides a simple interface for reading and writing
+CSV files of various types.
+
+Feature and bug fix release.
+
+Changes in this version include:
+
+NEW FEATURES
+==============
+
+o CSV-179:  Add shortcut method for using first record as header to CSVFormat.
+o CSV-180:  Add withHeader(Class? extends Enum>) to CSVFormat.
+o CSV-159:  Add IgnoreCase option for accessing header names. Thanks to Yamil Medina.
+o CSV-169:  The null string should be case-sensitive when reading records. Thanks to Gary Gregory.
+o CSV-175:  Support for ignoring trailing delimiter. Thanks to Gary Gregory, Chris Jones.
+o CSV-177:  Support trimming leading and trailing blanks. Thanks to Gary Gregory.
+o CSV-178:  Create default formats for Informix UNLOAD and UNLOAD CSV. Thanks to Gary Gregory.
+
+FIXED BUGS
+============
+
+o CSV-168:  CSVFormat.nullString should not be escaped. Thanks to Gary Gregory, cornel creanga.
+o CSV-170:  CSVFormat.MYSQL nullString should be "\N". Thanks to Gary Gregory, cornel creanga.
+o CSV-161:  Fix Javadoc to say CSVFormat with() methods return a new CSVFormat. Thanks to Gary Gregory, Kristof Meixner, Emmanuel Bourg.
+
+CHANGES
+============
+
+o CSV-167:  Comment line hides next record; update Javadoc to make behaviour clear. Thanks to Rene.
+o CSV-153:  CSVPrinter doesn't skip creation of header record if skipHeaderRecord is set to true. Thanks to Wren.
+
+
+Have fun!
+-Apache Commons CSV team
+
+------------------------------------------------------------------------------
+
+                        Apache Commons CSV
+                           Version 1.2
+                          Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.2 version of Apache Commons CSV.
+Commons CSV reads and writes files in variations of the Comma Separated Value (CSV) format.
+
+CSV requires at least Java 6.
+
+The Apache Commons CSV library provides a simple interface for reading and writing
+CSV files of various types.
+
+Feature and bug fix release
+
+Changes in this version include:
+
+NEW FEATURES
+==============
+
+o CSV-157:  Add enum CSVFormat.Predefined that contains the default CSVFormat values.
+
+FIXED BUGS
+============
+
+o CSV-145:  CSVFormat.with* methods clear the header comments. Thanks to Frank Ulbricht.
+o CSV-156:  Incorrect Javadoc on QuoteMode.NONE. Thanks to Jason Steenstra-Pickens.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-csv/changes-report.html
+
+For complete information on Apache Commons CSV, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons CSV website:
+
+http://commons.apache.org/proper/commons-csv/
+
+Have fun!
+-Apache Commons CSV team
+
+------------------------------------------------------------------------------
+
+                        Apache Commons CSV
+                           Version 1.1
+                          Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.1 version of Apache Commons CSV.
+Commons CSV reads and writes files in variations of the Comma Separated Value (CSV) format.
+
+CSV requires at least Java 6.
+
+The Apache Commons CSV library provides a simple interface for reading and writing
+CSV files of various types.
+
+This is our second release.
+
+Changes in this version include:
+
+New features:
+o [CSV-129] Add CSVFormat#with 0-arg methods matching boolean arg methods. 
+o [CSV-131] Save positions of records to enable random access. Thanks to Holger Stratmann. 
+o [CSV-139] CSVPrinter.printRecord(ResultSet) with metadata. 
+
+Fixed Bugs:
+o [CSV-140] QuoteMode.NON_NUMERIC doesn't work with CSVPrinter.printRecords(ResultSet). Thanks to Damjan Jovanovic. 
+o [CSV-130] CSVFormat#withHeader doesn't work well with #printComment, add withHeaderComments(String...). Thanks to Sergei Lebedev. 
+o [CSV-128] CSVFormat.EXCEL should ignore empty header names. 
+o [CSV-132] Incorrect Javadoc referencing org.apache.commons.csv.CSVFormat withQuote(). Thanks to Sascha Szott. 
+
+Changes:
+o [CSV-124] Improve toString() implementation of CSVRecord. Thanks to Kalyan. 
+o [CSV-134] Unified parameter validation. Thanks to wu wen. 
+
+Historical list of changes: http://commons.apache.org/proper/commons-csv/changes-report.html
+
+For complete information on Apache Commons CSV, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons CSV website:
+
+http://commons.apache.org/proper/commons-csv/
+
+Have fun!
+-Apache Commons CSV team
+
+-------------------------------------------------------------------------------
+
+                        Apache Commons CSV
+                           Version 1.0
+                          Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.0 version of Apache Commons CSV.
+Commons CSV reads and writes files in variations of the Comma Separated Value (CSV) format.
+
+CSV requires at least Java 6.0.
+
+The Apache Commons CSV library provides a simple interface for reading and writing
+CSV files of various types.
+
+First release
+
+Changes in this version include:
+
+NEW FEATURES
+============
+
+o CSV-121:  IllegalArgumentException thrown when the header contains duplicate names when the column names are empty.
+            Thanks to Sebastian Hardt.
+o CSV-120:  CSVFormat#withHeader doesn't work with CSVPrinter Thanks to Sergei Lebedev.
+o CSV-119:  CSVFormat is missing a print(...) method Thanks to Sergei Lebedev.
+o CSV-105:  Add Map conversion API to CSVRecord
+o CSV-52:   Keep track of record number
+o CSV-92:   Need a way to extract parsed headers, e.g. for use in formatting
+            output
+o CSV-65:   Header support
+o CSV-48:   Predefined format for MYSQL
+
+FIXED BUGS
+==========
+
+o CSV-125:  No longer works with Java 6
+o CSV-122:  NullPointerException when empty header string and and null string of "".
+            Thanks to Mike Lewis.
+o CSV-118:  CSVRecord.toMap() throws NPE on formats with no
+            headers. Thanks to Enrique Lara.
+o CSV-113:  Check whether ISE/IAE are being used appropriately
+o CSV-114:  CSVFormat constructor should reject a header array with duplicate
+            entries
+o CSV-112:  HeaderMap is inconsistent when it is parsed from an input with
+            duplicate columns names
+o CSV-111:  CSVRecord.toMap() fails if row length shorter than header length
+o CSV-106:  CSVFormat.format allways append null
+o CSV-100:  CSVParser: getHeaderMap throws NPE
+o CSV-53:   CSVRecord does not verify that the length of the header mapping
+            matches the number of values
+o CSV-54:   Confusing semantic of the ignore leading/trailing spaces parameters
+o CSV-34:   CSVFormat describes itself as immutable, but it is not - in
+            particular it is not thread-safe
+o CSV-36:   Endless loops in CSV parser
+o CSV-13:   NullPointerException in CSVPrinter.print()/println()
+o CSV-23:   Excel strategy uses wrong separator
+
+CHANGES
+=======
+
+o CSV-117:  Validate format parameters in constructor
+o CSV-42:   Lots of possible changes Thanks to Bob Smith.
+o CSV-78:   Use Character instead of char for char fields except delimiter
+o CSV-99:   Revert Builder implementation in CSVFormat
+o CSV-93:   Allow the handling of NULL values
+o CSV-68:   Use the Builder pattern for CSVFormat
+o CSV-84:   Clarify comment handling
+o CSV-25:   CSVParser.nextValue() seems pointless
+o CSV-97:   Allow the String value for null to be customized for the CSV
+            printer
+o CSV-88:   Not possible to create a CSVFormat from scratch
+o CSV-94:   Lexer should only use char fields
+o CSV-71:   Add convenience methods to CSVLexer
+o CSV-59:   Is CharBuffer really needed, now that StringBuilder is available?
+o CSV-55:   Replace while(true)-loop in CSVParser.getRecord with do-while-loop
+o CSV-45:   CSVPrinter overhaul
+o CSV-49:   CSVStrategy has modifiable public static variables Thanks to Bob Smith.
+o CSV-46:   Reduce visibility of methods in internal classes
+o CSV-26:   ExtendedBufferedReader does too much
+o CSV-27:   Decide whether to keep the csv.writer subpackage
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-csv/changes-report.html
+
+For complete information on Apache Commons CSV, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons CSV website:
+
+http://commons.apache.org/proper/commons-csv/
+
+Have fun!
+-Apache Commons CSV team
+
