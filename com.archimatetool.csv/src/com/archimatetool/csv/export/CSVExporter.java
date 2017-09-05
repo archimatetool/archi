@@ -107,6 +107,11 @@ public class CSVExporter implements CSVConstants {
     private void writeModelAndElements(File file) throws IOException {
         Writer writer = createOutputStreamWriter(file);
         
+        // BOM Byte
+        if(fEncoding.contains("BOM")) { //$NON-NLS-1$
+            writer.write('\ufeff');
+        }
+        
         // Write Header
         String header = createHeader(MODEL_ELEMENTS_HEADER);
         writer.write(header);
@@ -486,6 +491,9 @@ public class CSVExporter implements CSVConstants {
     OutputStreamWriter createOutputStreamWriter(File file) throws IOException {
         if("ANSI".equals(fEncoding)) { //$NON-NLS-1$
             return new OutputStreamWriter(new FileOutputStream(file));
+        }
+        else if(fEncoding.startsWith("UTF-8")) { //$NON-NLS-1$
+            return new OutputStreamWriter(new FileOutputStream(file), "UTF-8"); //$NON-NLS-1$
         }
         else {
             return new OutputStreamWriter(new FileOutputStream(file), fEncoding);

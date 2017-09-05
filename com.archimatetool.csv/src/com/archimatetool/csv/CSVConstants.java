@@ -41,7 +41,7 @@ public interface CSVConstants {
     char[] DELIMITERS = { ',', ';', '\t' };
     String[] DELIMITER_NAMES = { "comma", "semicolon", "tab" };
     
-    String[] ENCODINGS = { "UTF-8", "ANSI" };
+    String[] ENCODINGS = { "UTF-8", "UTF-8 BOM", "ANSI" };
     
     String INFLUENCE_STRENGTH = "Influence_Strength";
     
