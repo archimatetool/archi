@@ -12,6 +12,8 @@ package com.archimatetool.commandline;
  * @author Phillip Beauvoir
  */
 public interface ICommandLineProvider {
+    
+    String EXTENSION_ID = "com.archimatetool.commandline.commandlineProvider"; //$NON-NLS-1$
 
     void run(String[] args) throws Exception;
     

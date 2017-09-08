@@ -18,6 +18,10 @@ import com.archimatetool.reports.html.HTMLReportExporter;
 /**
  * Command Line interface for HTML Reports
  * 
+ * Usage:
+ * 
+ * Archi -consoleLog -console -nosplash -application com.archimatetool.commandline.app -HTMLReport_InputFile "/pathToModel/model.archimate" -HTMLReport_OutputFolder "/pathToOutputFolder"
+ * 
  * @author Phillip Beauvoir
  */
 @SuppressWarnings("nls")
