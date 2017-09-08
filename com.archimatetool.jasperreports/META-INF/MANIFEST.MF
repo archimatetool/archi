@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Jasper Reports
 Bundle-SymbolicName: com.archimatetool.jasperreports;singleton:=true
-Bundle-Version: 4.0.3.qualifier
+Bundle-Version: 4.1.0.qualifier
 Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

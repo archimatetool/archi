@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.archimatetool</groupId>
         <artifactId>parent</artifactId>
-        <version>4.0.3-SNAPSHOT</version>
+        <version>4.1.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
     <artifactId>com.archimatetool.widgets</artifactId>
-    <version>4.0.3-SNAPSHOT</version>
+    <version>4.1.0-SNAPSHOT</version>
     <packaging>eclipse-plugin</packaging>
 
 </project>

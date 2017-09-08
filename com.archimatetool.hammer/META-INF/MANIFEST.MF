@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Archi Validator
 Bundle-SymbolicName: com.archimatetool.hammer;singleton:=true
 Bundle-Localization: plugin
-Bundle-Version: 4.0.3.qualifier
+Bundle-Version: 4.1.0.qualifier
 Bundle-Vendor: Archi
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
