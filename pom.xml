@@ -24,6 +24,7 @@
 
     <modules>
         <module>com.archimatetool.canvas</module>
+        <module>com.archimatetool.commandline</module>
         <module>com.archimatetool.csv</module>
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
@@ -37,6 +38,7 @@
         <module>com.archimatetool.jdom</module>
         <module>com.archimatetool.model</module>
         <module>com.archimatetool.reports</module>
+        <module>com.archimatetool.reports.commandline</module>
         <module>com.archimatetool.templates</module>
         <module>com.archimatetool.widgets</module>
         <module>com.archimatetool.zest</module>

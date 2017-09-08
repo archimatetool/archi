@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Archi HTML Reports Command Line
+Bundle-SymbolicName: com.archimatetool.reports.commandline;singleton:=true
+Bundle-Localization: plugin
+Bundle-Version: 4.0.3.qualifier
+Bundle-Vendor: Phillip Beauvoir
+Require-Bundle: com.archimatetool.reports,
+ com.archimatetool.commandline
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
