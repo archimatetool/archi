@@ -7,7 +7,9 @@ package com.archimatetool.templates.impl.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -18,6 +20,7 @@ import com.archimatetool.editor.ui.services.UIRequestManager;
 import com.archimatetool.editor.utils.ZipUtils;
 import com.archimatetool.editor.views.tree.TreeEditElementRequest;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.ModelVersion;
 import com.archimatetool.templates.impl.model.ArchimateTemplateManager;
 import com.archimatetool.templates.model.ITemplate;
@@ -80,6 +83,15 @@ public class NewArchimateModelFromTemplateWizard extends Wizard {
                                 
                                 // Set file to null
                                 model.setFile(null);
+                                
+                                // New IDs
+                                model.setId(model.getIDAdapter().getNewID());
+                                for(Iterator<EObject> iter = model.eAllContents(); iter.hasNext();) {
+                                    EObject eObject = iter.next();
+                                    if(eObject instanceof IIdentifier) {
+                                        ((IIdentifier)eObject).setId(model.getIDAdapter().getNewID());
+                                    }
+                                }
                                 
                                 // Edit in-place in Tree
                                 UIRequestManager.INSTANCE.fireRequest(new TreeEditElementRequest(this, model));
