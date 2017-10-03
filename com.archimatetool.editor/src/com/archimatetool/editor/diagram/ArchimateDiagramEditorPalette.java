@@ -25,6 +25,8 @@ import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MagicConnectionCreationTool;
 import com.archimatetool.editor.diagram.tools.MagicConnectionModelFactory;
 import com.archimatetool.editor.diagram.tools.PanningSelectionExtendedTool;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.model.IArchimatePackage;
@@ -56,10 +58,6 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
      * @param viewpoint
      */
     public void setViewpoint(IViewpoint viewpoint) {
-        if(fViewpoint == viewpoint) {
-            return;
-        }
-        
         fViewpoint = viewpoint;
         
         // Remove 'em all
@@ -210,6 +208,11 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
     }
     
     private boolean isAllowedElement(EClass eClass) {
+        // Preference to show all pallette elements regardless of Viewpoint
+        if(!Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+            return true;
+        }
+        
         return fViewpoint == null || fViewpoint != null && fViewpoint.isAllowedConcept(eClass);
     }
     

@@ -32,7 +32,6 @@ import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactor
 import com.archimatetool.editor.diagram.util.ExtendedViewportAutoexposeHelper;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.findreplace.IFindReplaceProvider;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateDiagramModel;
@@ -64,16 +63,11 @@ implements IArchimateDiagramEditor {
     
     @Override
     protected void applicationPreferencesChanged(PropertyChangeEvent event) {
-        // Hide Palette elements on Viewpoint
+        // Hide/Show Palette elements on Viewpoint
         if(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS == event.getProperty()) {
-            if(Boolean.TRUE == event.getNewValue()) {
-                setPaletteViewpoint();
-            }
-            else {
-                getPaletteRoot().setViewpoint(null);
-            }
+            setPaletteViewpoint();
         }
-        // Hide Diagram Elements on Viewpoint
+        // Hide/Show Diagram Elements on Viewpoint
         else if(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS == event.getProperty()) {
             getGraphicalViewer().setContents(getModel()); // refresh the model contents
         }
@@ -91,12 +85,10 @@ implements IArchimateDiagramEditor {
     }
     
     /**
-     * Set Palette to current Viewpoint in model if Preference set
+     * Set Palette to current Viewpoint in model
      */
     protected void setPaletteViewpoint() {
-        if(Preferences.STORE.getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
-            getPaletteRoot().setViewpoint(ViewpointManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
-        }
+        getPaletteRoot().setViewpoint(ViewpointManager.INSTANCE.getViewpoint(getModel().getViewpoint()));
     }
     
     @Override
