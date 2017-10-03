@@ -545,6 +545,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
      * Set a cached color for an object
      */
     private void setColor(Object object, RGB rgb) {
+        if(object == null || rgb == null) {
+            return;
+        }
+        
         // Dispose of old one
         Color oldColor = fColorsCache.get(object);
         if(oldColor != null) {
