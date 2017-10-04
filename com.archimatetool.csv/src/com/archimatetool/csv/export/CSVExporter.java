@@ -107,10 +107,8 @@ public class CSVExporter implements CSVConstants {
     private void writeModelAndElements(File file) throws IOException {
         Writer writer = createOutputStreamWriter(file);
         
-        // BOM Byte
-        if(fEncoding.contains("BOM")) { //$NON-NLS-1$
-            writer.write('\ufeff');
-        }
+        // Write BOM
+        writeBOM(writer);
         
         // Write Header
         String header = createHeader(MODEL_ELEMENTS_HEADER);
@@ -168,6 +166,9 @@ public class CSVExporter implements CSVConstants {
         
         Writer writer = createOutputStreamWriter(file);
         
+        // Write BOM
+        writeBOM(writer);
+        
         // Write Header
         String header = createHeader(RELATIONSHIPS_HEADER);
         writer.write(header);
@@ -193,6 +194,9 @@ public class CSVExporter implements CSVConstants {
         }
         
         Writer writer = createOutputStreamWriter(file);
+        
+        // Write BOM
+        writeBOM(writer);
         
         // Write Header
         String header = createHeader(PROPERTIES_HEADER);
@@ -393,6 +397,17 @@ public class CSVExporter implements CSVConstants {
         return sb.toString();
     }
 
+    /**
+     * Write BOM byte to file
+     * @param writer
+     * @throws IOException
+     */
+    private void writeBOM(Writer writer) throws IOException {
+        if(fEncoding.contains("BOM")) { //$NON-NLS-1$
+            writer.write('\ufeff');
+        }
+    }
+    
     /**
      * Return a normalised String.
      * A Null string is returned as an empty string
