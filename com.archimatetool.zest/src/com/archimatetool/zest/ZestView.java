@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
@@ -48,8 +49,10 @@ import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.editor.ui.services.ViewManager;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.editor.views.AbstractModelView;
+import com.archimatetool.editor.views.tree.ITreeModelView;
 import com.archimatetool.editor.views.tree.actions.IViewerAction;
 import com.archimatetool.editor.views.tree.actions.PropertiesAction;
 import com.archimatetool.model.IArchimateConcept;
@@ -81,6 +84,7 @@ implements IZestView, ISelectionListener {
     private IAction fActionPinContent;
     private IAction fActionCopyImageToClipboard;
     private IAction fActionExportImageToFile;
+    private IAction fActionSelectInModelTree;
     
     // Depth Actions
     private IAction[] fDepthActions;
@@ -215,6 +219,7 @@ implements IZestView, ISelectionListener {
     void updateActions() {
         IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
         fActionProperties.update(selection);
+        fActionSelectInModelTree.setEnabled(!selection.isEmpty());
         
         boolean hasData = fGraphViewer.getInput() != null;
         fActionExportImageToFile.setEnabled(hasData);
@@ -328,6 +333,7 @@ implements IZestView, ISelectionListener {
         
 		menuManager.add(new Separator());
 		
+		menuManager.add(fActionSelectInModelTree);
 		menuManager.add(fActionCopyImageToClipboard);
 		menuManager.add(fActionExportImageToFile);
     }
@@ -473,6 +479,22 @@ implements IZestView, ISelectionListener {
         
         fActionCopyImageToClipboard = new CopyZestViewAsImageToClipboardAction(fGraphViewer);
         fActionExportImageToFile = new ExportAsImageAction(fGraphViewer);
+        
+        fActionSelectInModelTree = new Action(Messages.ZestView_8) {
+            @Override
+            public void run() {
+                IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
+                ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, true);
+                if(view != null && !selection.isEmpty()) {
+                    view.getViewer().setSelection(new StructuredSelection(selection.toArray()), true);
+                }
+            }
+            
+            @Override
+            public String getToolTipText() {
+                return getText();
+            }
+        };
     }
 
     /**
@@ -558,6 +580,7 @@ implements IZestView, ISelectionListener {
         manager.add(fActionExportImageToFile);
         
         if(!isEmpty) {
+            manager.add(fActionSelectInModelTree);
             manager.add(new Separator());
             manager.add(fActionProperties);
         }

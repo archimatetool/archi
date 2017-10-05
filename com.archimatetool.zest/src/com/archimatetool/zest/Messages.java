@@ -55,6 +55,8 @@ public class Messages extends NLS {
 	public static String ZestView_6;
 
     public static String ZestView_7;
+
+    public static String ZestView_8;
 	
     public static String ZestViewerLabelProvider_0;
     static {
