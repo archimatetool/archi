@@ -60,24 +60,6 @@
 			os="win32"
 			os_version="6.1">
 		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
-			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="Solaris"
-			os="solaris">
-		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
-			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="AIX"
-			os="aix">
-		</theme>
-		<theme
-			basestylesheeturi="themes/eclipse/css/e4_classic_winxp.css"
-			id="org.eclipse.e4.ui.css.theme.e4_default"
-			label="HPUX"
-			os="hpux">
-		</theme>
 	</extension>
    
 </plugin>
