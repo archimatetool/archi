@@ -204,11 +204,17 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected PropertySectionTextControl createNameControl(Composite parent, String hint) {
         // Label
-        createLabel(parent, Messages.AbstractArchimatePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        Label label = createLabel(parent, Messages.AbstractArchimatePropertySection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.CENTER);
+        
+        // CSS
+        label.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesNameLabel"); //$NON-NLS-1$ //$NON-NLS-2$
 
         // Text
         Text textControl = createSingleTextControl(parent, SWT.NONE);
         
+        // CSS
+        textControl.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesNameText"); //$NON-NLS-1$ //$NON-NLS-2$
+
         PropertySectionTextControl textName = new PropertySectionTextControl(textControl, IArchimatePackage.Literals.NAMEABLE__NAME) {
             @Override
             protected void textChanged(String oldText, String newText) {
@@ -230,10 +236,16 @@ public abstract class AbstractArchimatePropertySection extends AbstractPropertyS
      */
     protected PropertySectionTextControl createDocumentationControl(Composite parent, String hint) {
         // Label
-        createLabel(parent, Messages.AbstractArchimatePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        Label label = createLabel(parent, Messages.AbstractArchimatePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        
+        // CSS
+        label.setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesDocumentationLabel"); //$NON-NLS-1$ //$NON-NLS-2$
         
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        
+        // CSS
+        styledTextControl.getControl().setData("org.eclipse.e4.ui.css.CssClassName", "PropertiesDocumentationText"); //$NON-NLS-1$ //$NON-NLS-2$
         
         PropertySectionTextControl textDoc = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
             @Override
