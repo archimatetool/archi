@@ -17,6 +17,7 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineStyleEvent;
 import org.eclipse.swt.custom.LineStyleListener;
@@ -28,12 +29,15 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 
+import com.archimatetool.editor.preferences.Preferences;
 import com.archimatetool.editor.ui.UIUtils;
 import com.archimatetool.editor.utils.HTMLUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -41,8 +45,8 @@ import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
- * Wraps a StyledText Control to listen for hyperlinks
- * A lot of this code is adapted from org.eclipse.ui.internal.about.AboutTextManager
+ * Wraps a StyledText Control to listen for hyperlinks and change font height
+ * Some of this code is adapted from org.eclipse.ui.internal.about.AboutTextManager
  * 
  * @author Phillip Beauvoir
  */
@@ -52,6 +56,9 @@ public class StyledTextControl implements Listener, LineStyleListener {
     
     private Cursor fHandCursor, fBusyCursor;
     private Cursor fCurrentCursor;
+    
+    private int fNormalFontHeight;
+    private Font fCurrentFont;
     
     private List<int[]> fLinkRanges;
     private List<String> fLinks;
@@ -111,6 +118,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 
                 fStyledText.removeListener(SWT.MouseUp, StyledTextControl.this);
                 fStyledText.removeListener(SWT.MouseMove, StyledTextControl.this);
+                fStyledText.removeListener(SWT.MouseVerticalWheel, StyledTextControl.this);
                 fStyledText.getDisplay().removeFilter(SWT.KeyDown, StyledTextControl.this);
                 fStyledText.getDisplay().removeFilter(SWT.KeyUp, StyledTextControl.this);
                 
@@ -120,11 +128,16 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 fBusyCursor = null;
                 fCurrentCursor = null;
                 fLinks = null;
+                
+                if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
+                    fCurrentFont.dispose();
+                }
             }
         });
         
         fStyledText.addListener(SWT.MouseUp, this);
         fStyledText.addListener(SWT.MouseMove, this);
+        fStyledText.addListener(SWT.MouseVerticalWheel, this);
         fStyledText.getDisplay().addFilter(SWT.KeyDown, this);
         fStyledText.getDisplay().addFilter(SWT.KeyUp, this);
         
@@ -134,6 +147,8 @@ public class StyledTextControl implements Listener, LineStyleListener {
         UIUtils.applyInvalidCharacterFilter(fStyledText);
         
         hookContextMenu();
+        
+        setInitialFontHeight();
     }
     
     @Override
@@ -162,6 +177,22 @@ public class StyledTextControl implements Listener, LineStyleListener {
         
         if(!list.isEmpty()) {
             event.styles = list.toArray(new StyleRange[list.size()]);
+        }
+    }
+    
+    private void setInitialFontHeight() {
+        FontData fd = fStyledText.getFont().getFontData()[0];
+        fNormalFontHeight = fd.getHeight();
+        
+        // Save in Prefs
+        IPreferenceStore store = Preferences.STORE;
+        int savedFontHeight = store.getInt("StyledTextFontHeight"); //$NON-NLS-1$
+        
+        if(savedFontHeight != 0 && savedFontHeight != fNormalFontHeight) {
+            fd.setHeight(savedFontHeight);
+            Font newFont = new Font(fStyledText.getDisplay(), fd);
+            fStyledText.setFont(newFont);
+            fCurrentFont = newFont;
         }
     }
     
@@ -263,7 +294,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
     }
 
     /**
-     * Scan links using method
+     * Scan links using a better method
      */
     private void scanLinks(String s) {
         fLinkRanges = new ArrayList<int[]>();
@@ -318,6 +349,9 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 break;
             case SWT.MouseMove:
                 doMouseMove(event);
+                break;
+            case SWT.MouseVerticalWheel:
+                doMouseWheel(event);
                 break;
             case SWT.KeyDown:
                 doKeyDown(event);
@@ -376,10 +410,26 @@ public class StyledTextControl implements Listener, LineStyleListener {
         }
     }
     
+    private void doMouseWheel(Event e) {
+        // Mod key pressed, check font zoom
+        if(isModKeyPressed(e)) {
+            // Frig it...
+            if(e.count < 0) {
+                e.character = '-';
+            }
+            else {
+                e.character = '+';
+            }
+            
+            checkZoomKeys(e);
+        }
+    }
+    
     /**
      * Key down
      */
     private void doKeyDown(Event e) {
+        // Hand Cursor
         if(e.keyCode == SWT.MOD1) {
             Point pt = fStyledText.getDisplay().getCursorLocation();
             pt = fStyledText.toControl(pt);
@@ -394,8 +444,69 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 setCursor(fHandCursor);
             }
         }
+        
+        // Zoom keys when Ctrl/Command key pressed and +, =, - , 0
+        if(isModKeyPressed(e)) {
+            checkZoomKeys(e);
+        }
     }
+    
+    /**
+     * Check for zoom keys
+     * @param e
+     */
+    private void checkZoomKeys(Event e) {
+        int factor = 0;
+        
+        switch(e.character) {
+            case '=':
+            case '+':
+                factor = 2;
+                break;
 
+            case '-':
+                factor = -2;
+                break;
+                
+            case '0':
+                factor = 0;
+                break;
+
+            default:
+                return;
+        }
+        
+        Font previousFont = fStyledText.getFont();
+        FontData fd = previousFont.getFontData()[0];
+        
+        if(factor == 0) {
+            if(fd.getHeight() == fNormalFontHeight) {
+                return;
+            }
+            fd.setHeight(fNormalFontHeight);
+        }
+        else {
+            fd.setHeight(fd.getHeight() + factor);
+            
+            if(fd.getHeight() < 8 || fd.getHeight() > 64) {
+                return;
+            }
+        }
+        
+        Font newFont = new Font(fStyledText.getDisplay(), fd);
+        fStyledText.setFont(newFont);
+        
+        if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
+            fCurrentFont.dispose();
+        }
+        
+        fCurrentFont = newFont;
+        
+        // Save in Prefs
+        IPreferenceStore store = Preferences.STORE;
+        store.setValue("StyledTextFontHeight", fd.getHeight()); //$NON-NLS-1$
+    }
+    
     /**
      * Key up
      */
