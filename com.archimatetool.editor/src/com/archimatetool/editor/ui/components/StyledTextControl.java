@@ -119,8 +119,8 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 fStyledText.removeListener(SWT.MouseUp, StyledTextControl.this);
                 fStyledText.removeListener(SWT.MouseMove, StyledTextControl.this);
                 fStyledText.removeListener(SWT.MouseVerticalWheel, StyledTextControl.this);
-                fStyledText.getDisplay().removeFilter(SWT.KeyDown, StyledTextControl.this);
-                fStyledText.getDisplay().removeFilter(SWT.KeyUp, StyledTextControl.this);
+                fStyledText.removeListener(SWT.KeyDown, StyledTextControl.this);
+                fStyledText.removeListener(SWT.KeyUp, StyledTextControl.this);
                 
                 fStyledText.removeLineStyleListener(StyledTextControl.this);
                 
@@ -131,6 +131,7 @@ public class StyledTextControl implements Listener, LineStyleListener {
                 
                 if(fCurrentFont != null && !fCurrentFont.isDisposed()) {
                     fCurrentFont.dispose();
+                    fCurrentFont = null;
                 }
             }
         });
@@ -138,8 +139,8 @@ public class StyledTextControl implements Listener, LineStyleListener {
         fStyledText.addListener(SWT.MouseUp, this);
         fStyledText.addListener(SWT.MouseMove, this);
         fStyledText.addListener(SWT.MouseVerticalWheel, this);
-        fStyledText.getDisplay().addFilter(SWT.KeyDown, this);
-        fStyledText.getDisplay().addFilter(SWT.KeyUp, this);
+        fStyledText.addListener(SWT.KeyDown, this);
+        fStyledText.addListener(SWT.KeyUp, this);
         
         fStyledText.addLineStyleListener(this);
         
